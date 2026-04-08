@@ -1,0 +1,25 @@
+{
+    "name": "dionone/account",
+    "description": "Description for account package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Account\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Account\\Providers\\AccountServiceProvider"
+            ]
+        }
+    }
+}

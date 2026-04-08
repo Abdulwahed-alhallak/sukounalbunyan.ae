@@ -1,0 +1,25 @@
+{
+    "name": "dionone/google-captcha",
+    "description": "Description for google-captcha package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\GoogleCaptcha\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\GoogleCaptcha\\Providers\\GoogleCaptchaServiceProvider"
+            ]
+        }
+    }
+}

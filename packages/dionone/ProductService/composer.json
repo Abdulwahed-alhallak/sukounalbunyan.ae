@@ -1,0 +1,25 @@
+{
+    "name": "dionone/product-service",
+    "description": "Description for product-service package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\ProductService\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\ProductService\\Providers\\ProductServiceServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "dionone/aiassistant",
+    "description": "Description for aiassistant package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\AIAssistant\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\AIAssistant\\Providers\\AIAssistantServiceProvider"
+            ]
+        }
+    }
+}

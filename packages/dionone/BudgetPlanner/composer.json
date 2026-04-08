@@ -1,0 +1,25 @@
+{
+    "name": "dionone/budget-planner",
+    "description": "Description for budget-planner package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\BudgetPlanner\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\BudgetPlanner\\Providers\\BudgetPlannerServiceProvider"
+            ]
+        }
+    }
+}

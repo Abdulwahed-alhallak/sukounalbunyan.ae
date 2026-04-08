@@ -1,0 +1,32 @@
+array (
+  0 => 
+  array (
+    0 => 'id',
+    1 => 'branch_name',
+    2 => 'creator_id',
+    3 => 'created_by',
+    4 => 'created_at',
+    5 => 'updated_at',
+  ),
+  1 => 
+  array (
+    0 => 'id',
+    1 => 'department_name',
+    2 => 'branch_id',
+    3 => 'creator_id',
+    4 => 'created_by',
+    5 => 'created_at',
+    6 => 'updated_at',
+  ),
+  2 => 
+  array (
+    0 => 'id',
+    1 => 'designation_name',
+    2 => 'branch_id',
+    3 => 'department_id',
+    4 => 'creator_id',
+    5 => 'created_by',
+    6 => 'created_at',
+    7 => 'updated_at',
+  ),
+)

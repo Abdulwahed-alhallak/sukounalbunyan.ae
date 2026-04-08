@@ -1,0 +1,25 @@
+{
+    "name": "dionone/taskly",
+    "description": "Description for taskly package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Taskly\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Taskly\\Providers\\TasklyServiceProvider"
+            ]
+        }
+    }
+}

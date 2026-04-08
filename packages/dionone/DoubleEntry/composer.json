@@ -1,0 +1,25 @@
+{
+    "name": "dionone/double-entry",
+    "description": "Description for double-entry package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\DoubleEntry\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\DoubleEntry\\Providers\\DoubleEntryServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "dionone/contract",
+    "description": "Description for contract package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Contract\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Contract\\Providers\\ContractServiceProvider"
+            ]
+        }
+    }
+}

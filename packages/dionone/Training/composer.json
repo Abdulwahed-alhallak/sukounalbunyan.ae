@@ -1,0 +1,25 @@
+{
+    "name": "dionone/training",
+    "description": "Description for training package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Training\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Training\\Providers\\TrainingServiceProvider"
+            ]
+        }
+    }
+}

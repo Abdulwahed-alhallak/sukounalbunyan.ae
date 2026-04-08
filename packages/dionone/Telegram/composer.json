@@ -1,0 +1,25 @@
+{
+    "name": "dionone/telegram",
+    "description": "Description for telegram package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Telegram\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Telegram\\Providers\\TelegramServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "dionone/calendar",
+    "description": "Description for calendar package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Calendar\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Calendar\\Providers\\CalendarServiceProvider"
+            ]
+        }
+    }
+}

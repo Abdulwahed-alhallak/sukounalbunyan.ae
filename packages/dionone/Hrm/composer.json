@@ -1,0 +1,25 @@
+{
+    "name": "dionone/hrm",
+    "description": "Description for hrm package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Hrm\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Hrm\\Providers\\HrmServiceProvider"
+            ]
+        }
+    }
+}

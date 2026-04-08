@@ -1,0 +1,25 @@
+{
+    "name": "dionone/pos",
+    "description": "Description for pos package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Pos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Pos\\Providers\\PosServiceProvider"
+            ]
+        }
+    }
+}

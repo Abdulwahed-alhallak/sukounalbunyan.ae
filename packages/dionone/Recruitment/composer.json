@@ -1,0 +1,25 @@
+{
+    "name": "dionone/recruitment",
+    "description": "Description for recruitment package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DionONE\\Recruitment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DionONE",
+            "email": "support@dionone.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DionONE\\Recruitment\\Providers\\RecruitmentServiceProvider"
+            ]
+        }
+    }
+}
