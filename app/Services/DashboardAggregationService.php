@@ -590,7 +590,7 @@ class DashboardAggregationService
         // Overdue project tasks
         if ($this->moduleActive('Taskly') && class_exists(\DionONE\Taskly\Models\ProjectTask::class) && Schema::hasTable('project_tasks')) {
             $projectIds = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
-            // 'end_date' and 'is_complete' do not exist in ERPGo 'project_tasks' schema.
+            // 'end_date' and 'is_complete' do not exist in DionONE 'project_tasks' schema.
             // Tasks status is managed via 'stage_id' relations without built-in due dates.
             // Leaving as empty collection to prevent SQL error.
             $overdueTasks = [];
