@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('leave_applications', function (Blueprint $table) {
-            $table->string('manager_status')->default('pending')->after('status')->comment('pending, approved, rejected');
-            $table->unsignedBigInteger('manager_id')->nullable()->after('manager_status');
-            $table->text('manager_comment')->nullable()->after('manager_id');
+            if (!Schema::hasColumn('leave_applications', 'manager_status')) {
+                $table->string('manager_status')->default('pending')->after('status')->comment('pending, approved, rejected');
+            }
+            if (!Schema::hasColumn('leave_applications', 'manager_id')) {
+                $table->unsignedBigInteger('manager_id')->nullable()->after('manager_status');
+            }
+            if (!Schema::hasColumn('leave_applications', 'manager_comment')) {
+                $table->text('manager_comment')->nullable()->after('manager_id');
+            }
         });
     }
 

@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('task_attachments', function (Blueprint $table) {
-            $table->nullableMorphs('attachable');
-            $table->unsignedBigInteger('task_id')->nullable()->change();
+            if (!Schema::hasColumn('task_attachments', 'attachable_type')) {
+                $table->string('attachable_type')->nullable();
+            }
+            if (!Schema::hasColumn('task_attachments', 'attachable_id')) {
+                $table->unsignedBigInteger('attachable_id')->nullable();
+                $table->index(['attachable_type', 'attachable_id']);
+            }
+            if (Schema::hasColumn('task_attachments', 'task_id')) {
+                $table->unsignedBigInteger('task_id')->nullable()->change();
+            }
         });
     }
 

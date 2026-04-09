@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('employee_contracts')) return;
         Schema::create('employee_contracts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id'); // maps to users table

@@ -297,7 +297,7 @@ const formatStorage = (kb: number) => {
     } else if (kb >= 1024) {
       return `${(kb / 1024).toFixed(1)} MB`;
     } else {
-      return `${kb} GB`;
+      return `${kb} KB`;
     }
   };
 

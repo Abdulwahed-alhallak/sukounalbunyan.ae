@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('biometric_logs')) return;
         Schema::create('biometric_logs', function (Blueprint $table) {
             $table->id();
             $table->string('emp_id')->comment('employee_id in system');
