@@ -36,7 +36,8 @@ i18n
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false,
-        }
+        },
+        showSupportNotice: false
     });
 
 export default i18n;

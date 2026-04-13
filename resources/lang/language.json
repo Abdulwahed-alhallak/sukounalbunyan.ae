@@ -2,13 +2,14 @@
     {
         "code": "en",
         "name": "English",
-        "countryCode": "GB"
+        "countryCode": "GB",
+        "enabled": true
     },
     {
         "code": "es",
         "name": "Español",
         "countryCode": "ES",
-        "enabled": true
+        "enabled": false
     },
     {
         "code": "ar",
@@ -19,66 +20,79 @@
     {
         "code": "da",
         "name": "Dansk",
-        "countryCode": "DK"
+        "countryCode": "DK",
+        "enabled": false
     },
     {
         "code": "de",
         "name": "Deutsch",
-        "countryCode": "DE"
+        "countryCode": "DE",
+        "enabled": false
     },
     {
         "code": "fr",
         "name": "Français",
-        "countryCode": "FR"
+        "countryCode": "FR",
+        "enabled": false
     },
     {
         "code": "he",
         "name": "עברית",
-        "countryCode": "IL"
+        "countryCode": "IL",
+        "enabled": false
     },
     {
         "code": "it",
         "name": "Italiano",
-        "countryCode": "IT"
+        "countryCode": "IT",
+        "enabled": false
     },
     {
         "code": "ja",
         "name": "日本語",
-        "countryCode": "JP"
+        "countryCode": "JP",
+        "enabled": false
     },
     {
         "code": "nl",
         "name": "Nederlands",
-        "countryCode": "NL"
+        "countryCode": "NL",
+        "enabled": false
     },
     {
         "code": "pl",
         "name": "Polski",
-        "countryCode": "PL"
+        "countryCode": "PL",
+        "enabled": false
     },
     {
         "code": "pt",
         "name": "Português",
-        "countryCode": "PT"
+        "countryCode": "PT",
+        "enabled": false
     },
     {
         "code": "pt-BR",
         "name": "Português do Brasil",
-        "countryCode": "BR"
+        "countryCode": "BR",
+        "enabled": false
     },
     {
         "code": "ru",
         "name": "Русский",
-        "countryCode": "RU"
+        "countryCode": "RU",
+        "enabled": false
     },
     {
         "code": "tr",
         "name": "Türkçe",
-        "countryCode": "TR"
+        "countryCode": "TR",
+        "enabled": false
     },
     {
         "code": "zh",
         "name": "中文",
-        "countryCode": "CN"
+        "countryCode": "CN",
+        "enabled": false
     }
 ]

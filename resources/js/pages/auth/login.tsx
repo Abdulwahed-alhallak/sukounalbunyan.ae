@@ -248,7 +248,7 @@ export default function Login({
                             >
                                 <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="h-4 w-4 text-blue-500" />
+                                    <Building2 className="h-4 w-4 text-primary" />
                                     {t('Login as Noble Commander')}
                                 </span>
                             </Button>

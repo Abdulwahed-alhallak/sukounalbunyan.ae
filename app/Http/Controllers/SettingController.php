@@ -56,13 +56,8 @@ class SettingController extends Controller
                 'settings.favicon' => 'nullable|string|max:500',
                 'settings.titleText' => 'required|string|max:255',
                 'settings.footerText' => 'required|string|max:500',
-                'settings.sidebarVariant' => 'nullable|string|max:50',
-                'settings.sidebarStyle' => 'nullable|string|max:50',
                 'settings.layoutDirection' => 'nullable|string|max:50',
                 'settings.themeMode' => 'nullable|string|max:50',
-                'settings.themeColor' => 'nullable|string|max:50',
-                'settings.customColor' => 'nullable|string|max:50',
-                'settings.fontFamily' => 'nullable|string|max:100',
             ], [
                 'settings.titleText.required' => __('Title text is required.'),
                 'settings.titleText.string' => __('Title text must be a valid string.'),
@@ -73,21 +68,13 @@ class SettingController extends Controller
                 'settings.logo_dark.string' => __('Dark logo must be a valid string.'),
                 'settings.logo_light.string' => __('Light logo must be a valid string.'),
                 'settings.favicon.string' => __('Favicon must be a valid string.'),
-                'settings.sidebarVariant.string' => __('Sidebar variant must be a valid string.'),
-                'settings.sidebarStyle.string' => __('Sidebar style must be a valid string.'),
                 'settings.layoutDirection.string' => __('Layout direction must be a valid string.'),
                 'settings.themeMode.string' => __('Theme mode must be a valid string.'),
-                'settings.themeColor.string' => __('Theme color must be a valid string.'),
-                'settings.customColor.string' => __('Custom color must be a valid string.'),
                 'settings.logo_dark.max' => __('Dark logo path is too long.'),
                 'settings.logo_light.max' => __('Light logo path is too long.'),
                 'settings.favicon.max' => __('Favicon path is too long.'),
-                'settings.sidebarVariant.max' => __('Sidebar variant must not exceed 50 characters.'),
-                'settings.sidebarStyle.max' => __('Sidebar style must not exceed 50 characters.'),
                 'settings.layoutDirection.max' => __('Layout direction must not exceed 50 characters.'),
                 'settings.themeMode.max' => __('Theme mode must not exceed 50 characters.'),
-                'settings.themeColor.max' => __('Theme color must not exceed 50 characters.'),
-                'settings.customColor.max' => __('Custom color must not exceed 50 characters.'),
             ]);
 
             $settings = $request->input('settings');
@@ -95,12 +82,8 @@ class SettingController extends Controller
             if (config('app.is_demo')) {
                 // In demo mode, only handle theme settings via cookies
                 $themeKeys = [
-                    'theme_color' => 'themeColor',
-                    'sidebar_variant' => 'sidebarVariant',
-                    'sidebar_style' => 'sidebarStyle',
                     'layout_direction' => 'layoutDirection', 
-                    'theme_mode' => 'themeMode',
-                    'custom_color' => 'customColor'
+                    'theme_mode' => 'themeMode'
                 ];
 
                 $cookieParams = [];

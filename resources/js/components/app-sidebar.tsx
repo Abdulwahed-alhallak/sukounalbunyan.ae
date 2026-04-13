@@ -15,7 +15,7 @@ import {
     SidebarInput,
 } from '@/components/ui/sidebar';
 import { Link, usePage } from '@inertiajs/react';
-import { PageProps, BrandSettings } from '@/types';
+import { PageProps } from '@/types';
 import { useAllMenuItems } from '@/utils/menu';
 import { useTranslation } from 'react-i18next';
 import { useBrand } from '@/contexts/brand-context';
@@ -62,11 +62,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     return (
         <Sidebar
-            variant={(settings?.sidebarVariant || 'inset') as any}
+            variant="inset"
             side={settings?.layoutDirection === 'rtl' ? 'right' : 'left'}
             collapsible="icon"
-            className={sidebarProps?.className || ''}
-            style={sidebarProps?.style || {}}
             {...props}
         >
             <SidebarHeader className="border-b border-sidebar-border">

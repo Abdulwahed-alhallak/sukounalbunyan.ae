@@ -9,21 +9,13 @@ interface BrandSettings {
     favicon?: string;
     titleText?: string;
     footerText?: string;
-    sidebarVariant?: string;
-    sidebarStyle?: string;
     layoutDirection?: string;
     themeMode?: string;
-    themeColor?: string;
-    customColor?: string;
-    fontFamily?: string;
 }
 
 interface BrandContextType {
     settings: BrandSettings;
     getPreviewUrl: (path: string) => string;
-    getPrimaryColor: () => string;
-    getSidebarStyles: () => React.CSSProperties;
-    getSidebarClasses: () => string;
     getCompleteSidebarProps: () => { style: React.CSSProperties; className: string };
 }
 
@@ -51,78 +43,16 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         titleText: globalSettings?.titleText || 'Noble Architecture',
         footerText:
             globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
-        sidebarVariant: globalSettings?.sidebarVariant || 'inset',
-        sidebarStyle: globalSettings?.sidebarStyle || 'plain',
         layoutDirection: isLanguageRtl ? 'rtl' : 'ltr',
         themeMode: globalSettings?.themeMode || 'light',
-        themeColor: globalSettings?.themeColor || 'slate',
-        customColor: globalSettings?.customColor || '#000000',
-        fontFamily: globalSettings?.fontFamily || 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif',
     };
 
     const getPreviewUrl = (path: string) => {
         return getImagePath(path);
     };
 
-    const themeColors = {
-        blue: '#3b82f6',
-        green: '#10b77f',
-        purple: '#8b5cf6',
-        orange: '#f97316',
-        red: '#ef4444',
-        cyan: '#06b6d4',
-        indigo: '#4f46e5',
-        pink: '#ec4899',
-        rose: '#e11d48',
-        amber: '#f59e0b',
-        slate: '#475569',
-    };
-
-    const getPrimaryColor = () => {
-        return settings.themeColor === 'custom'
-            ? settings.customColor || '#10b77f'
-            : themeColors[settings.themeColor as keyof typeof themeColors] || '#10b77f';
-    };
-
     useEffect(() => {
-        const primaryColor = getPrimaryColor();
         const root = document.documentElement;
-
-        // Convert hex to HSL for CSS custom properties
-        const hexToHsl = (hex: string) => {
-            const r = parseInt(hex.slice(1, 3), 16) / 255;
-            const g = parseInt(hex.slice(3, 5), 16) / 255;
-            const b = parseInt(hex.slice(5, 7), 16) / 255;
-
-            const max = Math.max(r, g, b);
-            const min = Math.min(r, g, b);
-            let h = 0,
-                s = 0,
-                l = (max + min) / 2;
-
-            if (max !== min) {
-                const d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                switch (max) {
-                    case r:
-                        h = (g - b) / d + (g < b ? 6 : 0);
-                        break;
-                    case g:
-                        h = (b - r) / d + 2;
-                        break;
-                    case b:
-                        h = (r - g) / d + 4;
-                        break;
-                }
-                h /= 6;
-            }
-
-            return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
-        };
-
-        // Set CSS custom properties
-        root.style.setProperty('--primary', hexToHsl(primaryColor));
-        root.style.setProperty('--primary-foreground', '0 0% 98%');
 
         // Set global RTL direction
         const isRTL = settings.layoutDirection === 'rtl';
@@ -156,81 +86,15 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         }
 
         // Set Font Family — always enforce Geist Sans as the base
-        const fontStack =
-            settings.fontFamily && !settings.fontFamily.includes('Geist')
-                ? `${settings.fontFamily}, Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif`
-                : 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif';
+        const fontStack = 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif';
         document.body.style.fontFamily = fontStack;
         document.documentElement.style.fontFamily = fontStack;
-
-        // Override sidebar default styles with brand colors
-        let existingStyle = document.getElementById('brand-sidebar-styles');
-        if (!existingStyle) {
-            existingStyle = document.createElement('style');
-            existingStyle.id = 'brand-sidebar-styles';
-            document.head.appendChild(existingStyle);
-        }
-
-        if (settings.sidebarStyle === 'colored' || settings.sidebarStyle === 'gradient') {
-            const sidebarBg =
-                settings.sidebarStyle === 'colored'
-                    ? primaryColor
-                    : `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}80 100%)`;
-
-            existingStyle.textContent = `
-
-        [data-sidebar] .bg-sidebar-primary {
-          background: rgba(var(--foreground),0.05);
-        }
-        [data-sidebar] [data-sidebar="menu-button"]:hover {
-          background: rgba(255,255,255,0.1);
-        }
-        [data-sidebar] [data-sidebar="menu-button"][data-active="true"] {
-          background: rgba(var(--foreground),0.05);
-        }
-      `;
-        } else {
-            existingStyle.textContent = '';
-        }
-    }, [settings.themeColor, settings.customColor, settings.layoutDirection, settings.themeMode]);
-
-    const getSidebarStyles = (): React.CSSProperties => {
-        const primaryColor = getPrimaryColor();
-
-        if (settings.sidebarStyle === 'colored') {
-            return { backgroundColor: primaryColor };
-        } else if (settings.sidebarStyle === 'gradient') {
-            return {
-                background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}80 100%)`,
-            };
-        }
-        return {};
-    };
-
-    const getSidebarClasses = () => {
-        let classes = '';
-
-        if (settings.sidebarVariant === 'floating') {
-            classes += ' m-2 rounded-lg shadow-sm';
-        }
-
-        return classes;
-    };
+    }, [settings.layoutDirection, settings.themeMode]);
 
     const getCompleteSidebarProps = () => {
-        const styles = getSidebarStyles();
-        const classes = getSidebarClasses();
-        const hasCustomBackground = styles.backgroundColor || styles.background;
-
         return {
-            style: {
-                ...styles,
-                ...(hasCustomBackground && {
-                    backgroundColor: styles.backgroundColor || 'transparent',
-                    background: styles.background || styles.backgroundColor || 'transparent',
-                }),
-            },
-            className: `${classes}`,
+            style: {},
+            className: '',
         };
     };
 
@@ -239,9 +103,6 @@ export function BrandProvider({ children }: { children: ReactNode }) {
             value={{
                 settings,
                 getPreviewUrl,
-                getPrimaryColor,
-                getSidebarStyles,
-                getSidebarClasses,
                 getCompleteSidebarProps,
             }}
         >

@@ -11,8 +11,11 @@ use Noble\Hrm\Listeners\GiveRoleToPermission;
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        DefaultData::class => [
-            DataDefault::class
+        \App\Events\DefaultData::class => [
+            \Noble\Hrm\Listeners\DataDefault::class
+        ],
+        \App\Events\CreateUser::class => [
+            \Noble\Hrm\Listeners\CreateEmployeeFromUser::class
         ],
          GivePermissionToRole::class => [
             GiveRoleToPermission::class,

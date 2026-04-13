@@ -180,6 +180,7 @@ class AccountUtility
             'view-debit-notes',
         ];
 
+        /** @var \Spatie\Permission\Models\Role $vendor_role */
         $vendor_role = Role::where('name', 'vendor')->where('created_by', $company_id)->first();
         if (!empty($vendor_role)) {
             foreach ($vendor_permission as $permission_v) {
@@ -208,6 +209,7 @@ class AccountUtility
         ];
 
         if ($rolename == 'client') {
+            /** @var \Spatie\Permission\Models\Role $roles_v */
             $roles_v = Role::where('name', 'client')->where('id', $role_id)->first();
             foreach ($client_permission as $permission_v) {
                 $permission = Permission::where('name', $permission_v)->first();

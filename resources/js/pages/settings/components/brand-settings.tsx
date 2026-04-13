@@ -28,13 +28,13 @@ interface BrandSettings {
     favicon: string;
     titleText: string;
     footerText: string;
-    sidebarVariant: string;
-    sidebarStyle: string;
+    sidebarVariant?: string;
+    sidebarStyle?: string;
     layoutDirection: string;
     themeMode: string;
-    themeColor: string;
-    customColor: string;
-    fontFamily: string;
+    themeColor?: string;
+    customColor?: string;
+    fontFamily?: string;
     [key: string]: any;
 }
 
@@ -55,13 +55,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
         titleText: userSettings?.titleText || 'Noble Architecture',
         footerText:
             userSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
-        sidebarVariant: userSettings?.sidebarVariant || 'inset',
-        sidebarStyle: userSettings?.sidebarStyle || 'plain',
         layoutDirection: userSettings?.layoutDirection || 'ltr',
         themeMode: userSettings?.themeMode || 'light',
-        themeColor: userSettings?.themeColor || 'green',
-        customColor: userSettings?.customColor || '#10b77f',
-        fontFamily: userSettings?.fontFamily || 'Inter',
     });
 
     // Update settings when userSettings prop changes
@@ -75,13 +70,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                 footerText:
                     userSettings?.footerText ||
                     `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
-                sidebarVariant: userSettings?.sidebarVariant || 'inset',
-                sidebarStyle: userSettings?.sidebarStyle || 'plain',
                 layoutDirection: userSettings?.layoutDirection || 'ltr',
                 themeMode: userSettings?.themeMode || 'light',
-                themeColor: userSettings?.themeColor || 'green',
-                customColor: userSettings?.customColor || '#10b77f',
-                fontFamily: userSettings?.fontFamily || 'Inter',
             });
         }
     }, [userSettings]);
@@ -319,169 +309,6 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                 <div
                                     className={`flex flex-col space-y-8 ${!canEdit ? 'pointer-events-none opacity-60' : ''}`}
                                 >
-                                    {/* Theme Color Section */}
-                                    <div className="space-y-4">
-                                        <div className="flex items-center">
-                                            <Palette className="mr-2 h-5 w-5 text-muted-foreground" />
-                                            <h3 className="text-base font-medium">{t('Theme Color')}</h3>
-                                        </div>
-                                        <Separator className="my-2" />
-
-                                        <div className="mb-2 grid grid-cols-6 gap-3">
-                                            {Object.entries({
-                                                blue: '#3b82f6',
-                                                green: '#10b77f',
-                                                purple: '#8b5cf6',
-                                                orange: '#f97316',
-                                                red: '#ef4444',
-                                                slate: '#475569',
-                                                cyan: '#06b6d4',
-                                                indigo: '#4f46e5',
-                                                pink: '#ec4899',
-                                                rose: '#e11d48',
-                                                amber: '#f59e0b',
-                                            }).map(([color, hex]) => (
-                                                <Button
-                                                    key={color}
-                                                    type="button"
-                                                    variant={settings.themeColor === color ? 'default' : 'outline'}
-                                                    className="relative h-10 w-full overflow-hidden p-0 transition-all duration-300 hover:shadow-md"
-                                                    style={{
-                                                        borderColor:
-                                                            settings.themeColor === color ? hex : 'transparent',
-                                                    }}
-                                                    onClick={() => handleSelectChange('themeColor', color)}
-                                                >
-                                                    <span
-                                                        className="absolute inset-[3px] rounded-[6px] shadow-inner"
-                                                        style={{
-                                                            background: `linear-gradient(135deg, ${hex} 0%, ${hex}99 100%)`,
-                                                        }}
-                                                    />
-                                                </Button>
-                                            ))}
-                                            <Button
-                                                type="button"
-                                                variant={settings.themeColor === 'custom' ? 'default' : 'outline'}
-                                                className="relative h-10 w-full overflow-hidden p-0 transition-all duration-300 hover:shadow-md"
-                                                style={{
-                                                    borderColor:
-                                                        settings.themeColor === 'custom'
-                                                            ? settings.customColor
-                                                            : 'transparent',
-                                                }}
-                                                onClick={() => handleSelectChange('themeColor', 'custom')}
-                                            >
-                                                <span
-                                                    className="absolute inset-[3px] flex items-center justify-center rounded-[6px] bg-card/20 shadow-inner"
-                                                    style={{
-                                                        background: `linear-gradient(135deg, ${settings.customColor} 0%, ${settings.customColor}99 100%)`,
-                                                    }}
-                                                >
-                                                    <Palette className="h-4 w-4 text-background drop-shadow-md" />
-                                                </span>
-                                            </Button>
-                                        </div>
-
-                                        {settings.themeColor === 'custom' && (
-                                            <div className="mt-4 space-y-2">
-                                                <Label htmlFor="customColor">{t('Custom Color')}</Label>
-                                                <div className="flex gap-2">
-                                                    <div className="relative">
-                                                        <Input
-                                                            id="colorPicker"
-                                                            type="color"
-                                                            value={settings.customColor}
-                                                            onChange={(e) =>
-                                                                handleSelectChange('customColor', e.target.value)
-                                                            }
-                                                            className="absolute inset-0 cursor-pointer opacity-0"
-                                                        />
-                                                        <div
-                                                            className="h-10 w-10 cursor-pointer rounded border"
-                                                            style={{ backgroundColor: settings.customColor }}
-                                                        />
-                                                    </div>
-                                                    <Input
-                                                        id="customColor"
-                                                        name="customColor"
-                                                        type="text"
-                                                        value={settings.customColor}
-                                                        onChange={(e) =>
-                                                            handleSelectChange('customColor', e.target.value)
-                                                        }
-                                                        placeholder="#10b77f"
-                                                    />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Sidebar Section */}
-                                    <div className="space-y-4">
-                                        <div className="flex items-center">
-                                            <SidebarIcon className="mr-2 h-5 w-5 text-muted-foreground" />
-                                            <h3 className="text-base font-medium">{t('Sidebar')}</h3>
-                                        </div>
-                                        <Separator className="my-2" />
-
-                                        <div className="space-y-6">
-                                            <div>
-                                                <Label className="mb-2 block">{t('Sidebar Variant')}</Label>
-                                                <div className="grid grid-cols-3 gap-3">
-                                                    {['inset', 'floating', 'minimal'].map((variant) => (
-                                                        <Button
-                                                            key={variant}
-                                                            type="button"
-                                                            variant={
-                                                                settings.sidebarVariant === variant
-                                                                    ? 'default'
-                                                                    : 'outline'
-                                                            }
-                                                            className="h-10 justify-start"
-                                                            onClick={() =>
-                                                                handleSelectChange('sidebarVariant', variant)
-                                                            }
-                                                        >
-                                                            {variant.charAt(0).toUpperCase() + variant.slice(1)}
-                                                            {settings.sidebarVariant === variant && (
-                                                                <Check className="ml-2 h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <Label className="mb-2 block">{t('Sidebar Style')}</Label>
-                                                <div className="grid grid-cols-3 gap-3">
-                                                    {[
-                                                        { id: 'plain', name: 'Plain' },
-                                                        { id: 'colored', name: 'Colored' },
-                                                        { id: 'gradient', name: 'Gradient' },
-                                                    ].map((style) => (
-                                                        <Button
-                                                            key={style.id}
-                                                            type="button"
-                                                            variant={
-                                                                settings.sidebarStyle === style.id
-                                                                    ? 'default'
-                                                                    : 'outline'
-                                                            }
-                                                            className="h-10 justify-start"
-                                                            onClick={() => handleSelectChange('sidebarStyle', style.id)}
-                                                        >
-                                                            {style.name}
-                                                            {settings.sidebarStyle === style.id && (
-                                                                <Check className="ml-2 h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     {/* Layout Section */}
                                     <div className="space-y-4">
                                         <div className="flex items-center">
@@ -562,59 +389,6 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                         <Check className="ml-2 h-4 w-4" />
                                                     )}
                                                 </Button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Typography Section */}
-                                    <div className="space-y-4">
-                                        <div className="flex items-center">
-                                            <FileText className="mr-2 h-5 w-5 text-muted-foreground" />
-                                            <h3 className="text-base font-medium">{t('Typography')}</h3>
-                                        </div>
-                                        <Separator className="my-2" />
-
-                                        <div className="space-y-4">
-                                            <div>
-                                                <Label className="mb-2 block">{t('Font Family')}</Label>
-                                                <Select
-                                                    value={settings.fontFamily}
-                                                    onValueChange={(value) => handleSelectChange('fontFamily', value)}
-                                                    disabled={!canEdit}
-                                                >
-                                                    <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder={t('Select font')} />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="Inter">
-                                                            {t('Inter (Modern Sans)')}
-                                                        </SelectItem>
-                                                        <SelectItem value="Cairo">
-                                                            {t('Cairo (Modern Arabic)')}
-                                                        </SelectItem>
-                                                        <SelectItem value="Poppins">
-                                                            {t('Poppins (Geometric)')}
-                                                        </SelectItem>
-                                                        <SelectItem value="Roboto">
-                                                            {t('Roboto (Technical)')}
-                                                        </SelectItem>
-                                                        <SelectItem value="system-ui">{t('System Default')}</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <p className="mt-2 text-xs text-muted-foreground">
-                                                    {t('Changes the font for the entire application interface')}
-                                                </p>
-                                            </div>
-
-                                            <div className="overflow-hidden rounded-lg border bg-muted/50 p-4 dark:bg-foreground">
-                                                <div style={{ fontFamily: settings.fontFamily }} className="space-y-2">
-                                                    <p className="text-lg font-bold">
-                                                        The quick brown fox jumps over the lazy dog.
-                                                    </p>
-                                                    <p className="text-lg font-bold" dir="rtl">
-                                                        الثعلب البني السريع يقفز فوق الكلب الكسول.
-                                                    </p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
