@@ -20,10 +20,10 @@ git push $REPO_URL HEAD:main --force
 # (Note: Using HEAD:main or master depending on your repo branch, typically main on GitHub but adjust if your branch is 'master')
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ GitHub Sync Failed! Check your internet connection or PAT validity." -ForegroundColor Red
-    exit
+    Write-Host "⚠️ GitHub Sync Failed (Token/Permissions error). Skipping to Database Sync..." -ForegroundColor Yellow
+} else {
+    Write-Host "✅ Code successfully pushed to GitHub vault." -ForegroundColor Green
 }
-Write-Host "✅ Code successfully pushed to GitHub vault." -ForegroundColor Green
 Write-Host ""
 
 Write-Host "[2/3] SYNCHRONIZING LOCAL DATABASE SCHEMA TO HOSTINGER REMOTE MYSQL..." -ForegroundColor Yellow
