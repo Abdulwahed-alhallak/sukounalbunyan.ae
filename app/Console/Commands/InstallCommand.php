@@ -88,7 +88,7 @@ class InstallCommand extends Command
     private function getAllAvailableModules()
     {
         $modules = [];
-        $packagesPath = base_path('packages/dionone');
+        $packagesPath = base_path('packages/Noble Architecture');
 
         if (!File::exists($packagesPath)) {
             return $modules;
@@ -129,7 +129,7 @@ class InstallCommand extends Command
 
         $addon = AddOn::where('module', $moduleName)->first();
         if (empty($addon)) {
-            $filePath = base_path('packages/dionone/' . $moduleName . '/module.json');
+            $filePath = base_path('packages/Noble Architecture/' . $moduleName . '/module.json');
 
             if (!file_exists($filePath)) {
                 throw new \Exception('Module configuration not found');

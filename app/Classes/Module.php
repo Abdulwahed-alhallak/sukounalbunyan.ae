@@ -27,7 +27,7 @@ class Module
 
     public function json($name)
     {
-        $path = base_path('packages/dionone/' . $name . '/module.json');
+        $path = base_path('packages/noble/' . $name . '/module.json');
         if (!File::exists($path)) {
             return false;
         }
@@ -54,7 +54,7 @@ class Module
                         $this->alias = $addonJson['alias'] ?? $name;
                         $this->monthly_price = $addonJson['monthly_price'] ?? 0;
                         $this->yearly_price = $addonJson['yearly_price'] ?? 0;
-                        $this->image = $this->addon->image ?? url('/packages/dionone/' . $name . '/favicon.png');
+                        $this->image = $this->addon->image ?? url('/packages/noble/' . $name . '/favicon.png');
                         $this->description = $addonJson['description'] ?? "";
                         $this->priority = $addonJson['priority'] ?? 10;
                         $this->child_module = $addonJson['child_module'] ?? [];
@@ -71,7 +71,7 @@ class Module
                         $this->alias = $this->addon->name ?? $name;
                         $this->monthly_price = $this->addon->monthly_price ?? 0;
                         $this->yearly_price = $this->addon->yearly_price ?? 0;
-                        $this->image = $this->addon->image ? getImageUrlPrefix().'/'.$this->addon->image : url('/packages/dionone/' . $name . '/favicon.png');
+                        $this->image = $this->addon->image ? getImageUrlPrefix().'/'.$this->addon->image : url('/packages/noble/' . $name . '/favicon.png');
                         $this->package_name = $this->addon->package_name ?? null;
                         $this->for_admin = $this->addon->for_admin ?? false;
                         $this->is_enable = $this->addon->is_enable ?? false;
@@ -168,7 +168,7 @@ class Module
 
     public function getDirectories()
     {
-        $path = base_path('packages/dionone');
+        $path = base_path('packages/noble');
         return File::directories($path);
     }
 
@@ -177,16 +177,16 @@ class Module
         if (is_null($this->addon)) {
             return $this->getDirectories();
         }
-        return base_path('packages/dionone/' . $this->name);
+        return base_path('packages/noble/' . $this->name);
     }
 
     public function getDevPackagePath()
     {
         if (is_null($this->addon)) {
-            $path = base_path('packages/dionone');
+            $path = base_path('packages/noble');
             return File::directories($path);
         }
-        return base_path('packages/dionone/' . $this->name);
+        return base_path('packages/noble/' . $this->name);
     }
 
     public function allModules()
@@ -213,3 +213,4 @@ class Module
         }
     }
 }
+

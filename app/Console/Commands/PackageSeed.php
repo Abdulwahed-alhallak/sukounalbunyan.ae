@@ -44,7 +44,7 @@ class PackageSeed extends Command
 
     protected function getSeederClass($packageName)
     {
-        $seederClass = "DionONE\\{$packageName}\\Database\\Seeders\\{$packageName}DatabaseSeeder";
+        $seederClass = "Noble\\{$packageName}\\Database\\Seeders\\{$packageName}DatabaseSeeder";
         if (class_exists($seederClass)) {
             return $seederClass;
         }
@@ -55,7 +55,7 @@ class PackageSeed extends Command
     protected function getAllPackages()
     {
         $packages = [];
-        $vendorDir = base_path('packages/dionone');
+        $vendorDir = base_path('packages/Noble Architecture');
         
         if (File::exists($vendorDir)) {
             $directories = File::directories($vendorDir);

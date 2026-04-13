@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use DionONE\ProductService\Models\ProductServiceItem;
+use Noble\ProductService\Models\ProductServiceItem;
 
 class PurchaseInvoiceItem extends Model
 {
@@ -18,7 +18,8 @@ class PurchaseInvoiceItem extends Model
         'discount_amount',
         'tax_percentage',
         'tax_amount',
-        'total_amount'
+        'total_amount',
+        'project_id'
     ];
 
     protected $casts = [
@@ -39,6 +40,11 @@ class PurchaseInvoiceItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(ProductServiceItem::class, 'product_id');
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
     }
 
     public function taxes(): HasMany

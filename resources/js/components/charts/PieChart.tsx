@@ -44,7 +44,7 @@ export const PieChart: React.FC<PieChartProps> = ({
   }
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={0}>
       <RechartsPieChart>
         <Pie
           data={data}

@@ -1,0 +1,26 @@
+{
+    "name": "noble/landing-page",
+    "description": "Description for landing-page package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\LandingPage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\LandingPage\\Providers\\LandingPageServiceProvider"
+            ]
+        }
+    }
+}
+

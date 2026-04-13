@@ -1,0 +1,26 @@
+{
+    "name": "noble/goal",
+    "description": "Description for goal package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Goal\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Goal\\Providers\\GoalServiceProvider"
+            ]
+        }
+    }
+}
+

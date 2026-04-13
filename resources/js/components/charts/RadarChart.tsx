@@ -69,7 +69,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   };
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={0}>
       <RechartsRadarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
         {showGrid && (
           <PolarGrid 

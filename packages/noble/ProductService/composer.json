@@ -1,0 +1,26 @@
+{
+    "name": "noble/product-service",
+    "description": "Description for product-service package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\ProductService\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\ProductService\\Providers\\ProductServiceServiceProvider"
+            ]
+        }
+    }
+}
+

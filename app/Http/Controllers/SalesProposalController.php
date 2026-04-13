@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-use DionONE\ProductService\Models\ProductServiceItem;
+use Noble\ProductService\Models\ProductServiceItem;
 
 class SalesProposalController extends Controller
 {

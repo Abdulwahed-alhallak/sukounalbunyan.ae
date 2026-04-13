@@ -1,0 +1,26 @@
+{
+    "name": "noble/taskly",
+    "description": "Description for taskly package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Taskly\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Taskly\\Providers\\TasklyServiceProvider"
+            ]
+        }
+    }
+}
+

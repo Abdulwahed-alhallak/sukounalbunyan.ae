@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import { Card, CardContent, CardHeader } from './card';
 import { Input } from './input';
 import { Button } from './button';
@@ -56,17 +56,19 @@ export function DataTable<T = any>({
     }
   };
 
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+
   const filteredData = useMemo(() => {
     // Ensure data is always an array
     const safeData = Array.isArray(data) ? data : [];
-    if (!searchable || !searchTerm) return safeData;
+    if (!searchable || !deferredSearchTerm) return safeData;
     return safeData.filter((row: any) => 
       columns.some(column => {
         const value = row[column.key];
-        return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+        return value?.toString().toLowerCase().includes(deferredSearchTerm.toLowerCase());
       })
     );
-  }, [data, searchTerm, columns, searchable]);
+  }, [data, deferredSearchTerm, columns, searchable]);
 
   const paginatedData = useMemo(() => {
     if (!showPagination) return filteredData;
@@ -81,10 +83,10 @@ export function DataTable<T = any>({
   };
 
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card className={cn("overflow-hidden border-border/60 shadow-sm", className)}>
       {searchable && (
-        <CardHeader className="pb-4">
-          <div className="relative">
+        <div className="p-4 border-b border-border/50 bg-card">
+          <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder={searchPlaceholder}
@@ -93,10 +95,10 @@ export function DataTable<T = any>({
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-10"
+              className="pl-9 h-9 vercel-input"
             />
           </div>
-        </CardHeader>
+        </div>
       )}
       <CardContent className="p-0">
         <Table>
@@ -106,8 +108,8 @@ export function DataTable<T = any>({
                 <TableHead
                   key={column.key}
                   className={cn(
-                    "text-[12px] font-medium text-muted-foreground bg-muted/50 h-9",
-                    column.sortable ? 'cursor-pointer select-none' : '',
+                    "text-xs font-medium text-muted-foreground bg-transparent h-10",
+                    column.sortable ? 'cursor-pointer select-none hover:text-foreground transition-colors' : '',
                     column.className || ''
                   )}
                   onClick={() => handleSort(column.key, column.sortable)}
@@ -125,11 +127,11 @@ export function DataTable<T = any>({
               paginatedData.map((row, index) => (
                 <TableRow 
                   key={(row as any).id || index}
-                  className="border-b border-border/50 transition-colors hover:bg-muted/30"
+                  className="border-b border-border/50 transition-colors hover:bg-muted/40"
                   {...(rowProps ? rowProps(row, index) : {})}
                 >
                   {columns.map((column) => (
-                    <TableCell key={column.key} className={cn("text-[13px] py-3", column.className)}>
+                    <TableCell key={column.key} className={cn("text-sm py-3", column.className)}>
                       {column.render
                         ? column.render((row as any)[column.key], row, index)
                         : (row as any)[column.key] || '-'

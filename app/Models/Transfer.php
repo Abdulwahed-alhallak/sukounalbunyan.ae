@@ -36,6 +36,6 @@ class Transfer extends Model
 
     public function product()
     {
-        return $this->belongsTo(\DionONE\ProductService\Models\ProductServiceItem::class, 'product_id');
+        return $this->belongsTo(\Noble\ProductService\Models\ProductServiceItem::class, 'product_id');
     }
 }

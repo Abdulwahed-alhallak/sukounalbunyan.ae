@@ -1,0 +1,26 @@
+{
+    "name": "noble/contract",
+    "description": "Description for contract package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Contract\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Contract\\Providers\\ContractServiceProvider"
+            ]
+        }
+    }
+}
+

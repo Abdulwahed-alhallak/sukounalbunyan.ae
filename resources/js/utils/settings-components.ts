@@ -20,12 +20,12 @@ const coreComponents = {
 // Auto-load package components
 const getPackageComponents = (activatedPackages: string[]) => {
   try {
-    const modules = import.meta.glob('../../../packages/dionone/*/src/Resources/js/settings/components/*.tsx');
+    const modules = import.meta.glob('../../../packages/noble/*/src/Resources/js/settings/components/*.tsx');
     const packageComponents: Record<string, any> = {};
 
     activatedPackages.forEach(packageName => {
       Object.entries(modules).forEach(([path, moduleLoader]) => {
-        if (path.includes(`/packages/dionone/${packageName}/`)) {
+        if (path.includes(`/packages/noble/${packageName}/`)) {
           const match = path.match(/\/([^/]+)\.tsx$/);
           if (match) {
             const componentName = match[1];
@@ -48,3 +48,4 @@ export const getSettingsComponent = (componentName: string) => {
   const allComponents = { ...coreComponents, ...getPackageComponents(activatedPackages) };
   return allComponents[componentName as keyof typeof allComponents] || null;
 };
+

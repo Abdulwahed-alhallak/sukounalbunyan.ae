@@ -38,7 +38,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   strokeWidth = 2
 }) => {
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={0}>
       <RechartsLineChart data={data} margin={{ left: 12, right: 12 }}>
         {showGrid && <CartesianGrid vertical={false} />}
         <XAxis dataKey={xAxisKey} tickLine={false} axisLine={false} tickMargin={8} />

@@ -51,7 +51,7 @@ export default function Error({ status }: ErrorProps) {
                 </div>
                 
                 <div className="px-8 py-4 bg-muted/50 border-t border-border flex justify-between items-center">
-                   <div className="text-xs text-muted-foreground font-medium tracking-wide">DIONCREATIVE ECOSYSTEM</div>
+                   <div className="text-xs text-muted-foreground font-medium tracking-wide">Noble Architecture ECOSYSTEM</div>
                    <div className="flex space-x-2">
                        <div className="w-2 h-2 rounded-full bg-foreground/20"></div>
                        <div className="w-2 h-2 rounded-full bg-foreground/15"></div>
@@ -62,3 +62,4 @@ export default function Error({ status }: ErrorProps) {
         </div>
     );
 }
+

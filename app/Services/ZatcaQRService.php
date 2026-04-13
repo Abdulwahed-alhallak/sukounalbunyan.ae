@@ -36,7 +36,7 @@ class ZatcaQRService
             $formattedDate = date('Y-m-d\TH:i:s\Z', strtotime($invoiceDate));
 
             $generator = GenerateQrCode::fromArray([
-                new Seller($sellerName ?: 'DionCreative'),
+                new Seller($sellerName ?: 'Noble Architecture'),
                 new TaxNumber($taxNumber ?: '310122393500003'),
                 new InvoiceDate($formattedDate),
                 new InvoiceTotalAmount((string) number_format((float)$totalAmount, 2, '.', '')),
@@ -50,3 +50,4 @@ class ZatcaQRService
         }
     }
 }
+

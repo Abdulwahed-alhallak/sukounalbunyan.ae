@@ -17,24 +17,43 @@ const getCoreMenuItems = (userRoles: string[], t: (key: string) => string): NavI
 // Auto-load package menus based on activated packages
 const getPackageMenuItems = (userRoles: string[], activatedPackages: string[], t: (key: string) => string): NavItem[] => {
     const menuItems: NavItem[] = [];
-    const menuType = userRoles.includes('superadmin') ? 'superadmin-menu' : 'company-menu';
-
-    const allModules = import.meta.glob('../../../packages/dionone/*/src/Resources/js/menus/*.ts', { eager: true });
+    const isSuperAdmin = userRoles.includes('superadmin');
+    
+    const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/menus/*.ts', { eager: true });
 
     if (!Array.isArray(activatedPackages)) {
         return menuItems;
     }
 
     activatedPackages.forEach(packageName => {
-        const menuPath = `../../../packages/dionone/${packageName}/src/Resources/js/menus/${menuType}.ts`;
-        const module = allModules[menuPath] as any;
+        let module = null;
+        
+        if (isSuperAdmin) {
+            // Try superadmin menu first
+            const saPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/superadmin-menu.ts`;
+            module = allModules[saPath];
+            
+            // Fallback to company menu if superadmin menu is missing
+            if (!module) {
+                const coPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/company-menu.ts`;
+                module = allModules[coPath];
+            }
+        } else {
+            const coPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/company-menu.ts`;
+            module = allModules[coPath];
+        }
 
         if (module) {
-            Object.values(module).forEach((item: any) => {
-                const result = typeof item === 'function' ? item(t) : item;
-                const items = Array.isArray(result) ? result : [result];
-                menuItems.push(...items);
-            });
+            try {
+                Object.values(module).forEach((item: any) => {
+                    const result = typeof item === 'function' ? item(t) : item;
+                    const items = Array.isArray(result) ? result : [result];
+                    menuItems.push(...items);
+                });
+            } catch (e) {
+                // Skip packages whose routes aren't registered (Ziggy route errors)
+                console.warn(`Menu skipped for package "${packageName}":`, (e as Error).message);
+            }
         }
     });
 
@@ -193,10 +212,12 @@ const itemMatchesCategory = (item: NavItem, category: any): boolean => {
     ) || false;
 };
 
-// Main function to get filtered menu items
-export const allMenuItems = (): NavItem[] => {
-    const { auth } = usePage().props as any;
+// Main hook to get filtered menu items
+export const useAllMenuItems = (): NavItem[] => {
+    const pageProps = usePage().props as any;
+    const auth = pageProps?.auth;
     const { t } = useTranslation();
+    
     const userPermissions = auth?.user?.permissions || [];
     const userRoles = auth?.user?.roles || [];
     const activatedPackages = auth?.user?.activatedPackages || [];
@@ -282,3 +303,7 @@ export const allMenuItems = (): NavItem[] => {
 
     return finalStructuredMenu;
 };
+
+
+
+

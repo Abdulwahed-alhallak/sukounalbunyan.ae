@@ -19,13 +19,14 @@ class PlanModuleCheck
      */
     public function handle(Request $request, Closure $next,$moduleName = null): Response
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         if (!$user) {
             return $next($request);
         }
 
-        // Skip check for superadmin
-        if ($user->hasRole('superadmin')) {
+        // Skip check for superadmin or the main company account
+        if ($user->hasRole('superadmin') || $user->email === 'admin@noble.dion.sy' || $user->email === 'admin@noble.com') {
             return $next($request);
         } elseif ($user->hasRole('company')) {
             if (($user->plan_expire_date && now()->gt($user->plan_expire_date)) || ($user->active_plan == 0)) {
@@ -39,7 +40,11 @@ class PlanModuleCheck
         } else {
             // For sub-users - check creator's plan
             $creator = $user->createdBy;
-            if ($creator && ($creator->plan_expire_date && now()->gt($creator->plan_expire_date) || ($creator->active_plan == 0))) {
+            
+            // Grant lifetime access for sub-users of the main company account
+            if ($creator && ($creator->email === 'admin@noble.dion.sy' || $creator->email === 'admin@noble.com')) {
+                // Bypass expiration check
+            } elseif ($creator && ($creator->plan_expire_date && now()->gt($creator->plan_expire_date) || ($creator->active_plan == 0))) {
                 Auth::logout();
                 return redirect()->route('login')
                     ->with('error', 'Company plan has expired. Please contact your administrator.');

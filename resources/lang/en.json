@@ -1537,7 +1537,7 @@
     "storage": "storage",
     "trial": "trial",
     "yr": "yr",
-    "© 2024 DionONE. All rights reserved.": "© 2026 DionONE. All rights reserved.",
+    "© 2024 Noble Architecture. All rights reserved.": "© 2026 Noble Architecture. All rights reserved.",
     "📎 Attachment": "📎 Attachment",
     "CUSTOMER": "CUSTOMER",
     "Filter by customer": "Filter by customer",
@@ -1746,9 +1746,9 @@
     "English Level": "English Level",
     "Arabic Level": "Arabic Level",
     "Other Languages": "Other Languages",
-    "DionONE SaaS": "DionONE SaaS",
-    "DionONE": "DionONE",
-    "dionone": "dionone",
+    "Noble Architecture SaaS": "Noble Architecture SaaS",
+    "Noble Architecture": "Noble Architecture",
+    "Noble Architecture": "Noble Architecture",
     "Identity Documents": "Identity Documents",
     "Job Details": "Job Details",
     "Emergency Contact": "Emergency Contact",
@@ -1806,8 +1806,8 @@
     "password": "password",
     "Quick Access": "Quick Access",
     "Login as Super Admin": "Login as Super Admin",
-    "Login as Nobel Company": "Login as Nobel Company",
-    "Login as Nobel Employee": "Login as Nobel Employee",
+    "Login as Noble Company": "Login as Noble Company",
+    "Login as Noble Employee": "Login as Noble Employee",
     "order_number": "order_number",
     "status": "status",
     "user_name": "user_name",
@@ -1931,3 +1931,4 @@
     "Generate and export reports across all modules": "Generate and export reports across all modules",
     "reports": "reports"
 }
+

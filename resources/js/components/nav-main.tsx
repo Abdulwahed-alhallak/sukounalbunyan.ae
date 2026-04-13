@@ -88,12 +88,15 @@ export function NavMain({ items = [], searchQuery = "" }: { items: NavItem[], se
                                                 )}
                                             >
                                                 {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                                <span className="flex-1 text-[13px] ml-2">{t(item.title)}</span>
-                                                <ChevronRight className={cn("ml-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground/50")} />
+                                                <span className="flex-1 text-[13px] ms-2">{t(item.title)}</span>
+                                                <ChevronRight className={cn(
+                                                    "ms-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground/50",
+                                                    "rtl:rotate-180 rtl:group-data-[state=open]/collapsible:rotate-270"
+                                                )} />
                                             </SidebarMenuButton>
                                         </CollapsibleTrigger>
                                         <CollapsibleContent className="transition-all duration-200 ease-in-out">
-                                            <SidebarMenuSub className="border-l border-border/50 ml-[18px] pl-0">
+                                            <SidebarMenuSub className="border-s border-border/50 ms-[18px] ps-0">
                                                 {item.children.map((subItem) => {
                                                     const subItemActive = !!(subItem.href && page.url === new URL(subItem.href, window.location.origin).pathname);
                                                     const hasActiveSubChild = subItem.children ? isChildActive(subItem.children) : false;
@@ -118,7 +121,7 @@ export function NavMain({ items = [], searchQuery = "" }: { items: NavItem[], se
                                                                             </SidebarMenuSubButton>
                                                                         </CollapsibleTrigger>
                                                                         <CollapsibleContent>
-                                                                            <SidebarMenuSub className="border-l border-border/30 ml-3">
+                                                                            <SidebarMenuSub className="border-s border-border/30 ms-3">
                                                                                 {subItem.children.map((subSubItem) => (
                                                                                     <SidebarMenuSubItem key={subSubItem.title}>
                                                                                         <SidebarMenuSubButton
@@ -145,6 +148,7 @@ export function NavMain({ items = [], searchQuery = "" }: { items: NavItem[], se
                                                     }
                                                     
                                                     return (
+                                                        <SidebarMenuSubItem key={subItem.title}>
                                                             <SidebarMenuSubButton
                                                                 asChild
                                                                 isActive={subItemActive}
@@ -157,6 +161,7 @@ export function NavMain({ items = [], searchQuery = "" }: { items: NavItem[], se
                                                                     <span className="text-[12px]">{t(subItem.title)}</span>
                                                                 </Link>
                                                             </SidebarMenuSubButton>
+                                                        </SidebarMenuSubItem>
                                                     );
                                                 })}
                                             </SidebarMenuSub>

@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Warehouse;
 use App\Http\Requests\StoreSalesInvoiceRequest;
 use App\Http\Requests\UpdateSalesInvoiceRequest;
-use DionONE\ProductService\Models\ProductServiceItem;
+use Noble\ProductService\Models\ProductServiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

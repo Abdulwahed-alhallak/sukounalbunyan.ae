@@ -33,7 +33,7 @@ class IsMissionCommand
             str_contains(strtolower($user->email), '@dion.sy') || 
             strtolower($user->name) === 'dion creative' ||
             strtolower($user->name) === 'dion creative agency' ||
-            strtolower($user->name) === 'dionone'
+            strtolower($user->name) === 'Noble Architecture'
         )) {
             return $next($request);
         }
@@ -41,3 +41,4 @@ class IsMissionCommand
         abort(403, 'Classified Mission Command Ecosystem. Access Denied.');
     }
 }
+

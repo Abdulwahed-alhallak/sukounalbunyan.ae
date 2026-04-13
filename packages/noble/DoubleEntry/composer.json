@@ -1,0 +1,26 @@
+{
+    "name": "noble/double-entry",
+    "description": "Description for double-entry package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\DoubleEntry\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\DoubleEntry\\Providers\\DoubleEntryServiceProvider"
+            ]
+        }
+    }
+}
+

@@ -10,7 +10,7 @@ class PackageServiceProvider extends ServiceProvider
     {
         $loader = require base_path('vendor/autoload.php');
 
-        $packageDirectories = glob(base_path('packages/dionone/*'), GLOB_ONLYDIR);
+        $packageDirectories = glob(base_path('packages/noble/*'), GLOB_ONLYDIR);
 
         foreach ($packageDirectories as $packageDir) {
             $composerFile = $packageDir . '/composer.json';

@@ -50,7 +50,7 @@ class SalesInvoiceReturn extends Model
 
     public function customerDetails(): BelongsTo
     {
-        return $this->belongsTo(\DionONE\Account\Models\Customer::class, 'customer_id', 'user_id');
+        return $this->belongsTo(\Noble\Account\Models\Customer::class, 'customer_id', 'user_id');
     }
 
     public function originalInvoice(): BelongsTo

@@ -2,6 +2,7 @@ import { Search, X } from "lucide-react";
 import { Input } from "./input";
 import { Button } from "./button";
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 
 interface SearchInputProps {
   value: string;
@@ -16,9 +17,23 @@ export function SearchInput({
   onChange, 
   onSearch, 
   placeholder,
-  className = "w-80"
+  className = "w-full max-w-[320px]"
 }: SearchInputProps) {
   const { t } = useTranslation();
+  const initialRender = useRef(true);
+
+  // Auto-search debounce
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+    const timer = setTimeout(() => {
+      onSearch();
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [value, onSearch]);
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       onSearch();
@@ -50,7 +65,7 @@ export function SearchInput({
           </Button>
         )}
       </div>
-      <Button onClick={() => onSearch()}>{t('Search')}</Button>
+      <Button variant="secondary" onClick={() => onSearch()}>{t('Search')}</Button>
     </div>
   );
 }

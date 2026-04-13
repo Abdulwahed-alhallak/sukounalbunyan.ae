@@ -56,7 +56,7 @@ export default function NotificationsHub() {
                                         <Label htmlFor="title" className="text-foreground/80">Notification Title</Label>
                                         <Input
                                             id="title"
-                                            placeholder="e.g. Welcome to DionONE"
+                                            placeholder="e.g. Welcome toNobleArchitecture"
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
                                             required
@@ -143,7 +143,7 @@ export default function NotificationsHub() {
                                             <div className="h-6 w-6 rounded bg-foreground flex items-center justify-center text-[10px] font-bold text-black font-sans">
                                                 D
                                             </div>
-                                            <div className="text-xs text-muted-foreground/60 font-medium tracking-wide">DIONONE</div>
+                                            <div className="text-xs text-muted-foreground/60 font-medium tracking-wide">Noble Architecture</div>
                                             <div className="text-[10px] text-muted-foreground ml-auto">now</div>
                                         </div>
                                         <div className="text-sm font-semibold text-background mb-1">
@@ -168,3 +168,6 @@ export default function NotificationsHub() {
         </AuthenticatedLayout>
     );
 }
+
+
+

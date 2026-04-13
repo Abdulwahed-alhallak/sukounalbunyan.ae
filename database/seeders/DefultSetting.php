@@ -25,8 +25,8 @@ class DefultSetting extends Seeder
             'logo_light' => 'logo_light.png',
             'logo_dark' => 'logo_dark.png',
             'favicon' => 'favicon.png',
-            'titleText' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'DionONE SaaS',
-            'footerText' => 'Copyright © ' . (!empty(env('APP_NAME')) ? env('APP_NAME') : 'DionONE SaaS'),
+            'titleText' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'Noble Architecture SaaS',
+            'footerText' => 'Copyright © ' . (!empty(env('APP_NAME')) ? env('APP_NAME') : 'Noble Architecture SaaS'),
             'sidebarVariant' => 'inset',
             'sidebarStyle' => 'plain',
             'layoutDirection' => 'rtl',
@@ -57,7 +57,7 @@ class DefultSetting extends Seeder
 
             // SEO Settings
             'metaKeywords' => 'dionone, dionone, dashboard, admin, panel, management',
-            'metaTitle' => !empty(env('APP_NAME')) ? env('APP_NAME') . ' - Dashboard' : 'DionONE SaaS - Dashboard',
+            'metaTitle' => !empty(env('APP_NAME')) ? env('APP_NAME') . ' - Dashboard' : 'Noble Architecture SaaS - Dashboard',
             'metaDescription' => 'Modern dashboard and management system built with Laravel and React',
             'metaImage' => 'meta_image.png',
 
@@ -89,3 +89,4 @@ class DefultSetting extends Seeder
         Artisan::call('cache:clear');
     }
 }
+

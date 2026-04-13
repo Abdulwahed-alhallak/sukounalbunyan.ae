@@ -9,12 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title inertia>{{ config('app.name', 'DionONE') }}</title>
+        <title inertia>{{ config('app.name', 'Noble Architecture') }}</title>
 
-        <!-- Fonts: Geist (Vercel) + Cairo (Arabic) -->
+        <!-- Fonts: Geist (Vercel) + IBM Plex Sans Arabic (Arabic) -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
         <script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -22,10 +22,13 @@
         <!-- Scripts -->
         @routes
         <script>
-            window.auth = {!! json_encode($page['props']['auth'] ?? null) !!};
+            // @ts-nocheck
+            // @ts-ignore
+            window.auth = JSON.parse(String.raw`{!! json_encode($page['props']['auth'] ?? null) !!}`);
+            
             // Set theme immediately to prevent flash
             (function() {
-                const themeMode = {!! json_encode($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') !!};
+                const themeMode = String.raw`{!! $page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light' !!}`;
                 const root = document.documentElement;
                 if (themeMode === 'dark') {
                     root.classList.add('dark');
@@ -40,8 +43,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased {{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }}">
+    <body class="font-sans antialiased {{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }}" style="font-family: 'Geist Sans', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
         <div class="grain-overlay"></div>
         @inertia
     </body>
 </html>
+

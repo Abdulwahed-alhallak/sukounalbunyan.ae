@@ -34,11 +34,11 @@ export function BrandProvider({ children }: { children: ReactNode }) {
   const isSuperAdmin = auth?.user?.roles?.includes('superadmin');
   const { i18n } = useTranslation();
 
-  let globalSettings;
-  if(isSuperAdmin != undefined) {
-        globalSettings = isSuperAdmin ? adminAllSetting : companyAllSetting;
+  let globalSettings: any = {};
+  if(isSuperAdmin !== undefined) {
+        globalSettings = isSuperAdmin ? (adminAllSetting || {}) : (companyAllSetting || {});
     } else {
-        globalSettings = adminAllSetting ;
+        globalSettings = adminAllSetting || {};
     }
 
   const lang = i18n?.language || auth?.lang || 'en';
@@ -48,15 +48,15 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     logo_dark: globalSettings?.logo_dark || '',
     logo_light: globalSettings?.logo_light || '',
     favicon: globalSettings?.favicon || '',
-    titleText: globalSettings?.titleText || 'DionONE',
-    footerText: globalSettings?.footerText || `© ${new Date().getFullYear()} DionONE. All rights reserved.`,
+    titleText: globalSettings?.titleText || 'Noble Architecture',
+    footerText: globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
     sidebarVariant: globalSettings?.sidebarVariant || 'inset',
     sidebarStyle: globalSettings?.sidebarStyle || 'plain',
     layoutDirection: isLanguageRtl ? 'rtl' : 'ltr',
     themeMode: globalSettings?.themeMode || 'light',
-    themeColor: globalSettings?.themeColor || 'green',
-    customColor: globalSettings?.customColor || '#10b77f',
-    fontFamily: globalSettings?.fontFamily || 'Inter',
+    themeColor: globalSettings?.themeColor || 'slate',
+    customColor: globalSettings?.customColor || '#000000',
+    fontFamily: globalSettings?.fontFamily || 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif',
   };
 
   const getPreviewUrl = (path: string) => {
@@ -146,10 +146,12 @@ export function BrandProvider({ children }: { children: ReactNode }) {
       document.body.classList.remove('light', 'dark');
     }
 
-    // Set Font Family
-    if (settings.fontFamily) {
-        document.body.style.fontFamily = settings.fontFamily + ', sans-serif';
-    }
+    // Set Font Family — always enforce Geist Sans as the base
+    const fontStack = settings.fontFamily && !settings.fontFamily.includes('Geist')
+        ? `${settings.fontFamily}, Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif`
+        : 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif';
+    document.body.style.fontFamily = fontStack;
+    document.documentElement.style.fontFamily = fontStack;
 
     // Override sidebar default styles with brand colors
     let existingStyle = document.getElementById('brand-sidebar-styles');

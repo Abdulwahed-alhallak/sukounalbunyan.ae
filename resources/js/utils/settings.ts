@@ -18,11 +18,11 @@ const getPackageSettingsItems = (userRoles: string[], activatedPackages: string[
     const settingType = userRoles.includes('superadmin') ? 'superadmin-setting' : 'company-setting';
 
     const allModules = userRoles.includes('superadmin')
-        ? import.meta.glob('../../../packages/dionone/*/src/Resources/js/settings/superadmin-setting.ts', { eager: true })
-        : import.meta.glob('../../../packages/dionone/*/src/Resources/js/settings/company-setting.ts', { eager: true });
+        ? import.meta.glob('../../../packages/noble/*/src/Resources/js/settings/superadmin-setting.ts', { eager: true })
+        : import.meta.glob('../../../packages/noble/*/src/Resources/js/settings/company-setting.ts', { eager: true });
 
     (Array.isArray(activatedPackages) ? activatedPackages : []).forEach(packageName => {
-        const settingPath = `../../../packages/dionone/${packageName}/src/Resources/js/settings/${settingType}.ts`;
+        const settingPath = `../../../packages/noble/${packageName}/src/Resources/js/settings/${settingType}.ts`;
         const module = allModules[settingPath] as any;
 
         if (module) {

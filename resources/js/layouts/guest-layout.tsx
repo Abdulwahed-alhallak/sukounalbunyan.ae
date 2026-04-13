@@ -1,4 +1,4 @@
-import ApplicationLogo from "@/components/application-logo";
+import { ApplicationLogo } from "@/components/application-logo";
 import { Link, usePage, Head } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
 import CookieConsent from "@/components/cookie-consent";
@@ -45,7 +45,7 @@ function GuestContent({ children }: PropsWithChildren) {
                         ) : (
                             <div className="flex items-center gap-2">
                                 <div className="w-8 h-8 bg-foreground rounded-sm" />
-                                <span className="text-lg font-semibold text-foreground tracking-tight">DionONE</span>
+                                <span className="text-lg font-semibold text-foreground tracking-tight">Noble Architecture</span>
                             </div>
                         );
                     })()}
@@ -53,13 +53,13 @@ function GuestContent({ children }: PropsWithChildren) {
             </div>
 
             {/* Auth Card */}
-            <div className="w-full sm:max-w-md px-6 py-8 bg-card border border-border rounded-lg shadow-sm">
+            <div className="w-full sm:max-w-xl px-6 py-8 vercel-card">
                 {children}
             </div>
 
             {/* Footer */}
             <p className="mt-8 text-[13px] text-muted-foreground">
-                © {new Date().getFullYear()} DionONE
+                © {new Date().getFullYear()} Noble Architecture
             </p>
 
             <CookieConsent settings={adminAllSetting || {}} />
@@ -75,3 +75,4 @@ export default function Guest(props: PropsWithChildren) {
         </BrandProvider>
     );
 }
+

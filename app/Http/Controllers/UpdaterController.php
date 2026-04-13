@@ -70,7 +70,7 @@ class UpdaterController extends Controller
             }
 
             // Package migrations
-            $packageDirs = glob(base_path('packages/dionone/*/src/Database/Migrations'), GLOB_ONLYDIR);
+            $packageDirs = glob(base_path('packages/Noble Architecture/*/src/Database/Migrations'), GLOB_ONLYDIR);
             foreach ($packageDirs as $dir) {
                 $files = glob($dir . '/*.php');
                 foreach ($files as $file) {

@@ -1,0 +1,26 @@
+{
+    "name": "noble/timesheet",
+    "description": "Description for timesheet package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Timesheet\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Timesheet\\Providers\\TimesheetServiceProvider"
+            ]
+        }
+    }
+}
+

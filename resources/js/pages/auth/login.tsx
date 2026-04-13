@@ -39,7 +39,7 @@ export default function Login({
             setData((prevData) => ({
                 ...prevData,
                 email: 'company@example.com',
-                password: '1234',
+                password: '12345678',
             }));
         }
     }, [isDemo]);
@@ -99,8 +99,8 @@ export default function Login({
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            placeholder="email@example.com"
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            placeholder={t("email@example.com")}
+                            className="mt-1 w-full"
                         />
                         <InputError message={errors.email} />
                     </div>
@@ -128,7 +128,7 @@ export default function Login({
                             tabIndex={2}
                             autoComplete="current-password"
                             placeholder={t('Password')}
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="mt-1 w-full"
                         />
                         <InputError message={errors.password} />
                     </div>
@@ -218,7 +218,7 @@ export default function Login({
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('superadmin@dion.sy', '1234')}
+                                onClick={() => handleQuickLogin('superadmin@noble.sy', '12345678')}
                                 disabled={processing}
                                 className="sm:col-span-2 group h-auto relative py-3 px-4 border border-border hover:border-foreground/30 bg-background text-[13px] font-bold text-foreground transition-all duration-300 rounded-xl shadow-sm hover:shadow-md overflow-hidden disabled:opacity-50"
                             >
@@ -230,14 +230,14 @@ export default function Login({
                             </Button>
                             <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('admin@noble.com', '12345678')}
+                                onClick={() => handleQuickLogin('company@example.com', '12345678')}
                                 disabled={processing}
                                 className="group h-auto relative py-3 px-4 border border-border hover:border-foreground/30 bg-background text-[13px] font-bold text-foreground transition-all duration-300 rounded-xl shadow-sm hover:shadow-md overflow-hidden disabled:opacity-50"
                             >
                                 <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <span className="relative flex items-center justify-center gap-2">
                                     <Building2 className="w-4 h-4" />
-                                    {t('Login as Nobel Company')}
+                                    {t('Login as Noble Company')}
                                 </span>
                             </Button>
                             <Button
@@ -249,7 +249,7 @@ export default function Login({
                                 <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <span className="relative flex items-center justify-center gap-2">
                                     <Building2 className="w-4 h-4 opacity-50" />
-                                    {t('Login as Nobel Employee')}
+                                    {t('Login as Noble Employee')}
                                 </span>
                             </Button>
                         </div>
@@ -259,3 +259,4 @@ export default function Login({
         </AuthLayout>
     );
 }
+

@@ -184,14 +184,14 @@ class WorkflowEngine
      */
     private static function actionCreateTask(array $action, Model $model, int $companyId): bool
     {
-        if (!class_exists(\DionONE\Taskly\Models\ProjectTask::class)) return false;
+        if (!class_exists(\Noble\Taskly\Models\ProjectTask::class)) return false;
 
         $projectId = $action['project_id'] ?? null;
         if (!$projectId) return false;
 
         $title = self::replacePlaceholders($action['task_title'] ?? 'Auto-generated task', $model);
 
-        \DionONE\Taskly\Models\ProjectTask::create([
+        \Noble\Taskly\Models\ProjectTask::create([
             'title' => $title,
             'project_id' => $projectId,
             'priority' => $action['priority'] ?? 'medium',

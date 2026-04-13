@@ -29,6 +29,7 @@ interface Plan {
     storage_limit: number;
     trial: boolean;
     trial_days: number;
+    image?: any;
 }
 
 interface Module {
@@ -72,15 +73,26 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
 
         trial: plan?.trial ?? false,
         trial_days: plan?.trial_days || 0,
+        image: null as any,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
         if (isEdit && plan) {
-            put(route('plans.update', plan.id));
+            post(route('plans.update', plan.id), {
+                forceFormData: true,
+                onSuccess: () => {},
+                // @ts-ignore
+                transform: (data) => ({
+                    ...data,
+                    _method: 'PUT',
+                }),
+            });
         } else {
-            post(route('plans.store'));
+            post(route('plans.store'), {
+                forceFormData: true
+            });
         }
     };
 
@@ -181,7 +193,6 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                                     <InputError message={errors.number_of_users} />
                                 </div>
                                 <div>
-                                    <Label>{t('Storage Limit (GB)')}</Label>
                                     <Input type="number" placeholder={t('Enter storage limit in GB')} value={data.storage_limit || ''} onChange={(e) => {
                                         const value = parseInt(e.target.value) || 0;
                                         setData('storage_limit', value);
@@ -190,10 +201,34 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                                     <InputError message={errors.storage_limit} />
                                 </div>
                             </div>
-                            <div>
-                                <Label>{t('Description')}</Label>
-                                <Textarea placeholder={t('Enter plan description')} value={data.description} onChange={(e) => setData('description', e.target.value)} rows={3} />
-                                <InputError message={errors.description} />
+                            <div className="grid grid-cols-12 gap-4">
+                                <div className="col-span-8">
+                                    <Label>{t('Description')}</Label>
+                                    <Textarea placeholder={t('Enter plan description')} value={data.description} onChange={(e) => setData('description', e.target.value)} rows={4} />
+                                    <InputError message={errors.description} />
+                                </div>
+                                <div className="col-span-4 space-y-2">
+                                    <Label>{t('Plan Image')}</Label>
+                                    <div className="border-2 border-dashed rounded-lg p-4 text-center space-y-2">
+                                        { (plan?.image || data.image) ? (
+                                            <img 
+                                                src={data.image ? URL.createObjectURL(data.image) : (plan?.image.startsWith('http') ? plan.image : `/storage/media/${plan?.image}`)} 
+                                                className="w-full h-32 object-contain mx-auto rounded" 
+                                            />
+                                        ) : (
+                                            <div className="w-full h-32 bg-muted flex items-center justify-center rounded">
+                                                <span className="text-xs text-muted-foreground">{t('No Image')}</span>
+                                            </div>
+                                        )}
+                                        <Input 
+                                            type="file" 
+                                            accept="image/*" 
+                                            className="text-xs" 
+                                            onChange={(e) => setData('image', e.target.files?.[0] || null)} 
+                                        />
+                                        <InputError message={errors.image} />
+                                    </div>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

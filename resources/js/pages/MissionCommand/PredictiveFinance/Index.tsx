@@ -84,7 +84,7 @@ export default function PredictiveFinanceIndex({ chartData, metrics }: { chartDa
             <Card className="bg-muted/50 dark:bg-foreground border-border dark:border-border p-6">
                 <h3 className="text-lg font-bold mb-6 text-foreground dark:text-foreground">Revenue & Expense Forecast (YTD + Pipeline)</h3>
                 <div className="h-[400px]">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <AreaChart data={chartData}>
                             <defs>
                                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">

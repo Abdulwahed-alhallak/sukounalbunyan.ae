@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const baseDir = 'c:/Users/DION-SERVER/Desktop/DionONE/main-file/packages/dionone/Hrm/src';
+const baseDir = 'c:/Users/DION-SERVER/Desktop/Noble Architecture/main-file/packages/noble/Hrm/src';
 
 function walk(dir) {
     if (!fs.existsSync(dir)) return;
@@ -94,3 +94,5 @@ function stabilize(filePath) {
 console.log('--- STARTING STABILIZATION V3 (HRM FOCUS) ---');
 walk(baseDir);
 console.log('--- STABILIZATION COMPLETE ---');
+
+

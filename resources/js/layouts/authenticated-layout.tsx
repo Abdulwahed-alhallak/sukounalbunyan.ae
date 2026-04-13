@@ -1,4 +1,5 @@
 import { PropsWithChildren, ReactNode, Fragment } from "react";
+import { cn } from "@/lib/utils";
 import {AppSidebar} from "@/components/app-sidebar";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {Separator} from "@/components/ui/separator";
@@ -78,7 +79,10 @@ function AuthenticatedLayoutContent({
                 >
                     {/* Left: Sidebar trigger + Breadcrumb */}
                     <div className={`flex items-center gap-3 ${ settings.layoutDirection === "rtl" ? "order-2 flex-row-reverse" : "order-1" }`} >
-                        <SidebarTrigger className={`h-8 w-8 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors ${ settings.layoutDirection === "rtl" ? "order-3" : "order-1" }`} />
+                        <SidebarTrigger className={cn(
+                            "h-8 w-8 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors",
+                            settings.layoutDirection === "rtl" ? "order-3" : "order-1"
+                        )} />
 
                         <Separator orientation="vertical" className="h-4 w-px bg-border hidden md:block order-2" />
 
@@ -127,7 +131,7 @@ function AuthenticatedLayoutContent({
                                 onClick={() => router.post(route('users.leave-impersonation'))}
                                 className="h-7 text-xs text-foreground border-border hover:bg-accent dark:text-foreground dark:border-border dark:hover:bg-accent transition-colors"
                             >
-                                <UserX className="h-3 w-3 mr-1.5" />
+                                <UserX className="h-3 w-3 me-1.5" />
                                 {t('End Session')}
                             </Button>
                         )}
@@ -142,7 +146,10 @@ function AuthenticatedLayoutContent({
                         >
                             <Bell className="h-4 w-4" strokeWidth={1.5} />
                             {unreadNotifications > 0 && (
-                                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-medium leading-none text-background ring-2 ring-background">
+                                <span className={cn(
+                                    "absolute flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-medium leading-none text-background ring-2 ring-background",
+                                    settings.layoutDirection === 'rtl' ? "-left-0.5 -top-0.5" : "-right-0.5 -top-0.5"
+                                )}>
                                     {unreadNotifications > 99 ? '99+' : unreadNotifications}
                                 </span>
                             )}

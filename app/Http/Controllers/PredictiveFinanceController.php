@@ -33,14 +33,14 @@ class PredictiveFinanceController extends Controller
         // Module checks
         $revenueData = [];
         $expenseData = [];
-        if (class_exists(\DionONE\Account\Models\Revenue::class)) {
-            $revenueData = \DionONE\Account\Models\Revenue::where('created_by', $companyId)
+        if (class_exists(\Noble\Account\Models\Revenue::class)) {
+            $revenueData = \Noble\Account\Models\Revenue::where('created_by', $companyId)
                 ->whereYear('revenue_date', $currentYear)
                 ->selectRaw('MONTH(revenue_date) as month, SUM(amount) as total')
                 ->groupBy('month')->get()->keyBy('month');
         }
-        if (class_exists(\DionONE\Account\Models\Expense::class)) {
-            $expenseData = \DionONE\Account\Models\Expense::where('created_by', $companyId)
+        if (class_exists(\Noble\Account\Models\Expense::class)) {
+            $expenseData = \Noble\Account\Models\Expense::where('created_by', $companyId)
                 ->whereYear('expense_date', $currentYear)
                 ->selectRaw('MONTH(expense_date) as month, SUM(amount) as total')
                 ->groupBy('month')->get()->keyBy('month');
@@ -101,8 +101,8 @@ class PredictiveFinanceController extends Controller
         $revenueGrowth = $lastMonthRevenue > 0 ? round((($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100, 1) : 0;
         
         $avgLtv = 0;
-        if (class_exists(\DionONE\Lead\Models\Lead::class)) {
-            $convertedLeads = \DionONE\Lead\Models\Lead::where('created_by', $companyId)->where('is_converted', true)->count();
+        if (class_exists(\Noble\Lead\Models\Lead::class)) {
+            $convertedLeads = \Noble\Lead\Models\Lead::where('created_by', $companyId)->where('is_converted', true)->count();
             $avgLtv = $convertedLeads > 0 ? round($totalRevenueYTD / $convertedLeads, 2) : 0;
         }
 

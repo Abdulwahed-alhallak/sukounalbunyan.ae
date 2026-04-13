@@ -8,7 +8,7 @@ use App\Models\SecurityAuditLog;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use DionONE\Hrm\Models\Employee;
+use Noble\Hrm\Models\Employee;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;

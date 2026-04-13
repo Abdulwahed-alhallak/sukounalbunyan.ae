@@ -72,7 +72,7 @@ class CrudlyGenerator
         if ($package) {
             $data['package_lower'] = Str::lower($package);
             $data['package_kebab'] = Str::kebab($package);
-            $data['package_namespace'] = "DionONE\\{$package}";
+            $data['package_namespace'] = "Noble Architecture\\{$package}";
             $data['table_name'] = $data['name_snake'];
             
             if ($isSystemSetup) {
@@ -4161,7 +4161,7 @@ class CrudlyGenerator
     });";
         
         // Add controller import
-        $controllerImport = "use DionONE\\{$data['package']}\\Http\\Controllers\\{$data['name']}Controller;";
+        $controllerImport = "useNobleArchitecture\\{$data['package']}\\Http\\Controllers\\{$data['name']}Controller;";
         
         // Add import at the top
         if (!str_contains($content, $controllerImport)) {
@@ -4487,3 +4487,4 @@ class CrudlyGenerator
         }
     }
 }
+

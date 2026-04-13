@@ -317,7 +317,7 @@ class InstallerController extends Controller
     private function getAllAvailableModules()
     {
         $modules = [];
-        $packagesPath = base_path('packages/dionone');
+        $packagesPath = base_path('packages/Noble Architecture');
 
         if (!File::exists($packagesPath)) {
             return $modules;
@@ -370,7 +370,7 @@ class InstallerController extends Controller
 
         $addon = AddOn::where('module', $moduleName)->first();
         if (empty($addon)) {
-            $filePath = base_path('packages/dionone/' . $moduleName . '/module.json');
+            $filePath = base_path('packages/Noble Architecture/' . $moduleName . '/module.json');
 
             if (!file_exists($filePath)) {
                 throw new \Exception('Module configuration not found');
@@ -383,7 +383,7 @@ class InstallerController extends Controller
                 throw new \Exception('Invalid module configuration');
             }
 
-            Artisan::call('migrate --path=/packages/dionone/' . $moduleName . '/src/Database/Migrations --force');
+            Artisan::call('migrate --path=/packages/noble/' . $moduleName . '/src/Database/Migrations --force');
             Artisan::call('package:seed ' . $moduleName);
 
             $addon = new AddOn;
@@ -398,7 +398,7 @@ class InstallerController extends Controller
             $addon->is_enable = 1;
             $addon->save();
         } else {
-            Artisan::call('migrate --path=/packages/dionone/' . $moduleName . '/src/Database/Migrations --force');
+            Artisan::call('migrate --path=/packages/noble/' . $moduleName . '/src/Database/Migrations --force');
             Artisan::call('package:seed ' . $moduleName);
             $addon->is_enable = 1;
             $addon->save();
@@ -410,3 +410,5 @@ class InstallerController extends Controller
         File::put(storage_path('installed'), 'install ' . date('Y-m-d H:i:s'));
     }
 }
+
+

@@ -85,7 +85,7 @@ export function NavUser({
             {auth.user?.permissions?.includes('manage-profile') && (
               <DropdownMenuItem asChild>
                 <Link href={route('profile.edit')}>
-                  <BadgeCheck className="mr-2 h-4 w-4" />
+                  <BadgeCheck className="me-2 h-4 w-4" />
                   {t('Edit Profile')}
                 </Link>
               </DropdownMenuItem>
@@ -99,7 +99,7 @@ export function NavUser({
               method={"post"}
               as={"button"}
             >
-              <LogOut className="mr-2 h-4 w-4" />
+              <LogOut className="me-2 h-4 w-4" />
               {t('Log out')}
             </Link>
           </DropdownMenuItem>
@@ -122,11 +122,11 @@ export function NavUser({
                 {(user as any).avatar && <AvatarImage src={getImagePath((user as any).avatar)} alt={user.name} />}
                 <AvatarFallback className="rounded-md">{user.name?.charAt(0)?.toUpperCase()}</AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-start text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className="ms-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -161,22 +161,22 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => setTheme("light")}>
-                <Sun className="mr-2 h-4 w-4" />
+                <Sun className="me-2 h-4 w-4" />
                 {t('Light')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
-                <Moon className="mr-2 h-4 w-4" />
+                <Moon className="me-2 h-4 w-4" />
                 {t('Dark')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("system")}>
-                <Monitor className="mr-2 h-4 w-4" />
+                <Monitor className="me-2 h-4 w-4" />
                 {t('System')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuLabel className="px-2 py-1.5 text-sm font-semibold">{t('Language')}</DropdownMenuLabel>
-              <div className="px-2">
+              <div className="px-2 pb-2">
                 <LanguageSwitcher />
               </div>
             </DropdownMenuGroup>

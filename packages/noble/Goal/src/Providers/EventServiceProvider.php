@@ -1,0 +1,16 @@
+<?php
+
+namespace Noble\Goal\Providers;
+
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Noble\Account\Events\UpdateBudgetSpending;
+use Noble\Goal\Listeners\UpdateBudgetSpendingLis;
+
+class EventServiceProvider extends ServiceProvider
+{
+    protected $listen = [
+        UpdateBudgetSpending::class => [
+            UpdateBudgetSpendingLis::class,
+        ],
+    ];
+}

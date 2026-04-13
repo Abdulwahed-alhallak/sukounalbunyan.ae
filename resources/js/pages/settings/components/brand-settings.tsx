@@ -42,8 +42,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
     logo_dark: userSettings?.logo_dark || '',
     logo_light: userSettings?.logo_light || '',
     favicon: userSettings?.favicon || '',
-    titleText: userSettings?.titleText || 'DionONE',
-    footerText: userSettings?.footerText || `© ${new Date().getFullYear()} DionONE. All rights reserved.`,
+    titleText: userSettings?.titleText || 'Noble Architecture',
+    footerText: userSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
     sidebarVariant: userSettings?.sidebarVariant || 'inset',
     sidebarStyle: userSettings?.sidebarStyle || 'plain',
     layoutDirection: userSettings?.layoutDirection || 'ltr',
@@ -60,8 +60,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
         logo_dark: userSettings?.logo_dark || '',
         logo_light: userSettings?.logo_light || '',
         favicon: userSettings?.favicon || '',
-        titleText: userSettings?.titleText || 'DionONE',
-        footerText: userSettings?.footerText || `© ${new Date().getFullYear()} DionONE. All rights reserved.`,
+        titleText: userSettings?.titleText || 'Noble Architecture',
+        footerText: userSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
         sidebarVariant: userSettings?.sidebarVariant || 'inset',
         sidebarStyle: userSettings?.sidebarStyle || 'plain',
         layoutDirection: userSettings?.layoutDirection || 'ltr',
@@ -267,7 +267,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                       name="titleText"
                       value={settings.titleText}
                       onChange={handleInputChange}
-                      placeholder="DionONE"
+                      placeholder="Noble Architecture"
                       disabled={!canEdit}
                     />
                     <p className="text-xs text-muted-foreground">
@@ -282,7 +282,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                       name="footerText"
                       value={settings.footerText}
                       onChange={handleInputChange}
-                      placeholder={t(`© ${new Date().getFullYear()} DionONE. All rights reserved.`)}
+                      placeholder={t(`© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`)}
                       disabled={!canEdit}
                     />
                     <p className="text-xs text-muted-foreground">

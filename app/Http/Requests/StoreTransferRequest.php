@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use DionONE\ProductService\Models\WarehouseStock;
+use Noble\ProductService\Models\WarehouseStock;
 
 class StoreTransferRequest extends FormRequest
 {

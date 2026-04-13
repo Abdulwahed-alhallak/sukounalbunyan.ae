@@ -1537,7 +1537,7 @@
     "storage": "depolama",
     "trial": "deneme",
     "yr": "YYY",
-    "© 2024 DionONE. All rights reserved.": "© 2024 DionONE. Tüm hakları saklıdır.",
+    "© 2024 Noble Architecture. All rights reserved.": "© 2024 Noble Architecture. Tüm hakları saklıdır.",
     "📎 Attachment": " Bağlantı",
     "CUSTOMER": "Müşteri",
     "Filter by customer": "Müşteriye göre filtrele",
@@ -1706,3 +1706,4 @@
     "You have unsaved changes. Do you want to discard them?": "Kaydedilmemiş değişiklikleriniz var. Onları atmak ister misiniz?",
     "items selected for return": "Geri dönüş için seçilen öğeler"
 }
+

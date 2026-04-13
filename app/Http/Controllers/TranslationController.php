@@ -41,7 +41,7 @@ class TranslationController extends Controller
         // Merge enabled package translations
         $enabledPackages = AddOn::where('is_enable', true)->pluck('module');
         foreach ($enabledPackages as $packageName) {
-            $packageLangFile = base_path("packages/dionone/{$packageName}/src/Resources/lang/{$locale}.json");
+            $packageLangFile = base_path("packages/Noble Architecture/{$packageName}/src/Resources/lang/{$locale}.json");
             if (File::exists($packageLangFile)) {
                 $packageTranslations = json_decode(File::get($packageLangFile), true) ?? [];
                 $translations = array_merge($translations, $packageTranslations);
@@ -191,9 +191,9 @@ class TranslationController extends Controller
                 return response()->json(['error' => __('Package not found or disabled')], 404);
             }
 
-            $packageLangFile = base_path("packages/dionone/{$package->module}/src/Resources/lang/{$locale}.json");
+            $packageLangFile = base_path("packages/Noble Architecture/{$package->module}/src/Resources/lang/{$locale}.json");
             if (!File::exists($packageLangFile)) {
-                $packageLangFile = base_path("packages/dionone/{$package->module}/src/Resources/lang/en.json");
+                $packageLangFile = base_path("packages/Noble Architecture/{$package->module}/src/Resources/lang/en.json");
                 if (!File::exists($packageLangFile)) {
                     return response()->json(['translations' => []]);
                 }
@@ -255,7 +255,7 @@ class TranslationController extends Controller
             ]);
 
             $translations = $request->input('translations');
-            $packageLangFile = base_path("packages/dionone/{$package->module}/src/Resources/lang/{$locale}.json");
+            $packageLangFile = base_path("packages/Noble Architecture/{$package->module}/src/Resources/lang/{$locale}.json");
 
             try {
                 $packageLangDir = dirname($packageLangFile);
@@ -322,8 +322,8 @@ class TranslationController extends Controller
                 // Copy package translations
                 $enabledPackages = AddOn::where('is_enable', true)->pluck('module');
                 foreach ($enabledPackages as $packageName) {
-                    $packageEnFile = base_path("packages/dionone/{$packageName}/src/Resources/lang/en.json");
-                    $packageNewFile = base_path("packages/dionone/{$packageName}/src/Resources/lang/{$request->code}.json");
+                    $packageEnFile = base_path("packages/Noble Architecture/{$packageName}/src/Resources/lang/en.json");
+                    $packageNewFile = base_path("packages/Noble Architecture/{$packageName}/src/Resources/lang/{$request->code}.json");
                     if (File::exists($packageEnFile)) {
                         $packageDir = dirname($packageNewFile);
                         if (!File::exists($packageDir)) {
@@ -365,7 +365,7 @@ class TranslationController extends Controller
                 // Delete package language files
                 $enabledPackages = AddOn::where('is_enable', true)->pluck('module');
                 foreach ($enabledPackages as $packageName) {
-                    $packageLangFile = base_path("packages/dionone/{$packageName}/src/Resources/lang/{$languageCode}.json");
+                    $packageLangFile = base_path("packages/Noble Architecture/{$packageName}/src/Resources/lang/{$languageCode}.json");
                     if (File::exists($packageLangFile)) {
                         File::delete($packageLangFile);
                     }

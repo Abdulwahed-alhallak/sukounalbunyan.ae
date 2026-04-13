@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const baseDir = 'c:/Users/DION-SERVER/Desktop/DionONE/main-file/packages/dionone';
+const baseDir = 'c:/Users/DION-SERVER/Desktop/Noble Architecture/main-file/packages/dionone';
 
 function walk(dir) {
     const files = fs.readdirSync(dir);
@@ -47,3 +47,4 @@ function stabilizeTSX(filePath) {
 console.log('--- STARTING TSX STABILIZATION V1 ---');
 walk(baseDir);
 console.log('--- TSX STABILIZATION COMPLETE ---');
+

@@ -36,8 +36,8 @@ class MakePackageComponent extends Command
 
         $this->packageName = $this->camelToKebab($package);
 
-        $baseDir = base_path("packages/dionone/$package/src");
-        $namespace = "DionONE\\$package\\";
+        $baseDir = base_path("packages/Noble Architecture/$package/src");
+        $namespace = "Noble\\$package\\";
 
         switch ($type) {
             case 'controller':
@@ -180,7 +180,7 @@ class MakePackageComponent extends Command
 
     protected function createMigration($name, $package)
     {
-        $migrationPath = base_path("packages/dionone/$package/src/Database/Migrations");
+        $migrationPath = base_path("packages/Noble Architecture/$package/src/Database/Migrations");
         $timestamp = date('Y_m_d_His');
         $fileName = "{$timestamp}_{$name}.php";
         $fullPath = "$migrationPath/$fileName";
@@ -416,3 +416,4 @@ class MakePackageComponent extends Command
         $this->info("Helper $name Created Successfully!");
     }
 }
+

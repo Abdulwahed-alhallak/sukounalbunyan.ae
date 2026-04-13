@@ -1,0 +1,26 @@
+{
+    "name": "noble/stripe",
+    "description": "Description for stripe package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Stripe\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Stripe\\Providers\\StripeServiceProvider"
+            ]
+        }
+    }
+}
+

@@ -25,6 +25,7 @@ class UpdatePlanRequest extends FormRequest
             'package_price_monthly' => 'required|numeric|min:0',
             'trial' => 'boolean',
             'trial_days' => 'required_if:trial,true|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 }

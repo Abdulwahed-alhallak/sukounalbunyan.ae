@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import { Suspense } from "react";
 import axios from "axios";
-import { DionLoader } from "@/components/DionLoader";
+import { NobleLoader } from "@/components/NobleLoader";
 
 
 // Silent CSRF token refresh
@@ -106,7 +106,7 @@ createInertiaApp({
     resolve: (name) => {
         const allPages = {
             ...import.meta.glob('./pages/**/*.tsx'),
-            ...import.meta.glob('../../packages/dionone/*/src/Resources/js/Pages/**/*.tsx')
+            ...import.meta.glob('../../packages/noble/*/src/Resources/js/Pages/**/*.tsx')
         };
 
         // Try pages directory (lowercase p)
@@ -117,7 +117,7 @@ createInertiaApp({
 
         // Try package pages
         const [packageName, ...pagePath] = name.split('/');
-        const packagePagePath = `../../packages/dionone/${packageName}/src/Resources/js/Pages/${pagePath.join('/')}.tsx`;
+        const packagePagePath = `../../packages/noble/${packageName}/src/Resources/js/Pages/${pagePath.join('/')}.tsx`;
         if (allPages[packagePagePath]) {
             return allPages[packagePagePath]();
         }
@@ -136,7 +136,7 @@ createInertiaApp({
                 enableSystem
                 disableTransitionOnChange
             >
-                <Suspense fallback={<DionLoader />}>
+                <Suspense fallback={<NobleLoader />}>
                     <App {...props} />
                 </Suspense>
                 <Toaster position="top-center" richColors />
@@ -147,3 +147,5 @@ createInertiaApp({
         color: "#4B5563",
     },
 });
+
+

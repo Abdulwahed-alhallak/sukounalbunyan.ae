@@ -171,13 +171,13 @@ class DashboardAggregationService
         $totalRevenue = 0;
         $totalExpense = 0;
         if ($this->moduleActive('Account')) {
-            if (class_exists(\DionONE\Account\Models\Revenue::class) && Schema::hasTable('revenues')) {
-                $totalRevenue = \DionONE\Account\Models\Revenue::where('created_by', $this->companyId)
+            if (class_exists(\Noble\Account\Models\Revenue::class) && Schema::hasTable('revenues')) {
+                $totalRevenue = \Noble\Account\Models\Revenue::where('created_by', $this->companyId)
                     ->where('revenue_date', '>=', $currentMonth)
                     ->sum('amount');
             }
-            if (class_exists(\DionONE\Account\Models\Expense::class) && Schema::hasTable('expenses')) {
-                $totalExpense = \DionONE\Account\Models\Expense::where('created_by', $this->companyId)
+            if (class_exists(\Noble\Account\Models\Expense::class) && Schema::hasTable('expenses')) {
+                $totalExpense = \Noble\Account\Models\Expense::where('created_by', $this->companyId)
                     ->where('expense_date', '>=', $currentMonth)
                     ->sum('amount');
             }
@@ -213,17 +213,17 @@ class DashboardAggregationService
     private function getHrmKPIs(): ?array
     {
         if (!$this->moduleActive('Hrm')) return null;
-        if (!class_exists(\DionONE\Hrm\Models\Employee::class)) return null;
+        if (!class_exists(\Noble\Hrm\Models\Employee::class)) return null;
 
         $today = now()->toDateString();
 
-        $totalEmployees = \DionONE\Hrm\Models\Employee::where('created_by', $this->companyId)->count();
+        $totalEmployees = \Noble\Hrm\Models\Employee::where('created_by', $this->companyId)->count();
 
         // Today's attendance
         $presentToday = 0;
         $absentToday = 0;
-        if (class_exists(\DionONE\Hrm\Models\Attendance::class) && Schema::hasTable('attendances')) {
-            $presentToday = \DionONE\Hrm\Models\Attendance::where('created_by', $this->companyId)
+        if (class_exists(\Noble\Hrm\Models\Attendance::class) && Schema::hasTable('attendances')) {
+            $presentToday = \Noble\Hrm\Models\Attendance::where('created_by', $this->companyId)
                 ->where('date', $today)
                 ->where('status', 'Present')
                 ->count();
@@ -232,16 +232,16 @@ class DashboardAggregationService
 
         // Pending leave requests
         $pendingLeaves = 0;
-        if (class_exists(\DionONE\Hrm\Models\LeaveApplication::class) && Schema::hasTable('leave_applications')) {
-            $pendingLeaves = \DionONE\Hrm\Models\LeaveApplication::where('created_by', $this->companyId)
+        if (class_exists(\Noble\Hrm\Models\LeaveApplication::class) && Schema::hasTable('leave_applications')) {
+            $pendingLeaves = \Noble\Hrm\Models\LeaveApplication::where('created_by', $this->companyId)
                 ->where('status', 'Pending')
                 ->count();
         }
 
         // Department distribution
         $departmentStats = [];
-        if (class_exists(\DionONE\Hrm\Models\Department::class) && Schema::hasTable('departments')) {
-            $departmentStats = \DionONE\Hrm\Models\Employee::where('employees.created_by', $this->companyId)
+        if (class_exists(\Noble\Hrm\Models\Department::class) && Schema::hasTable('departments')) {
+            $departmentStats = \Noble\Hrm\Models\Employee::where('employees.created_by', $this->companyId)
                 ->join('departments', 'employees.department_id', '=', 'departments.id')
                 ->select('departments.department_name as name', DB::raw('COUNT(employees.id) as count'))
                 ->groupBy('departments.department_name')
@@ -254,7 +254,7 @@ class DashboardAggregationService
         // Upcoming birthdays
         $upcomingBirthdays = [];
         if (Schema::hasColumn('employees', 'date_of_birth')) {
-            $upcomingBirthdays = \DionONE\Hrm\Models\Employee::where('created_by', $this->companyId)
+            $upcomingBirthdays = \Noble\Hrm\Models\Employee::where('created_by', $this->companyId)
                 ->whereNotNull('date_of_birth')
                 ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN DATE_FORMAT(NOW(), '%m-%d') AND DATE_FORMAT(NOW() + INTERVAL 30 DAY, '%m-%d')")
                 ->with('user:id,name')
@@ -280,30 +280,30 @@ class DashboardAggregationService
     private function getCrmKPIs(): ?array
     {
         if (!$this->moduleActive('Lead')) return null;
-        if (!class_exists(\DionONE\Lead\Models\Lead::class)) return null;
+        if (!class_exists(\Noble\Lead\Models\Lead::class)) return null;
 
         $currentMonth = now()->startOfMonth();
 
-        $totalLeads = \DionONE\Lead\Models\Lead::where('created_by', $this->companyId)->count();
-        $newLeadsThisMonth = \DionONE\Lead\Models\Lead::where('created_by', $this->companyId)
+        $totalLeads = \Noble\Lead\Models\Lead::where('created_by', $this->companyId)->count();
+        $newLeadsThisMonth = \Noble\Lead\Models\Lead::where('created_by', $this->companyId)
             ->where('created_at', '>=', $currentMonth)->count();
-        $convertedLeads = \DionONE\Lead\Models\Lead::where('created_by', $this->companyId)
+        $convertedLeads = \Noble\Lead\Models\Lead::where('created_by', $this->companyId)
             ->where('is_converted', true)->count();
-        $activeLeads = \DionONE\Lead\Models\Lead::where('created_by', $this->companyId)
+        $activeLeads = \Noble\Lead\Models\Lead::where('created_by', $this->companyId)
             ->where('is_active', true)->count();
 
         // Deals (if available)
         $totalDeals = 0;
         $dealsValue = 0;
-        if (class_exists(\DionONE\Lead\Models\Deal::class) && Schema::hasTable('deals')) {
-            $totalDeals = \DionONE\Lead\Models\Deal::where('created_by', $this->companyId)->count();
-            $dealsValue = \DionONE\Lead\Models\Deal::where('created_by', $this->companyId)->sum('price');
+        if (class_exists(\Noble\Lead\Models\Deal::class) && Schema::hasTable('deals')) {
+            $totalDeals = \Noble\Lead\Models\Deal::where('created_by', $this->companyId)->count();
+            $dealsValue = \Noble\Lead\Models\Deal::where('created_by', $this->companyId)->sum('price');
         }
 
         // Pipeline stages
         $pipelineData = [];
-        if (class_exists(\DionONE\Lead\Models\LeadStage::class) && Schema::hasTable('lead_stages')) {
-            $pipelineData = \DionONE\Lead\Models\Lead::where('leads.created_by', $this->companyId)
+        if (class_exists(\Noble\Lead\Models\LeadStage::class) && Schema::hasTable('lead_stages')) {
+            $pipelineData = \Noble\Lead\Models\Lead::where('leads.created_by', $this->companyId)
                 ->join('lead_stages', 'leads.stage_id', '=', 'lead_stages.id')
                 ->select('lead_stages.name', DB::raw('COUNT(leads.id) as count'))
                 ->groupBy('lead_stages.name')
@@ -331,30 +331,30 @@ class DashboardAggregationService
     private function getProjectKPIs(): ?array
     {
         if (!$this->moduleActive('Taskly')) return null;
-        if (!class_exists(\DionONE\Taskly\Models\Project::class)) return null;
+        if (!class_exists(\Noble\Taskly\Models\Project::class)) return null;
 
-        $totalProjects = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->count();
-        $activeProjects = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)
+        $totalProjects = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->count();
+        $activeProjects = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)
             ->where('status', 'active')->count();
-        $completedProjects = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)
+        $completedProjects = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)
             ->where('status', 'completed')->count();
 
         // Tasks
         $totalTasks = 0;
         $completedTasks = 0;
         $overdueTasks = 0;
-        if (class_exists(\DionONE\Taskly\Models\ProjectTask::class) && Schema::hasTable('project_tasks')) {
-            $projectIds = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
-            $totalTasks = \DionONE\Taskly\Models\ProjectTask::whereIn('project_id', $projectIds)->count();
+        if (class_exists(\Noble\Taskly\Models\ProjectTask::class) && Schema::hasTable('project_tasks')) {
+            $projectIds = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
+            $totalTasks = \Noble\Taskly\Models\ProjectTask::whereIn('project_id', $projectIds)->count();
             $completedTasks = 0; // Cannot easily calculate without stage knowledge
             $overdueTasks = 0; // project_tasks has no end_date or is_complete column
         }
 
         // Bugs
         $totalBugs = 0;
-        if (class_exists(\DionONE\Taskly\Models\ProjectBug::class) && Schema::hasTable('project_bugs')) {
-            $totalBugs = \DionONE\Taskly\Models\ProjectBug::whereIn('project_id',
-                \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id')
+        if (class_exists(\Noble\Taskly\Models\ProjectBug::class) && Schema::hasTable('project_bugs')) {
+            $totalBugs = \Noble\Taskly\Models\ProjectBug::whereIn('project_id',
+                \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id')
             )->count();
         }
 
@@ -378,16 +378,16 @@ class DashboardAggregationService
     private function getPosKPIs(): ?array
     {
         if (!$this->moduleActive('Pos')) return null;
-        if (!class_exists(\DionONE\Pos\Models\Pos::class) || !Schema::hasTable('pos')) return null;
+        if (!class_exists(\Noble\Pos\Models\Pos::class) || !Schema::hasTable('pos')) return null;
 
         $currentMonth = now()->startOfMonth();
 
-        $totalSales = \DionONE\Pos\Models\Pos::where('created_by', $this->companyId)->count();
-        $salesToday = \DionONE\Pos\Models\Pos::where('created_by', $this->companyId)
+        $totalSales = \Noble\Pos\Models\Pos::where('created_by', $this->companyId)->count();
+        $salesToday = \Noble\Pos\Models\Pos::where('created_by', $this->companyId)
             ->whereDate('created_at', today())->count();
-        $revenueToday = \DionONE\Pos\Models\Pos::where('created_by', $this->companyId)
+        $revenueToday = \Noble\Pos\Models\Pos::where('created_by', $this->companyId)
             ->whereDate('created_at', today())->sum('grand_total');
-        $revenueThisMonth = \DionONE\Pos\Models\Pos::where('created_by', $this->companyId)
+        $revenueThisMonth = \Noble\Pos\Models\Pos::where('created_by', $this->companyId)
             ->where('created_at', '>=', $currentMonth)->sum('grand_total');
 
         return [
@@ -410,8 +410,8 @@ class DashboardAggregationService
 
         // From SupportTicket module
         $moduleTickets = 0;
-        if ($this->moduleActive('SupportTicket') && class_exists(\DionONE\SupportTicket\Models\Ticket::class) && Schema::hasTable('tickets')) {
-            $moduleTickets = \DionONE\SupportTicket\Models\Ticket::where('created_by', $this->companyId)->count();
+        if ($this->moduleActive('SupportTicket') && class_exists(\Noble\SupportTicket\Models\Ticket::class) && Schema::hasTable('tickets')) {
+            $moduleTickets = \Noble\SupportTicket\Models\Ticket::where('created_by', $this->companyId)->count();
         }
 
         if ($totalTickets === 0 && $moduleTickets === 0) return null;
@@ -453,16 +453,16 @@ class DashboardAggregationService
         $revenueData = collect();
         $expenseData = collect();
         if ($this->moduleActive('Account')) {
-            if (class_exists(\DionONE\Account\Models\Revenue::class) && Schema::hasTable('revenues')) {
-                $revenueData = \DionONE\Account\Models\Revenue::where('created_by', $this->companyId)
+            if (class_exists(\Noble\Account\Models\Revenue::class) && Schema::hasTable('revenues')) {
+                $revenueData = \Noble\Account\Models\Revenue::where('created_by', $this->companyId)
                     ->whereYear('revenue_date', $year)
                     ->selectRaw('MONTH(revenue_date) as month, SUM(amount) as total')
                     ->groupBy('month')
                     ->get()
                     ->keyBy('month');
             }
-            if (class_exists(\DionONE\Account\Models\Expense::class) && Schema::hasTable('expenses')) {
-                $expenseData = \DionONE\Account\Models\Expense::where('created_by', $this->companyId)
+            if (class_exists(\Noble\Account\Models\Expense::class) && Schema::hasTable('expenses')) {
+                $expenseData = \Noble\Account\Models\Expense::where('created_by', $this->companyId)
                     ->whereYear('expense_date', $year)
                     ->selectRaw('MONTH(expense_date) as month, SUM(amount) as total')
                     ->groupBy('month')
@@ -569,8 +569,8 @@ class DashboardAggregationService
         }
 
         // Upcoming contract expirations
-        if ($this->moduleActive('Contract') && class_exists(\DionONE\Contract\Models\Contract::class) && Schema::hasTable('contracts')) {
-            $expiringContracts = \DionONE\Contract\Models\Contract::where('created_by', $this->companyId)
+        if ($this->moduleActive('Contract') && class_exists(\Noble\Contract\Models\Contract::class) && Schema::hasTable('contracts')) {
+            $expiringContracts = \Noble\Contract\Models\Contract::where('created_by', $this->companyId)
                 ->where('end_date', '>=', now())
                 ->where('end_date', '<=', now()->addDays(30))
                 ->orderBy('end_date')
@@ -588,9 +588,9 @@ class DashboardAggregationService
         }
 
         // Overdue project tasks
-        if ($this->moduleActive('Taskly') && class_exists(\DionONE\Taskly\Models\ProjectTask::class) && Schema::hasTable('project_tasks')) {
-            $projectIds = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
-            // 'end_date' and 'is_complete' do not exist in DionONE 'project_tasks' schema.
+        if ($this->moduleActive('Taskly') && class_exists(\Noble\Taskly\Models\ProjectTask::class) && Schema::hasTable('project_tasks')) {
+            $projectIds = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
+            // 'end_date' and 'is_complete' do not exist inNobleArchitecture 'project_tasks' schema.
             // Tasks status is managed via 'stage_id' relations without built-in due dates.
             // Leaving as empty collection to prevent SQL error.
             $overdueTasks = [];
@@ -635,3 +635,5 @@ class DashboardAggregationService
         return in_array($module, $this->activatedModules);
     }
 }
+
+

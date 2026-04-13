@@ -1,0 +1,27 @@
+{
+    "name": "noble/aiassistant",
+    "description": "Description for aiassistant package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\AIAssistant\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\AIAssistant\\Providers\\AIAssistantServiceProvider"
+            ]
+        }
+    }
+}
+
+

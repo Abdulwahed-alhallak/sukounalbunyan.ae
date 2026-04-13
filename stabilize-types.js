@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const baseDir = 'c:/Users/DION-SERVER/Desktop/DionONE/main-file/packages/dionone';
+const baseDir = 'c:/Users/DION-SERVER/Desktop/Noble Architecture/main-file/packages/dionone';
 
 function walk(dir) {
     const files = fs.readdirSync(dir);
@@ -59,3 +59,4 @@ function stabilizeFile(filePath) {
 console.log('--- STARTING GLOBAL TYPE STABILIZATION V4 ---');
 walk(baseDir);
 console.log('--- STABILIZATION COMPLETE ---');
+

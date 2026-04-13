@@ -24,6 +24,7 @@ class SalesInvoice extends Model
         'type',
         'payment_terms',
         'notes',
+        'project_id',
         'creator_id',
         'created_by'
     ];
@@ -58,12 +59,17 @@ class SalesInvoice extends Model
 
     public function customerDetails(): BelongsTo
     {
-        return $this->belongsTo(\DionONE\Account\Models\Customer::class, 'customer_id', 'user_id');
+        return $this->belongsTo(\Noble\Account\Models\Customer::class, 'customer_id', 'user_id');
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
     }
 
     public function paymentAllocations(): HasMany
     {
-        return $this->hasMany(\DionONE\Account\Models\CustomerPaymentAllocation::class, 'invoice_id');
+        return $this->hasMany(\Noble\Account\Models\CustomerPaymentAllocation::class, 'invoice_id');
     }
 
     public function salesReturns(): HasMany

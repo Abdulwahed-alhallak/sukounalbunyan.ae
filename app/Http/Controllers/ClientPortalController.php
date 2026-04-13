@@ -8,13 +8,13 @@ use Inertia\Inertia;
 use App\Models\User;
 
 /** @psalm-suppress UndefinedClass */
-use DionONE\Account\Models\Invoice;
+use Noble\Account\Models\Invoice;
 /** @psalm-suppress UndefinedClass */
-use DionONE\Account\Models\Bill;
+use Noble\Account\Models\Bill;
 /** @psalm-suppress UndefinedClass */
-use DionONE\Taskly\Models\Project;
+use Noble\Taskly\Models\Project;
 /** @psalm-suppress UndefinedClass */
-use DionONE\Contract\Models\Contract;
+use Noble\Contract\Models\Contract;
 
 /**
  * ClientPortalController
@@ -71,14 +71,14 @@ class ClientPortalController extends Controller
 
         $invoices = [];
 
-        if ($user->type === 'client' && class_exists(\DionONE\Account\Models\Invoice::class)) {
-            $invoices = \DionONE\Account\Models\Invoice::where('created_by', $companyId)
+        if ($user->type === 'client' && class_exists(\Noble\Account\Models\Invoice::class)) {
+            $invoices = \Noble\Account\Models\Invoice::where('created_by', $companyId)
                 ->where('customer_id', $user->id)
                 ->when($request->status, fn($q, $s) => $q->where('status', $s))
                 ->orderByDesc('invoice_date')
                 ->paginate(15);
-        } elseif ($user->type === 'vendor' && class_exists(\DionONE\Account\Models\Bill::class)) {
-            $invoices = \DionONE\Account\Models\Bill::where('created_by', $companyId)
+        } elseif ($user->type === 'vendor' && class_exists(\Noble\Account\Models\Bill::class)) {
+            $invoices = \Noble\Account\Models\Bill::where('created_by', $companyId)
                 ->where('vendor_id', $user->id)
                 ->when($request->status, fn($q, $s) => $q->where('status', $s))
                 ->orderByDesc('bill_date')
@@ -100,8 +100,8 @@ class ClientPortalController extends Controller
         $companyId = $user->created_by;
 
         $projects = [];
-        if (class_exists(\DionONE\Taskly\Models\Project::class)) {
-            $projects = \DionONE\Taskly\Models\Project::where('created_by', $companyId)
+        if (class_exists(\Noble\Taskly\Models\Project::class)) {
+            $projects = \Noble\Taskly\Models\Project::where('created_by', $companyId)
                 ->whereJsonContains('client_id', $user->id)
                 ->withCount('tasks')
                 ->orderByDesc('created_at')
@@ -122,8 +122,8 @@ class ClientPortalController extends Controller
         $companyId = $user->created_by;
 
         $contracts = [];
-        if (class_exists(\DionONE\Contract\Models\Contract::class)) {
-            $contracts = \DionONE\Contract\Models\Contract::where('created_by', $companyId)
+        if (class_exists(\Noble\Contract\Models\Contract::class)) {
+            $contracts = \Noble\Contract\Models\Contract::where('created_by', $companyId)
                 ->where('client_id', $user->id)
                 ->orderByDesc('created_at')
                 ->paginate(10);
@@ -143,8 +143,8 @@ class ClientPortalController extends Controller
         $data = ['stats' => []];
 
         // Invoices
-        if (class_exists(\DionONE\Account\Models\Invoice::class)) {
-            $invoices = \DionONE\Account\Models\Invoice::where('created_by', $companyId)
+        if (class_exists(\Noble\Account\Models\Invoice::class)) {
+            $invoices = \Noble\Account\Models\Invoice::where('created_by', $companyId)
                 ->where('customer_id', $user->id)
                 ->get();
 
@@ -175,16 +175,16 @@ class ClientPortalController extends Controller
         }
 
         // Projects
-        if (class_exists(\DionONE\Taskly\Models\Project::class)) {
-            $data['stats']['active_projects'] = \DionONE\Taskly\Models\Project::where('created_by', $companyId)
+        if (class_exists(\Noble\Taskly\Models\Project::class)) {
+            $data['stats']['active_projects'] = \Noble\Taskly\Models\Project::where('created_by', $companyId)
                 ->whereJsonContains('client_id', $user->id)
                 ->where('status', 'active')
                 ->count();
         }
 
         // Contracts
-        if (class_exists(\DionONE\Contract\Models\Contract::class)) {
-            $data['stats']['active_contracts'] = \DionONE\Contract\Models\Contract::where('created_by', $companyId)
+        if (class_exists(\Noble\Contract\Models\Contract::class)) {
+            $data['stats']['active_contracts'] = \Noble\Contract\Models\Contract::where('created_by', $companyId)
                 ->where('client_id', $user->id)
                 ->where('status', 'active')
                 ->count();
@@ -198,8 +198,8 @@ class ClientPortalController extends Controller
         $data = ['stats' => []];
 
         // Bills
-        if (class_exists(\DionONE\Account\Models\Bill::class)) {
-            $bills = \DionONE\Account\Models\Bill::where('created_by', $companyId)
+        if (class_exists(\Noble\Account\Models\Bill::class)) {
+            $bills = \Noble\Account\Models\Bill::where('created_by', $companyId)
                 ->where('vendor_id', $user->id)
                 ->get();
 

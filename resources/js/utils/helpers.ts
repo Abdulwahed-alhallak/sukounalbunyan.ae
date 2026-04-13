@@ -126,8 +126,8 @@ const getImagePath = (path: string, pageProps?: any): string => {
   if (!path || typeof path !== 'string') return '';
   if (path.startsWith('http')) return path;
 
-  // If path already contains storage/media, just prepend domain (unless it's dionone path)
-  if (path.includes('storage/media') && !path.includes('packages/dionone/')) {
+  // If path already contains storage/media, just prepend domain (unless it's Noble Architecture path)
+  if (path.includes('storage/media') && !path.includes('packages/Noble Architecture/')) {
     return path.startsWith('/') ? `${window.location.origin}${path}` : `${window.location.origin}/${path}`;
   }
 
@@ -147,10 +147,10 @@ const getImagePath = (path: string, pageProps?: any): string => {
     if (!imageUrlPrefix.includes('storage/media')) {
       imageUrlPrefix = imageUrlPrefix.endsWith('/') ? imageUrlPrefix + 'storage/media/' : imageUrlPrefix + '/storage/media/';
     }
-    // Detect dionone path
-    const isDionONEPath = path.startsWith('packages/dionone/') || path.startsWith('/packages/dionone/');
+    // Detect Noble Architecture path
+    const isNobleArchitecturePath = path.startsWith('packages/Noble Architecture/') || path.startsWith('/packages/noble/');
 
-    if (isDionONEPath) {
+    if (isNobleArchitecturePath) {
       // Strip storage/media if present in prefix
       imageUrlPrefix = imageUrlPrefix.replace(/\/?storage\/media\/?$/, '');
     } else if (!imageUrlPrefix.includes('storage/media')) {
@@ -171,13 +171,13 @@ const getImagePath = (path: string, pageProps?: any): string => {
     }
   } catch {
     let fallbackPrefix;
-    const isDionONEPath = path.startsWith('packages/dionone/') || path.startsWith('/packages/dionone/');
+    const isNobleArchitecturePath = path.startsWith('packages/Noble Architecture/') || path.startsWith('/packages/noble/');
 
     // Split path and drop the last segment (current page)
     const segments = window.location.pathname.split('/').filter(Boolean);
     const basePath = segments.slice(0, -1).join('/'); // everything except the last part
 
-    if (isDionONEPath) {
+    if (isNobleArchitecturePath) {
       fallbackPrefix = `${window.location.origin}/${basePath}/`;
     } else {
       fallbackPrefix = `${window.location.origin}/${basePath}/storage/media/`;
@@ -504,3 +504,5 @@ export {
     downloadFile,
     getSubscriptionDetails
 };
+
+

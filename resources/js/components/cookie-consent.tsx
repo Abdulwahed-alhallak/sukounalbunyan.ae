@@ -88,7 +88,12 @@ export default function CookieConsent({ settings }: CookieConsentProps) {
   const { is_demo, auth } = usePage().props as any;
   const { component } = usePage();
   const isDemo = is_demo === true || is_demo === 1 || is_demo === '1';
-  const isDashboard = route().current('dashboard') || route().current('account.index') || component.toLowerCase().includes('dashboard');
+  let isDashboard = false;
+  try {
+    isDashboard = route().current('dashboard') || route().current('account.index') || component.toLowerCase().includes('dashboard');
+  } catch {
+    isDashboard = component.toLowerCase().includes('dashboard');
+  }
 
   if (!isVisible || !settings.enableCookiePopup) {
     return null;

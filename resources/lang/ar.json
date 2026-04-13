@@ -1595,7 +1595,7 @@
     "storage": "تخزين",
     "trial": "محاكمة",
     "yr": "سنة",
-    "© 2024 DionONE. All rights reserved.": "© 2026 DionONE. جميع الحقوق محفوظة.",
+    "© 2024 Noble Architecture. All rights reserved.": "© 2026 Noble Architecture. جميع الحقوق محفوظة.",
     "📎 Attachment": "📎 مرفق",
     "CUSTOMER": "العميل",
     "Filter by customer": "التصفية حسب العميل",
@@ -1804,9 +1804,9 @@
     "English Level": "مستوى اللغة الانجليزية",
     "Arabic Level": "المستوى العربي",
     "Other Languages": "لغات اخرى",
-    "DionONE SaaS": "ديونون SaaS",
-    "DionONE": "ديونون",
-    "dionone": "ديونون",
+    "Noble Architecture SaaS": "ديونون SaaS",
+    "Noble Architecture": "ديونون",
+    "Noble Architecture": "ديونون",
     "Identity Documents": "وثائق الهوية",
     "Job Details": "تفاصيل الوظيفة",
     "Emergency Contact": "اتصال الطوارئ",
@@ -1879,8 +1879,8 @@
     "password": "كلمة المرور",
     "Quick Access": "الوصول السريع",
     "Login as Super Admin": "تسجيل الدخول كمشرف متميز",
-    "Login as Nobel Company": "تسجيل الدخول كشركة نوبل",
-    "Login as Nobel Employee": "تسجيل الدخول كموظف نوبل",
+    "Login as Noble Company": "تسجيل الدخول كشركة نوبل",
+    "Login as Noble Employee": "تسجيل الدخول كموظف نوبل",
     "order_number": "order_number",
     "status": "حالة",
     "user_name": "اسم المستخدم",
@@ -2019,3 +2019,4 @@
     "Noble Corp": "شركة نوبل",
     "Emp (Samad)": "صمد (موظف)"
 }
+

@@ -37,6 +37,9 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
+Route::get('/', function () {
+    return redirect('login');
+});
 
 Route::middleware(['auth', 'verified', 'PlanModuleCheck'])->group(function () {
     // Route::get('/dashboard', function () {
@@ -81,8 +84,8 @@ Route::middleware(['auth', 'verified', 'PlanModuleCheck'])->group(function () {
         Route::post('/gamification/test-award', [\App\Http\Controllers\MissionCommand\GamificationController::class, 'testAward']);
 
         // DionFlow No-Code Engine Routes
-        Route::get('/dionflow', [\App\Http\Controllers\DionFlowController::class, 'index'])->name('mission-command.dionflow');
-        Route::post('/dionflow', [\App\Http\Controllers\DionFlowController::class, 'store'])->name('mission-command.dionflow.store');
+        Route::get('/dionflow', [\App\Http\Controllers\NobleFlowController::class, 'index'])->name('mission-command.dionflow');
+        Route::post('/dionflow', [\App\Http\Controllers\NobleFlowController::class, 'store'])->name('mission-command.dionflow.store');
 
         // Omnichannel Unified Inbox Routes
         Route::get('/unified-inbox', [\App\Http\Controllers\UnifiedInboxController::class, 'index'])->name('mission-command.unified-inbox');
@@ -99,7 +102,7 @@ Route::middleware(['auth', 'verified', 'PlanModuleCheck'])->group(function () {
     });
 
     // Profile management routes
-    // DionONE SaaS: PDF Invoicing Engine
+    // Noble Architecture SaaS: PDF Invoicing Engine
     Route::get('/invoices/{id}/download', [\App\Http\Controllers\InvoicePdfController::class, 'downloadPdf'])->name('invoice.download');
     Route::get('/invoices/{id}/stream', [\App\Http\Controllers\InvoicePdfController::class, 'streamPdf'])->name('invoice.stream');
 
@@ -271,3 +274,5 @@ Route::post('/cookie-consent-log', [SettingController::class, 'logCookieConsent'
 require __DIR__.'/installer.php';
 require __DIR__.'/updater.php';
 require __DIR__.'/auth.php';
+
+

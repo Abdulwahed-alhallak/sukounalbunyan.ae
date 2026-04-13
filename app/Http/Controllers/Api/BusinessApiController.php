@@ -18,7 +18,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * BusinessApiController
  *
- * RESTful API for DionONE modules — provides read/write access
+ * RESTful API forNobleArchitecture modules — provides read/write access
  * to core business data, secured via Sanctum.
  */
 class BusinessApiController extends Controller
@@ -93,11 +93,11 @@ class BusinessApiController extends Controller
         $user = $request->user();
         $companyId = $user->type === 'company' ? $user->id : $user->created_by;
 
-        if (!class_exists(\DionONE\Hrm\Models\Employee::class)) {
+        if (!class_exists(\Noble\Hrm\Models\Employee::class)) {
             return response()->json(['message' => 'HRM module not active'], 404);
         }
 
-        $employees = \DionONE\Hrm\Models\Employee::where('created_by', $companyId)
+        $employees = \Noble\Hrm\Models\Employee::where('created_by', $companyId)
             ->when($request->department, fn($q, $d) => $q->where('department_id', $d))
             ->orderBy('name')
             ->paginate($request->per_page ?? 15);
@@ -114,11 +114,11 @@ class BusinessApiController extends Controller
         $user = $request->user();
         $companyId = $user->type === 'company' ? $user->id : $user->created_by;
 
-        if (!class_exists(\DionONE\Lead\Models\Lead::class)) {
+        if (!class_exists(\Noble\Lead\Models\Lead::class)) {
             return response()->json(['message' => 'CRM module not active'], 404);
         }
 
-        $leads = \DionONE\Lead\Models\Lead::where('created_by', $companyId)
+        $leads = \Noble\Lead\Models\Lead::where('created_by', $companyId)
             ->when($request->stage, fn($q, $s) => $q->where('stage_id', $s))
             ->orderByDesc('created_at')
             ->paginate($request->per_page ?? 15);
@@ -135,11 +135,11 @@ class BusinessApiController extends Controller
         $user = $request->user();
         $companyId = $user->type === 'company' ? $user->id : $user->created_by;
 
-        if (!class_exists(\DionONE\Taskly\Models\Project::class)) {
+        if (!class_exists(\Noble\Taskly\Models\Project::class)) {
             return response()->json(['message' => 'Taskly module not active'], 404);
         }
 
-        $projects = \DionONE\Taskly\Models\Project::where('created_by', $companyId)
+        $projects = \Noble\Taskly\Models\Project::where('created_by', $companyId)
             ->withCount(['tasks'])
             ->orderByDesc('created_at')
             ->paginate($request->per_page ?? 15);
@@ -214,3 +214,5 @@ class BusinessApiController extends Controller
         return response()->json($plans);
     }
 }
+
+

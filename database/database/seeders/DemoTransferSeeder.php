@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Transfer;
 use App\Models\Warehouse;
-use DionONE\ProductService\Models\ProductServiceItem;
+use Noble\ProductService\Models\ProductServiceItem;
 use Illuminate\Database\Seeder;
 
 class DemoTransferSeeder extends Seeder

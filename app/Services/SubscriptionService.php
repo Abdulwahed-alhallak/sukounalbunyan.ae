@@ -105,7 +105,7 @@ class SubscriptionService
         }
 
         $enabledModules = $plan ? count($plan->modules ?? []) : 0;
-        $totalModules = 28; // Total modules in DionONE
+        $totalModules = 28; // Total modules inNobleArchitecture
 
         return [
             'users' => [
@@ -242,3 +242,5 @@ class SubscriptionService
         return $recommendations;
     }
 }
+
+

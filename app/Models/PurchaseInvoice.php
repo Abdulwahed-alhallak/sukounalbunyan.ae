@@ -59,12 +59,12 @@ class PurchaseInvoice extends Model
 
     public function vendorDetails(): BelongsTo
     {
-        return $this->belongsTo(\DionONE\Account\Models\Vendor::class, 'vendor_id', 'user_id');
+        return $this->belongsTo(\Noble\Account\Models\Vendor::class, 'vendor_id', 'user_id');
     }
 
     public function paymentAllocations(): HasMany
     {
-        return $this->hasMany(\DionONE\Account\Models\VendorPaymentAllocation::class, 'invoice_id');
+        return $this->hasMany(\Noble\Account\Models\VendorPaymentAllocation::class, 'invoice_id');
     }
 
     public function purchaseReturns(): HasMany

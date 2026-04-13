@@ -1537,7 +1537,7 @@
     "storage": "opbevaring",
     "trial": "retssag",
     "yr": "år",
-    "© 2024 DionONE. All rights reserved.": "© 2024 DionONE. Alle rettigheder forbeholdt.",
+    "© 2024 Noble Architecture. All rights reserved.": "© 2024 Noble Architecture. Alle rettigheder forbeholdt.",
     "📎 Attachment": " Tilknytning",
     "CUSTOMER": "KUNDEN",
     "Filter by customer": "Filtrér efter kunde",
@@ -1706,3 +1706,4 @@
     "You have unsaved changes. Do you want to discard them?": "Du har ikke gemte ændringer. Vil du slette dem?",
     "items selected for return": "Poster, der er udvalgt til returnering"
 }
+

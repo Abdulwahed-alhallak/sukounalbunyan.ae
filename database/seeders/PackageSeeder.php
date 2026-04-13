@@ -20,7 +20,7 @@ class PackageSeeder extends Seeder
         if(empty($userId)){
           $userId = User::where('email', 'company@example.com')->first()->id;
         }
-        $path = base_path('packages/dionone');
+        $path = base_path('packages/noble');
         $devPackagePath = \Illuminate\Support\Facades\File::directories($path);
 
         foreach ($devPackagePath as $package) {

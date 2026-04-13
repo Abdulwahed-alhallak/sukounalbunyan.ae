@@ -95,10 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $slug;
     }
 
-    public static $superadmin_activated_module = [
-        'ProductService',
-        'LandingPage',
-    ];
+    public static $superadmin_activated_module = [];
 
     public  $not_emp_type = [
         'super admin',

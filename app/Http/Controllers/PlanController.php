@@ -43,7 +43,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                         'monthly_price' => $addon->monthly_price ?? 0,
                         'yearly_price' => $addon->yearly_price ?? 0,
                     ];
@@ -88,7 +88,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                     ];
                 })->values()->toArray();
             } else {
@@ -101,7 +101,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                     ];
                 })->values()->toArray();
             }
@@ -136,6 +136,17 @@ class PlanController extends Controller
             $plan->trial = $request->boolean('trial', false);
             $plan->trial_days = $validated['trial_days'] ?? 0;
             $plan->created_by = creatorId();
+
+            if($request->hasFile('image')){
+                $name = 'plan_' . time() . '.' . $request->image->getClientOriginalExtension();
+                $file = upload_file($request, 'image', $name, 'plans');
+                if($file['flag']) {
+                    $plan->image = $file['url'];
+                } else {
+                    return back()->with('error', $file['msg']);
+                }
+            }
+
             $plan->save();
 
             return redirect()->route('plans.index')
@@ -168,7 +179,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                     ];
                 })->values()->toArray();
             } else {
@@ -181,7 +192,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                     ];
                 })->values()->toArray();
             }
@@ -220,6 +231,20 @@ class PlanController extends Controller
             $plan->package_price_monthly = $validated['package_price_monthly'];
             $plan->trial = $request->boolean('trial', false);
             $plan->trial_days = $validated['trial_days'] ?? 0;
+
+            if($request->hasFile('image')){
+                $name = 'plan_' . time() . '.' . $request->image->getClientOriginalExtension();
+                $file = upload_file($request, 'image', $name, 'plans');
+                if($file['flag']) {
+                    // Delete old image if it exists
+                    if ($plan->image) {
+                        delete_file($plan->image);
+                    }
+                    $plan->image = $file['url'];
+                } else {
+                    return back()->with('error', $file['msg']);
+                }
+            }
 
             $plan->save();
 
@@ -318,7 +343,7 @@ class PlanController extends Controller
                     return [
                         'module' => $addon->module,
                         'alias' => $addon->name,
-                        'image' => $addon->image ?: url('/packages/dionone/' . $addon->module . '/favicon.png'),
+                        'image' => $addon->image ?: url('/packages/noble/' . $addon->module . '/favicon.png'),
                         'monthly_price' => $addon->monthly_price ?? 0,
                         'yearly_price' => $addon->yearly_price ?? 0,
                     ];
@@ -411,3 +436,4 @@ class PlanController extends Controller
         }
     }
 }
+

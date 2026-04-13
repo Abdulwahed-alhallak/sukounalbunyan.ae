@@ -179,7 +179,7 @@ export default function GamificationEngine({ rules, leaderboard }: { rules: Rule
                                 <CardTitle className="flex items-center gap-2">
                                     <TrendingUp className="w-5 h-5 text-foreground" /> Global Leaderboard
                                 </CardTitle>
-                                <CardDescription>Top 10 highest ranking users in the DionONE ecosystem.</CardDescription>
+                                <CardDescription>Top 10 highest ranking users in theNobleArchitecture ecosystem.</CardDescription>
                             </CardHeader>
                             <CardContent className="p-0">
                                 {leaderboard && leaderboard.length > 0 ? (
@@ -217,3 +217,5 @@ export default function GamificationEngine({ rules, leaderboard }: { rules: Rule
         </AuthenticatedLayout>
     );
 }
+
+

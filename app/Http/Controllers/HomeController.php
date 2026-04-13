@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 /** @psalm-suppress UndefinedClass */
-use DionONE\Hrm\Models\PaySlip;
+use Noble\Hrm\Models\PaySlip;
 
 class HomeController extends Controller
 {
@@ -82,8 +82,8 @@ class HomeController extends Controller
 
         // Personal tasks (Taskly)
         if (function_exists('Module_is_active') && Module_is_active('Taskly', $companyId)) {
-            if (class_exists(\DionONE\Taskly\Models\ProjectTask::class)) {
-                $userTasks = \DionONE\Taskly\Models\ProjectTask::whereHas('project', function ($q) use ($companyId) {
+            if (class_exists(\Noble\Taskly\Models\ProjectTask::class)) {
+                $userTasks = \Noble\Taskly\Models\ProjectTask::whereHas('project', function ($q) use ($companyId) {
                     $q->where('created_by', $companyId);
                 })->where(function ($q) use ($user) {
                     $q->where('assign_to', $user->id);
@@ -100,8 +100,8 @@ class HomeController extends Controller
 
         // Personal attendance (Hrm)
         if (function_exists('Module_is_active') && Module_is_active('Hrm', $companyId)) {
-            if (class_exists(\DionONE\Hrm\Models\Employee::class)) {
-                $employee = \DionONE\Hrm\Models\Employee::where('user_id', $user->id)->first();
+            if (class_exists(\Noble\Hrm\Models\Employee::class)) {
+                $employee = \Noble\Hrm\Models\Employee::where('user_id', $user->id)->first();
                 if ($employee) {
                     $personalData['employee'] = [
                         'id' => $employee->id,
@@ -109,12 +109,12 @@ class HomeController extends Controller
                         'designation' => $employee->designation?->name,
                     ];
 
-                    if (class_exists(\DionONE\Hrm\Models\Attendance::class)) {
-                        $todayAttendance = \DionONE\Hrm\Models\Attendance::where('employee_id', $employee->id)
+                    if (class_exists(\Noble\Hrm\Models\Attendance::class)) {
+                        $todayAttendance = \Noble\Hrm\Models\Attendance::where('employee_id', $employee->id)
                             ->where('date', today()->toDateString())
                             ->first();
 
-                        $monthlyAttendance = \DionONE\Hrm\Models\Attendance::where('employee_id', $employee->id)
+                        $monthlyAttendance = \Noble\Hrm\Models\Attendance::where('employee_id', $employee->id)
                             ->whereYear('date', now()->year)
                             ->whereMonth('date', now()->month)
                             ->get();
@@ -130,11 +130,11 @@ class HomeController extends Controller
                     }
 
                     // Pending leaves
-                    if (class_exists(\DionONE\Hrm\Models\LeaveApplication::class)) {
+                    if (class_exists(\Noble\Hrm\Models\LeaveApplication::class)) {
                         $personalData['leaves'] = [
-                            'pending' => \DionONE\Hrm\Models\LeaveApplication::where('employee_id', $employee->id)
+                            'pending' => \Noble\Hrm\Models\LeaveApplication::where('employee_id', $employee->id)
                                 ->where('status', 'Pending')->count(),
-                            'approved_this_month' => \DionONE\Hrm\Models\LeaveApplication::where('employee_id', $employee->id)
+                            'approved_this_month' => \Noble\Hrm\Models\LeaveApplication::where('employee_id', $employee->id)
                                 ->where('status', 'Approved')
                                 ->whereMonth('created_at', now()->month)
                                 ->count(),
@@ -179,7 +179,7 @@ class HomeController extends Controller
         // Salary info (last payslip)
         if (isset($personalData['employee'])) {
             try {
-                $paySlipClass = 'DionONE\Hrm\Models\PaySlip';
+                $paySlipClass = 'Noble\Hrm\Models\PaySlip';
                 if (class_exists($paySlipClass)) {
                     /** @var mixed $lastPayslip */
                     $lastPayslip = $paySlipClass::where('employee_id', $personalData['employee']['id'])

@@ -1,0 +1,26 @@
+{
+    "name": "noble/form-builder",
+    "description": "Description for form-builder package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\FormBuilder\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\FormBuilder\\Providers\\FormBuilderServiceProvider"
+            ]
+        }
+    }
+}
+

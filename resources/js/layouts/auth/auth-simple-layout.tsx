@@ -5,7 +5,7 @@ import { useBrand } from '@/contexts/brand-context';
 import { useFavicon } from '@/hooks/use-favicon';
 import { getImagePath } from '@/utils/helpers';
 import { useTheme } from 'next-themes';
-import ApplicationLogo from '@/components/application-logo';
+import { ApplicationLogo } from '@/components/application-logo';
 import CookieConsent from '@/components/cookie-consent';
 import { usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -48,18 +48,10 @@ export default function AuthSimpleLayout({
                 <div className="relative z-20 p-12 lg:px-16 lg:py-14 flex flex-col h-full justify-between items-start text-start w-full" dir="auto">
                     <div className="flex items-center justify-between w-full">
                         <Link href={route('dashboard')} className="inline-block relative z-50">
-                            {alwaysLightLogoSrc ? (
-                                <img
-                                    src={getImagePath(alwaysLightLogoSrc)}
-                                    alt={settings.titleText || 'Logo'}
-                                    className="h-8 w-auto brightness-0 invert transition-all"
-                                />
-                            ) : (
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 bg-card rounded-sm" />
-                                    <span className="text-background font-semibold tracking-tight">DionONE</span>
-                                </div>
-                            )}
+                            <div className="flex items-center gap-2">
+                                <ApplicationLogo className="h-8 w-auto text-primary-foreground" />
+                                <span className="text-background font-semibold tracking-tight">Noble Architecture</span>
+                            </div>
                         </Link>
                     </div>
 
@@ -88,7 +80,7 @@ export default function AuthSimpleLayout({
                             <div className="flex items-center gap-4 group animate-in fade-in slide-in-from-left-4 duration-700 [animation-delay:100ms] [animation-fill-mode:backwards]">
                                 <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:border-white/20 transition-all duration-300">
                                     <svg className="w-5 h-5 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                     </svg>
                                 </div>
                                 <div>
@@ -111,7 +103,7 @@ export default function AuthSimpleLayout({
                     </div>
 
                     <div className="flex items-center gap-3 text-[13px] text-neutral-600 font-medium pb-2 w-full">
-                        <p>{t('Copyright')} © {new Date().getFullYear()} DionONE SaaS</p>
+                        <p>{t('Copyright')} © {new Date().getFullYear()} Noble Architecture SaaS</p>
                         <span className="opacity-30">·</span>
                         <a href="#" className="hover:text-neutral-400 transition-colors">{t('Privacy')}</a>
                         <span className="opacity-30">·</span>
@@ -127,18 +119,10 @@ export default function AuthSimpleLayout({
                 <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20 w-full">
                     <div className="lg:hidden">
                         <Link href={route('dashboard')}>
-                            {logoSrc ? (
-                                <img
-                                    src={getImagePath(logoSrc)}
-                                    alt={settings.titleText || 'Logo'}
-                                    className="h-7 w-auto transition-all"
-                                />
-                            ) : (
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 bg-foreground rounded-sm" />
-                                    <span className="font-semibold text-foreground tracking-tight">DionONE</span>
-                                </div>
-                            )}
+                            <div className="flex items-center gap-2">
+                                <ApplicationLogo className="h-7 w-auto text-primary" />
+                                <span className="font-semibold text-foreground tracking-tight">Noble Architecture</span>
+                            </div>
                         </Link>
                     </div>
                     <div className="ms-auto flex items-center gap-2">
@@ -164,7 +148,7 @@ export default function AuthSimpleLayout({
 
                     {/* Mobile Footer */}
                     <div className="lg:hidden mt-10 text-center text-[13px] text-muted-foreground font-medium">
-                        <p>{t('Copyright')} © {new Date().getFullYear()} DionONE SaaS</p>
+                        <p>{t('Copyright')} © {new Date().getFullYear()} Noble Architecture SaaS</p>
                         <div className="mt-2 gap-3 flex justify-center">
                             <a href="#" className="hover:text-foreground transition-colors">{t('Privacy')}</a>
                             <span>·</span>

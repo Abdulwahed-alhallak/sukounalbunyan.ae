@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'system' => 'DionCreative',
+    'system' => 'Noble Architecture',
     'system_version' => '9.0',
 ];
+

@@ -39,7 +39,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   const layout = horizontal ? { layout: 'horizontal' as const } : {};
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={0}>
       <RechartsBarChart data={data} margin={horizontal ? { left: 80, right: 12 } : { left: 12, right: 12 }} {...layout}>
         {showGrid && <CartesianGrid vertical={false} />}
         {horizontal ? (

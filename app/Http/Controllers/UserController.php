@@ -109,7 +109,7 @@ class UserController extends Controller
             \App\Models\UserNotification::send(
                 $user->id,
                 'system',
-                'Welcome to DionONE!',
+                'Welcome toNobleArchitecture!',
                 "Hello {$user->name}, your account has been successfully set up. Welcome aboard!",
                 [
                     'icon' => 'UserCheck',
@@ -282,3 +282,5 @@ class UserController extends Controller
         }
     }
 }
+
+

@@ -27,7 +27,7 @@ class ProcessBiometrics extends Command
     {
         $this->info("Starting biometric processing...");
 
-        $unprocessedLogs = \DionONE\Hrm\Models\BiometricLog::where('is_processed', false)
+        $unprocessedLogs = \Noble\Hrm\Models\BiometricLog::where('is_processed', false)
             ->orderBy('punch_time', 'asc')
             ->get()
             ->groupBy(function($log) {
@@ -45,7 +45,7 @@ class ProcessBiometrics extends Command
             $companyId = $firstLog->created_by;
 
             // Find Employee
-            $employee = \DionONE\Hrm\Models\Employee::with('shift')
+            $employee = \Noble\Hrm\Models\Employee::with('shift')
                 ->where('employee_id', $empId)
                 ->where('created_by', $companyId)
                 ->first();
@@ -67,7 +67,7 @@ class ProcessBiometrics extends Command
             // If only one punch exists, we might treat it as clock_in, but for a complete day we usually need two. 
             // In a real system, the command runs at the end of the day or frequently. 
             // We can just update the existing attendance if it exists.
-            $attendance = \DionONE\Hrm\Models\Attendance::firstOrNew([
+            $attendance = \Noble\Hrm\Models\Attendance::firstOrNew([
                 'employee_id' => $employee->user_id,
                 'date' => $date,
                 'created_by' => $companyId

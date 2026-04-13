@@ -1,0 +1,26 @@
+{
+    "name": "noble/google-captcha",
+    "description": "Description for google-captcha package",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\GoogleCaptcha\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noble Architecture",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\GoogleCaptcha\\Providers\\GoogleCaptchaServiceProvider"
+            ]
+        }
+    }
+}
+

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'DionONE'),
+    'name' => env('APP_NAME', 'Noble Architecture'),
 
     /*
     |--------------------------------------------------------------------------
@@ -139,3 +139,4 @@ return [
     ],
 
 ];
+

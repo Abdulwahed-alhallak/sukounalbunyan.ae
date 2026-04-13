@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Transfer;
 use App\Models\Warehouse;
-use DionONE\ProductService\Models\ProductServiceItem;
-use DionONE\ProductService\Models\WarehouseStock;
+use Noble\ProductService\Models\ProductServiceItem;
+use Noble\ProductService\Models\WarehouseStock;
 use App\Http\Requests\StoreTransferRequest;
 use App\Events\CreateTransfer;
 use App\Events\DestroyTransfer;

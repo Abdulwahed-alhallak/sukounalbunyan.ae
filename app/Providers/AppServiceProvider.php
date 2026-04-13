@@ -28,15 +28,16 @@ class AppServiceProvider extends ServiceProvider
         // Register Gamification Observer for Core Models
         if (class_exists(\App\Models\SalesInvoice::class)) {
             \App\Models\SalesInvoice::observe(\App\Observers\GamificationObserver::class);
-            \App\Models\SalesInvoice::observe(\App\Observers\DionFlowObserver::class);
+            \App\Models\SalesInvoice::observe(\App\Observers\NobleFlowObserver::class);
         }
         
-        // Register DionFlow Observers
-        if (class_exists(\DionONE\Lead\Models\Lead::class)) {
-            \DionONE\Lead\Models\Lead::observe(\App\Observers\DionFlowObserver::class);
+        // Register nobleflow Observers
+        if (class_exists(\Noble\Lead\Models\Lead::class)) {
+            \Noble\Lead\Models\Lead::observe(\App\Observers\NobleFlowObserver::class);
         }
-        if (class_exists(\DionONE\Hrm\Models\Employee::class)) {
-            \DionONE\Hrm\Models\Employee::observe(\App\Observers\DionFlowObserver::class);
+        if (class_exists(\Noble\Hrm\Models\Employee::class)) {
+            \Noble\Hrm\Models\Employee::observe(\App\Observers\NobleFlowObserver::class);
         }
     }
 }
+

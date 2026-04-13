@@ -49,25 +49,25 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "DionONE\\LandingPage\\": "packages/dionone/LandingPage/src/",
-            "DionONE\\Taskly\\": "packages/dionone/Taskly/src/",
-            "DionONE\\Hrm\\": "packages/dionone/Hrm/src/",
-            "DionONE\\Lead\\": "packages/dionone/Lead/src/",
-            "DionONE\\Pos\\": "packages/dionone/Pos/src/",
-            "DionONE\\AIAssistant\\": "packages/dionone/AIAssistant/src/",
-            "DionONE\\Account\\": "packages/dionone/Account/src/",
-            "DionONE\\BudgetPlanner\\": "packages/dionone/BudgetPlanner/src/",
-            "DionONE\\Calendar\\": "packages/dionone/Calendar/src/",
-            "DionONE\\Contract\\": "packages/dionone/Contract/src/",
-            "DionONE\\DoubleEntry\\": "packages/dionone/DoubleEntry/src/",
-            "DionONE\\FormBuilder\\": "packages/dionone/FormBuilder/src/",
-            "DionONE\\Performance\\": "packages/dionone/Performance/src/",
-            "DionONE\\ProductService\\": "packages/dionone/ProductService/src/",
-            "DionONE\\SupportTicket\\": "packages/dionone/SupportTicket/src/",
-            "DionONE\\Training\\": "packages/dionone/Training/src/",
-            "DionONE\\Recruitment\\": "packages/dionone/Recruitment/src/",
-            "DionONE\\Quotation\\": "packages/dionone/Quotation/src/",
-            "DionONE\\Timesheet\\": "packages/dionone/Timesheet/src/"
+            "Noble\\LandingPage\\": "packages/noble/LandingPage/src/",
+            "Noble\\Taskly\\": "packages/noble/Taskly/src/",
+            "Noble\\Hrm\\": "packages/noble/Hrm/src/",
+            "Noble\\Lead\\": "packages/noble/Lead/src/",
+            "Noble\\Pos\\": "packages/noble/Pos/src/",
+            "Noble\\AIAssistant\\": "packages/noble/AIAssistant/src/",
+            "Noble\\Account\\": "packages/noble/Account/src/",
+            "Noble\\BudgetPlanner\\": "packages/noble/BudgetPlanner/src/",
+            "Noble\\Calendar\\": "packages/noble/Calendar/src/",
+            "Noble\\Contract\\": "packages/noble/Contract/src/",
+            "Noble\\DoubleEntry\\": "packages/noble/DoubleEntry/src/",
+            "Noble\\FormBuilder\\": "packages/noble/FormBuilder/src/",
+            "Noble\\Performance\\": "packages/noble/Performance/src/",
+            "Noble\\ProductService\\": "packages/noble/ProductService/src/",
+            "Noble\\SupportTicket\\": "packages/noble/SupportTicket/src/",
+            "Noble\\Training\\": "packages/noble/Training/src/",
+            "Noble\\Recruitment\\": "packages/noble/Recruitment/src/",
+            "Noble\\Quotation\\": "packages/noble/Quotation/src/",
+            "Noble\\Timesheet\\": "packages/noble/Timesheet/src/"
         },
         "files": [
             "app/Helpers/Helper.php"
@@ -110,3 +110,6 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 }
+
+
+

@@ -59,7 +59,7 @@ export default function Edit() {
 
 
     const templateForm = useForm({
-        from: emailTemplate.from || 'DionCreative',
+        from: emailTemplate.from || 'Noble Architecture',
     });
 
     const contentForm = useForm({
@@ -214,3 +214,4 @@ export default function Edit() {
         </AuthenticatedLayout>
     );
 }
+

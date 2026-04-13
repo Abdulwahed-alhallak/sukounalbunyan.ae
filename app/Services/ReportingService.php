@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * ReportingService
  *
- * Centralized reporting engine for DionONE.
+ * Centralized reporting engine forNobleArchitecture.
  * Generates structured report data from any module.
  * Module-aware: checks class_exists() and Schema before querying.
  */
@@ -417,9 +417,9 @@ class ReportingService
 
     private function attendanceSummaryReport(string $dateFrom, string $dateTo): array
     {
-        if (!class_exists(\DionONE\Hrm\Models\Attendance::class)) return $this->emptyReport('Attendance Summary');
+        if (!class_exists(\Noble\Hrm\Models\Attendance::class)) return $this->emptyReport('Attendance Summary');
 
-        $data = \DionONE\Hrm\Models\Attendance::where('created_by', $this->companyId)
+        $data = \Noble\Hrm\Models\Attendance::where('created_by', $this->companyId)
             ->whereBetween('date', [$dateFrom, $dateTo])
             ->join('employees', 'attendances.employee_id', '=', 'employees.id')
             ->selectRaw('employees.name, attendances.status, COUNT(*) as count')
@@ -459,9 +459,9 @@ class ReportingService
 
     private function leaveBalanceReport(): array
     {
-        if (!class_exists(\DionONE\Hrm\Models\LeaveApplication::class)) return $this->emptyReport('Leave Balance');
+        if (!class_exists(\Noble\Hrm\Models\LeaveApplication::class)) return $this->emptyReport('Leave Balance');
 
-        $data = \DionONE\Hrm\Models\LeaveApplication::where('leave_applications.created_by', $this->companyId)
+        $data = \Noble\Hrm\Models\LeaveApplication::where('leave_applications.created_by', $this->companyId)
             ->join('employees', 'leave_applications.employee_id', '=', 'employees.id')
             ->selectRaw('employees.name, leave_applications.status, COUNT(*) as count')
             ->groupBy('employees.name', 'leave_applications.status')
@@ -496,9 +496,9 @@ class ReportingService
 
     private function headcountReport(): array
     {
-        if (!class_exists(\DionONE\Hrm\Models\Employee::class)) return $this->emptyReport('Headcount');
+        if (!class_exists(\Noble\Hrm\Models\Employee::class)) return $this->emptyReport('Headcount');
 
-        $query = \DionONE\Hrm\Models\Employee::where('employees.created_by', $this->companyId);
+        $query = \Noble\Hrm\Models\Employee::where('employees.created_by', $this->companyId);
 
         $byDepartment = (clone $query)
             ->leftJoin('departments', 'employees.department_id', '=', 'departments.id')
@@ -523,11 +523,11 @@ class ReportingService
 
     private function employeeTurnoverReport(string $dateFrom, string $dateTo): array
     {
-        if (!class_exists(\DionONE\Hrm\Models\Employee::class)) return $this->emptyReport('Employee Turnover');
+        if (!class_exists(\Noble\Hrm\Models\Employee::class)) return $this->emptyReport('Employee Turnover');
 
-        $newHires = \DionONE\Hrm\Models\Employee::where('created_by', $this->companyId)
+        $newHires = \Noble\Hrm\Models\Employee::where('created_by', $this->companyId)
             ->whereBetween('created_at', [$dateFrom, $dateTo])->count();
-        $total = \DionONE\Hrm\Models\Employee::where('created_by', $this->companyId)->count();
+        $total = \Noble\Hrm\Models\Employee::where('created_by', $this->companyId)->count();
 
         return [
             'title' => 'Employee Turnover Report',
@@ -554,9 +554,9 @@ class ReportingService
 
     private function leadFunnelReport(string $dateFrom, string $dateTo): array
     {
-        if (!class_exists(\DionONE\Lead\Models\Lead::class)) return $this->emptyReport('Lead Funnel');
+        if (!class_exists(\Noble\Lead\Models\Lead::class)) return $this->emptyReport('Lead Funnel');
 
-        $data = \DionONE\Lead\Models\Lead::where('leads.created_by', $this->companyId)
+        $data = \Noble\Lead\Models\Lead::where('leads.created_by', $this->companyId)
             ->leftJoin('lead_stages', 'leads.stage_id', '=', 'lead_stages.id')
             ->selectRaw('lead_stages.name as stage, COUNT(leads.id) as count')
             ->groupBy('lead_stages.name')->get();
@@ -586,9 +586,9 @@ class ReportingService
 
     private function dealPipelineReport(): array
     {
-        if (!class_exists(\DionONE\Lead\Models\Deal::class)) return $this->emptyReport('Deal Pipeline');
+        if (!class_exists(\Noble\Lead\Models\Deal::class)) return $this->emptyReport('Deal Pipeline');
 
-        $data = \DionONE\Lead\Models\Deal::where('deals.created_by', $this->companyId)
+        $data = \Noble\Lead\Models\Deal::where('deals.created_by', $this->companyId)
             ->selectRaw('status, COUNT(*) as count, SUM(price) as total_value')
             ->groupBy('status')->get();
 
@@ -609,9 +609,9 @@ class ReportingService
 
     private function leadSourceReport(string $dateFrom, string $dateTo): array
     {
-        if (!class_exists(\DionONE\Lead\Models\Lead::class)) return $this->emptyReport('Lead Source');
+        if (!class_exists(\Noble\Lead\Models\Lead::class)) return $this->emptyReport('Lead Source');
 
-        $data = \DionONE\Lead\Models\Lead::where('leads.created_by', $this->companyId)
+        $data = \Noble\Lead\Models\Lead::where('leads.created_by', $this->companyId)
             ->leftJoin('sources', 'leads.source_id', '=', 'sources.id')
             ->selectRaw('sources.name as source, COUNT(leads.id) as count')
             ->groupBy('sources.name')->get();
@@ -638,15 +638,15 @@ class ReportingService
 
     private function projectStatusReport(): array
     {
-        if (!class_exists(\DionONE\Taskly\Models\Project::class)) return $this->emptyReport('Project Status');
+        if (!class_exists(\Noble\Taskly\Models\Project::class)) return $this->emptyReport('Project Status');
 
-        $projects = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->get(['id', 'name', 'status', 'start_date', 'end_date']);
+        $projects = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->get(['id', 'name', 'status', 'start_date', 'end_date']);
 
         $rows = $projects->map(function ($p) {
             $taskTotal = 0;
             $taskDone = 0;
-            if (class_exists(\DionONE\Taskly\Models\ProjectTask::class)) {
-                $taskTotal = \DionONE\Taskly\Models\ProjectTask::where('project_id', $p->id)->count();
+            if (class_exists(\Noble\Taskly\Models\ProjectTask::class)) {
+                $taskTotal = \Noble\Taskly\Models\ProjectTask::where('project_id', $p->id)->count();
                 $taskDone = 0; // is_complete column doesn't exist
             }
             return [
@@ -685,9 +685,9 @@ class ReportingService
 
     private function overdueTasksReport(): array
     {
-        if (!class_exists(\DionONE\Taskly\Models\ProjectTask::class)) return $this->emptyReport('Overdue Tasks');
+        if (!class_exists(\Noble\Taskly\Models\ProjectTask::class)) return $this->emptyReport('Overdue Tasks');
 
-        $projectIds = \DionONE\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
+        $projectIds = \Noble\Taskly\Models\Project::where('created_by', $this->companyId)->pluck('id');
         $tasks = collect([]); // Cannot query overdue tasks natively without end_date in project_tasks schema
 
         return [
@@ -718,9 +718,9 @@ class ReportingService
 
     private function dailySalesReport(string $dateFrom, string $dateTo): array
     {
-        if (!class_exists(\DionONE\Pos\Models\Pos::class)) return $this->emptyReport('Daily Sales');
+        if (!class_exists(\Noble\Pos\Models\Pos::class)) return $this->emptyReport('Daily Sales');
 
-        $data = \DionONE\Pos\Models\Pos::where('created_by', $this->companyId)
+        $data = \Noble\Pos\Models\Pos::where('created_by', $this->companyId)
             ->whereBetween('created_at', [$dateFrom, "$dateTo 23:59:59"])
             ->selectRaw('DATE(created_at) as date, COUNT(*) as transactions, SUM(grand_total) as revenue')
             ->groupBy('date')->orderBy('date')->get();
@@ -845,3 +845,5 @@ class ReportingService
         }
     }
 }
+
+

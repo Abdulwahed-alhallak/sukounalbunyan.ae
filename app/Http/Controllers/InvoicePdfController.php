@@ -37,7 +37,7 @@ class InvoicePdfController extends Controller
         $data = [
             'invoice' => $invoice,
             'customer' => $customer,
-            'company_name' => 'DionONE SaaS Platform',
+            'company_name' => 'Noble Architecture SaaS Platform',
             'company_address' => 'Floor 15, Enterprise Tower, Damascus, Syria',
             'company_email' => 'billing@dion.sy'
         ];
@@ -72,3 +72,4 @@ class InvoicePdfController extends Controller
         return $pdf->stream($invoice->invoice_id . '.pdf');
     }
 }
+

@@ -5,7 +5,7 @@ module.exports = {
       "./resources/views/**/*.blade.php",
       "./resources/js/**/*.tsx",
       "./packages/workdo/*/src/Resources/js/**/*.tsx",
-      "./packages/dionone/*/src/Resources/js/**/*.tsx",
+      "./packages/noble/*/src/Resources/js/**/*.tsx",
   ],
   prefix: "",
   theme: {
@@ -18,7 +18,7 @@ module.exports = {
   	},
   	extend: {
   		fontFamily: {
-  			sans: ['Geist Sans', 'Cairo', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+  			sans: ['Geist Sans', 'IBM Plex Sans Arabic', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
   			mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
   		},
   		colors: {
@@ -116,3 +116,4 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 }
+

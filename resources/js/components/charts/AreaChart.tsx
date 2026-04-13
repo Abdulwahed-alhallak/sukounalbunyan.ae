@@ -36,7 +36,7 @@ export const AreaChart: React.FC<AreaChartProps> = ({
   areas = []
 }) => {
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={0}>
       <RechartsAreaChart data={data} margin={{ left: 12, right: 12 }}>
         {gradient && (
           <defs>
