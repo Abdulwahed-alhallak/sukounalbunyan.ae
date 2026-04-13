@@ -181,11 +181,13 @@ class AccountUtility
         ];
 
         $vendor_role = Role::where('name', 'vendor')->where('created_by', $company_id)->first();
-        foreach ($vendor_permission as $permission_v) {
-            $permission = Permission::where('name', $permission_v)->first();
-            if (!empty($permission)) {
-                if (!$vendor_role->hasPermissionTo($permission_v)) {
-                    $vendor_role->givePermissionTo($permission);
+        if (!empty($vendor_role)) {
+            foreach ($vendor_permission as $permission_v) {
+                $permission = Permission::where('name', $permission_v)->first();
+                if (!empty($permission)) {
+                    if (!$vendor_role->hasPermissionTo($permission_v)) {
+                        $vendor_role->givePermissionTo($permission);
+                    }
                 }
             }
         }
