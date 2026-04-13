@@ -78,6 +78,14 @@ use Noble\Hrm\Http\Controllers\DesignationController;
 
 use Noble\Hrm\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
+use Noble\Hrm\Http\Controllers\OrgChartController;
+use Noble\Hrm\Http\Controllers\BiometricLogController;
+use Noble\Hrm\Http\Controllers\ViolationController;
+use Noble\Hrm\Http\Controllers\EmployeeContractController;
+use Noble\Hrm\Http\Controllers\LeaveBalanceController;
+use Noble\Hrm\Http\Controllers\SetSalaryController;
+use Noble\Hrm\Http\Controllers\OvertimeController;
+
 use Noble\Hrm\Http\Controllers\DashboardController;
 use Noble\Hrm\Http\Controllers\BranchController;
 use Noble\Hrm\Http\Controllers\HrmDocumentController;
@@ -85,11 +93,11 @@ use Noble\Hrm\Http\Controllers\WorkingDaysController;
 
 Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(function () {
     Route::get('/hrm', [DashboardController::class, 'index'])->name('hrm.index');
-    Route::get('/hrm/org-chart', [\Noble\Hrm\Http\Controllers\OrgChartController::class, 'index'])->name('hrm.org-chart');
+    Route::get('/hrm/org-chart', [OrgChartController::class, 'index'])->name('hrm.org-chart');
     
     // Biometric Logs
-    Route::get('/hrm/biometric-logs', [\Noble\Hrm\Http\Controllers\BiometricLogController::class, 'index'])->name('hrm.biometric-logs.index');
-    Route::post('/hrm/biometric-logs/process', [\Noble\Hrm\Http\Controllers\BiometricLogController::class, 'process'])->name('hrm.biometric-logs.process');
+    Route::get('/hrm/biometric-logs', [BiometricLogController::class, 'index'])->name('hrm.biometric-logs.index');
+    Route::post('/hrm/biometric-logs/process', [BiometricLogController::class, 'process'])->name('hrm.biometric-logs.process');
 
     Route::prefix('hrm/branches')->name('hrm.branches.')->group(function () {
         Route::get('/', [BranchController::class, 'index'])->name('index');
@@ -218,10 +226,10 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
     });
 
     Route::prefix('hrm/violations')->name('hrm.violations.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\ViolationController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\ViolationController::class, 'store'])->name('store');
-        Route::put('/{violation}', [\Noble\Hrm\Http\Controllers\ViolationController::class, 'update'])->name('update');
-        Route::delete('/{violation}', [\Noble\Hrm\Http\Controllers\ViolationController::class, 'destroy'])->name('destroy');
+        Route::get('/', [ViolationController::class, 'index'])->name('index');
+        Route::post('/', [ViolationController::class, 'store'])->name('store');
+        Route::put('/{violation}', [ViolationController::class, 'update'])->name('update');
+        Route::delete('/{violation}', [ViolationController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('hrm/onboarding')->name('hrm.onboarding.')->group(function () {
@@ -239,10 +247,10 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
     });
 
     Route::prefix('hrm/employee-contracts')->name('hrm.employee-contracts.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\EmployeeContractController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\EmployeeContractController::class, 'store'])->name('store');
-        Route::put('/{contract}', [\Noble\Hrm\Http\Controllers\EmployeeContractController::class, 'update'])->name('update');
-        Route::delete('/{contract}', [\Noble\Hrm\Http\Controllers\EmployeeContractController::class, 'destroy'])->name('destroy');
+        Route::get('/', [EmployeeContractController::class, 'index'])->name('index');
+        Route::post('/', [EmployeeContractController::class, 'store'])->name('store');
+        Route::put('/{contract}', [EmployeeContractController::class, 'update'])->name('update');
+        Route::delete('/{contract}', [EmployeeContractController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('hrm/vacation-settlement')->name('hrm.vacation-settlement.')->group(function () {
@@ -382,7 +390,7 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     // Leave Applications
     Route::prefix('hrm/leave-applications')->name('hrm.leave-applications.')->group(function () {
-        Route::get('/timeline', [\Noble\Hrm\Http\Controllers\LeaveApplicationController::class, 'timeline'])->name('timeline');
+        Route::get('/timeline', [LeaveApplicationController::class, 'timeline'])->name('timeline');
         Route::get('/', [LeaveApplicationController::class, 'index'])->name('index');
         Route::post('/', [LeaveApplicationController::class, 'store'])->name('store');
         Route::get('/{leaveapplication}/edit', [LeaveApplicationController::class, 'edit'])->name('edit');
@@ -394,7 +402,7 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
     Route::delete('hrm/leave-applications/attachments/{attachment}', [LeaveApplicationController::class, 'destroyAttachment'])->name('hrm.leave-applications.attachments.destroy');
 
     Route::prefix('hrm/leave-balance')->name('hrm.leave-balance.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\LeaveBalanceController::class, 'index'])->name('index');
+        Route::get('/', [LeaveBalanceController::class, 'index'])->name('index');
     });
 
     // Dependent dropdown routes
@@ -403,7 +411,7 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     // Shifts
     Route::prefix('hrm/shifts')->name('hrm.shifts.')->group(function () {
-        Route::get('/scheduler', [\Noble\Hrm\Http\Controllers\ShiftController::class, 'scheduler'])->name('scheduler');
+        Route::get('/scheduler', [ShiftController::class, 'scheduler'])->name('scheduler');
         Route::get('/', [ShiftController::class, 'index'])->name('index');
         Route::post('/', [ShiftController::class, 'store'])->name('store');
         Route::get('/{shift}/edit', [ShiftController::class, 'edit'])->name('edit');
@@ -413,20 +421,20 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     // Attendances
     Route::prefix('hrm/attendances')->name('hrm.attendances.')->group(function () {
-        Route::get('/tracker', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'tracker'])->name('tracker');
-        Route::get('/', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'store'])->name('store');
-        Route::put('/{attendance}', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'update'])->name('update');
-        Route::delete('/{attendance}', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'destroy'])->name('destroy');
-        Route::post('/clock-in', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'clockIn'])->name('clock-in');
-        Route::post('/clock-out', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'clockOut'])->name('clock-out');
-        Route::get('/clock-status', [\Noble\Hrm\Http\Controllers\AttendanceController::class, 'getClockStatus'])->name('clock-status');
+        Route::get('/tracker', [AttendanceController::class, 'tracker'])->name('tracker');
+        Route::get('/', [AttendanceController::class, 'index'])->name('index');
+        Route::post('/', [AttendanceController::class, 'store'])->name('store');
+        Route::put('/{attendance}', [AttendanceController::class, 'update'])->name('update');
+        Route::delete('/{attendance}', [AttendanceController::class, 'destroy'])->name('destroy');
+        Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock-in');
+        Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock-out');
+        Route::get('/clock-status', [AttendanceController::class, 'getClockStatus'])->name('clock-status');
     });
 
     Route::prefix('hrm/set-salary')->name('hrm.set-salary.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\SetSalaryController::class, 'index'])->name('index');
-        Route::get('/{employee}', [\Noble\Hrm\Http\Controllers\SetSalaryController::class, 'show'])->name('show');
-        Route::put('/{employee}', [\Noble\Hrm\Http\Controllers\SetSalaryController::class, 'update'])->name('update');
+        Route::get('/', [SetSalaryController::class, 'index'])->name('index');
+        Route::get('/{employee}', [SetSalaryController::class, 'show'])->name('show');
+        Route::put('/{employee}', [SetSalaryController::class, 'update'])->name('update');
     });
 
     // Dependent dropdown routes
@@ -485,9 +493,9 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     // Overtimes routes
     Route::prefix('hrm/overtimes')->name('hrm.overtimes.')->group(function () {
-        Route::post('/', [\Noble\Hrm\Http\Controllers\OvertimeController::class, 'store'])->name('store');
-        Route::put('/{overtime}', [\Noble\Hrm\Http\Controllers\OvertimeController::class, 'update'])->name('update');
-        Route::delete('/{overtime}/{employee}', [\Noble\Hrm\Http\Controllers\OvertimeController::class, 'destroy'])->name('destroy');
+        Route::post('/', [OvertimeController::class, 'store'])->name('store');
+        Route::put('/{overtime}', [OvertimeController::class, 'update'])->name('update');
+        Route::delete('/{overtime}/{employee}', [OvertimeController::class, 'destroy'])->name('destroy');
     });
 
 
@@ -516,33 +524,33 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     // Company Assets
     Route::prefix('hrm/assets')->name('hrm.assets.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\CompanyAssetController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\CompanyAssetController::class, 'store'])->name('store');
-        Route::put('/{asset}', [\Noble\Hrm\Http\Controllers\CompanyAssetController::class, 'update'])->name('update');
-        Route::delete('/{asset}', [\Noble\Hrm\Http\Controllers\CompanyAssetController::class, 'destroy'])->name('destroy');
+        Route::get('/', [CompanyAssetController::class, 'index'])->name('index');
+        Route::post('/', [CompanyAssetController::class, 'store'])->name('store');
+        Route::put('/{asset}', [CompanyAssetController::class, 'update'])->name('update');
+        Route::delete('/{asset}', [CompanyAssetController::class, 'destroy'])->name('destroy');
     });
 
     // Employee Onboarding
     Route::prefix('hrm/onboarding')->name('hrm.onboarding.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\OnboardingController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\OnboardingController::class, 'store'])->name('store');
-        Route::put('/{onboarding}', [\Noble\Hrm\Http\Controllers\OnboardingController::class, 'update'])->name('update');
-        Route::delete('/{onboarding}', [\Noble\Hrm\Http\Controllers\OnboardingController::class, 'destroy'])->name('destroy');
+        Route::get('/', [OnboardingController::class, 'index'])->name('index');
+        Route::post('/', [OnboardingController::class, 'store'])->name('store');
+        Route::put('/{onboarding}', [OnboardingController::class, 'update'])->name('update');
+        Route::delete('/{onboarding}', [OnboardingController::class, 'destroy'])->name('destroy');
     });
 
     // Vacation Settlement
     Route::prefix('hrm/vacation-settlement')->name('hrm.vacation-settlement.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\VacationSettlementController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\VacationSettlementController::class, 'store'])->name('store');
-        Route::put('/{vacationSettlement}', [\Noble\Hrm\Http\Controllers\VacationSettlementController::class, 'update'])->name('update');
-        Route::delete('/{vacationSettlement}', [\Noble\Hrm\Http\Controllers\VacationSettlementController::class, 'destroy'])->name('destroy');
+        Route::get('/', [VacationSettlementController::class, 'index'])->name('index');
+        Route::post('/', [VacationSettlementController::class, 'store'])->name('store');
+        Route::put('/{vacationSettlement}', [VacationSettlementController::class, 'update'])->name('update');
+        Route::delete('/{vacationSettlement}', [VacationSettlementController::class, 'destroy'])->name('destroy');
     });
 
     // Final Settlement
     Route::prefix('hrm/final-settlement')->name('hrm.final-settlement.')->group(function () {
-        Route::get('/', [\Noble\Hrm\Http\Controllers\FinalSettlementController::class, 'index'])->name('index');
-        Route::post('/', [\Noble\Hrm\Http\Controllers\FinalSettlementController::class, 'store'])->name('store');
-        Route::put('/{finalSettlement}', [\Noble\Hrm\Http\Controllers\FinalSettlementController::class, 'update'])->name('update');
-        Route::delete('/{finalSettlement}', [\Noble\Hrm\Http\Controllers\FinalSettlementController::class, 'destroy'])->name('destroy');
+        Route::get('/', [FinalSettlementController::class, 'index'])->name('index');
+        Route::post('/', [FinalSettlementController::class, 'store'])->name('store');
+        Route::put('/{finalSettlement}', [FinalSettlementController::class, 'update'])->name('update');
+        Route::delete('/{finalSettlement}', [FinalSettlementController::class, 'destroy'])->name('destroy');
     });
 });

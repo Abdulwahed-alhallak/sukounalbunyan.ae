@@ -41,7 +41,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         logo_dark: globalSettings?.logo_dark || '',
         logo_light: globalSettings?.logo_light || '',
         favicon: globalSettings?.favicon || '',
-        fontFamily: globalSettings?.font_family || '',
+        fontFamily: globalSettings?.fontFamily || globalSettings?.font_family || '',
         titleText: globalSettings?.titleText || 'Noble Architecture',
         footerText:
             globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,

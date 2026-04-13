@@ -36,10 +36,10 @@ if (!$masterPlan) {
 
 if ($masterPlan) {
     $masterPlan->modules = $finalModules; // Update plan globally
-    if (\Schema::hasColumn('plans', 'max_users')) {
+    if (Schema::hasColumn('plans', 'max_users')) {
         $masterPlan->max_users = -1;
     }
-    if (\Schema::hasColumn('plans', 'max_workspaces')) {
+    if (Schema::hasColumn('plans', 'max_workspaces')) {
         $masterPlan->max_workspaces = -1;
     }
     $masterPlan->save();
@@ -59,14 +59,15 @@ foreach ($companies as $user) {
     $user->storage_limit = -1;
     $user->total_user = -1;
     
-    if (\Schema::hasColumn('users', 'active_module')) {
+    if (Schema::hasColumn('users', 'active_module')) {
         $user->active_module = $modulesStr;
     }
     $user->save();
 
     // Unlock Workspace Modules
     if (class_exists('\App\Models\Workspace')) {
-        $workspaces = \App\Models\Workspace::where('created_by', $user->id)->get();
+        $workspaceModel = '\App\Models\Workspace';
+        $workspaces = $workspaceModel::where('created_by', $user->id)->get();
         foreach ($workspaces as $workspace) {
             $workspace->active_modules = $modulesStr;
             $workspace->save();

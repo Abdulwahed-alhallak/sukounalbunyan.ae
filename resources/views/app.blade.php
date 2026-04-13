@@ -3,7 +3,7 @@
     $dir = in_array(substr($lang, 0, 2), ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', $lang) }}" dir="{{ $dir }}" class="{{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }}">
+<html lang="{{ str_replace('_', '-', $lang) }}" dir="{{ $dir }}" class="{{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }} {{ $dir === 'rtl' ? 'rtl' : '' }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">

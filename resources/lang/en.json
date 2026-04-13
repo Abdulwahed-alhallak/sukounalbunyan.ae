@@ -1525,7 +1525,7 @@
     "Zipcode must be a valid string.": "Zipcode must be a valid string.",
     "Zipcode must not exceed 20 characters.": "Zipcode must not exceed 20 characters.",
     "e.g., FR, DE, JP": "e.g., FR, DE, JP",
-    "e.g., Franأ§ais, Deutsch, و—¥وœ¬èھ‍": "e.g., Franأ§ais, Deutsch, و—¥وœ¬èھ‍",
+    "e.g., Français, Deutsch, 日本語": "e.g., Français, Deutsch, 日本語",
     "e.g., Net 30": "e.g., Net 30",
     "e.g., fr, de, ja": "e.g., fr, de, ja",
     "files selected": "files selected",
@@ -1537,8 +1537,8 @@
     "storage": "storage",
     "trial": "trial",
     "yr": "yr",
-    "آ© 2024 Noble Architecture. All rights reserved.": "آ© 2026 Noble Architecture. All rights reserved.",
-    "ًں“ژ Attachment": "ًں“ژ Attachment",
+    "© 2024 Noble Architecture. All rights reserved.": "© 2026 Noble Architecture. All rights reserved.",
+    "📎 Attachment": "📎 Attachment",
     "CUSTOMER": "CUSTOMER",
     "Filter by customer": "Filter by customer",
     "WAREHOUSE": "WAREHOUSE",
@@ -1931,5 +1931,4 @@
     "Generate and export reports across all modules": "Generate and export reports across all modules",
     "reports": "reports"
 }
-
 

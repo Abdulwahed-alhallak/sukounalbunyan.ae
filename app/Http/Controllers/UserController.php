@@ -10,6 +10,8 @@ use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Events\CreateUser;
+use App\Events\UpdateUser;
+use App\Events\DestroyUser;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -156,6 +158,8 @@ class UserController extends Controller
             $user->is_enable_login = $validated['is_enable_login'];
             $user->save();
 
+            UpdateUser::dispatch($request, $user);
+
             return back()->with('success', __('The user details are updated successfully.'));
         }
         else{
@@ -180,6 +184,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if(Auth::user()->can('delete-users')){
+            DestroyUser::dispatch($user);
             $user->delete();
 
             return back()->with('success', __('The user has been deleted.'));

@@ -28,9 +28,28 @@ import {
 // Get role-based core menu items
 const getCoreMenuItems = (userRoles: string[], t: (key: string) => string): NavItem[] => {
     if (userRoles.includes('superadmin')) {
-        return getSuperAdminMenu(t);
+        return getSuperAdminMenu(t); // Usually has user management, settings
     }
     return getCompanyMenu(t);
+};
+
+// Flatten helper to extract pure links from deeply nested structures
+const flattenNavItems = (items: NavItem[]): NavItem[] => {
+    let result: NavItem[] = [];
+    items.forEach((item) => {
+        if (item.children && item.children.length > 0) {
+            // If the parent itself is a valid link, keep it
+            if (item.href) {
+                const { children, ...rest } = item;
+                result.push(rest);
+            }
+            // Recurse to pull all deep children up
+            result.push(...flattenNavItems(item.children));
+        } else {
+            result.push(item);
+        }
+    });
+    return result;
 };
 
 // Auto-load package menus based on activated packages
@@ -54,16 +73,16 @@ const getPackageMenuItems = (
         if (isSuperAdmin) {
             // Try superadmin menu first
             const saPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/superadmin-menu.ts`;
-            module = allModules[saPath];
+            module = allModules[saPath] as any;
 
             // Fallback to company menu if superadmin menu is missing
             if (!module) {
                 const coPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/company-menu.ts`;
-                module = allModules[coPath];
+                module = allModules[coPath] as any;
             }
         } else {
             const coPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/company-menu.ts`;
-            module = allModules[coPath];
+            module = allModules[coPath] as any;
         }
 
         if (module) {
@@ -71,10 +90,17 @@ const getPackageMenuItems = (
                 Object.values(module).forEach((item: any) => {
                     const result = typeof item === 'function' ? item(t) : item;
                     const items = Array.isArray(result) ? result : [result];
-                    menuItems.push(...items);
+
+                    // Inject moduleName to help categorization before we flatten the tree
+                    const injectModule = (nItem: NavItem): NavItem => ({
+                        ...nItem,
+                        moduleName: packageName.toLowerCase(),
+                        children: nItem.children ? nItem.children.map(injectModule) : undefined,
+                    });
+
+                    menuItems.push(...items.map(injectModule));
                 });
             } catch (e) {
-                // Skip packages whose routes aren't registered (Ziggy route errors)
                 console.warn(`Menu skipped for package "${packageName}":`, (e as Error).message);
             }
         }
@@ -100,39 +126,9 @@ const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): Na
         return {
             ...menu,
             icon: iconComponent,
+            moduleName: 'custom',
         };
     });
-};
-
-// Group menu items by parent
-const groupMenusByParent = (menuItems: NavItem[], packageMenuItems: NavItem[]): NavItem[] => {
-    const groupedItems = [...menuItems];
-
-    packageMenuItems.forEach((packageItem) => {
-        if (packageItem.parent) {
-            const parentMenu = groupedItems.find((item) => item.name === packageItem.parent);
-
-            if (parentMenu) {
-                if (!parentMenu.children) {
-                    parentMenu.children = [];
-                }
-                parentMenu.children.push({
-                    ...packageItem,
-                    parent: undefined,
-                });
-
-                if (parentMenu.children) {
-                    parentMenu.children.sort((a, b) => (a.order || 999) - (b.order || 999));
-                }
-            } else {
-                groupedItems.push(packageItem);
-            }
-        } else {
-            groupedItems.push(packageItem);
-        }
-    });
-
-    return groupedItems;
 };
 
 // Filter menu items based on permissions
@@ -158,108 +154,72 @@ const filterByPermission = (items: NavItem[], userPermissions: string[]): NavIte
     });
 };
 
-// ─── Category Definitions ───
-// Each category has: label, icon, matches (by name), titleMatches (by title)
-
-const superAdminCategories = [
-    { label: 'Dashboard', icon: LayoutGrid, isDirectLink: true, matches: ['dashboard'] },
-    { label: 'Management', icon: Users, matches: ['users'] },
-    { label: 'Subscription', icon: CreditCard, matches: ['subscription'] },
-    { label: 'Support', icon: Headphones, matches: ['helpdesk'] },
-    { label: 'Communications', icon: Mail, matches: ['email-templates', 'notification-templates'] },
-    { label: 'Reports & Audit', icon: BarChart3, matches: ['report-center', 'audit-logs'] },
-    { label: 'System', icon: Wrench, matches: ['media-library', 'add-ons', 'settings', 'landingpage', 'googlecaptcha'] },
-];
-
-const companyCategories = [
+// ─── Unified Categories (Applies to all roles to ensure consistency) ───
+const unifiedCategories = [
     { label: 'Dashboard', icon: LayoutGrid, isDirectLink: true, matches: ['dashboard'] },
     {
         label: 'Human Resources',
-        icon: UserCog,
-        matches: ['user-management', 'hrm', 'recruitment', 'performance', 'training', 'timesheet'],
-        titleMatches: ['User Management', 'Hrm', 'Recruitment', 'Performance', 'Training', 'Timesheet'],
+        icon: Users,
+        matches: ['users', 'hrm', 'recruitment', 'performance', 'training', 'timesheet', 'user-management'],
     },
     {
         label: 'CRM & Sales',
         icon: Briefcase,
         matches: ['proposal', 'lead', 'quotation', 'sales', 'retainer'],
-        titleMatches: ['CRM', 'Proposal', 'Quotation', 'Lead', 'Sales', 'Retainer'],
     },
     {
         label: 'Finance & Accounting',
         icon: DollarSign,
-        matches: ['sales-invoice', 'purchase', 'account', 'doubleentry', 'budgetplanner', 'pos', 'stripe', 'paypal', 'bank-transfer'],
-        titleMatches: [
-            'Accounting',
-            'Sales Invoice',
-            'Purchase',
-            'Double Entry',
-            'Budget Planner',
-            'POS',
-            'Stripe',
-            'Paypal',
-            'Bank Transfer Request',
-            'Bank Transfer'
-        ],
+        matches: ['accounting', 'sales-invoice', 'purchase', 'account', 'doubleentry', 'budgetplanner', 'pos', 'stripe', 'paypal', 'bank-transfer'],
     },
     {
         label: 'Projects & Tasks',
         icon: FolderKanban,
         matches: ['taskly', 'goal', 'calendar'],
-        titleMatches: ['Project', 'Goal', 'Calendar', 'Taskly'],
     },
     {
         label: 'Products & Services',
         icon: Package,
         matches: ['productservice', 'contract', 'formbuilder', 'dairy'],
-        titleMatches: ['Product & Service', 'Contract', 'Form Builder', 'Dairy', 'Products', 'Services'],
     },
     {
         label: 'Customer Support',
         icon: Headphones,
         matches: ['supportticket', 'helpdesk'],
-        titleMatches: ['Support Ticket', 'Helpdesk'],
     },
     {
         label: 'Communications',
         icon: MessagesSquare,
-        matches: ['messenger', 'slack', 'telegram', 'twilio', 'zoommeeting'],
-        titleMatches: ['Messenger', 'Slack', 'Telegram', 'Twilio', 'Zoom Meetings', 'Zoom Meeting'],
+        matches: ['messenger', 'slack', 'telegram', 'twilio', 'zoommeeting', 'email-templates', 'notification-templates'],
     },
     {
         label: 'Automation & AI',
-        icon: LayoutGrid, // You can substitute an icon later, using LayoutGrid as fallback
+        icon: LayoutGrid,
         matches: ['aiassistant', 'webhook', 'workflows'],
-        titleMatches: ['AI Assistant', 'Webhook', 'Workflow Automation'],
     },
     {
         label: 'Reports & Logs',
         icon: FileBarChart,
         matches: ['report-center', 'audit-logs'],
-        titleMatches: ['Report Center', 'Audit Logs'],
     },
     {
-        label: 'Settings',
+        label: 'Settings & System',
         icon: Settings,
-        matches: ['plan', 'media-library', 'settings', 'landingpage', 'googlecaptcha'],
-        titleMatches: ['Plan', 'Media Library', 'Settings'],
+        matches: ['plan', 'subscription', 'media-library', 'settings', 'landingpage', 'googlecaptcha', 'add-ons'],
     },
 ];
 
 // Helper: check if an item matches a category
 const itemMatchesCategory = (item: NavItem, category: any): boolean => {
-    if (item.name && category.matches?.includes(item.name)) {
+    // Check injected module name
+    if (item.moduleName && category.matches?.includes(item.moduleName)) {
         return true;
     }
-    if (category.titleMatches) {
-        return category.titleMatches.some((match: string) => item.title?.toLowerCase() === match.toLowerCase());
+    // Check internal names
+    if (item.name && category.matches?.includes(item.name.toLowerCase())) {
+        return true;
     }
-    return (
-        category.matches?.some(
-            (match: string) =>
-                item.title?.toLowerCase() === match.toLowerCase() || item.name?.toLowerCase() === match.toLowerCase()
-        ) || false
-    );
+    return false;
 };
 
 // Main hook to get filtered menu items
@@ -271,57 +231,41 @@ export const useAllMenuItems = (): NavItem[] => {
     const userPermissions = auth?.user?.permissions || [];
     const userRoles = auth?.user?.roles || [];
     const activatedPackages = auth?.user?.activatedPackages || [];
-    const isSuperAdmin = userRoles.includes('superadmin');
 
     const coreMenuItems = getCoreMenuItems(userRoles, t);
     const packageMenuItems = getPackageMenuItems(userRoles, activatedPackages, t);
     const customMenuItems = getCustomMenuItems(userRoles, t);
 
-    const customParentMenus = customMenuItems.filter((menu) => !menu.parent);
-    const customChildMenus = customMenuItems.filter((menu) => menu.parent);
+    // Merge everything into one raw unstructured list
+    const allItems = [...coreMenuItems, ...packageMenuItems, ...customMenuItems];
 
-    const coreWithCustomParents = [...coreMenuItems, ...customParentMenus];
-    const allChildMenus = [...packageMenuItems, ...customChildMenus];
-    const finalGroupedMenuItems = groupMenusByParent(coreWithCustomParents, allChildMenus);
+    // Filter by permissions before organizing
+    const permittedItems = filterByPermission(allItems, userPermissions);
 
-    const filteredMenuItems = filterByPermission(finalGroupedMenuItems, userPermissions);
-
-    const categoryDefinitions = isSuperAdmin ? superAdminCategories : companyCategories;
-
-    // Build structured menu with collapsible category groups
     const finalStructuredMenu: NavItem[] = [];
-    const placedItemNames = new Set<string>();
+    const placedItemKeys = new Set<string>();
 
-    categoryDefinitions.forEach((category) => {
-        const categoryItems = filteredMenuItems.filter((item) => {
+    unifiedCategories.forEach((category) => {
+        // Collect items matching this category
+        const categoryItems = permittedItems.filter((item) => {
             if (item.isLabel) return false;
             return itemMatchesCategory(item, category);
         });
 
         if (categoryItems.length > 0) {
-            // For single-item direct link categories (like Dashboard)
-            if (category.isDirectLink && categoryItems.length === 1 && !categoryItems[0].children?.length) {
-                finalStructuredMenu.push(categoryItems[0]);
-                const itemKey = categoryItems[0].name || categoryItems[0].title;
-                placedItemNames.add(itemKey);
-            }
-            // For Dashboard with sub-dashboards (children exist)
-            else if (category.isDirectLink && categoryItems.length === 1 && categoryItems[0].children?.length) {
-                finalStructuredMenu.push(categoryItems[0]);
-                const itemKey = categoryItems[0].name || categoryItems[0].title;
-                placedItemNames.add(itemKey);
-            }
-            // For collapsible category groups
-            else {
-                // Flatten: collect all items and their direct sub-items into one group
-                const groupChildren: NavItem[] = [];
-                categoryItems.forEach((item) => {
-                    const itemKey = item.name || item.title;
-                    if (!placedItemNames.has(itemKey)) {
-                        groupChildren.push(item);
-                        placedItemNames.add(itemKey);
-                    }
+            // Dashboard or direct singular link
+            if (category.isDirectLink) {
+                const flatDashboards = flattenNavItems(categoryItems);
+                flatDashboards.forEach(db => {
+                    finalStructuredMenu.push(db);
+                    placedItemKeys.add(db.moduleName || db.name || db.title);
                 });
+            } else {
+                // Flatten all children so we ONLY have Menu -> Flat SubMenu (No 3rd Level)
+                const groupChildren = flattenNavItems(categoryItems).map(child => ({
+                    ...child,
+                    parent: undefined, // ensure no active internal grouping messes it up
+                }));
 
                 if (groupChildren.length > 0) {
                     const categoryGroup: NavItem = {
@@ -331,24 +275,28 @@ export const useAllMenuItems = (): NavItem[] => {
                     };
                     finalStructuredMenu.push(categoryGroup);
                 }
+
+                categoryItems.forEach(i => placedItemKeys.add(i.moduleName || i.name || i.title));
             }
         }
     });
 
-    // Add any remaining items to an "Others" section
-    const remainingItems = filteredMenuItems.filter((item) => {
+    // Add any remaining un-matched items to "Others"
+    const remainingItems = permittedItems.filter((item) => {
         if (item.isLabel) return false;
-        const itemKey = item.name || item.title;
-        return !placedItemNames.has(itemKey);
+        const itemKey = item.moduleName || item.name || item.title;
+        return !placedItemKeys.has(itemKey);
     });
 
     if (remainingItems.length > 0) {
-        const othersGroup: NavItem = {
-            title: t('Others'),
-            icon: Package,
-            children: remainingItems,
-        };
-        finalStructuredMenu.push(othersGroup);
+        const flatOthers = flattenNavItems(remainingItems);
+        if (flatOthers.length > 0) {
+            finalStructuredMenu.push({
+                title: t('Others'),
+                icon: Package,
+                children: flatOthers,
+            });
+        }
     }
 
     return finalStructuredMenu;

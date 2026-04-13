@@ -22,5 +22,11 @@ class EventServiceProvider extends ServiceProvider
          GivePermissionToRole::class => [
             GiveRoleToPermission::class,
         ],
+        \App\Events\UpdateUser::class => [
+            \Noble\Hrm\Listeners\UpdateEmployeeFromUser::class,
+        ],
+        \App\Events\DestroyUser::class => [
+            \Noble\Hrm\Listeners\DestroyEmployeeFromUser::class,
+        ],
     ];
 }

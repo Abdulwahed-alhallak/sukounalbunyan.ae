@@ -408,6 +408,7 @@ class EmployeeController extends Controller
                 ];
 
                 if ($existingEmployee) {
+                    /** @var \Noble\Hrm\Models\Employee $existingEmployee */
                     $existingEmployee->update($empData);
                     $updated++;
                 } else {

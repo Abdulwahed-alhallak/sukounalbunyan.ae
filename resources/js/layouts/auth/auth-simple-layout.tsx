@@ -18,7 +18,7 @@ interface AuthLayoutProps {
 }
 
 export default function AuthSimpleLayout({ children, title, description }: PropsWithChildren<AuthLayoutProps>) {
-    const { settings, getPrimaryColor } = useBrand();
+    const { settings } = useBrand();
     const { adminAllSetting } = usePage().props as any;
     useFavicon();
     const { resolvedTheme } = useTheme();
@@ -33,7 +33,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
 
     return (
         <div
-            className="flex min-h-screen bg-background font-sans text-foreground"
+            className={`flex min-h-screen bg-background font-sans text-foreground ${settings.layoutDirection === 'rtl' ? 'rtl' : ''}`}
             dir={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
         >
             {/* Left Side — Vercel-Style Dark Branding Panel */}
