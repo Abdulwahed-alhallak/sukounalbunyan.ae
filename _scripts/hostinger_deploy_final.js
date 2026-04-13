@@ -6,24 +6,27 @@ const repoUrl = `https://Abdulwahed-alhallak:${PAT}@github.com/Abdulwahed-alhall
 const PHP = '/opt/alt/php82/usr/bin/php';
 
 const deployCommands = `
+echo "--- 1. UPDATING CODE VIA GIT ---" &&
 cd domains/noble.dion.sy/public_html &&
 git fetch origin main &&
 git reset --hard origin/main &&
-echo "--- 1. INSTALLING DEPENDENCIES (WITH PHP 8.2 FORCED) ---" &&
+echo "--- 2. EXTRACTING FRONTEND ASSETS ---" &&
+tar -xzf ~/noble_production_ecosystem.tar.gz -C . &&
+echo "--- 3. INSTALLING DEPENDENCIES (WITH PHP 8.2 FORCED) ---" &&
 ${PHP} /usr/local/bin/composer update --no-interaction -o &&
-echo "--- 2. MIGRATING DATABASE ---" &&
+echo "--- 4. MIGRATING DATABASE ---" &&
 ${PHP} artisan migrate --force &&
-echo "--- 3. CLEARING CACHES ---" &&
+echo "--- 5. CLEARING CACHES ---" &&
 ${PHP} artisan optimize:clear &&
-echo "--- 4. EXECUTING NOBLE RESTRUCTURE SCRIPT ---" &&
+echo "--- 6. EXECUTING NOBLE RESTRUCTURE SCRIPT ---" &&
 /opt/alt/php82/usr/bin/php artisan noble:restructure-users &&
-echo "--- 5. REBUILDING UNLIMITED MASTER PLAN & HRM MERGE ---" &&
+echo "--- 7. REBUILDING UNLIMITED MASTER PLAN & HRM MERGE ---" &&
 /opt/alt/php82/usr/bin/php _scripts/rebuild_plans.php &&
-echo "--- 6. CONFIGURING SMTP DEFAULTS & GLOBAL ALIGNMENT ---" &&
+echo "--- 8. CONFIGURING SMTP DEFAULTS & GLOBAL ALIGNMENT ---" &&
 /opt/alt/php82/usr/bin/php _scripts/setup_smtp.php &&
-echo "--- 7. EXECUTING DISASTER RECOVERY BACKUP ---" &&
+echo "--- 9. EXECUTING DISASTER RECOVERY BACKUP ---" &&
 /opt/alt/php82/usr/bin/php _scripts/hostinger_backup.php &&
-echo "--- 8. VERIFYING DB CONNECTION & SYMLINKS ---" &&
+echo "--- 10. VERIFYING DB CONNECTION & SYMLINKS ---" &&
 ${PHP} artisan db:show &&
 ${PHP} artisan storage:link
 `;

@@ -23,6 +23,10 @@
 | **🖥️ الفصل الثالث عشر** | [`13-Frontend_and_Settings.md`](./13-Frontend_and_Settings.md) | واجهة المستخدم (Tailwind, React/Inertia) وهيكلية إعدادات المنظومة الشاملة. |
 | **🤖 الفصل الرابع عشر** | [`14-AI_and_Code_Generation.md`](./14-AI_and_Code_Generation.md) | شرح وتوظيف أدوات الذكاء الاصطناعي (AI Assistant) وكيفية معالجتها في مختلف أجزاء النظام. |
 | **🏷️ الفصل الخامس عشر** | [`15-TypeScript_and_Data_Models.md`](./15-TypeScript_and_Data_Models.md) | دليل تعريفات الأنواع (TypeScript Definitions) ونماذج البيانات لضمان تطابق السيرفر مع الواجهة الأمامية. |
+| **📱 الفصل السادس عشر** | [`16-PWA_and_Mobile_Operations.md`](./16-PWA_and_Mobile_Operations.md) | دليل تطبيقات الويب التقدمية (PWA) وتجربة المستخدم على أجهزة الهاتف المحمول. |
+| **🛠️ الفصل السابع عشر** | [`17-Production_Troubleshooting_and_Maintenance.md`](./17-Production_Troubleshooting_and_Maintenance.md) | دليل الصيانة الدورية وكيفية تشخيص وإصلاح المشكلات التقنية على سيرفر الإنتاج. |
+| **📊 الفصل الثامن عشر** | [`18-Data_Visualization_and_Analytics.md`](./18-Data_Visualization_and_Analytics.md) | شرح محرك البيانات والرسوم البيانية وكيفية بناء لوحات المؤشرات (Dashboards) الحية. |
+| **🚀 الفصل التاسع عشر** | [`19-Final_Deployment_Checklist.md`](./19-Final_Deployment_Checklist.md) | قائمة التحقق النهائية للنشر وتدقيق جودة النظام (Audit) قبل الإطلاق الرسمي. |
 
 ---
 

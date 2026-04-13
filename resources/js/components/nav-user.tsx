@@ -29,11 +29,6 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
     const { i18n, t } = useTranslation();
     const { auth } = usePage<PageProps>().props;
 
-    React.useEffect(() => {
-        if (user.lang) {
-            i18n.changeLanguage(user.lang);
-        }
-    }, [user.lang]);
 
     if (inHeader) {
         return (
@@ -115,7 +110,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                         sideOffset={4}
                     >
                         <DropdownMenuLabel className="p-0 font-normal">
-                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                            <div className="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
                                 <Avatar className="h-8 w-8 rounded-md">
                                     {(user as any).avatar && (
                                         <AvatarImage src={getImagePath((user as any).avatar)} alt={user.name} />
@@ -124,7 +119,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                                         {user.name?.charAt(0)?.toUpperCase()}
                                     </AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                <div className="grid flex-1 text-start text-sm leading-tight">
                                     <span className="truncate font-semibold">{user.name}</span>
                                     <span className="truncate text-xs">{user.email}</span>
                                 </div>
@@ -135,7 +130,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                             {auth.user?.permissions?.includes('manage-profile') && (
                                 <DropdownMenuItem asChild>
                                     <Link href={route('profile.edit')}>
-                                        <BadgeCheck className="mr-2 h-4 w-4" />
+                                        <BadgeCheck className="me-2 h-4 w-4" strokeWidth={1.5} />
                                         {t('Edit Profile')}
                                     </Link>
                                 </DropdownMenuItem>
@@ -169,7 +164,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
 
                         <DropdownMenuItem asChild>
                             <Link className="w-full" href={route('logout')} method={'post'} as={'button'}>
-                                <LogOut className="mr-2 h-4 w-4" />
+                                <LogOut className="me-2 h-4 w-4" strokeWidth={1.5} />
                                 {t('Log out')}
                             </Link>
                         </DropdownMenuItem>

@@ -27,9 +27,9 @@ const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, Lab
         }, [htmlFor, required]);
 
         return (
-            <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} htmlFor={htmlFor} {...props}>
+            <LabelPrimitive.Root ref={ref} className={cn('text-label-14 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)} htmlFor={htmlFor} {...props}>
                 {children}
-                {isRequired && <span className="ml-0.5 text-destructive">*</span>}
+                {isRequired && <span className="ms-1 text-geist-red-7 font-bold">*</span>}
             </LabelPrimitive.Root>
         );
     }

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useDeferredValue } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader } from './card';
 import { Input } from './input';
 import { Button } from './button';
@@ -43,6 +44,7 @@ export function DataTable<T = any>({
     showPagination = false,
     rowProps,
 }: DataTableProps<T>) {
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const getSortIcon = (field: string) => {
@@ -85,9 +87,9 @@ export function DataTable<T = any>({
     return (
         <Card className={cn('overflow-hidden border-border/60 shadow-sm', className)}>
             {searchable && (
-                <div className="border-b border-border/50 bg-card p-4">
+                <div className="border-b border-border bg-background-2 p-4">
                     <div className="relative max-w-sm">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                        <Search className="absolute start-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder={searchPlaceholder}
                             value={searchTerm}
@@ -95,7 +97,7 @@ export function DataTable<T = any>({
                                 setSearchTerm(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="vercel-input h-9 pl-9"
+                            className="h-9 ps-9 text-label-13"
                         />
                     </div>
                 </div>
@@ -108,7 +110,7 @@ export function DataTable<T = any>({
                                 <TableHead
                                     key={column.key}
                                     className={cn(
-                                        'h-10 bg-transparent text-xs font-medium text-muted-foreground',
+                                        'h-10 bg-transparent text-label-12 text-muted-foreground uppercase tracking-wider',
                                         column.sortable
                                             ? 'cursor-pointer select-none transition-colors hover:text-foreground'
                                             : '',
@@ -116,7 +118,7 @@ export function DataTable<T = any>({
                                     )}
                                     onClick={() => handleSort(column.key, column.sortable)}
                                 >
-                                    <div className="flex items-center gap-1.5">
+                                    <div className="flex items-center gap-1.5 px-1">
                                         {column.header}
                                         {column.sortable && getSortIcon(column.key)}
                                     </div>
@@ -129,11 +131,11 @@ export function DataTable<T = any>({
                             paginatedData.map((row, index) => (
                                 <TableRow
                                     key={(row as any).id || index}
-                                    className="border-b border-border/50 transition-colors hover:bg-muted/40"
+                                    className="vercel-table-row border-b border-border/50"
                                     {...(rowProps ? rowProps(row, index) : {})}
                                 >
                                     {columns.map((column) => (
-                                        <TableCell key={column.key} className={cn('py-3 text-sm', column.className)}>
+                                        <TableCell key={column.key} className={cn('py-3.5 text-label-14', column.className)}>
                                             {column.render
                                                 ? column.render((row as any)[column.key], row, index)
                                                 : (row as any)[column.key] || '-'}
@@ -147,7 +149,7 @@ export function DataTable<T = any>({
                                     {emptyState || (
                                         <div className="flex flex-col items-center justify-center text-center">
                                             <p className="text-sm text-muted-foreground">
-                                                {searchTerm ? 'No results found' : 'No data available'}
+                                                {searchTerm ? t('No results found') : t('No data available')}
                                             </p>
                                         </div>
                                     )}
@@ -158,10 +160,10 @@ export function DataTable<T = any>({
                 </Table>
             </CardContent>
             {showPagination && totalPages > 1 && (
-                <div className="flex items-center justify-between border-t border-border px-4 py-3">
-                    <div className="text-[13px] text-muted-foreground">
-                        Showing {(currentPage - 1) * pageSize + 1} to{' '}
-                        {Math.min(currentPage * pageSize, filteredData.length)} of {filteredData.length}
+                <div className="flex items-center justify-between border-t border-border px-4 py-3 bg-background-2">
+                    <div className="text-label-13 text-muted-foreground">
+                        {t('Showing')} {(currentPage - 1) * pageSize + 1} {t('to')}{' '}
+                        {Math.min(currentPage * pageSize, filteredData.length)} {t('of')} {filteredData.length}
                     </div>
                     <div className="flex items-center gap-1">
                         <Button

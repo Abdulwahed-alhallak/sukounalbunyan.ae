@@ -31,10 +31,13 @@ export default function AuthSimpleLayout({ children, title, description }: Props
     const logoSrc = isDark ? settings.logo_light || settings.logo_dark : settings.logo_dark || settings.logo_light;
     const alwaysLightLogoSrc = settings.logo_light || settings.logo_dark;
 
+    const { i18n } = useTranslation();
+    const currentDir = i18n.dir();
+
     return (
         <div
-            className={`flex min-h-screen bg-background font-sans text-foreground ${settings.layoutDirection === 'rtl' ? 'rtl' : ''}`}
-            dir={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
+            className={`flex min-h-screen bg-background font-sans text-foreground ${currentDir === 'rtl' ? 'rtl' : 'ltr'}`}
+            dir={currentDir}
         >
             {/* Left Side — Vercel-Style Dark Branding Panel */}
             <div className="relative hidden flex-col justify-between overflow-hidden bg-[#0a0a0a] lg:flex lg:w-1/2">
@@ -53,7 +56,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                         <Link href={route('dashboard')} className="relative z-50 inline-block">
                             <div className="flex items-center gap-2">
                                 <ApplicationLogo className="h-8 w-auto text-primary-foreground" />
-                                <span className="font-semibold tracking-tight text-background">Noble Architecture</span>
+                                <span className="font-semibold tracking-tight text-background">{settings.titleText || 'Noble Architecture'}</span>
                             </div>
                         </Link>
                     </div>
@@ -149,7 +152,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
 
                     <div className="flex w-full items-center gap-3 pb-2 text-[13px] font-medium text-neutral-600">
                         <p>
-                            {t('Copyright')} © {new Date().getFullYear()} Noble Architecture SaaS
+                            {settings.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
                         </p>
                         <span className="opacity-30">·</span>
                         <a href="#" className="transition-colors hover:text-neutral-400">
@@ -166,7 +169,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
             {/* Right Side — Form Container */}
             <div
                 className="relative z-10 flex min-h-screen w-full flex-col justify-center border-s border-border bg-background text-start lg:w-1/2"
-                dir="auto"
+                dir={currentDir}
             >
                 {/* Top Controls */}
                 <div className="absolute left-0 right-0 top-0 z-20 flex w-full items-center justify-between p-6">
@@ -174,7 +177,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                         <Link href={route('dashboard')}>
                             <div className="flex items-center gap-2">
                                 <ApplicationLogo className="h-7 w-auto text-primary" />
-                                <span className="font-semibold tracking-tight text-foreground">Noble Architecture</span>
+                                <span className="font-semibold tracking-tight text-foreground">{settings.titleText || 'Noble Architecture'}</span>
                             </div>
                         </Link>
                     </div>
@@ -196,7 +199,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                     {/* Mobile Footer */}
                     <div className="mt-10 text-center text-[13px] font-medium text-muted-foreground lg:hidden">
                         <p>
-                            {t('Copyright')} © {new Date().getFullYear()} Noble Architecture SaaS
+                            {settings.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
                         </p>
                         <div className="mt-2 flex justify-center gap-3">
                             <a href="#" className="transition-colors hover:text-foreground">

@@ -212,7 +212,7 @@ export default function Login({
                     </div>
                 )}
 
-                {true && (
+                {isDemo && (
                     <div className="mt-5">
                         <div className="flex items-center">
                             <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
@@ -222,47 +222,51 @@ export default function Login({
                     </div>
                 )}
 
-                {true && (
-                    <div>
-                        <h3 className="mb-4 text-center text-sm font-medium tracking-wider text-foreground dark:text-muted-foreground/60">
-                            {t('Quick Access Panel')}
-                        </h3>
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            <Button
-                                type="button"
-                                onClick={() => handleQuickLogin('superadmin@noblearchitecture.net', '1234')}
-                                disabled={processing}
-                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50 sm:col-span-2"
-                            >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
-                                <span className="relative flex items-center justify-center gap-2">
-                                    <Crown className="h-4 w-4 text-amber-500" />
-                                    {t('Login as System Root (Super Admin)')}
-                                </span>
-                            </Button>
+                {isDemo && (
+                    <div className="mt-8">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="h-px flex-1 bg-border/60"></div>
+                            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 whitespace-nowrap">
+                                {t('Quick Access Protocol')}
+                            </h3>
+                            <div className="h-px flex-1 bg-border/60"></div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-3">
                             <Button
                                 type="button"
                                 onClick={() => handleQuickLogin('admin@noblearchitecture.net', '1234')}
                                 disabled={processing}
-                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
                             >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
-                                <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="h-4 w-4 text-primary" />
-                                    {t('Login as Noble Commander')}
-                                </span>
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Crown className="h-3.5 w-3.5 text-foreground" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                </div>
+                                <div className="mt-2 min-w-0">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Commander')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground truncate">{t('Full Governance')}</p>
+                                </div>
                             </Button>
+
                             <Button
                                 type="button"
                                 onClick={() => handleQuickLogin('samad34557788@noblearchitecture.net', '1234')}
                                 disabled={processing}
-                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
                             >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
-                                <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="h-4 w-4 opacity-50" />
-                                    {t('Login as Noble Employee')}
-                                </span>
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+                                </div>
+                                <div className="mt-2 min-w-0">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Employee')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground truncate">{t('Operational Access')}</p>
+                                </div>
                             </Button>
                         </div>
                     </div>

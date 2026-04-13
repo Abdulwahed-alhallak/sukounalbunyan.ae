@@ -10,8 +10,8 @@ conn.on('ready', () => {
         if (err) throw err;
         
         // Step 1: Upload the build archive
-        const localFile = './noble_production_build.tar.gz';
-        const remoteFile = 'domains/noble.dion.sy/public_html/noble_production_build.tar.gz';
+        const localFile = './noble_production_ecosystem.tar.gz';
+        const remoteFile = 'domains/noble.dion.sy/public_html/noble_production_ecosystem.tar.gz';
         
         const fileSize = fs.statSync(localFile).size;
         console.log(`Uploading ${(fileSize / 1024 / 1024).toFixed(2)} MB...`);
@@ -23,8 +23,8 @@ conn.on('ready', () => {
             const deployCmd = [
                 'cd domains/noble.dion.sy/public_html',
                 // Extract new build assets and translations
-                'tar -xzf noble_production_build.tar.gz',
-                'rm noble_production_build.tar.gz',
+                'tar -xzf noble_production_ecosystem.tar.gz',
+                'rm noble_production_ecosystem.tar.gz',
                 // Clear all caches
                 '/opt/alt/php82/usr/bin/php artisan config:cache',
                 '/opt/alt/php82/usr/bin/php artisan route:cache',

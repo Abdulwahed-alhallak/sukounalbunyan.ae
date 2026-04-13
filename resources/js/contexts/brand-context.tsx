@@ -107,7 +107,44 @@ export function BrandProvider({ children }: { children: ReactNode }) {
             
         document.body.style.fontFamily = fontStack;
         document.documentElement.style.fontFamily = fontStack;
-    }, [settings.layoutDirection, settings.themeMode, settings.fontFamily]);
+
+        // ─── Theme Color (Primary Accent) ───
+        if (settings.themeColor) {
+            const hex = settings.themeColor;
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            
+            // Convert to HSL for Tailwind compatibility
+            const r_norm = r / 255, g_norm = g / 255, b_norm = b / 255;
+            const max = Math.max(r_norm, g_norm, b_norm), min = Math.min(r_norm, g_norm, b_norm);
+            let h = 0, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r_norm: h = (g_norm - b_norm) / d + (g_norm < b_norm ? 6 : 0); break;
+                    case g_norm: h = (b_norm - r_norm) / d + 2; break;
+                    case b_norm: h = (r_norm - g_norm) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            const h_deg = Math.round(h * 360);
+            const s_pct = Math.round(s * 100);
+            const l_pct = Math.round(l * 100);
+
+            // Inject into CSS variables
+            root.style.setProperty('--primary', `${h_deg} ${s_pct}% ${l_pct}%`);
+            root.style.setProperty('--primary-foreground', l > 0.6 ? '0 0% 0%' : '0 0% 100%');
+            
+            // Also update ring color for focus states
+            root.style.setProperty('--ring', `${h_deg} ${s_pct}% ${l_pct}%`);
+        }
+    }, [settings.layoutDirection, settings.themeMode, settings.fontFamily, settings.themeColor]);
 
     const getCompleteSidebarProps = () => {
         return {

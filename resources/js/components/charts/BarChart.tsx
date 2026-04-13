@@ -35,7 +35,7 @@ export const BarChart: React.FC<BarChartProps> = ({
     data,
     dataKey,
     xAxisKey,
-    color = '#3b82f6',
+    color = 'hsl(var(--blue-7))',
     horizontal = false,
     stacked = false,
     showLegend = false,
@@ -55,7 +55,7 @@ export const BarChart: React.FC<BarChartProps> = ({
                 margin={horizontal ? { left: 80, right: 12 } : { left: 12, right: 12 }}
                 {...layout}
             >
-                {showGrid && <CartesianGrid vertical={false} />}
+                {showGrid && <CartesianGrid vertical={false} stroke="hsl(var(--gray-4))" strokeDasharray="3 3" />}
                 {horizontal ? (
                     <>
                         <XAxis
@@ -63,21 +63,46 @@ export const BarChart: React.FC<BarChartProps> = ({
                             domain={negative ? ['dataMin', 'dataMax'] : [0, 'dataMax']}
                             tickLine={false}
                             axisLine={false}
+                            tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                         />
-                        <YAxis type="category" dataKey={xAxisKey} tickLine={false} axisLine={false} width={70} />
+                        <YAxis 
+                            type="category" 
+                            dataKey={xAxisKey} 
+                            tickLine={false} 
+                            axisLine={false} 
+                            width={70} 
+                            tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                        />
                     </>
                 ) : (
                     <>
-                        <XAxis dataKey={xAxisKey} tickLine={false} axisLine={false} tickMargin={8} />
+                        <XAxis 
+                            dataKey={xAxisKey} 
+                            tickLine={false} 
+                            axisLine={false} 
+                            tickMargin={12} 
+                            tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                        />
                         <YAxis
                             domain={negative ? ['dataMin', 'dataMax'] : [0, 'dataMax']}
                             tickLine={false}
                             axisLine={false}
-                            tickMargin={8}
+                            tickMargin={12}
+                            tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                         />
                     </>
                 )}
-                {showTooltip && <Tooltip />}
+                {showTooltip && (
+                    <Tooltip 
+                        contentStyle={{ 
+                            backgroundColor: 'hsl(var(--background))', 
+                            borderColor: 'hsl(var(--gray-4))',
+                            borderRadius: '8px',
+                            boxShadow: 'var(--shadow-tooltip)',
+                            fontSize: '12px'
+                        }}
+                    />
+                )}
                 {showLegend && <Legend />}
                 {bars.length > 0 ? (
                     bars.map((bar) => (

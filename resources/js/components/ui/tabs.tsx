@@ -56,7 +56,7 @@ const Tabs = ({ defaultValue = '', value, onValueChange, className, children }: 
 const TabsList = ({ className, children }: TabsListProps) => (
     <div
         className={cn(
-            'inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground',
+            'inline-flex h-9 items-center justify-center rounded-lg bg-background-2 p-1 text-muted-foreground border border-border',
             className
         )}
     >
@@ -74,7 +74,7 @@ const TabsTrigger = ({ value, className, children }: TabsTriggerProps) => {
             onClick={() => onValueChange(value)}
             className={cn(
                 'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
-                isActive ? 'bg-background text-foreground shadow' : 'hover:text-foreground',
+                isActive ? 'bg-background text-foreground shadow-sm ring-1 ring-border' : 'hover:text-foreground hover:bg-muted/50',
                 className
             )}
         >

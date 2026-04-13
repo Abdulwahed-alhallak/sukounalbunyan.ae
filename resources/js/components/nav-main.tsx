@@ -76,7 +76,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                             >
                                 <SidebarGroupLabel
                                     key={`label-${index}`}
-                                    className="h-auto bg-transparent p-0 text-[11px] font-medium tracking-wide text-muted-foreground"
+                                    className="h-auto bg-transparent p-0 text-label-12 font-bold tracking-widest uppercase text-muted-foreground/60"
                                 >
                                     {t(item.title)}
                                 </SidebarGroupLabel>
@@ -92,7 +92,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                     const shouldBeActive = isActive || hasActiveChild;
                     if (item.children && item.children.length > 0) {
                         return (
-                            <SidebarMenuItem key={item.title} className="mb-px px-2">
+                            <SidebarMenuItem key={`item-${item.title}-${index}`} className="mb-px px-2">
                                 <Collapsible
                                     asChild
                                     defaultOpen={shouldBeActive}
@@ -104,14 +104,14 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
                                                 className={cn(
-                                                    'group relative h-8 rounded-md px-2.5 transition-colors duration-150',
+                                                    'group relative h-8 rounded-md px-2.5 transition-all duration-200 ease-out',
                                                     shouldBeActive
-                                                        ? 'bg-muted font-medium text-foreground'
-                                                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                                        ? 'bg-geist-gray-1 font-semibold text-foreground'
+                                                        : 'text-muted-foreground hover:bg-geist-gray-1 hover:text-foreground'
                                                 )}
                                             >
                                                 {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                                <span className="ms-2 flex-1 text-[13px]">{t(item.title)}</span>
+                                                <span className="ms-2 flex-1 text-label-13">{t(item.title)}</span>
                                                 <ChevronRight
                                                     className={cn(
                                                         'ms-auto h-3.5 w-3.5 text-muted-foreground/50 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90',
@@ -122,7 +122,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                         </CollapsibleTrigger>
                                         <CollapsibleContent className="transition-all duration-200 ease-in-out">
                                             <SidebarMenuSub className="ms-[18px] border-s border-border/50 ps-0">
-                                                {item.children.map((subItem) => {
+                                                {item.children.map((subItem, subIndex) => {
                                                     const subItemActive = !!(
                                                         subItem.href &&
                                                         page.url ===
@@ -135,7 +135,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
 
                                                     if (subItem.children && subItem.children.length > 0) {
                                                         return (
-                                                            <SidebarMenuSubItem key={subItem.title}>
+                                                            <SidebarMenuSubItem key={`sub-${subItem.title}-${subIndex}`}>
                                                                 <Collapsible
                                                                     asChild
                                                                     defaultOpen={subItemShouldBeActive}
@@ -159,31 +159,24 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                                     />
                                                                                 )}
                                                                                 <span>{t(subItem.title)}</span>
-                                                                                <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 transition-transform group-data-[state=open]/subcollapsible:rotate-90" />
+                                                                                <ChevronRight
+                                                                                    className={cn(
+                                                                                        'ms-auto h-3 w-3 text-muted-foreground/50 transition-transform duration-200 group-data-[state=open]/subcollapsible:rotate-90',
+                                                                                        'rtl:rotate-180 rtl:group-data-[state=open]/subcollapsible:rotate-270'
+                                                                                    )}
+                                                                                />
                                                                             </SidebarMenuSubButton>
                                                                         </CollapsibleTrigger>
                                                                         <CollapsibleContent>
                                                                             <SidebarMenuSub className="ms-3 border-s border-border/30">
-                                                                                {subItem.children.map((subSubItem) => (
+                                                                                {subItem.children.map((subSubItem, subSubIndex) => (
                                                                                     <SidebarMenuSubItem
-                                                                                        key={subSubItem.title}
+                                                                                        key={`subsub-${subSubItem.title}-${subSubIndex}`}
                                                                                     >
                                                                                         <SidebarMenuSubButton
                                                                                             asChild
-                                                                                            isActive={
-                                                                                                !!(
-                                                                                                    subSubItem.href &&
-                                                                                                    page.url ===
-                                                                                                        new URL(
-                                                                                                            subSubItem.href,
-                                                                                                            window
-                                                                                                                .location
-                                                                                                                .origin
-                                                                                                        ).pathname
-                                                                                                )
-                                                                                            }
                                                                                             className={cn(
-                                                                                                'text-[12px] transition-colors duration-150',
+                                                                                                'text-label-12 transition-all duration-200 ease-out',
                                                                                                 !!(
                                                                                                     subSubItem.href &&
                                                                                                     page.url ===
@@ -194,7 +187,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                                                                 .origin
                                                                                                         ).pathname
                                                                                                 )
-                                                                                                    ? 'font-medium text-foreground'
+                                                                                                    ? 'font-semibold text-foreground'
                                                                                                     : 'text-muted-foreground hover:text-foreground'
                                                                                             )}
                                                                                         >
@@ -227,7 +220,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                     }
 
                                                     return (
-                                                        <SidebarMenuSubItem key={subItem.title}>
+                                                        <SidebarMenuSubItem key={`sub-link-${subItem.title}-${subIndex}`}>
                                                             <SidebarMenuSubButton
                                                                 asChild
                                                                 isActive={subItemActive}
@@ -239,7 +232,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                 )}
                                                             >
                                                                 <Link href={subItem.href!}>
-                                                                    <span className="text-[12px]">
+                                                                    <span className="text-label-12">
                                                                         {t(subItem.title)}
                                                                     </span>
                                                                 </Link>
@@ -259,17 +252,17 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                             <SidebarMenuButton
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
-                                                className={shouldBeActive ? 'bg-muted text-foreground' : ''}
+                                                className={shouldBeActive ? 'bg-geist-gray-1 text-foreground' : ''}
                                             >
                                                 {item.icon && <item.icon strokeWidth={1.5} />}
                                                 <span>{t(item.title)}</span>
                                             </SidebarMenuButton>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent side="right" align="start" className="w-52 p-1">
-                                            {item.children.map((subItem) => {
+                                            {item.children.map((subItem, subIndex) => {
                                                 if (subItem.children && subItem.children.length > 0) {
                                                     return (
-                                                        <DropdownMenu key={subItem.title}>
+                                                        <DropdownMenu key={`drop-${subItem.title}-${subIndex}`}>
                                                             <DropdownMenuTrigger asChild>
                                                                 <DropdownMenuItem className="flex cursor-pointer items-center gap-2 rounded-md p-2">
                                                                     {subItem.icon && (
@@ -278,7 +271,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                             strokeWidth={1.5}
                                                                         />
                                                                     )}
-                                                                    <span className="flex-1 text-[13px]">
+                                                                    <span className="flex-1 text-label-13">
                                                                         {t(subItem.title)}
                                                                     </span>
                                                                     <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
@@ -289,9 +282,9 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                 align="start"
                                                                 className="w-48 p-1"
                                                             >
-                                                                {subItem.children.map((subSubItem) => (
+                                                                {subItem.children.map((subSubItem, subSubIndex) => (
                                                                     <DropdownMenuItem
-                                                                        key={subSubItem.title}
+                                                                        key={`dropitem-${subSubItem.title}-${subSubIndex}`}
                                                                         asChild
                                                                         className="cursor-pointer rounded-md p-2"
                                                                     >
@@ -305,7 +298,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                                     strokeWidth={1.5}
                                                                                 />
                                                                             )}
-                                                                            <span className="text-[12px]">
+                                                                            <span className="text-label-12">
                                                                                 {t(subSubItem.title)}
                                                                             </span>
                                                                         </Link>
@@ -318,7 +311,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
 
                                                 return (
                                                     <DropdownMenuItem
-                                                        key={subItem.title}
+                                                        key={`dropitem-${subItem.title}-${subIndex}`}
                                                         asChild
                                                         className="cursor-pointer rounded-md p-2"
                                                     >
@@ -329,7 +322,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                     strokeWidth={1.5}
                                                                 />
                                                             )}
-                                                            <span className="text-[13px]">{t(subItem.title)}</span>
+                                                            <span className="text-label-13">{t(subItem.title)}</span>
                                                         </Link>
                                                     </DropdownMenuItem>
                                                 );
@@ -342,21 +335,21 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                     }
 
                     return (
-                        <SidebarMenuItem key={item.title} className="mb-px px-2">
+                        <SidebarMenuItem key={`item-link-${item.title}-${index}`} className="mb-px px-2">
                             <SidebarMenuButton
                                 asChild
                                 isActive={shouldBeActive}
                                 tooltip={t(item.title)}
                                 className={cn(
-                                    'h-8 rounded-md transition-colors duration-150',
+                                    'h-8 rounded-md transition-all duration-200 ease-out',
                                     shouldBeActive
-                                        ? 'bg-muted font-medium text-foreground'
-                                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                        ? 'bg-geist-gray-1 font-semibold text-foreground'
+                                        : 'text-muted-foreground hover:bg-geist-gray-1 hover:text-foreground'
                                 )}
                             >
                                 <Link href={item.href!}>
                                     {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                    <span className="text-[13px]">{t(item.title)}</span>
+                                    <span className="text-label-13">{t(item.title)}</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

@@ -545,6 +545,16 @@
         box-shadow: var(--shadow-modal);
         background: hsl(var(--background));
     }
+    
+    /* Noble Glass — Premium Glassmorphism */
+    .geist-glass {
+        @apply bg-background/90 backdrop-blur-xl border-border/50;
+        box-shadow: var(--shadow-surface);
+    }
+    .dark .geist-glass {
+        @apply bg-background/80 backdrop-blur-2xl border-white/5;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
 
     /* ─── Vercel Card (Surface Material) ─── */
     .vercel-card {

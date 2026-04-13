@@ -62,7 +62,7 @@ export function CurrencyInput({
                 </Label>
             )}
             <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
+                <span className="absolute start-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
                     {currencySymbol}
                 </span>
                 <Input
@@ -71,7 +71,7 @@ export function CurrencyInput({
                     value={displayValue}
                     onChange={handleChange}
                     placeholder={placeholder}
-                    className={`pl-8 ${className}`}
+                    className={`ps-8 ${className}`}
                     required={required}
                     disabled={disabled}
                 />

@@ -43,13 +43,13 @@ export function SearchInput({
     return (
         <div className="flex items-center gap-2">
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                 <Input
                     placeholder={placeholder || t('Search...')}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    className={`pl-10 ${value ? 'pr-10' : ''} ${className}`}
+                    className={`ps-10 ${value ? 'pe-10' : ''} ${className}`}
                 />
                 {value && (
                     <Button
@@ -59,7 +59,7 @@ export function SearchInput({
                             onChange('');
                             onSearch(true);
                         }}
-                        className="absolute right-1 top-1/2 h-6 w-6 -translate-y-1/2 transform p-0 text-muted-foreground hover:text-foreground"
+                        className="absolute end-1 top-1/2 h-6 w-6 -translate-y-1/2 transform p-0 text-muted-foreground hover:text-foreground"
                     >
                         <X className="h-4 w-4" />
                     </Button>

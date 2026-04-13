@@ -156,33 +156,30 @@ export default function StaffDashboard({
                 {/* Quick Stats Grid */}
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     {attendance && (
-                        <Card className="relative overflow-hidden">
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-3">
-                                    <div className={`flex h-10 w-10 items-center justify-center rounded-lg bg-muted`}>
+                        <Card className="relative overflow-hidden border-border/40 bg-card/60 backdrop-blur-md">
+                            <CardContent className="p-3 sm:p-4">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                                    <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50">
                                         {attendance.status === 'Present' ? (
-                                            <CheckCircle2 className="h-5 w-5 text-foreground" strokeWidth={1.5} />
+                                            <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" strokeWidth={1.5} />
                                         ) : attendance.status === 'not_marked' ? (
-                                            <Clock className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+                                            <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" strokeWidth={1.5} />
                                         ) : (
-                                            <XCircle className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+                                            <XCircle className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" strokeWidth={1.5} />
                                         )}
                                     </div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{t("Today's Status")}</p>
+                                    <div className="min-w-0">
+                                        <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{t("Today's Status")}</p>
                                         <p
-                                            className={`text-sm font-semibold ${attendance.status === 'Present' ? 'text-foreground' : 'text-muted-foreground'}`}
+                                            className="text-xs sm:text-sm font-semibold text-foreground truncate"
                                         >
                                             {attendance.status === 'not_marked'
                                                 ? t('Not Marked')
                                                 : t(attendance.status)}
                                         </p>
                                         {attendance.clocked_in && (
-                                            <p className="text-[10px] text-muted-foreground">
+                                            <p className="text-[9px] sm:text-[10px] text-muted-foreground truncate">
                                                 {t('In')}: {attendance.clocked_in}
-                                                {attendance.clocked_out
-                                                    ? ` — ${t('Out')}: ${attendance.clocked_out}`
-                                                    : ''}
                                             </p>
                                         )}
                                     </div>
@@ -191,48 +188,48 @@ export default function StaffDashboard({
                         </Card>
                     )}
                     {tasks && (
-                        <Card>
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                                        <ListTodo className="h-5 w-5 text-foreground" strokeWidth={1.5} />
+                        <Card className="border-border/40 bg-card/60 backdrop-blur-md">
+                            <CardContent className="p-3 sm:p-4">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                                    <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50">
+                                        <ListTodo className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" strokeWidth={1.5} />
                                     </div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{t('My Tasks')}</p>
-                                        <p className="text-lg font-bold text-foreground">{tasks.in_progress}</p>
-                                        <p className="text-[10px] text-muted-foreground">{t('in progress')}</p>
+                                    <div className="min-w-0">
+                                        <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{t('My Tasks')}</p>
+                                        <p className="text-sm sm:text-lg font-bold text-foreground truncate">{tasks.in_progress}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-muted-foreground truncate">{t('in progress')}</p>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
                     )}
                     {leaves && (
-                        <Card>
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                                        <CalendarClock className="h-5 w-5 text-foreground" strokeWidth={1.5} />
+                        <Card className="border-border/40 bg-card/60 backdrop-blur-md">
+                            <CardContent className="p-3 sm:p-4">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                                    <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50">
+                                        <CalendarClock className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" strokeWidth={1.5} />
                                     </div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{t('Leave Requests')}</p>
-                                        <p className="text-lg font-bold text-foreground">{leaves.pending}</p>
-                                        <p className="text-[10px] text-muted-foreground">{t('pending')}</p>
+                                    <div className="min-w-0">
+                                        <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{t('Leave Requests')}</p>
+                                        <p className="text-sm sm:text-lg font-bold text-foreground truncate">{leaves.pending}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-muted-foreground truncate">{t('pending')}</p>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
                     )}
                     {tickets && (
-                        <Card>
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                                        <Headphones className="h-5 w-5 text-foreground" strokeWidth={1.5} />
+                        <Card className="border-border/40 bg-card/60 backdrop-blur-md">
+                            <CardContent className="p-3 sm:p-4">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                                    <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50">
+                                        <Headphones className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" strokeWidth={1.5} />
                                     </div>
-                                    <div>
-                                        <p className="text-xs text-muted-foreground">{t('My Tickets')}</p>
-                                        <p className="text-lg font-bold text-foreground">{tickets.open}</p>
-                                        <p className="text-[10px] text-muted-foreground">
+                                    <div className="min-w-0">
+                                        <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{t('My Tickets')}</p>
+                                        <p className="text-sm sm:text-lg font-bold text-foreground truncate">{tickets.open}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-muted-foreground truncate">
                                             {tickets.total} {t('total')}
                                         </p>
                                     </div>

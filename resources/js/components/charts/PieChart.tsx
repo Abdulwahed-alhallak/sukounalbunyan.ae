@@ -17,7 +17,13 @@ interface PieChartProps {
     showTooltip?: boolean;
 }
 
-const COLORS = ['#3b82f6', '#10b77f', '#f59e0b', '#ef4444', '#8b5cf6'];
+const COLORS = [
+    'hsl(var(--blue-7))',
+    'hsl(var(--green-7))',
+    'hsl(var(--amber-7))',
+    'hsl(var(--red-7))',
+    'hsl(var(--purple-7))'
+];
 
 export const PieChart: React.FC<PieChartProps> = ({
     data,
@@ -48,7 +54,7 @@ export const PieChart: React.FC<PieChartProps> = ({
                     cy="50%"
                     innerRadius={donut ? innerRadius || 60 : innerRadius}
                     outerRadius={outerRadius}
-                    paddingAngle={separatorNone ? 0 : 5}
+                    paddingAngle={separatorNone ? 0 : 2}
                     dataKey={dataKey}
                     nameKey={nameKey}
                     label={showLabels}
@@ -62,8 +68,18 @@ export const PieChart: React.FC<PieChartProps> = ({
                         />
                     ))}
                 </Pie>
-                {showTooltip && <Tooltip />}
-                {showLegend && <Legend />}
+                {showTooltip && (
+                    <Tooltip 
+                        contentStyle={{ 
+                            backgroundColor: 'hsl(var(--background))', 
+                            borderColor: 'hsl(var(--gray-4))',
+                            borderRadius: '8px',
+                            boxShadow: 'var(--shadow-tooltip)',
+                            fontSize: '12px'
+                        }}
+                    />
+                )}
+                {showLegend && <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />}
             </RechartsPieChart>
         </ResponsiveContainer>
     );

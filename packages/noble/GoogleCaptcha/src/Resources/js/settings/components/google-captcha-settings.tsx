@@ -100,7 +100,13 @@ export default function GoogleCaptchaSettings({ userSettings, auth }: GoogleCapt
                 )}
             </CardHeader>
             <CardContent>
-                <div className="space-y-6">
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        saveSettings();
+                    }}
+                    className="space-y-6"
+                >
                     {/* Enable/Disable reCAPTCHA */}
                     <div className="flex items-center justify-between rounded-lg border p-4">
                         <div>
@@ -241,7 +247,7 @@ export default function GoogleCaptchaSettings({ userSettings, auth }: GoogleCapt
                             </div>
                         </div>
                     )}
-                </div>
+                </form>
             </CardContent>
         </Card>
     );

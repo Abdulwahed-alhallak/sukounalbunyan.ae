@@ -10,10 +10,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, variant =
     <div
         ref={ref}
         className={cn(
-            'rounded-lg border bg-card text-card-foreground transition-colors duration-150',
-            variant === 'default' && 'border-border',
-            variant === 'premium' && 'border-border hover:border-foreground/20',
-            variant === 'glass' && 'border-border bg-card/80 backdrop-blur-sm',
+            'transition-all duration-200',
+            variant === 'default' && 'vercel-card geist-surface border-border',
+            variant === 'premium' && 'premium-card',
+            variant === 'glass' && 'border-border bg-background/90 backdrop-blur-xl rounded-lg border',
             className
         )}
         {...props}

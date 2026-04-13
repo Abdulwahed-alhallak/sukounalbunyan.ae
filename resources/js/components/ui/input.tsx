@@ -11,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
         <input
             type={type}
             className={cn(
-                'vercel-input flex h-9 w-full',
+                'vercel-input flex h-10 w-full text-label-14',
                 error &&
                     'border-destructive focus-[&:not(:focus-visible)]:border-destructive focus-visible:ring-destructive',
                 className

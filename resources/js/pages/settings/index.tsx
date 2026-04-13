@@ -53,7 +53,7 @@ export default function Settings() {
                 <div className="flex-shrink-0 md:w-64">
                     <div className="sticky top-4">
                         <ScrollArea className="h-[calc(100vh-8rem)]">
-                            <div className="space-y-1 pr-4">
+                            <div className="space-y-1 pe-4">
                                 {sidebarNavItems.map((item) => (
                                     <Button
                                         key={item.href}
@@ -63,7 +63,7 @@ export default function Settings() {
                                         })}
                                         onClick={() => handleNavClick(item.href)}
                                     >
-                                        <item.icon className="mr-2 h-4 w-4" />
+                                        <item.icon className="me-2 h-4 w-4" />
                                         {item.title}
                                     </Button>
                                 ))}
@@ -75,7 +75,7 @@ export default function Settings() {
                 {/* Main Content */}
                 <div className="flex-1">
                     <ScrollArea className="h-[calc(100vh-8rem)]">
-                        <div className="pr-4">
+                        <div className="pe-4">
                             {sidebarNavItems.map((item) => {
                                 const sectionId = item.href.replace('#', '');
                                 const canManage = auth.user?.permissions?.includes(item.permission);

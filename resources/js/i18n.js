@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 const customBackend = {
   type: 'backend',
@@ -18,22 +19,28 @@ const customBackend = {
         return response.json();
       })
       .then(data => {
-        if (data.layoutDirection) {
-          document.documentElement.dir = data.layoutDirection;
-        }
+        // Atomic Direction Sync
+        const dir = data.layoutDirection || (['ar', 'fa', 'he'].includes(language) ? 'rtl' : 'ltr');
+        document.documentElement.dir = dir;
+        document.body.dir = dir;
+        document.documentElement.lang = language;
+        
         callback(null, data.translations);
       })
       .catch(error => callback(error, null));
   }
 };
 
-const userLang = window.auth?.user?.lang || window.auth?.lang || 'en';
 i18n
+    .use(LanguageDetector)
     .use(customBackend)
     .use(initReactI18next)
     .init({
-        lng: userLang,
         fallbackLng: 'en',
+        detection: {
+            order: ['localStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
+            caches: ['localStorage', 'cookie'],
+        },
         interpolation: {
             escapeValue: false,
         },

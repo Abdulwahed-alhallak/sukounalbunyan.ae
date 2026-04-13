@@ -37,7 +37,8 @@ function AuthenticatedLayoutContent({
     pageActions?: ReactNode;
     className?: string;
 }>) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currentDir = i18n.dir();
     const { auth, companyAllSetting, adminAllSetting, unreadNotifications } = usePage<PageProps>().props as any;
     const { settings } = useBrand();
     useFavicon();
@@ -53,11 +54,11 @@ function AuthenticatedLayoutContent({
                 {companyAllSetting?.metaImage && <meta property="og:image" content={companyAllSetting.metaImage} />}
             </Head>
             <div
-                className={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
+                className={currentDir === 'rtl' ? 'rtl' : 'ltr'}
                 data-theme={settings.themeMode}
-                dir={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
+                dir={currentDir}
                 style={{
-                    direction: settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr',
+                    direction: currentDir,
                     fontFamily: settings.fontFamily || undefined,
                 }}
             >
@@ -66,19 +67,19 @@ function AuthenticatedLayoutContent({
 
                     <SidebarInset
                         className="overflow-visible"
-                        style={{ direction: settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr' }}
-                        dir={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
+                        style={{ direction: currentDir }}
+                        dir={currentDir}
                     >
                         {/* ─── Vercel-Style Header ─── */}
                         <header className="sticky top-0 z-40 flex h-12 w-full shrink-0 items-center justify-between border-b border-border bg-background/90 px-4 backdrop-blur-xl transition-colors">
                             {/* Left: Sidebar trigger + Breadcrumb */}
                             <div
-                                className={`flex items-center gap-3 ${settings.layoutDirection === 'rtl' ? 'order-2 flex-row-reverse' : 'order-1'}`}
+                                className={`flex items-center gap-3 ${currentDir === 'rtl' ? 'order-2 flex-row-reverse' : 'order-1'}`}
                             >
                                 <SidebarTrigger
                                     className={cn(
                                         'h-8 w-8 rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground',
-                                        settings.layoutDirection === 'rtl' ? 'order-3' : 'order-1'
+                                        currentDir === 'rtl' ? 'order-3' : 'order-1'
                                     )}
                                 />
 
@@ -88,10 +89,10 @@ function AuthenticatedLayoutContent({
                                 />
 
                                 <Breadcrumb
-                                    className={`${settings.layoutDirection === 'rtl' ? 'order-1' : 'order-3'} hidden lg:block`}
+                                    className={`${currentDir === 'rtl' ? 'order-1' : 'order-3'} hidden lg:block`}
                                 >
                                     <BreadcrumbList
-                                        className={`flex gap-1.5 ${settings.layoutDirection === 'rtl' ? 'justify-end' : 'justify-start'}`}
+                                        className={`flex gap-1.5 ${currentDir === 'rtl' ? 'justify-end' : 'justify-start'}`}
                                     >
                                         <BreadcrumbItem>
                                             <BreadcrumbLink asChild>
@@ -106,7 +107,7 @@ function AuthenticatedLayoutContent({
                                         {breadcrumbs?.map((crumb, index) => (
                                             <Fragment key={index}>
                                                 <BreadcrumbSeparator
-                                                    className={`text-muted-foreground/40 ${settings.layoutDirection === 'rtl' ? 'rotate-180' : ''}`}
+                                                    className={`text-muted-foreground/40 ${currentDir === 'rtl' ? 'rotate-180' : ''}`}
                                                 />
                                                 <BreadcrumbItem>
                                                     {crumb.url ? (
@@ -133,7 +134,7 @@ function AuthenticatedLayoutContent({
                             {/* Right: Actions */}
                             <div
                                 className={`flex items-center gap-2 ${
-                                    settings.layoutDirection === 'rtl' ? 'order-1 flex-row-reverse' : 'order-2'
+                                    currentDir === 'rtl' ? 'order-1 flex-row-reverse' : 'order-2'
                                 }`}
                             >
                                 {/* Leave Impersonation Button */}
@@ -186,7 +187,7 @@ function AuthenticatedLayoutContent({
                             {pageTitle && (
                                 <div
                                     className="mb-8 flex flex-col gap-3 md:flex-row md:items-center"
-                                    dir={settings.layoutDirection}
+                                    dir={currentDir}
                                 >
                                     <div className="flex-1">
                                         <h1 className="text-2xl font-bold tracking-tight text-foreground">

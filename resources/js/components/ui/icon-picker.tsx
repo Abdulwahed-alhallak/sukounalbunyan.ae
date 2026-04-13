@@ -396,8 +396,8 @@ export function IconPicker({ value, onChange, placeholder = 'Select an icon', cl
         <div className={className}>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
-                    <Button type="button" variant="outline" className="w-full justify-between text-left font-normal">
-                        <div className="flex items-center space-x-2">
+                    <Button type="button" variant="outline" className="w-full justify-between text-start font-normal">
+                        <div className="flex items-center gap-2">
                             {value && renderIcon(value, 16)}
                             <span className={value ? '' : 'text-muted-foreground'}>{value || placeholder}</span>
                         </div>
@@ -406,7 +406,7 @@ export function IconPicker({ value, onChange, placeholder = 'Select an icon', cl
                 </PopoverTrigger>
                 <PopoverContent className="w-80 p-0" align="start">
                     <div className="border-b p-3">
-                        <div className="mb-3 flex space-x-1">
+                        <div className="mb-3 flex gap-1">
                             <Button
                                 type="button"
                                 size="sm"
@@ -438,14 +438,14 @@ export function IconPicker({ value, onChange, placeholder = 'Select an icon', cl
                         <div className="relative">
                             <Search
                                 size={16}
-                                className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground"
+                                className="absolute start-3 top-1/2 -translate-y-1/2 transform text-muted-foreground"
                             />
                             <Input
                                 type="text"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Search icons..."
-                                className="pl-9 pr-8"
+                                placeholder={t('Search icons...')}
+                                className="ps-9 pe-8"
                             />
                             {search && (
                                 <Button
@@ -453,7 +453,7 @@ export function IconPicker({ value, onChange, placeholder = 'Select an icon', cl
                                     size="sm"
                                     variant="ghost"
                                     onClick={() => setSearch('')}
-                                    className="absolute right-1 top-1/2 h-6 w-6 -translate-y-1/2 transform p-0"
+                                    className="absolute end-1 top-1/2 h-6 w-6 -translate-y-1/2 transform p-0"
                                 >
                                     <X size={14} />
                                 </Button>

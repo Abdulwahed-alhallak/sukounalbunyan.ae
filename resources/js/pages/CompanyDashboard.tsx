@@ -147,30 +147,30 @@ function StatCard({
 }) {
     return (
         <div
-            className="premium-card group p-4 duration-500 animate-in fade-in slide-in-from-bottom-4"
+            className="premium-card group p-3 sm:p-4 duration-500 animate-in fade-in slide-in-from-bottom-4 border-border/40 bg-card/60 backdrop-blur-md hover:bg-card transition-all"
             style={{ animationDelay: `${index * 50}ms` }}
         >
-            <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80">{title}</p>
-                    <p className="text-2xl font-black tracking-tight text-foreground">{value}</p>
-                    {subtitle && <p className="text-[10px] font-medium italic text-muted-foreground/60">{subtitle}</p>}
+            <div className="flex items-start justify-between gap-2">
+                <div className="space-y-1 min-w-0">
+                    <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted-foreground/90 truncate">{title}</p>
+                    <p className="text-xl sm:text-2xl font-black tracking-tight text-foreground break-words">{value}</p>
+                    {subtitle && <p className="text-[9px] sm:text-[10px] font-medium italic text-muted-foreground/70 truncate">{subtitle}</p>}
                 </div>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-foreground/5 transition-colors">
-                    <Icon className="h-4 w-4 text-foreground" strokeWidth={1.5} />
+                <div className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-foreground/[0.03] transition-colors group-hover:bg-foreground/[0.07] group-hover:border-border/80">
+                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground" strokeWidth={1.5} />
                 </div>
             </div>
             {trend && trendValue && (
                 <div
-                    className={`mt-2 flex items-center gap-1.5 text-[10px] font-bold ${trend === 'up' ? 'text-foreground' : trend === 'down' ? 'text-muted-foreground' : 'text-muted-foreground'}`}
+                    className={`mt-2 flex items-center gap-1.5 text-[9px] sm:text-[10px] font-bold ${trend === 'up' ? 'text-foreground' : trend === 'down' ? 'text-muted-foreground/80' : 'text-muted-foreground/80'}`}
                 >
                     <div
-                        className={`flex h-4 w-4 items-center justify-center rounded-full ${trend === 'up' ? 'bg-foreground/5' : 'bg-muted'}`}
+                        className={`flex h-3.5 w-3.5 sm:h-4 sm:w-4 items-center justify-center rounded-full ${trend === 'up' ? 'bg-foreground/5' : 'bg-muted'}`}
                     >
                         {trend === 'up' ? (
-                            <ArrowUpRight className="h-2.5 w-2.5" />
+                            <ArrowUpRight className="h-2 w-2 sm:h-2.5 sm:w-2.5" />
                         ) : (
-                            <ArrowDownRight className="h-2.5 w-2.5" />
+                            <ArrowDownRight className="h-2 w-2 sm:h-2.5 sm:w-2.5" />
                         )}
                     </div>
                     {trendValue}
@@ -244,7 +244,7 @@ export default function CompanyDashboard({
                         icon={DollarSign}
                         color="from-foreground/5 to-foreground/10"
                     />
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         <StatCard
                             index={0}
                             title={t('Net Balance')}
@@ -517,7 +517,7 @@ export default function CompanyDashboard({
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div className="grid grid-cols-2 gap-3">
                                     <div className="rounded-lg bg-muted p-3">
                                         <div className="text-xl font-bold text-foreground">{crm.total_leads}</div>
                                         <div className="text-[10px] text-muted-foreground">{t('Total Leads')}</div>
@@ -634,7 +634,7 @@ export default function CompanyDashboard({
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <div className="grid grid-cols-2 gap-3">
                                     <div className="rounded-lg bg-muted p-3">
                                         <div className="text-xl font-bold text-foreground">
                                             {pos.transactions_today}

@@ -58,6 +58,8 @@ class SettingController extends Controller
                 'settings.footerText' => 'required|string|max:500',
                 'settings.layoutDirection' => 'nullable|string|max:50',
                 'settings.themeMode' => 'nullable|string|max:50',
+                'settings.fontFamily' => 'nullable|string|max:255',
+                'settings.themeColor' => 'nullable|string|max:50',
             ], [
                 'settings.titleText.required' => __('Title text is required.'),
                 'settings.titleText.string' => __('Title text must be a valid string.'),

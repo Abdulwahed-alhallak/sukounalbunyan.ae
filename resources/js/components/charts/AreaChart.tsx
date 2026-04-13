@@ -34,7 +34,7 @@ export const AreaChart: React.FC<AreaChartProps> = ({
     data,
     dataKey,
     xAxisKey,
-    color = '#3b82f6',
+    color = 'hsl(var(--blue-7))',
     type = 'monotone',
     stacked = false,
     showLegend = false,
@@ -55,10 +55,31 @@ export const AreaChart: React.FC<AreaChartProps> = ({
                         </linearGradient>
                     </defs>
                 )}
-                {showGrid && <CartesianGrid vertical={false} />}
-                <XAxis dataKey={xAxisKey} tickLine={false} axisLine={false} tickMargin={8} />
-                <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                {showTooltip && <Tooltip />}
+                {showGrid && <CartesianGrid vertical={false} stroke="hsl(var(--gray-4))" strokeDasharray="3 3" />}
+                <XAxis 
+                    dataKey={xAxisKey} 
+                    tickLine={false} 
+                    axisLine={false} 
+                    tickMargin={12} 
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                />
+                <YAxis 
+                    tickLine={false} 
+                    axisLine={false} 
+                    tickMargin={12} 
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                />
+                {showTooltip && (
+                    <Tooltip 
+                        contentStyle={{ 
+                            backgroundColor: 'hsl(var(--background))', 
+                            borderColor: 'hsl(var(--gray-4))',
+                            borderRadius: '8px',
+                            boxShadow: 'var(--shadow-tooltip)',
+                            fontSize: '12px'
+                        }}
+                    />
+                )}
                 {showLegend && <Legend />}
                 {areas.length > 0 ? (
                     areas.map((area) => (

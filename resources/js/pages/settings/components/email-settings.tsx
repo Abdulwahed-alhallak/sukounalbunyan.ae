@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Save, Send, Server, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Save, Send, Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { router } from '@inertiajs/react';
 
@@ -160,7 +160,13 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Email Settings */}
                     <div className="lg:col-span-2">
-                        <div className="space-y-6">
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                saveSettings();
+                            }}
+                            className="space-y-6"
+                        >
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <div className="space-y-1.5">
                                     <Label htmlFor="provider" className="font-medium">
@@ -251,14 +257,14 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                             onChange={(e) => handleChange('password', e.target.value)}
                                             disabled={!canEdit}
                                             placeholder="••••••••••••"
-                                            className="pr-10"
+                                            className="pe-10"
                                         />
                                         {canEdit && (
                                             <Button
                                                 type="button"
                                                 variant="ghost"
                                                 size="sm"
-                                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                                 onClick={() => setShowPassword(!showPassword)}
                                             >
                                                 {showPassword ? (
@@ -304,12 +310,12 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     {/* Test Email Section */}
                     <div className="lg:col-span-1">
-                        <Card>
+                        <Card className="border-border/60 shadow-none bg-background-2">
                             <CardContent className="pt-6">
                                 <form onSubmit={sendTestEmail} className="space-y-4">
                                     <div className="mb-4 flex items-center gap-2">
@@ -338,8 +344,8 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         <div
                                             className={`rounded-md p-3 text-sm ${
                                                 testResult.success
-                                                    ? 'border border-border bg-muted text-foreground'
-                                                    : 'border border-border bg-muted text-destructive'
+                                                    ? 'border border-border bg-muted/50 text-foreground'
+                                                    : 'border border-border bg-muted/50 text-destructive'
                                             }`}
                                         >
                                             {testResult.message}
@@ -353,12 +359,12 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     >
                                         {isSending ? (
                                             <>
-                                                <span className="mr-2 animate-spin">◌</span>
+                                                <span className="me-2 animate-spin">◌</span>
                                                 {t('Sending...')}
                                             </>
                                         ) : (
                                             <>
-                                                <Send className="mr-2 h-4 w-4" />
+                                                <Send className="me-2 h-4 w-4" />
                                                 {t('Send Test Email')}
                                             </>
                                         )}

@@ -41,14 +41,13 @@ router.on('error', async (event) => {
     }
 });
 
-// Auto-switch RTL / LTR layout based on language prop
-router.on('navigate', (event) => {
-    const pageProps = event.detail.page.props as any;
-    const lang = pageProps?.auth?.lang || 'en';
-    const isRtl = ['ar', 'he', 'fa', 'ur'].includes(lang.substring(0, 2));
+// Auto-switch RTL / LTR layout based on persistent language
+router.on('navigate', () => {
+    const currentLang = localStorage.getItem('i18nextLng') || 'en';
+    const isRtl = ['ar', 'he', 'fa', 'ur', 'ku'].includes(currentLang.split('-')[0]);
 
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
-    document.documentElement.lang = lang;
+    document.documentElement.lang = currentLang;
 });
 
 // Global fetch interceptor

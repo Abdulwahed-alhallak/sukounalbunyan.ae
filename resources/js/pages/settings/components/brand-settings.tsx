@@ -70,6 +70,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
         layoutDirection: userSettings?.layoutDirection || 'ltr',
         themeMode: userSettings?.themeMode || 'light',
         fontFamily: userSettings?.fontFamily || 'Geist Sans',
+        themeColor: userSettings?.themeColor || '#000000',
     });
 
     useEffect(() => {
@@ -85,6 +86,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                 layoutDirection: userSettings?.layoutDirection || 'ltr',
                 themeMode: userSettings?.themeMode || 'light',
                 fontFamily: userSettings?.fontFamily || 'Geist Sans',
+                themeColor: userSettings?.themeColor || '#000000',
             });
         }
     }, [userSettings]);
@@ -129,8 +131,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
             <Card className="relative overflow-hidden border-border/40 bg-background/50 backdrop-blur-2xl shadow-sm transition-all duration-500 hover:shadow-lg dark:bg-black/20">
                 <div className="absolute inset-x-0 -top-px h-[2px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-70" />
                 
-                <CardHeader className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 px-8 py-6 pb-4">
-                    <div className="space-y-1 order-1 rtl:order-2">
+                <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 px-8 py-6 pb-4">
+                    <div className="space-y-1">
                         <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
                             <div className="rounded-lg bg-primary/10 p-2 text-primary ring-1 ring-primary/20">
                                 <Palette className="h-5 w-5" />
@@ -142,7 +144,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                         </CardDescription>
                     </div>
                     {canEdit && (
-                        <div className="order-2 rtl:order-1 pt-2 sm:pt-0">
+                        <div className="pt-2 sm:pt-0">
                             <Button 
                                 onClick={saveSettings} 
                                 disabled={isLoading} 
@@ -150,7 +152,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                 className="relative overflow-hidden shadow-md transition-transform active:scale-95"
                             >
                                 <span className="absolute inset-0 bg-white/20 hover:bg-transparent transition-colors z-0"></span>
-                                <Save className="mr-2 h-4 w-4 relative z-10" />
+                                <Save className="me-2 h-4 w-4 relative z-10" />
                                 <span className="relative z-10 font-semibold">{isLoading ? t('Saving...') : t('Save Changes')}</span>
                             </Button>
                         </div>
@@ -358,7 +360,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                         onClick={() => handleSelectChange('layoutDirection', 'ltr')}
                                                     >
                                                         {t('Left-to-Right')}
-                                                        {settings.layoutDirection === 'ltr' && <Check className="ml-2 h-4 w-4" />}
+                                                        {settings.layoutDirection === 'ltr' && <Check className="ms-2 h-4 w-4" />}
                                                     </Button>
                                                     <Button
                                                         type="button"
@@ -367,7 +369,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                         onClick={() => handleSelectChange('layoutDirection', 'rtl')}
                                                     >
                                                         {t('Right-to-Left')}
-                                                        {settings.layoutDirection === 'rtl' && <Check className="ml-2 h-4 w-4" />}
+                                                        {settings.layoutDirection === 'rtl' && <Check className="ms-2 h-4 w-4" />}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -390,8 +392,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                             className={`h-12 justify-center capitalize font-medium transition-all ${settings.themeMode === mode ? 'shadow-md shadow-primary/20' : 'hover:bg-accent hover:text-accent-foreground'}`}
                                                             onClick={() => handleSelectChange('themeMode', mode)}
                                                         >
-                                                            {t(mode)}
-                                                            {settings.themeMode === mode && <Check className="ml-1.5 h-3.5 w-3.5" />}
+                                                        {t(mode)}
+                                                            {settings.themeMode === mode && <Check className="ms-1.5 h-3.5 w-3.5" />}
                                                         </Button>
                                                     ))}
                                                 </div>
@@ -430,6 +432,46 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                     </p>
                                                 </div>
                                             </div>
+
+                                            {/* Primary Color Section */}
+                                            <div className="space-y-5 col-span-1 md:col-span-2">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="rounded-md bg-secondary/80 p-1.5 text-foreground shadow-sm">
+                                                        <Palette className="h-4 w-4" />
+                                                    </div>
+                                                    <h3 className="text-md font-semibold tracking-tight">{t('Primary Accent Color')}</h3>
+                                                </div>
+
+                                                <div className="flex items-center gap-4">
+                                                    <div className="relative group">
+                                                        <div 
+                                                            className="h-14 w-14 rounded-full border-4 border-background shadow-lg ring-1 ring-border cursor-pointer transition-transform hover:scale-110 active:scale-95 overflow-hidden"
+                                                            style={{ backgroundColor: settings.themeColor }}
+                                                            onClick={() => document.getElementById('themeColorPicker')?.click()}
+                                                        />
+                                                        <input 
+                                                            id="themeColorPicker"
+                                                            type="color" 
+                                                            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                                            value={settings.themeColor}
+                                                            onChange={(e) => handleSelectChange('themeColor', e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-col gap-1">
+                                                        <Input 
+                                                            value={settings.themeColor}
+                                                            onChange={(e) => handleSelectChange('themeColor', e.target.value)}
+                                                            className="h-10 w-32 font-mono text-sm uppercase"
+                                                        />
+                                                        <span className="text-[11px] text-muted-foreground font-medium uppercase tracking-tighter">{t('HEX Code')}</span>
+                                                    </div>
+                                                    <div className="hidden sm:block ps-6 max-w-xs">
+                                                        <p className="text-[13px] text-muted-foreground leading-tight">
+                                                            {t('This color will be used for buttons, active states, and highlights throughout the ecosystem.')}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -437,7 +479,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                         </div>
 
                         {/* Visual Live Preview Column */}
-                        <div className="lg:col-span-4 border-l border-border/40 pl-0 lg:pl-8 mt-8 lg:mt-0">
+                        <div className="lg:col-span-4 border-s border-border/40 ps-0 lg:ps-8 mt-8 lg:mt-0">
                             <div className="sticky top-24 space-y-6">
                                 <div className="rounded-xl border border-border/50 bg-card/40 backdrop-blur-md p-5 shadow-lg relative overflow-hidden">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
