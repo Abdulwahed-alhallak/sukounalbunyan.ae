@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         (new EmailTemplatesSeeder())->run();
         (new NotificationsTableSeeder())->run();
 
-        $userId = User::where('email', 'company@example.com')->first()->id;
+        $userId = User::where('email', 'admin@noblearchitecture.net')->first()->id;
         User::CompanySetting($userId);
 
         if(config('app.run_demo_seeder'))

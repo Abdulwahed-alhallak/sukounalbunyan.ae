@@ -19,7 +19,7 @@ class PermissionRoleSeeder extends Seeder
 
         // Create Super Admin User
         $superAdmin = User::firstOrCreate(
-            ['email' => 'superadmin@example.com'],
+            ['email' => 'superadmin@noblearchitecture.net'],
             [
                 'name' => 'Super Admin',
                 'email_verified_at' => now(),
@@ -35,9 +35,9 @@ class PermissionRoleSeeder extends Seeder
 
         // Create Company User
         $company = User::firstOrCreate(
-            ['email' => 'company@example.com'],
+            ['email' => 'admin@noblearchitecture.net'],
             [
-                'name' => 'Company',
+                'name' => 'Noble Architecture',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1234'),
                 'mobile_no' => '1234567890',
