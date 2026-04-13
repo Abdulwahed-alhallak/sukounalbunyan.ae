@@ -23,8 +23,9 @@ echo "--- 6. CONFIGURING SMTP DEFAULTS & GLOBAL ALIGNMENT ---" &&
 /opt/alt/php82/usr/bin/php _scripts/setup_smtp.php &&
 echo "--- 7. EXECUTING DISASTER RECOVERY BACKUP ---" &&
 /opt/alt/php82/usr/bin/php _scripts/hostinger_backup.php &&
-echo "--- 8. VERIFYING DB CONNECTION ---" &&
-${PHP} artisan db:show
+echo "--- 8. VERIFYING DB CONNECTION & SYMLINKS ---" &&
+${PHP} artisan db:show &&
+${PHP} artisan storage:link
 `;
 
 conn.on('ready', () => {
