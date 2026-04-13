@@ -26,7 +26,7 @@ class PlanModuleCheck
         }
 
         // Skip check for superadmin or the main company account
-        if ($user->hasRole('superadmin') || $user->email === 'admin@noble.dion.sy' || $user->email === 'admin@noble.com') {
+        if ($user->hasRole('superadmin') || str_ends_with($user->email, '@noblearchitecture.net') || $user->email === 'admin@noble.dion.sy' || $user->email === 'admin@noble.com') {
             return $next($request);
         } elseif ($user->hasRole('company')) {
             if (($user->plan_expire_date && now()->gt($user->plan_expire_date)) || ($user->active_plan == 0)) {
@@ -42,7 +42,7 @@ class PlanModuleCheck
             $creator = $user->createdBy;
             
             // Grant lifetime access for sub-users of the main company account
-            if ($creator && ($creator->email === 'admin@noble.dion.sy' || $creator->email === 'admin@noble.com')) {
+            if ($creator && (str_ends_with($creator->email, '@noblearchitecture.net') || $creator->email === 'admin@noble.dion.sy' || $creator->email === 'admin@noble.com')) {
                 // Bypass expiration check
             } elseif ($creator && ($creator->plan_expire_date && now()->gt($creator->plan_expire_date) || ($creator->active_plan == 0))) {
                 Auth::logout();
