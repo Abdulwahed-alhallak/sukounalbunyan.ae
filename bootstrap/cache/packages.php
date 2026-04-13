@@ -107,13 +107,6 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-  'phiki/phiki' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Phiki\\Adapters\\Laravel\\PhikiServiceProvider',
-    ),
-  ),
   'pragmarx/google2fa-laravel' => 
   array (
     'aliases' => 
