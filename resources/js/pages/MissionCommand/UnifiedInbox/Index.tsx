@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -32,7 +32,7 @@ export default function UnifiedInboxIndex() {
         },
         {
             id: 2,
-            sender: 'Dion Creative',
+            sender: 'Noble Architecture',
             avatar: 'https://i.pravatar.cc/150?u=2',
             platform: 'email',
             content: 'Your subscription for Professional Plan is confirmed.',
@@ -57,7 +57,7 @@ export default function UnifiedInboxIndex() {
             case 'email':
                 return <Mail className="h-3 w-3 text-foreground" />;
             case 'internal':
-                return <MessageCircle className="text-dion-cyan h-3 w-3" />;
+                return <MessageCircle className="text-noble-cyan h-3 w-3" />;
             default:
                 return <Inbox className="h-3 w-3" />;
         }
@@ -67,9 +67,9 @@ export default function UnifiedInboxIndex() {
         <div className="mx-auto h-[calc(100vh-100px)] max-w-[1600px] p-4 md:p-6">
             <div className="mb-4 flex items-center justify-between">
                 <h1 className="flex items-center gap-3 text-2xl font-bold tracking-tight text-foreground dark:text-foreground">
-                    <Inbox className="text-dion-cyan h-7 w-7" />
+                    <Inbox className="text-noble-cyan h-7 w-7" />
                     Unified Inbox
-                    <Badge variant="outline" className="bg-dion-cyan/10 text-dion-cyan border-dion-cyan text-xs">
+                    <Badge variant="outline" className="bg-noble-cyan/10 text-noble-cyan border-noble-cyan text-xs">
                         BETA
                     </Badge>
                 </h1>
@@ -128,7 +128,7 @@ export default function UnifiedInboxIndex() {
                                         </p>
                                     </div>
                                     {msg.unread && (
-                                        <div className="bg-dion-cyan h-2 w-2 self-center rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
+                                        <div className="bg-noble-cyan h-2 w-2 self-center rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
                                     )}
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ export default function UnifiedInboxIndex() {
                                 {/* Simulate agent reply */}
                                 {activeMessage.platform === 'whatsapp' && (
                                     <div className="ms-auto flex max-w-[80%] flex-col gap-2 self-end">
-                                        <div className="bg-dion-cyan/10 border-dion-cyan/20 dark:bg-dion-cyan/20 dark:border-dion-cyan/10 rounded-2xl rounded-tr-none border p-4 shadow-sm backdrop-blur-md">
+                                        <div className="bg-noble-cyan/10 border-noble-cyan/20 dark:bg-noble-cyan/20 dark:border-noble-cyan/10 rounded-2xl rounded-tr-none border p-4 shadow-sm backdrop-blur-md">
                                             <p className="text-foreground dark:text-foreground">
                                                 Hello John, here's the PDF for invoice #402.
                                             </p>
@@ -189,7 +189,7 @@ export default function UnifiedInboxIndex() {
                                             </div>
                                         </div>
                                         <span className="mr-2 text-right text-xs text-muted-foreground">
-                                            Just now <CheckCircle2 className="text-dion-cyan inline h-3 w-3" />
+                                            Just now <CheckCircle2 className="text-noble-cyan inline h-3 w-3" />
                                         </span>
                                     </div>
                                 )}
@@ -230,7 +230,7 @@ export default function UnifiedInboxIndex() {
                                     </div>
                                     <Button
                                         size="icon"
-                                        className="bg-dion-cyan hover:bg-dion-cyan/90 shadow-dion-cyan/20 h-14 w-14 shrink-0 rounded-xl text-foreground shadow-lg"
+                                        className="bg-noble-cyan hover:bg-noble-cyan/90 shadow-noble-cyan/20 h-14 w-14 shrink-0 rounded-xl text-foreground shadow-lg"
                                     >
                                         <Send className="h-5 w-5" />
                                     </Button>
@@ -261,3 +261,4 @@ export default function UnifiedInboxIndex() {
 UnifiedInboxIndex.layout = (page: any) => {
     return <AuthenticatedLayout>{page}</AuthenticatedLayout>;
 };
+

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { router, usePage } from '@inertiajs/react';
 import { usePageButtons } from '@/hooks/usePageButtons';
@@ -441,11 +441,11 @@ function SubscriptionLayout({
                                             <RadioGroupItem value="cash_on_hand" id="cash_on_hand" />
                                             <Label htmlFor="cash_on_hand" className="cursor-pointer">
                                                 <div className="font-medium text-foreground dark:text-foreground">
-                                                    {t('Cash on Hand (الدفع داخل شركة DION)')}
+                                                    {t('Cash on Hand (ط§ظ„ط¯ظپط¹ ط¯ط§ط®ظ„ ط´ط±ظƒط© noble)')}
                                                 </div>
                                                 <div className="text-sm text-muted-foreground dark:text-muted-foreground">
                                                     {t(
-                                                        'ادفع نقداً أو من خلال زيارة مقر الشركة. يمكن لموظف دايون تفعيل الاشتراك مباشرة.'
+                                                        'ط§ط¯ظپط¹ ظ†ظ‚ط¯ط§ظ‹ ط£ظˆ ظ…ظ† ط®ظ„ط§ظ„ ط²ظٹط§ط±ط© ظ…ظ‚ط± ط§ظ„ط´ط±ظƒط©. ظٹظ…ظƒظ† ظ„ظ…ظˆط¸ظپ ط¯ط§ظٹظˆظ† طھظپط¹ظٹظ„ ط§ظ„ط§ط´طھط±ط§ظƒ ظ…ط¨ط§ط´ط±ط©.'
                                                     )}
                                                 </div>
                                             </Label>
@@ -526,3 +526,4 @@ function SubscriptionLayout({
 }
 
 export default SubscriptionLayout;
+

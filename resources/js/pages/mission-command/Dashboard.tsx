@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+﻿import { Head, Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { PageProps } from '@/types';
 import { Shield, Radio, Trophy, Activity, Users } from 'lucide-react';
@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 export default function MissionCommandDashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout>
-            <Head title="Mission Command | Dion Creative" />
+            <Head title="Mission Command | Noble Architecture" />
 
             <div className="flex flex-col space-y-6">
                 <div>
@@ -16,14 +16,14 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
                         Mission Command
                     </h1>
                     <p className="text-muted-foreground">
-                        Restricted Operations Hub. Top-level control of the Dion Creative SaaS ecosystem.
+                        Restricted Operations Hub. Top-level control of the Noble Architecture SaaS ecosystem.
                     </p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <Card className="border-foreground/20 bg-card/50 backdrop-blur-md">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Active Students (Dion)</CardTitle>
+                            <CardTitle className="text-sm font-medium">Active Students (noble)</CardTitle>
                             <Users className="h-4 w-4 text-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -88,3 +88,4 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
         </AuthenticatedLayout>
     );
 }
+

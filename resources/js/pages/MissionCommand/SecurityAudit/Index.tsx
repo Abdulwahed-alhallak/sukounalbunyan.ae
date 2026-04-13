@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -34,7 +34,7 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
             case 'CRITICAL':
                 return <Badge className="border-destructive bg-muted text-destructive">CRITICAL</Badge>;
             case 'MEDIUM':
-                return <Badge className="bg-dion-amber/10 text-dion-amber border-dion-amber">MEDIUM</Badge>;
+                return <Badge className="bg-noble-amber/10 text-noble-amber border-noble-amber">MEDIUM</Badge>;
             default:
                 return <Badge className="border-border bg-muted text-foreground">LOW</Badge>;
         }
@@ -149,7 +149,7 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                             <tr className="border-b border-border bg-card transition-colors hover:bg-muted/50 dark:border-border dark:bg-foreground dark:hover:bg-foreground/50">
                                 <td className="px-6 py-4 font-mono text-muted-foreground">2 mins ago</td>
                                 <td className="flex items-center gap-2 px-6 py-4 font-semibold">
-                                    <div className="bg-dion-cyan/10 text-dion-cyan flex h-6 w-6 items-center justify-center rounded-full">
+                                    <div className="bg-noble-cyan/10 text-noble-cyan flex h-6 w-6 items-center justify-center rounded-full">
                                         E
                                     </div>
                                     Employee John
@@ -180,3 +180,4 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
 SecurityAuditIndex.layout = (page: any) => {
     return <AuthenticatedLayout>{page}</AuthenticatedLayout>;
 };
+

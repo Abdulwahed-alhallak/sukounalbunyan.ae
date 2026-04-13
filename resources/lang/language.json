@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "code": "en",
         "name": "English",
@@ -7,13 +7,13 @@
     },
     {
         "code": "es",
-        "name": "Español",
+        "name": "Espaأ±ol",
         "countryCode": "ES",
         "enabled": false
     },
     {
         "code": "ar",
-        "name": "العربية",
+        "name": "ط§ظ„ط¹ط±ط¨ظٹط©",
         "countryCode": "SA",
         "enabled": true
     },
@@ -31,13 +31,13 @@
     },
     {
         "code": "fr",
-        "name": "Français",
+        "name": "Franأ§ais",
         "countryCode": "FR",
         "enabled": false
     },
     {
         "code": "he",
-        "name": "עברית",
+        "name": "×¢×‘×¨×™×ھ",
         "countryCode": "IL",
         "enabled": false
     },
@@ -49,7 +49,7 @@
     },
     {
         "code": "ja",
-        "name": "日本語",
+        "name": "و—¥وœ¬èھ‍",
         "countryCode": "JP",
         "enabled": false
     },
@@ -67,32 +67,33 @@
     },
     {
         "code": "pt",
-        "name": "Português",
+        "name": "Portuguأھs",
         "countryCode": "PT",
         "enabled": false
     },
     {
         "code": "pt-BR",
-        "name": "Português do Brasil",
+        "name": "Portuguأھs do Brasil",
         "countryCode": "BR",
         "enabled": false
     },
     {
         "code": "ru",
-        "name": "Русский",
+        "name": "ذ رƒرپرپذ؛ذ¸ذ¹",
         "countryCode": "RU",
         "enabled": false
     },
     {
         "code": "tr",
-        "name": "Türkçe",
+        "name": "Tأ¼rkأ§e",
         "countryCode": "TR",
         "enabled": false
     },
     {
         "code": "zh",
-        "name": "中文",
+        "name": "ن¸­و–‡",
         "countryCode": "CN",
         "enabled": false
     }
 ]
+

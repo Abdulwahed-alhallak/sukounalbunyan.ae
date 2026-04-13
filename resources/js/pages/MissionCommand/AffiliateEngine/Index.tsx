@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,7 +8,7 @@ import { Network, Link as LinkIcon, Copy, Share2, Users, DollarSign, TrendingUp,
 import { toast } from 'sonner';
 
 export default function AffiliateEngineIndex() {
-    const [referralLink] = useState('https://dion.sy/join?ref=DN_8471X8');
+    const [referralLink] = useState('https://noble.sy/join?ref=DN_8471X8');
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(referralLink);
@@ -20,9 +20,9 @@ export default function AffiliateEngineIndex() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight text-foreground dark:text-foreground">
-                        <Network className="text-dion-magenta h-8 w-8" />
+                        <Network className="text-noble-magenta h-8 w-8" />
                         Affiliate & Retention Engine
-                        <Badge className="bg-dion-magenta/10 text-dion-magenta border-dion-magenta hover:bg-dion-magenta/20">
+                        <Badge className="bg-noble-magenta/10 text-noble-magenta border-noble-magenta hover:bg-noble-magenta/20">
                             ACTIVE
                         </Badge>
                     </h1>
@@ -36,7 +36,7 @@ export default function AffiliateEngineIndex() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <Card className="relative col-span-1 overflow-hidden border-border bg-gradient-to-br from-foreground to-black text-background dark:from-foreground dark:to-black md:col-span-2">
                     {/* Decorative Background Elements */}
-                    <div className="bg-dion-magenta/20 absolute right-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full blur-[80px]"></div>
+                    <div className="bg-noble-magenta/20 absolute right-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full blur-[80px]"></div>
                     <div className="absolute bottom-0 left-0 h-48 w-48 -translate-x-1/4 translate-y-1/2 rounded-full bg-foreground/20 blur-[60px]"></div>
 
                     <CardContent className="relative z-10 flex h-full flex-col justify-center p-8">
@@ -52,12 +52,12 @@ export default function AffiliateEngineIndex() {
                                 <Input
                                     readOnly
                                     value={referralLink}
-                                    className="focus-visible:ring-dion-magenta h-12 border-border bg-card/10 pl-9 text-background"
+                                    className="focus-visible:ring-noble-magenta h-12 border-border bg-card/10 pl-9 text-background"
                                 />
                             </div>
                             <Button
                                 onClick={copyToClipboard}
-                                className="bg-dion-magenta hover:bg-dion-magenta/90 h-12 w-full px-8 font-bold text-background sm:w-auto"
+                                className="bg-noble-magenta hover:bg-noble-magenta/90 h-12 w-full px-8 font-bold text-background sm:w-auto"
                             >
                                 <Copy className="mr-2 h-4 w-4" />
                                 Copy Link
@@ -99,10 +99,10 @@ export default function AffiliateEngineIndex() {
                 ].map((company, i) => (
                     <Card
                         key={i}
-                        className="hover:border-dion-magenta/50 group cursor-pointer border-border bg-card transition-colors dark:border-border dark:bg-foreground"
+                        className="hover:border-noble-magenta/50 group cursor-pointer border-border bg-card transition-colors dark:border-border dark:bg-foreground"
                     >
                         <CardContent className="relative overflow-hidden p-5">
-                            <div className="from-dion-magenta/10 absolute right-0 top-0 -mr-4 -mt-4 h-16 w-16 rounded-bl-[100px] bg-gradient-to-br to-transparent transition-transform group-hover:scale-150"></div>
+                            <div className="from-noble-magenta/10 absolute right-0 top-0 -mr-4 -mt-4 h-16 w-16 rounded-bl-[100px] bg-gradient-to-br to-transparent transition-transform group-hover:scale-150"></div>
                             <div className="mb-4 flex items-start justify-between">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted font-bold text-foreground dark:bg-foreground dark:text-muted-foreground/60">
                                     {company.name[0]}
@@ -116,7 +116,7 @@ export default function AffiliateEngineIndex() {
                                     className={
                                         company.status === 'ACTIVE'
                                             ? 'border-border/50 text-foreground'
-                                            : 'border-dion-amber/50 text-dion-amber'
+                                            : 'border-noble-amber/50 text-noble-amber'
                                     }
                                 >
                                     {company.status}
@@ -136,3 +136,4 @@ export default function AffiliateEngineIndex() {
 AffiliateEngineIndex.layout = (page: any) => {
     return <AuthenticatedLayout>{page}</AuthenticatedLayout>;
 };
+
