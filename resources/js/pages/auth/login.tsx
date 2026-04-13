@@ -38,8 +38,8 @@ export default function Login({
         if (isDemo) {
             setData((prevData) => ({
                 ...prevData,
-                email: 'company@example.com',
-                password: '12345678',
+                email: 'admin@noblearchitecture.net',
+                password: '1234',
             }));
         }
     }, [isDemo]);
@@ -74,8 +74,8 @@ export default function Login({
 
     return (
         <AuthLayout
-            title={t('Log in to your account')}
-            description={t('Enter your email and password below to log in')}
+            title={t('Noble Architecture Enterprise Platform')}
+            description={t('Enter your securely governed credentials to access the digital architecture')}
         >
             <Head title={t('Log in')} />
 
@@ -225,36 +225,36 @@ export default function Login({
                 {true && (
                     <div>
                         <h3 className="mb-4 text-center text-sm font-medium tracking-wider text-foreground dark:text-muted-foreground/60">
-                            {t('Quick Access')}
+                            {t('Quick Access Panel')}
                         </h3>
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('superadmin@noble.sy', '12345678')}
+                                onClick={() => handleQuickLogin('superadmin@noblearchitecture.net', '1234')}
                                 disabled={processing}
                                 className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50 sm:col-span-2"
                             >
                                 <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Crown className="h-4 w-4" />
-                                    {t('Login as Super Admin')}
+                                    <Crown className="h-4 w-4 text-amber-500" />
+                                    {t('Login as System Root (Super Admin)')}
                                 </span>
                             </Button>
                             <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('company@example.com', '12345678')}
+                                onClick={() => handleQuickLogin('admin@noblearchitecture.net', '1234')}
                                 disabled={processing}
                                 className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
                             >
                                 <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="h-4 w-4" />
-                                    {t('Login as Noble Company')}
+                                    <Building2 className="h-4 w-4 text-blue-500" />
+                                    {t('Login as Noble Commander')}
                                 </span>
                             </Button>
                             <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('samad34557788@gmail.com', '12345678')}
+                                onClick={() => handleQuickLogin('samad34557788@noblearchitecture.net', '1234')}
                                 disabled={processing}
                                 className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
                             >
