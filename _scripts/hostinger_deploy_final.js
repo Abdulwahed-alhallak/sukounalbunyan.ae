@@ -21,7 +21,9 @@ echo "--- 5. REBUILDING UNLIMITED MASTER PLAN & HRM MERGE ---" &&
 /opt/alt/php82/usr/bin/php _scripts/rebuild_plans.php &&
 echo "--- 6. CONFIGURING SMTP DEFAULTS & GLOBAL ALIGNMENT ---" &&
 /opt/alt/php82/usr/bin/php _scripts/setup_smtp.php &&
-echo "--- 7. VERIFYING DB CONNECTION ---" &&
+echo "--- 7. EXECUTING DISASTER RECOVERY BACKUP ---" &&
+/opt/alt/php82/usr/bin/php _scripts/hostinger_backup.php &&
+echo "--- 8. VERIFYING DB CONNECTION ---" &&
 ${PHP} artisan db:show
 `;
 
