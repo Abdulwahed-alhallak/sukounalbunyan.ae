@@ -1,0 +1,1 @@
+import{r as i,j as u}from"./ui-CPJPuvru.js";import{c}from"./utils-nT-0gv3l.js";const a=i.forwardRef(({className:r,type:e,error:s,...t},o)=>u.jsx("input",{type:e,className:c("vercel-input flex h-9 w-full",s&&"border-destructive focus-[&:not(:focus-visible)]:border-destructive focus-visible:ring-destructive",r),ref:o,...t}));a.displayName="Input";export{a as I};

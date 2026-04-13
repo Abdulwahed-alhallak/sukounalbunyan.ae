@@ -6,13 +6,13 @@ const badgeVariants = cva(
     {
         variants: {
             variant: {
-                default: 'border-transparent bg-foreground text-background',
-                secondary: 'border-transparent bg-muted text-muted-foreground',
-                destructive: 'border-transparent bg-destructive text-destructive-foreground',
-                outline: 'border-border text-foreground',
-                success: 'border-transparent bg-foreground/5 text-foreground',
-                warning: 'border-transparent bg-muted text-muted-foreground',
-                info: 'border-transparent bg-muted text-foreground',
+                default: 'vercel-badge vercel-badge-neutral border-transparent',
+                secondary: 'vercel-badge vercel-badge-neutral',
+                destructive: 'vercel-badge vercel-badge-error',
+                outline: 'vercel-badge vercel-badge-neutral border-border bg-transparent',
+                success: 'vercel-badge vercel-badge-success',
+                warning: 'vercel-badge vercel-badge-warning',
+                info: 'vercel-badge vercel-badge-info',
             },
         },
         defaultVariants: {

@@ -22,6 +22,7 @@ export interface NavItem {
     order?: number;
     group?: string;
     isLabel?: boolean;
+    moduleName?: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {

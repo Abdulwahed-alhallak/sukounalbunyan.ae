@@ -9,7 +9,7 @@ conn.on('ready', () => {
     conn.sftp((err, sftp) => {
         if (err) throw err;
         
-        const localFile = '../noble_production_build.tar.gz';
+        const localFile = './noble_production_build.tar.gz';
         const remoteFile = 'domains/noble.dion.sy/public_html/noble_production_build.tar.gz';
         
         console.log(`Starting massive upload: ${localFile} -> ${remoteFile}`);

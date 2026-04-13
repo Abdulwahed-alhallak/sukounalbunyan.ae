@@ -56,15 +56,13 @@ export function BrandProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const root = document.documentElement;
 
-        // Set global RTL direction
+        // ─── RTL Direction ───
         const isRTL = settings.layoutDirection === 'rtl';
-
         root.dir = isRTL ? 'rtl' : 'ltr';
         root.style.direction = isRTL ? 'rtl' : 'ltr';
         document.body.dir = isRTL ? 'rtl' : 'ltr';
         document.body.style.direction = isRTL ? 'rtl' : 'ltr';
 
-        // Add/remove RTL class from body
         if (isRTL) {
             document.body.classList.add('rtl');
             document.body.classList.remove('ltr');
@@ -73,21 +71,36 @@ export function BrandProvider({ children }: { children: ReactNode }) {
             document.body.classList.remove('rtl');
         }
 
-        // Set theme mode
+        // ─── Theme Mode (Vercel 2026 — class-based on <html>) ───
         const themeMode = settings.themeMode;
 
-        if (themeMode === 'light') {
+        if (themeMode === 'dark') {
+            root.classList.add('dark');
+            root.classList.remove('light');
+            document.body.classList.add('dark');
+            document.body.classList.remove('light');
+        } else if (themeMode === 'light') {
+            root.classList.remove('dark');
+            root.classList.add('light');
             document.body.classList.remove('dark');
             document.body.classList.add('light');
-        } else if (themeMode === 'dark') {
-            document.body.classList.remove('light');
-            document.body.classList.add('dark');
         } else {
-            // system mode - let next-themes handle it
-            document.body.classList.remove('light', 'dark');
+            // System mode — check prefers-color-scheme
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+                root.classList.remove('light');
+                document.body.classList.add('dark');
+                document.body.classList.remove('light');
+            } else {
+                root.classList.remove('dark');
+                root.classList.add('light');
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+            }
         }
 
-        // Set Font Family dynamically from settings, or fallback to default
+        // ─── Font Stack ───
         const fontStack = settings.fontFamily 
             ? `${settings.fontFamily}, 'IBM Plex Sans Arabic', system-ui, sans-serif`
             : "'Geist Sans', 'IBM Plex Sans Arabic', system-ui, sans-serif";

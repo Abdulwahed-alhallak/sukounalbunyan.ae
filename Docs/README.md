@@ -22,6 +22,7 @@
 | **🔐 الفصل الثاني عشر** | [`12-Licensing_and_Master_Plan.md`](./12-Licensing_and_Master_Plan.md) | طبيعة الباقات والرخصة الشاملة (Noble Master Plan) وآلية مزامنة الملفات. |
 | **🖥️ الفصل الثالث عشر** | [`13-Frontend_and_Settings.md`](./13-Frontend_and_Settings.md) | واجهة المستخدم (Tailwind, React/Inertia) وهيكلية إعدادات المنظومة الشاملة. |
 | **🤖 الفصل الرابع عشر** | [`14-AI_and_Code_Generation.md`](./14-AI_and_Code_Generation.md) | شرح وتوظيف أدوات الذكاء الاصطناعي (AI Assistant) وكيفية معالجتها في مختلف أجزاء النظام. |
+| **🏷️ الفصل الخامس عشر** | [`15-TypeScript_and_Data_Models.md`](./15-TypeScript_and_Data_Models.md) | دليل تعريفات الأنواع (TypeScript Definitions) ونماذج البيانات لضمان تطابق السيرفر مع الواجهة الأمامية. |
 
 ---
 

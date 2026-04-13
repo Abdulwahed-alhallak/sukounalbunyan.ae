@@ -3,13 +3,11 @@ import { Client } from 'ssh2';
 const conn = new Client();
 const deployCommands = `
 cd domains/noble.dion.sy/public_html &&
-echo "--- 3. INSTALLING DEPENDENCIES FIX ---" &&
-composer install --no-dev -o &&
-echo "--- 4. MIGRATING DATABASE ---" &&
-php artisan migrate --force &&
-echo "--- 5. CLEARING CACHES ---" &&
-php artisan optimize:clear &&
-echo "--- 6. VERIFYING DB CONNECTION ---" &&
+echo "--- 1. CLEARING CACHES TO FIX 500 ERROR ---" &&
+/opt/alt/php82/usr/bin/php artisan optimize:clear || php artisan optimize:clear || true &&
+echo "--- 2. MIGRATING DATABASE ---" &&
+/opt/alt/php82/usr/bin/php artisan migrate --force || php artisan migrate --force || true &&
+echo "--- 3. VERIFYING DB CONNECTION ---" &&
 php artisan db:show
 `;
 

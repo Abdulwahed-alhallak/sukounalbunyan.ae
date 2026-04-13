@@ -70,7 +70,7 @@ function AuthenticatedLayoutContent({
                         dir={settings.layoutDirection === 'rtl' ? 'rtl' : 'ltr'}
                     >
                         {/* ─── Vercel-Style Header ─── */}
-                        <header className="sticky top-0 z-40 flex h-12 w-full shrink-0 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-sm transition-colors">
+                        <header className="sticky top-0 z-40 flex h-12 w-full shrink-0 items-center justify-between border-b border-border bg-background/90 px-4 backdrop-blur-xl transition-colors">
                             {/* Left: Sidebar trigger + Breadcrumb */}
                             <div
                                 className={`flex items-center gap-3 ${settings.layoutDirection === 'rtl' ? 'order-2 flex-row-reverse' : 'order-1'}`}
@@ -180,8 +180,8 @@ function AuthenticatedLayoutContent({
 
                         {/* ─── Main Content ─── */}
                         <main className="relative h-full min-h-[calc(100vh-3rem)] overflow-hidden p-4 md:p-6">
-                            {/* Premium Background Dots */}
-                            <div className="vercel-dots absolute inset-0 -z-10 opacity-[0.05] dark:opacity-[0.1]" />
+                            {/* Vercel 2026 — Subtle dot pattern */}
+                            <div className="vercel-dots absolute inset-0 -z-10" />
 
                             {pageTitle && (
                                 <div
@@ -196,7 +196,7 @@ function AuthenticatedLayoutContent({
                                     <div className="flex flex-shrink-0 items-center gap-2">{pageActions}</div>
                                 </div>
                             )}
-                            <div className="duration-500 animate-in fade-in slide-in-from-bottom-2">{children}</div>
+                            <div className="animate-fade-in">{children}</div>
                         </main>
                     </SidebarInset>
                 </SidebarProvider>
