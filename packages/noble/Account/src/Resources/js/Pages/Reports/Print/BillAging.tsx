@@ -64,7 +64,7 @@ export default function Print() {
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('BILL AGING REPORT')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {t('As of')}: {formatDate(filters.as_of_date)}
@@ -75,47 +75,47 @@ export default function Print() {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="px-2 py-2 text-left text-sm font-semibold">{t('Vendor')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">{t('Current')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">1-30 {t('Days')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">31-60 {t('Days')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">61-90 {t('Days')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">&gt;90 {t('Days')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">{t('Total')}</th>
+                            <th className="px-2 py-2 text-start text-sm font-semibold">{t('Vendor')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">{t('Current')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">1-30 {t('Days')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">31-60 {t('Days')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">61-90 {t('Days')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">&gt;90 {t('Days')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">{t('Total')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.vendors?.map((vendor: any, idx: number) => (
                             <tr key={idx} className="border-b border-border">
                                 <td className="px-2 py-2 text-sm">{vendor.vendor_name}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(vendor.current)}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(vendor['1_30_days'])}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(vendor['31_60_days'])}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(vendor['61_90_days'])}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(vendor.over_90_days)}</td>
-                                <td className="px-2 py-2 text-right text-sm font-semibold">
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(vendor.current)}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(vendor['1_30_days'])}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(vendor['31_60_days'])}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(vendor['61_90_days'])}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(vendor.over_90_days)}</td>
+                                <td className="px-2 py-2 text-end text-sm font-semibold">
                                     {formatCurrency(vendor.total)}
                                 </td>
                             </tr>
                         ))}
                         <tr className="border-t-2 border-black font-bold">
                             <td className="px-2 py-3 text-sm">{t('TOTAL')}</td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.aging_summary.current)}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.aging_summary['1_30_days'])}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.aging_summary['31_60_days'])}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.aging_summary['61_90_days'])}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.aging_summary.over_90_days)}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">{formatCurrency(data.aging_summary.total)}</td>
+                            <td className="px-2 py-3 text-end text-sm">{formatCurrency(data.aging_summary.total)}</td>
                         </tr>
                     </tbody>
                 </table>

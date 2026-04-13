@@ -216,7 +216,7 @@ export default function Index() {
                                 setShowCreate(true);
                             }}
                         >
-                            <Plus className="mr-2 h-4 w-4" />
+                            <Plus className="me-2 h-4 w-4" />
                             {t('New Onboarding')}
                         </Button>
                     </CardHeader>
@@ -248,7 +248,7 @@ export default function Index() {
                                                                 </span>
                                                             )}
                                                             {item.due_date && (
-                                                                <span className="ml-3">
+                                                                <span className="ms-3">
                                                                     {t('Due')}:{' '}
                                                                     {new Date(item.due_date).toLocaleDateString()}
                                                                 </span>

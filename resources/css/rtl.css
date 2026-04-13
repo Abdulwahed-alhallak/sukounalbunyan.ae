@@ -27,12 +27,43 @@
 /* Lucide icons that usually indicate direction */
 [dir="rtl"] .lucide-chevron-right, 
 [dir="rtl"] .lucide-arrow-right, 
-[dir="rtl"] .lucide-move-right {
-  transform: rotate(180deg);
-}
-
+[dir="rtl"] .lucide-move-right,
 [dir="rtl"] .lucide-chevron-left, 
 [dir="rtl"] .lucide-arrow-left, 
 [dir="rtl"] .lucide-move-left {
   transform: rotate(180deg);
+}
+
+/* Shadcn/UI Specific Correctors */
+[dir="rtl"] .select-content,
+[dir="rtl"] .popover-content,
+[dir="rtl"] .dropdown-menu-content {
+  text-align: right;
+}
+
+/* Ensure logical spacing for elements that don't use Tailwind yet */
+[dir="rtl"] .spacer-x-4 > * + * {
+  margin-right: 1rem !important;
+  margin-left: 0 !important;
+}
+
+/* DataGrid / Table headers */
+[dir="rtl"] th {
+  text-align: right !important;
+}
+
+/* Pagination arrows */
+[dir="rtl"] [data-pagination-prev],
+[dir="rtl"] [data-pagination-next] {
+  transform: rotate(180deg);
+}
+
+/* Sidebar Specific RTL Fixes */
+[dir="rtl"] [data-sidebar="sidebar"] {
+  border-left-width: 1px;
+  border-right-width: 0;
+}
+
+[dir="rtl"] .sidebar-trigger {
+  transform: scaleX(-1);
 }

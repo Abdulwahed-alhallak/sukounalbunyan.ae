@@ -37,8 +37,8 @@ export default function AffiliateEngineIndex() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <Card className="relative col-span-1 overflow-hidden border-border bg-gradient-to-br from-foreground to-black text-background dark:from-foreground dark:to-black md:col-span-2">
                     {/* Decorative Background Elements */}
-                    <div className="bg-noble-magenta/20 absolute right-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full blur-[80px]"></div>
-                    <div className="absolute bottom-0 left-0 h-48 w-48 -translate-x-1/4 translate-y-1/2 rounded-full bg-foreground/20 blur-[60px]"></div>
+                    <div className="bg-noble-magenta/20 absolute end-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full blur-[80px]"></div>
+                    <div className="absolute bottom-0 start-0 h-48 w-48 -translate-x-1/4 translate-y-1/2 rounded-full bg-foreground/20 blur-[60px]"></div>
 
                     <CardContent className="relative z-10 flex h-full flex-col justify-center p-8">
                         <h2 className="mb-2 text-xl sm:text-2xl font-bold">{t('Your Unique Magic Link')}</h2>
@@ -102,7 +102,7 @@ export default function AffiliateEngineIndex() {
                         className="hover:border-noble-magenta/50 group cursor-pointer border-border bg-card transition-colors dark:border-border dark:bg-foreground"
                     >
                         <CardContent className="relative overflow-hidden p-5">
-                            <div className="from-noble-magenta/10 absolute right-0 top-0 -me-4 -mt-4 h-16 w-16 rounded-bl-[100px] bg-gradient-to-br to-transparent transition-transform group-hover:scale-150"></div>
+                            <div className="from-noble-magenta/10 absolute end-0 top-0 -me-4 -mt-4 h-16 w-16 rounded-bl-[100px] bg-gradient-to-br to-transparent transition-transform group-hover:scale-150"></div>
                             <div className="mb-4 flex items-start justify-between">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted font-bold text-foreground dark:bg-foreground dark:text-muted-foreground/60">
                                     {company.name[0]}

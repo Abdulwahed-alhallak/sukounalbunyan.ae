@@ -276,7 +276,7 @@ export default function MediaLibraryModal({ isOpen, onClose, onSelect, multiple 
                         <ImageIcon className="h-5 w-5" />
                         {t('Media Library')}
                         {filteredMedia.length > 0 && (
-                            <Badge variant="secondary" className="ml-2">
+                            <Badge variant="secondary" className="ms-2">
                                 {filteredMedia.length}
                             </Badge>
                         )}
@@ -339,12 +339,12 @@ export default function MediaLibraryModal({ isOpen, onClose, onSelect, multiple 
                     {/* Header with Search and Upload */}
                     <div className="flex flex-col gap-3 sm:flex-row">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                            <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                             <Input
                                 placeholder={t('Search media files...')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10"
+                                className="ps-10"
                             />
                         </div>
 
@@ -363,7 +363,7 @@ export default function MediaLibraryModal({ isOpen, onClose, onSelect, multiple 
                                 disabled={uploading}
                                 size="sm"
                             >
-                                <Plus className="mr-2 h-4 w-4" />
+                                <Plus className="me-2 h-4 w-4" />
                                 {uploading ? t('Uploading...') : t('Upload Files')}
                             </Button>
                         </div>
@@ -428,7 +428,7 @@ export default function MediaLibraryModal({ isOpen, onClose, onSelect, multiple 
                                         onClick={() => document.getElementById('file-upload')?.click()}
                                         disabled={uploading}
                                     >
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         {t('Upload Files')}
                                     </Button>
                                 </div>
@@ -476,7 +476,7 @@ export default function MediaLibraryModal({ isOpen, onClose, onSelect, multiple 
                                                     )}
 
                                                     {/* File Name Tooltip */}
-                                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                                                    <div className="absolute bottom-0 start-0 end-0 bg-gradient-to-t from-black/70 to-transparent p-2 opacity-0 transition-opacity group-hover:opacity-100">
                                                         <p
                                                             className="truncate text-xs text-background"
                                                             title={item.name}

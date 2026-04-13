@@ -47,7 +47,7 @@ export default function PredictiveFinanceIndex({ chartData, metrics }: { chartDa
                     className={`relative overflow-hidden border-border bg-muted/50 dark:border-border dark:bg-foreground`}
                 >
                     {metrics.danger && (
-                        <div className="absolute right-0 top-0 p-4 opacity-10">
+                        <div className="absolute end-0 top-0 p-4 opacity-10">
                             <AlertTriangle className="h-16 w-16 text-muted-foreground" />
                         </div>
                     )}

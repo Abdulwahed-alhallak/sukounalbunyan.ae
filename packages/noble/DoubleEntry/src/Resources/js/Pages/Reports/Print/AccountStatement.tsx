@@ -113,7 +113,7 @@ export default function Print() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('ACCOUNT STATEMENT')}</h2>
                             {selectedAccount && (
                                 <div className="space-y-1 text-sm text-foreground">
@@ -134,12 +134,12 @@ export default function Print() {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="w-24 px-3 py-2 text-left text-sm font-semibold">{t('Date')}</th>
-                            <th className="px-3 py-2 text-left text-sm font-semibold">{t('Description')}</th>
-                            <th className="w-28 px-3 py-2 text-left text-sm font-semibold">{t('Reference')}</th>
-                            <th className="w-24 px-3 py-2 text-right text-sm font-semibold">{t('Debit')}</th>
-                            <th className="w-24 px-3 py-2 text-right text-sm font-semibold">{t('Credit')}</th>
-                            <th className="w-28 px-3 py-2 text-right text-sm font-semibold">{t('Balance')}</th>
+                            <th className="w-24 px-3 py-2 text-start text-sm font-semibold">{t('Date')}</th>
+                            <th className="px-3 py-2 text-start text-sm font-semibold">{t('Description')}</th>
+                            <th className="w-28 px-3 py-2 text-start text-sm font-semibold">{t('Reference')}</th>
+                            <th className="w-24 px-3 py-2 text-end text-sm font-semibold">{t('Debit')}</th>
+                            <th className="w-24 px-3 py-2 text-end text-sm font-semibold">{t('Credit')}</th>
+                            <th className="w-28 px-3 py-2 text-end text-sm font-semibold">{t('Balance')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -148,7 +148,7 @@ export default function Print() {
                                 <td colSpan={5} className="px-3 py-2 text-sm font-semibold">
                                     {t('Opening Balance')}
                                 </td>
-                                <td className="px-3 py-2 text-right text-sm font-semibold tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm font-semibold tabular-nums">
                                     {formatCurrency(data.opening_balance)}
                                 </td>
                             </tr>
@@ -158,13 +158,13 @@ export default function Print() {
                                 <td className="whitespace-nowrap px-3 py-2 text-sm">{formatDate(transaction.date)}</td>
                                 <td className="break-words px-3 py-2 text-sm">{transaction.description}</td>
                                 <td className="px-3 py-2 text-sm">{transaction.reference_type}</td>
-                                <td className="px-3 py-2 text-right text-sm tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm tabular-nums">
                                     {transaction.debit > 0 ? formatCurrency(transaction.debit) : '-'}
                                 </td>
-                                <td className="px-3 py-2 text-right text-sm tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm tabular-nums">
                                     {transaction.credit > 0 ? formatCurrency(transaction.credit) : '-'}
                                 </td>
-                                <td className="px-3 py-2 text-right text-sm font-medium tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm font-medium tabular-nums">
                                     {formatCurrency(transaction.balance)}
                                 </td>
                             </tr>
@@ -173,10 +173,10 @@ export default function Print() {
                             <td colSpan={3} className="px-3 py-2 text-sm font-bold">
                                 {t('Total')}
                             </td>
-                            <td className="px-3 py-2 text-right text-sm font-bold tabular-nums">
+                            <td className="px-3 py-2 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(totalDebit)}
                             </td>
-                            <td className="px-3 py-2 text-right text-sm font-bold tabular-nums">
+                            <td className="px-3 py-2 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(totalCredit)}
                             </td>
                             <td className="px-3 py-2 text-sm"></td>
@@ -185,7 +185,7 @@ export default function Print() {
                             <td colSpan={5} className="px-3 py-2 text-sm font-bold">
                                 {t('Closing Balance')}
                             </td>
-                            <td className="px-3 py-2 text-right text-sm font-bold tabular-nums">
+                            <td className="px-3 py-2 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(data.closing_balance)}
                             </td>
                         </tr>

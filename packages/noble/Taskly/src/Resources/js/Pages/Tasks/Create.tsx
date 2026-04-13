@@ -112,7 +112,7 @@ export default function Create({
         <DialogContent className="glass-effect-dark max-w-3xl overflow-hidden border-white/10 p-0 shadow-2xl">
             <div className="flex h-full min-h-[550px]">
                 {/* Sidebar Nav */}
-                <div className="flex w-64 flex-col border-r border-white/5 bg-foreground/40 p-6">
+                <div className="flex w-64 flex-col border-e border-white/5 bg-foreground/40 p-6">
                     <div className="mb-8">
                         <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-lg border border-foreground/30 bg-foreground/20">
                             <Crosshair className="h-4 w-4 animate-pulse text-foreground" />
@@ -148,11 +148,11 @@ export default function Create({
                                         {tab.label}
                                     </span>
                                 </div>
-                                <span className="ml-7 text-[8px] font-bold uppercase tracking-tighter opacity-40 group-hover:opacity-60">
+                                <span className="ms-7 text-[8px] font-bold uppercase tracking-tighter opacity-40 group-hover:opacity-60">
                                     {tab.description}
                                 </span>
                                 {activeTab === tab.id && (
-                                    <div className="absolute bottom-3 left-0 top-3 w-0.5 rounded-full bg-foreground transition-all duration-500" />
+                                    <div className="absolute bottom-3 start-0 top-3 w-0.5 rounded-full bg-foreground transition-all duration-500" />
                                 )}
                             </button>
                         ))}
@@ -203,7 +203,7 @@ export default function Create({
                     <form onSubmit={submit} className="flex flex-1 flex-col overflow-hidden p-0">
                         <div className="custom-scrollbar relative flex-1 overflow-y-auto p-8">
                             {activeTab === 'intel' && (
-                                <div className="space-y-6 duration-300 animate-in fade-in slide-in-from-right-4">
+                                <div className="space-y-6 duration-300 animate-in fade-in slide-in-from-end-4">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="col-span-2">
                                             <div className="flex items-end gap-2">
@@ -294,7 +294,7 @@ export default function Create({
                             )}
 
                             {activeTab === 'allocation' && (
-                                <div className="space-y-8 duration-300 animate-in fade-in slide-in-from-right-4">
+                                <div className="space-y-8 duration-300 animate-in fade-in slide-in-from-end-4">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div>
                                             <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
@@ -394,7 +394,7 @@ export default function Create({
                             )}
 
                             {activeTab === 'temporal' && (
-                                <div className="space-y-8 duration-300 animate-in fade-in slide-in-from-right-4">
+                                <div className="space-y-8 duration-300 animate-in fade-in slide-in-from-end-4">
                                     <div className="space-y-4 rounded-2xl border border-white/5 bg-card/[0.02] p-6">
                                         <div className="mb-4 flex items-center gap-2">
                                             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
@@ -500,7 +500,7 @@ export default function Create({
                                         <span className="text-[10px] font-black uppercase tracking-widest">
                                             {t('Next Sector')}
                                         </span>
-                                        <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                        <ChevronRight className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </Button>
                                 )}
                             </div>

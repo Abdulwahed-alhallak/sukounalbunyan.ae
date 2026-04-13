@@ -119,7 +119,7 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                                     >
                                         {updating ? (
                                             <>
-                                                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
+                                                <div className="me-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                                                 {t('Updating...')}
                                             </>
                                         ) : (

@@ -152,9 +152,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <div className="text-3xl font-bold text-destructive">{stats.absent_today}</div>
                                 <div className="mt-1 flex items-center text-xs text-destructive">
                                     {stats.absent_today > stats.absent_yesterday ? (
-                                        <ArrowUpRight className="mr-1 h-3 w-3" />
+                                        <ArrowUpRight className="me-1 h-3 w-3" />
                                     ) : (
-                                        <ArrowDownRight className="mr-1 h-3 w-3" />
+                                        <ArrowDownRight className="me-1 h-3 w-3" />
                                     )}
                                     <span>
                                         {stats.absent_today - stats.absent_yesterday > 0 ? '+' : ''}
@@ -315,7 +315,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-4 overflow-y-auto pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-4 overflow-y-auto pe-2">
                                 {stats.department_distribution && stats.department_distribution.length > 0 ? (
                                     stats.department_distribution?.map((dept, index) => {
                                         const maxValue = Math.max(
@@ -376,13 +376,13 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pe-2">
                                 <Button
                                     className="w-full justify-start"
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.employees.create'))}
                                 >
-                                    <Users className="mr-2 h-4 w-4" />
+                                    <Users className="me-2 h-4 w-4" />
                                     {t('Add New Employee')}
                                 </Button>
                                 <Button
@@ -390,7 +390,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.attendances.index'))}
                                 >
-                                    <Clock className="mr-2 h-4 w-4" />
+                                    <Clock className="me-2 h-4 w-4" />
                                     {t('Mark Attendance')}
                                 </Button>
                                 <Button
@@ -398,7 +398,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.leave-applications.index'))}
                                 >
-                                    <Calendar className="mr-2 h-4 w-4" />
+                                    <Calendar className="me-2 h-4 w-4" />
                                     {t('Apply for Leave')}
                                 </Button>
                                 <Button
@@ -406,7 +406,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.payrolls.index'))}
                                 >
-                                    <CreditCard className="mr-2 h-4 w-4" />
+                                    <CreditCard className="me-2 h-4 w-4" />
                                     {t('Process Payroll')}
                                 </Button>
                                 <Button
@@ -414,7 +414,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.promotions.index'))}
                                 >
-                                    <TrendingUp className="mr-2 h-4 w-4" />
+                                    <TrendingUp className="me-2 h-4 w-4" />
                                     {t('Create Promotion')}
                                 </Button>
                                 <Button
@@ -422,7 +422,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.resignations.index'))}
                                 >
-                                    <TrendingDown className="mr-2 h-4 w-4" />
+                                    <TrendingDown className="me-2 h-4 w-4" />
                                     {t('Create Resignation')}
                                 </Button>
                                 <Button
@@ -430,7 +430,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.holidays.index'))}
                                 >
-                                    <CalendarDays className="mr-2 h-4 w-4" />
+                                    <CalendarDays className="me-2 h-4 w-4" />
                                     {t('Create Holiday')}
                                 </Button>
                                 <Button
@@ -438,7 +438,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                     variant="outline"
                                     onClick={() => (window.location.href = route('hrm.warnings.index'))}
                                 >
-                                    <AlertTriangle className="mr-2 h-4 w-4" />
+                                    <AlertTriangle className="me-2 h-4 w-4" />
                                     {t('Create Warning')}
                                 </Button>
                             </div>
@@ -457,7 +457,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pe-2">
                                 {stats.employees_on_leave_today && stats.employees_on_leave_today.length > 0 ? (
                                     stats.employees_on_leave_today?.map((employee, index) => {
                                         const colors = [
@@ -524,7 +524,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pe-2">
                                 {stats.employees_without_attendance && stats.employees_without_attendance.length > 0 ? (
                                     stats.employees_without_attendance?.map((employee, index) => {
                                         const colors = [

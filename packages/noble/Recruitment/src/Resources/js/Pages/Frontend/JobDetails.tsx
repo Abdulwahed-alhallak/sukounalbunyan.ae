@@ -105,7 +105,7 @@ export default function JobDetails({ job, userSlug, brandSettings, companyInfo }
                                             }))
                                         }
                                     >
-                                        <ArrowLeft className="mr-2 h-4 w-4" />
+                                        <ArrowLeft className="me-2 h-4 w-4" />
                                         {t('Back to Jobs')}
                                     </Button>
                                 </div>
@@ -117,7 +117,7 @@ export default function JobDetails({ job, userSlug, brandSettings, companyInfo }
                                             <div className="flex gap-2">
                                                 {job.featured && (
                                                     <Badge className="border-border bg-muted text-foreground hover:bg-muted">
-                                                        <Star className="mr-1 h-3 w-3" />
+                                                        <Star className="me-1 h-3 w-3" />
                                                         {t('Featured')}
                                                     </Badge>
                                                 )}
@@ -125,7 +125,7 @@ export default function JobDetails({ job, userSlug, brandSettings, companyInfo }
                                         </div>
 
                                         <div className="mb-6 flex items-center text-muted-foreground">
-                                            <MapPin className="mr-2 h-5 w-5 text-foreground" />
+                                            <MapPin className="me-2 h-5 w-5 text-foreground" />
                                             <span className="text-lg font-medium">{job.location}</span>
                                         </div>
 

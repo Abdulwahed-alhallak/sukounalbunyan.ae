@@ -170,24 +170,24 @@ export default function CustomerDetail() {
                                 <table className="w-full">
                                     <thead className="bg-muted">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Invoice Number')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Invoice Date')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Due Date')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Subtotal')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">{t('Tax')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Total Amount')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Balance')}
                                             </th>
                                         </tr>
@@ -203,16 +203,16 @@ export default function CustomerDetail() {
                                                         {invoice.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(invoice.subtotal)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(invoice.tax_amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(invoice.total_amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right font-semibold">
+                                                <td className="px-4 py-3 text-end font-semibold">
                                                     {formatCurrency(invoice.balance_amount)}
                                                 </td>
                                             </tr>
@@ -241,16 +241,16 @@ export default function CustomerDetail() {
                                 <table className="w-full">
                                     <thead className="bg-muted">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Return Number')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Date')}</th>
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Subtotal')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">{t('Tax')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Total Amount')}
                                             </th>
                                         </tr>
@@ -265,11 +265,11 @@ export default function CustomerDetail() {
                                                         {ret.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-right">{formatCurrency(ret.subtotal)}</td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">{formatCurrency(ret.subtotal)}</td>
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(ret.tax_amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right font-semibold">
+                                                <td className="px-4 py-3 text-end font-semibold">
                                                     {formatCurrency(ret.total_amount)}
                                                 </td>
                                             </tr>
@@ -298,18 +298,18 @@ export default function CustomerDetail() {
                                 <table className="w-full">
                                     <thead className="bg-muted">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Credit Note Number')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Date')}</th>
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Total Amount')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Applied')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Balance')}
                                             </th>
                                         </tr>
@@ -324,13 +324,13 @@ export default function CustomerDetail() {
                                                         {note.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(note.total_amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right">
+                                                <td className="px-4 py-3 text-end">
                                                     {formatCurrency(note.applied_amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right font-semibold">
+                                                <td className="px-4 py-3 text-end font-semibold">
                                                     {formatCurrency(note.balance_amount)}
                                                 </td>
                                             </tr>
@@ -359,18 +359,18 @@ export default function CustomerDetail() {
                                 <table className="w-full">
                                     <thead className="bg-muted">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Payment Number')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Date')}</th>
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Bank Account')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Reference')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Amount')}
                                             </th>
                                         </tr>
@@ -391,7 +391,7 @@ export default function CustomerDetail() {
                                                         {payment.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-right font-semibold">
+                                                <td className="px-4 py-3 text-end font-semibold">
                                                     {formatCurrency(payment.amount)}
                                                 </td>
                                             </tr>

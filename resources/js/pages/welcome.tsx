@@ -19,7 +19,7 @@ export default function Welcome({
             <div className="bg-muted/50 text-black/50 dark:bg-foreground dark:text-foreground/50">
                 <img
                     id="background"
-                    className="absolute -left-20 top-0 max-w-[877px]"
+                    className="absolute -start-20 top-0 max-w-[877px]"
                     src="https://laravel.com/assets/img/welcome/background.svg"
                 />
                 <div className="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-background">
@@ -87,7 +87,7 @@ export default function Welcome({
                                             alt="Laravel documentation screenshot"
                                             className="hidden aspect-video h-full w-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
                                         />
-                                        <div className="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-foreground dark:to-foreground"></div>
+                                        <div className="absolute -bottom-16 -start-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-foreground dark:to-foreground"></div>
                                     </div>
 
                                     <div className="relative flex items-center gap-6 lg:items-end">

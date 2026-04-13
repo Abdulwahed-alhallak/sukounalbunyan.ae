@@ -206,7 +206,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                             }}
                         >
                             {/* Features Header */}
-                            <div className="sticky left-0 z-20 rounded-2xl border border-border bg-gradient-to-br from-muted/50 to-muted p-6 dark:border-border dark:from-card dark:to-foreground">
+                            <div className="sticky start-0 z-20 rounded-2xl border border-border bg-gradient-to-br from-muted/50 to-muted p-6 dark:border-border dark:from-card dark:to-foreground">
                                 <div className="flex items-center justify-center space-x-3">
                                     <h3 className="text-xl font-bold text-foreground dark:text-foreground">
                                         {t('Features')}
@@ -225,7 +225,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                     }`}
                                 >
                                     {plan.id === mostPopularPlanId && activePlans.length > 1 && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">
+                                        <div className="absolute -top-4 start-1/2 -translate-x-1/2 transform">
                                             <Badge className="bg-foreground px-4 py-2 text-sm font-bold text-background shadow-lg">
                                                 ★ {t('Most Popular')}
                                             </Badge>
@@ -233,7 +233,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                     )}
 
                                     {!isCompanyUser && (
-                                        <div className="absolute right-4 top-4">
+                                        <div className="absolute end-4 top-4">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -246,7 +246,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                             href={route('plans.edit', plan.id)}
                                                             className="flex items-center"
                                                         >
-                                                            <Edit className="mr-2 h-4 w-4" />
+                                                            <Edit className="me-2 h-4 w-4" />
                                                             {t('Edit')}
                                                         </Link>
                                                     </DropdownMenuItem>
@@ -254,7 +254,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                         onClick={() => handleDelete(plan)}
                                                         className="text-destructive focus:text-destructive"
                                                     >
-                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        <Trash2 className="me-2 h-4 w-4" />
                                                         {t('Delete')}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
@@ -337,7 +337,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                 }}
                             >
                                 {/* All Modules Card */}
-                                <div className="sticky left-0 z-20 rounded-2xl border border-border bg-card p-6 dark:border-border dark:bg-card">
+                                <div className="sticky start-0 z-20 rounded-2xl border border-border bg-card p-6 dark:border-border dark:bg-card">
                                     <div className="space-y-3">
                                         <div className="mb-3 flex h-10 items-center justify-center border-b border-border py-2 dark:border-border">
                                             <span className="text-sm font-semibold text-foreground dark:text-foreground">
@@ -436,7 +436,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                                         variant="outline"
                                                                         onClick={() => handleStartTrial(plan)}
                                                                     >
-                                                                        <Clock className="mr-2 h-4 w-4" />
+                                                                        <Clock className="me-2 h-4 w-4" />
                                                                         {t('Start Trial')} ({plan.trial_days}d)
                                                                     </Button>
                                                                 )}
@@ -465,7 +465,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                         {canCreate && (
                             <Link href={route('plans.create')}>
                                 <Button>
-                                    <Plus className="mr-2 h-4 w-4" />
+                                    <Plus className="me-2 h-4 w-4" />
                                     {t('Create Plan')}
                                 </Button>
                             </Link>

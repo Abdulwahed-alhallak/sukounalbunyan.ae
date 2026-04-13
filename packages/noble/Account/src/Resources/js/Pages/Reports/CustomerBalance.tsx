@@ -92,18 +92,18 @@ export default function CustomerBalance({ financialYear }: any) {
                             <table className="w-full">
                                 <thead className="sticky top-0 bg-muted">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Customer')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Email')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Customer')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Email')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Total Invoiced')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Total Returns & Credit Notes')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Total Paid')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Balance')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Balance')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -127,16 +127,16 @@ export default function CustomerBalance({ financialYear }: any) {
                                             <td className="px-4 py-3 text-sm text-muted-foreground">
                                                 {customer.customer_email}
                                             </td>
-                                            <td className="px-4 py-3 text-right">
+                                            <td className="px-4 py-3 text-end">
                                                 {formatCurrency(customer.total_invoiced)}
                                             </td>
-                                            <td className="px-4 py-3 text-right text-destructive">
+                                            <td className="px-4 py-3 text-end text-destructive">
                                                 {formatCurrency(customer.total_returns)}
                                             </td>
-                                            <td className="px-4 py-3 text-right">
+                                            <td className="px-4 py-3 text-end">
                                                 {formatCurrency(customer.total_paid)}
                                             </td>
-                                            <td className="px-4 py-3 text-right font-semibold">
+                                            <td className="px-4 py-3 text-end font-semibold">
                                                 {formatCurrency(customer.balance)}
                                             </td>
                                         </tr>
@@ -145,7 +145,7 @@ export default function CustomerBalance({ financialYear }: any) {
                                         <td colSpan={2} className="px-4 py-4">
                                             {t('Total')}
                                         </td>
-                                        <td className="px-4 py-4 text-right">
+                                        <td className="px-4 py-4 text-end">
                                             {formatCurrency(
                                                 data.customers.reduce(
                                                     (sum: number, c: any) => sum + c.total_invoiced,
@@ -153,17 +153,17 @@ export default function CustomerBalance({ financialYear }: any) {
                                                 )
                                             )}
                                         </td>
-                                        <td className="px-4 py-4 text-right text-destructive">
+                                        <td className="px-4 py-4 text-end text-destructive">
                                             {formatCurrency(
                                                 data.customers.reduce((sum: number, c: any) => sum + c.total_returns, 0)
                                             )}
                                         </td>
-                                        <td className="px-4 py-4 text-right">
+                                        <td className="px-4 py-4 text-end">
                                             {formatCurrency(
                                                 data.customers.reduce((sum: number, c: any) => sum + c.total_paid, 0)
                                             )}
                                         </td>
-                                        <td className="px-4 py-4 text-right">{formatCurrency(data.total_balance)}</td>
+                                        <td className="px-4 py-4 text-end">{formatCurrency(data.total_balance)}</td>
                                     </tr>
                                 </tbody>
                             </table>

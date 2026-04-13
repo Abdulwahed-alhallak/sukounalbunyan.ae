@@ -93,7 +93,7 @@ export default function Scheduler() {
                         <Button variant="outline" size="icon" onClick={nextWeek}>
                             <ChevronRight className="h-4 w-4" />
                         </Button>
-                        <Badge variant="secondary" className="ml-2 px-3 py-1.5 text-sm">
+                        <Badge variant="secondary" className="ms-2 px-3 py-1.5 text-sm">
                             {daysInWeek[0].toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} -{' '}
                             {daysInWeek[6].toLocaleDateString(undefined, {
                                 month: 'short',
@@ -108,7 +108,7 @@ export default function Scheduler() {
                     <Card className="col-span-1 md:col-span-3">
                         <CardHeader className="pb-2">
                             <CardTitle className="flex items-center text-lg">
-                                <CalendarIcon className="mr-2 h-5 w-5 text-primary" /> {t('Schedule Calendar')}
+                                <CalendarIcon className="me-2 h-5 w-5 text-primary" /> {t('Schedule Calendar')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -116,7 +116,7 @@ export default function Scheduler() {
                                 <table className="w-full min-w-[800px]">
                                     <thead>
                                         <tr className="border-b bg-muted/50">
-                                            <th className="w-[200px] border-r p-3 text-left font-semibold">
+                                            <th className="w-[200px] border-e p-3 text-start font-semibold">
                                                 {t('Employee')}
                                             </th>
                                             {daysInWeek.map((day, idx) => (
@@ -136,7 +136,7 @@ export default function Scheduler() {
                                         {employees.length > 0 ? (
                                             employees.map((emp) => (
                                                 <tr key={emp.id} className="border-b last:border-b-0">
-                                                    <td className="border-r bg-muted/10 p-3 font-medium">
+                                                    <td className="border-e bg-muted/10 p-3 font-medium">
                                                         <div className="flex items-center gap-2">
                                                             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-xs text-primary">
                                                                 {emp.name.charAt(0)}
@@ -154,7 +154,7 @@ export default function Scheduler() {
                                                         return (
                                                             <td
                                                                 key={idx}
-                                                                className={`border-r p-2 last:border-r-0 ${isWeekend ? 'bg-muted/30' : ''}`}
+                                                                className={`border-e p-2 last:border-e-0 ${isWeekend ? 'bg-muted/30' : ''}`}
                                                             >
                                                                 {emp.shift_id && !isWeekend ? (
                                                                     <div className="flex flex-col items-center justify-center rounded border border-blue-200 bg-blue-50 p-2 text-center text-blue-700 shadow-sm dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
@@ -196,7 +196,7 @@ export default function Scheduler() {
                     <Card className="col-span-1">
                         <CardHeader>
                             <CardTitle className="flex items-center text-lg">
-                                <Clock className="mr-2 h-5 w-5 text-primary" /> {t('Shift Distributions')}
+                                <Clock className="me-2 h-5 w-5 text-primary" /> {t('Shift Distributions')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -211,11 +211,11 @@ export default function Scheduler() {
                                             <div className="flex items-center justify-between">
                                                 <span className="text-sm font-semibold">{shift.shift_name}</span>
                                                 <Badge variant="secondary">
-                                                    <Users className="mr-1 h-3 w-3" /> {count}
+                                                    <Users className="me-1 h-3 w-3" /> {count}
                                                 </Badge>
                                             </div>
                                             <div className="mt-1 flex items-center text-xs text-muted-foreground">
-                                                <Clock className="mr-1 h-3 w-3" />
+                                                <Clock className="me-1 h-3 w-3" />
                                                 {formatTime(shift.start_time)} - {formatTime(shift.end_time)}
                                             </div>
                                         </div>

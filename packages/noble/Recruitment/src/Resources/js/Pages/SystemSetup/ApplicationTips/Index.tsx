@@ -133,7 +133,7 @@ export default function ApplicationTips() {
                                 <h3 className="text-lg font-medium">{t('Application Tips Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="mr-2 h-4 w-4" />
+                                        <Save className="me-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -184,7 +184,7 @@ export default function ApplicationTips() {
 
                                 {canEdit && (
                                     <Button type="button" variant="outline" onClick={addTip} className="w-full">
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         {t('Add Tip')}
                                     </Button>
                                 )}

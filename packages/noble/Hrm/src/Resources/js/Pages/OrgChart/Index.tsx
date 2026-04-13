@@ -156,7 +156,7 @@ function OrgNodeCard({
 
                 {/* Expand/Collapse indicator */}
                 {hasChildren && isCollapsible && (
-                    <div className="absolute -bottom-2.5 left-1/2 z-20 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors group-hover:border-primary/40 group-hover:text-primary">
+                    <div className="absolute -bottom-2.5 start-1/2 z-20 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors group-hover:border-primary/40 group-hover:text-primary">
                         {isExpanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
                     </div>
                 )}
@@ -166,7 +166,7 @@ function OrgNodeCard({
             {hasChildren && isExpanded && (
                 <div className="relative mt-1 pt-8">
                     {/* Vertical connector from parent */}
-                    <div className="absolute left-1/2 top-0 h-8 w-[2px] -translate-x-1/2 bg-gradient-to-b from-primary/40 to-primary/10" />
+                    <div className="absolute start-1/2 top-0 h-8 w-[2px] -translate-x-1/2 bg-gradient-to-b from-primary/40 to-primary/10" />
 
                     <div className="relative flex justify-center gap-4">
                         {/* Horizontal connector line */}
@@ -183,7 +183,7 @@ function OrgNodeCard({
                         {node.children.map((child, idx) => (
                             <div key={child.id || idx} className="relative flex flex-col items-center pt-6">
                                 {/* Vertical line to each child */}
-                                <div className="absolute left-1/2 top-0 h-6 w-[2px] -translate-x-1/2 bg-primary/20" />
+                                <div className="absolute start-1/2 top-0 h-6 w-[2px] -translate-x-1/2 bg-primary/20" />
                                 <OrgNodeCard node={child} depth={depth + 1} />
                             </div>
                         ))}
@@ -267,7 +267,7 @@ export default function OrgChartIndex({ orgTree, employees, departments, stats }
                             className="h-8 rounded-lg px-3 text-[10px] font-bold"
                             onClick={handleResetZoom}
                         >
-                            <RotateCcw className="mr-1 h-3 w-3" /> {t('Reset')}
+                            <RotateCcw className="me-1 h-3 w-3" /> {t('Reset')}
                         </Button>
                     </div>
                     <Badge variant="outline" className="bg-muted/30 text-[9px] font-black uppercase tracking-widest">

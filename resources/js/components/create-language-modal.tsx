@@ -100,7 +100,7 @@ export function CreateLanguageModal({ open, onOpenChange, onSuccess }: CreateLan
                         <Button type="submit" disabled={isLoading}>
                             {isLoading ? (
                                 <>
-                                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                                    <RefreshCw className="me-2 h-4 w-4 animate-spin" />
                                     {t('Creating...')}
                                 </>
                             ) : (

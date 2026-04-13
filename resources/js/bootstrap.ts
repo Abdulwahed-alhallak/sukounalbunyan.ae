@@ -17,7 +17,7 @@ window.axios.interceptors.response.use(
     async (error) => {
         if (error.response?.status === 419) {
             try {
-                const response = await fetch(window.location.href, { method: 'GET' });
+                const response = await fetch(`${window.location.origin}${window.location.pathname}?refresh_token=true&t=${Date.now()}`, { method: 'GET' });
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');

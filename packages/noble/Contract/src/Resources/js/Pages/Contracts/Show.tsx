@@ -340,7 +340,7 @@ export default function Show() {
                             </div>
 
                             <div className="flex flex-col items-end space-y-3">
-                                <div className="text-right">
+                                <div className="text-end">
                                     <p className="mb-1 text-sm text-muted-foreground">{t('Contract Value')}</p>
                                     <p className="text-2xl font-bold text-foreground">
                                         {contract.value ? (

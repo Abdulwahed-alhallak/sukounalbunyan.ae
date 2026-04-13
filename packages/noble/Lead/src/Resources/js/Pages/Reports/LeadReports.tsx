@@ -223,7 +223,7 @@ export default function LeadReports() {
                                     }}
                                     className="px-6"
                                 >
-                                    <Calendar className="mr-2 h-4 w-4" />
+                                    <Calendar className="me-2 h-4 w-4" />
                                     {t('Generate')}
                                 </Button>
                             </div>

@@ -75,7 +75,7 @@ export default function Comparisons() {
                                             router.get(route('double-entry.balance-sheets.comparison', comparison.id))
                                         }
                                     >
-                                        <Eye className="mr-1 h-4 w-4" />
+                                        <Eye className="me-1 h-4 w-4" />
                                         {t('View')}
                                     </Button>
                                 </div>

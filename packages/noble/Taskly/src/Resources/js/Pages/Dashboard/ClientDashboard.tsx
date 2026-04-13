@@ -160,7 +160,7 @@ export default function ClientDashboard() {
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <span className="text-sm font-medium">{project.name}</span>
-                                                <Badge size="sm" className={`ml-2 ${getStatusColor(project.status)}`}>
+                                                <Badge size="sm" className={`ms-2 ${getStatusColor(project.status)}`}>
                                                     {project.status}
                                                 </Badge>
                                             </div>
@@ -174,7 +174,7 @@ export default function ClientDashboard() {
                                                 style={{ width: `${project.progress}%` }}
                                             ></div>
                                         </div>
-                                        <div className="text-right text-xs text-muted-foreground">
+                                        <div className="text-end text-xs text-muted-foreground">
                                             {project.progress}% {t('completed')}
                                         </div>
                                     </div>

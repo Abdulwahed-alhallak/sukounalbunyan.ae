@@ -119,7 +119,7 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveTwilioSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -167,12 +167,12 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                                         onChange={(e) => handleSettingsChange('twilio_token', e.target.value)}
                                         placeholder={t('Enter your Twilio Auth Token')}
                                         disabled={!canEdit}
-                                        className="pr-10"
+                                        className="pe-10"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowToken(!showToken)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-muted-foreground hover:text-foreground"
+                                        className="absolute end-3 top-1/2 -translate-y-1/2 transform text-muted-foreground hover:text-foreground"
                                     >
                                         {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                     </button>

@@ -21,7 +21,7 @@ export default function CTA({ settings }: CTAProps) {
             <div className="mx-auto w-full max-w-4xl px-6">
                 <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-12 text-center backdrop-blur-sm md:p-20">
                     {/* Minimalist glow effect */}
-                    <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-64 -translate-x-1/2 rounded-full bg-white/5 blur-[80px]"></div>
+                    <div className="pointer-events-none absolute start-1/2 top-0 h-32 w-64 -translate-x-1/2 rounded-full bg-white/5 blur-[80px]"></div>
 
                     <h2 className="relative z-10 mb-6 text-4xl font-extrabold tracking-tighter text-white md:text-5xl">
                         {title}
@@ -43,7 +43,7 @@ export default function CTA({ settings }: CTAProps) {
                             className="flex w-full items-center justify-center rounded-md border border-neutral-700 bg-transparent px-8 py-3.5 text-lg font-medium text-white transition-colors hover:border-neutral-600 hover:bg-neutral-800 sm:w-auto"
                         >
                             {secondaryButtonText}
-                            <ArrowRight className="ml-2 h-5 w-5 opacity-70" />
+                            <ArrowRight className="ms-2 h-5 w-5 opacity-70" />
                         </a>
                     </div>
                 </div>

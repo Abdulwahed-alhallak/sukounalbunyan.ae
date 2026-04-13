@@ -54,7 +54,7 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" className="border-border dark:border-border">
-                        <Filter className="mr-2 h-4 w-4" /> Filter
+                        <Filter className="me-2 h-4 w-4" /> Filter
                     </Button>
                     <Button className="bg-foreground text-background dark:bg-card dark:text-black">
                         Export Forensics CSV
@@ -101,17 +101,17 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
             <Card className="border-border bg-muted/50 dark:border-border dark:bg-foreground">
                 <div className="flex items-center justify-between border-b border-border bg-card p-4 dark:border-border dark:bg-foreground">
                     <div className="relative w-72">
-                        <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Search className="absolute start-3 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Search IP, User, or Action..."
-                            className="border-border bg-muted/50 pl-9 dark:border-border dark:bg-foreground"
+                            className="border-border bg-muted/50 ps-9 dark:border-border dark:bg-foreground"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
                 <div className="overflow-x-auto p-0">
-                    <table className="w-full text-left text-sm">
+                    <table className="w-full text-start text-sm">
                         <thead className="border-b border-border bg-muted/50 font-mono text-xs uppercase tracking-wider text-muted-foreground dark:border-border dark:bg-foreground/50">
                             <tr>
                                 <th className="px-6 py-4">Timestamp</th>

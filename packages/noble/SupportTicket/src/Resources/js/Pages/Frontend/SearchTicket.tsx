@@ -86,7 +86,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                                     {/* Search Form */}
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <div className="relative">
-                                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                                                 <Ticket className="h-5 w-5 text-background/70" />
                                             </div>
                                             <Input
@@ -94,7 +94,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                                                 value={data.ticket_id}
                                                 onChange={(e) => setData('ticket_id', e.target.value)}
                                                 placeholder={t('Enter Ticket ID (e.g., TKT-123456)')}
-                                                className="w-full rounded-lg border border-white/30 bg-card/10 py-3 pl-10 pr-4 text-background placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white"
+                                                className="w-full rounded-lg border border-white/30 bg-card/10 py-3 ps-10 pe-4 text-background placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white"
                                                 required
                                             />
                                             {errors.ticket_id && (
@@ -103,7 +103,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                                         </div>
 
                                         <div className="relative">
-                                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                                                 <Mail className="h-5 w-5 text-background/70" />
                                             </div>
                                             <Input
@@ -111,7 +111,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                                                 value={data.email}
                                                 onChange={(e) => setData('email', e.target.value)}
                                                 placeholder={t('Email address used for the ticket')}
-                                                className="w-full rounded-lg border border-white/30 bg-card/10 py-3 pl-10 pr-4 text-background placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white"
+                                                className="w-full rounded-lg border border-white/30 bg-card/10 py-3 ps-10 pe-4 text-background placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white"
                                                 required
                                             />
                                             {errors.email && (
@@ -124,7 +124,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                                             disabled={processing}
                                             className="w-full bg-card text-foreground shadow-md transition duration-300 hover:bg-muted hover:shadow-lg md:w-auto"
                                         >
-                                            <Search className="mr-2 h-4 w-4" />
+                                            <Search className="me-2 h-4 w-4" />
                                             {processing ? t('Searching...') : t('Search Ticket')}
                                         </Button>
                                     </form>

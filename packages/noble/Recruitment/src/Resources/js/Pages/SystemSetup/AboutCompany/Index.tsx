@@ -124,7 +124,7 @@ export default function AboutCompany() {
                                 <h3 className="text-lg font-medium">{t('About Company Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="mr-2 h-4 w-4" />
+                                        <Save className="me-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}

@@ -132,7 +132,7 @@ export default function FormField({ field, value, onChange, error }: FormFieldPr
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                             {field.label}
-                            {field.required && <span className="ml-1 text-destructive">*</span>}
+                            {field.required && <span className="ms-1 text-destructive">*</span>}
                         </Label>
                     </div>
                 );

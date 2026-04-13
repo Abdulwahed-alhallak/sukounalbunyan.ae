@@ -365,7 +365,7 @@ export default function Index() {
                                     ).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -441,7 +441,7 @@ export default function Index() {
                                             key={ticket.id}
                                             className="relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-200 hover:shadow-lg"
                                         >
-                                            <div className="absolute right-0 top-0 h-0 w-0 border-l-[20px] border-t-[20px] border-l-transparent border-t-primary/20"></div>
+                                            <div className="absolute end-0 top-0 h-0 w-0 border-s-[20px] border-t-[20px] border-s-transparent border-t-primary/20"></div>
 
                                             <div className="flex-shrink-0 border-b bg-gradient-to-r from-primary/5 to-transparent p-4">
                                                 <div className="flex items-center gap-3">

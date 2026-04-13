@@ -564,7 +564,7 @@ export default function Show() {
                                     {t('Status')}
                                 </span>
                                 <span
-                                    className={`rounded-full px-2 py-1 text-right text-sm ${
+                                    className={`rounded-full px-2 py-1 text-end text-sm ${
                                         project.status === 'Finished'
                                             ? 'bg-muted text-foreground'
                                             : project.status === 'Ongoing'
@@ -579,7 +579,7 @@ export default function Show() {
                                 <span className="min-w-0 flex-shrink-0 text-sm font-medium text-muted-foreground">
                                     {t('Start Date')}
                                 </span>
-                                <span className="text-right text-sm text-foreground">
+                                <span className="text-end text-sm text-foreground">
                                     {project.start_date ? formatDate(project.start_date) : '-'}
                                 </span>
                             </div>
@@ -588,7 +588,7 @@ export default function Show() {
                                     {t('End Date')}
                                 </span>
                                 <span
-                                    className={`text-right text-sm ${
+                                    className={`text-end text-sm ${
                                         project.end_date && new Date(project.end_date) < new Date()
                                             ? 'text-destructive'
                                             : 'text-foreground'
@@ -630,7 +630,7 @@ export default function Show() {
                                 <TooltipProvider>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger asChild>
-                                            <div className="absolute right-2 top-2">
+                                            <div className="absolute end-2 top-2">
                                                 <CheckSquare className="h-4 w-4 text-foreground" />
                                             </div>
                                         </TooltipTrigger>
@@ -652,7 +652,7 @@ export default function Show() {
                                 <TooltipProvider>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger asChild>
-                                            <div className="absolute right-2 top-2">
+                                            <div className="absolute end-2 top-2">
                                                 <Bug className="h-4 w-4 text-destructive" />
                                             </div>
                                         </TooltipTrigger>

@@ -155,7 +155,7 @@ export default function Index() {
                                 setShowCreate(true);
                             }}
                         >
-                            <Plus className="mr-2 h-4 w-4" /> {t('Record Violation')}
+                            <Plus className="me-2 h-4 w-4" /> {t('Record Violation')}
                         </Button>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ export default function Index() {
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center text-lg">
-                            <AlertCircle className="mr-2 h-5 w-5 text-destructive" />
+                            <AlertCircle className="me-2 h-5 w-5 text-destructive" />
                             {t('Recent Violations')}
                         </CardTitle>
                     </CardHeader>
@@ -177,8 +177,8 @@ export default function Index() {
                                         <TableHead>{t('Severity')}</TableHead>
                                         <TableHead>{t('Date')}</TableHead>
                                         <TableHead>{t('Action Taken')}</TableHead>
-                                        <TableHead className="text-right">{t('Deduction')}</TableHead>
-                                        <TableHead className="text-right">{t('Actions')}</TableHead>
+                                        <TableHead className="text-end">{t('Deduction')}</TableHead>
+                                        <TableHead className="text-end">{t('Actions')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -206,12 +206,12 @@ export default function Index() {
                                                     {new Date(violation.violation_date).toLocaleDateString()}
                                                 </TableCell>
                                                 <TableCell>{violation.action_taken || t('Pending')}</TableCell>
-                                                <TableCell className="text-right font-medium text-destructive">
+                                                <TableCell className="text-end font-medium text-destructive">
                                                     {Number(violation.deduction_amount) > 0
                                                         ? `-${violation.deduction_amount}`
                                                         : '-'}
                                                 </TableCell>
-                                                <TableCell className="text-right">
+                                                <TableCell className="text-end">
                                                     <TooltipProvider>
                                                         <Tooltip>
                                                             <TooltipTrigger asChild>

@@ -373,7 +373,7 @@ export default function Index() {
                                     variant="outline"
                                     className="font-medium"
                                 >
-                                    <Upload className="mr-2 h-4 w-4" />
+                                    <Upload className="me-2 h-4 w-4" />
                                     {t('Import CSV')}
                                 </Button>
                                 <Button
@@ -381,7 +381,7 @@ export default function Index() {
                                     onClick={() => router.visit(route('hrm.employees.create'))}
                                     className="bg-foreground font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
                                 >
-                                    <Plus className="mr-2 h-4 w-4" />
+                                    <Plus className="me-2 h-4 w-4" />
                                     {t('Add Employee')}
                                 </Button>
                             </>
@@ -463,7 +463,7 @@ export default function Index() {
                                         ].filter(Boolean).length;
                                         return (
                                             activeFiltersCount > 0 && (
-                                                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border border-white bg-foreground text-[9px] font-bold text-background dark:border-black dark:bg-card dark:text-black">
+                                                <span className="absolute -end-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border border-white bg-foreground text-[9px] font-bold text-background dark:border-black dark:bg-card dark:text-black">
                                                     {activeFiltersCount}
                                                 </span>
                                             )

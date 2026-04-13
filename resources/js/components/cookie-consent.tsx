@@ -112,7 +112,7 @@ export default function CookieConsent({ settings }: CookieConsentProps) {
     }
 
     return (
-        <div className="fixed bottom-4 left-1/2 z-50 w-[900px] max-w-[95vw] -translate-x-1/2 transform">
+        <div className="fixed bottom-4 start-1/2 z-50 w-[900px] max-w-[95vw] -translate-x-1/2 transform">
             <div className="rounded-xl border border-border bg-background shadow-2xl backdrop-blur-sm">
                 <div className="flex items-start justify-between p-3">
                     <div className="flex items-center gap-3">
@@ -146,7 +146,7 @@ export default function CookieConsent({ settings }: CookieConsentProps) {
                                             {settings.strictlyCookieDescription}
                                         </p>
                                     </div>
-                                    <Switch checked={true} disabled className="ml-2" />
+                                    <Switch checked={true} disabled className="ms-2" />
                                 </div>
                             )}
 

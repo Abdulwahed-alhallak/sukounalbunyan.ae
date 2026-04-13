@@ -20,7 +20,10 @@ export default defineConfig({
         react(),
     ],
     server: {
-        host: 'localhost',
+        host: '0.0.0.0', // Allow local network requests
+        hmr: {
+            host: 'localhost',
+        },
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',

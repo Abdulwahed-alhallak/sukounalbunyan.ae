@@ -44,7 +44,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                 {/* Premium Background Pattern */}
                 <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
                     <div className="vercel-dots absolute inset-0 opacity-[0.25] dark:opacity-[0.4]" />
-                    <div className="absolute bottom-0 left-0 right-0 h-[500px] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
+                    <div className="absolute bottom-0 start-0 end-0 h-[500px] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
                 </div>
 
                 {/* Left Content */}
@@ -72,7 +72,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
 
                         {/* Feature List — Premium Geist Style */}
                         <div className="space-y-6">
-                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-left-4 [animation-fill-mode:backwards]">
+                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-start-4 [animation-fill-mode:backwards]">
                                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-white/20">
                                     <svg
                                         className="h-5 w-5 text-neutral-300"
@@ -97,7 +97,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                                     </p>
                                 </div>
                             </div>
-                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-left-4 [animation-delay:100ms] [animation-fill-mode:backwards]">
+                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-start-4 [animation-delay:100ms] [animation-fill-mode:backwards]">
                                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-white/20">
                                     <svg
                                         className="h-5 w-5 text-neutral-300"
@@ -122,7 +122,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                                     </p>
                                 </div>
                             </div>
-                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-left-4 [animation-delay:200ms] [animation-fill-mode:backwards]">
+                            <div className="group flex items-center gap-4 duration-700 animate-in fade-in slide-in-from-start-4 [animation-delay:200ms] [animation-fill-mode:backwards]">
                                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-white/20">
                                     <svg
                                         className="h-5 w-5 text-neutral-300"
@@ -172,7 +172,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                 dir={currentDir}
             >
                 {/* Top Controls */}
-                <div className="absolute left-0 right-0 top-0 z-20 flex w-full items-center justify-between p-6">
+                <div className="absolute start-0 end-0 top-0 z-20 flex w-full items-center justify-between p-6">
                     <div className="lg:hidden">
                         <Link href={route('dashboard')}>
                             <div className="flex items-center gap-2">

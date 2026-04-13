@@ -207,7 +207,7 @@ export default function Settings({ settings, activeModules, selectedModule }: Se
                         className="text-background"
                         style={{ backgroundColor: 'hsl(var(--primary))' }}
                     >
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )
@@ -228,12 +228,12 @@ export default function Settings({ settings, activeModules, selectedModule }: Se
                         </CardHeader>
                         <CardContent className="max-h-[calc(100vh-15rem)] space-y-2 overflow-y-auto">
                             <div className="relative mb-3">
-                                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Search className="absolute start-2 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     placeholder={t('Search addons...')}
                                     value={moduleSearchTerm}
                                     onChange={(e) => setModuleSearchTerm(e.target.value)}
-                                    className="pl-8"
+                                    className="ps-8"
                                 />
                             </div>
 
@@ -257,7 +257,7 @@ export default function Settings({ settings, activeModules, selectedModule }: Se
                                         <div className="flex flex-col items-start">
                                             <span className="text-sm">{module.name}</span>
                                         </div>
-                                        {activeModule === module.module && <Edit3 className="ml-auto h-3 w-3" />}
+                                        {activeModule === module.module && <Edit3 className="ms-auto h-3 w-3" />}
                                     </Button>
                                 ))}
                         </CardContent>

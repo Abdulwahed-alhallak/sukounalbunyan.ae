@@ -110,14 +110,14 @@ export default function TrackingForm({ userSlug, brandSettings, trackingFaq }: T
                                     {t('Tracking ID')}
                                 </Label>
                                 <div className="relative">
-                                    <Hash className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
+                                    <Hash className="absolute start-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         id="trackingId"
                                         type="text"
                                         value={formData.trackingId}
                                         onChange={(e) => handleInputChange('trackingId', e.target.value.toUpperCase())}
                                         placeholder={t('Enter tracking id')}
-                                        className="h-12 pl-10"
+                                        className="h-12 ps-10"
                                         required
                                     />
                                 </div>
@@ -132,14 +132,14 @@ export default function TrackingForm({ userSlug, brandSettings, trackingFaq }: T
                                     {t('Email Address')}
                                 </Label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
+                                    <Mail className="absolute start-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         id="email"
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
                                         placeholder={t('Enter the email address')}
-                                        className="h-12 pl-10"
+                                        className="h-12 ps-10"
                                         required
                                     />
                                 </div>
@@ -164,12 +164,12 @@ export default function TrackingForm({ userSlug, brandSettings, trackingFaq }: T
                                 >
                                     {isSubmitting ? (
                                         <div className="flex items-center">
-                                            <div className="mr-2 h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
+                                            <div className="me-2 h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
                                             {t('Searching...')}
                                         </div>
                                     ) : (
                                         <div className="flex items-center">
-                                            <Search className="mr-2 h-5 w-5" />
+                                            <Search className="me-2 h-5 w-5" />
                                             {t('Track Application')}
                                         </div>
                                     )}

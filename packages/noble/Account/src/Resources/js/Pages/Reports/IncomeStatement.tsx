@@ -93,39 +93,39 @@ export default function IncomeStatement({ financialYear }: any) {
                                 <tbody>
                                     <tr className="bg-muted/50">
                                         <td className="px-4 py-3 font-semibold">{t('Revenue')}</td>
-                                        <td className="px-4 py-3 text-right"></td>
+                                        <td className="px-4 py-3 text-end"></td>
                                     </tr>
                                     {data.revenue?.map((item, idx) => (
                                         <tr key={idx} className="border-t hover:bg-muted/50">
                                             <td className="px-8 py-2">{item.category}</td>
-                                            <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
+                                            <td className="px-4 py-2 text-end">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
                                     <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Revenue')}</td>
-                                        <td className="px-4 py-3 text-right">{formatCurrency(data.total_revenue)}</td>
+                                        <td className="px-4 py-3 text-end">{formatCurrency(data.total_revenue)}</td>
                                     </tr>
 
                                     <tr className="bg-muted/50">
                                         <td className="px-4 py-3 font-semibold">{t('Expenses')}</td>
-                                        <td className="px-4 py-3 text-right"></td>
+                                        <td className="px-4 py-3 text-end"></td>
                                     </tr>
                                     {data.expenses?.map((item, idx) => (
                                         <tr key={idx} className="border-t hover:bg-muted/50">
                                             <td className="px-8 py-2">{item.category}</td>
-                                            <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
+                                            <td className="px-4 py-2 text-end">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
                                     <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Expenses')}</td>
-                                        <td className="px-4 py-3 text-right">{formatCurrency(data.total_expenses)}</td>
+                                        <td className="px-4 py-3 text-end">{formatCurrency(data.total_expenses)}</td>
                                     </tr>
 
                                     <tr
                                         className={`border-t-4 font-bold ${data.net_income >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}
                                     >
                                         <td className="px-4 py-4 text-lg">{t('Net Income')}</td>
-                                        <td className="px-4 py-4 text-right text-lg">
+                                        <td className="px-4 py-4 text-end text-lg">
                                             {formatCurrency(data.net_income)}
                                         </td>
                                     </tr>

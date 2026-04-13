@@ -167,7 +167,7 @@ export default function Index() {
                                     ].filter((f) => f !== '').length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -235,7 +235,7 @@ export default function Index() {
                                             window.open(printUrl, '_blank');
                                         }}
                                     >
-                                        <Printer className="mr-2 h-4 w-4" />
+                                        <Printer className="me-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}

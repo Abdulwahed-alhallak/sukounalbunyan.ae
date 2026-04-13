@@ -45,7 +45,7 @@ export default function AddonCard({ addon, priceType = 'monthly', onViewDetails 
                     {displayPrice ? (
                         <div className="flex items-baseline">
                             <span className="text-2xl font-black text-white">{formatAdminCurrency(displayPrice)}</span>
-                            <span className="ml-1 text-sm font-medium text-neutral-500">{priceLabel}</span>
+                            <span className="ms-1 text-sm font-medium text-neutral-500">{priceLabel}</span>
                         </div>
                     ) : (
                         <span className="text-lg font-bold tracking-tight text-white">{t('Free')}</span>

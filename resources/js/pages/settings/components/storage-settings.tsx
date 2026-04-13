@@ -219,12 +219,12 @@ export default function StorageSettings({ userSettings, auth }: StorageSettingsP
             <div className="space-y-3">
                 <div className="flex gap-2">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                        <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                         <Input
                             placeholder={t('Search file types...')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10"
+                            className="ps-10"
                         />
                     </div>
                     <Button type="button" variant="outline" size="sm" onClick={handleSelectAll}>
@@ -460,48 +460,64 @@ export default function StorageSettings({ userSettings, auth }: StorageSettingsP
                     </p>
                 </div>
                 {canEdit && (
-                    <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                    <Button
+                        className="order-2 rtl:order-1"
+                        form="storage-settings-form"
+                        type="submit"
+                        disabled={isLoading}
+                        size="sm"
+                    >
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
             </CardHeader>
             <CardContent>
-                <Tabs
-                    value={settings.storageType}
-                    className="w-full"
-                    onValueChange={(value) => setSettings((prev) => ({ ...prev, storageType: value as StorageType }))}
+                <form
+                    id="storage-settings-form"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        saveSettings();
+                    }}
                 >
-                    <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="local" className="flex items-center gap-2">
-                            <HardDrive className="h-4 w-4" />
-                            {t('Local Storage')}
-                        </TabsTrigger>
-                        <TabsTrigger value="aws_s3" className="flex items-center gap-2">
-                            <span>☁️</span>
-                            {t('AWS S3')}
-                        </TabsTrigger>
-                        <TabsTrigger value="wasabi" className="flex items-center gap-2">
-                            <span>🗄️</span>
-                            {t('Wasabi')}
-                        </TabsTrigger>
-                    </TabsList>
+                    <Tabs
+                        value={settings.storageType}
+                        className="w-full"
+                        onValueChange={(value) =>
+                            setSettings((prev) => ({ ...prev, storageType: value as StorageType }))
+                        }
+                    >
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="local" className="flex items-center gap-2">
+                                <HardDrive className="h-4 w-4" />
+                                {t('Local Storage')}
+                            </TabsTrigger>
+                            <TabsTrigger value="aws_s3" className="flex items-center gap-2">
+                                <span>☁️</span>
+                                {t('AWS S3')}
+                            </TabsTrigger>
+                            <TabsTrigger value="wasabi" className="flex items-center gap-2">
+                                <span>🗄️</span>
+                                {t('Wasabi')}
+                            </TabsTrigger>
+                        </TabsList>
 
-                    <TabsContent value="local" className="mt-6">
-                        <h3 className="mb-4 text-base font-medium">{t('Local Storage Settings')}</h3>
-                        {renderLocalStorageFields()}
-                    </TabsContent>
+                        <TabsContent value="local" className="mt-6">
+                            <h3 className="mb-4 text-base font-medium">{t('Local Storage Settings')}</h3>
+                            {renderLocalStorageFields()}
+                        </TabsContent>
 
-                    <TabsContent value="aws_s3" className="mt-6">
-                        <h3 className="mb-4 text-base font-medium">{t('AWS S3 Storage Settings')}</h3>
-                        {renderAwsS3Fields()}
-                    </TabsContent>
+                        <TabsContent value="aws_s3" className="mt-6">
+                            <h3 className="mb-4 text-base font-medium">{t('AWS S3 Storage Settings')}</h3>
+                            {renderAwsS3Fields()}
+                        </TabsContent>
 
-                    <TabsContent value="wasabi" className="mt-6">
-                        <h3 className="mb-4 text-base font-medium">{t('Wasabi Storage Settings')}</h3>
-                        {renderWasabiFields()}
-                    </TabsContent>
-                </Tabs>
+                        <TabsContent value="wasabi" className="mt-6">
+                            <h3 className="mb-4 text-base font-medium">{t('Wasabi Storage Settings')}</h3>
+                            {renderWasabiFields()}
+                        </TabsContent>
+                    </Tabs>
+                </form>
             </CardContent>
         </Card>
     );

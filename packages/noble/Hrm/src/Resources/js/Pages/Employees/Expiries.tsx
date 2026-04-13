@@ -116,9 +116,9 @@ export default function Expiries() {
                         <div className="h-1 w-full bg-orange-400"></div>
                         <CardHeader>
                             <CardTitle className="flex items-center text-lg">
-                                <MapPin className="mr-2 h-5 w-5 text-orange-500" />
+                                <MapPin className="me-2 h-5 w-5 text-orange-500" />
                                 {t('Iqama / National ID Expiries')}
-                                <Badge variant="secondary" className="ml-auto">
+                                <Badge variant="secondary" className="ms-auto">
                                     {expiringIqamas.length}
                                 </Badge>
                             </CardTitle>
@@ -131,9 +131,9 @@ export default function Expiries() {
                         <div className="h-1 w-full bg-blue-400"></div>
                         <CardHeader>
                             <CardTitle className="flex items-center text-lg">
-                                <Briefcase className="mr-2 h-5 w-5 text-blue-500" />
+                                <Briefcase className="me-2 h-5 w-5 text-blue-500" />
                                 {t('Passport Expiries')}
-                                <Badge variant="secondary" className="ml-auto">
+                                <Badge variant="secondary" className="ms-auto">
                                     {expiringPassports.length}
                                 </Badge>
                             </CardTitle>

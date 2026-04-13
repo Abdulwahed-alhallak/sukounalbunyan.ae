@@ -328,7 +328,7 @@ export default function CompanyDashboard({
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div className="text-right">
+                                                    <div className="text-end">
                                                         <p className="font-mono text-xs italic text-muted-foreground">
                                                             {formatDate(item.created_at)}
                                                         </p>

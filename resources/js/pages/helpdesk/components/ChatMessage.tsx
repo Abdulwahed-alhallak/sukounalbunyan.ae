@@ -20,7 +20,7 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                 <div
                     className={`rounded-lg p-3 ${
                         reply.is_internal
-                            ? 'border-l-4 border-border bg-muted text-foreground'
+                            ? 'border-s-4 border-border bg-muted text-foreground'
                             : isOwnMessage
                               ? 'bg-foreground text-background'
                               : 'bg-muted text-foreground'
@@ -135,7 +135,7 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                     })()}
                 </div>
 
-                <div className={`mt-1 text-xs text-muted-foreground ${isOwnMessage ? 'text-right' : 'text-left'}`}>
+                <div className={`mt-1 text-xs text-muted-foreground ${isOwnMessage ? 'text-end' : 'text-start'}`}>
                     {formatDateTime(reply.created_at)}
                 </div>
             </div>

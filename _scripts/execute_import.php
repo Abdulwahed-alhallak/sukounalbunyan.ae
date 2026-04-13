@@ -13,7 +13,10 @@ use Noble\Hrm\Models\Department;
 use Noble\Hrm\Models\Designation;
 use Illuminate\Support\Facades\DB;
 
-function creatorId() { return 1; }
+function creatorId() { 
+    $user = User::where('type', 'superadmin')->orWhere('type', 'company')->first();
+    return $user ? $user->id : 1; 
+}
 
 echo "=================================================\n";
 echo "🚀 AUTOMATICALLY INJECTING FULL CSV TO DATABASE VIA CORE IMPORT LOGIC 🚀\n";
@@ -104,7 +107,9 @@ try {
                 'lang' => 'en',
                 'created_by' => $creatorId,
             ]);
-            $dbUser->assignRole('employee');
+            if (\Spatie\Permission\Models\Role::where('name', 'employee')->exists()) {
+                $dbUser->assignRole('employee');
+            }
         } else {
             $dbUser->update(['name' => $name]);
         }
@@ -120,6 +125,13 @@ try {
             try { return \Carbon\Carbon::parse($val)->format('Y-m-d'); } catch(\Exception $e) { return null; }
         };
 
+        $parseNumeric = function($val, $default = 0) {
+            $val = trim($val);
+            if ($val === '' || $val === 'n/a' || $val === '#N/A' || $val === 'N/A') return $default;
+            $clean = str_replace([',', ' '], '', $val);
+            return is_numeric($clean) ? $clean : $default;
+        };
+
         $empData = [
             'user_id' => $dbUser->id,
             'employee_id' => trim($data['Employee  ID'] ?? '') ?: Employee::generateEmployeeId(),
@@ -132,7 +144,7 @@ try {
             'marital_status2' => trim($data['Marital Status2'] ?? ''),
             'place_of_birth' => trim($data['Place of Birth'] ?? ''),
             'religion' => trim($data['Religion'] ?? ''),
-            'no_of_dependents' => trim($data['No. of Dependents'] ?? ''),
+            'no_of_dependents' => $parseNumeric($data['No. of Dependents'] ?? 0),
             'blood_type' => trim($data['Blood Type'] ?? ''),
             'mobile_no' => trim($data['Mobile No.'] ?? ''),
             'alternate_mobile_no' => trim($data['Alternate Mobile No.'] ?? ''),
@@ -163,7 +175,7 @@ try {
             'insurance_status' => trim($data['Insurance Status'] ?? ''),
             'insurance_class' => trim($data['Insurance Class'] ?? ''),
             'sponsor_id' => trim($data['Sponsor ID'] ?? ''),
-            'basic_salary' => (float) str_replace(',', '', trim($data['Total Salary'] ?? '0')),
+            'basic_salary' => $parseNumeric($data['Total Salary'] ?? 0),
             'payment_method' => trim($data['Payment Method'] ?? 'Bank Transfer'),
             'bank_name' => trim($data['Bank Name'] ?? ''),
             'account_holder_name' => trim($data['Account Holder Name'] ?? ''),
@@ -172,8 +184,8 @@ try {
             'education_level' => trim($data['Education Level'] ?? ''),
             'university' => trim($data['University/Institution'] ?? ''),
             'major_field' => trim($data['Major / Field of Study'] ?? ''),
-            'graduation_year' => trim($data['Graduation Year'] ?? ''),
-            'total_experience_years' => trim($data['Total Years of Experience'] ?? ''),
+            'graduation_year' => $parseNumeric($data['Graduation Year'] ?? null, null),
+            'total_experience_years' => $parseNumeric($data['Total Years of Experience'] ?? 0),
             'computer_skills' => trim($data['Computer Skills Level'] ?? ''),
             'english_level' => trim($data['English Level'] ?? ''),
             'arabic_level' => trim($data['Arabic Level'] ?? ''),

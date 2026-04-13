@@ -63,7 +63,7 @@ export default function Show() {
                                         <h1 className="text-2xl font-bold text-foreground">{jobposting.title}</h1>
                                         {jobposting.is_featured && (
                                             <Badge variant="secondary" className="bg-muted text-foreground">
-                                                <Star className="mr-1 h-3 w-3" />
+                                                <Star className="me-1 h-3 w-3" />
                                                 {t('Featured')}
                                             </Badge>
                                         )}

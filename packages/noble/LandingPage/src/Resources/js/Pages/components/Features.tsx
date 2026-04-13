@@ -40,7 +40,7 @@ export default function Features({ settings }: FeaturesProps) {
     return (
         <section className="border-b border-neutral-800 bg-black py-32 text-white">
             <div className="mx-auto max-w-6xl px-6">
-                <div className="mb-20 text-center md:text-left">
+                <div className="mb-20 text-center md:text-start">
                     <h2 className="mb-6 bg-gradient-to-r from-white to-neutral-400 bg-clip-text text-4xl font-extrabold tracking-tighter text-transparent md:text-5xl">
                         {title}
                     </h2>

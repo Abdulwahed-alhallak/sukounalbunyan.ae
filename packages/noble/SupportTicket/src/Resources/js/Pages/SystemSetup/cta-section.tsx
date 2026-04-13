@@ -62,7 +62,7 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                             <div className="flex items-center justify-between">
                                 <CardTitle>{t('CTA Sections')}</CardTitle>
                                 <Button type="submit" disabled={processing} form="cta-sections-form">
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="me-2 h-4 w-4" />
                                     {processing ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>

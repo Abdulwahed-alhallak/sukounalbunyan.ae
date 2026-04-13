@@ -12,6 +12,7 @@ export interface BrandSettings {
     footerText?: string;
     layoutDirection?: string;
     themeMode?: string;
+    themeColor?: string;
 }
 
 interface BrandContextType {
@@ -47,6 +48,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
             globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
         layoutDirection: isLanguageRtl ? 'rtl' : 'ltr',
         themeMode: globalSettings?.themeMode || 'light',
+        themeColor: globalSettings?.themeColor || globalSettings?.theme_color || '',
     };
 
     const getPreviewUrl = (path: string) => {

@@ -324,7 +324,7 @@ export default function Index() {
                                     ).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -445,7 +445,7 @@ export default function Index() {
                                                         <span className="text-xs text-muted-foreground">
                                                             {t('Contact')}
                                                         </span>
-                                                        <span className="ml-2 truncate text-xs font-medium text-foreground">
+                                                        <span className="ms-2 truncate text-xs font-medium text-foreground">
                                                             {vendor.contact_person_name}
                                                         </span>
                                                     </div>
@@ -454,7 +454,7 @@ export default function Index() {
                                                             <span className="text-xs text-muted-foreground">
                                                                 {t('Email')}
                                                             </span>
-                                                            <span className="ml-2 truncate text-xs text-foreground">
+                                                            <span className="ms-2 truncate text-xs text-foreground">
                                                                 {vendor.contact_person_email}
                                                             </span>
                                                         </div>

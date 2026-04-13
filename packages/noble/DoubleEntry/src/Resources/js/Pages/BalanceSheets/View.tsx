@@ -70,7 +70,7 @@ export default function View() {
                         <TableRow>
                             <TableHead className="w-[60%]">{t('Account')}</TableHead>
                             <TableHead className="w-[20%] text-center">{t('Code')}</TableHead>
-                            <TableHead className="w-[20%] text-right">{t('Amount')}</TableHead>
+                            <TableHead className="w-[20%] text-end">{t('Amount')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -96,7 +96,7 @@ export default function View() {
                                             <TableCell className="text-center text-foreground">
                                                 {item.account?.account_code}
                                             </TableCell>
-                                            <TableCell className="text-right font-semibold tabular-nums text-foreground">
+                                            <TableCell className="text-end font-semibold tabular-nums text-foreground">
                                                 {formatCurrency(item.amount)}
                                             </TableCell>
                                         </TableRow>
@@ -106,7 +106,7 @@ export default function View() {
                                             {t('Total')} {subSection.replace('_', ' ')}
                                         </TableCell>
                                         <TableCell></TableCell>
-                                        <TableCell className="text-right font-bold tabular-nums">
+                                        <TableCell className="text-end font-bold tabular-nums">
                                             {formatCurrency(subSectionTotal)}
                                         </TableCell>
                                     </TableRow>
@@ -118,7 +118,7 @@ export default function View() {
                                 {t('TOTAL')} {sectionTitle.toUpperCase()}
                             </TableCell>
                             <TableCell></TableCell>
-                            <TableCell className="text-right text-lg font-bold tabular-nums">
+                            <TableCell className="text-end text-lg font-bold tabular-nums">
                                 {formatCurrency(sectionTotal)}
                             </TableCell>
                         </TableRow>
@@ -190,7 +190,7 @@ export default function View() {
                                         variant={viewType === 'vertical' ? 'default' : 'ghost'}
                                         size="sm"
                                         onClick={() => setViewType('vertical')}
-                                        className="rounded-r-none"
+                                        className="rounded-e-none"
                                     >
                                         <LayoutGrid className="h-4 w-4" />
                                     </Button>
@@ -205,7 +205,7 @@ export default function View() {
                                         variant={viewType === 'horizontal' ? 'default' : 'ghost'}
                                         size="sm"
                                         onClick={() => setViewType('horizontal')}
-                                        className="rounded-l-none"
+                                        className="rounded-s-none"
                                     >
                                         <Columns className="h-4 w-4" />
                                     </Button>
@@ -284,13 +284,13 @@ export default function View() {
                                 )}
                                 {auth.user?.permissions?.includes('create-balance-sheet-notes') && (
                                     <Button variant="outline" size="sm" onClick={() => setShowNoteModal(true)}>
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         {t('Add Note')}
                                     </Button>
                                 )}
                                 {auth.user?.permissions?.includes('create-balance-sheet-comparisons') && (
                                     <Button variant="outline" size="sm" onClick={() => setShowCompareModal(true)}>
-                                        <GitCompare className="mr-2 h-4 w-4" />
+                                        <GitCompare className="me-2 h-4 w-4" />
                                         {t('Compare')}
                                     </Button>
                                 )}
@@ -305,7 +305,7 @@ export default function View() {
                                             window.open(printUrl, '_blank');
                                         }}
                                     >
-                                        <Printer className="mr-2 h-4 w-4" />
+                                        <Printer className="me-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}
@@ -313,11 +313,11 @@ export default function View() {
                                     balanceSheet.status === 'draft' &&
                                     balanceSheet.is_balanced && (
                                         <Button size="sm" onClick={handleFinalize}>
-                                            <CheckCircle className="mr-2 h-4 w-4" />
+                                            <CheckCircle className="me-2 h-4 w-4" />
                                             {t('Finalize')}
                                         </Button>
                                     )}
-                                <div className="ml-2 flex items-center gap-2">
+                                <div className="ms-2 flex items-center gap-2">
                                     <span
                                         className={`rounded-full px-2 py-1 text-sm ${
                                             balanceSheet.is_balanced
@@ -448,7 +448,7 @@ export default function View() {
                                                         {items?.map((item) => (
                                                             <div
                                                                 key={item.id}
-                                                                className="ml-4 flex items-center justify-between py-1 text-sm"
+                                                                className="ms-4 flex items-center justify-between py-1 text-sm"
                                                             >
                                                                 <div className="flex w-full justify-between">
                                                                     <span className="text-foreground">
@@ -465,7 +465,7 @@ export default function View() {
                                                                 </div>
                                                             </div>
                                                         ))}
-                                                        <div className="ml-4 flex justify-between border-b py-2 font-medium">
+                                                        <div className="ms-4 flex justify-between border-b py-2 font-medium">
                                                             <span>Total {subSection.replace('_', ' ')}</span>
                                                             <span className="tabular-nums">
                                                                 {formatCurrency(subTotal)}
@@ -504,7 +504,7 @@ export default function View() {
                                                         {items?.map((item) => (
                                                             <div
                                                                 key={item.id}
-                                                                className="ml-4 flex items-center justify-between py-1 text-sm"
+                                                                className="ms-4 flex items-center justify-between py-1 text-sm"
                                                             >
                                                                 <div className="flex w-full justify-between">
                                                                     <span className="text-foreground">
@@ -521,7 +521,7 @@ export default function View() {
                                                                 </div>
                                                             </div>
                                                         ))}
-                                                        <div className="ml-4 flex justify-between border-b py-2 font-medium">
+                                                        <div className="ms-4 flex justify-between border-b py-2 font-medium">
                                                             <span>Total {subSection.replace('_', ' ')}</span>
                                                             <span className="tabular-nums">
                                                                 {formatCurrency(subTotal)}

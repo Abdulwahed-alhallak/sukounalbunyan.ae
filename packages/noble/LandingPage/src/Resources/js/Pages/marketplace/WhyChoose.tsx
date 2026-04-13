@@ -66,7 +66,7 @@ export default function MarketplaceWhyChoose({
                         <div className="space-y-4">
                             {['Enterprise Ready', 'Zero Configuration', 'Full API Access'].map((item) => (
                                 <div key={item} className="flex items-center font-bold text-white">
-                                    <Check className="mr-3 h-5 w-5 text-neutral-500" />
+                                    <Check className="me-3 h-5 w-5 text-neutral-500" />
                                     {item}
                                 </div>
                             ))}

@@ -10,10 +10,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, variant =
     <div
         ref={ref}
         className={cn(
-            'transition-all duration-200',
-            variant === 'default' && 'vercel-card geist-surface border-border',
-            variant === 'premium' && 'premium-card',
-            variant === 'glass' && 'border-border bg-background/90 backdrop-blur-xl rounded-lg border',
+            'transition-all duration-300 relative group overflow-hidden',
+            variant === 'default' && 'vercel-card border border-border bg-card',
+            variant === 'premium' && 'premium-card border border-border/40',
+            variant === 'glass' && 'geist-glass-card rounded-2xl',
             className
         )}
         {...props}
@@ -30,14 +30,14 @@ CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
     ({ className, ...props }, ref) => (
-        <h3 ref={ref} className={cn('text-base font-semibold leading-none tracking-tight', className)} {...props} />
+        <h3 ref={ref} className={cn('text-[15px] font-bold leading-none tracking-tight text-foreground', className)} {...props} />
     )
 );
 CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
     ({ className, ...props }, ref) => (
-        <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+        <p ref={ref} className={cn('text-[13px] font-medium text-muted-foreground/70', className)} {...props} />
     )
 );
 CardDescription.displayName = 'CardDescription';

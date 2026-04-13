@@ -264,7 +264,7 @@ export default function Index({ knowledge, categories }: Props) {
                                     ).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -330,7 +330,7 @@ export default function Index({ knowledge, categories }: Props) {
                                             {t('Get started by creating your first Knowledge Base article.')}
                                         </p>
                                         <Button onClick={() => setShowCreateModal(true)}>
-                                            <Plus className="mr-2 h-4 w-4" />
+                                            <Plus className="me-2 h-4 w-4" />
                                             {t('Create Knowledge Base')}
                                         </Button>
                                     </div>

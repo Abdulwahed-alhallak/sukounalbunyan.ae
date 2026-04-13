@@ -62,10 +62,10 @@ const typeConfig: Record<string, { icon: any; color: string; bg: string }> = {
 };
 
 const categoryColors: Record<string, string> = {
-    info: 'border-l-foreground/30',
-    success: 'border-l-foreground/20',
-    warning: 'border-l-foreground/40',
-    danger: 'border-l-foreground/50',
+    info: 'border-s-foreground/30',
+    success: 'border-s-foreground/20',
+    warning: 'border-s-foreground/40',
+    danger: 'border-s-foreground/50',
 };
 
 export default function NotificationsIndex({ notifications, filters, types, unreadCount }: Props) {
@@ -128,7 +128,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                                 <Bell className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                             </div>
                             {unreadCount > 0 && (
-                                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-bold text-background">
+                                <span className="absolute -end-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-bold text-background">
                                     {unreadCount > 99 ? '99+' : unreadCount}
                                 </span>
                             )}
@@ -225,7 +225,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                             return (
                                 <div
                                     key={notification.id}
-                                    className={`group relative overflow-hidden rounded-xl border border-l-4 transition hover:shadow-md ${isUnread ? 'border-border bg-card' : 'border-border/50 bg-card/50'} ${categoryColors[notification.category] || 'border-l-border'} `}
+                                    className={`group relative overflow-hidden rounded-xl border border-s-4 transition hover:shadow-md ${isUnread ? 'border-border bg-card' : 'border-border/50 bg-card/50'} ${categoryColors[notification.category] || 'border-s-border'} `}
                                 >
                                     <div className="flex items-start gap-3 p-4">
                                         {/* Icon */}

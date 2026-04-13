@@ -392,7 +392,7 @@ export default function Index() {
                                         ].filter((f) => f !== '' && f !== null && f !== undefined).length;
                                         return (
                                             activeFilters > 0 && (
-                                                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-border bg-foreground text-[8px] font-black text-background">
+                                                <span className="absolute -end-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-border bg-foreground text-[8px] font-black text-background">
                                                     {activeFilters}
                                                 </span>
                                             )

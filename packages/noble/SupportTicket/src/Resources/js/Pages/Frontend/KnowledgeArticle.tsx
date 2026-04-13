@@ -125,10 +125,10 @@ export default function KnowledgeArticle({
             {/* Article Header */}
             <Card className="mb-8 overflow-hidden bg-foreground shadow-lg">
                 <CardContent className="flex flex-col items-center px-4 py-6 md:flex-row md:p-8">
-                    <div className="mb-8 w-full text-background md:mb-0 md:w-3/5 md:pr-8">
+                    <div className="mb-8 w-full text-background md:mb-0 md:w-3/5 md:pe-8">
                         <div className="mb-4">
                             <span className="mb-3 inline-block rounded-full bg-card/20 px-4 py-1 text-sm text-background backdrop-blur-sm md:mb-4">
-                                <Database className="mr-1 inline h-4 w-4" />
+                                <Database className="me-1 inline h-4 w-4" />
                                 {article.category?.title || t('Knowledge Base')}
                             </span>
                         </div>
@@ -140,17 +140,17 @@ export default function KnowledgeArticle({
                         </p>
                         <div className="flex flex-wrap items-center gap-4 text-sm lg:gap-6">
                             <div className="flex items-center">
-                                <Calendar className="mr-2 h-4 w-4" />
+                                <Calendar className="me-2 h-4 w-4" />
                                 <span>
                                     {t('Last updated')}: {new Date(article.updated_at).toLocaleDateString()}
                                 </span>
                             </div>
                             <div className="flex items-center">
-                                <Clock className="mr-2 h-4 w-4" />
+                                <Clock className="me-2 h-4 w-4" />
                                 <span>{t('5 min read')}</span>
                             </div>
                             <div className="flex items-center">
-                                <Eye className="mr-2 h-4 w-4" />
+                                <Eye className="me-2 h-4 w-4" />
                                 <span>{t('1,245 views')}</span>
                             </div>
                         </div>
@@ -176,7 +176,7 @@ export default function KnowledgeArticle({
                         <Card className="sticky top-4 shadow-md">
                             <CardContent className="p-4 md:p-5">
                                 <h3 className="mb-4 flex items-center text-lg font-semibold">
-                                    <List className="mr-2 h-5 w-5 text-foreground" />
+                                    <List className="me-2 h-5 w-5 text-foreground" />
                                     {t('Table of Contents')}
                                 </h3>
                                 <div className="space-y-1">
@@ -184,7 +184,7 @@ export default function KnowledgeArticle({
                                         <a
                                             key={item.id}
                                             href={`#${item.id}`}
-                                            className="block rounded p-2 text-sm text-foreground transition-all duration-300 hover:border-l-2 hover:border-foreground hover:bg-muted/50 hover:pl-3 hover:text-foreground"
+                                            className="block rounded p-2 text-sm text-foreground transition-all duration-300 hover:border-s-2 hover:border-foreground hover:bg-muted/50 hover:ps-3 hover:text-foreground"
                                         >
                                             {item.title}
                                         </a>
@@ -194,7 +194,7 @@ export default function KnowledgeArticle({
                                 {/* Quick Resources Box */}
                                 <div className="mt-8 border-t border-border pt-6">
                                     <h3 className="mb-4 flex items-center text-lg font-semibold">
-                                        <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
+                                        <LinkIcon className="me-2 h-5 w-5 text-foreground" />
                                         {t('Quick Resources')}
                                     </h3>
                                     <div className="space-y-3">
@@ -202,14 +202,14 @@ export default function KnowledgeArticle({
                                             href={route('support-ticket.knowledge', [slug])}
                                             className="flex items-center text-sm text-foreground hover:text-foreground"
                                         >
-                                            <FileCode className="mr-2 h-4 w-4 text-foreground" />
+                                            <FileCode className="me-2 h-4 w-4 text-foreground" />
                                             <span>{t('Browse All Articles')}</span>
                                         </Link>
                                         <Link
                                             href={route('support-ticket.create', [slug])}
                                             className="flex items-center text-sm text-foreground hover:text-foreground"
                                         >
-                                            <Server className="mr-2 h-4 w-4 text-foreground" />
+                                            <Server className="me-2 h-4 w-4 text-foreground" />
                                             <span>{t('Create Support Ticket')}</span>
                                         </Link>
                                         {settings.faq_is_on === 'on' && (
@@ -217,7 +217,7 @@ export default function KnowledgeArticle({
                                                 href={route('support-ticket.faq', [slug])}
                                                 className="flex items-center text-sm text-foreground hover:text-foreground"
                                             >
-                                                <Shield className="mr-2 h-4 w-4 text-foreground" />
+                                                <Shield className="me-2 h-4 w-4 text-foreground" />
                                                 <span>{t('FAQ Section')}</span>
                                             </Link>
                                         )}
@@ -236,7 +236,7 @@ export default function KnowledgeArticle({
                             <div className="mb-8">
                                 <div className="rounded-xl bg-muted/50 p-4">
                                     <h4 className="mb-2 flex items-center font-medium text-foreground">
-                                        <Info className="mr-2 h-5 w-5 text-foreground" />
+                                        <Info className="me-2 h-5 w-5 text-foreground" />
                                         {t('Article Information')}
                                     </h4>
                                     <p className="text-sm text-foreground">
@@ -265,7 +265,7 @@ export default function KnowledgeArticle({
                         <Card className="mb-6 shadow-md">
                             <CardContent className="p-5">
                                 <h3 className="mb-4 flex items-center text-lg font-semibold">
-                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
+                                    <LinkIcon className="me-2 h-5 w-5 text-foreground" />
                                     {t('Related Articles')}
                                 </h3>
                                 <div className="space-y-4">
@@ -306,7 +306,7 @@ export default function KnowledgeArticle({
                         <Card className="shadow-md">
                             <CardContent className="p-5">
                                 <h3 className="mb-4 flex items-center text-lg font-semibold">
-                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
+                                    <LinkIcon className="me-2 h-5 w-5 text-foreground" />
                                     {t('Navigation')}
                                 </h3>
                                 <div className="space-y-4">
@@ -339,7 +339,7 @@ export default function KnowledgeArticle({
                         <Card className="mb-6 shadow-md">
                             <CardContent className="p-5">
                                 <h3 className="mb-4 flex items-center text-lg font-semibold">
-                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
+                                    <LinkIcon className="me-2 h-5 w-5 text-foreground" />
                                     {t('Related Articles')}
                                 </h3>
                                 <div className="space-y-4">
@@ -389,7 +389,7 @@ export default function KnowledgeArticle({
                                     </p>
                                     <Button className="w-full bg-foreground hover:bg-foreground" asChild>
                                         <Link href={route('support-ticket.index', [slug])}>
-                                            <Ticket className="mr-2 h-4 w-4" />
+                                            <Ticket className="me-2 h-4 w-4" />
                                             {t('Create a Support Ticket')}
                                         </Link>
                                     </Button>

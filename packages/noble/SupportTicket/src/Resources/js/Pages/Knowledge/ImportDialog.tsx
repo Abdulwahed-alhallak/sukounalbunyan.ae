@@ -80,7 +80,7 @@ export default function ImportDialog({ onSuccess }: ImportDialogProps) {
                     <Label className="text-sm font-medium">{t('Download Sample CSV File')}</Label>
                     <div className="mt-2">
                         <Button type="button" variant="outline" size="sm" onClick={downloadSample}>
-                            <Download className="mr-2 h-4 w-4" />
+                            <Download className="me-2 h-4 w-4" />
                             {t('Download Sample')}
                         </Button>
                     </div>
@@ -100,7 +100,7 @@ export default function ImportDialog({ onSuccess }: ImportDialogProps) {
 
                 <div className="flex gap-2 pt-4">
                     <Button type="submit" disabled={isUploading || !data.file}>
-                        <Upload className="mr-2 h-4 w-4" />
+                        <Upload className="me-2 h-4 w-4" />
                         {isUploading ? t('Importing...') : t('Import')}
                     </Button>
                 </div>

@@ -52,7 +52,7 @@ export default function NoRecordsFound({
                 : hasCreatePermission &&
                   onCreateClick && (
                       <Button onClick={onCreateClick}>
-                          <Plus className="mr-2 h-4 w-4" />
+                          <Plus className="me-2 h-4 w-4" />
                           {createButtonText || t('Create')}
                       </Button>
                   )}

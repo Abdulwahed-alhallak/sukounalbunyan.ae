@@ -111,7 +111,7 @@ export default function Print() {
                             )}
                         </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                         <h2 className="mb-2 text-2xl font-bold">{t('PROFIT & LOSS STATEMENT')}</h2>
                         <div className="space-y-1 text-sm">
                             <p>

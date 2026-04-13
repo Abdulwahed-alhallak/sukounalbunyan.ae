@@ -172,7 +172,7 @@ export default function RenewalsTab({ contract, setDeleteConfig }: RenewalsTabPr
                                 size="sm"
                                 variant={renewalView === 'list' ? 'default' : 'ghost'}
                                 onClick={() => setRenewalView('list')}
-                                className="h-9 rounded-r-none px-2"
+                                className="h-9 rounded-e-none px-2"
                             >
                                 <List className="h-3 w-3" />
                             </Button>
@@ -180,7 +180,7 @@ export default function RenewalsTab({ contract, setDeleteConfig }: RenewalsTabPr
                                 size="sm"
                                 variant={renewalView === 'grid' ? 'default' : 'ghost'}
                                 onClick={() => setRenewalView('grid')}
-                                className="h-9 rounded-l-none px-2"
+                                className="h-9 rounded-s-none px-2"
                             >
                                 <Grid className="h-3 w-3" />
                             </Button>

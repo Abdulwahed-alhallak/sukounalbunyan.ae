@@ -150,7 +150,7 @@ export default function ClientDashboard({
                                                     {t('orders')}
                                                 </p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-sm font-bold text-foreground">
                                                     {formatCurrency(product.total_spent)}
                                                 </p>
@@ -192,7 +192,7 @@ export default function ClientDashboard({
                                                     {purchase.warehouse?.name || '-'}
                                                 </p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-sm font-bold">{formatCurrency(purchase.total)}</p>
                                                 <p className="text-xs text-muted-foreground">
                                                     {formatDate(purchase.created_at)}

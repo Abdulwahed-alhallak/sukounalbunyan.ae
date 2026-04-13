@@ -55,7 +55,7 @@ export default function NotFound({ userSlug, brandSettings }: NotFoundProps) {
                                     }))
                                 }
                             >
-                                <Home className="mr-2 h-5 w-5" />
+                                <Home className="me-2 h-5 w-5" />
                                 {t('Back to Jobs')}
                             </Button>
 
@@ -64,7 +64,7 @@ export default function NotFound({ userSlug, brandSettings }: NotFoundProps) {
                                 className="border-border px-6 py-3 text-foreground hover:bg-muted/50"
                                 onClick={() => window.history.back()}
                             >
-                                <ArrowLeft className="mr-2 h-5 w-5" />
+                                <ArrowLeft className="me-2 h-5 w-5" />
                                 {t('Go Back')}
                             </Button>
                         </div>

@@ -91,14 +91,14 @@ export function TimePicker({
                     <Button
                         variant="outline"
                         className={cn(
-                            'h-10 w-full justify-start text-left font-normal',
+                            'h-10 w-full justify-start text-start font-normal',
                             !value && 'text-muted-foreground',
                             disabled && 'cursor-not-allowed opacity-50'
                         )}
                         style={style}
                         disabled={disabled}
                     >
-                        <Clock className="mr-2 h-4 w-4" />
+                        <Clock className="me-2 h-4 w-4" />
                         {value || placeholder || t('Select time')}
                     </Button>
                 </PopoverTrigger>
@@ -124,7 +124,7 @@ export function TimePicker({
                                 ))}
                             </div>
                         </div>
-                        <div className="border-l" />
+                        <div className="border-s" />
                         <div className="flex flex-col">
                             <div className="border-b py-3 text-center text-xs font-semibold">{t('Minute')}</div>
                             <div className="relative h-[200px] overflow-y-auto overflow-x-hidden" ref={minuteRef}>

@@ -91,7 +91,7 @@ export default function ClientDashboard({ stats, monthlyData, recentTickets, sta
                                         className="bg-foreground hover:bg-foreground/80"
                                         onClick={handleCreateTicket}
                                     >
-                                        <TicketIcon className="mr-2 h-4 w-4" />
+                                        <TicketIcon className="me-2 h-4 w-4" />
                                         {t('Create New Ticket')}
                                     </Button>
                                 </div>

@@ -111,7 +111,7 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                                         size="sm"
                                         className="bg-card text-foreground hover:bg-muted"
                                     >
-                                        <UserCircle className="mr-2 h-4 w-4" />
+                                        <UserCircle className="me-2 h-4 w-4" />
                                         {t('Sign In')}
                                     </Button>
                                     <Button
@@ -119,7 +119,7 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                                         size="sm"
                                         className="bg-card text-foreground hover:bg-muted"
                                     >
-                                        <Headphones className="mr-2 h-4 w-4" />
+                                        <Headphones className="me-2 h-4 w-4" />
                                         {t('Contact')}
                                     </Button>
                                 </div>
@@ -144,32 +144,32 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                                         href="#"
                                         className="flex items-center rounded-lg p-2 text-foreground transition duration-300"
                                     >
-                                        <Ticket className="mr-2 h-4 w-4" /> {t('Create Ticket')}
+                                        <Ticket className="me-2 h-4 w-4" /> {t('Create Ticket')}
                                     </a>
                                     <a
                                         href="#"
                                         className="flex items-center rounded-lg p-2 text-foreground transition duration-300 hover:text-foreground"
                                     >
-                                        <Search className="mr-2 h-4 w-4" /> {t('Search Tickets')}
+                                        <Search className="me-2 h-4 w-4" /> {t('Search Tickets')}
                                     </a>
                                     <a
                                         href="#"
                                         className="flex items-center rounded-lg p-2 text-foreground transition duration-300 hover:text-foreground"
                                     >
-                                        <Book className="mr-2 h-4 w-4" /> {t('Knowledge Base')}
+                                        <Book className="me-2 h-4 w-4" /> {t('Knowledge Base')}
                                     </a>
                                     <a
                                         href="#"
                                         className="flex items-center rounded-lg p-2 text-foreground transition duration-300 hover:text-foreground"
                                     >
-                                        <HelpCircle className="mr-2 h-4 w-4" /> {t('FAQ')}
+                                        <HelpCircle className="me-2 h-4 w-4" /> {t('FAQ')}
                                     </a>
                                     <div className="flex flex-wrap items-center justify-center gap-3 border-t pt-3">
                                         <Button size="sm">
-                                            <UserCircle className="mr-2 h-4 w-4" /> {t('Sign In')}
+                                            <UserCircle className="me-2 h-4 w-4" /> {t('Sign In')}
                                         </Button>
                                         <Button size="sm">
-                                            <Headphones className="mr-2 h-4 w-4" /> {t('Contact')}
+                                            <Headphones className="me-2 h-4 w-4" /> {t('Contact')}
                                         </Button>
                                     </div>
                                 </nav>
@@ -181,7 +181,7 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                     {children}
 
                     {/* Help Chat Button */}
-                    <div className="fixed bottom-4 right-4 z-10 md:bottom-8 md:right-8">
+                    <div className="fixed bottom-4 end-4 z-10 md:bottom-8 md:end-8">
                         <Button
                             className="h-14 w-14 rounded-full bg-foreground p-0 text-background shadow-lg transition-all duration-300 hover:scale-110 hover:bg-foreground"
                             aria-label="Get Help"

@@ -63,11 +63,11 @@ export function DateRangePicker({ value, onChange, placeholder, className, id, r
                     <Button
                         variant="outline"
                         className={cn(
-                            'h-10 w-full justify-start text-left font-normal',
+                            'h-10 w-full justify-start text-start font-normal',
                             !value && 'text-muted-foreground'
                         )}
                     >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {value && startDate && endDate
                             ? formatValue(startDate, endDate)
                             : placeholder || t('Select date range')}

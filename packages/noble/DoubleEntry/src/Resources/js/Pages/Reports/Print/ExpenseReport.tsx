@@ -104,7 +104,7 @@ export default function Print() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('EXPENSE REPORT')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}
@@ -116,11 +116,11 @@ export default function Print() {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="w-16 px-3 py-2 text-left text-sm font-semibold">{t('Rank')}</th>
-                            <th className="w-24 px-3 py-2 text-left text-sm font-semibold">{t('Account Code')}</th>
-                            <th className="px-3 py-2 text-left text-sm font-semibold">{t('Expense Category')}</th>
-                            <th className="w-32 px-3 py-2 text-right text-sm font-semibold">{t('Amount')}</th>
-                            <th className="w-24 px-3 py-2 text-right text-sm font-semibold">{t('% of Total')}</th>
+                            <th className="w-16 px-3 py-2 text-start text-sm font-semibold">{t('Rank')}</th>
+                            <th className="w-24 px-3 py-2 text-start text-sm font-semibold">{t('Account Code')}</th>
+                            <th className="px-3 py-2 text-start text-sm font-semibold">{t('Expense Category')}</th>
+                            <th className="w-32 px-3 py-2 text-end text-sm font-semibold">{t('Amount')}</th>
+                            <th className="w-24 px-3 py-2 text-end text-sm font-semibold">{t('% of Total')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,10 +129,10 @@ export default function Print() {
                                 <td className="px-3 py-2 text-sm font-medium">{idx + 1}</td>
                                 <td className="px-3 py-2 text-sm">{expense.account_code}</td>
                                 <td className="break-words px-3 py-2 text-sm">{expense.account_name}</td>
-                                <td className="px-3 py-2 text-right text-sm font-semibold tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm font-semibold tabular-nums">
                                     {formatCurrency(expense.amount)}
                                 </td>
-                                <td className="px-3 py-2 text-right text-sm tabular-nums">
+                                <td className="px-3 py-2 text-end text-sm tabular-nums">
                                     {getPercentage(expense.amount)}%
                                 </td>
                             </tr>
@@ -141,10 +141,10 @@ export default function Print() {
                             <td colSpan={3} className="px-3 py-3 text-sm font-bold">
                                 {t('Total Expenses')}
                             </td>
-                            <td className="px-3 py-3 text-right text-sm font-bold tabular-nums">
+                            <td className="px-3 py-3 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(data.total_expenses)}
                             </td>
-                            <td className="px-3 py-3 text-right text-sm font-bold tabular-nums">100%</td>
+                            <td className="px-3 py-3 text-end text-sm font-bold tabular-nums">100%</td>
                         </tr>
                     </tbody>
                 </table>

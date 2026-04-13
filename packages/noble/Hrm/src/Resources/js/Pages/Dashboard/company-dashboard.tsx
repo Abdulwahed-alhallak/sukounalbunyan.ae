@@ -194,7 +194,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
             <div className="space-y-8 pb-12">
                 {/* Tactical Alert Header/Banner if needed */}
                 <div className="relative overflow-hidden rounded-3xl border border-foreground/20 bg-foreground/10 p-6 backdrop-blur-xl">
-                    <div className="absolute right-0 top-0 p-8 opacity-10">
+                    <div className="absolute end-0 top-0 p-8 opacity-10">
                         <Shield className="h-40 w-40 text-foreground" />
                     </div>
                     <div className="relative z-10 flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -217,7 +217,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 variant="outline"
                                 className="border-foreground/30 bg-foreground/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.2em] text-foreground"
                             >
-                                <Activity className="mr-1 h-3 w-3 animate-pulse" />
+                                <Activity className="me-1 h-3 w-3 animate-pulse" />
                                 {t('Sync Active')}
                             </Badge>
                         </div>
@@ -231,7 +231,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         className="group cursor-pointer"
                     >
                         <div className="premium-card from-muted/500/15 relative overflow-hidden bg-gradient-to-br via-transparent to-transparent p-6 transition-all duration-500 hover:border-foreground/40">
-                            <div className="absolute -bottom-6 -right-6 opacity-5 transition-opacity group-hover:opacity-10">
+                            <div className="absolute -bottom-6 -end-6 opacity-5 transition-opacity group-hover:opacity-10">
                                 <Users className="h-24 w-24" />
                             </div>
                             <div className="mb-4 flex items-center justify-between">
@@ -258,7 +258,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         className="group cursor-pointer"
                     >
                         <div className="premium-card relative overflow-hidden bg-gradient-to-br from-foreground/15 via-transparent to-transparent p-6 transition-all duration-500 hover:border-foreground/40">
-                            <div className="absolute -bottom-6 -right-6 opacity-5 transition-opacity group-hover:opacity-10">
+                            <div className="absolute -bottom-6 -end-6 opacity-5 transition-opacity group-hover:opacity-10">
                                 <UserCheck className="h-24 w-24" />
                             </div>
                             <div className="mb-4 flex items-center justify-between">
@@ -290,7 +290,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         className="group cursor-pointer"
                     >
                         <div className="premium-card relative overflow-hidden bg-gradient-to-br from-foreground/15 via-transparent to-transparent p-6 transition-all duration-500 hover:border-destructive/40">
-                            <div className="absolute -bottom-6 -right-6 opacity-5 transition-opacity group-hover:opacity-10">
+                            <div className="absolute -bottom-6 -end-6 opacity-5 transition-opacity group-hover:opacity-10">
                                 <UserX className="h-24 w-24" />
                             </div>
                             <div className="mb-4 flex items-center justify-between">
@@ -307,9 +307,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 </h3>
                                 <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-destructive">
                                     {stats.absent_today > stats.absent_yesterday ? (
-                                        <ArrowUpRight className="mr-1 h-3 w-3" />
+                                        <ArrowUpRight className="me-1 h-3 w-3" />
                                     ) : (
-                                        <ArrowDownRight className="mr-1 h-3 w-3" />
+                                        <ArrowDownRight className="me-1 h-3 w-3" />
                                     )}
                                     <span>
                                         {Math.abs(stats.absent_today - stats.absent_yesterday)}{' '}
@@ -325,7 +325,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         className="group cursor-pointer"
                     >
                         <div className="premium-card relative overflow-hidden bg-gradient-to-br from-foreground/15 via-transparent to-transparent p-6 transition-all duration-500 hover:border-border/40">
-                            <div className="absolute -bottom-6 -right-6 opacity-5 transition-opacity group-hover:opacity-10">
+                            <div className="absolute -bottom-6 -end-6 opacity-5 transition-opacity group-hover:opacity-10">
                                 <Clock className="h-24 w-24" />
                             </div>
                             <div className="mb-4 flex items-center justify-between">
@@ -353,7 +353,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                     {/* Calendar - Mission Timeline */}
                     <div className="lg:col-span-8">
                         <div className="premium-card relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-foreground/40 p-6 backdrop-blur-3xl">
-                            <div className="pointer-events-none absolute right-0 top-0 p-12 opacity-[0.02]">
+                            <div className="pointer-events-none absolute end-0 top-0 p-12 opacity-[0.02]">
                                 <Target className="h-64 w-64" />
                             </div>
                             <div className="relative z-10 mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -396,7 +396,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                     {/* Department Strength Analysis */}
                     <div className="space-y-8 lg:col-span-4">
                         <div className="premium-card relative flex h-full flex-col overflow-hidden border border-none border-white/5 bg-foreground/40 p-6 backdrop-blur-3xl">
-                            <div className="pointer-events-none absolute -right-12 -top-12 rotate-12 p-12 opacity-[0.03]">
+                            <div className="pointer-events-none absolute -end-12 -top-12 rotate-12 p-12 opacity-[0.03]">
                                 <Building className="h-64 w-64" />
                             </div>
                             <h3 className="relative z-10 mb-8 flex items-center gap-3 text-lg font-black uppercase tracking-tight">
@@ -405,7 +405,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 </div>
                                 {t('Operational Sector Distribution')}
                             </h3>
-                            <div className="custom-scrollbar relative z-10 flex-1 space-y-6 overflow-y-auto px-1 pr-2">
+                            <div className="custom-scrollbar relative z-10 flex-1 space-y-6 overflow-y-auto px-1 pe-2">
                                 {isDeferred ? (
                                     <DistributionSkeleton />
                                 ) : (
@@ -427,7 +427,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                                         className="rounded-lg border-white/10 bg-card/5 px-3 py-0.5 text-xs font-black"
                                                     >
                                                         {dept.value}{' '}
-                                                        <span className="ml-1 opacity-40">{t('Units')}</span>
+                                                        <span className="ms-1 opacity-40">{t('Units')}</span>
                                                     </Badge>
                                                 </div>
                                                 <div className="h-2 w-full overflow-hidden rounded-full border border-white/5 bg-card/5">
@@ -457,7 +457,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
 
                         {/* Recent Intelligence (Announcements) */}
                         <div className="premium-card group relative overflow-hidden border border-border/10 bg-muted-foreground/5 p-6">
-                            <div className="absolute right-0 top-0 p-4 opacity-[0.05] transition-transform group-hover:scale-110">
+                            <div className="absolute end-0 top-0 p-4 opacity-[0.05] transition-transform group-hover:scale-110">
                                 <AlertTriangle className="h-16 w-16 text-muted-foreground" />
                             </div>
                             <h3 className="relative z-10 mb-6 flex items-center gap-3 text-lg font-black uppercase tracking-tight">
@@ -504,7 +504,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     {/* Personnel on Leave - Dynamic Matrix */}
                     <div className="premium-card relative overflow-hidden border border-white/5 bg-foreground/40 p-6 backdrop-blur-3xl">
-                        <div className="pointer-events-none absolute bottom-0 right-0 p-8 opacity-[0.02]">
+                        <div className="pointer-events-none absolute bottom-0 end-0 p-8 opacity-[0.02]">
                             <Clock className="h-40 w-40" />
                         </div>
                         <div className="relative z-10 mb-8 flex items-center justify-between">
@@ -521,7 +521,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 {deferredData?.employees_on_leave_today?.length || 0} {t('Active Gaps')}
                             </Badge>
                         </div>
-                        <div className="custom-scrollbar relative z-10 grid max-h-[400px] grid-cols-1 gap-3 overflow-y-auto pr-2">
+                        <div className="custom-scrollbar relative z-10 grid max-h-[400px] grid-cols-1 gap-3 overflow-y-auto pe-2">
                             {isDeferred ? (
                                 <ListSkeleton count={4} />
                             ) : deferredData?.employees_on_leave_today?.length ? (
@@ -547,7 +547,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <Badge
                                                 variant="outline"
                                                 className="border-foreground/20 bg-foreground/10 px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-foreground"
@@ -570,7 +570,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
 
                     {/* Quick Command Matrix */}
                     <div className="premium-card group relative overflow-hidden border border-foreground/20 bg-gradient-to-br from-primary/10 via-transparent to-transparent p-6 backdrop-blur-3xl">
-                        <div className="pointer-events-none absolute -right-12 -top-12 rotate-[-15deg] p-12 opacity-[0.03] transition-transform duration-700 group-hover:scale-110">
+                        <div className="pointer-events-none absolute -end-12 -top-12 rotate-[-15deg] p-12 opacity-[0.03] transition-transform duration-700 group-hover:scale-110">
                             <Briefcase className="h-64 w-64 text-foreground" />
                         </div>
                         <h3 className="relative z-10 mb-8 flex items-center gap-3 text-lg font-black uppercase tracking-tight text-foreground">

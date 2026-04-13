@@ -117,7 +117,7 @@ export default function GamificationEngine({ rules, leaderboard }: { rules: Rule
                                     <CardDescription>Adjust how much XP users gain per activity.</CardDescription>
                                 </div>
                                 <Button size="sm" variant="outline" onClick={() => setIsCreating(!isCreating)}>
-                                    <Plus className="mr-2 h-4 w-4" /> New Logic
+                                    <Plus className="me-2 h-4 w-4" /> New Logic
                                 </Button>
                             </CardHeader>
                             <CardContent>
@@ -190,7 +190,7 @@ export default function GamificationEngine({ rules, leaderboard }: { rules: Rule
                                                         <Star className="h-4 w-4 fill-foreground/10 text-foreground" />
                                                         <Input
                                                             type="number"
-                                                            className="h-8 w-20 text-right"
+                                                            className="h-8 w-20 text-end"
                                                             value={rule.points_reward}
                                                             onChange={(e) =>
                                                                 handleRuleUpdate(

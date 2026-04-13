@@ -637,7 +637,7 @@ export function TimersTab({ taskId }: { taskId: number }) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="text-right">
+                            <div className="text-end">
                                 <Badge
                                     variant={timer.end_time ? 'outline' : 'default'}
                                     className={!timer.end_time ? 'animate-pulse' : ''}

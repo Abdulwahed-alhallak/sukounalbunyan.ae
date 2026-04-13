@@ -56,7 +56,7 @@ export default function MarketplaceNotFound({ landingPageSettings }: Marketplace
                             onClick={() => window.history.back()}
                             className="inline-flex items-center rounded-full bg-white px-12 py-4 text-lg font-black text-black transition-all hover:bg-neutral-200"
                         >
-                            <ArrowLeft className="mr-3 h-5 w-5" />
+                            <ArrowLeft className="me-3 h-5 w-5" />
                             {t('Go Back')}
                         </button>
                     </div>

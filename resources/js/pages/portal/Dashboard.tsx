@@ -133,16 +133,16 @@ export default function PortalDashboard({ user, stats, recentInvoices }: Props) 
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-border bg-muted/50">
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                        <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                             #
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                        <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                             {t('Date')}
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                        <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                             {t('Amount')}
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                        <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                             {t('Status')}
                                         </th>
                                     </tr>
@@ -200,7 +200,7 @@ export default function PortalDashboard({ user, stats, recentInvoices }: Props) 
                                             <Icon className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                                         </div>
                                         <span className="text-sm font-medium text-foreground">{link.label}</span>
-                                        <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 transition group-hover:opacity-100" />
+                                        <ArrowRight className="ms-auto h-4 w-4 text-muted-foreground opacity-0 transition group-hover:opacity-100" />
                                     </Link>
                                 );
                             })}

@@ -64,7 +64,7 @@ export default function Print() {
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('TAX SUMMARY REPORT')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}
@@ -76,35 +76,35 @@ export default function Print() {
                     <tbody>
                         <tr className="border-b-2 border-black">
                             <td className="px-2 py-3 text-sm font-semibold">{t('Tax Collected (Sales)')}</td>
-                            <td className="px-2 py-3 text-right"></td>
+                            <td className="px-2 py-3 text-end"></td>
                         </tr>
                         {data.tax_collected.items?.map((item: any, idx: number) => (
                             <tr key={idx} className="border-b border-border">
                                 <td className="px-6 py-2 text-sm">{item.tax_name}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(item.amount)}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(item.amount)}</td>
                             </tr>
                         ))}
                         <tr className="border-t-2 border-black font-semibold">
                             <td className="px-2 py-3 text-sm">{t('Total Tax Collected')}</td>
-                            <td className="px-2 py-3 text-right text-sm">{formatCurrency(data.tax_collected.total)}</td>
+                            <td className="px-2 py-3 text-end text-sm">{formatCurrency(data.tax_collected.total)}</td>
                         </tr>
                         <tr className="border-b-2 border-black">
                             <td className="px-2 py-3 text-sm font-semibold">{t('Tax Paid (Purchases)')}</td>
-                            <td className="px-2 py-3 text-right"></td>
+                            <td className="px-2 py-3 text-end"></td>
                         </tr>
                         {data.tax_paid.items?.map((item: any, idx: number) => (
                             <tr key={idx} className="border-b border-border">
                                 <td className="px-6 py-2 text-sm">{item.tax_name}</td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(item.amount)}</td>
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(item.amount)}</td>
                             </tr>
                         ))}
                         <tr className="border-t-2 border-black font-semibold">
                             <td className="px-2 py-3 text-sm">{t('Total Tax Paid')}</td>
-                            <td className="px-2 py-3 text-right text-sm">{formatCurrency(data.tax_paid.total)}</td>
+                            <td className="px-2 py-3 text-end text-sm">{formatCurrency(data.tax_paid.total)}</td>
                         </tr>
                         <tr className="border-t-4 border-black font-bold">
                             <td className="px-2 py-4 text-base">{t('Net Tax Liability')}</td>
-                            <td className="px-2 py-4 text-right text-base">{formatCurrency(data.net_tax_liability)}</td>
+                            <td className="px-2 py-4 text-end text-base">{formatCurrency(data.net_tax_liability)}</td>
                         </tr>
                     </tbody>
                 </table>

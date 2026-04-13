@@ -15,7 +15,7 @@ import { NobleLoader } from '@/components/NobleLoader';
 // Silent CSRF token refresh
 const refreshToken = async () => {
     try {
-        const response = await fetch(window.location.href, { method: 'GET' });
+        const response = await fetch(`${window.location.origin}${window.location.pathname}?refresh_token=true&t=${Date.now()}`, { method: 'GET' });
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
@@ -42,12 +42,21 @@ router.on('error', async (event) => {
 });
 
 // Auto-switch RTL / LTR layout based on persistent language
-router.on('navigate', () => {
-    const currentLang = localStorage.getItem('i18nextLng') || 'en';
+router.on('navigate', (event) => {
+    // Priority: 1. LocalStorage (User choice), 2. Server Prop (DB Preference), 3. Browser/Fallback
+    const serverLang = (event.detail.page.props.auth as any)?.lang;
+    const currentLang = localStorage.getItem('i18nextLng') || serverLang || 'en';
     const isRtl = ['ar', 'he', 'fa', 'ur', 'ku'].includes(currentLang.split('-')[0]);
 
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     document.documentElement.lang = currentLang;
+    
+    // Add RTL class for specialized CSS selector hooks
+    if (isRtl) {
+        document.documentElement.classList.add('rtl');
+    } else {
+        document.documentElement.classList.remove('rtl');
+    }
 });
 
 // Global fetch interceptor

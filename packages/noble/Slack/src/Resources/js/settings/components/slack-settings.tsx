@@ -114,7 +114,7 @@ export default function SlackSettings({ userSettings = {}, auth }: SlackSettings
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveSlackSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}

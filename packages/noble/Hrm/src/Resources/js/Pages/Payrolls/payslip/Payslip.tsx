@@ -117,7 +117,7 @@ export default function Payslip() {
                     <div>
                         <h1 className="text-xl font-bold">{payrollEntry.payroll.title}</h1>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                         <h1 className="text-xl font-bold">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
                         <p className="text-sm text-muted-foreground">{getCompanySetting('company_address')}</p>
                     </div>
@@ -126,7 +126,7 @@ export default function Payslip() {
                 {/* Main Payslip Container */}
                 <div className="border-2 border-black">
                     {/* Employee Details Grid */}
-                    <div className="p-1 pl-1">
+                    <div className="p-1 ps-1">
                         <div className="mb-4 grid grid-cols-2 gap-x-8 gap-y-2">
                             <div className="flex justify-between">
                                 <span className="font-medium">{t('Name')} :</span>
@@ -173,7 +173,7 @@ export default function Payslip() {
                         {/* Earnings and Deductions Table */}
                         <div className="mt-1 grid grid-cols-2 gap-0 border border-black">
                             {/* Earnings Column */}
-                            <div className="border-r border-black">
+                            <div className="border-e border-black">
                                 <div className="border-b border-black bg-muted px-3 py-2">
                                     <h3 className="font-bold">{t('Earnings')}</h3>
                                 </div>
@@ -191,7 +191,7 @@ export default function Payslip() {
                                             </div>
                                             {Object.entries(payrollEntry.allowances_breakdown || {})?.map(
                                                 ([name, amount]) => (
-                                                    <div key={name} className="flex justify-between pl-2">
+                                                    <div key={name} className="flex justify-between ps-2">
                                                         <span className="text-sm">{name}</span>
                                                         <span className="text-sm">
                                                             {formatCurrency(Number(amount))}
@@ -210,7 +210,7 @@ export default function Payslip() {
                                             </div>
                                             {Object.entries(payrollEntry.manual_overtimes_breakdown || {})?.map(
                                                 ([name, amount]) => (
-                                                    <div key={name} className="flex justify-between pl-2">
+                                                    <div key={name} className="flex justify-between ps-2">
                                                         <span className="text-sm">{name}</span>
                                                         <span className="text-sm">
                                                             {formatCurrency(Number(amount))}
@@ -227,7 +227,7 @@ export default function Payslip() {
                                             <div className="pt-1 text-xs font-semibold text-muted-foreground">
                                                 {t('Attendance Overtime')}:
                                             </div>
-                                            <div className="flex justify-between pl-2">
+                                            <div className="flex justify-between ps-2">
                                                 <span className="text-sm">
                                                     {t('OT Hours')} ({payrollEntry.attendance_overtime_hours}h)
                                                 </span>
@@ -255,7 +255,7 @@ export default function Payslip() {
                                                 {t('Leave Deductions')}:
                                             </div>
                                             {payrollEntry.unpaid_leave_deduction > 0 && (
-                                                <div className="flex justify-between pl-2">
+                                                <div className="flex justify-between ps-2">
                                                     <span className="text-sm">
                                                         {t('Unpaid Leave')} ({payrollEntry.unpaid_leave_days}d)
                                                     </span>
@@ -265,7 +265,7 @@ export default function Payslip() {
                                                 </div>
                                             )}
                                             {payrollEntry.half_day_deduction > 0 && (
-                                                <div className="flex justify-between pl-2">
+                                                <div className="flex justify-between ps-2">
                                                     <span className="text-sm">
                                                         {t('Half Days')} ({payrollEntry.half_days}d)
                                                     </span>
@@ -275,7 +275,7 @@ export default function Payslip() {
                                                 </div>
                                             )}
                                             {payrollEntry.absent_day_deduction > 0 && (
-                                                <div className="flex justify-between pl-2">
+                                                <div className="flex justify-between ps-2">
                                                     <span className="text-sm">
                                                         {t('Absent Days')} ({payrollEntry.absent_days}d)
                                                     </span>
@@ -295,7 +295,7 @@ export default function Payslip() {
                                             </div>
                                             {Object.entries(payrollEntry.deductions_breakdown || {})?.map(
                                                 ([name, amount]) => (
-                                                    <div key={name} className="flex justify-between pl-2">
+                                                    <div key={name} className="flex justify-between ps-2">
                                                         <span className="text-sm">{name}</span>
                                                         <span className="text-sm">
                                                             {formatCurrency(Number(amount))}
@@ -314,7 +314,7 @@ export default function Payslip() {
                                             </div>
                                             {Object.entries(payrollEntry.loans_breakdown || {})?.map(
                                                 ([name, amount]) => (
-                                                    <div key={name} className="flex justify-between pl-2">
+                                                    <div key={name} className="flex justify-between ps-2">
                                                         <span className="text-sm">{name}</span>
                                                         <span className="text-sm">
                                                             {formatCurrency(Number(amount))}
@@ -364,7 +364,7 @@ export default function Payslip() {
                             {t('This is a computer generated payslip and does not require signature.')}
                         </p>
                     </div>
-                    <div className="max-w-xs text-right text-sm text-muted-foreground">
+                    <div className="max-w-xs text-end text-sm text-muted-foreground">
                         <div className="font-semibold">{getCompanySetting('company_name') || 'YOUR COMPANY'}</div>
                         {getCompanySetting('company_address') && <div>{getCompanySetting('company_address')}</div>}
                         {(getCompanySetting('company_city') ||

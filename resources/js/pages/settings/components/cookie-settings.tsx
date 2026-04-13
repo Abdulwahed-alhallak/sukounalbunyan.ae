@@ -95,12 +95,12 @@ export default function CookieSettings({ userSettings, auth }: CookieSettingsPro
                 </div>
                 <div className="order-2 flex gap-2 rtl:order-1">
                     <Button onClick={downloadCookieData} variant="outline" size="sm">
-                        <Download className="mr-2 h-4 w-4" />
+                        <Download className="me-2 h-4 w-4" />
                         {t('Download Cookie Data')}
                     </Button>
                     {canEdit && (
                         <Button onClick={saveSettings} disabled={isLoading} size="sm">
-                            <Save className="mr-2 h-4 w-4" />
+                            <Save className="me-2 h-4 w-4" />
                             {isLoading ? t('Saving...') : t('Save Changes')}
                         </Button>
                     )}

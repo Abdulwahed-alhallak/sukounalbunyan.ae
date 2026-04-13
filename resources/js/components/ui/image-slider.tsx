@@ -64,7 +64,7 @@ export function ImageSlider({
         <div className={cn('relative w-full max-w-full', className)}>
             {/* Action Buttons */}
             {(showZoom || showDownload || showCloseButton) && (
-                <div className="absolute right-3 top-3 z-20 flex gap-1">
+                <div className="absolute end-3 top-3 z-20 flex gap-1">
                     {showZoom && (
                         <Button
                             variant="outline"
@@ -121,7 +121,7 @@ export function ImageSlider({
                         <Button
                             variant="outline"
                             size="icon"
-                            className="absolute left-3 top-1/2 h-8 w-8 -translate-y-1/2 bg-card/90 shadow-sm hover:bg-card"
+                            className="absolute start-3 top-1/2 h-8 w-8 -translate-y-1/2 bg-card/90 shadow-sm hover:bg-card"
                             onClick={() =>
                                 setCurrentIndex((prev) => (prev - 1 + processedImages.length) % processedImages.length)
                             }
@@ -131,7 +131,7 @@ export function ImageSlider({
                         <Button
                             variant="outline"
                             size="icon"
-                            className="absolute right-3 top-1/2 h-8 w-8 -translate-y-1/2 bg-card/90 shadow-sm hover:bg-card"
+                            className="absolute end-3 top-1/2 h-8 w-8 -translate-y-1/2 bg-card/90 shadow-sm hover:bg-card"
                             onClick={() => setCurrentIndex((prev) => (prev + 1) % processedImages.length)}
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -141,7 +141,7 @@ export function ImageSlider({
 
                 {/* Slide Indicators */}
                 {processedImages.length > 1 && (
-                    <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+                    <div className="absolute bottom-3 start-1/2 flex -translate-x-1/2 gap-1.5">
                         {processedImages.map((_, index) => (
                             <button
                                 key={index}
@@ -157,7 +157,7 @@ export function ImageSlider({
 
                 {/* Image Counter */}
                 {processedImages.length > 1 && (
-                    <div className="absolute left-3 top-3 rounded bg-foreground/60 px-2 py-1 text-xs font-medium text-background">
+                    <div className="absolute start-3 top-3 rounded bg-foreground/60 px-2 py-1 text-xs font-medium text-background">
                         {currentIndex + 1} / {processedImages.length}
                     </div>
                 )}

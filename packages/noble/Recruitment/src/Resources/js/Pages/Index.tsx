@@ -351,7 +351,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                         </div>
 
                         <div className="relative z-10 flex h-full items-center justify-between">
-                            <div className="flex-1 pr-4">
+                            <div className="flex-1 pe-4">
                                 <h2 className="mb-3 text-3xl font-bold">
                                     {welcomeCard?.card_title || t('Recruitment Hub')}
                                 </h2>
@@ -366,7 +366,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                         size="sm"
                                     >
                                         {welcomeCard?.button_icon && (
-                                            <SocialLinks icon={welcomeCard.button_icon} className="mr-2 h-4 w-4" />
+                                            <SocialLinks icon={welcomeCard.button_icon} className="me-2 h-4 w-4" />
                                         )}
                                         {welcomeCard?.button_text || t('Copy Portal Link')}
                                     </Button>
@@ -698,14 +698,14 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                     <p className="text-xs text-foreground">{t('Initial stage')}</p>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.applications} {t('Candidates')}
                                                 </span>
                                                 <p className="text-xs text-foreground">{t('100%')}</p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
+                                        <div className="absolute start-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
                                     <div className="relative">
                                         <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
@@ -720,7 +720,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                     <p className="text-xs text-foreground">{t('Screening passed')}</p>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.shortlisted} {t('Candidates')}
                                                 </span>
@@ -736,7 +736,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
+                                        <div className="absolute start-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
                                     <div className="relative">
                                         <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
@@ -753,7 +753,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.interviewed} {t('Candidates')}
                                                 </span>
@@ -769,7 +769,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
+                                        <div className="absolute start-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
                                     <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
                                         <div className="flex items-center gap-3">
@@ -781,7 +781,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 <p className="text-xs text-foreground">{t('Successfully hired')}</p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                 {dashboardData.hiringFunnel.hired} {t('Candidates')}
                                             </span>

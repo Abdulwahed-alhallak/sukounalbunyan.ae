@@ -192,7 +192,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         disabled={isLoading}
                         size="sm"
                     >
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -210,7 +210,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         <div className="flex items-center gap-2">
                             <Input
                                 type="number"
-                                className="h-8 text-right text-sm"
+                                className="h-8 text-end text-sm"
                                 value={previewAmount}
                                 onChange={(e) => setPreviewAmount(parseFloat(e.target.value) || 0)}
                                 placeholder="Test amount"
@@ -252,7 +252,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                                         {currency.code} - {currency.name}
                                                     </span>
                                                     {currency.code === currencySettings.defaultCurrency && (
-                                                        <span className="ml-2 text-xs text-foreground">(Selected)</span>
+                                                        <span className="ms-2 text-xs text-foreground">(Selected)</span>
                                                     )}
                                                 </div>
                                             </SelectItem>
@@ -297,13 +297,13 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                 onClick={() => handleCurrencySettingsChange('currencySymbolPosition', 'before')}
                                 disabled={!canEdit}
                             >
-                                <span className="mr-2">
+                                <span className="me-2">
                                     {currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)
                                         ?.symbol || '$'}
                                 </span>
                                 100
                                 {currencySettings.currencySymbolPosition === 'before' && (
-                                    <Check className="ml-2 h-4 w-4" />
+                                    <Check className="ms-2 h-4 w-4" />
                                 )}
                             </Button>
                             <Button
@@ -314,12 +314,12 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                 disabled={!canEdit}
                             >
                                 100
-                                <span className="ml-2">
+                                <span className="ms-2">
                                     {currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)
                                         ?.symbol || '$'}
                                 </span>
                                 {currencySettings.currencySymbolPosition === 'after' && (
-                                    <Check className="ml-2 h-4 w-4" />
+                                    <Check className="ms-2 h-4 w-4" />
                                 )}
                             </Button>
                         </div>
@@ -336,7 +336,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                 disabled={!canEdit}
                             >
                                 {t('Dot')} (123.45)
-                                {currencySettings.decimalSeparator === '.' && <Check className="ml-2 h-4 w-4" />}
+                                {currencySettings.decimalSeparator === '.' && <Check className="ms-2 h-4 w-4" />}
                             </Button>
                             <Button
                                 type="button"
@@ -346,7 +346,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                 disabled={!canEdit}
                             >
                                 {t('Comma')} (123,45)
-                                {currencySettings.decimalSeparator === ',' && <Check className="ml-2 h-4 w-4" />}
+                                {currencySettings.decimalSeparator === ',' && <Check className="ms-2 h-4 w-4" />}
                             </Button>
                         </div>
                     </div>

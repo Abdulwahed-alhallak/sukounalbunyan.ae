@@ -242,7 +242,7 @@ export default function EditReply({
                 {/* Main Content */}
                 <div className="space-y-6 lg:col-span-2">
                     {/* Ticket Header */}
-                    <Card className="border-l-4 border-l-blue-500">
+                    <Card className="border-s-4 border-s-blue-500">
                         <CardHeader className="pb-4">
                             <div className="flex items-start justify-between">
                                 <div className="space-y-2">
@@ -732,8 +732,8 @@ export default function EditReply({
                                 key={conversion.id}
                                 className={
                                     conversion.sender === 'admin'
-                                        ? 'border-l-4 border-l-green-500'
-                                        : 'border-l-4 border-l-gray-300'
+                                        ? 'border-s-4 border-s-green-500'
+                                        : 'border-s-4 border-s-gray-300'
                                 }
                             >
                                 <CardHeader className="pb-3">
@@ -891,7 +891,7 @@ export default function EditReply({
                                         disabled={replyProcessing || !replyData.description.trim()}
                                         className="bg-foreground hover:bg-foreground/80"
                                     >
-                                        <Send className="mr-2 h-4 w-4" />
+                                        <Send className="me-2 h-4 w-4" />
                                         {replyProcessing ? t('Sending...') : t('Send Reply')}
                                     </Button>
                                 </div>
@@ -977,7 +977,7 @@ export default function EditReply({
                                 <Separator />
                                 <div>
                                     <span className="text-sm text-muted-foreground">{t('Account Type')}:</span>
-                                    <Badge variant="outline" className="ml-2 text-xs">
+                                    <Badge variant="outline" className="ms-2 text-xs">
                                         {ticket.account_type}
                                     </Badge>
                                 </div>
@@ -1012,7 +1012,7 @@ export default function EditReply({
                                     size="sm"
                                     className="w-full bg-foreground hover:bg-foreground"
                                 >
-                                    <StickyNote className="mr-2 h-4 w-4" />
+                                    <StickyNote className="me-2 h-4 w-4" />
                                     {noteProcessing ? t('Saving...') : t('Save Note')}
                                 </Button>
                             </form>

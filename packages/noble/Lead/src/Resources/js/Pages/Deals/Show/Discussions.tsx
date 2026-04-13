@@ -42,7 +42,7 @@ export default function Discussions({ deal, onRegisterAddHandler }: DiscussionsP
                         return (
                             <div
                                 key={index}
-                                className="rounded-r-lg border-l-4 border-foreground bg-gradient-to-r from-muted/50 to-muted/50 p-5 shadow-sm"
+                                className="rounded-e-lg border-s-4 border-foreground bg-gradient-to-r from-muted/50 to-muted/50 p-5 shadow-sm"
                             >
                                 <div className="mb-4 flex items-center justify-between">
                                     <div className="flex items-center gap-3">

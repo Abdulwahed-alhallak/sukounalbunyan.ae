@@ -349,7 +349,7 @@ export default function EditForm({ form, auth }: EditFormProps) {
                                                     className="group relative flex min-h-[70px] cursor-pointer flex-col items-center rounded-lg border border-border px-2 py-3 transition-all hover:border-foreground hover:bg-foreground/10"
                                                 >
                                                     {count > 0 && (
-                                                        <Badge className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-foreground p-0 text-xs font-medium text-background">
+                                                        <Badge className="absolute -end-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-foreground p-0 text-xs font-medium text-background">
                                                             {count}
                                                         </Badge>
                                                     )}
@@ -569,7 +569,7 @@ export default function EditForm({ form, auth }: EditFormProps) {
                                                                             onClick={() => addOption(field.id)}
                                                                             className="border-foreground/30 text-foreground hover:bg-foreground/10"
                                                                         >
-                                                                            <Plus className="mr-1 h-4 w-4" />
+                                                                            <Plus className="me-1 h-4 w-4" />
                                                                             {t('Add Option')}
                                                                         </Button>
                                                                     </div>

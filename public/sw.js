@@ -1,4 +1,4 @@
-const CACHE_NAME = 'noble-pwa-cache-v7';
+const CACHE_NAME = 'noble-pwa-cache-v8';
 const urlsToCache = [
   '/favicon.ico',
   '/manifest.json'
@@ -43,7 +43,8 @@ self.addEventListener('fetch', event => {
     url.pathname.startsWith('/api') ||
     url.pathname.startsWith('/telescope') ||
     url.pathname.startsWith('/build') || // Vite assets are handled by browser/Vite
-    url.origin !== self.location.origin
+    url.origin !== self.location.origin ||
+    url.search.includes('refresh_token=true')
   ) {
     return;
   }
@@ -66,8 +67,10 @@ self.addEventListener('fetch', event => {
 
         return fetch(fetchRequest).then(
           function(response) {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
+            // Check if we received a valid response.
+            // basic = same origin, cors = cross origin with CORS headers
+            // we avoid caching opaque responses for anything other than images/fonts to prevent CORB issues.
+            if(!response || response.status !== 200 || (response.type !== 'basic' && response.type !== 'cors')) {
               return response;
             }
 
@@ -75,8 +78,12 @@ self.addEventListener('fetch', event => {
 
             caches.open(CACHE_NAME)
               .then(function(cache) {
-                // Don't cache dynamic or private data paths
-                if (!url.pathname.startsWith('/api/')) {
+                // Only cache static assets (js, css, images, fonts)
+                // Do NOT cache HTML pages or Inertia JSON responses to prevent CSRF token staleness
+                const isAsset = /\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ico|webp)$/.test(url.pathname) || 
+                                url.pathname.startsWith('/build/');
+                
+                if (isAsset && !url.pathname.startsWith('/api/') && !url.pathname.startsWith('/broadcasting/')) {
                   cache.put(event.request, responseToCache);
                 }
               });
@@ -84,7 +91,8 @@ self.addEventListener('fetch', event => {
             return response;
           }
         ).catch(error => {
-          console.error('Fetch failed:', error);
+          // Fallback if network fails
+          return caches.match(event.request);
         });
       })
   );

@@ -517,7 +517,7 @@ export default function Index() {
                                             filters.status,
                                         ].filter(Boolean).length;
                                         return activeFilters > 0 ? (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs text-background">
                                                 {activeFilters}
                                             </span>
                                         ) : null;

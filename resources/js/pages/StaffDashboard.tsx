@@ -136,7 +136,7 @@ export default function StaffDashboard({
                             </div>
                         </div>
                         {lastPayslip && (
-                            <div className="hidden rounded-lg bg-muted px-4 py-2 text-right sm:block">
+                            <div className="hidden rounded-lg bg-muted px-4 py-2 text-end sm:block">
                                 <p className="text-[10px] text-muted-foreground">{t('Last Payslip')}</p>
                                 <p className="text-lg font-bold text-foreground">
                                     {new Intl.NumberFormat('en-US', {
@@ -444,7 +444,7 @@ export default function StaffDashboard({
                                     {recentActivity.map((item) => (
                                         <div
                                             key={item.id}
-                                            className={`flex items-start gap-3 rounded-lg p-2.5 transition hover:bg-muted/30 ${!item.is_read ? 'border-l-2 border-foreground' : ''}`}
+                                            className={`flex items-start gap-3 rounded-lg p-2.5 transition hover:bg-muted/30 ${!item.is_read ? 'border-s-2 border-foreground' : ''}`}
                                         >
                                             <div
                                                 className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${categoryColor[item.category] || categoryColor.info}`}

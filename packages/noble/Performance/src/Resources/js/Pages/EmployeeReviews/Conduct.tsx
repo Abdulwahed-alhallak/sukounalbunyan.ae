@@ -137,7 +137,7 @@ export default function Conduct() {
                                                     {indicator.name}
                                                 </span>
                                             </div>
-                                            <div className="ml-4">{renderStars(indicator.id)}</div>
+                                            <div className="ms-4">{renderStars(indicator.id)}</div>
                                         </div>
                                     ))}
                                 </div>

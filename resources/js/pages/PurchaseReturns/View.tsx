@@ -47,7 +47,7 @@ function View() {
                                 <span className={getStatusBadgeClasses(purchaseReturn.status)}>
                                     {t(purchaseReturn.status.toUpperCase())}
                                 </span>
-                                <div className="text-right">
+                                <div className="text-end">
                                     <div className="text-2xl font-bold">
                                         {formatCurrency(purchaseReturn.total_amount)}
                                     </div>
@@ -113,7 +113,7 @@ function View() {
                                         <div className="flex gap-2">
                                             {auth.user?.permissions?.includes('print-purchase-returns') && (
                                                 <Button variant="outline" size="sm" onClick={downloadPDF}>
-                                                    <Download className="mr-2 h-4 w-4" />
+                                                    <Download className="me-2 h-4 w-4" />
                                                     {t('Download PDF')}
                                                 </Button>
                                             )}
@@ -135,12 +135,12 @@ function View() {
                                                             )
                                                         }
                                                     >
-                                                        <CheckCircle className="mr-2 h-4 w-4" />
+                                                        <CheckCircle className="me-2 h-4 w-4" />
                                                         {t('Approve Return')}
                                                     </Button>
                                                 )}
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <div className="text-xl font-bold text-foreground">
                                                 {formatCurrency(purchaseReturn.total_amount)}
                                             </div>
@@ -154,7 +154,7 @@ function View() {
                         {purchaseReturn.notes && (
                             <div className="mt-4 border-t pt-4">
                                 <span className="text-sm font-medium">{t('Notes')}:</span>
-                                <span className="ml-2 text-sm text-muted-foreground">{purchaseReturn.notes}</span>
+                                <span className="ms-2 text-sm text-muted-foreground">{purchaseReturn.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -170,14 +170,14 @@ function View() {
                             <table className="min-w-full">
                                 <thead>
                                     <tr className="border-b">
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Product')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Qty')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Unit Price')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Discount')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Discount')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Tax')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Total')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -196,11 +196,11 @@ function View() {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">
                                                 {item.return_quantity || item.quantity}
                                             </td>
-                                            <td className="px-4 py-4 text-right">{formatCurrency(item.unit_price)}</td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">{formatCurrency(item.unit_price)}</td>
+                                            <td className="px-4 py-4 text-end">
                                                 {item.discount_percentage > 0 ? (
                                                     <div>
                                                         <div>{item.discount_percentage}%</div>
@@ -212,7 +212,7 @@ function View() {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div>
                                                         {item.taxes.map((tax, taxIndex) => (
@@ -235,7 +235,7 @@ function View() {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right font-semibold">
+                                            <td className="px-4 py-4 text-end font-semibold">
                                                 {formatCurrency(item.total_amount)}
                                             </td>
                                         </tr>

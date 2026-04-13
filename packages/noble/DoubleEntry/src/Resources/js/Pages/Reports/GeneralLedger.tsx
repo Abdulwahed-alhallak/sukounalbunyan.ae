@@ -169,14 +169,14 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                             <table className="w-full">
                                 <thead className="sticky top-0 bg-muted">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Date')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">
                                             {t('Description')}
                                         </th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Reference')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Debit')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Credit')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Balance')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Reference')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Debit')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Credit')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Balance')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,7 +185,7 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                             <td className="px-4 py-3 text-sm font-semibold" colSpan={5}>
                                                 {t('Opening Balance')}
                                             </td>
-                                            <td className="px-4 py-3 text-right text-sm font-semibold">
+                                            <td className="px-4 py-3 text-end text-sm font-semibold">
                                                 {formatCurrency(data.opening_balance)}
                                             </td>
                                         </tr>
@@ -196,13 +196,13 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                                 <td className="px-4 py-3 text-sm">{formatDate(transaction.date)}</td>
                                                 <td className="px-4 py-3 text-sm">{transaction.description}</td>
                                                 <td className="px-4 py-3 text-sm">{transaction.reference_type}</td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {transaction.debit > 0 ? formatCurrency(transaction.debit) : '-'}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {transaction.credit > 0 ? formatCurrency(transaction.credit) : '-'}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm font-medium">
+                                                <td className="px-4 py-3 text-end text-sm font-medium">
                                                     {formatCurrency(transaction.balance)}
                                                 </td>
                                             </tr>
@@ -226,7 +226,7 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                             <td className="px-4 py-3 text-sm" colSpan={5}>
                                                 {t('Closing Balance')}
                                             </td>
-                                            <td className="px-4 py-3 text-right text-sm">
+                                            <td className="px-4 py-3 text-end text-sm">
                                                 {formatCurrency(data.closing_balance)}
                                             </td>
                                         </tr>

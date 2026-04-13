@@ -310,10 +310,10 @@ export default function View() {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="py-2 text-left font-medium">{t('NAME')}</th>
-                                            <th className="py-2 text-left font-medium">{t('ASSIGNED TASKS')}</th>
-                                            <th className="py-2 text-left font-medium">{t('DONE TASKS')}</th>
-                                            <th className="py-2 text-left font-medium">{t('TIME LOGGED')}</th>
+                                            <th className="py-2 text-start font-medium">{t('NAME')}</th>
+                                            <th className="py-2 text-start font-medium">{t('ASSIGNED TASKS')}</th>
+                                            <th className="py-2 text-start font-medium">{t('DONE TASKS')}</th>
+                                            <th className="py-2 text-start font-medium">{t('TIME LOGGED')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -353,12 +353,12 @@ export default function View() {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="py-2 text-left font-medium">{t('NAME')}</th>
-                                            <th className="py-2 text-left font-medium">{t('PROGRESS')}</th>
-                                            <th className="py-2 text-left font-medium">{t('COST')}</th>
-                                            <th className="py-2 text-left font-medium">{t('STATUS')}</th>
-                                            <th className="py-2 text-left font-medium">{t('START DATE')}</th>
-                                            <th className="py-2 text-left font-medium">{t('END DATE')}</th>
+                                            <th className="py-2 text-start font-medium">{t('NAME')}</th>
+                                            <th className="py-2 text-start font-medium">{t('PROGRESS')}</th>
+                                            <th className="py-2 text-start font-medium">{t('COST')}</th>
+                                            <th className="py-2 text-start font-medium">{t('STATUS')}</th>
+                                            <th className="py-2 text-start font-medium">{t('START DATE')}</th>
+                                            <th className="py-2 text-start font-medium">{t('END DATE')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

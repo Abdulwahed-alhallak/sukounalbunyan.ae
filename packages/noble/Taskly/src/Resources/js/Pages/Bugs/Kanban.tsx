@@ -143,7 +143,7 @@ export default function BugKanban() {
                 onDragStart={handleDragStart}
             >
                 <div className="mb-2 flex items-start justify-between">
-                    <h4 className="pr-2 text-sm font-medium leading-tight text-foreground">{task.title}</h4>
+                    <h4 className="pe-2 text-sm font-medium leading-tight text-foreground">{task.title}</h4>
                     <div className="flex items-center gap-1">
                         {task.priority && (
                             <Badge
@@ -180,7 +180,7 @@ export default function BugKanban() {
                                                 openModal('view', { id: task.id });
                                             }}
                                         >
-                                            <Eye className="mr-2 h-3 w-3" />
+                                            <Eye className="me-2 h-3 w-3" />
                                             {t('View')}
                                         </DropdownMenuItem>
                                     )}
@@ -190,7 +190,7 @@ export default function BugKanban() {
                                                 openModal('edit', { id: task.id });
                                             }}
                                         >
-                                            <Edit className="mr-2 h-3 w-3" />
+                                            <Edit className="me-2 h-3 w-3" />
                                             {t('Edit')}
                                         </DropdownMenuItem>
                                     )}
@@ -199,7 +199,7 @@ export default function BugKanban() {
                                             onClick={() => openDeleteDialog(task.id)}
                                             className="text-destructive"
                                         >
-                                            <Trash2 className="mr-2 h-3 w-3" />
+                                            <Trash2 className="me-2 h-3 w-3" />
                                             {t('Delete')}
                                         </DropdownMenuItem>
                                     )}

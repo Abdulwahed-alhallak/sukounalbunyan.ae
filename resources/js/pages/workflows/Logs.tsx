@@ -57,19 +57,19 @@ export default function WorkflowLogs({ logs }: Props) {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b border-border bg-muted/50">
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Rule')}
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Trigger')}
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Status')}
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Duration')}
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Date')}
                                 </th>
                             </tr>

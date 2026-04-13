@@ -115,7 +115,7 @@ export default function IconSelector({ value, onChange, disabled = false, classN
                         {SelectedIconComponent && <SelectedIconComponent className="h-4 w-4" />}
                         <span>{value || 'Select icon...'}</span>
                     </div>
-                    <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <Search className="ms-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80 p-0">
@@ -146,7 +146,7 @@ export default function IconSelector({ value, onChange, disabled = false, classN
                                 >
                                     <IconComponent className="h-4 w-4" />
                                     <span className="w-full truncate text-xs">{icon.name}</span>
-                                    {isSelected && <Check className="absolute right-1 top-1 h-3 w-3" />}
+                                    {isSelected && <Check className="absolute end-1 top-1 h-3 w-3" />}
                                 </Button>
                             );
                         })}

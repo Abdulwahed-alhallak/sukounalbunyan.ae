@@ -60,12 +60,12 @@ export default function View({ promotion }: ViewProps) {
 
                     <div className="relative">
                         {/* Timeline Line */}
-                        <div className="absolute bottom-8 left-1/2 top-8 w-0.5 -translate-x-1/2 transform bg-gradient-to-b from-foreground to-foreground/60"></div>
+                        <div className="absolute bottom-8 start-1/2 top-8 w-0.5 -translate-x-1/2 transform bg-gradient-to-b from-foreground to-foreground/60"></div>
 
                         {/* Previous Position */}
                         <div className="mb-8 flex items-center">
-                            <div className="w-1/2 pr-8 text-right">
-                                <div className="rounded-lg border-l-4 border-destructive bg-card p-4 shadow-md">
+                            <div className="w-1/2 pe-8 text-end">
+                                <div className="rounded-lg border-s-4 border-destructive bg-card p-4 shadow-md">
                                     <h5 className="mb-2 font-semibold text-destructive">{t('Previous Position')}</h5>
                                     <div className="space-y-1 text-sm text-muted-foreground">
                                         <p>{promotion.previous_designation?.designation_name || '-'}</p>
@@ -77,17 +77,17 @@ export default function View({ promotion }: ViewProps) {
                             <div className="z-10 flex h-8 w-8 items-center justify-center rounded-full bg-destructive/70">
                                 <Building className="h-4 w-4 text-background" />
                             </div>
-                            <div className="w-1/2 pl-8"></div>
+                            <div className="w-1/2 ps-8"></div>
                         </div>
 
                         {/* Current Position */}
                         <div className="flex items-center">
-                            <div className="w-1/2 pr-8"></div>
+                            <div className="w-1/2 pe-8"></div>
                             <div className="z-10 flex h-8 w-8 items-center justify-center rounded-full bg-foreground/60">
                                 <Building className="h-4 w-4 text-background" />
                             </div>
-                            <div className="w-1/2 pl-8">
-                                <div className="rounded-lg border-l-4 border-foreground bg-card p-4 shadow-md">
+                            <div className="w-1/2 ps-8">
+                                <div className="rounded-lg border-s-4 border-foreground bg-card p-4 shadow-md">
                                     <h5 className="mb-2 font-semibold text-foreground">{t('Current Position')}</h5>
                                     <div className="space-y-1 text-sm text-muted-foreground">
                                         <p>{promotion.current_designation?.designation_name || '-'}</p>

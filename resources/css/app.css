@@ -184,13 +184,20 @@
         --shadow-menu: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06);
         --shadow-modal: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 24px 48px rgba(0, 0, 0, 0.12);
 
-        /* ═══ Geist Typography Tokens ═══ */
-        --font-heading-72: 600 72px/72px 'Geist Sans', system-ui;
-        --font-heading-48: 600 48px/56px 'Geist Sans', system-ui;
-        --font-heading-32: 600 32px/40px 'Geist Sans', system-ui;
-        --font-heading-24: 600 24px/32px 'Geist Sans', system-ui;
-        --tracking-heading: -0.06em;
-        --tracking-body: -0.011em;
+        /* ═══ Vercel Geist 2026 — Elevation & Z-index ═══ */
+        --z-index-header: 40;
+        --z-index-sidebar: 50;
+        --z-index-modal: 100;
+        --z-index-popover: 110;
+        --z-index-tooltip: 120;
+
+        /* ═══ Geist Typography Scale ════ */
+        --tracking-tighter: -0.05em;
+        --tracking-tight: -0.025em;
+        --tracking-normal: 0;
+        --tracking-wide: 0.025em;
+        --tracking-wider: 0.05em;
+        --tracking-widest: 0.1em;
     }
 
     .dark {
@@ -722,6 +729,22 @@
         border: 1px solid hsl(var(--gray-4));
     }
 
+    .vercel-badge-purple {
+        background-color: hsl(var(--purple-1));
+        color: hsl(var(--purple-7));
+        border: 1px solid hsl(var(--purple-6) / 0.2);
+    }
+    .vercel-badge-cyan {
+        background-color: hsl(var(--teal-1));
+        color: hsl(var(--teal-7));
+        border: 1px solid hsl(var(--teal-7) / 0.2);
+    }
+    .vercel-badge-pink {
+        background-color: hsl(var(--pink-1));
+        color: hsl(var(--pink-7));
+        border: 1px solid hsl(var(--pink-7) / 0.2);
+    }
+
     /* ─── Vercel Table Row Hover ─── */
     .vercel-table-row {
         @apply transition-colors duration-100;
@@ -841,3 +864,104 @@
     border-top-color: hsl(var(--foreground));
     border-radius: 50%;
 }
+
+/* ─── Geist 2026 — Advanced Backgrounds ─── */
+.geist-mesh-gradient {
+    background: radial-gradient(at 0% 0%, hsl(var(--geist-blue) / 0.1) 0%, transparent 50%),
+                radial-gradient(at 100% 0%, hsl(var(--geist-purple) / 0.1) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, hsl(var(--geist-cyan) / 0.1) 0%, transparent 50%),
+                radial-gradient(at 0% 100%, hsl(var(--geist-pink) / 0.1) 0%, transparent 50%);
+}
+
+.geist-glass-card {
+    background: linear-gradient(135deg, hsl(var(--background) / 0.95), hsl(var(--background) / 0.8));
+    backdrop-blur: 12px;
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: var(--shadow-surface);
+}
+
+.dark .geist-glass-card {
+    background: linear-gradient(135deg, hsl(var(--background) / 0.8), hsl(var(--background) / 0.6));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Geist Interaction states ─── */
+.geist-hover-reveal {
+    @apply transition-all duration-300;
+}
+.geist-hover-reveal:hover {
+    @apply border-primary/30 shadow-md translate-y-[-1px];
+}
+
+.geist-border-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+.geist-border-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid transparent;
+    background: linear-gradient(90deg, transparent, hsl(var(--geist-blue) / 0.5), transparent) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+.geist-border-shimmer:hover::after {
+    opacity: 1;
+    animation: border-shimmer 2s linear infinite;
+}
+
+@keyframes border-shimmer {
+    from { background-position: -200% center; }
+    to { background-position: 200% center; }
+}
+
+/* ─── High Density Text Utilities ─── */
+.text-xs-bold { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.text-label-tight { font-size: 13px; font-weight: 500; letter-spacing: -0.01em; }
+
+/* ─── Vercel Sidebar Specific ─── */
+[data-sidebar="sidebar"] {
+    @apply transition-all duration-300 font-sans;
+}
+
+.rtl [data-sidebar="sidebar"] {
+    @apply border-s border-e-0;
+}
+
+/* ─── Vercel Geist 2026 — Backdrop Pattern ─── */
+.vercel-dots {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(to bottom, white, transparent);
+    pointer-events: none;
+}
+
+.dark .vercel-dots {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.1) 1px, transparent 0);
+}
+
+/* ─── Vercel Premium Input ─── */
+.vercel-input {
+    @apply flex w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium transition-all duration-200 placeholder:text-muted-foreground/40;
+    @apply shadow-[0_1px_2px_rgba(0,0,0,0.02)];
+}
+
+.vercel-input:hover {
+    @apply border-foreground/20 bg-muted/20;
+}
+
+.vercel-input:focus-visible {
+    @apply outline-none ring-2 ring-primary/20 border-primary/50 bg-background shadow-[0_0_12px_rgba(var(--primary-rgb),0.1)];
+}
+
+/* ─── Premium Glass Separator ─── */
+.glass-separator {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-border/50 to-transparent;
+}
+

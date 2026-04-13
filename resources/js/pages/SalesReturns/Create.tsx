@@ -293,22 +293,22 @@ export default function Create() {
                                     <table className="min-w-full">
                                         <thead>
                                             <tr className="border-b border-border">
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Product')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Available Qty')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Unit Price')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Discount')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Tax')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Total')}
                                                 </th>
                                                 <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">
@@ -448,25 +448,25 @@ export default function Create() {
                                     <table className="min-w-full">
                                         <thead>
                                             <tr className="border-b border-border">
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Product')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Return Qty')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Unit Price')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Discount')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Tax')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Total')}
                                                 </th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                <th className="px-4 py-3 text-start text-sm font-semibold text-foreground">
                                                     {t('Reason')}
                                                 </th>
                                                 <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">

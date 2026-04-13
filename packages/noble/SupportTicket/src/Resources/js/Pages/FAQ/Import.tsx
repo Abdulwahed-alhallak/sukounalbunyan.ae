@@ -159,7 +159,7 @@ export default function Import() {
                                     variant="outline"
                                     size="sm"
                                     onClick={downloadSample}
-                                    className="ml-2"
+                                    className="ms-2"
                                 >
                                     <Download className="h-4 w-4" />
                                 </Button>
@@ -178,7 +178,7 @@ export default function Import() {
 
                             <div className="flex gap-2">
                                 <Button type="submit" disabled={processing}>
-                                    <Upload className="mr-2 h-4 w-4" />
+                                    <Upload className="me-2 h-4 w-4" />
                                     {processing ? t('Uploading...') : t('Upload')}
                                 </Button>
                                 <Button type="button" variant="outline" onClick={() => window.history.back()}>
@@ -193,7 +193,7 @@ export default function Import() {
                                     <thead>
                                         <tr className="bg-muted/50">
                                             {csvHeaders?.map((header, index) => (
-                                                <th key={index} className="border p-2 text-left">
+                                                <th key={index} className="border p-2 text-start">
                                                     <div className="space-y-2">
                                                         <div className="font-medium">{header}</div>
                                                         <Select

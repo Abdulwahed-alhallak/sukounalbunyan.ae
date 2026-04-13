@@ -82,7 +82,7 @@ export default function PortalContracts({ contracts }: Props) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     <div className="flex items-center gap-1 text-lg font-bold text-foreground">
                                         <DollarSign className="h-4 w-4 text-foreground" />
                                         {Number(contract.value || 0).toLocaleString()}

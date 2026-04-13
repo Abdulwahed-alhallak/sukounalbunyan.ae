@@ -176,7 +176,7 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                             }
                         }}
                     >
-                        <Eye className="mr-2 h-4 w-4" />
+                        <Eye className="me-2 h-4 w-4" />
                         {t('View Landing Page')}
                     </Button>
                     {auth.user?.permissions?.includes('edit-landing-page') && (
@@ -186,7 +186,7 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                             className="text-background"
                             style={{ backgroundColor: 'hsl(var(--primary))' }}
                         >
-                            <Save className="mr-2 h-4 w-4" />
+                            <Save className="me-2 h-4 w-4" />
                             {isLoading ? t('Saving...') : t('Save Changes')}
                         </Button>
                     )}

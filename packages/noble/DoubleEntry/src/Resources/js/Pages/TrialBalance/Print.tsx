@@ -111,7 +111,7 @@ export default function Print() {
                             )}
                         </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                         <h2 className="mb-2 text-2xl font-bold">{t('TRIAL BALANCE')}</h2>
                         <div className="space-y-1 text-sm">
                             <p>
@@ -126,10 +126,10 @@ export default function Print() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b-2 border-border">
-                                <th className="py-2 text-left text-sm font-bold">{t('Account Code')}</th>
-                                <th className="py-2 text-left text-sm font-bold">{t('Account Name')}</th>
-                                <th className="py-2 text-right text-sm font-bold">{t('Debit')}</th>
-                                <th className="py-2 text-right text-sm font-bold">{t('Credit')}</th>
+                                <th className="py-2 text-start text-sm font-bold">{t('Account Code')}</th>
+                                <th className="py-2 text-start text-sm font-bold">{t('Account Name')}</th>
+                                <th className="py-2 text-end text-sm font-bold">{t('Debit')}</th>
+                                <th className="py-2 text-end text-sm font-bold">{t('Credit')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,10 +137,10 @@ export default function Print() {
                                 <tr key={account.id} className="border-b border-border">
                                     <td className="py-1.5 text-sm">{account.account_code}</td>
                                     <td className="py-1.5 text-sm">{account.account_name}</td>
-                                    <td className="py-1.5 text-right text-sm tabular-nums">
+                                    <td className="py-1.5 text-end text-sm tabular-nums">
                                         {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                     </td>
-                                    <td className="py-1.5 text-right text-sm tabular-nums">
+                                    <td className="py-1.5 text-end text-sm tabular-nums">
                                         {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                     </td>
                                 </tr>
@@ -151,10 +151,10 @@ export default function Print() {
                                 <td colSpan={2} className="py-2 text-sm font-bold">
                                     {t('TOTAL')}
                                 </td>
-                                <td className="py-2 text-right text-sm font-bold tabular-nums">
+                                <td className="py-2 text-end text-sm font-bold tabular-nums">
                                     {formatCurrency(trialBalance.total_debit)}
                                 </td>
-                                <td className="py-2 text-right text-sm font-bold tabular-nums">
+                                <td className="py-2 text-end text-sm font-bold tabular-nums">
                                     {formatCurrency(trialBalance.total_credit)}
                                 </td>
                             </tr>

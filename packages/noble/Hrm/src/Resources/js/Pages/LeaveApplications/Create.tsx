@@ -179,7 +179,7 @@ export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
 
                 {leaveBalance && (
                     <div className="group relative overflow-hidden rounded-2xl border border-foreground/20 bg-foreground/5 p-6 duration-500 animate-in fade-in slide-in-from-top-4">
-                        <div className="absolute right-0 top-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
+                        <div className="absolute end-0 top-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
                             <Activity className="h-16 w-16 text-foreground" />
                         </div>
                         <div className="relative z-10">

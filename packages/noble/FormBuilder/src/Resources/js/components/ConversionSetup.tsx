@@ -374,7 +374,7 @@ export default function ConversionSetup({ formId, auth, initialData }: Conversio
                                                     ? data.field_mappings[fieldKey].length > 0
                                                     : true) && (
                                                     <p className="mt-1 text-xs text-foreground">
-                                                        <CheckCircle className="mr-1 inline h-3 w-3" />
+                                                        <CheckCircle className="me-1 inline h-3 w-3" />
                                                         {t('Mapped')}
                                                     </p>
                                                 )}

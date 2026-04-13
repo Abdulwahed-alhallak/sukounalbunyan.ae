@@ -721,12 +721,12 @@ export default function MessengerPage() {
                         </div>
 
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                            <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                             <Input
                                 placeholder={t('Search users...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10"
+                                className="ps-10"
                             />
                         </div>
                     </CardHeader>
@@ -747,9 +747,9 @@ export default function MessengerPage() {
                                         onClick={() => handleUserSelect(user)}
                                         className={`group flex cursor-pointer items-center gap-3 border-b border-border p-3 transition-all duration-150 ${
                                             selectedUser?.id === user.id
-                                                ? 'border-r-4 border-foreground bg-muted'
+                                                ? 'border-e-4 border-foreground bg-muted'
                                                 : 'hover:bg-muted/50'
-                                        } ${pinnedUsers.includes(user.id) ? 'border-l-2 border-border bg-muted' : ''}`}
+                                        } ${pinnedUsers.includes(user.id) ? 'border-s-2 border-border bg-muted' : ''}`}
                                     >
                                         <div className="relative">
                                             <Avatar className="h-12 w-12">
@@ -762,12 +762,12 @@ export default function MessengerPage() {
                                                 </AvatarFallback>
                                             </Avatar>
                                             {pinnedUsers.includes(user.id) && (
-                                                <div className="absolute -left-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs text-background">
+                                                <div className="absolute -start-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs text-background">
                                                     📌
                                                 </div>
                                             )}
                                             <div
-                                                className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${
+                                                className={`absolute -bottom-0.5 -end-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${
                                                     user.is_online ? 'bg-foreground' : 'bg-muted-foreground'
                                                 }`}
                                             />
@@ -813,7 +813,7 @@ export default function MessengerPage() {
                                                                   : t('No messages yet')
                                                             : t('No messages yet')}
                                                     </p>
-                                                    <div className="ml-2 flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                                                    <div className="ms-2 flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
@@ -955,7 +955,7 @@ export default function MessengerPage() {
                                                                     <MoreVertical className="h-4 w-4" />
                                                                 </Button>
                                                                 {openDropdown === message.id && (
-                                                                    <div className="absolute left-0 top-7 z-20 min-w-[140px] rounded-lg border bg-card py-2 shadow-xl">
+                                                                    <div className="absolute start-0 top-7 z-20 min-w-[140px] rounded-lg border bg-card py-2 shadow-xl">
                                                                         {auth.user?.permissions?.includes(
                                                                             'delete-messages'
                                                                         ) && (
@@ -964,7 +964,7 @@ export default function MessengerPage() {
                                                                                     handleDeleteMessage(message.id);
                                                                                     setOpenDropdown(null);
                                                                                 }}
-                                                                                className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-destructive transition-colors hover:bg-muted"
+                                                                                className="flex w-full items-center gap-3 px-4 py-2 text-start text-sm text-destructive transition-colors hover:bg-muted"
                                                                             >
                                                                                 <Trash2 className="h-4 w-4 text-destructive" />{' '}
                                                                                 {t('Delete')}
@@ -1080,7 +1080,7 @@ export default function MessengerPage() {
                                                                     <MoreVertical className="h-4 w-4" />
                                                                 </Button>
                                                                 {openDropdown === message.id && (
-                                                                    <div className="absolute right-0 top-7 z-20 min-w-[140px] rounded-lg border bg-card py-2 shadow-xl">
+                                                                    <div className="absolute end-0 top-7 z-20 min-w-[140px] rounded-lg border bg-card py-2 shadow-xl">
                                                                         {isOwnMessage &&
                                                                             auth.user?.permissions?.includes(
                                                                                 'edit-messages'
@@ -1090,7 +1090,7 @@ export default function MessengerPage() {
                                                                                         handleEditMessage(message);
                                                                                         setOpenDropdown(null);
                                                                                     }}
-                                                                                    className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted/50"
+                                                                                    className="flex w-full items-center gap-3 px-4 py-2 text-start text-sm text-foreground transition-colors hover:bg-muted/50"
                                                                                 >
                                                                                     <Edit className="h-4 w-4 text-foreground" />{' '}
                                                                                     {t('Edit')}
@@ -1104,7 +1104,7 @@ export default function MessengerPage() {
                                                                                     handleDeleteMessage(message.id);
                                                                                     setOpenDropdown(null);
                                                                                 }}
-                                                                                className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-destructive transition-colors hover:bg-muted"
+                                                                                className="flex w-full items-center gap-3 px-4 py-2 text-start text-sm text-destructive transition-colors hover:bg-muted"
                                                                             >
                                                                                 <Trash2 className="h-4 w-4 text-destructive" />{' '}
                                                                                 {t('Delete')}
@@ -1132,14 +1132,14 @@ export default function MessengerPage() {
                                 <div className="relative">
                                     <EmojiPicker
                                         onEmojiSelect={handleEmojiSelect}
-                                        className={`absolute bottom-full right-0 mb-2 ${showEmojiPicker ? '' : 'hidden'}`}
+                                        className={`absolute bottom-full end-0 mb-2 ${showEmojiPicker ? '' : 'hidden'}`}
                                     />
                                     <form onSubmit={handleSendMessage} className="relative">
                                         <div className="flex items-center gap-3">
                                             <div className="relative flex-1">
                                                 <div className="relative">
                                                     {selectedFile && (
-                                                        <div className="absolute left-3 top-1/2 z-10 flex -translate-y-1/2 items-center gap-1 rounded bg-muted px-2 py-1">
+                                                        <div className="absolute start-3 top-1/2 z-10 flex -translate-y-1/2 items-center gap-1 rounded bg-muted px-2 py-1">
                                                             <span className="text-xs">
                                                                 {getFileIcon(selectedFile.name)}
                                                             </span>
@@ -1165,11 +1165,11 @@ export default function MessengerPage() {
                                                                 ? t('Add a caption...')
                                                                 : t('Type a message...')
                                                         }
-                                                        className={`py-3 pr-20 ${selectedFile ? 'pl-32' : ''}`}
+                                                        className={`py-3 pe-20 ${selectedFile ? 'ps-32' : ''}`}
                                                         disabled={!auth.user?.permissions?.includes('send-messages')}
                                                     />
                                                 </div>
-                                                <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-1">
+                                                <div className="absolute end-3 top-1/2 flex -translate-y-1/2 items-center gap-1">
                                                     <Button
                                                         type="button"
                                                         variant="ghost"

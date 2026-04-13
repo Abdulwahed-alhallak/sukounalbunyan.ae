@@ -225,10 +225,10 @@ export default function AuditLogShow({ auditLog }: Props) {
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Field')}
                                                     </th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Value')}
                                                     </th>
                                                 </tr>
@@ -256,13 +256,13 @@ export default function AuditLogShow({ auditLog }: Props) {
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Field')}
                                                     </th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Old Value')}
                                                     </th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('New Value')}
                                                     </th>
                                                 </tr>
@@ -296,10 +296,10 @@ export default function AuditLogShow({ auditLog }: Props) {
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Field')}
                                                     </th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                    <th className="px-4 py-2 text-start text-xs font-semibold text-muted-foreground">
                                                         {t('Value')}
                                                     </th>
                                                 </tr>

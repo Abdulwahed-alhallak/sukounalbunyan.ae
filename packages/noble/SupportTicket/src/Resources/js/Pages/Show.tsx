@@ -186,12 +186,12 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                 <div className="mb-2 flex flex-col justify-between md:flex-row md:items-center">
                                     <div>
                                         <span className="font-medium text-foreground">{ticket.name}</span>
-                                        <span className="ml-2 text-sm text-muted-foreground">
+                                        <span className="ms-2 text-sm text-muted-foreground">
                                             ({formatDate(ticket.created_at)})
                                         </span>
                                     </div>
                                 </div>
-                                <div className="rounded-xl border-l-4 border-foreground bg-muted/50 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                                <div className="rounded-xl border-s-4 border-foreground bg-muted/50 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                                     <div dangerouslySetInnerHTML={{ __html: ticket.description }} />
 
                                     {/* Attachments */}
@@ -246,7 +246,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                                         ? conversion.replyBy?.name || 'Admin'
                                                         : ticket.name}
                                                 </span>
-                                                <span className="ml-2 text-sm text-muted-foreground">
+                                                <span className="ms-2 text-sm text-muted-foreground">
                                                     ({formatDate(conversion.created_at)})
                                                 </span>
                                             </div>
@@ -254,8 +254,8 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                         <div
                                             className={`rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
                                                 conversion.sender === 'admin'
-                                                    ? 'border-l-4 border-foreground bg-muted/50'
-                                                    : 'border-l-4 border-foreground bg-muted/50'
+                                                    ? 'border-s-4 border-foreground bg-muted/50'
+                                                    : 'border-s-4 border-foreground bg-muted/50'
                                             }`}
                                         >
                                             <div
@@ -343,7 +343,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                                     setImagePreviews([]);
                                                 }
                                             }}
-                                            className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-muted/50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-foreground hover:file:bg-muted"
+                                            className="block w-full text-sm text-muted-foreground file:me-4 file:rounded-full file:border-0 file:bg-muted/50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-foreground hover:file:bg-muted"
                                         />
                                         {imagePreviews.length > 0 && (
                                             <div className="mt-3 grid grid-cols-3 gap-2">
@@ -365,7 +365,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                             disabled={processing || !data.reply_description.trim()}
                                             className="bg-foreground hover:bg-foreground"
                                         >
-                                            <Send className="mr-2 h-4 w-4" />
+                                            <Send className="me-2 h-4 w-4" />
                                             {processing ? t('Sending...') : t('Send Reply')}
                                         </Button>
                                     </div>
@@ -386,7 +386,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                     <Card className="overflow-hidden shadow-md">
                         <div className="bg-foreground px-4 py-3 text-background">
                             <h3 className="flex items-center font-medium">
-                                <Ticket className="mr-2 h-4 w-4" />
+                                <Ticket className="me-2 h-4 w-4" />
                                 {t('Ticket Information')}
                             </h3>
                         </div>

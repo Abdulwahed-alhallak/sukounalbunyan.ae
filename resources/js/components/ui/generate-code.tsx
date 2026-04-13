@@ -62,7 +62,7 @@ export function GenerateCode({
             disabled={disabled || isGenerating}
             className="shrink-0"
         >
-            <Shuffle className={`mr-1 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
+            <Shuffle className={`me-1 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
             {isGenerating ? t('Generating...') : t('Generate')}
         </Button>
     );

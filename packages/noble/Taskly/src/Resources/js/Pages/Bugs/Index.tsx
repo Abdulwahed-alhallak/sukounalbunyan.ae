@@ -416,7 +416,7 @@ export default function Index() {
                                     ].filter(Boolean).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -576,10 +576,10 @@ export default function Index() {
                                                     </div>
 
                                                     <div>
-                                                        <p className="mb-1 text-right text-xs font-medium text-muted-foreground">
+                                                        <p className="mb-1 text-end text-xs font-medium text-muted-foreground">
                                                             {t('Priority')}
                                                         </p>
-                                                        <div className="text-right">
+                                                        <div className="text-end">
                                                             {(() => {
                                                                 const priorityColors = {
                                                                     High: 'bg-muted text-destructive',

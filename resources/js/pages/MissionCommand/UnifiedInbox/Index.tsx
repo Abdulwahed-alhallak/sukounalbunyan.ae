@@ -85,13 +85,13 @@ export default function UnifiedInboxIndex() {
 
             <Card className="flex h-[calc(100%-60px)] flex-col overflow-hidden border-border bg-muted/50 shadow-xl dark:border-border dark:bg-foreground md:flex-row">
                 {/* Sidebar */}
-                <div className="flex w-full flex-col border-r border-border bg-card dark:border-border dark:bg-foreground md:w-80">
+                <div className="flex w-full flex-col border-e border-border bg-card dark:border-border dark:bg-foreground md:w-80">
                     <div className="border-b border-border p-4 dark:border-border">
                         <div className="relative">
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Search className="absolute start-3 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search omnichannel..."
-                                className="border-none bg-muted pl-9 dark:bg-card"
+                                className="border-none bg-muted ps-9 dark:bg-card"
                             />
                         </div>
                     </div>
@@ -108,7 +108,7 @@ export default function UnifiedInboxIndex() {
                                             <AvatarImage src={msg.avatar} />
                                             <AvatarFallback>{msg.sender[0]}</AvatarFallback>
                                         </Avatar>
-                                        <div className="absolute -bottom-1 -right-1 rounded-full bg-card p-0.5 shadow-sm dark:bg-foreground">
+                                        <div className="absolute -bottom-1 -end-1 rounded-full bg-card p-0.5 shadow-sm dark:bg-foreground">
                                             <PlatformIcon platform={msg.platform} />
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@ export default function UnifiedInboxIndex() {
                                             <span className="truncate font-semibold text-foreground dark:text-foreground">
                                                 {msg.sender}
                                             </span>
-                                            <span className="ml-2 whitespace-nowrap text-xs text-muted-foreground">
+                                            <span className="ms-2 whitespace-nowrap text-xs text-muted-foreground">
                                                 {msg.timestamp}
                                             </span>
                                         </div>
@@ -158,7 +158,7 @@ export default function UnifiedInboxIndex() {
                                 </div>
                                 <div className="flex gap-2">
                                     <Button variant="outline" size="sm" className="hidden md:flex">
-                                        <CheckCircle2 className="mr-2 h-4 w-4" /> Mark Resolved
+                                        <CheckCircle2 className="me-2 h-4 w-4" /> Mark Resolved
                                     </Button>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@ export default function UnifiedInboxIndex() {
                                             {activeMessage.content}
                                         </p>
                                     </div>
-                                    <span className="ml-2 text-xs text-muted-foreground">
+                                    <span className="ms-2 text-xs text-muted-foreground">
                                         {activeMessage.timestamp}
                                     </span>
                                 </div>
@@ -188,7 +188,7 @@ export default function UnifiedInboxIndex() {
                                                 <span className="text-sm font-medium">INV-402.pdf</span>
                                             </div>
                                         </div>
-                                        <span className="mr-2 text-right text-xs text-muted-foreground">
+                                        <span className="me-2 text-end text-xs text-muted-foreground">
                                             Just now <CheckCircle2 className="text-noble-cyan inline h-3 w-3" />
                                         </span>
                                     </div>

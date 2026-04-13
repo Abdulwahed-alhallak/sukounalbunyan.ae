@@ -80,7 +80,7 @@ export function RichTextEditor({
         },
         editorProps: {
             attributes: {
-                class: 'focus:outline-none min-h-[120px] p-3 prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6 [&_li]:my-1',
+                class: 'focus:outline-none min-h-[120px] p-3 prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:ms-6 [&_ol]:list-decimal [&_ol]:ms-6 [&_li]:my-1',
             },
         },
         editable: !disabled,
@@ -258,7 +258,7 @@ export function RichTextEditor({
                     <Redo className="h-4 w-4" />
                 </Button>
             </div>
-            <div className="prose prose-sm max-w-none [&_a]:cursor-pointer [&_a]:text-foreground [&_a]:underline hover:[&_a]:text-foreground [&_li]:my-1 [&_ol]:ml-6 [&_ol]:list-decimal [&_ul]:ml-6 [&_ul]:list-disc">
+            <div className="prose prose-sm max-w-none [&_a]:cursor-pointer [&_a]:text-foreground [&_a]:underline hover:[&_a]:text-foreground [&_li]:my-1 [&_ol]:ms-6 [&_ol]:list-decimal [&_ul]:ms-6 [&_ul]:list-disc">
                 <EditorContent editor={editor} placeholder={placeholder || t('Start typing...')} />
             </div>
         </div>

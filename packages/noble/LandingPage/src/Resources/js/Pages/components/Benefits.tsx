@@ -48,7 +48,7 @@ export default function Benefits({ settings }: BenefitsProps) {
                         <div key={index} className="overflow-hidden border-b border-neutral-800">
                             <button
                                 onClick={() => setOpenAccordion(openAccordion === index ? -1 : index)}
-                                className="group flex w-full items-center justify-between py-6 text-left transition-colors hover:text-neutral-300"
+                                className="group flex w-full items-center justify-between py-6 text-start transition-colors hover:text-neutral-300"
                             >
                                 <span className="text-xl font-bold tracking-tight text-white transition-colors group-hover:text-neutral-300 md:text-2xl">
                                     {benefit.title}

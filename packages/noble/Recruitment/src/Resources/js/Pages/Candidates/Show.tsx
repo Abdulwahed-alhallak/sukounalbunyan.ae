@@ -272,7 +272,7 @@ export default function Show() {
                                                 onClick={() => downloadFile(candidate.resume_path, 'resume')}
                                                 className="h-8 px-3"
                                             >
-                                                <Download className="mr-1 h-4 w-4" />
+                                                <Download className="me-1 h-4 w-4" />
                                                 {t('Download')}
                                             </Button>
                                         </div>
@@ -294,7 +294,7 @@ export default function Show() {
                                                 }
                                                 className="h-8 px-3"
                                             >
-                                                <Download className="mr-1 h-4 w-4" />
+                                                <Download className="me-1 h-4 w-4" />
                                                 {t('Download')}
                                             </Button>
                                         </div>

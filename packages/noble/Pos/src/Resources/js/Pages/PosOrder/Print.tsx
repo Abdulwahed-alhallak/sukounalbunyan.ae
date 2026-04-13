@@ -127,7 +127,7 @@ export default function Print() {
                             )}
                         </div>
                     </div>
-                    <div className="w-1/2 text-right">
+                    <div className="w-1/2 text-end">
                         <h2 className="mb-2 text-2xl font-bold">{t('POS SALE')}</h2>
                         <p className="text-lg font-semibold">{sale.sale_number}</p>
                         <div className="mt-2 text-sm">
@@ -147,7 +147,7 @@ export default function Print() {
                             {sale.customer?.email && <p>{sale.customer.email}</p>}
                         </div>
                     </div>
-                    <div className="w-1/2 text-right">
+                    <div className="w-1/2 text-end">
                         <h3 className="mb-3 font-bold">{t('WAREHOUSE')}</h3>
                         <div className="space-y-1 text-sm">
                             <p className="font-semibold">{sale.warehouse?.name || '-'}</p>
@@ -160,12 +160,12 @@ export default function Print() {
                     <table className="w-full table-fixed">
                         <thead>
                             <tr className="border-b border-border">
-                                <th className="py-3 text-left font-bold">{t('Product')}</th>
+                                <th className="py-3 text-start font-bold">{t('Product')}</th>
                                 <th className="py-3 text-center font-bold">{t('Qty')}</th>
-                                <th className="py-3 text-right font-bold">{t('Unit Price')}</th>
+                                <th className="py-3 text-end font-bold">{t('Unit Price')}</th>
                                 <th className="py-3 text-center font-bold">{t('Tax')}</th>
-                                <th className="py-3 text-right font-bold">{t('Tax Amount')}</th>
-                                <th className="py-3 text-right font-bold">{t('Total')}</th>
+                                <th className="py-3 text-end font-bold">{t('Tax Amount')}</th>
+                                <th className="py-3 text-end font-bold">{t('Total')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -180,7 +180,7 @@ export default function Print() {
                                         )}
                                     </td>
                                     <td className="py-4 text-center">{item.quantity}</td>
-                                    <td className="py-4 text-right">{formatCurrency(item.price)}</td>
+                                    <td className="py-4 text-end">{formatCurrency(item.price)}</td>
                                     <td className="py-4 text-center">
                                         {item.taxes && item.taxes.length > 0 ? (
                                             <div className="text-xs">
@@ -194,10 +194,10 @@ export default function Print() {
                                             '-'
                                         )}
                                     </td>
-                                    <td className="py-4 text-right">
+                                    <td className="py-4 text-end">
                                         {item.tax_amount > 0 ? <span>{formatCurrency(item.tax_amount)}</span> : '-'}
                                     </td>
-                                    <td className="py-4 text-right font-semibold">
+                                    <td className="py-4 text-end font-semibold">
                                         {formatCurrency(item.total_amount)}
                                     </td>
                                 </tr>

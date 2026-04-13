@@ -43,6 +43,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                     <Label htmlFor="name">{t('Name')}</Label>
                     <Input
                         id="name"
+                        name="name"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         placeholder={t('Enter full name')}
@@ -54,6 +55,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                     <Label htmlFor="email">{t('Email')}</Label>
                     <Input
                         id="email"
+                        name="email"
                         type="email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
@@ -76,6 +78,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                         <Label htmlFor="password">{t('Password')}</Label>
                         <Input
                             id="password"
+                            name="password"
                             type="password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
@@ -88,6 +91,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                         <Label htmlFor="password_confirmation">{t('Confirm Password')}</Label>
                         <Input
                             id="password_confirmation"
+                            name="password_confirmation"
                             type="password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -102,7 +106,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                         <div>
                             <Label htmlFor="type">{t('Role')}</Label>
                             <Select value={data.type} onValueChange={(value) => setData('type', value)}>
-                                <SelectTrigger>
+                                <SelectTrigger id="type">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -133,7 +137,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                             value={data.is_enable_login ? '1' : '0'}
                             onValueChange={(value) => setData('is_enable_login', value === '1')}
                         >
-                            <SelectTrigger>
+                            <SelectTrigger id="is_enable_login">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>

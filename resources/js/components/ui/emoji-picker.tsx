@@ -53,7 +53,7 @@ export function EmojiPicker({ onEmojiSelect, className = '' }: EmojiPickerProps)
             />
 
             {/* Make all categories scroll together */}
-            <ScrollArea className="h-64 w-full pr-2">
+            <ScrollArea className="h-64 w-full pe-2">
                 <div className="space-y-4">
                     {Object.entries(filtered).map(([category, emojis]) => (
                         <div key={category}>

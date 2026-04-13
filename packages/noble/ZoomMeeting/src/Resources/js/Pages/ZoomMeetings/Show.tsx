@@ -287,7 +287,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                                 }
                                                 className="text-foreground hover:text-foreground"
                                             >
-                                                <Users className="mr-2 h-4 w-4" />
+                                                <Users className="me-2 h-4 w-4" />
                                                 {t('Join Meeting')}
                                             </Button>
                                         </TooltipTrigger>
@@ -312,7 +312,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                                 }
                                                 className="bg-foreground text-background hover:bg-foreground/80"
                                             >
-                                                <Play className="mr-2 h-4 w-4" />
+                                                <Play className="me-2 h-4 w-4" />
                                                 {t('Start Meeting')}
                                             </Button>
                                         </TooltipTrigger>

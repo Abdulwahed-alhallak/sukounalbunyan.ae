@@ -88,7 +88,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <h3 className="text-lg font-semibold">{employeeName}</h3>
                                     <p className="text-sm text-muted-foreground">{employeeEmail}</p>
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     <p className="text-sm font-medium">{payroll.title}</p>
                                     <p className="text-sm text-muted-foreground">
                                         {formatDate(payroll.pay_period_start)} - {formatDate(payroll.pay_period_end)}
@@ -166,7 +166,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             ([name, amount]) => (
                                                 <div
                                                     key={name}
-                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                    className="ms-4 flex justify-between text-sm text-muted-foreground"
                                                 >
                                                     <span>• {name}</span>
                                                     <span>{formatCurrency(amount)}</span>
@@ -189,7 +189,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             ([name, amount]) => (
                                                 <div
                                                     key={name}
-                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                    className="ms-4 flex justify-between text-sm text-muted-foreground"
                                                 >
                                                     <span>• {name}</span>
                                                     <span>{formatCurrency(amount)}</span>
@@ -208,7 +208,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             <span>{t('Attendance Overtime')}</span>
                                             <span>{formatCurrency(payrollEntry.attendance_overtime_amount)}</span>
                                         </div>
-                                        <div className="ml-4 flex justify-between text-sm text-muted-foreground">
+                                        <div className="ms-4 flex justify-between text-sm text-muted-foreground">
                                             <span>
                                                 • {payrollEntry.attendance_overtime_hours} hrs @{' '}
                                                 {formatCurrency(payrollEntry.attendance_overtime_rate)}/hr
@@ -236,7 +236,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <span className="font-medium text-foreground">
                                         {payrollEntry.paid_leave_days} days
                                     </span>
-                                    <span className="w-24 text-right text-sm text-muted-foreground">
+                                    <span className="w-24 text-end text-sm text-muted-foreground">
                                         {t('No deduction')}
                                     </span>
                                 </div>
@@ -250,7 +250,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <span className="font-medium text-destructive">
                                         {payrollEntry.unpaid_leave_days} days
                                     </span>
-                                    <span className="w-24 text-right font-medium text-destructive">
+                                    <span className="w-24 text-end font-medium text-destructive">
                                         {formatCurrency(payrollEntry.unpaid_leave_deduction)}
                                     </span>
                                 </div>
@@ -264,7 +264,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <span className="font-medium text-muted-foreground">
                                         {payrollEntry.half_days} days
                                     </span>
-                                    <span className="w-24 text-right font-medium text-destructive">
+                                    <span className="w-24 text-end font-medium text-destructive">
                                         {formatCurrency(payrollEntry.half_day_deduction)}
                                     </span>
                                 </div>
@@ -278,7 +278,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <span className="font-medium text-destructive">
                                         {payrollEntry.absent_days} days
                                     </span>
-                                    <span className="w-24 text-right font-medium text-destructive">
+                                    <span className="w-24 text-end font-medium text-destructive">
                                         {formatCurrency(payrollEntry.absent_day_deduction)}
                                     </span>
                                 </div>
@@ -323,7 +323,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             ([name, amount]) => (
                                                 <div
                                                     key={name}
-                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                    className="ms-4 flex justify-between text-sm text-muted-foreground"
                                                 >
                                                     <span>• {name}</span>
                                                     <span className="text-destructive">{formatCurrency(amount)}</span>
@@ -347,7 +347,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                         {Object.entries(payrollEntry.loans_breakdown || {})?.map(([name, amount]) => (
                                             <div
                                                 key={name}
-                                                className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                className="ms-4 flex justify-between text-sm text-muted-foreground"
                                             >
                                                 <span>• {name}</span>
                                                 <span className="text-destructive">{formatCurrency(amount)}</span>

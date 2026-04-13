@@ -116,7 +116,7 @@ export default function Pricing(props: PricingProps) {
                                 } transition-all duration-300 hover:border-neutral-600`}
                             >
                                 {plan.id === mostPopularPlanId && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-black uppercase tracking-widest text-black">
+                                    <div className="absolute -top-4 start-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-black uppercase tracking-widest text-black">
                                         {t('Most Popular')}
                                     </div>
                                 )}
@@ -136,7 +136,7 @@ export default function Pricing(props: PricingProps) {
                                                   : formatAdminCurrency(plan.package_price_yearly)}
                                         </span>
                                         {!plan.free_plan && (
-                                            <span className="ml-2 text-lg font-medium text-neutral-500">
+                                            <span className="ms-2 text-lg font-medium text-neutral-500">
                                                 /{priceType === 'monthly' ? 'mo' : 'yr'}
                                             </span>
                                         )}
@@ -160,18 +160,18 @@ export default function Pricing(props: PricingProps) {
 
                                 <div className="mt-auto space-y-4">
                                     <div className="flex items-center text-sm text-neutral-300">
-                                        <Check className="mr-3 h-4 w-4 text-white" />
+                                        <Check className="me-3 h-4 w-4 text-white" />
                                         {plan.number_of_users === -1
                                             ? t('Unlimited Users')
                                             : `${plan.number_of_users} ${t('Users')}`}
                                     </div>
                                     <div className="flex items-center text-sm text-neutral-300">
-                                        <Check className="mr-3 h-4 w-4 text-white" />
+                                        <Check className="me-3 h-4 w-4 text-white" />
                                         {Math.round(plan.storage_limit / (1024 * 1024))}GB {t('Storage')}
                                     </div>
                                     {plan.trial && (
                                         <div className="flex items-center text-sm text-neutral-300">
-                                            <Check className="mr-3 h-4 w-4 text-white" />
+                                            <Check className="me-3 h-4 w-4 text-white" />
                                             {plan.trial_days} {t('Days Free Trial')}
                                         </div>
                                     )}
@@ -182,7 +182,7 @@ export default function Pricing(props: PricingProps) {
 
                     {/* Detailed Comparison */}
                     <div className="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/10">
-                        <table className="w-full border-collapse text-left">
+                        <table className="w-full border-collapse text-start">
                             <thead>
                                 <tr className="border-b border-neutral-800">
                                     <th className="px-8 py-8 text-xs font-bold uppercase tracking-widest text-neutral-500">

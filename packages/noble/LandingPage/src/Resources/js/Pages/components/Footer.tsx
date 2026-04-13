@@ -99,12 +99,12 @@ export default function Footer({ settings }: FooterProps) {
                                     value={emailInput}
                                     onChange={(e) => setEmailInput(e.target.value)}
                                     disabled={isSubmitting}
-                                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2.5 pr-24 text-sm outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-500"
+                                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2.5 pe-24 text-sm outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-500"
                                 />
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="absolute bottom-1 right-1 top-1 rounded-md bg-white px-4 text-xs font-semibold text-black transition-colors hover:bg-neutral-200 disabled:opacity-50"
+                                    className="absolute bottom-1 end-1 top-1 rounded-md bg-white px-4 text-xs font-semibold text-black transition-colors hover:bg-neutral-200 disabled:opacity-50"
                                 >
                                     {isSubmitting ? '...' : newsletterButtonText}
                                 </button>

@@ -96,7 +96,7 @@ export default function View({ deal }: ViewProps) {
                                         })}
                                         onClick={() => setActiveTab(tab.key)}
                                     >
-                                        <Icon className="mr-2 h-4 w-4" />
+                                        <Icon className="me-2 h-4 w-4" />
                                         {tab.label}
                                     </Button>
                                 );
@@ -108,7 +108,7 @@ export default function View({ deal }: ViewProps) {
                 {/* Content */}
                 <div className="flex-1 overflow-hidden">
                     <ScrollArea className="h-[calc(100vh-12rem)]">
-                        <div className="pr-4">{activeTab === 'general' && renderGeneral()}</div>
+                        <div className="pe-4">{activeTab === 'general' && renderGeneral()}</div>
                     </ScrollArea>
                 </div>
             </div>

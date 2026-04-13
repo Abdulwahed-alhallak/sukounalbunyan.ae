@@ -84,19 +84,19 @@ export default function PortalInvoices({ invoices, type }: Props) {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b border-border bg-muted/50">
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">#</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">#</th>
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Date')}
                                 </th>
                                 {isClient && (
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                    <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                         {t('Due Date')}
                                     </th>
                                 )}
-                                <th className="px-4 py-3 text-right text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-end text-xs font-semibold text-muted-foreground">
                                     {t('Amount')}
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">
+                                <th className="px-4 py-3 text-start text-xs font-semibold text-muted-foreground">
                                     {t('Status')}
                                 </th>
                             </tr>
@@ -123,7 +123,7 @@ export default function PortalInvoices({ invoices, type }: Props) {
                                                 {item.due_date || '—'}
                                             </td>
                                         )}
-                                        <td className="px-4 py-3 text-right text-sm font-semibold text-foreground">
+                                        <td className="px-4 py-3 text-end text-sm font-semibold text-foreground">
                                             ${Number(item.total).toLocaleString()}
                                         </td>
                                         <td className="px-4 py-3">

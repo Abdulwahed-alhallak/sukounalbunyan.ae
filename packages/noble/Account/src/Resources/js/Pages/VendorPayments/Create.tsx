@@ -223,7 +223,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                             >
                                                 <div>
                                                     <span className="font-medium">{invoice.invoice_number}</span>
-                                                    <span className="ml-2 text-sm text-muted-foreground">
+                                                    <span className="ms-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(invoice.balance_amount)}
                                                     </span>
                                                 </div>
@@ -262,7 +262,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                             >
                                                 <div>
                                                     <span className="font-medium">{debitNote.debit_note_number}</span>
-                                                    <span className="ml-2 text-sm text-muted-foreground">
+                                                    <span className="ms-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(debitNote.balance_amount)}
                                                     </span>
                                                 </div>
@@ -412,7 +412,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                         )?.balance_amount || 0,
                                                         selectedAllocations.reduce((sum, a) => sum + a.amount, 0)
                                                     )}
-                                                    className="text-right"
+                                                    className="text-end"
                                                 />
                                             </div>
                                             <Button

@@ -122,17 +122,17 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
                                 <table className="w-full">
                                     <thead className="sticky top-0 bg-muted">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Rank')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">{t('Rank')}</th>
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Account Code')}
                                             </th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Expense Category')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Amount')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('% of Total')}
                                             </th>
                                         </tr>
@@ -146,10 +146,10 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
                                                 <td className="px-4 py-3 text-sm font-medium">{idx + 1}</td>
                                                 <td className="px-4 py-3 text-sm">{expense.account_code}</td>
                                                 <td className="px-4 py-3 text-sm">{expense.account_name}</td>
-                                                <td className="px-4 py-3 text-right text-sm font-semibold">
+                                                <td className="px-4 py-3 text-end text-sm font-semibold">
                                                     {formatCurrency(expense.amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {getPercentage(expense.amount)}%
                                                 </td>
                                             </tr>
@@ -158,10 +158,10 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
                                             <td colSpan={3} className="px-4 py-4 text-base">
                                                 {t('Total Expenses')}
                                             </td>
-                                            <td className="px-4 py-4 text-right text-base">
+                                            <td className="px-4 py-4 text-end text-base">
                                                 {formatCurrency(data.total_expenses)}
                                             </td>
-                                            <td className="px-4 py-4 text-right text-base">100%</td>
+                                            <td className="px-4 py-4 text-end text-base">100%</td>
                                         </tr>
                                     </tbody>
                                 </table>

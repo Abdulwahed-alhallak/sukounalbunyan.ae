@@ -392,7 +392,7 @@ export default function MediaLibraryDemo() {
                     <div className="absolute inset-0 bg-foreground/0 transition-all duration-200 group-hover:bg-foreground/5" />
 
                     {/* Directory Type Badge */}
-                    <div className="absolute left-2 top-2">
+                    <div className="absolute start-2 top-2">
                         <Badge variant="secondary" className="bg-foreground/10 text-xs text-foreground">
                             FOLDER
                         </Badge>
@@ -423,11 +423,11 @@ export default function MediaLibraryDemo() {
             pageActions={
                 <div className="flex gap-2">
                     <Button variant="outline" onClick={() => setShowCreateDirectory(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
+                        <Plus className="me-2 h-4 w-4" />
                         {t('New Folder')}
                     </Button>
                     <Button onClick={() => setIsUploadModalOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
+                        <Plus className="me-2 h-4 w-4" />
                         {t('Upload Files')}
                     </Button>
                 </div>
@@ -552,12 +552,12 @@ export default function MediaLibraryDemo() {
                             {/* Search Section */}
                             <div className="flex-1">
                                 <div className="relative max-w-sm">
-                                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                                    <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         placeholder={t('Search media files...')}
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10"
+                                        className="ps-10"
                                     />
                                 </div>
                                 {searchTerm && (
@@ -628,7 +628,7 @@ export default function MediaLibraryDemo() {
                                 </p>
                                 {!searchTerm && (
                                     <Button onClick={() => setIsUploadModalOpen(true)} size="lg">
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         {t('Upload Files')}
                                     </Button>
                                 )}
@@ -665,7 +665,7 @@ export default function MediaLibraryDemo() {
                                                     <div className="absolute inset-0 bg-foreground/0 transition-all duration-200 group-hover:bg-foreground/5" />
 
                                                     {/* Directory Actions */}
-                                                    <div className="absolute right-2 top-2">
+                                                    <div className="absolute end-2 top-2">
                                                         <DropdownMenu>
                                                             <DropdownMenuTrigger asChild>
                                                                 <Button
@@ -685,7 +685,7 @@ export default function MediaLibraryDemo() {
                                                                         setEditDirectoryName(directory.name);
                                                                     }}
                                                                 >
-                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    <Edit className="me-2 h-4 w-4" />
                                                                     Edit
                                                                 </DropdownMenuItem>
                                                                 <DropdownMenuItem
@@ -695,7 +695,7 @@ export default function MediaLibraryDemo() {
                                                                     }}
                                                                     className="text-destructive focus:text-destructive"
                                                                 >
-                                                                    <Trash2 className="mr-2 h-4 w-4" />
+                                                                    <Trash2 className="me-2 h-4 w-4" />
                                                                     Delete
                                                                 </DropdownMenuItem>
                                                             </DropdownMenuContent>
@@ -703,7 +703,7 @@ export default function MediaLibraryDemo() {
                                                     </div>
 
                                                     {/* Directory Type Badge */}
-                                                    <div className="absolute left-2 top-2">
+                                                    <div className="absolute start-2 top-2">
                                                         <Badge
                                                             variant="secondary"
                                                             className="bg-foreground/10 text-xs text-foreground"
@@ -763,7 +763,7 @@ export default function MediaLibraryDemo() {
 
                                                     {/* Action Dropdown */}
                                                     {!infoModalOpen && !isUploadModalOpen && (
-                                                        <div className="absolute right-2 top-2">
+                                                        <div className="absolute end-2 top-2">
                                                             <DropdownMenu>
                                                                 <DropdownMenuTrigger asChild>
                                                                     <Button
@@ -778,13 +778,13 @@ export default function MediaLibraryDemo() {
                                                                     <DropdownMenuItem
                                                                         onClick={() => handleShowInfo(item)}
                                                                     >
-                                                                        <Info className="mr-2 h-4 w-4" />
+                                                                        <Info className="me-2 h-4 w-4" />
                                                                         {t('View Info')}
                                                                     </DropdownMenuItem>
                                                                     <DropdownMenuItem
                                                                         onClick={() => handleCopyLink(item.url)}
                                                                     >
-                                                                        <Copy className="mr-2 h-4 w-4" />
+                                                                        <Copy className="me-2 h-4 w-4" />
                                                                         {t('Copy Link')}
                                                                     </DropdownMenuItem>
                                                                     <DropdownMenuItem
@@ -792,7 +792,7 @@ export default function MediaLibraryDemo() {
                                                                             handleDownload(item.id, item.file_name)
                                                                         }
                                                                     >
-                                                                        <Download className="mr-2 h-4 w-4" />
+                                                                        <Download className="me-2 h-4 w-4" />
                                                                         {t('Download')}
                                                                     </DropdownMenuItem>
                                                                     <DropdownMenuSeparator />
@@ -800,7 +800,7 @@ export default function MediaLibraryDemo() {
                                                                         onClick={() => deleteMedia(item.id)}
                                                                         className="text-destructive focus:text-destructive"
                                                                     >
-                                                                        <X className="mr-2 h-4 w-4" />
+                                                                        <X className="me-2 h-4 w-4" />
                                                                         {t('Delete')}
                                                                     </DropdownMenuItem>
                                                                 </DropdownMenuContent>
@@ -809,7 +809,7 @@ export default function MediaLibraryDemo() {
                                                     )}
 
                                                     {/* File Type Badge */}
-                                                    <div className="absolute left-2 top-2">
+                                                    <div className="absolute start-2 top-2">
                                                         <Badge variant="secondary" className="bg-background/95 text-xs">
                                                             {item.mime_type.split('/')[1].toUpperCase()}
                                                         </Badge>
@@ -959,12 +959,12 @@ export default function MediaLibraryDemo() {
                                     >
                                         {uploading ? (
                                             <>
-                                                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
+                                                <div className="me-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                                                 {t('Uploading...')}
                                             </>
                                         ) : (
                                             <>
-                                                <Plus className="mr-2 h-4 w-4" />
+                                                <Plus className="me-2 h-4 w-4" />
                                                 {t('Choose Files')}
                                             </>
                                         )}
@@ -1021,7 +1021,7 @@ export default function MediaLibraryDemo() {
                                                 {t('File Name')}
                                             </span>
                                             <span
-                                                className="max-w-xs truncate text-right text-sm"
+                                                className="max-w-xs truncate text-end text-sm"
                                                 title={selectedMediaInfo.file_name}
                                             >
                                                 {selectedMediaInfo.file_name}
@@ -1077,7 +1077,7 @@ export default function MediaLibraryDemo() {
                                         onClick={() => handleCopyLink(selectedMediaInfo.url)}
                                         className="flex-1"
                                     >
-                                        <Copy className="mr-2 h-4 w-4" />
+                                        <Copy className="me-2 h-4 w-4" />
                                         {t('Copy Link')}
                                     </Button>
                                     <Button
@@ -1087,7 +1087,7 @@ export default function MediaLibraryDemo() {
                                         }
                                         className="flex-1"
                                     >
-                                        <Download className="mr-2 h-4 w-4" />
+                                        <Download className="me-2 h-4 w-4" />
                                         {t('Download')}
                                     </Button>
                                 </div>

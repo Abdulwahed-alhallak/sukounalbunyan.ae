@@ -288,8 +288,8 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                 {/* Tactical Attendance Control Hub */}
                 {(auth.user?.permissions?.includes('clock-in') || auth.user?.permissions?.includes('clock-out')) && (
                     <div className="premium-card group relative overflow-hidden border-foreground/20 bg-gradient-to-br from-primary/5 via-foreground/50 to-transparent p-8 backdrop-blur-3xl">
-                        <div className="absolute right-0 top-0 p-8 opacity-10 transition-transform duration-1000 group-hover:scale-110">
-                            <Clock className="-mr-32 -mt-32 h-64 w-64 rotate-12" />
+                        <div className="absolute end-0 top-0 p-8 opacity-10 transition-transform duration-1000 group-hover:scale-110">
+                            <Clock className="-me-32 -mt-32 h-64 w-64 rotate-12" />
                         </div>
 
                         <div className="relative z-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
@@ -383,12 +383,12 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                                     >
                                         {isClockedIn ? (
                                             <>
-                                                <Square className="mr-3 h-6 w-6" />
+                                                <Square className="me-3 h-6 w-6" />
                                                 {t('Extraction')}
                                             </>
                                         ) : (
                                             <>
-                                                <Play className="mr-3 h-6 w-6" />
+                                                <Play className="me-3 h-6 w-6" />
                                                 {t('Deploy')}
                                             </>
                                         )}
@@ -571,7 +571,7 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <p className="mb-1 text-[10px] font-black uppercase text-muted-foreground">
                                                 {leave.total_days} {t('Cycles')}
                                             </p>

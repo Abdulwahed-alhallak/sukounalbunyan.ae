@@ -78,91 +78,104 @@ export default function PusherSettings({ userSettings, auth }: PusherSettingsPro
                     </p>
                 </div>
                 {canEdit && (
-                    <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                    <Button
+                        className="order-2 rtl:order-1"
+                        form="pusher-settings-form"
+                        type="submit"
+                        disabled={isLoading}
+                        size="sm"
+                    >
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
             </CardHeader>
             <CardContent>
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    {/* Main Pusher Settings */}
-                    <div className="lg:col-span-2">
-                        <div className="space-y-6">
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="app_id" className="font-medium">
-                                        {t('App ID')}
-                                    </Label>
-                                    <Input
-                                        id="app_id"
-                                        value={settings.app_id}
-                                        onChange={(e) => handleChange('app_id', e.target.value)}
-                                        disabled={!canEdit}
-                                        placeholder="123456"
-                                    />
-                                </div>
-
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="app_key" className="font-medium">
-                                        {t('App Key')}
-                                    </Label>
-                                    <Input
-                                        id="app_key"
-                                        value={settings.app_key}
-                                        onChange={(e) => handleChange('app_key', e.target.value)}
-                                        disabled={!canEdit}
-                                        placeholder="your-app-key"
-                                    />
-                                </div>
-
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="app_secret" className="font-medium">
-                                        {t('App Secret')}
-                                    </Label>
-                                    <div className="relative">
+                <form
+                    id="pusher-settings-form"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        saveSettings();
+                    }}
+                >
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                        {/* Main Pusher Settings */}
+                        <div className="lg:col-span-2">
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="app_id" className="font-medium">
+                                            {t('App ID')}
+                                        </Label>
                                         <Input
-                                            id="app_secret"
-                                            type={showSecret ? 'text' : 'password'}
-                                            value={settings.app_secret}
-                                            onChange={(e) => handleChange('app_secret', e.target.value)}
+                                            id="app_id"
+                                            value={settings.app_id}
+                                            onChange={(e) => handleChange('app_id', e.target.value)}
                                             disabled={!canEdit}
-                                            placeholder="••••••••••••"
-                                            className="pr-10"
+                                            placeholder="123456"
                                         />
-                                        {canEdit && (
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                                onClick={() => setShowSecret(!showSecret)}
-                                            >
-                                                {showSecret ? (
-                                                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                                                ) : (
-                                                    <Eye className="h-4 w-4 text-muted-foreground" />
-                                                )}
-                                            </Button>
-                                        )}
                                     </div>
-                                </div>
 
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="app_cluster" className="font-medium">
-                                        {t('App Cluster')}
-                                    </Label>
-                                    <Input
-                                        id="app_cluster"
-                                        value={settings.app_cluster}
-                                        onChange={(e) => handleChange('app_cluster', e.target.value)}
-                                        disabled={!canEdit}
-                                        placeholder="mt1"
-                                    />
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="app_key" className="font-medium">
+                                            {t('App Key')}
+                                        </Label>
+                                        <Input
+                                            id="app_key"
+                                            value={settings.app_key}
+                                            onChange={(e) => handleChange('app_key', e.target.value)}
+                                            disabled={!canEdit}
+                                            placeholder="your-app-key"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="app_secret" className="font-medium">
+                                            {t('App Secret')}
+                                        </Label>
+                                        <div className="relative">
+                                            <Input
+                                                id="app_secret"
+                                                type={showSecret ? 'text' : 'password'}
+                                                value={settings.app_secret}
+                                                onChange={(e) => handleChange('app_secret', e.target.value)}
+                                                disabled={!canEdit}
+                                                placeholder="••••••••••••"
+                                                className="pe-10"
+                                            />
+                                            {canEdit && (
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                    onClick={() => setShowSecret(!showSecret)}
+                                                >
+                                                    {showSecret ? (
+                                                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                    ) : (
+                                                        <Eye className="h-4 w-4 text-muted-foreground" />
+                                                    )}
+                                                </Button>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="app_cluster" className="font-medium">
+                                            {t('App Cluster')}
+                                        </Label>
+                                        <Input
+                                            id="app_cluster"
+                                            value={settings.app_cluster}
+                                            onChange={(e) => handleChange('app_cluster', e.target.value)}
+                                            disabled={!canEdit}
+                                            placeholder="mt1"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     {/* Info Section */}
                     <div className="lg:col-span-1">
@@ -183,7 +196,7 @@ export default function PusherSettings({ userSettings, auth }: PusherSettingsPro
 
                                         <div className="space-y-2">
                                             <p className="font-medium text-foreground">{t('Features enabled:')}</p>
-                                            <ul className="ml-4 space-y-1">
+                                            <ul className="ms-4 space-y-1">
                                                 <li>• {t('Instant messaging')}</li>
                                                 <li>• {t('Real-time notifications')}</li>
                                                 <li>• {t('Live updates')}</li>
@@ -208,7 +221,8 @@ export default function PusherSettings({ userSettings, auth }: PusherSettingsPro
                             </CardContent>
                         </Card>
                     </div>
-                </div>
+                    </div>
+                </form>
             </CardContent>
         </Card>
     );

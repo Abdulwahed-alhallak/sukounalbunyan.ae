@@ -156,12 +156,12 @@ export default function Tracker() {
                                 <table className="w-full">
                                     <thead>
                                         <tr className="border-b bg-muted/50">
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Employee')}</th>
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Shift')}</th>
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Clock In')}</th>
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Clock Out')}</th>
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Total Hours')}</th>
-                                            <th className="p-3 text-left text-sm font-semibold">{t('Status')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Employee')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Shift')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Clock In')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Clock Out')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Total Hours')}</th>
+                                            <th className="p-3 text-start text-sm font-semibold">{t('Status')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

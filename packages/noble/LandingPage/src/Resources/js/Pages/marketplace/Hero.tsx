@@ -32,12 +32,12 @@ export default function MarketplaceHero({
     return (
         <section className="relative overflow-hidden border-b border-neutral-800 bg-black pb-20 pt-32 md:pb-40 md:pt-48">
             {/* Subtle glow background */}
-            <div className="pointer-events-none absolute left-1/2 top-0 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-white/5 blur-[120px]"></div>
+            <div className="pointer-events-none absolute start-1/2 top-0 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-white/5 blur-[120px]"></div>
 
             <div className="relative z-10 mx-auto max-w-6xl px-6 text-center">
                 {/* Badge */}
                 <div className="mb-10 inline-flex items-center rounded-full border border-neutral-800 bg-neutral-900 px-4 py-1.5">
-                    <span className="mr-3 h-2 w-2 rounded-full bg-white"></span>
+                    <span className="me-3 h-2 w-2 rounded-full bg-white"></span>
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400">
                         Premium Addons Available
                     </span>
@@ -57,7 +57,7 @@ export default function MarketplaceHero({
                         className="group flex w-full items-center justify-center rounded-full bg-white px-12 py-5 text-lg font-black text-black transition-all hover:bg-neutral-200 sm:w-auto"
                     >
                         {primaryButtonText}
-                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="ms-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </button>
                     <button
                         onClick={() => (window.location.href = secondaryButtonLink)}

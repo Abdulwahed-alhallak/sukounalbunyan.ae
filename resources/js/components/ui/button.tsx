@@ -5,25 +5,25 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98]',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.97] select-none',
     {
         variants: {
             variant: {
-                default: 'bg-primary text-primary-foreground shadow-sm hover:opacity-90',
-                destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:opacity-90',
+                default: 'bg-foreground text-background shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:bg-foreground/90 dark:shadow-[0_1px_2px_rgba(255,255,255,0.05)]',
+                destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
                 outline:
-                    'border border-geist-gray-4 bg-background text-foreground shadow-sm hover:bg-geist-gray-1 hover:border-geist-gray-5',
-                secondary: 'bg-geist-gray-1 text-foreground hover:bg-geist-gray-2 border border-geist-gray-4/50',
-                ghost: 'text-muted-foreground hover:bg-geist-gray-1 hover:text-foreground',
-                link: 'text-geist-blue-7 underline-offset-4 hover:underline font-semibold',
-                success: 'bg-success text-success-foreground shadow-sm hover:opacity-90',
-                warning: 'bg-warning text-warning-foreground shadow-sm hover:opacity-90',
-                info: 'bg-info text-info-foreground shadow-sm hover:opacity-90',
+                    'border border-border bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+                secondary: 'bg-muted/50 text-foreground border border-border/50 hover:bg-muted hover:border-border',
+                ghost: 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                link: 'text-primary underline-offset-4 hover:underline font-bold',
+                success: 'bg-emerald-600 text-white shadow-sm hover:bg-emerald-700',
+                warning: 'bg-amber-500 text-white shadow-sm hover:bg-amber-600',
+                info: 'bg-blue-600 text-white shadow-sm hover:bg-blue-700',
             },
             size: {
                 default: 'h-10 px-4 py-2',
-                sm: 'h-8 rounded-md px-3 text-xs',
-                lg: 'h-11 rounded-md px-8 text-base',
+                sm: 'h-8 px-3 text-xs',
+                lg: 'h-11 px-8 text-base',
                 icon: 'h-10 w-10',
             },
         },

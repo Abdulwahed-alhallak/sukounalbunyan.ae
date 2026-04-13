@@ -179,7 +179,7 @@ export default function Kanban() {
                 onDragStart={handleDragStart}
             >
                 <div className="mb-4 flex items-start justify-between">
-                    <div className="min-w-0 flex-1 space-y-1 pr-4">
+                    <div className="min-w-0 flex-1 space-y-1 pe-4">
                         <h4 className="truncate text-[11px] font-black uppercase leading-relaxed tracking-tight text-background/90">
                             {task.title}
                         </h4>
@@ -313,7 +313,7 @@ export default function Kanban() {
             pageTitle={t('Mission Execution Board')}
             pageActions={
                 <div className="flex items-center gap-3">
-                    <div className="mr-2 flex gap-1.5">
+                    <div className="me-2 flex gap-1.5">
                         {googleDriveButtons?.map((button) => (
                             <div key={button.id} className="opacity-70 transition-opacity hover:opacity-100">
                                 {button.component}
@@ -359,7 +359,7 @@ export default function Kanban() {
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
                                     <Button size="sm" className="premium-button px-6" onClick={() => openModal('add')}>
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         <span className="text-[10px] font-black uppercase tracking-widest">
                                             {t('Deploy Task')}
                                         </span>

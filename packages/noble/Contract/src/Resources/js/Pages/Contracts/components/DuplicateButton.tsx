@@ -39,7 +39,7 @@ export default function DuplicateButton({
             className={`${variant === 'ghost' ? 'h-8 w-8 p-0 text-foreground hover:text-foreground' : ''} ${className}`}
         >
             <Copy className="h-4 w-4" />
-            {size !== 'sm' && <span className="ml-2">{t('Duplicate')}</span>}
+            {size !== 'sm' && <span className="ms-2">{t('Duplicate')}</span>}
         </Button>
     );
 

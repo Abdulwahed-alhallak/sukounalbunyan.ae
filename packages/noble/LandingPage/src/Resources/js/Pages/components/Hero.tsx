@@ -21,12 +21,12 @@ export default function Hero({ settings }: HeroProps) {
     return (
         <section className="relative flex items-center justify-center overflow-hidden bg-black py-32 text-white md:py-48">
             {/* Background Vercel glow effect */}
-            <div className="pointer-events-none absolute left-1/2 top-[-10%] h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-r from-neutral-800 to-neutral-600 opacity-30 blur-[120px]"></div>
+            <div className="pointer-events-none absolute start-1/2 top-[-10%] h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-r from-neutral-800 to-neutral-600 opacity-30 blur-[120px]"></div>
 
             <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 text-center">
                 {/* Tech Badge */}
                 <div className="mb-8 inline-flex items-center rounded-full border border-neutral-800 bg-neutral-900/50 px-4 py-1.5 text-sm font-medium text-neutral-300 backdrop-blur-md">
-                    <span className="mr-2 flex h-2 w-2 animate-pulse rounded-full bg-white"></span>
+                    <span className="me-2 flex h-2 w-2 animate-pulse rounded-full bg-white"></span>
                     MeetNobleArchitecture System
                 </div>
 
@@ -50,7 +50,7 @@ export default function Hero({ settings }: HeroProps) {
                         onClick={() => (window.location.href = secondaryButtonLink)}
                     >
                         {secondaryButtonText}
-                        <ArrowRight className="ml-2 h-5 w-5 opacity-70" />
+                        <ArrowRight className="ms-2 h-5 w-5 opacity-70" />
                     </button>
                 </div>
             </div>

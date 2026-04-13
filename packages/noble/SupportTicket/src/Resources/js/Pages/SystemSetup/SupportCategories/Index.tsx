@@ -17,7 +17,7 @@ export default function Index() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-card shadow-sm sm:rounded-lg">
                         <div className="flex">
-                            <div className="w-64 border-r p-6">
+                            <div className="w-64 border-e p-6">
                                 <SystemSetupSidebar activeItem="support-categories" />
                             </div>
                             <div className="flex-1 p-6">

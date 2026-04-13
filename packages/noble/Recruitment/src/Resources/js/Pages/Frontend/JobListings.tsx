@@ -162,12 +162,12 @@ export default function JobListings({
                         <div className="mx-auto max-w-2xl rounded-lg bg-card p-2 shadow-lg">
                             <div className="flex items-center space-x-2">
                                 <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
+                                    <Search className="absolute start-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         placeholder={t('Search jobs, skills, or keywords...')}
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="border-0 pl-10 text-foreground focus:ring-0"
+                                        className="border-0 ps-10 text-foreground focus:ring-0"
                                     />
                                 </div>
                                 <Button className="bg-muted hover:bg-card" onClick={handleSearch} type="button">
@@ -302,14 +302,14 @@ export default function JobListings({
                                                             {job.title}
                                                         </h4>
                                                         <div className="mb-3 flex items-center text-muted-foreground">
-                                                            <MapPin className="mr-2 h-5 w-5 text-foreground" />
+                                                            <MapPin className="me-2 h-5 w-5 text-foreground" />
                                                             <span className="font-medium">{job.location}</span>
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-2">
                                                         {job.featured && (
                                                             <Badge className="border-border bg-muted text-foreground hover:bg-muted">
-                                                                <Star className="mr-1 h-3 w-3" />
+                                                                <Star className="me-1 h-3 w-3" />
                                                                 {t('Featured')}
                                                             </Badge>
                                                         )}
@@ -318,7 +318,7 @@ export default function JobListings({
 
                                                 <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
                                                     <div className="flex items-center rounded-lg bg-muted/50 p-3">
-                                                        <DollarSign className="mr-2 h-5 w-5 text-foreground" />
+                                                        <DollarSign className="me-2 h-5 w-5 text-foreground" />
                                                         <div>
                                                             <p className="text-xs uppercase tracking-wide text-muted-foreground">
                                                                 {t('Salary')}
@@ -329,7 +329,7 @@ export default function JobListings({
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center rounded-lg bg-muted/50 p-3">
-                                                        <Briefcase className="mr-2 h-5 w-5 text-foreground" />
+                                                        <Briefcase className="me-2 h-5 w-5 text-foreground" />
                                                         <div>
                                                             <p className="text-xs uppercase tracking-wide text-muted-foreground">
                                                                 {t('Type')}
@@ -340,7 +340,7 @@ export default function JobListings({
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center rounded-lg bg-muted/50 p-3">
-                                                        <Clock className="mr-2 h-5 w-5 text-foreground" />
+                                                        <Clock className="me-2 h-5 w-5 text-foreground" />
                                                         <div>
                                                             <p className="text-xs uppercase tracking-wide text-muted-foreground">
                                                                 {t('Posted')}
@@ -352,7 +352,7 @@ export default function JobListings({
                                                     </div>
                                                     {job.deadlineDate && (
                                                         <div className="flex items-center rounded-lg bg-muted/50 p-3">
-                                                            <Clock className="mr-2 h-5 w-5 text-destructive" />
+                                                            <Clock className="me-2 h-5 w-5 text-destructive" />
                                                             <div>
                                                                 <p className="text-xs uppercase tracking-wide text-muted-foreground">
                                                                     {t('Deadline')}
@@ -398,7 +398,7 @@ export default function JobListings({
                                                             : 'text-muted-foreground'
                                                     }
                                                 >
-                                                    <Briefcase className="mr-2 h-4 w-4" />
+                                                    <Briefcase className="me-2 h-4 w-4" />
                                                     {savedJobs.includes(job.id) ? 'Saved' : 'Save Job'}
                                                 </Button>
                                             </div>

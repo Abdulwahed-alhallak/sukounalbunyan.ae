@@ -188,12 +188,12 @@ export default function Index() {
                                     {t('Search Products')}
                                 </Label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                                    <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         placeholder={t('Search by name or SKU...')}
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="border-border bg-card pl-10"
+                                        className="border-border bg-card ps-10"
                                     />
                                 </div>
                             </div>
@@ -205,7 +205,7 @@ export default function Index() {
                                         size="sm"
                                         className="border-border bg-card text-muted-foreground hover:border-border hover:bg-muted/50"
                                     >
-                                        <Download className="mr-2 h-4 w-4" />
+                                        <Download className="me-2 h-4 w-4" />
                                         {t('Download PDF')} ({selectedProducts.length})
                                     </Button>
                                 )}
@@ -221,7 +221,7 @@ export default function Index() {
                             <CardTitle className="flex items-center gap-2">
                                 <Package className="h-5 w-5 text-muted-foreground" />
                                 {t('Available Products')}
-                                <Badge variant="secondary" className="ml-2">
+                                <Badge variant="secondary" className="ms-2">
                                     {filteredProducts.length}
                                 </Badge>
                             </CardTitle>

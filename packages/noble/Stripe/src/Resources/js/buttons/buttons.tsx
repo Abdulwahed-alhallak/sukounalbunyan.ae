@@ -230,13 +230,13 @@ export const eventsPayment = (data?: any) => {
                             }`}
                         >
                             <div
-                                className={`mr-3 h-4 w-4 flex-shrink-0 rounded-full border-2 ${
+                                className={`me-3 h-4 w-4 flex-shrink-0 rounded-full border-2 ${
                                     isSelected ? 'bg-muted/500 border-destructive' : 'border-border'
                                 }`}
                             >
                                 {isSelected && <div className="m-auto mt-0.5 h-2 w-2 rounded-full bg-card"></div>}
                             </div>
-                            <img src={getPackageFavicon('Stripe')} alt="Stripe" className="mr-3 h-8 w-8" />
+                            <img src={getPackageFavicon('Stripe')} alt="Stripe" className="me-3 h-8 w-8" />
                             <span className="font-semibold">{t('Stripe')}</span>
                         </div>
                     </label>

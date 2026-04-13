@@ -13,6 +13,10 @@ const badgeVariants = cva(
                 success: 'vercel-badge vercel-badge-success',
                 warning: 'vercel-badge vercel-badge-warning',
                 info: 'vercel-badge vercel-badge-info',
+                purple: 'vercel-badge vercel-badge-purple',
+                cyan: 'vercel-badge vercel-badge-cyan',
+                pink: 'vercel-badge vercel-badge-pink',
+                premium: 'vercel-badge vercel-badge-premium',
             },
         },
         defaultVariants: {

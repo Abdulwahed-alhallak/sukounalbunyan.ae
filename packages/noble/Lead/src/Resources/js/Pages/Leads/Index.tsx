@@ -280,13 +280,13 @@ export default function Index() {
                         <DropdownMenuContent align="end" className="w-40">
                             {auth.user?.permissions?.includes('view-leads') && (
                                 <DropdownMenuItem onClick={() => router.get(route('lead.leads.show', lead.id))}>
-                                    <Eye className="mr-2 h-4 w-4" />
+                                    <Eye className="me-2 h-4 w-4" />
                                     {t('View Details')}
                                 </DropdownMenuItem>
                             )}
                             {auth.user?.permissions?.includes('edit-leads') && (
                                 <DropdownMenuItem onClick={() => openModal('edit', lead)}>
-                                    <EditIcon className="mr-2 h-4 w-4" />
+                                    <EditIcon className="me-2 h-4 w-4" />
                                     {t('Edit')}
                                 </DropdownMenuItem>
                             )}
@@ -295,7 +295,7 @@ export default function Index() {
                                     onClick={() => openDeleteDialog(lead.id)}
                                     className="text-destructive focus:text-destructive"
                                 >
-                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    <Trash2 className="me-2 h-4 w-4" />
                                     {t('Delete')}
                                 </DropdownMenuItem>
                             )}
@@ -521,12 +521,12 @@ export default function Index() {
                 {/* Mission Command: Tactical Intelligence Header */}
                 <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-foreground/5 p-8 backdrop-blur-3xl dark:border-white/10 dark:bg-card/5">
                     {/* Ambient Glows */}
-                    <div className="pointer-events-none absolute right-0 top-0 p-12 opacity-[0.03] transition-transform duration-1000 group-hover:scale-125">
+                    <div className="pointer-events-none absolute end-0 top-0 p-12 opacity-[0.03] transition-transform duration-1000 group-hover:scale-125">
                         <Globe className="h-64 w-64 rotate-12 text-foreground" />
                     </div>
 
                     <div className="relative z-10 flex flex-col items-center justify-between gap-6 lg:flex-row">
-                        <div className="space-y-2 text-center lg:text-left">
+                        <div className="space-y-2 text-center lg:text-start">
                             <div className="mb-1 flex items-center justify-center gap-3 lg:justify-start">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/15 text-foreground shadow-inner">
                                     <UsersIcon className="h-5 w-5" />
@@ -551,7 +551,7 @@ export default function Index() {
                                     onClick={() => setViewMode('list')}
                                     className={`h-8 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-foreground text-background shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-muted dark:hover:bg-card'}`}
                                 >
-                                    <List className="mr-2 h-3 w-3" />
+                                    <List className="me-2 h-3 w-3" />
                                     {t('List View')}
                                 </Button>
                                 <Button
@@ -560,7 +560,7 @@ export default function Index() {
                                     onClick={() => setViewMode('kanban')}
                                     className={`h-8 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'kanban' ? 'bg-foreground text-background shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-muted dark:hover:bg-card'}`}
                                 >
-                                    <Kanban className="mr-2 h-3 w-3" />
+                                    <Kanban className="me-2 h-3 w-3" />
                                     {t('Kanban Flux')}
                                 </Button>
                             </div>
@@ -571,7 +571,7 @@ export default function Index() {
                                     onClick={() => openModal('add')}
                                     className="h-11 rounded-2xl border-t border-white/20 bg-foreground px-6 text-[10px] font-black uppercase tracking-widest text-background shadow-xl shadow-primary/20 transition-all hover:opacity-90 active:scale-95"
                                 >
-                                    <Plus className="mr-2 h-4 w-4" />
+                                    <Plus className="me-2 h-4 w-4" />
                                     {t('Add Lead')}
                                 </Button>
                             )}
@@ -675,7 +675,7 @@ export default function Index() {
                             className="premium-card group relative overflow-hidden border border-border p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl dark:border-white/5"
                         >
                             <div
-                                className={`absolute -bottom-6 -right-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.08] text-${kpi.color}-500`}
+                                className={`absolute -bottom-6 -end-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.08] text-${kpi.color}-500`}
                             >
                                 <kpi.icon className="h-24 w-24" />
                             </div>
@@ -748,7 +748,7 @@ export default function Index() {
                                             ].filter(Boolean).length;
                                             return (
                                                 activeFiltersCount > 0 && (
-                                                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-destructive text-[9px] font-black text-background shadow-lg duration-300 animate-in zoom-in">
+                                                    <span className="absolute -end-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-destructive text-[9px] font-black text-background shadow-lg duration-300 animate-in zoom-in">
                                                         {activeFiltersCount}
                                                     </span>
                                                 )
@@ -762,7 +762,7 @@ export default function Index() {
                             {showFilters && (
                                 <div className="mt-6 grid grid-cols-1 gap-6 border-t border-border pt-6 duration-500 animate-in slide-in-from-top-4 dark:border-white/5 sm:grid-cols-2 lg:grid-cols-3">
                                     <div className="space-y-2">
-                                        <label className="ml-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
+                                        <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
                                             {t('Assigned Unit')}
                                         </label>
                                         <Select
@@ -786,7 +786,7 @@ export default function Index() {
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="ml-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
+                                        <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
                                             {t('Deployment Stage')}
                                         </label>
                                         <Select

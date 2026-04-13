@@ -333,12 +333,12 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                     </TooltipProvider>
 
                                     <div className="relative flex-1 lg:w-80">
-                                        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                        <Search className="absolute start-3 top-3 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             placeholder={t('Search products...')}
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
-                                            className="h-10 pl-10"
+                                            className="h-10 ps-10"
                                         />
                                     </div>
 
@@ -378,10 +378,10 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <div className="relative lg:w-72">
-                                                    <Barcode className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                    <Barcode className="absolute start-3 top-3 h-4 w-4 text-muted-foreground" />
                                                     <Input
                                                         placeholder={t('Add To Cart by SKU')}
-                                                        className="h-10 pl-10"
+                                                        className="h-10 ps-10"
                                                         value={skuInput}
                                                         onChange={(e) => handleSkuInput(e.target.value)}
                                                     />
@@ -485,7 +485,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                             ))}
                             <div className="mt-4 flex items-center justify-between">
                                 <h3 className="flex items-center text-lg font-bold text-foreground">
-                                    <ShoppingCart className="mr-2 h-5 w-5 text-muted-foreground" />
+                                    <ShoppingCart className="me-2 h-5 w-5 text-muted-foreground" />
                                     {t('Shopping Cart')}
                                 </h3>
                                 <div className="flex items-center space-x-2">
@@ -579,7 +579,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                                         <Plus className="h-3 w-3" />
                                                     </Button>
                                                 </div>
-                                                <div className="text-right">
+                                                <div className="text-end">
                                                     <div className="text-lg font-bold text-foreground">
                                                         {formatCurrency(item.price * item.quantity)}
                                                     </div>
@@ -621,7 +621,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                             type="number"
                                             value={discountAmount}
                                             onChange={(e) => setDiscountAmount(Number(e.target.value) || 0)}
-                                            className="h-6 w-16 text-right text-xs"
+                                            className="h-6 w-16 text-end text-xs"
                                             min="0"
                                             max={getSubtotal() + getTaxAmount()}
                                         />
@@ -641,7 +641,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                         }}
                                         disabled={cart.length === 0 || !selectedWarehouse}
                                     >
-                                        <CreditCard className="mr-2 h-4 w-4" />
+                                        <CreditCard className="me-2 h-4 w-4" />
                                         {t('Checkout')}
                                     </Button>
                                 </div>
@@ -693,7 +693,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                             </div>
 
                             {/* Right Side - Company Details */}
-                            <div className="space-y-1 text-right text-sm">
+                            <div className="space-y-1 text-end text-sm">
                                 <h2 className="text-lg font-bold">{globalSettings?.company_name || 'Company Name'}</h2>
                                 <p>{globalSettings?.company_address || 'Company Address'}</p>
                                 <p>
@@ -712,22 +712,22 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                 <table className="w-full min-w-[600px]">
                                     <thead className="bg-muted/50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase text-muted-foreground">
+                                            <th className="px-4 py-3 text-start text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Product')}
                                             </th>
                                             <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Qty')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                            <th className="px-4 py-3 text-end text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Price')}
                                             </th>
                                             <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Taxes')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                            <th className="px-4 py-3 text-end text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Tax Amount')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                            <th className="px-4 py-3 text-end text-xs font-medium uppercase text-muted-foreground">
                                                 {t('Total')}
                                             </th>
                                         </tr>
@@ -757,16 +757,16 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                                         </div>
                                                     </td>
                                                     <td className="px-4 py-3 text-center text-sm">{item.quantity}</td>
-                                                    <td className="px-4 py-3 text-right text-sm">
+                                                    <td className="px-4 py-3 text-end text-sm">
                                                         {formatCurrency(item.price)}
                                                     </td>
                                                     <td className="px-4 py-3 text-center text-sm">
                                                         <div className="text-xs">{taxDisplay}</div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-right text-sm">
+                                                    <td className="px-4 py-3 text-end text-sm">
                                                         {formatCurrency(itemTaxAmount)}
                                                     </td>
-                                                    <td className="px-4 py-3 text-right text-sm font-medium">
+                                                    <td className="px-4 py-3 text-end text-sm font-medium">
                                                         {formatCurrency(itemSubtotal + itemTaxAmount)}
                                                     </td>
                                                 </tr>

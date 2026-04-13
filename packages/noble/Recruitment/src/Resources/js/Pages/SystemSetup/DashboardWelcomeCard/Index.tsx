@@ -115,7 +115,7 @@ export default function DashboardWelcomeCard() {
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={processing}>
-                                        <Save className="mr-2 h-4 w-4" />
+                                        <Save className="me-2 h-4 w-4" />
                                         {processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>

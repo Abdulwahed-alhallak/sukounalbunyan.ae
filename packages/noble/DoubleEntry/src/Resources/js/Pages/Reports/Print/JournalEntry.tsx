@@ -109,7 +109,7 @@ export default function Print() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('JOURNAL ENTRY REPORT')}</h2>
                             {filters.from_date && filters.to_date && (
                                 <p className="text-sm text-muted-foreground">
@@ -130,7 +130,7 @@ export default function Print() {
                                 </p>
                                 <p className="text-sm text-foreground">{entry.description}</p>
                             </div>
-                            <div className="text-right">
+                            <div className="text-end">
                                 <p className="text-sm font-semibold">
                                     {entry.status === 'posted' ? t('Posted') : t('Draft')}
                                 </p>
@@ -142,15 +142,15 @@ export default function Print() {
                         <table className="w-full border-collapse">
                             <thead>
                                 <tr className="border-b-2 border-black">
-                                    <th className="w-24 px-2 py-2 text-left text-sm font-semibold">
+                                    <th className="w-24 px-2 py-2 text-start text-sm font-semibold">
                                         {t('Account Code')}
                                     </th>
-                                    <th className="w-48 px-2 py-2 text-left text-sm font-semibold">
+                                    <th className="w-48 px-2 py-2 text-start text-sm font-semibold">
                                         {t('Account Name')}
                                     </th>
-                                    <th className="px-2 py-2 text-left text-sm font-semibold">{t('Description')}</th>
-                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Debit')}</th>
-                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Credit')}</th>
+                                    <th className="px-2 py-2 text-start text-sm font-semibold">{t('Description')}</th>
+                                    <th className="w-28 px-2 py-2 text-end text-sm font-semibold">{t('Debit')}</th>
+                                    <th className="w-28 px-2 py-2 text-end text-sm font-semibold">{t('Credit')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,10 +159,10 @@ export default function Print() {
                                         <td className="px-2 py-2 text-sm">{item.account_code}</td>
                                         <td className="px-2 py-2 text-sm">{item.account_name}</td>
                                         <td className="break-words px-2 py-2 text-sm">{item.description}</td>
-                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                        <td className="px-2 py-2 text-end text-sm tabular-nums">
                                             {item.debit > 0 ? formatCurrency(item.debit) : '-'}
                                         </td>
-                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                        <td className="px-2 py-2 text-end text-sm tabular-nums">
                                             {item.credit > 0 ? formatCurrency(item.credit) : '-'}
                                         </td>
                                     </tr>
@@ -171,10 +171,10 @@ export default function Print() {
                                     <td colSpan={3} className="px-2 py-2 text-sm font-bold">
                                         {t('Total')}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                    <td className="px-2 py-2 text-end text-sm font-bold tabular-nums">
                                         {formatCurrency(entry.total_debit)}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                    <td className="px-2 py-2 text-end text-sm font-bold tabular-nums">
                                         {formatCurrency(entry.total_credit)}
                                     </td>
                                 </tr>

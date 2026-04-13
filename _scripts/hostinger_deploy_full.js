@@ -16,7 +16,7 @@ conn.on('ready', () => {
         const fileSize = fs.statSync(localFile).size;
         console.log(`Uploading ${(fileSize / 1024 / 1024).toFixed(2)} MB...`);
         
-        sftp.fastPut(localFile, remoteFile, (err) => {
+        sftp.fastPut(localFile, remoteFile, { concurrency: 1, chunkSize: 32768 }, (err) => {
             if (err) throw err;
             console.log('Upload complete. Extracting and configuring...');
             
@@ -57,5 +57,6 @@ conn.on('ready', () => {
     host: '62.72.25.117',
     port: 65002,
     username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
+    password: '4_m_XMkgux@.AgC',
+    readyTimeout: 60000
 });

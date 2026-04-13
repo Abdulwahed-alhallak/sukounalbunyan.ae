@@ -98,7 +98,7 @@ function View() {
                                 >
                                     {t(creditNote.status.charAt(0).toUpperCase() + creditNote.status.slice(1))}
                                 </span>
-                                <div className="text-right">
+                                <div className="text-end">
                                     <div className="text-2xl font-bold">
                                         {formatCurrency(parseFloat(creditNote.total_amount.toString()))}
                                     </div>
@@ -153,12 +153,12 @@ function View() {
                                                             )
                                                         }
                                                     >
-                                                        <CheckCircle className="mr-2 h-4 w-4" />
+                                                        <CheckCircle className="me-2 h-4 w-4" />
                                                         {t('Approve Credit Note')}
                                                     </Button>
                                                 )}
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <div className="text-xl font-bold text-foreground">
                                                 {formatCurrency(parseFloat(creditNote.balance_amount.toString()))}
                                             </div>
@@ -172,7 +172,7 @@ function View() {
                         {creditNote.notes && (
                             <div className="mt-4 border-t pt-4">
                                 <span className="text-sm font-medium">{t('Notes')}:</span>
-                                <span className="ml-2 text-sm text-muted-foreground">{creditNote.notes}</span>
+                                <span className="ms-2 text-sm text-muted-foreground">{creditNote.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -188,14 +188,14 @@ function View() {
                             <table className="min-w-full">
                                 <thead>
                                     <tr className="border-b">
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Product')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Qty')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Unit Price')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Discount')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Discount')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Tax')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Total')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -214,11 +214,11 @@ function View() {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">{item.quantity}</td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">{item.quantity}</td>
+                                            <td className="px-4 py-4 text-end">
                                                 {formatCurrency(parseFloat(item.unit_price.toString()))}
                                             </td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">
                                                 {item.discount_percentage > 0 ? (
                                                     <div>
                                                         <div>{item.discount_percentage}%</div>
@@ -233,7 +233,7 @@ function View() {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div>
                                                         {item.taxes?.map((tax, taxIndex) => (
@@ -256,7 +256,7 @@ function View() {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right font-semibold">
+                                            <td className="px-4 py-4 text-end font-semibold">
                                                 {formatCurrency(parseFloat(item.total_amount.toString()))}
                                             </td>
                                         </tr>
@@ -328,13 +328,13 @@ function View() {
                                 <table className="min-w-full">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            <th className="px-4 py-3 text-start text-sm font-semibold">
                                                 {t('Payment')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">
                                                 {t('Applied Amount')}
                                             </th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('Date')}</th>
+                                            <th className="px-4 py-3 text-end text-sm font-semibold">{t('Date')}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y">
@@ -343,10 +343,10 @@ function View() {
                                                 <td className="px-4 py-4 text-sm text-foreground">
                                                     {application.payment.payment_number}
                                                 </td>
-                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">
+                                                <td className="px-4 py-4 text-end text-sm text-muted-foreground">
                                                     {formatCurrency(parseFloat(application.applied_amount.toString()))}
                                                 </td>
-                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">
+                                                <td className="px-4 py-4 text-end text-sm text-muted-foreground">
                                                     {formatDate(application.application_date)}
                                                 </td>
                                             </tr>

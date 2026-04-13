@@ -688,7 +688,7 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                 />
                                 <Label htmlFor={`question_${question.id}`} className="cursor-pointer">
                                     {question.question}
-                                    {question.is_required && <span className="ml-1 text-destructive">*</span>}
+                                    {question.is_required && <span className="ms-1 text-destructive">*</span>}
                                 </Label>
                             </div>
                         ))}

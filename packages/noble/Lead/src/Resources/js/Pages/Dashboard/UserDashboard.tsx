@@ -242,7 +242,7 @@ function UserDashboard({
                                                 <h4 className="text-sm font-medium text-foreground">{deal.name}</h4>
                                                 <p className="mt-1 text-xs text-muted-foreground">{deal.stage?.name}</p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-xs text-muted-foreground">
                                                     {formatDate(deal.created_at)}
                                                 </p>
@@ -279,7 +279,7 @@ function UserDashboard({
                                                 <h4 className="text-sm font-medium text-foreground">{lead.name}</h4>
                                                 <p className="mt-1 text-xs text-muted-foreground">{lead.subject}</p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-xs text-muted-foreground">
                                                     {formatDate(lead.created_at)}
                                                 </p>

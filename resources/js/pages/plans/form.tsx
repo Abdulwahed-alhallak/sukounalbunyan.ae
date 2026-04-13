@@ -378,7 +378,7 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                         </CardHeader>
                         <CardContent>
                             <ScrollArea className="h-[300px]">
-                                <div className="grid grid-cols-4 gap-3 pr-4">
+                                <div className="grid grid-cols-4 gap-3 pe-4">
                                     {filteredModules.map((module) => (
                                         <div
                                             key={module.module}

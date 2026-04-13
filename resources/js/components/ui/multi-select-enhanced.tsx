@@ -64,10 +64,10 @@ export function MultiSelectEnhanced({
                     {value.length > 0 ? (
                         <div className="pointer-events-none flex flex-wrap gap-1">
                             {selectedOptions.slice(0, 2).map((option) => (
-                                <Badge key={option.value} variant="secondary" className="mr-1">
+                                <Badge key={option.value} variant="secondary" className="me-1">
                                     {option.label}
                                     <div
-                                        className="pointer-events-auto ml-1 h-auto cursor-pointer rounded p-0 hover:bg-muted"
+                                        className="pointer-events-auto ms-1 h-auto cursor-pointer rounded p-0 hover:bg-muted"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -87,14 +87,14 @@ export function MultiSelectEnhanced({
                     ) : (
                         <span className="text-muted-foreground">{placeholder || t('Select...')}</span>
                     )}
-                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <ChevronDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                 <div className="flex flex-col">
                     {searchable && (
                         <div className="flex items-center border-b px-3 py-2">
-                            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+                            <Search className="me-2 h-4 w-4 shrink-0 opacity-50" />
                             <Input
                                 placeholder={t('Search...')}
                                 value={search}
@@ -129,7 +129,7 @@ export function MultiSelectEnhanced({
                                         onClick={() => handleSelect(option.value)}
                                     >
                                         <Check
-                                            className={cn('mr-2 h-4 w-4', isSelected ? 'opacity-100' : 'opacity-0')}
+                                            className={cn('me-2 h-4 w-4', isSelected ? 'opacity-100' : 'opacity-0')}
                                         />
                                         {option.label}
                                     </div>

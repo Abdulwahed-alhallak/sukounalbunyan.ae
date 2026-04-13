@@ -72,11 +72,11 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                         return (
                             <div
                                 key={`label-wrapper-${index}`}
-                                className="mb-1 mt-5 flex select-none items-center px-4 group-data-[collapsible=icon]:hidden"
+                                className="mb-2 mt-6 flex select-none items-center px-4 group-data-[collapsible=icon]:hidden"
                             >
                                 <SidebarGroupLabel
                                     key={`label-${index}`}
-                                    className="h-auto bg-transparent p-0 text-label-12 font-bold tracking-widest uppercase text-muted-foreground/60"
+                                    className="h-auto bg-transparent p-0 text-[10px] font-black tracking-[0.15em] uppercase text-muted-foreground/40"
                                 >
                                     {t(item.title)}
                                 </SidebarGroupLabel>
@@ -90,9 +90,10 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                     // Check if any child is active for parent menus
                     const hasActiveChild = item.children ? isChildActive(item.children) : false;
                     const shouldBeActive = isActive || hasActiveChild;
+
                     if (item.children && item.children.length > 0) {
                         return (
-                            <SidebarMenuItem key={`item-${item.title}-${index}`} className="mb-px px-2">
+                            <SidebarMenuItem key={`item-${item.title}-${index}`} className="mb-0.5 px-2">
                                 <Collapsible
                                     asChild
                                     defaultOpen={shouldBeActive}
@@ -104,24 +105,24 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
                                                 className={cn(
-                                                    'group relative h-8 rounded-md px-2.5 transition-all duration-200 ease-out',
+                                                    'group relative h-9 rounded-lg px-2.5 transition-all duration-200 ease-in-out',
                                                     shouldBeActive
-                                                        ? 'bg-geist-gray-1 font-semibold text-foreground'
-                                                        : 'text-muted-foreground hover:bg-geist-gray-1 hover:text-foreground'
+                                                        ? 'bg-accent/60 font-bold text-foreground ring-1 ring-border/50'
+                                                        : 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'
                                                 )}
                                             >
-                                                {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                                <span className="ms-2 flex-1 text-label-13">{t(item.title)}</span>
+                                                {item.icon && <item.icon className="h-4 w-4" strokeWidth={2} />}
+                                                <span className="ms-2.5 flex-1 text-[13px] tracking-tight">{t(item.title)}</span>
                                                 <ChevronRight
                                                     className={cn(
-                                                        'ms-auto h-3.5 w-3.5 text-muted-foreground/50 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90',
-                                                        'rtl:group-data-[state=open]/collapsible:rotate-270 rtl:rotate-180'
+                                                        'ms-auto h-3.5 w-3.5 text-muted-foreground/30 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90',
+                                                        'rtl:rotate-180 rtl:group-data-[state=open]/collapsible:-rotate-90'
                                                     )}
                                                 />
                                             </SidebarMenuButton>
                                         </CollapsibleTrigger>
-                                        <CollapsibleContent className="transition-all duration-200 ease-in-out">
-                                            <SidebarMenuSub className="ms-[18px] border-s border-border/50 ps-0">
+                                        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                                            <SidebarMenuSub className="ms-4.5 mt-1 border-s border-border/40 ps-0 rtl:ms-0 rtl:me-4.5 rtl:border-s-0 rtl:border-e rtl:ps-0 rtl:pe-0">
                                                 {item.children.map((subItem, subIndex) => {
                                                     const subItemActive = !!(
                                                         subItem.href &&
@@ -225,14 +226,14 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                 asChild
                                                                 isActive={subItemActive}
                                                                 className={cn(
-                                                                    'group/sub-btn h-7 rounded-md px-2.5 transition-colors duration-150',
+                                                                    'group/sub-btn h-8 rounded-md px-3 transition-all duration-200',
                                                                     subItemActive
-                                                                        ? 'bg-muted font-medium text-foreground'
+                                                                        ? 'bg-primary/5 font-bold text-primary'
                                                                         : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                                                 )}
                                                             >
                                                                 <Link href={subItem.href!}>
-                                                                    <span className="text-label-12">
+                                                                    <span className="text-[12px] tracking-tight">
                                                                         {t(subItem.title)}
                                                                     </span>
                                                                 </Link>

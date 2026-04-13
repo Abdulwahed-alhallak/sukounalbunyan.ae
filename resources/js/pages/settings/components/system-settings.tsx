@@ -170,7 +170,7 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -179,13 +179,13 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div className="space-y-3">
-                            <Label>{t('Default Language')}</Label>
+                            <Label htmlFor="defaultLanguage">{t('Default Language')}</Label>
                             <Select
                                 value={settings.defaultLanguage}
                                 onValueChange={(value) => handleSelectChange('defaultLanguage', value)}
                                 disabled={!canEdit}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger id="defaultLanguage">
                                     <SelectValue placeholder={t('Select language')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -202,13 +202,13 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                         </div>
 
                         <div className="space-y-3">
-                            <Label>{t('Date Format')}</Label>
+                            <Label htmlFor="dateFormat">{t('Date Format')}</Label>
                             <Select
                                 value={settings.dateFormat}
                                 onValueChange={(value) => handleSelectChange('dateFormat', value)}
                                 disabled={!canEdit}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger id="dateFormat">
                                     <SelectValue placeholder={t('Select date format')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -222,13 +222,13 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                         </div>
 
                         <div className="space-y-3">
-                            <Label>{t('Time Format')}</Label>
+                            <Label htmlFor="timeFormat">{t('Time Format')}</Label>
                             <Select
                                 value={settings.timeFormat}
                                 onValueChange={(value) => handleSelectChange('timeFormat', value)}
                                 disabled={!canEdit}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger id="timeFormat">
                                     <SelectValue placeholder={t('Select time format')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -242,13 +242,13 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                         </div>
 
                         <div className="space-y-3">
-                            <Label>{t('Calendar Start Day')}</Label>
+                            <Label htmlFor="calendarStartDay">{t('Calendar Start Day')}</Label>
                             <Select
                                 value={settings.calendarStartDay}
                                 onValueChange={(value) => handleSelectChange('calendarStartDay', value)}
                                 disabled={!canEdit}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger id="calendarStartDay">
                                     <SelectValue placeholder={t('Select start day')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -265,8 +265,10 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                     {isSuperAdmin && (
                         <>
                             <div className="space-y-3">
-                                <Label>{t('Terms & Conditions URL')}</Label>
+                                <Label htmlFor="termsConditionsUrl">{t('Terms & Conditions URL')}</Label>
                                 <Input
+                                    id="termsConditionsUrl"
+                                    name="termsConditionsUrl"
                                     type="url"
                                     value={settings.termsConditionsUrl}
                                     onChange={(e) => handleInputChange('termsConditionsUrl', e.target.value)}
@@ -277,9 +279,10 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
 
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                 <div className="space-y-3">
-                                    <Label>{t('Enable Registration')}</Label>
-                                    <div className="flex items-center space-x-2">
+                                    <Label htmlFor="enableRegistration">{t('Enable Registration')}</Label>
+                                    <div className="flex items-center gap-2">
                                         <Switch
+                                            id="enableRegistration"
                                             checked={settings.enableRegistration === 'on'}
                                             onCheckedChange={(checked) =>
                                                 handleSwitchChange('enableRegistration', checked)
@@ -295,9 +298,10 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                 </div>
 
                                 <div className="space-y-3">
-                                    <Label>{t('Enable Email Verification')}</Label>
-                                    <div className="flex items-center space-x-2">
+                                    <Label htmlFor="enableEmailVerification">{t('Enable Email Verification')}</Label>
+                                    <div className="flex items-center gap-2">
                                         <Switch
+                                            id="enableEmailVerification"
                                             checked={settings.enableEmailVerification === 'on'}
                                             onCheckedChange={(checked) =>
                                                 handleSwitchChange('enableEmailVerification', checked)
@@ -313,9 +317,10 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                 </div>
 
                                 <div className="space-y-3">
-                                    <Label>{t('Enable Landing Page')}</Label>
-                                    <div className="flex items-center space-x-2">
+                                    <Label htmlFor="landingPageEnabled">{t('Enable Landing Page')}</Label>
+                                    <div className="flex items-center gap-2">
                                         <Switch
+                                            id="landingPageEnabled"
                                             checked={settings.landingPageEnabled === 'on'}
                                             onCheckedChange={(checked) =>
                                                 handleSwitchChange('landingPageEnabled', checked)

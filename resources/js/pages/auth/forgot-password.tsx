@@ -52,7 +52,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                             disabled={processing}
                             data-test="email-password-reset-link-button"
                         >
-                            {processing ? 'Loading...' : t('EMAIL PASSWORD RESET LINK')}
+                            {processing ? t('Loading...') : t('EMAIL PASSWORD RESET LINK')}
                         </Button>
                     </div>
                 </form>

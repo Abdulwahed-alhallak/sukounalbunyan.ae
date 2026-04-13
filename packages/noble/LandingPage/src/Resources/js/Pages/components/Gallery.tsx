@@ -13,7 +13,7 @@ export default function Gallery({ settings }: GalleryProps) {
     return (
         <section className="border-b border-neutral-800 bg-black py-32 text-white">
             <div className="mx-auto max-w-6xl px-6">
-                <div className="mb-16 flex flex-col justify-between text-center md:flex-row md:items-end md:text-left">
+                <div className="mb-16 flex flex-col justify-between text-center md:flex-row md:items-end md:text-start">
                     <div className="max-w-2xl">
                         <h2 className="mb-4 text-4xl font-extrabold tracking-tighter text-white md:text-5xl">
                             {title}
@@ -30,7 +30,7 @@ export default function Gallery({ settings }: GalleryProps) {
                             instantly together.
                         </p>
                     </div>
-                    <div className="flex flex-col justify-center border-l border-neutral-800 bg-neutral-900 p-10">
+                    <div className="flex flex-col justify-center border-s border-neutral-800 bg-neutral-900 p-10">
                         <h3 className="mb-4 text-2xl font-bold tracking-tight">Edge-ready Performance</h3>
                         <p className="leading-relaxed text-neutral-400">
                             Global speed with edge caching and optimized queries ensuring your dashboard loads in
@@ -44,7 +44,7 @@ export default function Gallery({ settings }: GalleryProps) {
                             directly into the core.
                         </p>
                     </div>
-                    <div className="flex flex-col justify-center border-l border-neutral-800 bg-black p-10">
+                    <div className="flex flex-col justify-center border-s border-neutral-800 bg-black p-10">
                         <h3 className="mb-4 text-2xl font-bold tracking-tight">Infinite Extensibility</h3>
                         <p className="leading-relaxed text-neutral-400">
                             Powerful built-in APIs and modular architecture make adding custom features and integrations

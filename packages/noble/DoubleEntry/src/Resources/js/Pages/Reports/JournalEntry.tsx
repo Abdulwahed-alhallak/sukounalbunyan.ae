@@ -140,17 +140,17 @@ export default function JournalEntry({ financialYear }: JournalEntryProps) {
                             <table className="w-full">
                                 <thead className="sticky top-0 bg-muted">
                                     <tr>
-                                        <th className="w-12 px-4 py-3 text-left text-sm font-semibold"></th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Journal #')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Reference')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">
+                                        <th className="w-12 px-4 py-3 text-start text-sm font-semibold"></th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Journal #')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Date')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Reference')}</th>
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">
                                             {t('Description')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Total Debit')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Total Credit')}
                                         </th>
                                         <th className="px-4 py-3 text-center text-sm font-semibold">{t('Status')}</th>
@@ -177,10 +177,10 @@ export default function JournalEntry({ financialYear }: JournalEntryProps) {
                                                 <td className="px-4 py-3 text-sm">{formatDate(entry.date)}</td>
                                                 <td className="px-4 py-3 text-sm">{entry.reference_type}</td>
                                                 <td className="px-4 py-3 text-sm">{entry.description}</td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {formatCurrency(entry.total_debit)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {formatCurrency(entry.total_credit)}
                                                 </td>
                                                 <td className="px-4 py-3 text-center text-sm">
@@ -194,7 +194,7 @@ export default function JournalEntry({ financialYear }: JournalEntryProps) {
                                                         {t(entry.status === 'posted' ? 'Posted' : 'Draft')}
                                                     </span>
                                                     {!entry.is_balanced && (
-                                                        <span className="ml-2 rounded-full bg-muted px-2 py-1 text-sm text-destructive">
+                                                        <span className="ms-2 rounded-full bg-muted px-2 py-1 text-sm text-destructive">
                                                             {t('Unbalanced')}
                                                         </span>
                                                     )}
@@ -206,19 +206,19 @@ export default function JournalEntry({ financialYear }: JournalEntryProps) {
                                                         <table className="w-full">
                                                             <thead>
                                                                 <tr className="text-xs text-muted-foreground">
-                                                                    <th className="px-4 py-2 text-left">
+                                                                    <th className="px-4 py-2 text-start">
                                                                         {t('Account Code')}
                                                                     </th>
-                                                                    <th className="px-4 py-2 text-left">
+                                                                    <th className="px-4 py-2 text-start">
                                                                         {t('Account Name')}
                                                                     </th>
-                                                                    <th className="px-4 py-2 text-left">
+                                                                    <th className="px-4 py-2 text-start">
                                                                         {t('Description')}
                                                                     </th>
-                                                                    <th className="px-4 py-2 text-right">
+                                                                    <th className="px-4 py-2 text-end">
                                                                         {t('Debit')}
                                                                     </th>
-                                                                    <th className="px-4 py-2 text-right">
+                                                                    <th className="px-4 py-2 text-end">
                                                                         {t('Credit')}
                                                                     </th>
                                                                 </tr>
@@ -235,12 +235,12 @@ export default function JournalEntry({ financialYear }: JournalEntryProps) {
                                                                         <td className="px-4 py-2">
                                                                             {item.description}
                                                                         </td>
-                                                                        <td className="px-4 py-2 text-right">
+                                                                        <td className="px-4 py-2 text-end">
                                                                             {item.debit > 0
                                                                                 ? formatCurrency(item.debit)
                                                                                 : '-'}
                                                                         </td>
-                                                                        <td className="px-4 py-2 text-right">
+                                                                        <td className="px-4 py-2 text-end">
                                                                             {item.credit > 0
                                                                                 ? formatCurrency(item.credit)
                                                                                 : '-'}

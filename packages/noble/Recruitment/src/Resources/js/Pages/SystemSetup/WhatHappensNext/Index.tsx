@@ -143,7 +143,7 @@ export default function WhatHappensNext() {
                                 <h3 className="text-lg font-medium">{t('What Happens Next Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="mr-2 h-4 w-4" />
+                                        <Save className="me-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -248,7 +248,7 @@ export default function WhatHappensNext() {
 
                                 {canEdit && (
                                     <Button type="button" variant="outline" onClick={addStep} className="w-full">
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         {t('Add Step')}
                                     </Button>
                                 )}

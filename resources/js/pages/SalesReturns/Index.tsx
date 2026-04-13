@@ -138,7 +138,7 @@ export default function Index() {
                     {returnItem.items?.slice(0, 2).map((item: any, index: number) => (
                         <div key={index} className="flex justify-between">
                             <span className="truncate">{item.product?.name}</span>
-                            <span className="ml-2 text-muted-foreground">×{item.return_quantity}</span>
+                            <span className="ms-2 text-muted-foreground">×{item.return_quantity}</span>
                         </div>
                     ))}
                     {returnItem.items && returnItem.items.length > 2 && (
@@ -315,7 +315,7 @@ export default function Index() {
                                     ].filter(Boolean).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )
@@ -518,7 +518,7 @@ export default function Index() {
                                                                         <span className="truncate">
                                                                             {item.product?.name}
                                                                         </span>
-                                                                        <span className="ml-2 text-muted-foreground">
+                                                                        <span className="ms-2 text-muted-foreground">
                                                                             ×{item.return_quantity}
                                                                         </span>
                                                                     </div>

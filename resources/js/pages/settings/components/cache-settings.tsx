@@ -74,7 +74,7 @@ export default function CacheSettings({ cacheSize = '0.00', auth }: CacheSetting
                     </div>
 
                     <div className="flex items-center justify-between rounded-lg border p-4">
-                        <div className="order-1 flex items-center space-x-3 rtl:order-2">
+                    <div className="flex items-center gap-3 order-1 rtl:order-2">
                             <HardDrive className="h-5 w-5 text-muted-foreground" />
                             <div>
                                 <h4 className="font-medium">{t('Current Cache Size')}</h4>
@@ -91,7 +91,7 @@ export default function CacheSettings({ cacheSize = '0.00', auth }: CacheSetting
                                     variant="destructive"
                                     size="sm"
                                 >
-                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    <Trash2 className="me-2 h-4 w-4" />
                                     {isClearing ? t('Clearing...') : t('Clear Cache')}
                                 </Button>
                                 <Button
@@ -100,7 +100,7 @@ export default function CacheSettings({ cacheSize = '0.00', auth }: CacheSetting
                                     variant="default"
                                     size="sm"
                                 >
-                                    <Zap className="mr-2 h-4 w-4" />
+                                    <Zap className="me-2 h-4 w-4" />
                                     {isOptimizing ? t('Optimizing...') : t('Optimize Site')}
                                 </Button>
                             </div>

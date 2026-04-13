@@ -128,12 +128,12 @@ export default function ContractsIndex() {
                             <table className="w-full text-sm">
                                 <thead className="border-b bg-muted/50">
                                     <tr>
-                                        <th className="p-4 text-left font-medium">{t('Employee')}</th>
-                                        <th className="p-4 text-left font-medium">{t('Type')}</th>
-                                        <th className="p-4 text-left font-medium">{t('Timeline')}</th>
-                                        <th className="p-4 text-left font-medium">{t('Basic Salary')}</th>
-                                        <th className="p-4 text-left font-medium">{t('Status')}</th>
-                                        <th className="p-4 text-right font-medium">{t('Actions')}</th>
+                                        <th className="p-4 text-start font-medium">{t('Employee')}</th>
+                                        <th className="p-4 text-start font-medium">{t('Type')}</th>
+                                        <th className="p-4 text-start font-medium">{t('Timeline')}</th>
+                                        <th className="p-4 text-start font-medium">{t('Basic Salary')}</th>
+                                        <th className="p-4 text-start font-medium">{t('Status')}</th>
+                                        <th className="p-4 text-end font-medium">{t('Actions')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -184,7 +184,7 @@ export default function ContractsIndex() {
                                                 <div>{formatDate(contract.start_date)}</div>
                                                 {contract.end_date && (
                                                     <div>
-                                                        <span className="mr-2 text-xs">➜</span>
+                                                        <span className="me-2 text-xs">➜</span>
                                                         {formatDate(contract.end_date)}
                                                     </div>
                                                 )}
@@ -207,7 +207,7 @@ export default function ContractsIndex() {
                                                     {t(contract.status)}
                                                 </Badge>
                                             </td>
-                                            <td className="p-4 text-right">
+                                            <td className="p-4 text-end">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <Button
                                                         variant="ghost"

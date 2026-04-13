@@ -69,7 +69,7 @@ export default function MarketplaceScreenshots({
                         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-6 duration-300 animate-in fade-in"
                         onClick={() => setSelectedImage(null)}
                     >
-                        <button className="absolute right-10 top-10 text-white transition-colors hover:text-neutral-400">
+                        <button className="absolute end-10 top-10 text-white transition-colors hover:text-neutral-400">
                             <X className="h-10 w-10" />
                         </button>
 

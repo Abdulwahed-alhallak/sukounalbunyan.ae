@@ -140,7 +140,7 @@ export default function Index() {
                                                 onClick={() => handleViewDetails(module)}
                                                 className="h-8 flex-1 text-xs"
                                             >
-                                                <Eye className="mr-1 h-3 w-3" />
+                                                <Eye className="me-1 h-3 w-3" />
                                                 {t('Details')}
                                             </Button>
                                             {auth.user?.permissions?.includes('manage-actions') && (
@@ -250,12 +250,12 @@ export default function Index() {
                                 >
                                     {selectedModule?.is_enabled ? (
                                         <>
-                                            <PowerOff className="mr-2 h-4 w-4" />
+                                            <PowerOff className="me-2 h-4 w-4" />
                                             {t('Disable')}
                                         </>
                                     ) : (
                                         <>
-                                            <Power className="mr-2 h-4 w-4" />
+                                            <Power className="me-2 h-4 w-4" />
                                             {t('Enable')}
                                         </>
                                     )}

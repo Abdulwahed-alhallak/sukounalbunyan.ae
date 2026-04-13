@@ -197,7 +197,7 @@ export default function CreateTicket({
                             </div>
                             <div className="space-y-4">
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Info className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Info className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Response Time')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -207,7 +207,7 @@ export default function CreateTicket({
                                     </div>
                                 </div>
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Clock className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Clock className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Support Hours')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -229,7 +229,7 @@ export default function CreateTicket({
                                     </div>
                                 </div>
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Phone className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Phone className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Phone Support')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -280,7 +280,7 @@ export default function CreateTicket({
                                             target={link.link.startsWith('http') ? '_blank' : '_self'}
                                             rel={link.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                                         >
-                                            <IconComponent className="mr-2 inline h-4 w-4 text-foreground" />{' '}
+                                            <IconComponent className="me-2 inline h-4 w-4 text-foreground" />{' '}
                                             {link.title}
                                         </a>
                                     );
@@ -559,7 +559,7 @@ export default function CreateTicket({
                                                                                 onChange={handleFileChange}
                                                                             />
                                                                         </label>
-                                                                        <p className="pl-1">{t('or drag and drop')}</p>
+                                                                        <p className="ps-1">{t('or drag and drop')}</p>
                                                                     </div>
                                                                     <p className="text-xs text-muted-foreground">
                                                                         PNG, JPG, GIF, PDF up to 10MB
@@ -838,7 +838,7 @@ export default function CreateTicket({
                                         disabled={processing}
                                         className="rounded-full bg-foreground px-8 py-3 font-medium text-background shadow-md transition-all duration-300 hover:bg-foreground hover:shadow-lg"
                                     >
-                                        <Send className="mr-2 h-4 w-4" />
+                                        <Send className="me-2 h-4 w-4" />
                                         {processing ? 'Creating...' : 'Create Ticket'}
                                     </Button>
                                 </div>

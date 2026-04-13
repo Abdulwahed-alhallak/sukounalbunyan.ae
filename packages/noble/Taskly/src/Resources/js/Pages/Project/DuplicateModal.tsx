@@ -113,7 +113,7 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                     </div>
 
                     {/* Tasks Children */}
-                    <div className="ml-8 space-y-2">
+                    <div className="ms-8 space-y-2">
                         <div className="flex items-center space-x-3">
                             <Checkbox
                                 id="taskSubtasks"
@@ -153,7 +153,7 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                     </div>
 
                     {/* Bugs Children */}
-                    <div className="ml-8">
+                    <div className="ms-8">
                         <div className="flex items-center space-x-3">
                             <Checkbox
                                 id="bugComments"

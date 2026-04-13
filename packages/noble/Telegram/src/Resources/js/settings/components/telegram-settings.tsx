@@ -120,7 +120,7 @@ export default function TelegramSettings({ userSettings = {}, auth }: TelegramSe
                         disabled={isLoading}
                         size="sm"
                     >
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}

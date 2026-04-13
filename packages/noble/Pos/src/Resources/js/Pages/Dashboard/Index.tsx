@@ -164,7 +164,7 @@ export default function PosIndex({
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center">
-                            <AlertTriangle className="mr-2 h-5 w-5 text-destructive" />
+                            <AlertTriangle className="me-2 h-5 w-5 text-destructive" />
                             {t('Out of Stock Products (Warehouse Wise)')}
                         </CardTitle>
                     </CardHeader>
@@ -187,7 +187,7 @@ export default function PosIndex({
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-end">
                                             <Badge variant="destructive">
                                                 {item.stock} {t('units')}
                                             </Badge>
@@ -229,7 +229,7 @@ export default function PosIndex({
                                                     {product.total_quantity} {t('units sold')}
                                                 </p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-sm font-bold text-foreground">
                                                     {formatCurrency(product.total_revenue)}
                                                 </p>
@@ -271,7 +271,7 @@ export default function PosIndex({
                                                     {sale.customer?.name || t('Walk-in')}
                                                 </p>
                                             </div>
-                                            <div className="text-right">
+                                            <div className="text-end">
                                                 <p className="text-sm font-bold">{formatCurrency(sale.total)}</p>
                                                 <p className="text-xs text-muted-foreground">
                                                     {formatDate(sale.created_at)}

@@ -38,7 +38,7 @@ export default function SearchPage({ workspace }: SearchProps) {
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
                                 <label className="mb-2 block text-sm font-medium">
-                                    <Ticket className="mr-1 inline h-4 w-4" />
+                                    <Ticket className="me-1 inline h-4 w-4" />
                                     {t('Ticket ID')} *
                                 </label>
                                 <Input
@@ -55,7 +55,7 @@ export default function SearchPage({ workspace }: SearchProps) {
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium">
-                                    <Mail className="mr-1 inline h-4 w-4" />
+                                    <Mail className="me-1 inline h-4 w-4" />
                                     {t('Email Address')} *
                                 </label>
                                 <Input
@@ -75,7 +75,7 @@ export default function SearchPage({ workspace }: SearchProps) {
                                     disabled={processing}
                                     className="bg-foreground px-8 hover:bg-foreground"
                                 >
-                                    <Search className="mr-2 h-4 w-4" />
+                                    <Search className="me-2 h-4 w-4" />
                                     {processing ? t('Searching...') : t('Search Ticket')}
                                 </Button>
                             </div>

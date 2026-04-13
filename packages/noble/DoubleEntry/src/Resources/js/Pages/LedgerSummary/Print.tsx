@@ -114,7 +114,7 @@ export default function Print() {
                             )}
                         </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                         <h2 className="mb-2 text-2xl font-bold">{t('LEDGER SUMMARY')}</h2>
                         <div className="space-y-1 text-sm">
                             {filters.from_date && filters.to_date && (
@@ -136,11 +136,11 @@ export default function Print() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b-2 border-border">
-                                <th className="py-2 text-left text-sm font-bold">{t('Date')}</th>
-                                <th className="py-2 text-left text-sm font-bold">{t('Account')}</th>
-                                <th className="py-2 text-left text-sm font-bold">{t('Description')}</th>
-                                <th className="py-2 text-right text-sm font-bold">{t('Debit')}</th>
-                                <th className="py-2 text-right text-sm font-bold">{t('Credit')}</th>
+                                <th className="py-2 text-start text-sm font-bold">{t('Date')}</th>
+                                <th className="py-2 text-start text-sm font-bold">{t('Account')}</th>
+                                <th className="py-2 text-start text-sm font-bold">{t('Description')}</th>
+                                <th className="py-2 text-end text-sm font-bold">{t('Debit')}</th>
+                                <th className="py-2 text-end text-sm font-bold">{t('Credit')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,10 +149,10 @@ export default function Print() {
                                     <td className="py-1.5 text-sm">{formatDate(entry.journal_date)}</td>
                                     <td className="py-1.5 text-sm">{entry.account_code}</td>
                                     <td className="py-1.5 text-sm">{entry.description || entry.journal_description}</td>
-                                    <td className="py-1.5 text-right text-sm tabular-nums">
+                                    <td className="py-1.5 text-end text-sm tabular-nums">
                                         {entry.debit_amount > 0 ? formatCurrency(entry.debit_amount) : '-'}
                                     </td>
-                                    <td className="py-1.5 text-right text-sm tabular-nums">
+                                    <td className="py-1.5 text-end text-sm tabular-nums">
                                         {entry.credit_amount > 0 ? formatCurrency(entry.credit_amount) : '-'}
                                     </td>
                                 </tr>

@@ -173,7 +173,7 @@ export default function Edit() {
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={contentForm.processing} className="min-w-24">
-                                        <Save className="mr-2 h-4 w-4" />
+                                        <Save className="me-2 h-4 w-4" />
                                         {contentForm.processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>

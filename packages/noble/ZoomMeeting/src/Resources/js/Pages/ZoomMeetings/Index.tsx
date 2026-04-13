@@ -249,7 +249,7 @@ export default function Index() {
                                     variant="ghost"
                                     className={`h-auto rounded-full px-2 py-1 text-sm ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
                                 >
-                                    {value} <ChevronDown className="ml-1 h-3 w-3" />
+                                    {value} <ChevronDown className="ms-1 h-3 w-3" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
@@ -459,7 +459,7 @@ export default function Index() {
                                     ].filter((f) => f !== '' && f !== null && f !== undefined).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )

@@ -41,7 +41,7 @@ export default function View({ lead }: ViewProps) {
     return (
         <DialogContent className="max-w-3xl overflow-hidden border-border bg-card p-0 shadow-2xl dark:border-border dark:bg-foreground">
             <DialogHeader className="bg-muted/50/50 relative overflow-hidden border-b border-border p-8 dark:border-border dark:bg-foreground/50">
-                <div className="absolute right-0 top-0 p-8 opacity-10">
+                <div className="absolute end-0 top-0 p-8 opacity-10">
                     <Target className="h-24 w-24 text-foreground dark:text-foreground" />
                 </div>
 

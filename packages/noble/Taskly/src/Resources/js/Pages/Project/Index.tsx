@@ -362,12 +362,12 @@ export default function Index() {
                 {/* Mission Command: Strategic Fleet Header */}
                 <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-foreground/5 p-8 backdrop-blur-3xl dark:border-white/10 dark:bg-card/5">
                     {/* Ambient Glows */}
-                    <div className="pointer-events-none absolute right-0 top-0 p-12 opacity-[0.03] transition-transform duration-1000 group-hover:scale-125">
+                    <div className="pointer-events-none absolute end-0 top-0 p-12 opacity-[0.03] transition-transform duration-1000 group-hover:scale-125">
                         <Package className="h-64 w-64 rotate-12 text-foreground" />
                     </div>
 
                     <div className="relative z-10 flex flex-col items-center justify-between gap-6 lg:flex-row">
-                        <div className="space-y-2 text-center lg:text-left">
+                        <div className="space-y-2 text-center lg:text-start">
                             <div className="mb-1 flex items-center justify-center gap-3 lg:justify-start">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/15 text-foreground shadow-inner">
                                     <Package className="h-5 w-5" />
@@ -398,7 +398,7 @@ export default function Index() {
                                     onClick={() => openModal('add')}
                                     className="h-11 rounded-2xl border-t border-white/20 bg-foreground px-6 text-[10px] font-black uppercase tracking-widest text-background shadow-xl shadow-primary/20 transition-all hover:opacity-90 active:scale-95"
                                 >
-                                    <Plus className="mr-2 h-4 w-4" />
+                                    <Plus className="me-2 h-4 w-4" />
                                     {t('Initialize Vector')}
                                 </Button>
                             )}
@@ -450,7 +450,7 @@ export default function Index() {
                             className="premium-card group relative overflow-hidden border border-border p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl dark:border-white/5"
                         >
                             <div
-                                className={`absolute -bottom-6 -right-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.08] text-${kpi.color}-500`}
+                                className={`absolute -bottom-6 -end-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.08] text-${kpi.color}-500`}
                             >
                                 <kpi.icon className="h-24 w-24" />
                             </div>
@@ -504,7 +504,7 @@ export default function Index() {
                                         const activeFilters = [filters.status, filters.date].filter(Boolean).length;
                                         return (
                                             activeFilters > 0 && (
-                                                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-destructive text-[9px] font-black text-background shadow-lg duration-300 animate-in zoom-in">
+                                                <span className="absolute -end-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-destructive text-[9px] font-black text-background shadow-lg duration-300 animate-in zoom-in">
                                                     {activeFilters}
                                                 </span>
                                             )
@@ -518,7 +518,7 @@ export default function Index() {
                         {showFilters && (
                             <div className="mt-8 grid grid-cols-1 gap-6 border-t border-border pt-8 duration-500 animate-in slide-in-from-top-4 dark:border-white/5 md:grid-cols-2 lg:grid-cols-4">
                                 <div className="space-y-2">
-                                    <label className="ml-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
+                                    <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
                                         {t('Sector Status')}
                                     </label>
                                     <Select
@@ -551,7 +551,7 @@ export default function Index() {
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="ml-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
+                                    <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
                                         {t('Mission Calendar')}
                                     </label>
                                     <DatePicker

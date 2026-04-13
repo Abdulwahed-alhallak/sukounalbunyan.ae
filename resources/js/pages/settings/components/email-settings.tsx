@@ -151,7 +151,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -179,8 +179,9 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                             handleChange('driver', value);
                                         }}
                                         disabled={!canEdit}
+                                        name="provider"
                                     >
-                                        <SelectTrigger>
+                                        <SelectTrigger id="provider">
                                             <SelectValue placeholder="Select provider" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -199,6 +200,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     </Label>
                                     <Input
                                         id="driver"
+                                        name="driver"
                                         value={settings.driver}
                                         onChange={(e) => handleChange('driver', e.target.value)}
                                         disabled={!canEdit}
@@ -212,6 +214,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     </Label>
                                     <Input
                                         id="host"
+                                        name="host"
                                         value={settings.host}
                                         onChange={(e) => handleChange('host', e.target.value)}
                                         disabled={!canEdit}
@@ -225,6 +228,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     </Label>
                                     <Input
                                         id="port"
+                                        name="port"
                                         value={settings.port}
                                         onChange={(e) => handleChange('port', e.target.value)}
                                         disabled={!canEdit}
@@ -238,6 +242,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     </Label>
                                     <Input
                                         id="username"
+                                        name="username"
                                         value={settings.username}
                                         onChange={(e) => handleChange('username', e.target.value)}
                                         disabled={!canEdit}
@@ -252,6 +257,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     <div className="relative">
                                         <Input
                                             id="password"
+                                            name="password"
                                             type={showPassword ? 'text' : 'password'}
                                             value={settings.password}
                                             onChange={(e) => handleChange('password', e.target.value)}
@@ -285,8 +291,9 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         value={settings.encryption}
                                         onValueChange={(value) => handleChange('encryption', value)}
                                         disabled={!canEdit}
+                                        name="encryption"
                                     >
-                                        <SelectTrigger>
+                                        <SelectTrigger id="encryption">
                                             <SelectValue placeholder="Select encryption" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -303,6 +310,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                     </Label>
                                     <Input
                                         id="fromAddress"
+                                        name="fromAddress"
                                         value={settings.fromAddress}
                                         onChange={(e) => handleChange('fromAddress', e.target.value)}
                                         disabled={!canEdit}
@@ -329,6 +337,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         </Label>
                                         <Input
                                             id="testEmail"
+                                            name="testEmail"
                                             type="email"
                                             value={testEmail}
                                             onChange={(e) => setTestEmail(e.target.value)}

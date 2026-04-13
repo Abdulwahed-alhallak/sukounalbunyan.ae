@@ -242,7 +242,7 @@ export default function Index() {
             >
                 <div className="mb-2 flex items-start justify-between">
                     <h4
-                        className="cursor-pointer pr-2 text-sm font-medium leading-tight text-foreground hover:text-foreground hover:underline"
+                        className="cursor-pointer pe-2 text-sm font-medium leading-tight text-foreground hover:text-foreground hover:underline"
                         onClick={(e) => {
                             e.stopPropagation();
                             router.get(route('lead.deals.show', deal.id));
@@ -259,13 +259,13 @@ export default function Index() {
                         <DropdownMenuContent align="end">
                             {auth.user?.permissions?.includes('view-deals') && (
                                 <DropdownMenuItem onClick={() => router.get(route('lead.deals.show', deal.id))}>
-                                    <Eye className="mr-2 h-3 w-3" />
+                                    <Eye className="me-2 h-3 w-3" />
                                     {t('View')}
                                 </DropdownMenuItem>
                             )}
                             {auth.user?.permissions?.includes('edit-deals') && (
                                 <DropdownMenuItem onClick={() => openModal('edit', deal)}>
-                                    <EditIcon className="mr-2 h-3 w-3" />
+                                    <EditIcon className="me-2 h-3 w-3" />
                                     {t('Edit')}
                                 </DropdownMenuItem>
                             )}
@@ -274,7 +274,7 @@ export default function Index() {
                                     onClick={() => openDeleteDialog(deal.id)}
                                     className="text-destructive"
                                 >
-                                    <Trash2 className="mr-2 h-3 w-3" />
+                                    <Trash2 className="me-2 h-3 w-3" />
                                     {t('Delete')}
                                 </DropdownMenuItem>
                             )}
@@ -742,7 +742,7 @@ export default function Index() {
 
                 {viewMode === 'kanban' ? (
                     <div className="kanban-terminal-sector glass-effect relative overflow-hidden rounded-2xl border-white/10 p-6 shadow-2xl">
-                        <div className="absolute right-0 top-0 -z-10 h-64 w-64 rounded-full bg-foreground/5 blur-3xl" />
+                        <div className="absolute end-0 top-0 -z-10 h-64 w-64 rounded-full bg-foreground/5 blur-3xl" />
                         {(() => {
                             const { columns, tasks } = getKanbanData();
                             return (
@@ -785,7 +785,7 @@ export default function Index() {
                                             ).length;
                                             return (
                                                 activeFilters > 0 && (
-                                                    <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                    <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                         {activeFilters}
                                                     </span>
                                                 )

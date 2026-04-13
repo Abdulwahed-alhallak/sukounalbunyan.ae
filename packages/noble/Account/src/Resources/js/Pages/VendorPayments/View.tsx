@@ -110,10 +110,10 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="py-2 text-left">{t('Invoice Number')}</th>
-                                            <th className="py-2 text-left">{t('Invoice Date')}</th>
-                                            <th className="py-2 text-right">{t('Invoice Total')}</th>
-                                            <th className="py-2 text-right">{t('Allocated Amount')}</th>
+                                            <th className="py-2 text-start">{t('Invoice Number')}</th>
+                                            <th className="py-2 text-start">{t('Invoice Date')}</th>
+                                            <th className="py-2 text-end">{t('Invoice Total')}</th>
+                                            <th className="py-2 text-end">{t('Allocated Amount')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -123,10 +123,10 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                                     {allocation.invoice?.invoice_number}
                                                 </td>
                                                 <td className="py-2">{formatDate(allocation.invoice?.invoice_date)}</td>
-                                                <td className="py-2 text-right">
+                                                <td className="py-2 text-end">
                                                     {formatCurrency(allocation.invoice?.total_amount)}
                                                 </td>
-                                                <td className="py-2 text-right font-semibold">
+                                                <td className="py-2 text-end font-semibold">
                                                     {formatCurrency(allocation.allocated_amount)}
                                                 </td>
                                             </tr>
@@ -134,10 +134,10 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                     </tbody>
                                     <tfoot>
                                         <tr className="border-t-2 font-semibold">
-                                            <td colSpan={3} className="py-2 text-right">
+                                            <td colSpan={3} className="py-2 text-end">
                                                 {t('Total Payment:')}
                                             </td>
-                                            <td className="py-2 text-right text-lg">
+                                            <td className="py-2 text-end text-lg">
                                                 {formatCurrency(payment.payment_amount)}
                                             </td>
                                         </tr>
@@ -159,9 +159,9 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="py-2 text-left">{t('Debit Note Number')}</th>
-                                            <th className="py-2 text-left">{t('Application Date')}</th>
-                                            <th className="py-2 text-right">{t('Applied Amount')}</th>
+                                            <th className="py-2 text-start">{t('Debit Note Number')}</th>
+                                            <th className="py-2 text-start">{t('Application Date')}</th>
+                                            <th className="py-2 text-end">{t('Applied Amount')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -171,7 +171,7 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                                     {application.debit_note?.debit_note_number}
                                                 </td>
                                                 <td className="py-2">{formatDate(application.application_date)}</td>
-                                                <td className="py-2 text-right font-semibold">
+                                                <td className="py-2 text-end font-semibold">
                                                     {formatCurrency(application.applied_amount)}
                                                 </td>
                                             </tr>
@@ -179,10 +179,10 @@ export default function View({ payment }: VendorPaymentViewProps) {
                                     </tbody>
                                     <tfoot>
                                         <tr className="border-t-2 font-semibold">
-                                            <td colSpan={2} className="py-2 text-right">
+                                            <td colSpan={2} className="py-2 text-end">
                                                 {t('Total Applied Debit Note:')}
                                             </td>
-                                            <td className="py-2 text-right text-lg">
+                                            <td className="py-2 text-end text-lg">
                                                 {formatCurrency(
                                                     payment.debit_note_applications.reduce(
                                                         (sum, app) => sum + parseFloat(app.applied_amount),

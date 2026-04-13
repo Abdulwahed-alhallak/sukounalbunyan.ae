@@ -217,7 +217,7 @@ export default function Index() {
                         />
                         <div className="flex gap-2">
                             <Button variant="outline">
-                                <FileDown className="mr-2 h-4 w-4" />
+                                <FileDown className="me-2 h-4 w-4" />
                                 {t('Export')}
                             </Button>
                             <Button
@@ -226,7 +226,7 @@ export default function Index() {
                                     setShowCreate(true);
                                 }}
                             >
-                                <Plus className="mr-2 h-4 w-4" />
+                                <Plus className="me-2 h-4 w-4" />
                                 {t('Off-board Employee')}
                             </Button>
                         </div>
@@ -238,20 +238,20 @@ export default function Index() {
                                     <table className="w-full">
                                         <thead>
                                             <tr className="border-b bg-muted/50">
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Employee name')}
                                                 </th>
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Last Working Day')}
                                                 </th>
-                                                <th className="p-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Created at')}
                                                 </th>
-                                                <th className="p-3 text-right text-sm font-semibold">
+                                                <th className="p-3 text-end text-sm font-semibold">
                                                     {t('Total amount')}
                                                 </th>
-                                                <th className="p-3 text-right text-sm font-semibold">{t('Actions')}</th>
+                                                <th className="p-3 text-end text-sm font-semibold">{t('Actions')}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -291,12 +291,12 @@ export default function Index() {
                                                     <td className="p-3 text-sm text-muted-foreground">
                                                         {formatDate(item.created_at)}
                                                     </td>
-                                                    <td className="p-3 text-right text-sm font-bold">
+                                                    <td className="p-3 text-end text-sm font-bold">
                                                         {item.total_amount > 0
                                                             ? formatCurrency(item.total_amount)
                                                             : `${formatCurrency(0)}`}
                                                     </td>
-                                                    <td className="p-3 text-right">
+                                                    <td className="p-3 text-end">
                                                         <TooltipProvider>
                                                             <Tooltip>
                                                                 <TooltipTrigger asChild>

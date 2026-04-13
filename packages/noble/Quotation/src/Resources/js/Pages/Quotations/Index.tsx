@@ -152,7 +152,7 @@ export default function Index() {
                             {value}
                         </span>
                         {quotation.revision_number > 1 && (
-                            <span className="ml-2 rounded-full bg-muted px-2 py-1 text-xs text-foreground">
+                            <span className="ms-2 rounded-full bg-muted px-2 py-1 text-xs text-foreground">
                                 v{quotation.revision_number}
                             </span>
                         )}
@@ -161,7 +161,7 @@ export default function Index() {
                     <div>
                         {value}
                         {quotation.revision_number > 1 && (
-                            <span className="ml-2 rounded-full bg-muted px-2 py-1 text-xs text-foreground">
+                            <span className="ms-2 rounded-full bg-muted px-2 py-1 text-xs text-foreground">
                                 v{quotation.revision_number}
                             </span>
                         )}
@@ -514,7 +514,7 @@ export default function Index() {
                                     ].filter(Boolean).length;
                                     return (
                                         activeFilters > 0 && (
-                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                                                 {activeFilters}
                                             </span>
                                         )

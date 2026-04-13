@@ -218,7 +218,7 @@ export default function StaffDashboard() {
                                                 style={{ width: `${project.progress}%` }}
                                             ></div>
                                         </div>
-                                        <div className="text-right text-xs text-muted-foreground">
+                                        <div className="text-end text-xs text-muted-foreground">
                                             {project.progress}% {t('completed')}
                                         </div>
                                     </div>

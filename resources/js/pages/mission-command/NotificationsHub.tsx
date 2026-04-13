@@ -127,7 +127,7 @@ export default function NotificationsHub() {
                                         disabled={processing}
                                         className="w-full rounded-lg bg-foreground font-semibold text-background shadow-md shadow-primary/20 hover:bg-foreground/90"
                                     >
-                                        <Send className="mr-2 h-4 w-4" />
+                                        <Send className="me-2 h-4 w-4" />
                                         {processing
                                             ? 'Dispatching Payload...'
                                             : `Broadcast to ${data.target_audience === 'all' ? 'Everyone' : data.target_audience}`}
@@ -155,7 +155,7 @@ export default function NotificationsHub() {
                                             <div className="text-xs font-medium tracking-wide text-muted-foreground/60">
                                                 Noble Architecture
                                             </div>
-                                            <div className="ml-auto text-[10px] text-muted-foreground">now</div>
+                                            <div className="ms-auto text-[10px] text-muted-foreground">now</div>
                                         </div>
                                         <div className="mb-1 text-sm font-semibold text-background">
                                             {data.title || 'Notification Title'}

@@ -237,7 +237,7 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                                         {report.columns.map((col) => (
                                             <th
                                                 key={col.key}
-                                                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                                                className="px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                                             >
                                                 {t(col.label)}
                                             </th>

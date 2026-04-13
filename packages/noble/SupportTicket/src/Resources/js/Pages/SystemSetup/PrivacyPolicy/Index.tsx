@@ -115,7 +115,7 @@ export default function PrivacyPolicy() {
                             <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Privacy Policy')}</h3>
                                 <Button onClick={saveSettings} disabled={isLoading}>
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="me-2 h-4 w-4" />
                                     {isLoading ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>

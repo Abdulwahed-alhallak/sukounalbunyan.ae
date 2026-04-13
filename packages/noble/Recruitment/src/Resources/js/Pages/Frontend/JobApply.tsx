@@ -211,7 +211,7 @@ export default function JobApply({
                                     }))
                                 }
                             >
-                                <ArrowLeft className="mr-2 h-4 w-4" />
+                                <ArrowLeft className="me-2 h-4 w-4" />
                                 {t('Back to Job Details')}
                             </Button>
                             <h1 className="mb-2 text-3xl font-bold text-foreground">{t('Apply for Position')}</h1>
@@ -449,7 +449,7 @@ export default function JobApply({
                                                                                 profilePhoto: undefined,
                                                                             }));
                                                                         }}
-                                                                        className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
+                                                                        className="bg-muted/500 absolute -end-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                     >
                                                                         <X className="h-4 w-4" />
                                                                     </button>
@@ -776,7 +776,7 @@ export default function JobApply({
                                                                                     resume: undefined,
                                                                                 }));
                                                                             }}
-                                                                            className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
+                                                                            className="bg-muted/500 absolute -end-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                         >
                                                                             <X className="h-4 w-4" />
                                                                         </button>
@@ -904,7 +904,7 @@ export default function JobApply({
                                                                                     coverLetter: undefined,
                                                                                 }));
                                                                             }}
-                                                                            className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
+                                                                            className="bg-muted/500 absolute -end-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                         >
                                                                             <X className="h-4 w-4" />
                                                                         </button>
@@ -985,7 +985,7 @@ export default function JobApply({
                                                             <Label className="mb-2 block text-sm font-medium text-foreground">
                                                                 {question.question}
                                                                 {question.is_required && (
-                                                                    <span className="ml-1 text-destructive">*</span>
+                                                                    <span className="ms-1 text-destructive">*</span>
                                                                 )}
                                                             </Label>
                                                             {question.type === 'text' && (
@@ -1208,13 +1208,13 @@ export default function JobApply({
                                     <div>
                                         <h4 className="mb-2 font-medium text-foreground">{job.title}</h4>
                                         <div className="mb-2 flex items-center text-sm text-muted-foreground">
-                                            <MapPin className="mr-1 h-4 w-4" />
+                                            <MapPin className="me-1 h-4 w-4" />
                                             {job.location}
                                         </div>
                                         <div className="mb-3 flex gap-2">
                                             {job.featured && (
                                                 <Badge className="border-border bg-muted text-foreground hover:bg-muted">
-                                                    <Star className="mr-1 h-3 w-3" />
+                                                    <Star className="me-1 h-3 w-3" />
                                                     {t('Featured')}
                                                 </Badge>
                                             )}
@@ -1224,7 +1224,7 @@ export default function JobApply({
                                     <div className="grid grid-cols-1 gap-3">
                                         <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <DollarSign className="mr-2 h-4 w-4 text-foreground" />
+                                                <DollarSign className="me-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground"> {t('Salary')} </p>
                                                     <p className="font-medium text-foreground">
@@ -1235,7 +1235,7 @@ export default function JobApply({
                                         </div>
                                         <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <Briefcase className="mr-2 h-4 w-4 text-foreground" />
+                                                <Briefcase className="me-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground"> {t('Type')} </p>
                                                     <p className="font-medium text-foreground">{job.jobType}</p>

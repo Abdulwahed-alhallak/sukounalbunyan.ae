@@ -33,7 +33,7 @@ export default function ReceiptModal({ isOpen, onClose, completedSale, globalSet
             <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto backdrop-blur-none">
                 <DialogHeader className="no-print">
                     <DialogTitle className="flex items-center justify-center text-foreground">
-                        <CheckCircle className="mr-2 h-6 w-6" />
+                        <CheckCircle className="me-2 h-6 w-6" />
                         {t('Sale Completed Successfully!')}
                     </DialogTitle>
                 </DialogHeader>
@@ -90,7 +90,7 @@ export default function ReceiptModal({ isOpen, onClose, completedSale, globalSet
                                 </div>
                                 <div className="flex justify-between py-0.5">
                                     <span className="font-medium">{t('Customer')}:</span>
-                                    <span className="ml-2 truncate font-medium">
+                                    <span className="ms-2 truncate font-medium">
                                         {completedSale.customer?.name || t('Walk-in')}
                                     </span>
                                 </div>
@@ -190,11 +190,11 @@ export default function ReceiptModal({ isOpen, onClose, completedSale, globalSet
                     {/* Action Buttons */}
                     <div className="no-print flex justify-end gap-2">
                         <Button onClick={handleDownload} className="bg-muted/500 hover:bg-foreground/80">
-                            <Download className="mr-2 h-4 w-4" />
+                            <Download className="me-2 h-4 w-4" />
                             {t('Download PDF')}
                         </Button>
                         <Button onClick={handlePrint} className="bg-muted/500 hover:bg-foreground/80">
-                            <Printer className="mr-2 h-4 w-4" />
+                            <Printer className="me-2 h-4 w-4" />
                             {t('Print')}
                         </Button>
                         <Button type="button" variant="outline" onClick={onClose}>

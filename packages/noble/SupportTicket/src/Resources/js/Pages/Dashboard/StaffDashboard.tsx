@@ -112,7 +112,7 @@ export default function StaffDashboard({ stats, monthlyData, recentTickets, stat
                                                 className="bg-foreground hover:bg-foreground/80"
                                                 onClick={() => router.get(route('support-tickets.index'))}
                                             >
-                                                <TicketIcon className="mr-2 h-4 w-4" />
+                                                <TicketIcon className="me-2 h-4 w-4" />
                                                 {t('View All Tickets')}
                                             </Button>
                                         </div>
@@ -289,7 +289,7 @@ export default function StaffDashboard({ stats, monthlyData, recentTickets, stat
                                         size="sm"
                                         onClick={() => router.get(route('support-tickets.index'))}
                                     >
-                                        <Eye className="mr-2 h-4 w-4" />
+                                        <Eye className="me-2 h-4 w-4" />
                                         {t('View All')}
                                     </Button>
                                 </div>

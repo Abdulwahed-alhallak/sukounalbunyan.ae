@@ -111,7 +111,7 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveAISettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -173,13 +173,13 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
                                 onChange={(e) => handleSettingsChange('ai_api_key', e.target.value)}
                                 placeholder={t('Enter API Key')}
                                 disabled={!canEdit}
-                                className="pr-10"
+                                className="pe-10"
                             />
                             <Button
                                 type="button"
                                 variant="ghost"
                                 size="sm"
-                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                 onClick={() => setShowApiKey(!showApiKey)}
                                 disabled={!canEdit}
                             >

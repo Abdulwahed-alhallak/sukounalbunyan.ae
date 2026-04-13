@@ -162,16 +162,16 @@ export default function AccountBalance({ financialYear }: AccountBalanceProps) {
                             <table className="w-full">
                                 <thead className="sticky top-0 bg-muted">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">
                                             {t('Account Code')}
                                         </th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">
                                             {t('Account Name')}
                                         </th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Type')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Debit')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Credit')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Type')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Debit')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Credit')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Net Balance')}
                                         </th>
                                     </tr>
@@ -192,13 +192,13 @@ export default function AccountBalance({ financialYear }: AccountBalanceProps) {
                                                     <td className="px-4 py-2 text-sm">{account.account_code}</td>
                                                     <td className="px-4 py-2 text-sm">{account.account_name}</td>
                                                     <td className="px-4 py-2 text-sm">{t(type)}</td>
-                                                    <td className="px-4 py-2 text-right text-sm">
+                                                    <td className="px-4 py-2 text-end text-sm">
                                                         {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                                     </td>
-                                                    <td className="px-4 py-2 text-right text-sm">
+                                                    <td className="px-4 py-2 text-end text-sm">
                                                         {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                                     </td>
-                                                    <td className="px-4 py-2 text-right text-sm font-medium">
+                                                    <td className="px-4 py-2 text-end text-sm font-medium">
                                                         {formatCurrency(account.net_balance)}
                                                     </td>
                                                 </tr>
@@ -207,13 +207,13 @@ export default function AccountBalance({ financialYear }: AccountBalanceProps) {
                                                 <td colSpan={3} className="px-4 py-3 text-sm">
                                                     {t('Subtotal')} - {t(type)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {formatCurrency(group.subtotal_debit)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {formatCurrency(group.subtotal_credit)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm">
+                                                <td className="px-4 py-3 text-end text-sm">
                                                     {formatCurrency(group.subtotal_net)}
                                                 </td>
                                             </tr>
@@ -226,13 +226,13 @@ export default function AccountBalance({ financialYear }: AccountBalanceProps) {
                                         <td colSpan={3} className="px-4 py-3 text-sm">
                                             {t('Grand Total')}
                                         </td>
-                                        <td className="px-4 py-3 text-right text-sm">
+                                        <td className="px-4 py-3 text-end text-sm">
                                             {formatCurrency(data.totals.debit)}
                                         </td>
-                                        <td className="px-4 py-3 text-right text-sm">
+                                        <td className="px-4 py-3 text-end text-sm">
                                             {formatCurrency(data.totals.credit)}
                                         </td>
-                                        <td className="px-4 py-3 text-right text-sm">
+                                        <td className="px-4 py-3 text-end text-sm">
                                             {formatCurrency(data.totals.net)}
                                         </td>
                                     </tr>

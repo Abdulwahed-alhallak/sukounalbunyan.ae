@@ -65,7 +65,7 @@ export default function Header({ settings }: HeaderProps) {
 
     const renderCTAButtons = (isMobile = false) => {
         const enableRegistration = settings?.enable_registration !== false;
-        const btnClasses = isMobile ? 'w-full text-center mt-2' : 'ml-4';
+        const btnClasses = isMobile ? 'w-full text-center mt-2' : 'ms-4';
 
         if (isAuthenticated) {
             return (

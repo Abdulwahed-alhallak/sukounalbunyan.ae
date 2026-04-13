@@ -29,7 +29,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                     onClick={() => setIsCreating(true)}
                     className="bg-noble-cyan hover:bg-noble-cyan/90 font-bold text-foreground"
                 >
-                    <CopyPlus className="mr-2 h-4 w-4" />
+                    <CopyPlus className="me-2 h-4 w-4" />
                     Create Workflow
                 </Button>
             </div>
@@ -82,7 +82,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                                     size="sm"
                                     className="border-noble-amber text-noble-amber hover:bg-noble-amber hover:text-foreground"
                                 >
-                                    <Play className="mr-1 h-4 w-4" /> Test Run
+                                    <Play className="me-1 h-4 w-4" /> Test Run
                                 </Button>
                                 <Button
                                     variant="outline"

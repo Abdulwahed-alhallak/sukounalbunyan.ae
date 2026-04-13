@@ -112,7 +112,7 @@ export default function Gantt({ project, ganttTasks }: { project: any; ganttTask
                                     return (
                                         <div
                                             key={i}
-                                            className="absolute flex h-full items-end border-l border-muted-foreground/20 px-1 pb-2"
+                                            className="absolute flex h-full items-end border-s border-muted-foreground/20 px-1 pb-2"
                                             style={{ left: `${(i / dateRange.length) * 100}%` }}
                                         >
                                             {showDate && (
@@ -133,8 +133,8 @@ export default function Gantt({ project, ganttTasks }: { project: any; ganttTask
                                 {ganttTasks.map((task) => (
                                     <div key={task.id} className="group relative flex h-10 w-full items-center">
                                         {/* Task Label on left (fixed width logic can be added, but keeping it simple absolute tracking) */}
-                                        <div className="absolute -left-2 top-0 z-10 flex h-full w-48 items-center truncate bg-background/80 pr-2 backdrop-blur-sm">
-                                            <span className="truncate pl-2 text-xs font-medium" title={task.name}>
+                                        <div className="absolute -start-2 top-0 z-10 flex h-full w-48 items-center truncate bg-background/80 pe-2 backdrop-blur-sm">
+                                            <span className="truncate ps-2 text-xs font-medium" title={task.name}>
                                                 {task.name}
                                             </span>
                                         </div>
@@ -148,7 +148,7 @@ export default function Gantt({ project, ganttTasks }: { project: any; ganttTask
                                         >
                                             {/* Progress Fill */}
                                             <div
-                                                className="absolute left-0 top-0 h-full bg-white/20"
+                                                className="absolute start-0 top-0 h-full bg-white/20"
                                                 style={{ width: `${task.progress}%` }}
                                             />
                                             <span className="z-10 truncate px-2 text-[10px] font-medium text-primary-foreground drop-shadow-sm">

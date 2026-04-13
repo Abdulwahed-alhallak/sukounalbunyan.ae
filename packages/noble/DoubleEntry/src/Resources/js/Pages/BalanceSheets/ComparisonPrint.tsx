@@ -105,16 +105,16 @@ export default function ComparisonPrint() {
                                 <tr key={accountCode} className="page-break-inside-avoid border-b border-border">
                                     <td className="px-2 py-2 text-sm" style={{ width: '40%' }}>
                                         {currentItem?.account.account_name || previousItem?.account.account_name}
-                                        <span className="ml-1 text-xs text-muted-foreground">({accountCode})</span>
+                                        <span className="ms-1 text-xs text-muted-foreground">({accountCode})</span>
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                    <td className="px-2 py-2 text-end text-sm tabular-nums" style={{ width: '20%' }}>
                                         {formatCurrency(currentAmount)}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                    <td className="px-2 py-2 text-end text-sm tabular-nums" style={{ width: '20%' }}>
                                         {formatCurrency(previousAmount)}
                                     </td>
                                     <td
-                                        className="px-2 py-2 text-right text-sm font-medium tabular-nums"
+                                        className="px-2 py-2 text-end text-sm font-medium tabular-nums"
                                         style={{ width: '20%' }}
                                     >
                                         {change >= 0 ? '+' : ''}
@@ -125,13 +125,13 @@ export default function ComparisonPrint() {
                         })}
                         <tr className="border-t-2 border-black font-bold">
                             <td className="px-2 py-2 text-sm">TOTAL {sectionTitle.toUpperCase()}</td>
-                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                            <td className="px-2 py-2 text-end text-sm tabular-nums">
                                 {formatCurrency(currentTotal)}
                             </td>
-                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                            <td className="px-2 py-2 text-end text-sm tabular-nums">
                                 {formatCurrency(previousTotal)}
                             </td>
-                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                            <td className="px-2 py-2 text-end text-sm tabular-nums">
                                 {currentTotal - previousTotal >= 0 ? '+' : ''}
                                 {formatCurrency(currentTotal - previousTotal)}
                             </td>
@@ -179,7 +179,7 @@ export default function ComparisonPrint() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">
                                 {t('COMPARATIVE BALANCE SHEET')}
                             </h2>
@@ -194,16 +194,16 @@ export default function ComparisonPrint() {
                 <table className="mb-6 w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="px-2 py-2 text-left text-sm font-semibold" style={{ width: '40%' }}>
+                            <th className="px-2 py-2 text-start text-sm font-semibold" style={{ width: '40%' }}>
                                 {t('Account')}
                             </th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
+                            <th className="px-2 py-2 text-end text-sm font-semibold" style={{ width: '20%' }}>
                                 {formatDate(currentPeriod?.balance_sheet_date)}
                             </th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
+                            <th className="px-2 py-2 text-end text-sm font-semibold" style={{ width: '20%' }}>
                                 {formatDate(previousPeriod?.balance_sheet_date)}
                             </th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
+                            <th className="px-2 py-2 text-end text-sm font-semibold" style={{ width: '20%' }}>
                                 {t('Change')}
                             </th>
                         </tr>
@@ -221,13 +221,13 @@ export default function ComparisonPrint() {
                                 <td className="px-2 py-2 text-sm" style={{ width: '40%' }}>
                                     TOTAL ASSETS
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                <td className="px-2 py-2 text-end text-sm tabular-nums" style={{ width: '20%' }}>
                                     {formatCurrency(calculateSectionTotal(currentPeriod?.items, 'assets'))}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                <td className="px-2 py-2 text-end text-sm tabular-nums" style={{ width: '20%' }}>
                                     {formatCurrency(calculateSectionTotal(previousPeriod?.items, 'assets'))}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                <td className="px-2 py-2 text-end text-sm tabular-nums" style={{ width: '20%' }}>
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'assets') -
                                             calculateSectionTotal(previousPeriod?.items, 'assets')
@@ -236,19 +236,19 @@ export default function ComparisonPrint() {
                             </tr>
                             <tr className="border-t font-bold">
                                 <td className="px-2 py-2 text-sm">TOTAL LIABILITIES AND EQUITY</td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                <td className="px-2 py-2 text-end text-sm tabular-nums">
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(currentPeriod?.items, 'equity')
                                     )}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                <td className="px-2 py-2 text-end text-sm tabular-nums">
                                     {formatCurrency(
                                         calculateSectionTotal(previousPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(previousPeriod?.items, 'equity')
                                     )}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                <td className="px-2 py-2 text-end text-sm tabular-nums">
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(currentPeriod?.items, 'equity') -

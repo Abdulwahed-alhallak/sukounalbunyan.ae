@@ -138,12 +138,12 @@ export default function Comparison() {
                                     <span className="font-medium">
                                         {currentItem?.account.account_name || previousItem?.account.account_name}
                                     </span>
-                                    <span className="ml-2 text-sm text-muted-foreground">({accountCode})</span>
+                                    <span className="ms-2 text-sm text-muted-foreground">({accountCode})</span>
                                 </div>
-                                <div className="text-right">{formatCurrency(currentAmount)}</div>
-                                <div className="text-right">{formatCurrency(previousAmount)}</div>
+                                <div className="text-end">{formatCurrency(currentAmount)}</div>
+                                <div className="text-end">{formatCurrency(previousAmount)}</div>
                                 <div
-                                    className={`text-right font-medium ${change >= 0 ? 'text-foreground' : 'text-destructive'}`}
+                                    className={`text-end font-medium ${change >= 0 ? 'text-foreground' : 'text-destructive'}`}
                                 >
                                     {change >= 0 ? '+' : ''}
                                     {formatCurrency(change)}
@@ -154,10 +154,10 @@ export default function Comparison() {
 
                     <div className="grid grid-cols-5 gap-4 rounded border-2 border-border bg-muted/50 px-4 py-3 font-bold">
                         <div className="col-span-2">TOTAL {sectionTitle.toUpperCase()}</div>
-                        <div className="text-right">{formatCurrency(currentTotal)}</div>
-                        <div className="text-right">{formatCurrency(previousTotal)}</div>
+                        <div className="text-end">{formatCurrency(currentTotal)}</div>
+                        <div className="text-end">{formatCurrency(previousTotal)}</div>
                         <div
-                            className={`text-right ${currentTotal - previousTotal >= 0 ? 'text-foreground' : 'text-destructive'}`}
+                            className={`text-end ${currentTotal - previousTotal >= 0 ? 'text-foreground' : 'text-destructive'}`}
                         >
                             {currentTotal - previousTotal >= 0 ? '+' : ''}
                             {formatCurrency(currentTotal - previousTotal)}
@@ -227,9 +227,9 @@ export default function Comparison() {
                         {/* Column Headers */}
                         <div className="mb-4 grid grid-cols-5 gap-4 rounded border-b-2 border-border bg-muted px-4 py-3 font-semibold">
                             <div className="col-span-2">{t('Account')}</div>
-                            <div className="text-right">{formatDate(currentPeriod?.balance_sheet_date)}</div>
-                            <div className="text-right">{formatDate(previousPeriod?.balance_sheet_date)}</div>
-                            <div className="text-right">{t('Change')}</div>
+                            <div className="text-end">{formatDate(currentPeriod?.balance_sheet_date)}</div>
+                            <div className="text-end">{formatDate(previousPeriod?.balance_sheet_date)}</div>
+                            <div className="text-end">{t('Change')}</div>
                         </div>
 
                         {/* Assets */}
@@ -245,13 +245,13 @@ export default function Comparison() {
                         <div className="mt-8 border-t-2 border-border pt-4">
                             <div className="grid grid-cols-5 gap-4 rounded border-2 border-border bg-muted px-4 py-3 text-lg font-bold">
                                 <div className="col-span-2">TOTAL ASSETS</div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(calculateSectionTotal(currentPeriod?.items, 'assets'))}
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(calculateSectionTotal(previousPeriod?.items, 'assets'))}
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'assets') -
                                             calculateSectionTotal(previousPeriod?.items, 'assets')
@@ -260,19 +260,19 @@ export default function Comparison() {
                             </div>
                             <div className="mt-2 grid grid-cols-5 gap-4 rounded border-2 border-border bg-muted px-4 py-3 text-lg font-bold">
                                 <div className="col-span-2">TOTAL LIABILITIES AND EQUITY</div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(currentPeriod?.items, 'equity')
                                     )}
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(
                                         calculateSectionTotal(previousPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(previousPeriod?.items, 'equity')
                                     )}
                                 </div>
-                                <div className="text-right">
+                                <div className="text-end">
                                     {formatCurrency(
                                         calculateSectionTotal(currentPeriod?.items, 'liabilities') +
                                             calculateSectionTotal(currentPeriod?.items, 'equity') -

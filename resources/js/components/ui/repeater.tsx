@@ -673,7 +673,7 @@ const Repeater = React.forwardRef<RepeaterRef, RepeaterProps>(
         return (
             <TooltipProvider>
                 <div className={cn('space-y-4', className)}>
-                    <div className="max-h-96 space-y-4 overflow-y-auto pr-2">
+                    <div className="max-h-96 space-y-4 overflow-y-auto pe-2">
                         {(Array.isArray(value) ? value : []).map((item, index) => (
                             <div
                                 key={`repeater-item-${item.id || index}`}
@@ -776,7 +776,7 @@ const Repeater = React.forwardRef<RepeaterRef, RepeaterProps>(
                                                         <label className="text-sm font-medium text-foreground">
                                                             {field.label}
                                                             {field.required && (
-                                                                <span className="ml-1 text-destructive">*</span>
+                                                                <span className="ms-1 text-destructive">*</span>
                                                             )}
                                                         </label>
                                                     )}
@@ -810,7 +810,7 @@ const Repeater = React.forwardRef<RepeaterRef, RepeaterProps>(
                                     onClick={addItem}
                                     className="w-full border-dashed"
                                 >
-                                    <Plus className="mr-2 h-4 w-4" />
+                                    <Plus className="me-2 h-4 w-4" />
                                     {addButtonText}
                                 </Button>
                             </TooltipTrigger>

@@ -206,7 +206,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                                                 {/* Light Logo */}
                                                 <div className="space-y-4 group">
-                                                    <Label className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('Logo (Light Mode)')}</Label>
+                                                    <Label htmlFor="logo_dark" className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('Logo (Light Mode)')}</Label>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="relative flex h-40 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-white to-gray-50 dark:from-zinc-900 dark:to-black p-6 shadow-inner overflow-hidden transition-all duration-300 group-hover:border-primary/40 group-hover:shadow-md">
                                                             {settings.logo_dark ? (
@@ -225,6 +225,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                             )}
                                                         </div>
                                                         <MediaPicker
+                                                            id="logo_dark"
                                                             value={settings.logo_dark}
                                                             onChange={(url) => handleMediaSelect('logo_dark', url)}
                                                             placeholder={t('Upload Light Logo')}
@@ -236,7 +237,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
                                                 {/* Dark Logo */}
                                                 <div className="space-y-4 group">
-                                                    <Label className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('Logo (Dark Mode)')}</Label>
+                                                    <Label htmlFor="logo_light" className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('Logo (Dark Mode)')}</Label>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="relative flex h-40 items-center justify-center rounded-xl border border-border/50 bg-gradient-to-br from-gray-900 to-black dark:from-zinc-800 dark:to-zinc-950 p-6 shadow-inner overflow-hidden transition-all duration-300 group-hover:border-primary/40 group-hover:shadow-md">
                                                             {settings.logo_light ? (
@@ -255,6 +256,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                             )}
                                                         </div>
                                                         <MediaPicker
+                                                            id="logo_light"
                                                             value={settings.logo_light}
                                                             onChange={(url) => handleMediaSelect('logo_light', url)}
                                                             placeholder={t('Upload Dark Logo')}
@@ -266,7 +268,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
                                                 {/* Favicon */}
                                                 <div className="space-y-4 group col-span-1 md:col-span-2 md:w-1/2">
-                                                    <Label className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('System Favicon')}</Label>
+                                                    <Label htmlFor="favicon" className="text-[13px] uppercase tracking-wider text-muted-foreground font-semibold">{t('System Favicon')}</Label>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl border border-border/50 bg-card p-4 shadow-sm transition-all duration-300 group-hover:border-primary/40 group-hover:shadow-md">
                                                             {settings.favicon ? (
@@ -282,6 +284,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                             )}
                                                         </div>
                                                         <MediaPicker
+                                                            id="favicon"
                                                             value={settings.favicon}
                                                             onChange={(url) => handleMediaSelect('favicon', url)}
                                                             placeholder={t('Select favicon')}
@@ -413,7 +416,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                         value={settings.fontFamily || 'Geist Sans'}
                                                         onValueChange={(value) => handleSelectChange('fontFamily', value)}
                                                     >
-                                                        <SelectTrigger className="w-full h-12 bg-background/50 font-medium">
+                                                        <SelectTrigger id="fontFamily" className="w-full h-12 bg-background/50 font-medium">
                                                             <SelectValue placeholder={t('Select font family')} />
                                                         </SelectTrigger>
                                                         <SelectContent className="max-h-[300px]">
@@ -482,8 +485,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                         <div className="lg:col-span-4 border-s border-border/40 ps-0 lg:ps-8 mt-8 lg:mt-0">
                             <div className="sticky top-24 space-y-6">
                                 <div className="rounded-xl border border-border/50 bg-card/40 backdrop-blur-md p-5 shadow-lg relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
+                                    <div className="absolute top-0 end-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
+                                    <div className="absolute bottom-0 start-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
                                     
                                     <div className="mb-5 flex items-center gap-2 relative z-10">
                                         <div className="relative flex h-2 w-2">

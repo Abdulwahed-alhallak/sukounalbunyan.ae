@@ -103,19 +103,19 @@ export default function Knowledge({
                 <div className="relative px-8 py-12">
                     <div className="mx-auto max-w-3xl text-center">
                         <div className="mb-4 inline-block rounded-full bg-card/20 p-2 px-4 text-sm text-background">
-                            <Lightbulb className="mr-2 inline h-4 w-4" />
+                            <Lightbulb className="me-2 inline h-4 w-4" />
                             {t('Knowledge Center')}
                         </div>
                         <h2 className="mb-4 text-4xl font-bold text-background">{pageTitle}</h2>
                         <p className="mb-6 text-background">{pageDescription}</p>
 
                         <div className="relative mx-auto max-w-2xl">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-4">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-4">
                                 <Search className="h-5 w-5 text-foreground" />
                             </div>
                             <Input
                                 type="text"
-                                className="border-0 bg-card/90 py-3 pl-12 pr-24 text-foreground"
+                                className="border-0 bg-card/90 py-3 ps-12 pe-24 text-foreground"
                                 placeholder={t('What are you looking for?')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -134,7 +134,7 @@ export default function Knowledge({
                             <Card key={category.id} className="flex h-96 flex-col overflow-hidden shadow-lg">
                                 <div className="bg-foreground px-5 py-4">
                                     <h3 className="flex items-center text-lg font-medium text-background">
-                                        <category.icon className="mr-2 h-5 w-5" />
+                                        <category.icon className="me-2 h-5 w-5" />
                                         {category.title}
                                     </h3>
                                 </div>
@@ -194,7 +194,7 @@ export default function Knowledge({
                     </div>
 
                     <CardContent className="relative flex flex-col items-center px-4 py-6 md:flex-row md:p-8 lg:p-12">
-                        <div className="mb-6 w-full text-center text-background md:mb-0 md:w-2/3 md:pr-12 md:text-left">
+                        <div className="mb-6 w-full text-center text-background md:mb-0 md:w-2/3 md:pe-12 md:text-start">
                             <h2 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl lg:text-3xl">{bottomTitle}</h2>
                             <p className="mb-4 text-background md:mb-6">
                                 {bottomDescription ||
@@ -203,7 +203,7 @@ export default function Knowledge({
                             <div className="flex flex-wrap justify-center gap-3 md:justify-start md:gap-4">
                                 <Button variant="secondary" className="bg-card text-foreground hover:bg-muted" asChild>
                                     <Link href={route('support-ticket.index', [slug])}>
-                                        <Ticket className="mr-2 h-4 w-4" />
+                                        <Ticket className="me-2 h-4 w-4" />
                                         {t('Create Support Ticket')}
                                     </Link>
                                 </Button>
@@ -214,7 +214,7 @@ export default function Knowledge({
                                         asChild
                                     >
                                         <Link href={route('support-ticket.faq', [slug])}>
-                                            <HelpCircle className="mr-2 h-4 w-4" />
+                                            <HelpCircle className="me-2 h-4 w-4" />
                                             {t('Browse FAQ')}
                                         </Link>
                                     </Button>

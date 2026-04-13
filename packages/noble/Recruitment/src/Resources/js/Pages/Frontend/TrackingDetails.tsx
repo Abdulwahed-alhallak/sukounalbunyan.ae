@@ -268,7 +268,7 @@ export default function TrackingDetails({
                     {/* Main Content */}
                     <div className="lg:w-2/3">
                         {/* Current Status Card */}
-                        <Card className="mb-8 border-l-4 border-l-slate-600 shadow-sm">
+                        <Card className="mb-8 border-s-4 border-s-slate-600 shadow-sm">
                             <CardContent className="p-6">
                                 <div className="mb-6 flex items-center justify-between">
                                     <div>
@@ -304,12 +304,12 @@ export default function TrackingDetails({
                                         >
                                             {copied ? (
                                                 <>
-                                                    <Check className="mr-1 h-4 w-4" />
+                                                    <Check className="me-1 h-4 w-4" />
                                                     {t('Copied')}
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Copy className="mr-1 h-4 w-4" />
+                                                    <Copy className="me-1 h-4 w-4" />
                                                     {t('Copy ID')}
                                                 </>
                                             )}
@@ -332,7 +332,7 @@ export default function TrackingDetails({
                                             <div className="relative flex-shrink-0">
                                                 {getTimelineIcon(step.status, step.completed, appStatus.currentStatus)}
                                                 {index < appStatus.timeline.length - 1 && (
-                                                    <div className="absolute left-3 top-8 h-12 w-0.5 bg-muted"></div>
+                                                    <div className="absolute start-3 top-8 h-12 w-0.5 bg-muted"></div>
                                                 )}
                                             </div>
                                             <div className="min-w-0 flex-1 pb-2">
@@ -362,14 +362,14 @@ export default function TrackingDetails({
                                                         </h4>
                                                         <div className="space-y-2 text-sm text-foreground">
                                                             <div className="flex items-center">
-                                                                <Calendar className="mr-2 h-4 w-4" />
+                                                                <Calendar className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {formatDate(step.details.date)} at{' '}
                                                                     {step.details.time}
                                                                 </span>
                                                             </div>
                                                             <div className="flex items-center">
-                                                                <Clock className="mr-2 h-4 w-4" />
+                                                                <Clock className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {t('Duration')}: {step.details.duration}{' '}
                                                                     {t('minutes')}
@@ -377,13 +377,13 @@ export default function TrackingDetails({
                                                             </div>
                                                             {step.details.location && (
                                                                 <div className="flex items-center">
-                                                                    <MapPin className="mr-2 h-4 w-4" />
+                                                                    <MapPin className="me-2 h-4 w-4" />
                                                                     <span>{step.details.location}</span>
                                                                 </div>
                                                             )}
                                                             {step.details.meeting_link && (
                                                                 <div className="flex items-center">
-                                                                    <Video className="mr-2 h-4 w-4" />
+                                                                    <Video className="me-2 h-4 w-4" />
                                                                     <a
                                                                         href={step.details.meeting_link}
                                                                         target="_blank"
@@ -391,7 +391,7 @@ export default function TrackingDetails({
                                                                         className="text-foreground underline hover:text-foreground"
                                                                     >
                                                                         {t('Join Meeting')}{' '}
-                                                                        <ExternalLink className="ml-1 inline h-3 w-3" />
+                                                                        <ExternalLink className="ms-1 inline h-3 w-3" />
                                                                     </a>
                                                                 </div>
                                                             )}
@@ -434,13 +434,13 @@ export default function TrackingDetails({
                                                         </h4>
                                                         <div className="mb-4 space-y-2 text-sm text-foreground">
                                                             <div className="flex items-center">
-                                                                <Briefcase className="mr-2 h-4 w-4" />
+                                                                <Briefcase className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {t('Position')}: {step.details.position}
                                                                 </span>
                                                             </div>
                                                             <div className="flex items-center">
-                                                                <DollarSign className="mr-2 h-4 w-4" />
+                                                                <DollarSign className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {t('Salary')}: $
                                                                     {step.details.salary?.toLocaleString()}/{t('year')}
@@ -448,7 +448,7 @@ export default function TrackingDetails({
                                                             </div>
                                                             {step.details.bonus > 0 && (
                                                                 <div className="flex items-center">
-                                                                    <Star className="mr-2 h-4 w-4" />
+                                                                    <Star className="me-2 h-4 w-4" />
                                                                     <span>
                                                                         {t('Bonus')}: $
                                                                         {step.details.bonus?.toLocaleString()}
@@ -456,14 +456,14 @@ export default function TrackingDetails({
                                                                 </div>
                                                             )}
                                                             <div className="flex items-center">
-                                                                <Calendar className="mr-2 h-4 w-4" />
+                                                                <Calendar className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {t('Start Date')}:{' '}
                                                                     {formatDate(step.details.start_date)}
                                                                 </span>
                                                             </div>
                                                             <div className="flex items-center">
-                                                                <Clock className="mr-2 h-4 w-4" />
+                                                                <Clock className="me-2 h-4 w-4" />
                                                                 <span>
                                                                     {t('Expires')}:{' '}
                                                                     {formatDate(step.details.expiration_date)}
@@ -491,7 +491,7 @@ export default function TrackingDetails({
                                                                     }
                                                                     disabled={updatingOffer === step.details.id}
                                                                 >
-                                                                    <Check className="mr-2 h-4 w-4" />
+                                                                    <Check className="me-2 h-4 w-4" />
                                                                     {updatingOffer === step.details.id
                                                                         ? t('Accepting...')
                                                                         : t('Accept Offer')}
@@ -559,7 +559,7 @@ export default function TrackingDetails({
                                             {jobDetails?.title || 'N/A'}
                                         </h4>
                                         <div className="mb-2 flex items-center text-sm text-muted-foreground">
-                                            <MapPin className="mr-1 h-4 w-4" />
+                                            <MapPin className="me-1 h-4 w-4" />
                                             {jobDetails?.location || 'N/A'}
                                         </div>
                                     </div>
@@ -567,7 +567,7 @@ export default function TrackingDetails({
                                     <div className="grid grid-cols-1 gap-3">
                                         <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <DollarSign className="mr-2 h-4 w-4 text-foreground" />
+                                                <DollarSign className="me-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">{t('Salary')}</p>
                                                     <p className="font-medium text-foreground">
@@ -580,7 +580,7 @@ export default function TrackingDetails({
                                         </div>
                                         <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <Briefcase className="mr-2 h-4 w-4 text-foreground" />
+                                                <Briefcase className="me-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">{t('Type')}</p>
                                                     <p className="font-medium text-foreground">
@@ -650,11 +650,11 @@ export default function TrackingDetails({
 
                                         <div className="space-y-2">
                                             <div className="flex items-center text-sm text-muted-foreground">
-                                                <Mail className="mr-2 h-4 w-4" />
+                                                <Mail className="me-2 h-4 w-4" />
                                                 <span>{needHelp.email}</span>
                                             </div>
                                             <div className="flex items-center text-sm text-muted-foreground">
-                                                <Phone className="mr-2 h-4 w-4" />
+                                                <Phone className="me-2 h-4 w-4" />
                                                 <span>{needHelp.phone}</span>
                                             </div>
                                         </div>

@@ -111,7 +111,7 @@ export default function OfferLetterPdf() {
                         disabled={isDownloading}
                         className="bg-foreground hover:bg-foreground/80"
                     >
-                        <Download className="mr-2 h-4 w-4" />
+                        <Download className="me-2 h-4 w-4" />
                         {isDownloading ? t('Downloading...') : t('Download PDF')}
                     </Button>
                 </div>
@@ -124,7 +124,7 @@ export default function OfferLetterPdf() {
                                 <img
                                     src={getImagePath(companySettings.logo_dark)}
                                     alt={companyName}
-                                    className="mr-4 h-12"
+                                    className="me-4 h-12"
                                 />
                             )}
                         </div>

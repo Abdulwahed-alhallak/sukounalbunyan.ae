@@ -309,7 +309,7 @@ export default function CompanyDashboard() {
                                         </div>
                                         <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-card/5">
                                             <div
-                                                className="from-muted/500 absolute left-0 top-0 h-full rounded-full bg-gradient-to-r to-foreground"
+                                                className="from-muted/500 absolute start-0 top-0 h-full rounded-full bg-gradient-to-r to-foreground"
                                                 style={{
                                                     width: `${member.completion_rate}%`,
                                                     boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)',
@@ -347,9 +347,9 @@ export default function CompanyDashboard() {
                                         key={task.id}
                                         className="group relative overflow-hidden rounded-2xl border border-white/5 bg-card/5 p-6 transition-all duration-500 hover:bg-card/10"
                                     >
-                                        <div className="absolute left-0 top-0 h-full w-1 bg-foreground/20 transition-all duration-500 group-hover:bg-foreground" />
+                                        <div className="absolute start-0 top-0 h-full w-1 bg-foreground/20 transition-all duration-500 group-hover:bg-foreground" />
                                         <div className="mb-4 flex items-start justify-between">
-                                            <h4 className="flex-1 truncate pr-4 text-xs font-black uppercase tracking-tight text-background">
+                                            <h4 className="flex-1 truncate pe-4 text-xs font-black uppercase tracking-tight text-background">
                                                 {task.title}
                                             </h4>
                                             {task.is_completed && (

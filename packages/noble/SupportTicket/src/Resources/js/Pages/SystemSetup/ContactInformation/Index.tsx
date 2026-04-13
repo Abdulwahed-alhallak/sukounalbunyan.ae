@@ -71,7 +71,7 @@ export default function ContactInformation({ contactInformation }: ContactInform
                             <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Contact Information')}</h3>
                                 <Button onClick={handleSubmit} disabled={processing}>
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="me-2 h-4 w-4" />
                                     {processing ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>

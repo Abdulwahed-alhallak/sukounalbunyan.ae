@@ -78,7 +78,7 @@ export default function Show() {
                                 {employee.employee_status || 'Active'}
                             </span>
 
-                            <div className="mt-6 space-y-3 text-left">
+                            <div className="mt-6 space-y-3 text-start">
                                 <Field label={t('Employee ID')} value={employee.employee_id} />
                                 {employee.application_id && (
                                     <Field label={t('Application ID')} value={employee.application_id} />
@@ -362,11 +362,11 @@ export default function Show() {
                                             <table className="w-full text-sm">
                                                 <thead className="border-b bg-muted/50">
                                                     <tr>
-                                                        <th className="p-3 text-left">{t('Type')}</th>
-                                                        <th className="p-3 text-left">{t('Start Date')}</th>
-                                                        <th className="p-3 text-left">{t('End Date')}</th>
-                                                        <th className="p-3 text-left">{t('Salary')}</th>
-                                                        <th className="p-3 text-left">{t('Status')}</th>
+                                                        <th className="p-3 text-start">{t('Type')}</th>
+                                                        <th className="p-3 text-start">{t('Start Date')}</th>
+                                                        <th className="p-3 text-start">{t('End Date')}</th>
+                                                        <th className="p-3 text-start">{t('Salary')}</th>
+                                                        <th className="p-3 text-start">{t('Status')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -406,10 +406,10 @@ export default function Show() {
                                             <table className="w-full text-sm">
                                                 <thead className="border-b bg-muted/50">
                                                     <tr>
-                                                        <th className="p-3 text-left">{t('Date')}</th>
-                                                        <th className="p-3 text-left">{t('Clock In')}</th>
-                                                        <th className="p-3 text-left">{t('Clock Out')}</th>
-                                                        <th className="p-3 text-left">{t('Status')}</th>
+                                                        <th className="p-3 text-start">{t('Date')}</th>
+                                                        <th className="p-3 text-start">{t('Clock In')}</th>
+                                                        <th className="p-3 text-start">{t('Clock Out')}</th>
+                                                        <th className="p-3 text-start">{t('Status')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -442,10 +442,10 @@ export default function Show() {
                                             <table className="w-full text-sm">
                                                 <thead className="border-b bg-muted/50">
                                                     <tr>
-                                                        <th className="p-3 text-left">{t('Type')}</th>
-                                                        <th className="p-3 text-left">{t('Duration')}</th>
-                                                        <th className="p-3 text-left">{t('Days')}</th>
-                                                        <th className="p-3 text-left">{t('Status')}</th>
+                                                        <th className="p-3 text-start">{t('Type')}</th>
+                                                        <th className="p-3 text-start">{t('Duration')}</th>
+                                                        <th className="p-3 text-start">{t('Days')}</th>
+                                                        <th className="p-3 text-start">{t('Status')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -480,10 +480,10 @@ export default function Show() {
                                             <table className="w-full text-sm">
                                                 <thead className="border-b bg-muted/50">
                                                     <tr>
-                                                        <th className="p-3 text-left">{t('Asset Name')}</th>
-                                                        <th className="p-3 text-left">{t('Type')}</th>
-                                                        <th className="p-3 text-left">{t('Serial No')}</th>
-                                                        <th className="p-3 text-left">{t('Status')}</th>
+                                                        <th className="p-3 text-start">{t('Asset Name')}</th>
+                                                        <th className="p-3 text-start">{t('Type')}</th>
+                                                        <th className="p-3 text-start">{t('Serial No')}</th>
+                                                        <th className="p-3 text-start">{t('Status')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -518,10 +518,10 @@ export default function Show() {
                                             <table className="w-full text-sm">
                                                 <thead className="border-b bg-muted/50">
                                                     <tr>
-                                                        <th className="p-3 text-left">{t('Violation Type')}</th>
-                                                        <th className="p-3 text-left">{t('Date')}</th>
-                                                        <th className="p-3 text-left">{t('Severity')}</th>
-                                                        <th className="p-3 text-left">{t('Deduction')}</th>
+                                                        <th className="p-3 text-start">{t('Violation Type')}</th>
+                                                        <th className="p-3 text-start">{t('Date')}</th>
+                                                        <th className="p-3 text-start">{t('Severity')}</th>
+                                                        <th className="p-3 text-start">{t('Deduction')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

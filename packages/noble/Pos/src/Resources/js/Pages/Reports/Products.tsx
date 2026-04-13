@@ -58,7 +58,7 @@ export default function ProductsReport({ productData }: ProductsReportProps) {
                 {/* Summary Cards */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
-                        <div className="absolute right-2 top-2">
+                        <div className="absolute end-2 top-2">
                             <Package className="h-5 w-5 text-foreground opacity-80" />
                         </div>
                         <CardHeader className="space-y-0 pb-1 pt-3 text-center">
@@ -69,7 +69,7 @@ export default function ProductsReport({ productData }: ProductsReportProps) {
                         </CardContent>
                     </Card>
                     <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
-                        <div className="absolute right-2 top-2">
+                        <div className="absolute end-2 top-2">
                             <TrendingUp className="h-5 w-5 text-foreground opacity-80" />
                         </div>
                         <CardHeader className="space-y-0 pb-1 pt-3 text-center">
@@ -82,7 +82,7 @@ export default function ProductsReport({ productData }: ProductsReportProps) {
                         </CardContent>
                     </Card>
                     <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
-                        <div className="absolute right-2 top-2">
+                        <div className="absolute end-2 top-2">
                             <PieChart className="h-5 w-5 text-foreground opacity-80" />
                         </div>
                         <CardHeader className="space-y-0 pb-1 pt-3 text-center">
@@ -95,7 +95,7 @@ export default function ProductsReport({ productData }: ProductsReportProps) {
                         </CardContent>
                     </Card>
                     <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
-                        <div className="absolute right-2 top-2">
+                        <div className="absolute end-2 top-2">
                             <BarChart3 className="h-5 w-5 text-foreground opacity-80" />
                         </div>
                         <CardHeader className="space-y-0 pb-1 pt-3 text-center">

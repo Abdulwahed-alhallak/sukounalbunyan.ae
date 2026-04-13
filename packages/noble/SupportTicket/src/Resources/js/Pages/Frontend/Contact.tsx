@@ -243,7 +243,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                 disabled={processing}
                                 className="w-full bg-foreground hover:bg-foreground"
                             >
-                                <Send className="mr-2 h-4 w-4" />
+                                <Send className="me-2 h-4 w-4" />
                                 {processing ? 'Sending...' : 'Send Message'}
                             </Button>
                         </form>
@@ -286,19 +286,19 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                             <h3 className="mb-4 text-xl font-semibold text-foreground">{t('Our Headquarters')}</h3>
                             <div className="space-y-3">
                                 <div className="flex items-start">
-                                    <MapPin className="mr-3 mt-1 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <MapPin className="me-3 mt-1 h-4 w-4 flex-shrink-0 text-foreground" />
                                     <span className="text-muted-foreground">
                                         {contactInformation?.address || '350 Fifth Avenue, New York, NY 10118'}
                                     </span>
                                 </div>
                                 <div className="flex items-center">
-                                    <Phone className="mr-3 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <Phone className="me-3 h-4 w-4 flex-shrink-0 text-foreground" />
                                     <span className="text-muted-foreground">
                                         {contactInformation?.phone || '+1 (212) 736-3100'}
                                     </span>
                                 </div>
                                 <div className="flex items-center">
-                                    <Mail className="mr-3 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <Mail className="me-3 h-4 w-4 flex-shrink-0 text-foreground" />
                                     <span className="text-muted-foreground">
                                         {contactInformation?.email || 'info@dashsupport.com'}
                                     </span>

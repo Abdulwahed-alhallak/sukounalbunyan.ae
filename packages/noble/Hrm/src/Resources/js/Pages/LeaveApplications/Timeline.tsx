@@ -121,7 +121,7 @@ export default function Timeline() {
                         <Button variant="outline" size="icon" onClick={handleNextMonth}>
                             <ChevronRight className="h-4 w-4" />
                         </Button>
-                        <Badge variant="secondary" className="ml-2 px-3 py-1.5 text-sm font-semibold">
+                        <Badge variant="secondary" className="ms-2 px-3 py-1.5 text-sm font-semibold">
                             {new Date(year, month - 1).toLocaleString('default', { month: 'long', year: 'numeric' })}
                         </Badge>
                     </div>
@@ -130,7 +130,7 @@ export default function Timeline() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center text-lg">
-                            <CalendarIcon className="mr-2 h-5 w-5 text-primary" /> {t('Monthly Overview')}
+                            <CalendarIcon className="me-2 h-5 w-5 text-primary" /> {t('Monthly Overview')}
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="overflow-hidden p-0 sm:p-6">
@@ -138,7 +138,7 @@ export default function Timeline() {
                             <table className="w-full min-w-[1000px] border-collapse bg-card">
                                 <thead>
                                     <tr>
-                                        <th className="sticky left-0 z-10 w-[200px] min-w-[200px] border-b border-r bg-muted/60 p-3 text-left font-semibold backdrop-blur-md">
+                                        <th className="sticky start-0 z-10 w-[200px] min-w-[200px] border-b border-e bg-muted/60 p-3 text-start font-semibold backdrop-blur-md">
                                             {t('Employee')}
                                         </th>
                                         {daysArray.map((d) => {
@@ -168,7 +168,7 @@ export default function Timeline() {
                                     {employeesData.length > 0 ? (
                                         employeesData.map((emp, i) => (
                                             <tr key={i} className="transition-colors hover:bg-muted/10">
-                                                <td className="sticky left-0 z-10 border-b border-r bg-card p-3 font-medium backdrop-blur-md">
+                                                <td className="sticky start-0 z-10 border-b border-e bg-card p-3 font-medium backdrop-blur-md">
                                                     <div className="flex items-center gap-2">
                                                         <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary/10 text-xs font-bold uppercase text-primary shadow-sm">
                                                             {emp.name.substring(0, 2)}
@@ -205,7 +205,7 @@ export default function Timeline() {
                                         <tr>
                                             <td
                                                 colSpan={daysArray.length + 1}
-                                                className="border-b border-r p-12 text-center text-muted-foreground"
+                                                className="border-b border-e p-12 text-center text-muted-foreground"
                                             >
                                                 <div className="flex flex-col items-center justify-center">
                                                     <CalendarIcon className="mb-3 h-10 w-10 opacity-20" />
@@ -220,7 +220,7 @@ export default function Timeline() {
 
                         {/* Legend */}
                         <div className="mt-4 flex items-center gap-4 px-2 text-sm text-muted-foreground">
-                            <span className="mr-2 font-semibold text-foreground">{t('Legend')}:</span>
+                            <span className="me-2 font-semibold text-foreground">{t('Legend')}:</span>
                             <div className="flex items-center gap-1">
                                 <div className="h-3 w-3 rounded-sm border bg-muted/30"></div> {t('Weekend/Off')}
                             </div>

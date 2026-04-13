@@ -177,7 +177,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                                                 <span className="text-sm text-foreground">{indicator.name}</span>
                                                 <div className="flex items-center gap-1">
                                                     {renderStars(indicator.user_rating)}
-                                                    <span className="ml-1 text-xs text-muted-foreground">
+                                                    <span className="ms-1 text-xs text-muted-foreground">
                                                         {indicator.user_rating}/5
                                                     </span>
                                                 </div>
@@ -193,7 +193,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                 {employeeReview.pros && (
                     <div>
                         <label className="text-sm font-medium text-muted-foreground">{t('Pros')}</label>
-                        <div className="mt-1 rounded border-l-2 border-foreground bg-muted/50 p-3">
+                        <div className="mt-1 rounded border-s-2 border-foreground bg-muted/50 p-3">
                             <div
                                 className="text-sm text-foreground"
                                 dangerouslySetInnerHTML={{ __html: employeeReview.pros }}
@@ -205,7 +205,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                 {employeeReview.cons && (
                     <div>
                         <label className="text-sm font-medium text-muted-foreground">{t('Cons')}</label>
-                        <div className="mt-1 rounded border-l-2 border-destructive bg-muted/50 p-3">
+                        <div className="mt-1 rounded border-s-2 border-destructive bg-muted/50 p-3">
                             <div
                                 className="text-sm text-foreground"
                                 dangerouslySetInnerHTML={{ __html: employeeReview.cons }}

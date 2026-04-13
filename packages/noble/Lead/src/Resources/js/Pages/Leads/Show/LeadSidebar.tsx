@@ -28,7 +28,7 @@ export default function LeadSidebar({ activeItem, onSectionChange }: LeadSidebar
     return (
         <div className="sticky top-4">
             <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="space-y-1 pr-4">
+                <div className="space-y-1 pe-4">
                     {sidebarItems?.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeItem === item.key;
@@ -42,7 +42,7 @@ export default function LeadSidebar({ activeItem, onSectionChange }: LeadSidebar
                                 })}
                                 onClick={() => onSectionChange(item.key)}
                             >
-                                <Icon className="mr-2 h-4 w-4" />
+                                <Icon className="me-2 h-4 w-4" />
                                 {item.label}
                             </Button>
                         );

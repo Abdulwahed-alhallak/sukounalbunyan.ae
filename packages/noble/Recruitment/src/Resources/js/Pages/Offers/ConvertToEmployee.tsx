@@ -914,7 +914,7 @@ export default function ConvertToEmployee({
                                                     size="sm"
                                                     onClick={() => removeDocument(index)}
                                                 >
-                                                    <Trash2 className="mr-2 h-4 w-4" />
+                                                    <Trash2 className="me-2 h-4 w-4" />
                                                     {t('Remove')}
                                                 </Button>
                                             </div>

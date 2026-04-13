@@ -592,7 +592,7 @@ export default function Create({ onSuccess }: CreateCandidateProps) {
                             <div key={question.id}>
                                 <Label htmlFor={`custom_question_${question.id}`}>
                                     {question.question}
-                                    {question.is_required && <span className="ml-1 text-destructive">*</span>}
+                                    {question.is_required && <span className="ms-1 text-destructive">*</span>}
                                 </Label>
                                 {question.type === 'text' && (
                                     <Input

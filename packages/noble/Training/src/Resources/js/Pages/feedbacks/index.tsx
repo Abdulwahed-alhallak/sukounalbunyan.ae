@@ -143,7 +143,7 @@ export default function Index() {
                                         </span>
                                     </div>
                                     {feedback.comments && (
-                                        <div className="rounded border-l-2 border-foreground bg-muted/50 p-3">
+                                        <div className="rounded border-s-2 border-foreground bg-muted/50 p-3">
                                             <p className="line-clamp-3 text-sm text-foreground">{feedback.comments}</p>
                                         </div>
                                     )}

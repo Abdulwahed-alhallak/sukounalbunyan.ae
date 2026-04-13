@@ -97,7 +97,7 @@ export default function Print() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('CASH FLOW STATEMENT')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}
@@ -110,7 +110,7 @@ export default function Print() {
                     <tbody>
                         <tr className="page-break-inside-avoid border-b-2 border-black">
                             <td className="py-3 text-sm font-bold">{t('Beginning Cash Balance')}</td>
-                            <td className="w-40 py-3 text-right text-sm font-bold tabular-nums">
+                            <td className="w-40 py-3 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(data.beginning_cash)}
                             </td>
                         </tr>
@@ -121,8 +121,8 @@ export default function Print() {
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
-                            <td className="py-2 pl-6 text-sm">{t('Net cash from operations')}</td>
-                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                            <td className="py-2 ps-6 text-sm">{t('Net cash from operations')}</td>
+                            <td className="py-2 text-end text-sm font-semibold tabular-nums">
                                 {formatCurrency(data.operating)}
                             </td>
                         </tr>
@@ -133,8 +133,8 @@ export default function Print() {
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
-                            <td className="py-2 pl-6 text-sm">{t('Net cash from investing')}</td>
-                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                            <td className="py-2 ps-6 text-sm">{t('Net cash from investing')}</td>
+                            <td className="py-2 text-end text-sm font-semibold tabular-nums">
                                 {formatCurrency(data.investing)}
                             </td>
                         </tr>
@@ -145,22 +145,22 @@ export default function Print() {
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
-                            <td className="py-2 pl-6 text-sm">{t('Net cash from financing')}</td>
-                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                            <td className="py-2 ps-6 text-sm">{t('Net cash from financing')}</td>
+                            <td className="py-2 text-end text-sm font-semibold tabular-nums">
                                 {formatCurrency(data.financing)}
                             </td>
                         </tr>
 
                         <tr className="page-break-inside-avoid border-t-2 border-border">
                             <td className="py-3 text-sm font-bold">{t('Net Increase/Decrease in Cash')}</td>
-                            <td className="py-3 text-right text-sm font-bold tabular-nums">
+                            <td className="py-3 text-end text-sm font-bold tabular-nums">
                                 {formatCurrency(data.net_cash_flow)}
                             </td>
                         </tr>
 
                         <tr className="page-break-inside-avoid border-t-4 border-black">
                             <td className="py-4 text-base font-bold">{t('Ending Cash Balance')}</td>
-                            <td className="py-4 text-right text-base font-bold tabular-nums">
+                            <td className="py-4 text-end text-base font-bold tabular-nums">
                                 {formatCurrency(data.ending_cash)}
                             </td>
                         </tr>

@@ -37,7 +37,7 @@ export function ListGridToggle({
                 variant={currentView === 'list' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => handleViewChange('list')}
-                className="rounded-r-none"
+                className="rounded-e-none"
             >
                 <List className="h-4 w-4" />
             </Button>
@@ -45,7 +45,7 @@ export function ListGridToggle({
                 variant={currentView === 'grid' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => handleViewChange('grid')}
-                className="rounded-l-none"
+                className="rounded-s-none"
             >
                 <Grid3X3 className="h-4 w-4" />
             </Button>

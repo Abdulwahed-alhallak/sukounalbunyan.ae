@@ -89,7 +89,7 @@ export default function VendorDashboard({ stats, monthlyData, recentTickets, sta
                                 </p>
                                 <div className="flex gap-3">
                                     <Button className="bg-foreground hover:bg-foreground" onClick={handleCreateTicket}>
-                                        <TicketIcon className="mr-2 h-4 w-4" />
+                                        <TicketIcon className="me-2 h-4 w-4" />
                                         {t('Create Support Ticket')}
                                     </Button>
                                 </div>

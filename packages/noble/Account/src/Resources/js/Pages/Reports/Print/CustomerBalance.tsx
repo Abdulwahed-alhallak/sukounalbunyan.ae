@@ -64,7 +64,7 @@ export default function Print() {
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('CUSTOMER BALANCE SUMMARY')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {t('As of')}: {formatDate(filters.as_of_date)}
@@ -75,14 +75,14 @@ export default function Print() {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="px-2 py-2 text-left text-sm font-semibold">{t('Customer')}</th>
-                            <th className="px-2 py-2 text-left text-sm font-semibold">{t('Email')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">{t('Total Invoiced')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">
+                            <th className="px-2 py-2 text-start text-sm font-semibold">{t('Customer')}</th>
+                            <th className="px-2 py-2 text-start text-sm font-semibold">{t('Email')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">{t('Total Invoiced')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">
                                 {t('Total Returns & Credit Notes')}
                             </th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">{t('Total Paid')}</th>
-                            <th className="px-2 py-2 text-right text-sm font-semibold">{t('Balance')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">{t('Total Paid')}</th>
+                            <th className="px-2 py-2 text-end text-sm font-semibold">{t('Balance')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,14 +90,14 @@ export default function Print() {
                             <tr key={idx} className="border-b border-border">
                                 <td className="px-2 py-2 text-sm">{customer.customer_name}</td>
                                 <td className="px-2 py-2 text-sm">{customer.customer_email}</td>
-                                <td className="px-2 py-2 text-right text-sm">
+                                <td className="px-2 py-2 text-end text-sm">
                                     {formatCurrency(customer.total_invoiced)}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm">
+                                <td className="px-2 py-2 text-end text-sm">
                                     {formatCurrency(customer.total_returns)}
                                 </td>
-                                <td className="px-2 py-2 text-right text-sm">{formatCurrency(customer.total_paid)}</td>
-                                <td className="px-2 py-2 text-right text-sm font-semibold">
+                                <td className="px-2 py-2 text-end text-sm">{formatCurrency(customer.total_paid)}</td>
+                                <td className="px-2 py-2 text-end text-sm font-semibold">
                                     {formatCurrency(customer.balance)}
                                 </td>
                             </tr>
@@ -106,20 +106,20 @@ export default function Print() {
                             <td colSpan={2} className="px-2 py-3 text-sm">
                                 {t('TOTAL')}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(
                                     data.customers.reduce((sum: number, c: any) => sum + c.total_invoiced, 0)
                                 )}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(
                                     data.customers.reduce((sum: number, c: any) => sum + c.total_returns, 0)
                                 )}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">
+                            <td className="px-2 py-3 text-end text-sm">
                                 {formatCurrency(data.customers.reduce((sum: number, c: any) => sum + c.total_paid, 0))}
                             </td>
-                            <td className="px-2 py-3 text-right text-sm">{formatCurrency(data.total_balance)}</td>
+                            <td className="px-2 py-3 text-end text-sm">{formatCurrency(data.total_balance)}</td>
                         </tr>
                     </tbody>
                 </table>

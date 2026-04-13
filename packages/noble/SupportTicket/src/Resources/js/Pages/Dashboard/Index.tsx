@@ -188,7 +188,7 @@ export default function Index({ stats, chartData, monthlyData, recentTickets, st
                             </div>
                             <div className="flex gap-3">
                                 <Button className="bg-foreground hover:bg-foreground/80" onClick={copyToClipboard}>
-                                    <LinkIcon className="mr-2 h-4 w-4" />
+                                    <LinkIcon className="me-2 h-4 w-4" />
                                     {t('Ticket Link')}
                                 </Button>
                                 <Button
@@ -196,7 +196,7 @@ export default function Index({ stats, chartData, monthlyData, recentTickets, st
                                     className="border-border text-foreground hover:bg-accent"
                                     onClick={() => router.get(route('support-tickets.create'))}
                                 >
-                                    <TicketIcon className="mr-2 h-4 w-4" />
+                                    <TicketIcon className="me-2 h-4 w-4" />
                                     {t('Create Ticket')}
                                 </Button>
                             </div>
@@ -301,7 +301,7 @@ export default function Index({ stats, chartData, monthlyData, recentTickets, st
                                 size="sm"
                                 onClick={() => router.get(route('support-tickets.index'))}
                             >
-                                <Eye className="mr-2 h-4 w-4" />
+                                <Eye className="me-2 h-4 w-4" />
                                 {t('View All')}
                             </Button>
                         </div>

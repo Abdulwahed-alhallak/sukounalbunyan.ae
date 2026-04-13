@@ -96,7 +96,7 @@ export default function StripeSettings({ userSettings, auth }: StripeSettingsPro
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="me-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -154,13 +154,13 @@ export default function StripeSettings({ userSettings, auth }: StripeSettingsPro
                                                 onChange={handleInputChange}
                                                 placeholder={t('Enter Stripe secret key')}
                                                 disabled={is_demo || !canEdit}
-                                                className="pr-10"
+                                                className="pe-10"
                                             />
                                             <Button
                                                 type="button"
                                                 variant="ghost"
                                                 size="sm"
-                                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                                 onClick={() => setShowSecret(!showSecret)}
                                             >
                                                 {showSecret ? (

@@ -70,7 +70,7 @@ export default function Index() {
                             </div>
                             <div className="space-y-4">
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Info className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Info className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Response Time')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -79,7 +79,7 @@ export default function Index() {
                                     </div>
                                 </div>
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Clock className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Clock className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Support Hours')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -88,7 +88,7 @@ export default function Index() {
                                     </div>
                                 </div>
                                 <div className="flex items-start rounded-lg bg-muted/50 p-3">
-                                    <Phone className="mr-3 mt-1 h-5 w-5 text-foreground" />
+                                    <Phone className="me-3 mt-1 h-5 w-5 text-foreground" />
                                     <div>
                                         <h4 className="font-medium text-foreground">{t('Phone Support')}</h4>
                                         <p className="text-sm text-muted-foreground">
@@ -117,28 +117,28 @@ export default function Index() {
                                 href="#"
                                 className="block border-b border-border p-4 text-foreground transition duration-200 hover:bg-muted/50"
                             >
-                                <BookOpen className="mr-2 inline h-4 w-4 text-foreground" /> {t('User Guides')}
+                                <BookOpen className="me-2 inline h-4 w-4 text-foreground" /> {t('User Guides')}
                             </a>
                             <a
                                 href="#"
                                 className="block border-b border-border p-4 text-foreground transition duration-200 hover:bg-muted/50"
                             >
-                                <Video className="mr-2 inline h-4 w-4 text-foreground" /> {t('Video Tutorials')}
+                                <Video className="me-2 inline h-4 w-4 text-foreground" /> {t('Video Tutorials')}
                             </a>
                             <a
                                 href="#"
                                 className="block border-b border-border p-4 text-foreground transition duration-200 hover:bg-muted/50"
                             >
-                                <Lightbulb className="mr-2 inline h-4 w-4 text-foreground" /> {t('Tips & Tricks')}
+                                <Lightbulb className="me-2 inline h-4 w-4 text-foreground" /> {t('Tips & Tricks')}
                             </a>
                             <a
                                 href="#"
                                 className="block border-b border-border p-4 text-foreground transition duration-200 hover:bg-muted/50"
                             >
-                                <Code className="mr-2 inline h-4 w-4 text-foreground" /> {t('API Documentation')}
+                                <Code className="me-2 inline h-4 w-4 text-foreground" /> {t('API Documentation')}
                             </a>
                             <a href="#" className="block p-4 text-foreground transition duration-200 hover:bg-muted/50">
-                                <MessageCircle className="mr-2 inline h-4 w-4 text-foreground" />{' '}
+                                <MessageCircle className="me-2 inline h-4 w-4 text-foreground" />{' '}
                                 {t('Community Forums')}
                             </a>
                         </div>
@@ -310,7 +310,7 @@ export default function Index() {
                                         disabled={processing}
                                         className="rounded-full bg-foreground px-8 py-3 font-medium text-background shadow-md transition-all duration-300 hover:bg-foreground hover:shadow-lg"
                                     >
-                                        <Send className="mr-2 h-4 w-4" />
+                                        <Send className="me-2 h-4 w-4" />
                                         {processing ? t('Creating...') : t('Create Ticket')}
                                     </Button>
                                 </div>

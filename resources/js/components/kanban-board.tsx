@@ -77,7 +77,7 @@ function KanbanColumnComponent({
 
     return (
         <div
-            className="min-w-[320px] max-w-[360px] flex-1 duration-500 animate-in fade-in slide-in-from-right-4"
+            className="min-w-[320px] max-w-[360px] flex-1 duration-500 animate-in fade-in slide-in-from-end-4"
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
@@ -151,7 +151,7 @@ function KanbanColumnComponent({
 
                 {/* Tactical Scanning Line (Visible on Drag Over) */}
                 {isDragOver && (
-                    <div className="animate-scan absolute left-0 right-0 z-20 h-px bg-foreground/50 shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
+                    <div className="animate-scan absolute start-0 end-0 z-20 h-px bg-foreground/50 shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
                 )}
             </div>
         </div>

@@ -222,13 +222,13 @@ export const eventsPayment = (data?: any) => {
                             className={`flex items-center rounded-lg border-2 p-4 transition-all hover:border-border ${data?.selectedMethod === 'paypal' ? 'border-destructive bg-muted/50' : 'border-border'}`}
                         >
                             <div
-                                className={`mr-3 h-4 w-4 flex-shrink-0 rounded-full border-2 ${data?.selectedMethod === 'paypal' ? 'bg-muted/500 border-destructive' : 'border-border'}`}
+                                className={`me-3 h-4 w-4 flex-shrink-0 rounded-full border-2 ${data?.selectedMethod === 'paypal' ? 'bg-muted/500 border-destructive' : 'border-border'}`}
                             >
                                 {data?.selectedMethod === 'paypal' && (
                                     <div className="m-auto mt-0.5 h-2 w-2 rounded-full bg-card"></div>
                                 )}
                             </div>
-                            <img src={getPackageFavicon('Paypal')} alt="PayPal" className="mr-3 h-8 w-8" />
+                            <img src={getPackageFavicon('Paypal')} alt="PayPal" className="me-3 h-8 w-8" />
                             <span className="font-semibold">{t('PayPal')}</span>
                         </div>
                     </label>

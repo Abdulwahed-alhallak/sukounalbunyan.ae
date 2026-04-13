@@ -137,7 +137,7 @@ export default function Success({
                                     />
                                 </svg>
                             </div>
-                            <div className="ml-3">
+                            <div className="ms-3">
                                 <p className="text-sm font-medium text-destructive">{errorMessage}</p>
                             </div>
                         </div>
@@ -210,7 +210,7 @@ export default function Success({
                                 >
                                     {copySuccess ? (
                                         <>
-                                            <Check className="mr-2 h-4 w-4" />
+                                            <Check className="me-2 h-4 w-4" />
                                             {t('Copied!')}
                                         </>
                                     ) : (
@@ -281,7 +281,7 @@ export default function Success({
                             className="border-border text-foreground hover:bg-muted/50"
                             onClick={() => router.visit(route('recruitment.frontend.careers.jobs.index', { userSlug }))}
                         >
-                            <Search className="mr-2 h-4 w-4" />
+                            <Search className="me-2 h-4 w-4" />
                             {t('Browse More Jobs')}
                         </Button>
                         <Button

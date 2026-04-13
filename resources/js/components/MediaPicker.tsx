@@ -129,7 +129,7 @@ export default function MediaPicker({
                     onClick={() => setIsModalOpen(true)}
                     disabled={readOnly || disabled}
                 >
-                    <ImageIcon className="mr-2 h-4 w-4" />
+                    <ImageIcon className="me-2 h-4 w-4" />
                     Browse
                 </Button>
                 {((multiple && Array.isArray(safeValue) && safeValue.length > 0) || (!multiple && safeValue)) && (

@@ -165,7 +165,7 @@ const WebhookSettings: React.FC<WebhookSettingsProps> = ({
         return (
             <div className="flex items-center justify-center py-8">
                 <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-border"></div>
-                <span className="ml-2">{t('Loading...')}</span>
+                <span className="ms-2">{t('Loading...')}</span>
             </div>
         );
     }
@@ -183,7 +183,7 @@ const WebhookSettings: React.FC<WebhookSettingsProps> = ({
                     </p>
                 </div>
                 <Button className="order-2 rtl:order-1" onClick={handleAddWebhook} size="sm">
-                    <Plus className="mr-2 h-4 w-4" />
+                    <Plus className="me-2 h-4 w-4" />
                     {t('Add Webhook')}
                 </Button>
             </CardHeader>
@@ -200,7 +200,7 @@ const WebhookSettings: React.FC<WebhookSettingsProps> = ({
                                 </p>
                             </div>
                         ) : (
-                            <div className="max-h-[400px] space-y-3 overflow-y-auto pr-2">
+                            <div className="max-h-[400px] space-y-3 overflow-y-auto pe-2">
                                 {webhooks?.map((webhook) => (
                                     <div
                                         key={webhook.id}

@@ -72,7 +72,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                     <p className="mb-6">{pageDescription}</p>
 
                     <div className="relative mx-auto max-w-2xl">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-3">
                             <Search className="h-5 w-5 text-muted-foreground" />
                         </div>
                         <Input
@@ -80,7 +80,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                             placeholder={t('Search for questions...')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-card py-3 pl-10 text-foreground"
+                            className="bg-card py-3 ps-10 text-foreground"
                         />
                     </div>
                 </CardContent>
@@ -92,7 +92,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                         <Card key={faq.id} className="overflow-hidden">
                             <button
                                 onClick={() => toggleFaq(index)}
-                                className={`w-full p-5 text-left transition-all duration-300 focus:outline-none ${
+                                className={`w-full p-5 text-start transition-all duration-300 focus:outline-none ${
                                     openFaq === index ? 'bg-foreground text-background' : 'bg-card hover:bg-muted/50'
                                 }`}
                             >
@@ -142,7 +142,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                     </div>
 
                     <CardContent className="relative flex flex-col items-center px-4 py-6 md:flex-row md:p-8 lg:p-12">
-                        <div className="mb-6 w-full text-center text-background md:mb-0 md:w-2/3 md:pr-12 md:text-left">
+                        <div className="mb-6 w-full text-center text-background md:mb-0 md:w-2/3 md:pe-12 md:text-start">
                             <h2 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl lg:text-3xl">{bottomTitle}</h2>
                             <p className="mb-4 text-background md:mb-6">
                                 {bottomDescription ||
@@ -151,7 +151,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                             <div className="flex flex-wrap justify-center gap-3 md:justify-start md:gap-4">
                                 <Button variant="secondary" className="bg-card text-foreground hover:bg-muted" asChild>
                                     <Link href={route('support-ticket.index', [slug])}>
-                                        <Ticket className="mr-2 h-4 w-4" />
+                                        <Ticket className="me-2 h-4 w-4" />
                                         {t('Create Support Ticket')}
                                     </Link>
                                 </Button>
@@ -162,7 +162,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                                         asChild
                                     >
                                         <Link href={route('support-ticket.knowledge', [slug])}>
-                                            <Book className="mr-2 h-4 w-4" />
+                                            <Book className="me-2 h-4 w-4" />
                                             {t('Browse Knowledge Base')}
                                         </Link>
                                     </Button>

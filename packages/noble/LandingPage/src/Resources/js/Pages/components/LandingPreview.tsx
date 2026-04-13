@@ -245,7 +245,7 @@ export function LandingPreview({ settings }: LandingPreviewProps) {
                 </div>
             </div>
             <div className="relative">
-                <div className="absolute right-2 top-2 z-10">
+                <div className="absolute end-2 top-2 z-10">
                     <div className="rounded-full bg-foreground/20 px-2 py-1 backdrop-blur-sm">
                         <div className="text-xs font-medium text-background">{t('Mobile View')}</div>
                     </div>

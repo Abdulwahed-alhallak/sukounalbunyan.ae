@@ -169,7 +169,7 @@ export default function SupportTicketLayout({
                                         asChild
                                     >
                                         <Link href={route('support-ticket.contact', [slug])}>
-                                            <Headphones className="mr-2 h-4 w-4" />
+                                            <Headphones className="me-2 h-4 w-4" />
                                             {t('Contact')}
                                         </Link>
                                     </Button>
@@ -198,13 +198,13 @@ export default function SupportTicketLayout({
                                             className="flex items-center rounded-lg p-2 text-foreground transition duration-300 hover:text-foreground"
                                             onClick={() => setMobileMenuOpen(false)}
                                         >
-                                            <item.icon className="mr-2 h-4 w-4" /> {item.name}
+                                            <item.icon className="me-2 h-4 w-4" /> {item.name}
                                         </Link>
                                     ))}
                                     <div className="flex flex-wrap items-center justify-center gap-3 border-t pt-3">
                                         <Button size="sm" asChild>
                                             <Link href={route('support-ticket.contact', [slug])}>
-                                                <Headphones className="mr-2 h-4 w-4" /> {t('Contact')}
+                                                <Headphones className="me-2 h-4 w-4" /> {t('Contact')}
                                             </Link>
                                         </Button>
                                     </div>
@@ -217,7 +217,7 @@ export default function SupportTicketLayout({
                     {children}
 
                     {/* Help Chat Button */}
-                    <div className="fixed bottom-4 right-4 z-10 md:bottom-8 md:right-8">
+                    <div className="fixed bottom-4 end-4 z-10 md:bottom-8 md:end-8">
                         <Button
                             className="h-14 w-14 rounded-full bg-foreground p-0 text-background shadow-lg transition-all duration-300 hover:scale-110 hover:bg-foreground"
                             aria-label="Get Help"

@@ -36,7 +36,7 @@ export default function Final({ credentials }: Props) {
                             <p className="mb-8 text-muted-foreground">
                                 {t('Your application has been successfully installed and configured.')}
                             </p>
-                            <div className="space-y-4 text-left">
+                            <div className="space-y-4 text-start">
                                 <div className="rounded-md border border-border bg-muted p-4">
                                     <h3 className="mb-3 font-semibold text-foreground">
                                         {t('Default Login Credentials')}:

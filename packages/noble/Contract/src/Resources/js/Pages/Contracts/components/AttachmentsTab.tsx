@@ -94,7 +94,7 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                 size="sm"
                                 variant={attachmentView === 'list' ? 'default' : 'ghost'}
                                 onClick={() => setAttachmentView('list')}
-                                className="h-9 rounded-r-none px-2"
+                                className="h-9 rounded-e-none px-2"
                             >
                                 <List className="h-3 w-3" />
                             </Button>
@@ -102,7 +102,7 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                 size="sm"
                                 variant={attachmentView === 'grid' ? 'default' : 'ghost'}
                                 onClick={() => setAttachmentView('grid')}
-                                className="h-9 rounded-l-none px-2"
+                                className="h-9 rounded-s-none px-2"
                             >
                                 <Grid className="h-3 w-3" />
                             </Button>

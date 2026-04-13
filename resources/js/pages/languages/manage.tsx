@@ -391,12 +391,12 @@ export default function LanguageManage({
                     </CardHeader>
                     <CardContent className="space-y-2">
                         <div className="relative mb-3">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Search className="absolute start-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search packages..."
                                 value={sourceSearchTerm}
                                 onChange={(e) => setSourceSearchTerm(e.target.value)}
-                                className="pl-8"
+                                className="ps-8"
                             />
                         </div>
                         <div className="scrollbar-hover-only max-h-[85vh] overflow-auto">
@@ -408,7 +408,7 @@ export default function LanguageManage({
                             >
                                 <Globe className="h-4 w-4" />
                                 <span>{t('General')}</span>
-                                {activeSource === 'general' && <Edit3 className="ml-auto h-3 w-3" />}
+                                {activeSource === 'general' && <Edit3 className="ms-auto h-3 w-3" />}
                             </Button>
                             {enabledPackages
                                 .filter(
@@ -426,7 +426,7 @@ export default function LanguageManage({
                                     >
                                         <Package className="h-4 w-4" />
                                         <span>{pkg.name}</span>
-                                        {activeSource === pkg.package_name && <Edit3 className="ml-auto h-3 w-3" />}
+                                        {activeSource === pkg.package_name && <Edit3 className="ms-auto h-3 w-3" />}
                                     </Button>
                                 ))}
                         </div>
@@ -479,7 +479,7 @@ export default function LanguageManage({
                                                             <span>{getCountryFlag(language.countryCode)}</span>
                                                             <span>{language.name}</span>
                                                             {!isEnabled && (
-                                                                <Lock className="ml-auto h-3 w-3 text-muted-foreground" />
+                                                                <Lock className="ms-auto h-3 w-3 text-muted-foreground" />
                                                             )}
                                                         </div>
                                                     </SelectItem>
@@ -496,7 +496,7 @@ export default function LanguageManage({
                                 {isLoading ? (
                                     <div className="flex items-center justify-center py-8">
                                         <RefreshCw className="h-6 w-6 animate-spin" />
-                                        <span className="ml-2">{t('Loading translations...')}</span>
+                                        <span className="ms-2">{t('Loading translations...')}</span>
                                     </div>
                                 ) : currentTranslations.length === 0 ? (
                                     <div className="py-8 text-center text-muted-foreground">
@@ -543,7 +543,7 @@ export default function LanguageManage({
                                 {loadingPackages[activeSource] ? (
                                     <div className="flex items-center justify-center py-8">
                                         <RefreshCw className="h-6 w-6 animate-spin" />
-                                        <span className="ml-2">{t('Loading package translations...')}</span>
+                                        <span className="ms-2">{t('Loading package translations...')}</span>
                                     </div>
                                 ) : !packageTranslations[activeSource] ||
                                   Object.keys(packageTranslations[activeSource]).length === 0 ? (

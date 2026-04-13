@@ -95,7 +95,7 @@ export default function Show() {
                                 <span className={getStatusBadgeClasses(sale.status || 'completed')}>
                                     {t((sale.status || 'completed').toUpperCase())}
                                 </span>
-                                <div className="text-right">
+                                <div className="text-end">
                                     <div className="text-2xl font-bold">{formatCurrency(sale.total_amount || 0)}</div>
                                     <div className="text-sm text-muted-foreground">{t('Total Amount')}</div>
                                 </div>
@@ -160,7 +160,7 @@ export default function Show() {
                                     <div className="flex items-center justify-between">
                                         <div className="flex gap-2">
                                             <Button variant="outline" size="sm" onClick={downloadPDF}>
-                                                <Download className="mr-2 h-4 w-4" />
+                                                <Download className="me-2 h-4 w-4" />
                                                 {t('Download PDF')}
                                             </Button>
                                         </div>
@@ -172,7 +172,7 @@ export default function Show() {
                         {sale.notes && (
                             <div className="mt-4 border-t pt-4">
                                 <span className="text-sm font-medium">{t('Notes')}:</span>
-                                <span className="ml-2 text-sm text-muted-foreground">{sale.notes}</span>
+                                <span className="ms-2 text-sm text-muted-foreground">{sale.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -188,16 +188,16 @@ export default function Show() {
                             <table className="min-w-full">
                                 <thead>
                                     <tr className="border-b">
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-start text-sm font-semibold">{t('Product')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Qty')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Unit Price')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Tax')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">
                                             {t('Tax Amount')}
                                         </th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
+                                        <th className="px-4 py-3 text-end text-sm font-semibold">{t('Total')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -216,9 +216,9 @@ export default function Show() {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">{item.quantity}</td>
-                                            <td className="px-4 py-4 text-right">{formatCurrency(item.price)}</td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">{item.quantity}</td>
+                                            <td className="px-4 py-4 text-end">{formatCurrency(item.price)}</td>
+                                            <td className="px-4 py-4 text-end">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div className="flex flex-wrap justify-end gap-1">
                                                         {item.taxes?.map((tax) => (
@@ -231,14 +231,14 @@ export default function Show() {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right">
+                                            <td className="px-4 py-4 text-end">
                                                 {item.tax_amount > 0 ? (
                                                     <div className="text-sm">{formatCurrency(item.tax_amount)}</div>
                                                 ) : (
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-right font-semibold">
+                                            <td className="px-4 py-4 text-end font-semibold">
                                                 {formatCurrency(item.total_amount)}
                                             </td>
                                         </tr>

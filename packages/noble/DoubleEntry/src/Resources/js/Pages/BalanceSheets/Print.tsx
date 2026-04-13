@@ -108,7 +108,7 @@ export default function Print() {
                             )}
                         </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                         <h2 className="mb-2 text-2xl font-bold">{t('BALANCE SHEET')}</h2>
                         <div className="space-y-1 text-sm">
                             <p>
@@ -160,7 +160,7 @@ export default function Print() {
                                             {subSection.replace('_', ' ')}
                                         </h5>
                                         {items?.map((item) => (
-                                            <div key={item.id} className="ml-3 flex justify-between py-1.5 text-sm">
+                                            <div key={item.id} className="ms-3 flex justify-between py-1.5 text-sm">
                                                 <span>{item.account?.account_name}</span>
                                                 <span className="tabular-nums">{formatCurrency(item.amount)}</span>
                                             </div>
@@ -187,7 +187,7 @@ export default function Print() {
                                             {subSection.replace('_', ' ')}
                                         </h4>
                                         {items?.map((item) => (
-                                            <div key={item.id} className="ml-3 flex justify-between py-1.5 text-sm">
+                                            <div key={item.id} className="ms-3 flex justify-between py-1.5 text-sm">
                                                 <span>{item.account?.account_name}</span>
                                                 <span className="tabular-nums">{formatCurrency(item.amount)}</span>
                                             </div>

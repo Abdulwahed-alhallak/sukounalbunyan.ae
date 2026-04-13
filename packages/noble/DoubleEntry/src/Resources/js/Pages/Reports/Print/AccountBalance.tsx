@@ -112,7 +112,7 @@ export default function Print() {
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                             <h2 className="mb-3 text-2xl font-bold text-foreground">{t('ACCOUNT BALANCE SUMMARY')}</h2>
                             <p className="text-sm text-muted-foreground">
                                 {t('As of')}: {formatDate(filters.as_of_date)}
@@ -127,13 +127,13 @@ export default function Print() {
                         <table className="page-break-inside-avoid mb-4 w-full border-collapse">
                             <thead>
                                 <tr className="border-b-2 border-black">
-                                    <th className="w-24 px-2 py-2 text-left text-sm font-semibold">
+                                    <th className="w-24 px-2 py-2 text-start text-sm font-semibold">
                                         {t('Account Code')}
                                     </th>
-                                    <th className="px-2 py-2 text-left text-sm font-semibold">{t('Account Name')}</th>
-                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Debit')}</th>
-                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Credit')}</th>
-                                    <th className="w-32 px-2 py-2 text-right text-sm font-semibold">
+                                    <th className="px-2 py-2 text-start text-sm font-semibold">{t('Account Name')}</th>
+                                    <th className="w-28 px-2 py-2 text-end text-sm font-semibold">{t('Debit')}</th>
+                                    <th className="w-28 px-2 py-2 text-end text-sm font-semibold">{t('Credit')}</th>
+                                    <th className="w-32 px-2 py-2 text-end text-sm font-semibold">
                                         {t('Net Balance')}
                                     </th>
                                 </tr>
@@ -143,13 +143,13 @@ export default function Print() {
                                     <tr key={idx} className="border-b border-border">
                                         <td className="px-2 py-2 text-sm">{account.account_code}</td>
                                         <td className="break-words px-2 py-2 text-sm">{account.account_name}</td>
-                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                        <td className="px-2 py-2 text-end text-sm tabular-nums">
                                             {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                         </td>
-                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                        <td className="px-2 py-2 text-end text-sm tabular-nums">
                                             {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                         </td>
-                                        <td className="px-2 py-2 text-right text-sm font-medium tabular-nums">
+                                        <td className="px-2 py-2 text-end text-sm font-medium tabular-nums">
                                             {formatCurrency(account.net_balance)}
                                         </td>
                                     </tr>
@@ -158,13 +158,13 @@ export default function Print() {
                                     <td colSpan={2} className="px-2 py-2 text-sm font-bold">
                                         {t('Subtotal')} - {t(type)}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                    <td className="px-2 py-2 text-end text-sm font-bold tabular-nums">
                                         {formatCurrency(group.subtotal_debit)}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                    <td className="px-2 py-2 text-end text-sm font-bold tabular-nums">
                                         {formatCurrency(group.subtotal_credit)}
                                     </td>
-                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                    <td className="px-2 py-2 text-end text-sm font-bold tabular-nums">
                                         {formatCurrency(group.subtotal_net)}
                                     </td>
                                 </tr>
@@ -179,13 +179,13 @@ export default function Print() {
                             <td colSpan={2} className="px-2 py-3 text-sm">
                                 {t('GRAND TOTAL')}
                             </td>
-                            <td className="w-28 px-2 py-3 text-right text-sm tabular-nums">
+                            <td className="w-28 px-2 py-3 text-end text-sm tabular-nums">
                                 {formatCurrency(data.totals.debit)}
                             </td>
-                            <td className="w-28 px-2 py-3 text-right text-sm tabular-nums">
+                            <td className="w-28 px-2 py-3 text-end text-sm tabular-nums">
                                 {formatCurrency(data.totals.credit)}
                             </td>
-                            <td className="w-32 px-2 py-3 text-right text-sm tabular-nums">
+                            <td className="w-32 px-2 py-3 text-end text-sm tabular-nums">
                                 {formatCurrency(data.totals.net)}
                             </td>
                         </tr>

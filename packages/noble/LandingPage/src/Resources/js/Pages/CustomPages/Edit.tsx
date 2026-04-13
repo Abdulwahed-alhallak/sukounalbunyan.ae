@@ -63,7 +63,7 @@ export default function Edit({ page }: EditProps) {
                     className="text-background"
                     style={{ backgroundColor: 'hsl(var(--primary))' }}
                 >
-                    <Save className="mr-2 h-4 w-4" />
+                    <Save className="me-2 h-4 w-4" />
                     {processing ? t('Saving...') : t('Update Page')}
                 </Button>
             }

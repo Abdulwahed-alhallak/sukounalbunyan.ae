@@ -112,11 +112,11 @@ export function DateTimeRangePicker({
                     <Button
                         variant="outline"
                         className={cn(
-                            'h-10 w-full justify-start text-left font-normal',
+                            'h-10 w-full justify-start text-start font-normal',
                             !value && 'text-muted-foreground'
                         )}
                     >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {value && startDate && (mode === 'single' || endDate)
                             ? formatValue(startDate, endDate)
                             : placeholder || (mode === 'single' ? t('Select date time') : t('Select date time range'))}
@@ -147,7 +147,7 @@ export function DateTimeRangePicker({
                             </div>
                         ) : (
                             <div className="flex">
-                                <div className="border-r border-border p-3">
+                                <div className="border-e border-border p-3">
                                     <div className="mb-2 text-center text-sm font-medium">{t('Start Date & Time')}</div>
                                     <DatePicker
                                         selected={startDate}

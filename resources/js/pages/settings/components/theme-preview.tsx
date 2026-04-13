@@ -48,7 +48,7 @@ export function ThemePreview({
     const isRTL = layoutDirection === 'rtl';
 
     const getSidebarStyles = () => {
-        let baseClasses = 'w-16 border-r flex flex-col py-3 px-2 gap-2';
+        let baseClasses = 'w-16 border-e flex flex-col py-3 px-2 gap-2';
 
         if (sidebarStyle === 'colored') {
             baseClasses += ' text-background';

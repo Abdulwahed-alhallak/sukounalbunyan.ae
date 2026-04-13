@@ -53,7 +53,7 @@ export default function FrontendHeader({ userSlug, brandSettings, currentPage }:
                                     }
                                 }}
                             >
-                                <Briefcase className="mr-2 h-4 w-4" />
+                                <Briefcase className="me-2 h-4 w-4" />
                                 {t('Browse Jobs')}
                             </Button>
                         ) : (
@@ -69,7 +69,7 @@ export default function FrontendHeader({ userSlug, brandSettings, currentPage }:
                                     }
                                 }}
                             >
-                                <Search className="mr-2 h-4 w-4" />
+                                <Search className="me-2 h-4 w-4" />
                                 {t('Track Application')}
                             </Button>
                         )}

@@ -79,7 +79,7 @@ export default function SupportInformation({ supportInformation }: SupportInform
                             <div className="flex items-center justify-between">
                                 <CardTitle>{t('Support Information')}</CardTitle>
                                 <Button type="submit" disabled={processing} form="support-information-form">
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="me-2 h-4 w-4" />
                                     {processing ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>

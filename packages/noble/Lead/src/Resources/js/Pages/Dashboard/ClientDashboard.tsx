@@ -165,7 +165,7 @@ export default function ClientDashboard({
                                                         {deal.stage?.name}
                                                     </p>
                                                 </div>
-                                                <div className="text-right">
+                                                <div className="text-end">
                                                     <p className="text-xs text-muted-foreground">
                                                         {formatDate(deal.created_at)}
                                                     </p>

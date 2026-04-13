@@ -60,7 +60,7 @@ export default function MarketplaceDedication({
                                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                         {section.keyPoints?.map((point: string, pointIndex: number) => (
                                             <div key={pointIndex} className="flex items-center font-medium text-white">
-                                                <div className="mr-3 h-2 w-2 rounded-full bg-neutral-500"></div>
+                                                <div className="me-3 h-2 w-2 rounded-full bg-neutral-500"></div>
                                                 {point}
                                             </div>
                                         ))}

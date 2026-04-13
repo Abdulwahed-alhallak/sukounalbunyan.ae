@@ -158,7 +158,7 @@ export default function View({ offer, onClose }: ViewProps) {
                             <p className="mb-1 text-sm font-medium text-muted-foreground">{t('Expires')}</p>
                             <p className={isExpired ? 'font-bold text-destructive' : 'text-foreground'}>
                                 {formatDate(offer.expiration_date) || t('No limit')}
-                                {isExpired && <span className="ml-2 text-xs font-bold">{t('EXPIRED')}</span>}
+                                {isExpired && <span className="ms-2 text-xs font-bold">{t('EXPIRED')}</span>}
                             </p>
                         </div>
                     </div>
@@ -207,7 +207,7 @@ export default function View({ offer, onClose }: ViewProps) {
                         className="bg-foreground hover:bg-foreground/80"
                         disabled={offer.approval_status === 'approved'}
                     >
-                        <CheckCircle className="mr-2 h-4 w-4" />
+                        <CheckCircle className="me-2 h-4 w-4" />
                         {t('Approve')}
                     </Button>
                     <Button
@@ -215,7 +215,7 @@ export default function View({ offer, onClose }: ViewProps) {
                         className="bg-destructive hover:bg-destructive/80"
                         disabled={offer.approval_status === 'rejected'}
                     >
-                        <X className="mr-2 h-4 w-4" />
+                        <X className="me-2 h-4 w-4" />
                         {t('Reject')}
                     </Button>
                 </DialogFooter>

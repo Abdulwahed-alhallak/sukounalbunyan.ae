@@ -47,7 +47,7 @@ export default function View({ interviewfeedback }: ViewProps) {
                         }`}
                     />
                 ))}
-                <span className="ml-2 text-sm font-medium">{rating}/5</span>
+                <span className="ms-2 text-sm font-medium">{rating}/5</span>
             </div>
         );
     };
@@ -67,7 +67,7 @@ export default function View({ interviewfeedback }: ViewProps) {
                         </div>
                     </div>
                     <div
-                        className={`mr-6 rounded-full px-3 py-1 text-sm font-medium ${getBadgeColor(interviewfeedback.recommendation)}`}
+                        className={`me-6 rounded-full px-3 py-1 text-sm font-medium ${getBadgeColor(interviewfeedback.recommendation)}`}
                     >
                         {t(recommendationText)}
                     </div>

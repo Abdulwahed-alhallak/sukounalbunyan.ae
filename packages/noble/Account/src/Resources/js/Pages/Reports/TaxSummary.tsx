@@ -87,41 +87,41 @@ export default function TaxSummary({ financialYear }: any) {
                                 <tbody>
                                     <tr className="bg-muted/50">
                                         <td className="px-4 py-3 font-semibold">{t('Tax Collected (Sales)')}</td>
-                                        <td className="px-4 py-3 text-right"></td>
+                                        <td className="px-4 py-3 text-end"></td>
                                     </tr>
                                     {data.tax_collected.items?.map((item: any, idx: number) => (
                                         <tr key={idx} className="border-t hover:bg-muted/50">
                                             <td className="px-8 py-2">{item.tax_name}</td>
-                                            <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
+                                            <td className="px-4 py-2 text-end">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
                                     <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Tax Collected')}</td>
-                                        <td className="px-4 py-3 text-right">
+                                        <td className="px-4 py-3 text-end">
                                             {formatCurrency(data.tax_collected.total)}
                                         </td>
                                     </tr>
 
                                     <tr className="bg-muted/50">
                                         <td className="px-4 py-3 font-semibold">{t('Tax Paid (Purchases)')}</td>
-                                        <td className="px-4 py-3 text-right"></td>
+                                        <td className="px-4 py-3 text-end"></td>
                                     </tr>
                                     {data.tax_paid.items?.map((item: any, idx: number) => (
                                         <tr key={idx} className="border-t hover:bg-muted/50">
                                             <td className="px-8 py-2">{item.tax_name}</td>
-                                            <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
+                                            <td className="px-4 py-2 text-end">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
                                     <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Tax Paid')}</td>
-                                        <td className="px-4 py-3 text-right">{formatCurrency(data.tax_paid.total)}</td>
+                                        <td className="px-4 py-3 text-end">{formatCurrency(data.tax_paid.total)}</td>
                                     </tr>
 
                                     <tr
                                         className={`border-t-4 font-bold ${data.net_tax_liability >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}
                                     >
                                         <td className="px-4 py-4 text-lg">{t('Net Tax Liability')}</td>
-                                        <td className="px-4 py-4 text-right text-lg">
+                                        <td className="px-4 py-4 text-end text-lg">
                                             {formatCurrency(data.net_tax_liability)}
                                         </td>
                                     </tr>

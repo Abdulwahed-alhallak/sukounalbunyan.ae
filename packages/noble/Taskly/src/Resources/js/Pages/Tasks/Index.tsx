@@ -325,7 +325,7 @@ export default function Index() {
                             className="premium-button border-white/10 hover:bg-card/10"
                             onClick={() => router.get(route('project.tasks.kanban', project.id))}
                         >
-                            <Kanban className="mr-2 h-4 w-4" />
+                            <Kanban className="me-2 h-4 w-4" />
                             <span className="text-[10px] font-black uppercase tracking-widest">
                                 {t('Mission Matrix')}
                             </span>
@@ -341,13 +341,13 @@ export default function Index() {
                     <CardContent className="bg-card/[0.02] p-6">
                         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
                             <div className="group relative max-w-md flex-1">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-foreground" />
+                                <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-foreground" />
                                 <SearchInput
                                     value={filters.title}
                                     onChange={(v) => setFilters({ ...filters, title: v })}
                                     onSearch={handleFilter}
                                     placeholder={t('Search Sector...')}
-                                    className="h-11 border-white/5 bg-foreground/50 pl-10 text-xs font-bold uppercase tracking-widest transition-all focus:border-foreground/50"
+                                    className="h-11 border-white/5 bg-foreground/50 ps-10 text-xs font-bold uppercase tracking-widest transition-all focus:border-foreground/50"
                                 />
                             </div>
                             <div className="flex flex-wrap items-center gap-3">
@@ -371,7 +371,7 @@ export default function Index() {
                                         {t('Filters')}
                                     </span>
                                     {Object.values(filters).filter(Boolean).length > 0 && (
-                                        <span className="ml-1 rounded-full bg-foreground px-1.5 py-0.5 text-[8px] text-background">
+                                        <span className="ms-1 rounded-full bg-foreground px-1.5 py-0.5 text-[8px] text-background">
                                             {Object.values(filters).filter(Boolean).length}
                                         </span>
                                     )}
@@ -382,7 +382,7 @@ export default function Index() {
                                         onClick={() => openModal('add')}
                                         className="premium-button h-9 px-6"
                                     >
-                                        <Plus className="mr-2 h-4 w-4" />
+                                        <Plus className="me-2 h-4 w-4" />
                                         <span className="text-[10px] font-black uppercase tracking-widest">
                                             {t('Deploy Task')}
                                         </span>
@@ -461,7 +461,7 @@ export default function Index() {
                                             size="sm"
                                             className="h-10 flex-1 transform border border-foreground/20 bg-foreground/20 text-foreground transition-all hover:scale-105 hover:bg-foreground/30"
                                         >
-                                            <Zap className="mr-2 h-3.5 w-3.5" />
+                                            <Zap className="me-2 h-3.5 w-3.5" />
                                             <span className="text-[10px] font-black uppercase tracking-widest">
                                                 {t('Execute')}
                                             </span>

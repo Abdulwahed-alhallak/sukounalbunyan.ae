@@ -99,7 +99,7 @@ export default function Index() {
                                     />
                                 </div>
                                 <Button onClick={handleGenerate} disabled={!fromDate || !toDate} size="sm">
-                                    <Search className="mr-2 h-4 w-4" />
+                                    <Search className="me-2 h-4 w-4" />
                                     {t('Generate')}
                                 </Button>
                                 {auth.user?.permissions?.includes('print-trial-balance') && (
@@ -113,7 +113,7 @@ export default function Index() {
                                             window.open(printUrl, '_blank');
                                         }}
                                     >
-                                        <Printer className="mr-2 h-4 w-4" />
+                                        <Printer className="me-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}
@@ -155,8 +155,8 @@ export default function Index() {
                                     <div className="grid grid-cols-12 gap-4 border-b-2 border-border py-2 font-bold">
                                         <div className="col-span-2">{t('Account Code')}</div>
                                         <div className="col-span-6">{t('Account Name')}</div>
-                                        <div className="col-span-2 text-right">{t('Debit')}</div>
-                                        <div className="col-span-2 text-right">{t('Credit')}</div>
+                                        <div className="col-span-2 text-end">{t('Debit')}</div>
+                                        <div className="col-span-2 text-end">{t('Credit')}</div>
                                     </div>
                                     {trialBalance.accounts?.map((account) => (
                                         <div
@@ -167,10 +167,10 @@ export default function Index() {
                                                 <span className="text-foreground">{account.account_code}</span>
                                             </div>
                                             <div className="col-span-6 text-sm font-medium">{account.account_name}</div>
-                                            <div className="col-span-2 text-right text-sm font-semibold tabular-nums">
+                                            <div className="col-span-2 text-end text-sm font-semibold tabular-nums">
                                                 {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                             </div>
-                                            <div className="col-span-2 text-right text-sm font-semibold tabular-nums">
+                                            <div className="col-span-2 text-end text-sm font-semibold tabular-nums">
                                                 {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                             </div>
                                         </div>
@@ -179,10 +179,10 @@ export default function Index() {
 
                                 <div className="mt-3 grid grid-cols-12 gap-4 border-t-2 border-border pt-3 font-bold">
                                     <div className="col-span-8">{t('TOTAL')}</div>
-                                    <div className="col-span-2 text-right tabular-nums">
+                                    <div className="col-span-2 text-end tabular-nums">
                                         {formatCurrency(trialBalance.total_debit)}
                                     </div>
-                                    <div className="col-span-2 text-right tabular-nums">
+                                    <div className="col-span-2 text-end tabular-nums">
                                         {formatCurrency(trialBalance.total_credit)}
                                     </div>
                                 </div>

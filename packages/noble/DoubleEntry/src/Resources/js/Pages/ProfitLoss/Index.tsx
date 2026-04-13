@@ -98,7 +98,7 @@ export default function Index() {
                                     />
                                 </div>
                                 <Button onClick={handleGenerate} disabled={!fromDate || !toDate} size="sm">
-                                    <Search className="mr-2 h-4 w-4" />
+                                    <Search className="me-2 h-4 w-4" />
                                     {t('Generate')}
                                 </Button>
                                 {auth.user?.permissions?.includes('print-profit-loss') && (
@@ -112,7 +112,7 @@ export default function Index() {
                                             window.open(printUrl, '_blank');
                                         }}
                                     >
-                                        <Printer className="mr-2 h-4 w-4" />
+                                        <Printer className="me-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}

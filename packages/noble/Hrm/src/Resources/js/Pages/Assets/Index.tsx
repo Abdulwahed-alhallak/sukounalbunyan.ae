@@ -372,7 +372,7 @@ export default function Index() {
                                 setShowCreate(true);
                             }}
                         >
-                            <Plus className="mr-2 h-4 w-4" />
+                            <Plus className="me-2 h-4 w-4" />
                             {t('Add Asset')}
                         </Button>
                     </CardHeader>
@@ -383,20 +383,20 @@ export default function Index() {
                                     <table className="w-full">
                                         <thead>
                                             <tr className="border-b bg-muted/50">
-                                                <th className="p-3 text-left text-sm font-semibold">{t('Asset')}</th>
-                                                <th className="p-3 text-left text-sm font-semibold">{t('Type')}</th>
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">{t('Asset')}</th>
+                                                <th className="p-3 text-start text-sm font-semibold">{t('Type')}</th>
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Serial Number')}
                                                 </th>
-                                                <th className="p-3 text-left text-sm font-semibold">{t('Status')}</th>
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">{t('Status')}</th>
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Condition')}
                                                 </th>
-                                                <th className="p-3 text-left text-sm font-semibold">
+                                                <th className="p-3 text-start text-sm font-semibold">
                                                     {t('Assigned To')}
                                                 </th>
-                                                <th className="p-3 text-left text-sm font-semibold">{t('Cost')}</th>
-                                                <th className="p-3 text-right text-sm font-semibold">{t('Actions')}</th>
+                                                <th className="p-3 text-start text-sm font-semibold">{t('Cost')}</th>
+                                                <th className="p-3 text-end text-sm font-semibold">{t('Actions')}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -446,7 +446,7 @@ export default function Index() {
                                                                 ? formatCurrency(asset.purchase_cost)
                                                                 : '—'}
                                                         </td>
-                                                        <td className="p-3 text-right">
+                                                        <td className="p-3 text-end">
                                                             <div className="flex items-center justify-end gap-1">
                                                                 <TooltipProvider>
                                                                     <Tooltip>
