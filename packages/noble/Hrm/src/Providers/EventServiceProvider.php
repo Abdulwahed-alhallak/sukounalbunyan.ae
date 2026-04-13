@@ -7,15 +7,17 @@ use Noble\Hrm\Listeners\DataDefault;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Events\GivePermissionToRole;
 use Noble\Hrm\Listeners\GiveRoleToPermission;
+use App\Events\CreateUser;
+use Noble\Hrm\Listeners\CreateEmployeeFromUser;
 
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        \App\Events\DefaultData::class => [
-            \Noble\Hrm\Listeners\DataDefault::class
+        DefaultData::class => [
+            DataDefault::class
         ],
-        \App\Events\CreateUser::class => [
-            \Noble\Hrm\Listeners\CreateEmployeeFromUser::class
+        CreateUser::class => [
+            CreateEmployeeFromUser::class
         ],
          GivePermissionToRole::class => [
             GiveRoleToPermission::class,

@@ -18,7 +18,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import { useAllMenuItems } from '@/utils/menu';
 import { useTranslation } from 'react-i18next';
-import { useBrand } from '@/contexts/brand-context';
+import { useBrand, BrandSettings } from '@/contexts/brand-context';
 import { useTheme } from 'next-themes';
 import { ApplicationLogo } from './application-logo';
 

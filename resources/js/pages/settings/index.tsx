@@ -89,10 +89,12 @@ export default function Settings() {
                                     <section key={sectionId} id={sectionId} className="mb-8">
                                         <Suspense fallback={<div className="p-4">Loading...</div>}>
                                             <Component
-                                                userSettings={globalSettings}
-                                                auth={auth}
-                                                emailProviders={emailProviders}
-                                                cacheSize={cacheSize}
+                                                {...({
+                                                    userSettings: globalSettings,
+                                                    auth: auth,
+                                                    emailProviders: emailProviders,
+                                                    cacheSize: cacheSize,
+                                                } as any)}
                                             />
                                         </Suspense>
                                     </section>
