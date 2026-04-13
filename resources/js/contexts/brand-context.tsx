@@ -3,10 +3,11 @@ import { usePage } from '@inertiajs/react';
 import { getImagePath } from '@/utils/helpers';
 import { useTranslation } from 'react-i18next';
 
-interface BrandSettings {
+export interface BrandSettings {
     logo_dark?: string;
     logo_light?: string;
     favicon?: string;
+    fontFamily?: string;
     titleText?: string;
     footerText?: string;
     layoutDirection?: string;
@@ -40,6 +41,7 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         logo_dark: globalSettings?.logo_dark || '',
         logo_light: globalSettings?.logo_light || '',
         favicon: globalSettings?.favicon || '',
+        fontFamily: globalSettings?.font_family || '',
         titleText: globalSettings?.titleText || 'Noble Architecture',
         footerText:
             globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
@@ -85,11 +87,14 @@ export function BrandProvider({ children }: { children: ReactNode }) {
             document.body.classList.remove('light', 'dark');
         }
 
-        // Set Font Family — always enforce Geist Sans as the base
-        const fontStack = 'Geist Sans, IBM Plex Sans Arabic, system-ui, sans-serif';
+        // Set Font Family dynamically from settings, or fallback to default
+        const fontStack = settings.fontFamily 
+            ? `${settings.fontFamily}, 'IBM Plex Sans Arabic', system-ui, sans-serif`
+            : "'Geist Sans', 'IBM Plex Sans Arabic', system-ui, sans-serif";
+            
         document.body.style.fontFamily = fontStack;
         document.documentElement.style.fontFamily = fontStack;
-    }, [settings.layoutDirection, settings.themeMode]);
+    }, [settings.layoutDirection, settings.themeMode, settings.fontFamily]);
 
     const getCompleteSidebarProps = () => {
         return {

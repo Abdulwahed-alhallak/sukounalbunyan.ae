@@ -57,6 +57,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
             userSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
         layoutDirection: userSettings?.layoutDirection || 'ltr',
         themeMode: userSettings?.themeMode || 'light',
+        fontFamily: userSettings?.fontFamily || 'Geist Sans',
     });
 
     // Update settings when userSettings prop changes
@@ -72,6 +73,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                     `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
                 layoutDirection: userSettings?.layoutDirection || 'ltr',
                 themeMode: userSettings?.themeMode || 'light',
+                fontFamily: userSettings?.fontFamily || 'Geist Sans',
             });
         }
     }, [userSettings]);
@@ -390,6 +392,38 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                     )}
                                                 </Button>
                                             </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Typography Section */}
+                                    <div className="space-y-4">
+                                        <div className="flex items-center">
+                                            <FileText className="mr-2 h-5 w-5 text-muted-foreground" />
+                                            <h3 className="text-base font-medium">{t('Typography')}</h3>
+                                        </div>
+                                        <Separator className="my-2" />
+
+                                        <div className="space-y-2">
+                                            <Label className="mb-2 block">{t('Application Font')}</Label>
+                                            <Select
+                                                value={settings.fontFamily || 'Geist Sans'}
+                                                onValueChange={(value) => handleSelectChange('fontFamily', value)}
+                                            >
+                                                <SelectTrigger className="w-[300px]">
+                                                    <SelectValue placeholder={t('Select font family')} />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Geist Sans">Geist Sans (UI Default)</SelectItem>
+                                                    <SelectItem value="'Inter', sans-serif">Inter (Modern & Clean)</SelectItem>
+                                                    <SelectItem value="'Outfit', sans-serif">Outfit (Geometric)</SelectItem>
+                                                    <SelectItem value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (Premium)</SelectItem>
+                                                    <SelectItem value="'Poppins', sans-serif">Poppins (Playful & Round)</SelectItem>
+                                                    <SelectItem value="'Roboto', sans-serif">Roboto (Corporate)</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <p className="text-xs text-muted-foreground mt-2">
+                                                {t('The selected font family will instantly apply across all ecosystem dashboards globally')}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
