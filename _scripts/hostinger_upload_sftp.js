@@ -9,8 +9,8 @@ conn.on('ready', () => {
     conn.sftp((err, sftp) => {
         if (err) throw err;
         
-        const localFile = 'public_build.tar.gz';
-        const remoteFile = 'domains/noble.dion.sy/public_html/public_build.tar.gz';
+        const localFile = 'noble_production_ecosystem.tar.gz';
+        const remoteFile = 'domains/noble.dion.sy/public_html/noble_production_ecosystem.tar.gz';
         
         console.log(`Starting massive upload: ${localFile} -> ${remoteFile}`);
         
@@ -18,7 +18,7 @@ conn.on('ready', () => {
             if (err) throw err;
             console.log('Upload complete. Triggering fast extraction...');
             
-            conn.exec('cd domains/noble.dion.sy/public_html && tar -xzf public_build.tar.gz && rm public_build.tar.gz', (err, stream) => {
+            conn.exec('cd domains/noble.dion.sy/public_html && tar -xzf noble_production_ecosystem.tar.gz && rm noble_production_ecosystem.tar.gz', (err, stream) => {
                 if (err) throw err;
                 stream.on('close', (code, signal) => {
                     console.log(`React VITE UI Updated Successfully with code ${code}.`);
