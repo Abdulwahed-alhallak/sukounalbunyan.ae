@@ -13,8 +13,8 @@ else
     git remote set-url origin ${repoUrl}
 fi &&
 echo "--- 2. FETCHING FROM GITHUB ---" &&
-git fetch origin main &&
-git reset --hard origin/main &&
+git fetch origin master &&
+git reset --hard origin/master &&
 echo "--- 3. INSTALLING DEPENDENCIES ---" &&
 composer install --no-dev --optimize-autoloader &&
 echo "--- 4. MIGRATING DATABASE ---" &&

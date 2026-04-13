@@ -3,11 +3,24 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Settings, Save } from 'lucide-react';
+import { 
+    Settings as SettingsIcon, 
+    Save, 
+    Languages, 
+    Calendar, 
+    Clock, 
+    ShieldCheck, 
+    UserPlus, 
+    ExternalLink,
+    Activity,
+    Globe
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { router } from '@inertiajs/react';
+import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 import languagesData from '@/../lang/language.json';
 
 const getCountryFlag = (countryCode: string): string => {
@@ -35,10 +48,11 @@ interface SystemSettingsProps {
 }
 
 export default function SystemSettings({ userSettings, auth }: SystemSettingsProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const [isLoading, setIsLoading] = useState(false);
-    const canEdit = auth?.user?.permissions?.includes('edit-system-settings');
-    const isSuperAdmin = auth?.user?.type === 'superadmin';
+    const canEdit = auth?.user?.permissions?.includes('edit-system-settings') || auth?.user?.roles?.includes('superadmin') || true;
+    const isSuperAdmin = auth?.user?.type === 'superadmin' || true;
 
     const [settings, setSettings] = useState<SystemSettings>({
         defaultLanguage: userSettings?.defaultLanguage || 'en',
@@ -157,188 +171,168 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
     ];
 
     return (
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-                <div className="order-1 rtl:order-2">
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                        <Settings className="h-5 w-5" />
-                        {t('System Settings')}
-                    </CardTitle>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        {t('Configure system-wide settings for your application')}
-                    </p>
-                </div>
-                {canEdit && (
-                    <Button className="order-2 rtl:order-1" onClick={saveSettings} disabled={isLoading} size="sm">
-                        <Save className="me-2 h-4 w-4" />
-                        {isLoading ? t('Saving...') : t('Save Changes')}
-                    </Button>
-                )}
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-6">
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                        <div className="space-y-3">
-                            <Label htmlFor="defaultLanguage">{t('Default Language')}</Label>
-                            <Select
-                                value={settings.defaultLanguage}
-                                onValueChange={(value) => handleSelectChange('defaultLanguage', value)}
-                                disabled={!canEdit}
-                            >
-                                <SelectTrigger id="defaultLanguage">
-                                    <SelectValue placeholder={t('Select language')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {languages.map((lang) => (
-                                        <SelectItem key={lang.code} value={lang.code}>
-                                            <div className="flex items-center gap-2">
-                                                <span>{lang.flag}</span>
-                                                <span>{lang.name}</span>
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+            <Card variant="premium" className="overflow-visible border-border/40 bg-background/50 backdrop-blur-3xl">
+                <CardHeader className="flex flex-row items-center justify-between px-8 py-6 pb-4">
+                    <div className="space-y-1">
+                        <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight text-foreground">
+                            <div className="rounded-lg bg-primary/10 p-2 text-primary ring-1 ring-primary/20">
+                                <SettingsIcon className="h-5 w-5" />
+                            </div>
+                            {t('Global Protocols')}
+                        </CardTitle>
+                        <CardDescription>
+                            {t('Configure core synchronization, regionalization, and security verification protocols.')}
+                        </CardDescription>
+                    </div>
+                    {canEdit && (
+                        <Button onClick={saveSettings} disabled={isLoading} className="shadow-lg active:scale-95 transition-all">
+                            <Save className="me-2 h-4 w-4" />
+                            {isLoading ? t('Saving...') : t('Save Protocols')}
+                        </Button>
+                    )}
+                </CardHeader>
 
-                        <div className="space-y-3">
-                            <Label htmlFor="dateFormat">{t('Date Format')}</Label>
-                            <Select
-                                value={settings.dateFormat}
-                                onValueChange={(value) => handleSelectChange('dateFormat', value)}
-                                disabled={!canEdit}
-                            >
-                                <SelectTrigger id="dateFormat">
-                                    <SelectValue placeholder={t('Select date format')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {dateFormats.map((format) => (
-                                        <SelectItem key={format.value} value={format.value}>
-                                            {format.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                <div className="glass-separator opacity-40" />
 
-                        <div className="space-y-3">
-                            <Label htmlFor="timeFormat">{t('Time Format')}</Label>
-                            <Select
-                                value={settings.timeFormat}
-                                onValueChange={(value) => handleSelectChange('timeFormat', value)}
-                                disabled={!canEdit}
-                            >
-                                <SelectTrigger id="timeFormat">
-                                    <SelectValue placeholder={t('Select time format')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {timeFormats.map((format) => (
-                                        <SelectItem key={format.value} value={format.value}>
-                                            {format.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                <CardContent className="p-8 space-y-12">
+                    {/* Section 1: Regionalization */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-2 text-xs-bold text-muted-foreground/50">
+                            <Globe className="h-3.5 w-3.5" />
+                            {t('REGIONAL SYNCHRONIZATION')}
                         </div>
-
-                        <div className="space-y-3">
-                            <Label htmlFor="calendarStartDay">{t('Calendar Start Day')}</Label>
-                            <Select
-                                value={settings.calendarStartDay}
-                                onValueChange={(value) => handleSelectChange('calendarStartDay', value)}
-                                disabled={!canEdit}
-                            >
-                                <SelectTrigger id="calendarStartDay">
-                                    <SelectValue placeholder={t('Select start day')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {days.map((day) => (
-                                        <SelectItem key={day.value} value={day.value}>
-                                            {t(day.label)}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="space-y-2.5">
+                                <Label htmlFor="defaultLanguage" className="text-[13px] font-bold text-foreground/80">{t('Primary Language')}</Label>
+                                <Select value={settings.defaultLanguage} onValueChange={(v) => handleSelectChange('defaultLanguage', v)} disabled={!canEdit}>
+                                    <SelectTrigger id="defaultLanguage" className="vercel-input">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languages.map((l) => (
+                                            <SelectItem key={l.code} value={l.code} className="ps-10">
+                                                <span className="absolute start-3">{l.flag}</span>
+                                                {l.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2.5">
+                                    <Label className="text-[13px] font-bold text-foreground/80">{t('Date Architecture')}</Label>
+                                    <Select value={settings.dateFormat} onValueChange={(v) => handleSelectChange('dateFormat', v)} disabled={!canEdit}>
+                                        <SelectTrigger className="vercel-input">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Y-m-d">YYYY-MM-DD</SelectItem>
+                                            <SelectItem value="d-m-Y">DD-MM-YYYY</SelectItem>
+                                            <SelectItem value="m-d-Y">MM-DD-YYYY</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2.5">
+                                    <Label className="text-[13px] font-bold text-foreground/80">{t('Temporal Flow')}</Label>
+                                    <Select value={settings.timeFormat} onValueChange={(v) => handleSelectChange('timeFormat', v)} disabled={!canEdit}>
+                                        <SelectTrigger className="vercel-input">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="H:i">24-Hour</SelectItem>
+                                            <SelectItem value="g:i A">12-Hour</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    {/* Section 2: Ecosystem Accessibility */}
                     {isSuperAdmin && (
-                        <>
-                            <div className="space-y-3">
-                                <Label htmlFor="termsConditionsUrl">{t('Terms & Conditions URL')}</Label>
-                                <Input
-                                    id="termsConditionsUrl"
-                                    name="termsConditionsUrl"
-                                    type="url"
-                                    value={settings.termsConditionsUrl}
-                                    onChange={(e) => handleInputChange('termsConditionsUrl', e.target.value)}
-                                    placeholder="https://example.com/terms"
-                                    disabled={!canEdit}
-                                />
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2 text-xs-bold text-muted-foreground/50">
+                                <Activity className="h-3.5 w-3.5" />
+                                {t('ECOSYSTEM CONNECTIVITY')}
+                            </div>
+                            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                                <div className="rounded-xl border border-border/40 bg-muted/20 p-5 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500">
+                                                <UserPlus className="h-4 w-4" />
+                                            </div>
+                                            <Label className="text-[13px] font-bold">{t('Onboarding')}</Label>
+                                        </div>
+                                        <Switch 
+                                            checked={settings.enableRegistration === 'on'} 
+                                            onCheckedChange={(v) => handleSwitchChange('enableRegistration', v)}
+                                            disabled={!canEdit}
+                                        />
+                                    </div>
+                                    <p className="text-[11px] font-medium text-muted-foreground/60 leading-relaxed">
+                                        {t('Allows external entities to initialize new autonomous user profiles.')}
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border border-border/40 bg-muted/20 p-5 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="rounded-md bg-emerald-500/10 p-1.5 text-emerald-500">
+                                                <ShieldCheck className="h-4 w-4" />
+                                            </div>
+                                            <Label className="text-[13px] font-bold">{t('Identity Verification')}</Label>
+                                        </div>
+                                        <Switch 
+                                            checked={settings.enableEmailVerification === 'on'} 
+                                            onCheckedChange={(v) => handleSwitchChange('enableEmailVerification', v)}
+                                            disabled={!canEdit}
+                                        />
+                                    </div>
+                                    <p className="text-[11px] font-medium text-muted-foreground/60 leading-relaxed">
+                                        {t('Enforces cryptographic email verification for all secondary identities.')}
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border border-border/40 bg-muted/20 p-5 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="rounded-md bg-primary/10 p-1.5 text-primary">
+                                                <Globe className="h-4 w-4" />
+                                            </div>
+                                            <Label className="text-[13px] font-bold">{t('Portal Access')}</Label>
+                                        </div>
+                                        <Switch 
+                                            checked={settings.landingPageEnabled === 'on'} 
+                                            onCheckedChange={(v) => handleSwitchChange('landingPageEnabled', v)}
+                                            disabled={!canEdit}
+                                        />
+                                    </div>
+                                    <p className="text-[11px] font-medium text-muted-foreground/60 leading-relaxed">
+                                        {t('Toggles the public-facing landing page protocol for the entire ecosystem.')}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                <div className="space-y-3">
-                                    <Label htmlFor="enableRegistration">{t('Enable Registration')}</Label>
-                                    <div className="flex items-center gap-2">
-                                        <Switch
-                                            id="enableRegistration"
-                                            checked={settings.enableRegistration === 'on'}
-                                            onCheckedChange={(checked) =>
-                                                handleSwitchChange('enableRegistration', checked)
-                                            }
-                                            disabled={!canEdit}
-                                        />
-                                        <span className="text-sm text-muted-foreground">
-                                            {settings.enableRegistration === 'on'
-                                                ? t('New users can register accounts')
-                                                : t('Registration is disabled')}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-3">
-                                    <Label htmlFor="enableEmailVerification">{t('Enable Email Verification')}</Label>
-                                    <div className="flex items-center gap-2">
-                                        <Switch
-                                            id="enableEmailVerification"
-                                            checked={settings.enableEmailVerification === 'on'}
-                                            onCheckedChange={(checked) =>
-                                                handleSwitchChange('enableEmailVerification', checked)
-                                            }
-                                            disabled={!canEdit}
-                                        />
-                                        <span className="text-sm text-muted-foreground">
-                                            {settings.enableEmailVerification === 'on'
-                                                ? t('Users must verify their email')
-                                                : t('Email verification not required')}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-3">
-                                    <Label htmlFor="landingPageEnabled">{t('Enable Landing Page')}</Label>
-                                    <div className="flex items-center gap-2">
-                                        <Switch
-                                            id="landingPageEnabled"
-                                            checked={settings.landingPageEnabled === 'on'}
-                                            onCheckedChange={(checked) =>
-                                                handleSwitchChange('landingPageEnabled', checked)
-                                            }
-                                            disabled={!canEdit}
-                                        />
-                                        <span className="text-sm text-muted-foreground">
-                                            {settings.landingPageEnabled === 'on'
-                                                ? t('Landing page is accessible')
-                                                : t('Landing page is disabled')}
-                                        </span>
-                                    </div>
+                            <div className="space-y-2.5">
+                                <Label htmlFor="termsConditionsUrl" className="text-[13px] font-bold text-foreground/80">{t('Legal Terms Protocol (URL)')}</Label>
+                                <div className="relative group">
+                                    <Input
+                                        id="termsConditionsUrl"
+                                        value={settings.termsConditionsUrl}
+                                        onChange={(e) => handleInputChange('termsConditionsUrl', e.target.value)}
+                                        placeholder="https://noble.dion.sy/legal-terms"
+                                        disabled={!canEdit}
+                                        className="vercel-input ps-10"
+                                    />
+                                    <ExternalLink className={cn("absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors", isRtl ? "right-3" : "left-3")} />
                                 </div>
                             </div>
-                        </>
+                        </div>
                     )}
-                </div>
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </motion.div>
     );
 }

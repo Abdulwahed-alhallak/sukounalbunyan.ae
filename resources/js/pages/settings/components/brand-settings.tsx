@@ -128,8 +128,8 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
     return (
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-            <Card className="relative overflow-hidden border-border/40 bg-background/50 backdrop-blur-2xl shadow-sm transition-all duration-500 hover:shadow-lg dark:bg-black/20">
-                <div className="absolute inset-x-0 -top-px h-[2px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-70" />
+            <Card variant="premium" className="overflow-visible border-border/40 bg-background/50 backdrop-blur-3xl shadow-sm transition-all duration-500 hover:shadow-lg dark:bg-black/20">
+                <div className="absolute inset-x-0 -top-px h-[2px] w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-40" />
                 
                 <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 px-8 py-6 pb-4">
                     <div className="space-y-1">
@@ -137,10 +137,10 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                             <div className="rounded-lg bg-primary/10 p-2 text-primary ring-1 ring-primary/20">
                                 <Palette className="h-5 w-5" />
                             </div>
-                            {t('Brand Settings')}
+                            {t('Brand Identity')}
                         </CardTitle>
                         <CardDescription className="text-[14px]">
-                            {t("Customize your enterprise ecosystem's branding, layout, and visual identity.")}
+                            {t("Customize your enterprise ecosystem's visual hierarchy, typography, and brand core.")}
                         </CardDescription>
                     </div>
                     {canEdit && (
@@ -149,19 +149,18 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                 onClick={saveSettings} 
                                 disabled={isLoading} 
                                 size="default"
-                                className="relative overflow-hidden shadow-md transition-transform active:scale-95"
+                                className="shadow-lg active:scale-95 transition-all"
                             >
-                                <span className="absolute inset-0 bg-white/20 hover:bg-transparent transition-colors z-0"></span>
-                                <Save className="me-2 h-4 w-4 relative z-10" />
-                                <span className="relative z-10 font-semibold">{isLoading ? t('Saving...') : t('Save Changes')}</span>
+                                <Save className="me-2 h-4 w-4" />
+                                <span className="font-bold tracking-tight">{isLoading ? t('Saving...') : t('Save Brand')}</span>
                             </Button>
                         </div>
                     )}
                 </CardHeader>
                 
-                <Separator className="bg-border/40" />
+                <div className="glass-separator opacity-40" />
 
-                <CardContent className="p-8">
+                <CardContent className="p-8 pb-12">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
                         <div className="lg:col-span-8 flex flex-col space-y-8">
                             

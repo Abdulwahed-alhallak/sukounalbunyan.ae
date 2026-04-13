@@ -50,7 +50,7 @@ export default function Dashboard() {
                             <Briefcase className="h-4 w-4 text-primary" strokeWidth={2.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold tracking-tighter">12</h4>
+                            <div className="text-2xl font-bold tracking-tighter">12</div>
                             <div className="mt-1 flex items-center gap-1.5">
                                 <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 py-0 px-1 text-[10px] font-bold">
                                     <TrendingUp className="me-1 h-3 w-3" />
@@ -67,7 +67,7 @@ export default function Dashboard() {
                             <Users className="h-4 w-4 text-geist-purple" strokeWidth={2.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold tracking-tighter">840</h4>
+                            <div className="text-2xl font-bold tracking-tighter">840</div>
                             <div className="mt-1 flex items-center gap-1.5">
                                 <Badge variant="secondary" className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 py-0 px-1 text-[10px] font-bold">
                                     <Activity className="me-1 h-3 w-3" />
@@ -84,7 +84,7 @@ export default function Dashboard() {
                             <Zap className="h-4 w-4 text-amber-500" strokeWidth={2.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold tracking-tighter">99.9%</h4>
+                            <div className="text-2xl font-bold tracking-tighter">99.9%</div>
                             <div className="mt-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-emerald-500">
                                 <span className="relative flex h-2 w-2">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -101,7 +101,7 @@ export default function Dashboard() {
                             <Clock className="h-4 w-4 text-muted-foreground" strokeWidth={2.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold tracking-tighter">#1</h4>
+                            <div className="text-2xl font-bold tracking-tighter">#1</div>
                             <div className="mt-1 text-[11px] font-medium text-muted-foreground/60">
                                 {t('Top percentile in Saudi region')}
                             </div>
