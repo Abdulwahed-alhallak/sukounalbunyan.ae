@@ -11,6 +11,14 @@
 
         <title inertia>{{ config('app.name', 'Noble Architecture') }}</title>
 
+        <!-- Progressive Web App (PWA) Tags -->
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#09090b">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Noble ERP">
+        <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
+
         <!-- Fonts: Geist (Vercel) + IBM Plex Sans Arabic (Arabic) -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +46,17 @@
                     root.classList.remove('dark');
                 }
             })();
+
+            // Register Service Worker for PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                        console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                        console.log('PWA ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
         </script>
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx'])
