@@ -61,7 +61,7 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
             .trim();
     };
 
-    const { data, setData, post, put, processing, errors } = useForm({
+    const { data, setData, post, transform, processing, errors } = useForm({
         name: plan?.name || '',
         description: plan?.description || '',
         number_of_users: plan?.number_of_users || 1,
@@ -82,14 +82,12 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
         e.preventDefault();
 
         if (isEdit && plan) {
+            transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            }));
             post(route('plans.update', plan.id), {
                 forceFormData: true,
-                onSuccess: () => {},
-                // @ts-ignore
-                transform: (data) => ({
-                    ...data,
-                    _method: 'PUT',
-                }),
             });
         } else {
             post(route('plans.store'), {
