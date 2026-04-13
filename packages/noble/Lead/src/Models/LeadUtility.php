@@ -43,7 +43,7 @@ class LeadUtility extends Model
                 if (empty($pipeline)) {
                     $pipeline = new Pipeline();
                     $pipeline->name = $pipeline_name;
-                    $pipeline->creator_id = 1;                    
+                    $pipeline->creator_id = !empty($company_id) ? $company_id : 2;                    
                     $pipeline->created_by = !empty($company_id) ? $company_id : 2;
                     $pipeline->save();
                 }
@@ -59,7 +59,7 @@ class LeadUtility extends Model
                         $leadStage->name = $stage_name;
                         $leadStage->pipeline_id = $pipeline->id;
                         $leadStage->order = $index + 1;
-                        $leadStage->creator_id = 1;
+                        $leadStage->creator_id = !empty($company_id) ? $company_id : 2;
                         $leadStage->created_by = !empty($company_id) ? $company_id : 2;
                         $leadStage->save();
                     }
@@ -76,7 +76,7 @@ class LeadUtility extends Model
                         $dealStage->name = $stage_name;
                         $dealStage->pipeline_id = $pipeline->id;
                         $dealStage->order = $index + 1;
-                        $dealStage->creator_id = 1;
+                        $dealStage->creator_id = !empty($company_id) ? $company_id : 2;
                         $dealStage->created_by = !empty($company_id) ? $company_id : 2;
                         $dealStage->save();
                     }
