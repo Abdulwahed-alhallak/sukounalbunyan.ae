@@ -168,7 +168,7 @@ const superAdminCategories = [
     { label: 'Support', icon: Headphones, matches: ['helpdesk'] },
     { label: 'Communications', icon: Mail, matches: ['email-templates', 'notification-templates'] },
     { label: 'Reports & Audit', icon: BarChart3, matches: ['report-center', 'audit-logs'] },
-    { label: 'System', icon: Wrench, matches: ['media-library', 'add-ons', 'settings'] },
+    { label: 'System', icon: Wrench, matches: ['media-library', 'add-ons', 'settings', 'landingpage', 'googlecaptcha'] },
 ];
 
 const companyCategories = [
@@ -188,7 +188,7 @@ const companyCategories = [
     {
         label: 'Finance & Accounting',
         icon: DollarSign,
-        matches: ['sales-invoice', 'purchase', 'account', 'doubleentry', 'budgetplanner', 'pos', 'stripe', 'paypal'],
+        matches: ['sales-invoice', 'purchase', 'account', 'doubleentry', 'budgetplanner', 'pos', 'stripe', 'paypal', 'bank-transfer'],
         titleMatches: [
             'Accounting',
             'Sales Invoice',
@@ -241,7 +241,7 @@ const companyCategories = [
     {
         label: 'Settings',
         icon: Settings,
-        matches: ['plan', 'media-library', 'settings'],
+        matches: ['plan', 'media-library', 'settings', 'landingpage', 'googlecaptcha'],
         titleMatches: ['Plan', 'Media Library', 'Settings'],
     },
 ];
