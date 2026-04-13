@@ -105,13 +105,13 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
                                                 className={cn(
-                                                    'group relative h-9 rounded-lg px-2.5 transition-all duration-200 ease-in-out',
+                                                    'group relative h-9 rounded-md px-2.5 transition-all duration-150 ease-in-out',
                                                     shouldBeActive
-                                                        ? 'bg-accent/60 font-bold text-foreground ring-1 ring-border/50'
+                                                        ? 'bg-primary/5 font-bold text-primary ring-1 ring-primary/10'
                                                         : 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'
                                                 )}
                                             >
-                                                {item.icon && <item.icon className="h-4 w-4" strokeWidth={2} />}
+                                                {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
                                                 <span className="ms-2.5 flex-1 text-[13px] tracking-tight">{t(item.title)}</span>
                                                 <ChevronRight
                                                     className={cn(
@@ -122,118 +122,27 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                             </SidebarMenuButton>
                                         </CollapsibleTrigger>
                                         <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                                            <SidebarMenuSub className="ms-4.5 mt-1 border-s border-border/40 ps-0 rtl:ms-0 rtl:me-4.5 rtl:border-s-0 rtl:border-e rtl:ps-0 rtl:pe-0">
+                                            <SidebarMenuSub className="ms-4 mt-1 border-s border-border/40 ps-0 rtl:ms-0 rtl:me-4 rtl:border-s-0 rtl:border-e rtl:pe-0">
                                                 {item.children.map((subItem, subIndex) => {
                                                     const subItemActive = !!(
                                                         subItem.href &&
-                                                        page.url ===
-                                                            new URL(subItem.href, window.location.origin).pathname
+                                                        page.url === new URL(subItem.href, window.location.origin).pathname
                                                     );
-                                                    const hasActiveSubChild = subItem.children
-                                                        ? isChildActive(subItem.children)
-                                                        : false;
-                                                    const subItemShouldBeActive = subItemActive || hasActiveSubChild;
-
-                                                    if (subItem.children && subItem.children.length > 0) {
-                                                        return (
-                                                            <SidebarMenuSubItem key={`sub-${subItem.title}-${subIndex}`}>
-                                                                <Collapsible
-                                                                    asChild
-                                                                    defaultOpen={subItemShouldBeActive}
-                                                                    className="group/subcollapsible"
-                                                                >
-                                                                    <div>
-                                                                        <CollapsibleTrigger asChild>
-                                                                            <SidebarMenuSubButton
-                                                                                isActive={subItemShouldBeActive}
-                                                                                className={cn(
-                                                                                    'transition-colors duration-150',
-                                                                                    subItemShouldBeActive
-                                                                                        ? 'font-medium text-foreground'
-                                                                                        : 'text-muted-foreground hover:text-foreground'
-                                                                                )}
-                                                                            >
-                                                                                {subItem.icon && (
-                                                                                    <subItem.icon
-                                                                                        className="h-3.5 w-3.5"
-                                                                                        strokeWidth={1.5}
-                                                                                    />
-                                                                                )}
-                                                                                <span>{t(subItem.title)}</span>
-                                                                                <ChevronRight
-                                                                                    className={cn(
-                                                                                        'ms-auto h-3 w-3 text-muted-foreground/50 transition-transform duration-200 group-data-[state=open]/subcollapsible:rotate-90',
-                                                                                        'rtl:rotate-180 rtl:group-data-[state=open]/subcollapsible:rotate-270'
-                                                                                    )}
-                                                                                />
-                                                                            </SidebarMenuSubButton>
-                                                                        </CollapsibleTrigger>
-                                                                        <CollapsibleContent>
-                                                                            <SidebarMenuSub className="ms-3 border-s border-border/30">
-                                                                                {subItem.children.map((subSubItem, subSubIndex) => (
-                                                                                    <SidebarMenuSubItem
-                                                                                        key={`subsub-${subSubItem.title}-${subSubIndex}`}
-                                                                                    >
-                                                                                        <SidebarMenuSubButton
-                                                                                            asChild
-                                                                                            className={cn(
-                                                                                                'text-label-12 transition-all duration-200 ease-out',
-                                                                                                !!(
-                                                                                                    subSubItem.href &&
-                                                                                                    page.url ===
-                                                                                                        new URL(
-                                                                                                            subSubItem.href,
-                                                                                                            window
-                                                                                                                .location
-                                                                                                                .origin
-                                                                                                        ).pathname
-                                                                                                )
-                                                                                                    ? 'font-semibold text-foreground'
-                                                                                                    : 'text-muted-foreground hover:text-foreground'
-                                                                                            )}
-                                                                                        >
-                                                                                            <Link
-                                                                                                href={subSubItem.href!}
-                                                                                            >
-                                                                                                {subSubItem.icon && (
-                                                                                                    <subSubItem.icon
-                                                                                                        className="h-3 w-3"
-                                                                                                        strokeWidth={
-                                                                                                            1.5
-                                                                                                        }
-                                                                                                    />
-                                                                                                )}
-                                                                                                <span>
-                                                                                                    {t(
-                                                                                                        subSubItem.title
-                                                                                                    )}
-                                                                                                </span>
-                                                                                            </Link>
-                                                                                        </SidebarMenuSubButton>
-                                                                                    </SidebarMenuSubItem>
-                                                                                ))}
-                                                                            </SidebarMenuSub>
-                                                                        </CollapsibleContent>
-                                                                    </div>
-                                                                </Collapsible>
-                                                            </SidebarMenuSubItem>
-                                                        );
-                                                    }
-
+                                                    
                                                     return (
-                                                        <SidebarMenuSubItem key={`sub-link-${subItem.title}-${subIndex}`}>
+                                                        <SidebarMenuSubItem key={`sub-${subItem.title}-${subIndex}`}>
                                                             <SidebarMenuSubButton
                                                                 asChild
                                                                 isActive={subItemActive}
                                                                 className={cn(
-                                                                    'group/sub-btn h-8 rounded-md px-3 transition-all duration-200',
+                                                                    'group/sub-btn h-8 rounded-md px-3 border-s border-transparent transition-all duration-150',
                                                                     subItemActive
-                                                                        ? 'bg-primary/5 font-bold text-primary'
-                                                                        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                                                                        ? 'bg-primary/5 font-bold text-primary border-primary/20'
+                                                                        : 'text-muted-foreground hover:bg-muted/30 hover:text-foreground'
                                                                 )}
                                                             >
-                                                                <Link href={subItem.href!}>
-                                                                    <span className="text-[12px] tracking-tight">
+                                                                <Link href={subItem.href || '#'}>
+                                                                    <span className="text-[12px] tracking-tight whitespace-nowrap">
                                                                         {t(subItem.title)}
                                                                     </span>
                                                                 </Link>
@@ -253,81 +162,27 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                             <SidebarMenuButton
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
-                                                className={shouldBeActive ? 'bg-geist-gray-1 text-foreground' : ''}
+                                                className={shouldBeActive ? 'bg-primary/5 text-primary' : ''}
                                             >
                                                 {item.icon && <item.icon strokeWidth={1.5} />}
                                                 <span>{t(item.title)}</span>
                                             </SidebarMenuButton>
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent side="right" align="start" className="w-52 p-1">
-                                            {item.children.map((subItem, subIndex) => {
-                                                if (subItem.children && subItem.children.length > 0) {
-                                                    return (
-                                                        <DropdownMenu key={`drop-${subItem.title}-${subIndex}`}>
-                                                            <DropdownMenuTrigger asChild>
-                                                                <DropdownMenuItem className="flex cursor-pointer items-center gap-2 rounded-md p-2">
-                                                                    {subItem.icon && (
-                                                                        <subItem.icon
-                                                                            className="h-4 w-4 text-muted-foreground"
-                                                                            strokeWidth={1.5}
-                                                                        />
-                                                                    )}
-                                                                    <span className="flex-1 text-label-13">
-                                                                        {t(subItem.title)}
-                                                                    </span>
-                                                                    <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
-                                                                </DropdownMenuItem>
-                                                            </DropdownMenuTrigger>
-                                                            <DropdownMenuContent
-                                                                side="right"
-                                                                align="start"
-                                                                className="w-48 p-1"
-                                                            >
-                                                                {subItem.children.map((subSubItem, subSubIndex) => (
-                                                                    <DropdownMenuItem
-                                                                        key={`dropitem-${subSubItem.title}-${subSubIndex}`}
-                                                                        asChild
-                                                                        className="cursor-pointer rounded-md p-2"
-                                                                    >
-                                                                        <Link
-                                                                            href={subSubItem.href!}
-                                                                            className="flex items-center gap-2"
-                                                                        >
-                                                                            {subSubItem.icon && (
-                                                                                <subSubItem.icon
-                                                                                    className="h-3.5 w-3.5 text-muted-foreground"
-                                                                                    strokeWidth={1.5}
-                                                                                />
-                                                                            )}
-                                                                            <span className="text-label-12">
-                                                                                {t(subSubItem.title)}
-                                                                            </span>
-                                                                        </Link>
-                                                                    </DropdownMenuItem>
-                                                                ))}
-                                                            </DropdownMenuContent>
-                                                        </DropdownMenu>
-                                                    );
-                                                }
-
-                                                return (
-                                                    <DropdownMenuItem
-                                                        key={`dropitem-${subItem.title}-${subIndex}`}
-                                                        asChild
-                                                        className="cursor-pointer rounded-md p-2"
-                                                    >
-                                                        <Link href={subItem.href!} className="flex items-center gap-2">
-                                                            {subItem.icon && (
-                                                                <subItem.icon
-                                                                    className="h-4 w-4 text-muted-foreground"
-                                                                    strokeWidth={1.5}
-                                                                />
-                                                            )}
-                                                            <span className="text-label-13">{t(subItem.title)}</span>
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                );
-                                            })}
+                                        <DropdownMenuContent side="right" align="start" className="w-52 p-1 border-border/40 backdrop-blur-xl bg-background/95">
+                                            {item.children.map((subItem, subIndex) => (
+                                                <DropdownMenuItem
+                                                    key={`dropitem-${subItem.title}-${subIndex}`}
+                                                    asChild
+                                                    className="cursor-pointer rounded-md p-2"
+                                                >
+                                                    <Link href={subItem.href || '#'} className="flex items-center gap-2">
+                                                        {subItem.icon && (
+                                                            <subItem.icon className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                                                        )}
+                                                        <span className="text-label-13">{t(subItem.title)}</span>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                            ))}
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </div>
@@ -342,10 +197,10 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                 isActive={shouldBeActive}
                                 tooltip={t(item.title)}
                                 className={cn(
-                                    'h-8 rounded-md transition-all duration-200 ease-out',
+                                    'h-8 rounded-md transition-all duration-150 ease-out',
                                     shouldBeActive
-                                        ? 'bg-geist-gray-1 font-semibold text-foreground'
-                                        : 'text-muted-foreground hover:bg-geist-gray-1 hover:text-foreground'
+                                        ? 'bg-primary/5 font-semibold text-primary'
+                                        : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'
                                 )}
                             >
                                 <Link href={item.href!}>
