@@ -125,6 +125,7 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
 
     Route::prefix('hrm/employees')->name('hrm.employees.')->group(function () {
         Route::get('/expiries', [EmployeeController::class, 'expiries'])->name('expiries');
+        Route::post('/import', [EmployeeController::class, 'import'])->name('import');
         Route::get('/', [EmployeeController::class, 'index'])->name('index');
         Route::get('/create', [EmployeeController::class, 'create'])->name('create');
         Route::post('/', [EmployeeController::class, 'store'])->name('store');

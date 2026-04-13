@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Users as UsersIcon, Lock, Download, FileImage } from 'lucide-react';
+import { Plus, Edit as EditIcon, Trash2, Eye, Users as UsersIcon, Lock, Download, FileImage, Upload } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
 import { Pagination } from '@/components/ui/pagination';
@@ -81,6 +81,32 @@ export default function Index() {
             setFilteredDesignations(designations || []);
         }
     }, [filters.department_id]);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleImportClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if(confirm(t('Are you sure you want to import this CSV? Exact matches will be updated, new entries will be added.'))) {
+                const formData = new FormData();
+                formData.append('file', file);
+                router.post(route('hrm.employees.import'), formData, {
+                    onSuccess: () => {
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                    },
+                    onError: () => {
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                    }
+                });
+            } else {
+                 if (fileInputRef.current) fileInputRef.current.value = '';
+            }
+        }
+    };
 
     const pageButtons = usePageButtons('googleDriveBtn', { module: 'Employee', settingKey: 'GoogleDrive Employee' });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Employee', settingKey: 'OneDrive Employee' });
@@ -333,14 +359,32 @@ export default function Index() {
                     </div>
                     <div className="flex items-center gap-2">
                         {auth.user?.permissions?.includes('create-employees') && (
-                            <Button
-                                size="sm"
-                                onClick={() => router.visit(route('hrm.employees.create'))}
-                                className="bg-foreground font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
-                            >
-                                <Plus className="mr-2 h-4 w-4" />
-                                {t('Add Employee')}
-                            </Button>
+                            <>
+                                <input 
+                                    type="file" 
+                                    ref={fileInputRef} 
+                                    className="hidden" 
+                                    accept=".csv,.txt" 
+                                    onChange={handleFileChange} 
+                                />
+                                <Button
+                                    size="sm"
+                                    onClick={handleImportClick}
+                                    variant="outline"
+                                    className="font-medium"
+                                >
+                                    <Upload className="mr-2 h-4 w-4" />
+                                    {t('Import CSV')}
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    onClick={() => router.visit(route('hrm.employees.create'))}
+                                    className="bg-foreground font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
+                                >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    {t('Add Employee')}
+                                </Button>
+                            </>
                         )}
                         {pageButtons?.map((button) => (
                             <div key={button.id}>{button.component}</div>
