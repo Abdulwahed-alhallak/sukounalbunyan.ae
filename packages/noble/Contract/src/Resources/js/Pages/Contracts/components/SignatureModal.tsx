@@ -26,16 +26,20 @@ export default function SignatureModal({ open, onOpenChange, contractId }: Signa
         const signatureData = signatureRef.current?.toDataURL() || '';
         setIsSubmitting(true);
 
-        router.post(route('contract-signatures.store', contractId), {
-            signature_data: signatureData,
-            signature_type: 'drawn',
-        }, {
-            onSuccess: () => {
-                onOpenChange(false);
-                signatureRef.current?.clear();
+        router.post(
+            route('contract-signatures.store', contractId),
+            {
+                signature_data: signatureData,
+                signature_type: 'drawn',
             },
-            onFinish: () => setIsSubmitting(false),
-        });
+            {
+                onSuccess: () => {
+                    onOpenChange(false);
+                    signatureRef.current?.clear();
+                },
+                onFinish: () => setIsSubmitting(false),
+            }
+        );
     };
 
     const clearSignature = () => {
@@ -52,43 +56,31 @@ export default function SignatureModal({ open, onOpenChange, contractId }: Signa
                     </DialogTitle>
                 </DialogHeader>
 
-                <div className="space-y-4 my-3">
-                    <div className="border-2 border-dashed border-border rounded-lg p-4">
+                <div className="my-3 space-y-4">
+                    <div className="rounded-lg border-2 border-dashed border-border p-4">
                         <SignatureCanvas
                             ref={signatureRef}
                             canvasProps={{
                                 width: 500,
                                 height: 200,
-                                className: 'signature-canvas w-full h-48 border rounded'
+                                className: 'signature-canvas w-full h-48 border rounded',
                             }}
                         />
                     </div>
-                    <p className="text-sm text-muted-foreground text-center">
+                    <p className="text-center text-sm text-muted-foreground">
                         {t('Draw your signature in the box above')}
                     </p>
                 </div>
 
                 <div className="flex justify-between pt-4">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={clearSignature}
-                    >
+                    <Button type="button" variant="outline" onClick={clearSignature}>
                         {t('Clear')}
                     </Button>
                     <div className="flex gap-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => onOpenChange(false)}
-                        >
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                             {t('Cancel')}
                         </Button>
-                        <Button
-                            type="button"
-                            onClick={handleSubmit}
-                            disabled={isSubmitting}
-                        >
+                        <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
                             {isSubmitting ? t('Signing...') : t('Sign Contract')}
                         </Button>
                     </div>

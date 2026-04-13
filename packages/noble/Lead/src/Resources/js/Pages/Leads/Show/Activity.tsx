@@ -12,27 +12,32 @@ export default function Activity({ lead }: ActivityProps) {
     const { t } = useTranslation();
 
     return (
-        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {lead.activities && lead.activities.length > 0 ? (
                     lead.activities?.map((activity: any, index: number) => (
-                        <div key={index} className="bg-card border rounded-lg p-4 shadow-sm">
+                        <div key={index} className="rounded-lg border bg-card p-4 shadow-sm">
                             <div className="flex items-start gap-3">
                                 <div className="flex-shrink-0">
-                                    <div className="w-8 h-8 bg-foreground/10 rounded-full flex items-center justify-center">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground/10">
                                         {(() => {
                                             const remark = activity.remark || '';
-                                            if (remark.includes('task') || remark.includes('Task')) return <CheckSquare className="h-4 w-4 text-foreground" />;
-                                            if (remark.includes('email') || remark.includes('Email')) return <Mail className="h-4 w-4 text-foreground" />;
-                                            if (remark.includes('call') || remark.includes('Call')) return <Phone className="h-4 w-4 text-foreground" />;
-                                            if (remark.includes('user') || remark.includes('User')) return <Users className="h-4 w-4 text-foreground" />;
-                                            if (remark.includes('discussion') || remark.includes('Discussion')) return <MessageSquare className="h-4 w-4 text-foreground" />;
+                                            if (remark.includes('task') || remark.includes('Task'))
+                                                return <CheckSquare className="h-4 w-4 text-foreground" />;
+                                            if (remark.includes('email') || remark.includes('Email'))
+                                                return <Mail className="h-4 w-4 text-foreground" />;
+                                            if (remark.includes('call') || remark.includes('Call'))
+                                                return <Phone className="h-4 w-4 text-foreground" />;
+                                            if (remark.includes('user') || remark.includes('User'))
+                                                return <Users className="h-4 w-4 text-foreground" />;
+                                            if (remark.includes('discussion') || remark.includes('Discussion'))
+                                                return <MessageSquare className="h-4 w-4 text-foreground" />;
                                             return <ActivityIcon className="h-4 w-4 text-foreground" />;
                                         })()}
                                     </div>
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="text-sm text-foreground mb-1">
+                                <div className="min-w-0 flex-1">
+                                    <div className="mb-1 text-sm text-foreground">
                                         {(() => {
                                             try {
                                                 const parsed = JSON.parse(activity.remark || '{}');
@@ -50,7 +55,7 @@ export default function Activity({ lead }: ActivityProps) {
                         </div>
                     ))
                 ) : (
-                    <div className="col-span-full flex items-center justify-center min-h-[400px]">
+                    <div className="col-span-full flex min-h-[400px] items-center justify-center">
                         <NoRecordsFound
                             icon={ActivityIcon}
                             title={t('No Activities found')}

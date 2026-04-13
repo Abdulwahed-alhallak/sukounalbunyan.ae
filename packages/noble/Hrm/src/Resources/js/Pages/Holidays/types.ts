@@ -1,7 +1,5 @@
 import { PaginatedData, ModalState, AuthContext } from '@/types/common';
 
-
-
 export interface Holiday {
     id: number;
     name: string;

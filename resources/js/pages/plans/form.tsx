@@ -56,7 +56,9 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
     const [moduleSearch, setModuleSearch] = useState('');
 
     const getCurrencySymbol = () => {
-        return formatAdminCurrency(1).replace(/[\d\s.,]/g, '').trim();
+        return formatAdminCurrency(1)
+            .replace(/[\d\s.,]/g, '')
+            .trim();
     };
 
     const { data, setData, post, put, processing, errors } = useForm({
@@ -91,7 +93,7 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
             });
         } else {
             post(route('plans.store'), {
-                forceFormData: true
+                forceFormData: true,
             });
         }
     };
@@ -100,13 +102,17 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
         if (checked) {
             setData('modules', [...data.modules, moduleName]);
         } else {
-            setData('modules', data.modules.filter(m => m !== moduleName));
+            setData(
+                'modules',
+                data.modules.filter((m) => m !== moduleName)
+            );
         }
     };
 
-    const filteredModules = activeModules.filter(module =>
-        module.alias.toLowerCase().includes(moduleSearch.toLowerCase()) ||
-        module.module.toLowerCase().includes(moduleSearch.toLowerCase())
+    const filteredModules = activeModules.filter(
+        (module) =>
+            module.alias.toLowerCase().includes(moduleSearch.toLowerCase()) ||
+            module.module.toLowerCase().includes(moduleSearch.toLowerCase())
     );
 
     return (
@@ -128,7 +134,10 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                         <CardContent className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <Label className="text-xs">{t('Active')}</Label>
-                                <Switch checked={data.status} onCheckedChange={(checked) => setData('status', checked)} />
+                                <Switch
+                                    checked={data.status}
+                                    onCheckedChange={(checked) => setData('status', checked)}
+                                />
                             </div>
                             <div className="flex items-center justify-between">
                                 <Label className="text-xs">{t('Trial')}</Label>
@@ -136,7 +145,10 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                             </div>
                             <div className="flex items-center justify-between">
                                 <Label className="text-xs">{t('Free')}</Label>
-                                <Switch checked={data.free_plan} onCheckedChange={(checked) => setData('free_plan', checked)} />
+                                <Switch
+                                    checked={data.free_plan}
+                                    onCheckedChange={(checked) => setData('free_plan', checked)}
+                                />
                             </div>
                         </CardContent>
                     </Card>
@@ -148,7 +160,12 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                             <CardContent>
                                 <div>
                                     <Label className="text-xs">{t('Trial Days')}</Label>
-                                    <Input type="number" placeholder={t('Enter trial days')} value={data.trial_days || 0} onChange={(e) => setData('trial_days', parseInt(e.target.value) || 0)} />
+                                    <Input
+                                        type="number"
+                                        placeholder={t('Enter trial days')}
+                                        value={data.trial_days || 0}
+                                        onChange={(e) => setData('trial_days', parseInt(e.target.value) || 0)}
+                                    />
                                 </div>
                             </CardContent>
                         </Card>
@@ -160,12 +177,32 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <Label className="text-xs">{t('Monthly')} ({getCurrencySymbol()})</Label>
-                                    <Input type="number" step="0.01" placeholder={t('Enter monthly price')} value={data.package_price_monthly || 0} onChange={(e) => setData('package_price_monthly', parseFloat(e.target.value) || 0)} />
+                                    <Label className="text-xs">
+                                        {t('Monthly')} ({getCurrencySymbol()})
+                                    </Label>
+                                    <Input
+                                        type="number"
+                                        step="0.01"
+                                        placeholder={t('Enter monthly price')}
+                                        value={data.package_price_monthly || 0}
+                                        onChange={(e) =>
+                                            setData('package_price_monthly', parseFloat(e.target.value) || 0)
+                                        }
+                                    />
                                 </div>
                                 <div>
-                                    <Label className="text-xs">{t('Yearly')} ({getCurrencySymbol()})</Label>
-                                    <Input type="number" step="0.01" placeholder={t('Enter yearly price')} value={data.package_price_yearly || 0} onChange={(e) => setData('package_price_yearly', parseFloat(e.target.value) || 0)} />
+                                    <Label className="text-xs">
+                                        {t('Yearly')} ({getCurrencySymbol()})
+                                    </Label>
+                                    <Input
+                                        type="number"
+                                        step="0.01"
+                                        placeholder={t('Enter yearly price')}
+                                        value={data.package_price_yearly || 0}
+                                        onChange={(e) =>
+                                            setData('package_price_yearly', parseFloat(e.target.value) || 0)
+                                        }
+                                    />
                                 </div>
                             </CardContent>
                         </Card>
@@ -183,48 +220,75 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                             <div className="grid grid-cols-3 gap-4">
                                 <div>
                                     <Label required>{t('Plan Name')}</Label>
-                                    <Input placeholder={t('Enter plan name')} value={data.name} onChange={(e) => setData('name', e.target.value)} />
+                                    <Input
+                                        placeholder={t('Enter plan name')}
+                                        value={data.name}
+                                        onChange={(e) => setData('name', e.target.value)}
+                                    />
                                     <InputError message={errors.name} />
                                 </div>
                                 <div>
                                     <Label>{t('Max Users')}</Label>
-                                    <Input type="number" placeholder={t('Enter max users')} value={data.number_of_users || ''} onChange={(e) => setData('number_of_users', parseInt(e.target.value) || 0)} />
-                                    <p className="text-xs text-muted-foreground mt-1">{t('Note: "-1" for Unlimited')}</p>
+                                    <Input
+                                        type="number"
+                                        placeholder={t('Enter max users')}
+                                        value={data.number_of_users || ''}
+                                        onChange={(e) => setData('number_of_users', parseInt(e.target.value) || 0)}
+                                    />
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                        {t('Note: "-1" for Unlimited')}
+                                    </p>
                                     <InputError message={errors.number_of_users} />
                                 </div>
                                 <div>
-                                    <Input type="number" placeholder={t('Enter storage limit in GB')} value={data.storage_limit || ''} onChange={(e) => {
-                                        const value = parseInt(e.target.value) || 0;
-                                        setData('storage_limit', value);
-                                        setData('total', value);
-                                    }} />
+                                    <Input
+                                        type="number"
+                                        placeholder={t('Enter storage limit in GB')}
+                                        value={data.storage_limit || ''}
+                                        onChange={(e) => {
+                                            const value = parseInt(e.target.value) || 0;
+                                            setData('storage_limit', value);
+                                            setData('total', value);
+                                        }}
+                                    />
                                     <InputError message={errors.storage_limit} />
                                 </div>
                             </div>
                             <div className="grid grid-cols-12 gap-4">
                                 <div className="col-span-8">
                                     <Label>{t('Description')}</Label>
-                                    <Textarea placeholder={t('Enter plan description')} value={data.description} onChange={(e) => setData('description', e.target.value)} rows={4} />
+                                    <Textarea
+                                        placeholder={t('Enter plan description')}
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        rows={4}
+                                    />
                                     <InputError message={errors.description} />
                                 </div>
                                 <div className="col-span-4 space-y-2">
                                     <Label>{t('Plan Image')}</Label>
-                                    <div className="border-2 border-dashed rounded-lg p-4 text-center space-y-2">
-                                        { (plan?.image || data.image) ? (
-                                            <img 
-                                                src={data.image ? URL.createObjectURL(data.image) : (plan?.image.startsWith('http') ? plan.image : `/storage/media/${plan?.image}`)} 
-                                                className="w-full h-32 object-contain mx-auto rounded" 
+                                    <div className="space-y-2 rounded-lg border-2 border-dashed p-4 text-center">
+                                        {plan?.image || data.image ? (
+                                            <img
+                                                src={
+                                                    data.image
+                                                        ? URL.createObjectURL(data.image)
+                                                        : plan?.image.startsWith('http')
+                                                          ? plan.image
+                                                          : `/storage/media/${plan?.image}`
+                                                }
+                                                className="mx-auto h-32 w-full rounded object-contain"
                                             />
                                         ) : (
-                                            <div className="w-full h-32 bg-muted flex items-center justify-center rounded">
+                                            <div className="flex h-32 w-full items-center justify-center rounded bg-muted">
                                                 <span className="text-xs text-muted-foreground">{t('No Image')}</span>
                                             </div>
                                         )}
-                                        <Input 
-                                            type="file" 
-                                            accept="image/*" 
-                                            className="text-xs" 
-                                            onChange={(e) => setData('image', e.target.files?.[0] || null)} 
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            className="text-xs"
+                                            onChange={(e) => setData('image', e.target.files?.[0] || null)}
                                         />
                                         <InputError message={errors.image} />
                                     </div>
@@ -233,15 +297,15 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                         </CardContent>
                     </Card>
 
-
-
                     {/* Features */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center justify-between">
                                 {t('Features')}
                                 <div className="flex items-center gap-2">
-                                    <Badge>{data.modules.length} {t('selected')}</Badge>
+                                    <Badge>
+                                        {data.modules.length} {t('selected')}
+                                    </Badge>
                                     {userSubscriptionInfo && !userSubscriptionInfo.is_superadmin && (
                                         <Badge variant="outline" className="text-xs">
                                             {userSubscriptionInfo.available_modules_count} {t('available')}
@@ -250,17 +314,28 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                                 </div>
                             </CardTitle>
                             {userSubscriptionInfo && !userSubscriptionInfo.is_superadmin && (
-                                <div className="bg-muted dark:bg-muted border border-border dark:border-border rounded-lg p-3">
+                                <div className="rounded-lg border border-border bg-muted p-3 dark:border-border dark:bg-muted">
                                     <div className="flex items-start gap-2">
-                                        <svg className="w-4 h-4 text-foreground mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                        <svg
+                                            className="mt-0.5 h-4 w-4 flex-shrink-0 text-foreground"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
                                         </svg>
                                         <div>
                                             <p className="text-sm font-medium text-foreground dark:text-muted-foreground">
                                                 {t('Subscription Limited')}
                                             </p>
-                                            <p className="text-xs text-foreground dark:text-muted-foreground mt-1">
-                                                {t('Only showing {{count}} modules from your subscription. Contact admin to access more modules.', { count: userSubscriptionInfo.available_modules_count })}
+                                            <p className="mt-1 text-xs text-foreground dark:text-muted-foreground">
+                                                {t(
+                                                    'Only showing {{count}} modules from your subscription. Contact admin to access more modules.',
+                                                    { count: userSubscriptionInfo.available_modules_count }
+                                                )}
                                             </p>
                                         </div>
                                     </div>
@@ -268,10 +343,10 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                             )}
                             <div className="flex gap-2">
                                 <div className="flex-1">
-                                    <Input 
-                                        value={moduleSearch} 
-                                        onChange={(e) => setModuleSearch(e.target.value)} 
-                                        placeholder={t('Search...')} 
+                                    <Input
+                                        value={moduleSearch}
+                                        onChange={(e) => setModuleSearch(e.target.value)}
+                                        placeholder={t('Search...')}
                                     />
                                 </div>
                                 <Button
@@ -280,31 +355,53 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                                     size="default"
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        const allSelected = filteredModules.every(m => data.modules.includes(m.module));
+                                        const allSelected = filteredModules.every((m) =>
+                                            data.modules.includes(m.module)
+                                        );
                                         if (allSelected) {
-                                            setData('modules', data.modules.filter(m => !filteredModules.map(fm => fm.module).includes(m)));
+                                            setData(
+                                                'modules',
+                                                data.modules.filter(
+                                                    (m) => !filteredModules.map((fm) => fm.module).includes(m)
+                                                )
+                                            );
                                         } else {
-                                            setData('modules', [...new Set([...data.modules, ...filteredModules.map(m => m.module)])]);
+                                            setData('modules', [
+                                                ...new Set([...data.modules, ...filteredModules.map((m) => m.module)]),
+                                            ]);
                                         }
                                     }}
                                 >
-                                    {filteredModules.every(m => data.modules.includes(m.module)) ? t('Uncheck All') : t('Check All')}
+                                    {filteredModules.every((m) => data.modules.includes(m.module))
+                                        ? t('Uncheck All')
+                                        : t('Check All')}
                                 </Button>
                             </div>
                         </CardHeader>
                         <CardContent>
                             <ScrollArea className="h-[300px]">
                                 <div className="grid grid-cols-4 gap-3 pr-4">
-                                {filteredModules.map((module) => (
-                                    <div key={module.module} className="flex items-center gap-3 p-4 border rounded hover:bg-muted/50">
-                                        <img src={getPackageFavicon(module.module)} alt="" className="w-8 h-8 border rounded" />
-                                        <span className="text-sm truncate flex-1">{getPackageAlias(module.module)}</span>
-                                        <Checkbox
-                                            checked={data.modules.includes(module.module)}
-                                            onCheckedChange={(checked) => handleModuleChange(module.module, !!checked)}
-                                        />
-                                    </div>
-                                ))}
+                                    {filteredModules.map((module) => (
+                                        <div
+                                            key={module.module}
+                                            className="flex items-center gap-3 rounded border p-4 hover:bg-muted/50"
+                                        >
+                                            <img
+                                                src={getPackageFavicon(module.module)}
+                                                alt=""
+                                                className="h-8 w-8 rounded border"
+                                            />
+                                            <span className="flex-1 truncate text-sm">
+                                                {getPackageAlias(module.module)}
+                                            </span>
+                                            <Checkbox
+                                                checked={data.modules.includes(module.module)}
+                                                onCheckedChange={(checked) =>
+                                                    handleModuleChange(module.module, !!checked)
+                                                }
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </ScrollArea>
                             <InputError message={errors.modules} />
@@ -318,7 +415,7 @@ function PlanForm({ plan, activeModules, isEdit = false, userSubscriptionInfo }:
                     {t('Cancel')}
                 </Button>
                 <Button type="submit" disabled={processing}>
-                    {processing ? t('Saving...') : (isEdit ? t('Update') : t('Create'))}
+                    {processing ? t('Saving...') : isEdit ? t('Update') : t('Create')}
                 </Button>
             </div>
         </form>

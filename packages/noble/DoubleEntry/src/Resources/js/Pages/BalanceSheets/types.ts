@@ -20,7 +20,13 @@ export interface BalanceSheetItem {
     balance_sheet_id: number;
     account_id: number;
     section_type: 'assets' | 'liabilities' | 'equity';
-    sub_section: 'current_assets' | 'fixed_assets' | 'other_assets' | 'current_liabilities' | 'long_term_liabilities' | 'equity';
+    sub_section:
+        | 'current_assets'
+        | 'fixed_assets'
+        | 'other_assets'
+        | 'current_liabilities'
+        | 'long_term_liabilities'
+        | 'equity';
     amount: number;
     creator_id: number;
     created_by: number;
@@ -31,8 +37,8 @@ export interface BalanceSheetItem {
         account_code: string;
         account_name: string;
         normal_balance: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
 }
 
 export interface BalanceSheetsIndexProps {
@@ -40,8 +46,8 @@ export interface BalanceSheetsIndexProps {
         data: BalanceSheet[];
         links: any[];
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     filters: BalanceSheetFilters;
     auth: {
         user: {
@@ -86,8 +92,8 @@ export interface BalanceSheetNote {
 export interface BalanceSheetViewProps {
     balanceSheet: BalanceSheet & {
         notes?: BalanceSheetNote[];
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     groupedItems: {
         [sectionType: string]: {
             [subSection: string]: BalanceSheetItem[];

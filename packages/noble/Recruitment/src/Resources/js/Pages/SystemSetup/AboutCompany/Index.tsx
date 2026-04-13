@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,7 +32,7 @@ export default function AboutCompany() {
         industry: settings?.industry || '',
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
@@ -46,11 +46,11 @@ export default function AboutCompany() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormSettings(prev => ({ ...prev, [name]: value }));
+        setFormSettings((prev) => ({ ...prev, [name]: value }));
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         if (!formSettings.ourMission.trim()) {
             newErrors.ourMission = t('Our Mission is required');
@@ -73,27 +73,32 @@ export default function AboutCompany() {
 
         setIsLoading(true);
 
-        router.post(route('recruitment.about-company.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('recruitment.about-company.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -101,25 +106,25 @@ export default function AboutCompany() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('About Company Section') }
+                { label: t('About Company Section') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('About Company Section')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="about-company" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('About Company Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -127,7 +132,9 @@ export default function AboutCompany() {
 
                             <div className="space-y-6">
                                 <div className="space-y-3">
-                                    <Label htmlFor="ourMission" required>{t('Our Mission')} </Label>
+                                    <Label htmlFor="ourMission" required>
+                                        {t('Our Mission')}{' '}
+                                    </Label>
                                     <Textarea
                                         id="ourMission"
                                         name="ourMission"
@@ -139,15 +146,19 @@ export default function AboutCompany() {
                                         rows={3}
                                         maxLength={100}
                                     />
-                                    <div className="flex justify-between items-center text-xs">
+                                    <div className="flex items-center justify-between text-xs">
                                         <span className="text-destructive">{errors.ourMission || ''}</span>
-                                        <span className="text-muted-foreground">{formSettings.ourMission.length}/100</span>
+                                        <span className="text-muted-foreground">
+                                            {formSettings.ourMission.length}/100
+                                        </span>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-3">
-                                        <Label htmlFor="companySize" required>{t('Company Size')} </Label>
+                                        <Label htmlFor="companySize" required>
+                                            {t('Company Size')}{' '}
+                                        </Label>
                                         <Input
                                             id="companySize"
                                             name="companySize"
@@ -158,13 +169,17 @@ export default function AboutCompany() {
                                             className={errors.companySize ? 'border-destructive' : ''}
                                             maxLength={50}
                                         />
-                                        <div className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center justify-between text-xs">
                                             <span className="text-destructive">{errors.companySize || ''}</span>
-                                            <span className="text-muted-foreground">{formSettings.companySize.length}/50</span>
+                                            <span className="text-muted-foreground">
+                                                {formSettings.companySize.length}/50
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <Label htmlFor="industry" required>{t('Industry')} </Label>
+                                        <Label htmlFor="industry" required>
+                                            {t('Industry')}{' '}
+                                        </Label>
                                         <Input
                                             id="industry"
                                             name="industry"
@@ -175,9 +190,11 @@ export default function AboutCompany() {
                                             className={errors.industry ? 'border-destructive' : ''}
                                             maxLength={60}
                                         />
-                                        <div className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center justify-between text-xs">
                                             <span className="text-destructive">{errors.industry || ''}</span>
-                                            <span className="text-muted-foreground">{formSettings.industry.length}/60</span>
+                                            <span className="text-muted-foreground">
+                                                {formSettings.industry.length}/60
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

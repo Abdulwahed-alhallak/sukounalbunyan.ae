@@ -14,10 +14,12 @@ export interface LoanTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateLoanTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateLoanTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditLoanTypeProps extends EditProps<LoanType>  {[key: string]: any;
+export interface EditLoanTypeProps extends EditProps<LoanType> {
+    [key: string]: any;
 }
 
 export type PaginatedLoanTypes = PaginatedData<LoanType>;

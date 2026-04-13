@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useForm, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { CreateHelpdeskTicketProps, CreateHelpdeskTicketFormData } from './types';
 
 export default function Create({ onSuccess }: { onSuccess: () => void }) {
@@ -25,7 +25,7 @@ export default function Create({ onSuccess }: { onSuccess: () => void }) {
         post(route('helpdesk-tickets.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -60,9 +60,14 @@ export default function Create({ onSuccess }: { onSuccess: () => void }) {
                 {auth.user?.type === 'superadmin' && (
                     <div>
                         <Label htmlFor="company_id">{t('User')}</Label>
-                        <Select value={data.company_id?.toString() || ''} onValueChange={(value) => setData('company_id', parseInt(value))}>
+                        <Select
+                            value={data.company_id?.toString() || ''}
+                            onValueChange={(value) => setData('company_id', parseInt(value))}
+                        >
                             <SelectTrigger>
-                                <SelectValue placeholder={companies.length === 0 ? "No users available" : "Select user"} />
+                                <SelectValue
+                                    placeholder={companies.length === 0 ? 'No users available' : 'Select user'}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {companies.map((company) => (
@@ -73,8 +78,14 @@ export default function Create({ onSuccess }: { onSuccess: () => void }) {
                             </SelectContent>
                         </Select>
                         {companies.length === 0 && auth.user?.permissions?.includes('create-users') && (
-                            <p className="text-xs text-muted-foreground mb-1">
-                                {t('Create users here.')} <button onClick={() => router.get(route('users.index'))} className="text-foreground hover:underline">{t('Create users')}</button>
+                            <p className="mb-1 text-xs text-muted-foreground">
+                                {t('Create users here.')}{' '}
+                                <button
+                                    onClick={() => router.get(route('users.index'))}
+                                    className="text-foreground hover:underline"
+                                >
+                                    {t('Create users')}
+                                </button>
                             </p>
                         )}
                         <InputError message={errors.company_id} />
@@ -84,9 +95,16 @@ export default function Create({ onSuccess }: { onSuccess: () => void }) {
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label htmlFor="category_id">{t('Category')}</Label>
-                        <Select value={data.category_id.toString()} onValueChange={(value) => setData('category_id', parseInt(value))}>
+                        <Select
+                            value={data.category_id.toString()}
+                            onValueChange={(value) => setData('category_id', parseInt(value))}
+                        >
                             <SelectTrigger>
-                                <SelectValue placeholder={categories.length === 0 ? "No categories available" : "Select category"} />
+                                <SelectValue
+                                    placeholder={
+                                        categories.length === 0 ? 'No categories available' : 'Select category'
+                                    }
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {categories.map((category) => (
@@ -97,8 +115,14 @@ export default function Create({ onSuccess }: { onSuccess: () => void }) {
                             </SelectContent>
                         </Select>
                         {categories.length === 0 && auth.user?.permissions?.includes('create-helpdesk-categories') && (
-                            <p className="text-xs text-muted-foreground mb-1">
-                                {t('Create category here.')} <button onClick={() => router.get(route('helpdesk-categories.index'))} className="text-foreground hover:underline">{t('Create category')}</button>
+                            <p className="mb-1 text-xs text-muted-foreground">
+                                {t('Create category here.')}{' '}
+                                <button
+                                    onClick={() => router.get(route('helpdesk-categories.index'))}
+                                    className="text-foreground hover:underline"
+                                >
+                                    {t('Create category')}
+                                </button>
                             </p>
                         )}
                         <InputError message={errors.category_id} />

@@ -12,10 +12,12 @@ export interface IpRestrictFormData {
     [key: string]: any;
 }
 
-export interface CreateIpRestrictProps extends CreateProps  {[key: string]: any;
+export interface CreateIpRestrictProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditIpRestrictProps extends EditProps<IpRestrict>  {[key: string]: any;
+export interface EditIpRestrictProps extends EditProps<IpRestrict> {
+    [key: string]: any;
 }
 
 export type PaginatedIpRestricts = PaginatedData<IpRestrict>;

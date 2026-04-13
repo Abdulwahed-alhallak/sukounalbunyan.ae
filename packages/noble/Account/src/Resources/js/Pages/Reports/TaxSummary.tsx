@@ -21,7 +21,7 @@ export default function TaxSummary({ financialYear }: any) {
         setLoading(true);
         try {
             const response = await axios.get(route('account.reports.tax-summary'), {
-                params: { from_date: fromDate, to_date: toDate }
+                params: { from_date: fromDate, to_date: toDate },
             });
             setData(response.data);
         } catch (error) {
@@ -37,14 +37,14 @@ export default function TaxSummary({ financialYear }: any) {
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('From Date')}</label>
                         <DatePicker value={fromDate} onChange={setFromDate} placeholder={t('Select from date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
                         <DatePicker value={toDate} onChange={setToDate} placeholder={t('Select to date')} />
                     </div>
                     <div className="flex items-end gap-2">
@@ -52,7 +52,18 @@ export default function TaxSummary({ financialYear }: any) {
                             {loading ? t('Loading...') : t('Generate')}
                         </Button>
                         {data && auth.user?.permissions?.includes('print-tax-summary') && (
-                            <Button variant="outline" size="sm" onClick={() => window.open(route('account.reports.tax-summary.print') + `?from_date=${fromDate}&to_date=${toDate}&download=pdf`, '_blank')} className="gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    window.open(
+                                        route('account.reports.tax-summary.print') +
+                                            `?from_date=${fromDate}&to_date=${toDate}&download=pdf`,
+                                        '_blank'
+                                    )
+                                }
+                                className="gap-2"
+                            >
                                 <Printer className="h-4 w-4" />
                                 {t('Download PDF')}
                             </Button>
@@ -64,14 +75,14 @@ export default function TaxSummary({ financialYear }: any) {
             <CardContent className="p-0">
                 {data ? (
                     <>
-                        <div className="p-4 bg-muted/50 border-b">
-                            <h3 className="font-semibold text-lg">{t('Tax Summary Report')}</h3>
+                        <div className="border-b bg-muted/50 p-4">
+                            <h3 className="text-lg font-semibold">{t('Tax Summary Report')}</h3>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(data.from_date)} {t('to')} {formatDate(data.to_date)}
                             </p>
                         </div>
 
-                        <div className="overflow-y-auto max-h-[60vh]">
+                        <div className="max-h-[60vh] overflow-y-auto">
                             <table className="w-full">
                                 <tbody>
                                     <tr className="bg-muted/50">
@@ -84,9 +95,11 @@ export default function TaxSummary({ financialYear }: any) {
                                             <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-muted font-semibold border-t-2">
+                                    <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Tax Collected')}</td>
-                                        <td className="px-4 py-3 text-right">{formatCurrency(data.tax_collected.total)}</td>
+                                        <td className="px-4 py-3 text-right">
+                                            {formatCurrency(data.tax_collected.total)}
+                                        </td>
                                     </tr>
 
                                     <tr className="bg-muted/50">
@@ -99,14 +112,18 @@ export default function TaxSummary({ financialYear }: any) {
                                             <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-muted font-semibold border-t-2">
+                                    <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Tax Paid')}</td>
                                         <td className="px-4 py-3 text-right">{formatCurrency(data.tax_paid.total)}</td>
                                     </tr>
 
-                                    <tr className={`font-bold border-t-4 ${data.net_tax_liability >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}>
+                                    <tr
+                                        className={`border-t-4 font-bold ${data.net_tax_liability >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}
+                                    >
                                         <td className="px-4 py-4 text-lg">{t('Net Tax Liability')}</td>
-                                        <td className="px-4 py-4 text-lg text-right">{formatCurrency(data.net_tax_liability)}</td>
+                                        <td className="px-4 py-4 text-right text-lg">
+                                            {formatCurrency(data.net_tax_liability)}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

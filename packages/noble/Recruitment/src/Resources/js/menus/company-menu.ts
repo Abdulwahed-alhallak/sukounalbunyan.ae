@@ -1,6 +1,18 @@
-import {    Users, Tag , Briefcase , MapPin , HelpCircle , Megaphone , MessageCircle , Calendar , MessageSquare , ClipboardCheck , FileText , CheckCircle , UserCheck } from 'lucide-react';
-
-
+import {
+    Users,
+    Tag,
+    Briefcase,
+    MapPin,
+    HelpCircle,
+    Megaphone,
+    MessageCircle,
+    Calendar,
+    MessageSquare,
+    ClipboardCheck,
+    FileText,
+    CheckCircle,
+    UserCheck,
+} from 'lucide-react';
 
 export const recruitmentCompanyMenu = (t: (key: string) => string) => [
     {

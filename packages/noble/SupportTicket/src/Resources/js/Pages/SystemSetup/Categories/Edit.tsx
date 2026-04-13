@@ -22,13 +22,13 @@ export default function EditCategory({ category, onSuccess }: EditProps) {
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm({
         name: category.name,
-        color: category.color
+        color: category.color,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('ticket-category.update', category.id), {
-            onSuccess: () => onSuccess()
+            onSuccess: () => onSuccess(),
         });
     };
 

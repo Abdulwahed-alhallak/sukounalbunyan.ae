@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -40,7 +40,7 @@ export default function Create({ onSuccess }: CreateAccountTypeProps) {
     const generateCode = (name: string) => {
         return name
             .split(' ')
-            ?.map(word => word.charAt(0).toUpperCase())
+            ?.map((word) => word.charAt(0).toUpperCase())
             .join('');
     };
 
@@ -55,7 +55,7 @@ export default function Create({ onSuccess }: CreateAccountTypeProps) {
         post(route('account.account-types.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -66,8 +66,13 @@ export default function Create({ onSuccess }: CreateAccountTypeProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="category_id" required>{t('Category')}</Label>
-                    <Select value={data.category_id?.toString() || ''} onValueChange={(value) => setData('category_id', value)}>
+                    <Label htmlFor="category_id" required>
+                        {t('Category')}
+                    </Label>
+                    <Select
+                        value={data.category_id?.toString() || ''}
+                        onValueChange={(value) => setData('category_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Category')} />
                         </SelectTrigger>
@@ -110,14 +115,22 @@ export default function Create({ onSuccess }: CreateAccountTypeProps) {
 
                 <div>
                     <Label>{t('Normal Balance')}</Label>
-                    <RadioGroup value={data.normal_balance?.toString() || '0'} onValueChange={(value) => setData('normal_balance', value)} className="flex gap-6 mt-2">
+                    <RadioGroup
+                        value={data.normal_balance?.toString() || '0'}
+                        onValueChange={(value) => setData('normal_balance', value)}
+                        className="mt-2 flex gap-6"
+                    >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="0" id="normal_balance_0" />
-                            <Label htmlFor="normal_balance_0" className="cursor-pointer">{t('debit')}</Label>
+                            <Label htmlFor="normal_balance_0" className="cursor-pointer">
+                                {t('debit')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="1" id="normal_balance_1" />
-                            <Label htmlFor="normal_balance_1" className="cursor-pointer">{t('credit')}</Label>
+                            <Label htmlFor="normal_balance_1" className="cursor-pointer">
+                                {t('credit')}
+                            </Label>
                         </div>
                     </RadioGroup>
                     <InputError message={errors.normal_balance} />
@@ -141,7 +154,9 @@ export default function Create({ onSuccess }: CreateAccountTypeProps) {
                         checked={data.is_active || false}
                         onCheckedChange={(checked) => setData('is_active', !!checked)}
                     />
-                    <Label htmlFor="is_active" className="cursor-pointer">{t('Is Active')}</Label>
+                    <Label htmlFor="is_active" className="cursor-pointer">
+                        {t('Is Active')}
+                    </Label>
                     <InputError message={errors.is_active} />
                 </div>
 

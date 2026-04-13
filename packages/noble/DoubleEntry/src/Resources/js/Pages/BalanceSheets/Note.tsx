@@ -17,7 +17,7 @@ export default function Note({ open, onOpenChange, balanceSheetId }: NoteProps) 
 
     const { data, setData, post, processing, errors, reset } = useForm({
         note_title: '',
-        note_content: ''
+        note_content: '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -26,7 +26,7 @@ export default function Note({ open, onOpenChange, balanceSheetId }: NoteProps) 
             onSuccess: () => {
                 reset();
                 onOpenChange(false);
-            }
+            },
         });
     };
 
@@ -52,7 +52,7 @@ export default function Note({ open, onOpenChange, balanceSheetId }: NoteProps) 
                             placeholder={t('Enter note title')}
                             required
                         />
-                        {errors.note_title && <p className="text-destructive text-sm">{errors.note_title}</p>}
+                        {errors.note_title && <p className="text-sm text-destructive">{errors.note_title}</p>}
                     </div>
                     <div>
                         <Label htmlFor="note_content">{t('Note Content')}</Label>
@@ -65,7 +65,7 @@ export default function Note({ open, onOpenChange, balanceSheetId }: NoteProps) 
                             rows={4}
                             required
                         />
-                        {errors.note_content && <p className="text-destructive text-sm">{errors.note_content}</p>}
+                        {errors.note_content && <p className="text-sm text-destructive">{errors.note_content}</p>}
                     </div>
                     <div className="flex justify-end gap-2 pt-4">
                         <Button type="button" variant="outline" onClick={handleClose}>

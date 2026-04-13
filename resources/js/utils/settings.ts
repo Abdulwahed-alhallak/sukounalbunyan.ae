@@ -13,7 +13,11 @@ const getCoreSettingsItems = (userRoles: string[], t: (key: string) => string): 
 };
 
 // Auto-load package settings based on activated packages
-const getPackageSettingsItems = (userRoles: string[], activatedPackages: string[], t: (key: string) => string): SettingMenuItem[] => {
+const getPackageSettingsItems = (
+    userRoles: string[],
+    activatedPackages: string[],
+    t: (key: string) => string
+): SettingMenuItem[] => {
     const menuItems: SettingMenuItem[] = [];
     const settingType = userRoles.includes('superadmin') ? 'superadmin-setting' : 'company-setting';
 
@@ -21,7 +25,7 @@ const getPackageSettingsItems = (userRoles: string[], activatedPackages: string[
         ? import.meta.glob('../../../packages/noble/*/src/Resources/js/settings/superadmin-setting.ts', { eager: true })
         : import.meta.glob('../../../packages/noble/*/src/Resources/js/settings/company-setting.ts', { eager: true });
 
-    (Array.isArray(activatedPackages) ? activatedPackages : []).forEach(packageName => {
+    (Array.isArray(activatedPackages) ? activatedPackages : []).forEach((packageName) => {
         const settingPath = `../../../packages/noble/${packageName}/src/Resources/js/settings/${settingType}.ts`;
         const module = allModules[settingPath] as any;
 
@@ -39,7 +43,7 @@ const getPackageSettingsItems = (userRoles: string[], activatedPackages: string[
 
 // Filter settings items based on permissions
 const filterByPermission = (items: SettingMenuItem[], userPermissions: string[]): SettingMenuItem[] => {
-    return items.filter(item => userPermissions.includes(item.permission));
+    return items.filter((item) => userPermissions.includes(item.permission));
 };
 
 // Main function to get filtered settings items

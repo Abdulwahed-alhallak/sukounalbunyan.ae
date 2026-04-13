@@ -1,8 +1,6 @@
 import { GraduationCap } from 'lucide-react';
 
-
-
-export const trainingCompanyMenu = (t: (key: string) => string) => [    
+export const trainingCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Training'),
         icon: GraduationCap,

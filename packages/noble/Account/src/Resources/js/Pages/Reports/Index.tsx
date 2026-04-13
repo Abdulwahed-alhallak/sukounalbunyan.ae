@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InvoiceAging from './InvoiceAging';
 import BillAging from './BillAging';
 import TaxSummary from './TaxSummary';
@@ -14,12 +14,12 @@ interface ReportsIndexProps {
     auth: {
         user?: {
             permissions?: string[];
-        }
-    }
+        };
+    };
     financialYear?: {
         year_start_date: string;
         year_end_date: string;
-    }
+    };
 }
 
 export default function Index() {
@@ -27,21 +27,17 @@ export default function Index() {
     const { auth, financialYear } = usePage<ReportsIndexProps>().props;
     const [activeTab, setActiveTab] = useState('invoice-aging');
 
-
     const tabs = [
         { id: 'invoice-aging', label: t('Invoice Aging'), permission: 'view-invoice-aging' },
         { id: 'bill-aging', label: t('Bill Aging'), permission: 'view-bill-aging' },
         { id: 'tax-summary', label: t('Tax Summary'), permission: 'view-tax-summary' },
         { id: 'customer-balance', label: t('Customer Balance'), permission: 'view-customer-balance' },
         { id: 'vendor-balance', label: t('Vendor Balance'), permission: 'view-vendor-balance' },
-    ].filter(tab => auth.user?.permissions?.includes(tab.permission));
+    ].filter((tab) => auth.user?.permissions?.includes(tab.permission));
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Accounting'), url: route('account.index')},
-                { label: t('Reports') }
-            ]}
+            breadcrumbs={[{ label: t('Accounting'), url: route('account.index') }, { label: t('Reports') }]}
             pageTitle={t('Reports')}
         >
             <Head title={t('Reports')} />
@@ -49,9 +45,9 @@ export default function Index() {
             <Card className="shadow-sm">
                 <CardContent className="p-6">
                     <Tabs value={activeTab} onValueChange={setActiveTab}>
-                        <TabsList className="w-full justify-start overflow-x-auto overflow-y-hidden h-auto p-1">
-                            {tabs?.map(tab => (
-                                <TabsTrigger key={tab.id} value={tab.id} className="whitespace-nowrap flex-shrink-0">
+                        <TabsList className="h-auto w-full justify-start overflow-x-auto overflow-y-hidden p-1">
+                            {tabs?.map((tab) => (
+                                <TabsTrigger key={tab.id} value={tab.id} className="flex-shrink-0 whitespace-nowrap">
                                     {tab.label}
                                 </TabsTrigger>
                             ))}

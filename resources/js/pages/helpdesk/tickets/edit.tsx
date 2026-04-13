@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { EditHelpdeskTicketProps, EditHelpdeskTicketFormData } from './types';
 
 export default function Edit({ ticket, onSuccess }: { ticket: any; onSuccess: () => void }) {
@@ -18,7 +18,6 @@ export default function Edit({ ticket, onSuccess }: { ticket: any; onSuccess: ()
         status: ticket.status || 'open',
         priority: ticket.priority || 'medium',
         category_id: ticket.category_id || 0,
-
     });
 
     const submit = (e: React.FormEvent) => {
@@ -26,7 +25,7 @@ export default function Edit({ ticket, onSuccess }: { ticket: any; onSuccess: ()
         put(route('helpdesk-tickets.update', ticket.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -94,9 +93,14 @@ export default function Edit({ ticket, onSuccess }: { ticket: any; onSuccess: ()
 
                 <div>
                     <Label htmlFor="edit_category_id">{t('Category')}</Label>
-                    <Select value={data.category_id?.toString()} onValueChange={(value) => setData('category_id', parseInt(value))}>
+                    <Select
+                        value={data.category_id?.toString()}
+                        onValueChange={(value) => setData('category_id', parseInt(value))}
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={categories?.length === 0 ? "No categories available" : "Select category"} />
+                            <SelectValue
+                                placeholder={categories?.length === 0 ? 'No categories available' : 'Select category'}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {categories?.map((category: any) => (

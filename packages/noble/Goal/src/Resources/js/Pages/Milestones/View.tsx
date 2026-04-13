@@ -13,32 +13,39 @@ export default function View({ milestone }: ViewMilestoneProps) {
 
     const getStatusBadge = (status: string) => {
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${
-                status === 'achieved' ? 'bg-muted text-foreground' :
-                status === 'pending' ? 'bg-muted text-foreground' :
-                status === 'overdue' ? 'bg-muted text-destructive' :
-                'bg-muted text-foreground'
-            }`}>
+            <span
+                className={`rounded-full px-2 py-1 text-sm ${
+                    status === 'achieved'
+                        ? 'bg-muted text-foreground'
+                        : status === 'pending'
+                          ? 'bg-muted text-foreground'
+                          : status === 'overdue'
+                            ? 'bg-muted text-destructive'
+                            : 'bg-muted text-foreground'
+                }`}
+            >
                 {t(status.replace('_', ' ').charAt(0).toUpperCase() + status.replace('_', ' ').slice(1))}
             </span>
         );
     };
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
-                <DialogTitle>{t('Milestone Details')} - {milestone.milestone_name}</DialogTitle>
+                <DialogTitle>
+                    {t('Milestone Details')} - {milestone.milestone_name}
+                </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-6 mt-3">
+            <div className="mt-3 space-y-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-base flex justify-between items-center">
+                        <CardTitle className="flex items-center justify-between text-base">
                             {t('Milestone Information')}
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                             <div>
                                 <span className="font-semibold">{t('Milestone Name')}</span>
                                 <p className="mt-1 text-muted-foreground">{milestone.milestone_name}</p>
@@ -58,30 +65,39 @@ export default function View({ milestone }: ViewMilestoneProps) {
                         </div>
 
                         <div className="mt-6">
-                            <span className="font-semibold text-sm">{t('Progress Information')}</span>
-                            <div className="mt-3 p-4 bg-muted/50 rounded-lg">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <span className="text-sm font-semibold">{t('Progress Information')}</span>
+                            <div className="mt-3 rounded-lg bg-muted/50 p-4">
+                                <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
                                     <div>
                                         <span className="font-medium text-muted-foreground">{t('Target Amount')}</span>
-                                        <p className="text-lg font-semibold text-foreground">{formatCurrency(milestone.target_amount)}</p>
+                                        <p className="text-lg font-semibold text-foreground">
+                                            {formatCurrency(milestone.target_amount)}
+                                        </p>
                                     </div>
                                     <div>
                                         <span className="font-medium text-muted-foreground">{t('Archive Amount')}</span>
-                                        <p className="text-lg font-semibold text-foreground">{formatCurrency(milestone.achieved_amount || 0)}</p>
+                                        <p className="text-lg font-semibold text-foreground">
+                                            {formatCurrency(milestone.achieved_amount || 0)}
+                                        </p>
                                     </div>
                                     <div>
                                         <span className="font-medium text-muted-foreground">{t('Progress')}</span>
                                         <p className="text-lg font-semibold text-foreground">
-                                            {milestone.target_amount > 0 ? Math.round(((milestone.achieved_amount || 0) / milestone.target_amount) * 100) : 0}%
+                                            {milestone.target_amount > 0
+                                                ? Math.round(
+                                                      ((milestone.achieved_amount || 0) / milestone.target_amount) * 100
+                                                  )
+                                                : 0}
+                                            %
                                         </p>
                                     </div>
                                 </div>
                                 <div className="mt-3">
-                                    <div className="w-full bg-muted rounded-full h-2">
+                                    <div className="h-2 w-full rounded-full bg-muted">
                                         <div
-                                            className="bg-foreground h-2 rounded-full transition-all duration-300"
+                                            className="h-2 rounded-full bg-foreground transition-all duration-300"
                                             style={{
-                                                width: `${milestone.target_amount > 0 ? Math.min(((milestone.achieved_amount || 0) / milestone.target_amount) * 100, 100) : 0}%`
+                                                width: `${milestone.target_amount > 0 ? Math.min(((milestone.achieved_amount || 0) / milestone.target_amount) * 100, 100) : 0}%`,
                                             }}
                                         ></div>
                                     </div>
@@ -89,9 +105,11 @@ export default function View({ milestone }: ViewMilestoneProps) {
                             </div>
                         </div>
                         {milestone.milestone_description && (
-                            <div className="text-sm mt-4">
+                            <div className="mt-4 text-sm">
                                 <span className="font-semibold">{t('Description')}</span>
-                                <p className="mt-1 p-3 bg-muted/50 rounded text-sm">{milestone.milestone_description}</p>
+                                <p className="mt-1 rounded bg-muted/50 p-3 text-sm">
+                                    {milestone.milestone_description}
+                                </p>
                             </div>
                         )}
                     </CardContent>

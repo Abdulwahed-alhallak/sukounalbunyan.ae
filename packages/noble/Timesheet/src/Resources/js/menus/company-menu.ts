@@ -1,6 +1,4 @@
-import { Package,Clock  } from 'lucide-react';
-
-
+import { Package, Clock } from 'lucide-react';
 
 export const timesheetCompanyMenu = (t: (key: string) => string) => [
     {

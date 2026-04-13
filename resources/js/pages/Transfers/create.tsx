@@ -1,19 +1,19 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DatePicker } from "@/components/ui/date-picker";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
+import InputError from '@/components/ui/input-error';
 
 import { CreateTransferProps, CreateTransferFormData, TransfersIndexProps } from './types';
 
 export default function Create({ onSuccess }: CreateTransferProps) {
     const { t } = useTranslation();
     const { warehouses, products, warehouseStocks } = usePage<TransfersIndexProps>().props;
-    
+
     const { data, setData, post, processing, errors } = useForm<CreateTransferFormData>({
         from_warehouse: '',
         to_warehouse: '',
@@ -23,15 +23,16 @@ export default function Create({ onSuccess }: CreateTransferProps) {
     });
 
     // Filter warehouses for "to" dropdown (exclude selected "from" warehouse)
-    const availableToWarehouses = warehouses.filter(w => w.id.toString() !== data.from_warehouse);
-    
+    const availableToWarehouses = warehouses.filter((w) => w.id.toString() !== data.from_warehouse);
+
     // Filter products based on selected warehouse and show available quantity
-    const availableProducts = warehouseStocks
-        ?.filter(stock => stock.warehouse_id.toString() === data.from_warehouse && Number(stock.quantity) > 0)
-        ?.map(stock => ({
-            ...stock.product,
-            available_quantity: stock.quantity
-        })) || [];
+    const availableProducts =
+        warehouseStocks
+            ?.filter((stock) => stock.warehouse_id.toString() === data.from_warehouse && Number(stock.quantity) > 0)
+            ?.map((stock) => ({
+                ...stock.product,
+                available_quantity: stock.quantity,
+            })) || [];
 
     const handleFromWarehouseChange = (value: string) => {
         setData({
@@ -39,11 +40,11 @@ export default function Create({ onSuccess }: CreateTransferProps) {
             from_warehouse: value,
             to_warehouse: data.to_warehouse === value ? '' : data.to_warehouse,
             product_id: '',
-            quantity: ''
+            quantity: '',
         });
     };
 
-    const selectedProduct = availableProducts.find(p => p.id.toString() === data.product_id);
+    const selectedProduct = availableProducts.find((p) => p.id.toString() === data.product_id);
     const maxQuantity = selectedProduct?.available_quantity || 0;
 
     const submit = (e: React.FormEvent) => {
@@ -51,7 +52,7 @@ export default function Create({ onSuccess }: CreateTransferProps) {
         post(route('transfers.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -80,9 +81,17 @@ export default function Create({ onSuccess }: CreateTransferProps) {
 
                 <div>
                     <Label htmlFor="to_warehouse">{t('To Warehouse')}</Label>
-                    <Select value={data.to_warehouse} onValueChange={(value) => setData('to_warehouse', value)} disabled={!data.from_warehouse}>
+                    <Select
+                        value={data.to_warehouse}
+                        onValueChange={(value) => setData('to_warehouse', value)}
+                        disabled={!data.from_warehouse}
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.from_warehouse ? t('Select warehouse') : t('Select from warehouse first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.from_warehouse ? t('Select warehouse') : t('Select from warehouse first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {availableToWarehouses.map((warehouse) => (
@@ -97,9 +106,17 @@ export default function Create({ onSuccess }: CreateTransferProps) {
 
                 <div>
                     <Label htmlFor="product_id">{t('Product')}</Label>
-                    <Select value={data.product_id} onValueChange={(value) => setData('product_id', value)} disabled={!data.from_warehouse}>
+                    <Select
+                        value={data.product_id}
+                        onValueChange={(value) => setData('product_id', value)}
+                        disabled={!data.from_warehouse}
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.from_warehouse ? t('Select product') : t('Select from warehouse first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.from_warehouse ? t('Select product') : t('Select from warehouse first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {availableProducts.map((product) => (

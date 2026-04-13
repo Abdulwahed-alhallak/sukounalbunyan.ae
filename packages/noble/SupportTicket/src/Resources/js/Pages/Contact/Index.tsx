@@ -37,21 +37,20 @@ interface ContactIndexProps {
 export default function Index({ contacts }: ContactIndexProps) {
     const { t } = useTranslation();
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     const [filters, setFilters] = useState({
         search: urlParams.get('search') || '',
     });
-    
+
     const [perPage, setPerPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'desc');
     const [viewModalOpen, setViewModalOpen] = useState(false);
     const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'support-ticket-contact.destroy',
-        defaultMessage: t('Are you sure you want to delete this contact?')
+        defaultMessage: t('Are you sure you want to delete this contact?'),
     });
 
     const handleViewContact = (contact: Contact) => {
@@ -60,28 +59,40 @@ export default function Index({ contacts }: ContactIndexProps) {
     };
 
     const handleFilter = () => {
-        router.get(route('support-ticket-contact.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('support-ticket-contact.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handlePerPageChange = (newPerPage: string) => {
         setPerPage(newPerPage);
-        router.get(route('support-ticket-contact.index'), {...filters, per_page: newPerPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('support-ticket-contact.index'),
+            { ...filters, per_page: newPerPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('support-ticket-contact.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('support-ticket-contact.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const tableColumns = [
@@ -89,17 +100,17 @@ export default function Index({ contacts }: ContactIndexProps) {
             key: 'name',
             header: t('Name'),
             sortable: true,
-            render: (_: any, contact: Contact) => `${contact.first_name} ${contact.last_name}`
+            render: (_: any, contact: Contact) => `${contact.first_name} ${contact.last_name}`,
         },
         {
             key: 'email',
             header: t('Email'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'subject',
             header: t('Subject'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'message',
@@ -107,13 +118,13 @@ export default function Index({ contacts }: ContactIndexProps) {
             render: (value: string) => {
                 const text = value?.replace(/<[^>]*>/g, '') || '';
                 return text.length > 50 ? text.substring(0, 50) + '...' : text;
-            }
+            },
         },
         {
             key: 'created_at',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => formatDateTime(value)
+            render: (value: string) => formatDateTime(value),
         },
         {
             key: 'actions',
@@ -123,9 +134,9 @@ export default function Index({ contacts }: ContactIndexProps) {
                     <TooltipProvider>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     className="h-8 w-8 p-0 text-foreground hover:text-foreground"
                                     onClick={() => handleViewContact(contact)}
                                 >
@@ -140,9 +151,9 @@ export default function Index({ contacts }: ContactIndexProps) {
                     <TooltipProvider>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                     onClick={() => openDeleteDialog(contact.id)}
                                 >
@@ -155,27 +166,27 @@ export default function Index({ contacts }: ContactIndexProps) {
                         </Tooltip>
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Support Tickets'), url: route('dashboard.support-tickets')},
-                {label: t('Contact')}
+                { label: t('Support Tickets'), url: route('dashboard.support-tickets') },
+                { label: t('Contact') },
             ]}
             pageTitle={t('Manage Contact')}
         >
             <Head title="Manage Contact" />
-            
+
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search contacts...')}
                             />
@@ -203,9 +214,13 @@ export default function Index({ contacts }: ContactIndexProps) {
                             emptyState={
                                 <div className="flex flex-col items-center justify-center py-12">
                                     <div className="text-center">
-                                        <Mail className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                                        <h3 className="text-lg font-medium text-foreground mb-2">{t('No contacts found')}</h3>
-                                        <p className="text-muted-foreground">{t('No contact messages have been received yet.')}</p>
+                                        <Mail className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+                                        <h3 className="mb-2 text-lg font-medium text-foreground">
+                                            {t('No contacts found')}
+                                        </h3>
+                                        <p className="text-muted-foreground">
+                                            {t('No contact messages have been received yet.')}
+                                        </p>
                                     </div>
                                 </div>
                             }
@@ -213,11 +228,11 @@ export default function Index({ contacts }: ContactIndexProps) {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={contacts || { data: [], links: [], meta: {} }}
                         routeName="support-ticket-contact.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
@@ -233,35 +248,41 @@ export default function Index({ contacts }: ContactIndexProps) {
             />
 
             <Dialog open={viewModalOpen} onOpenChange={setViewModalOpen}>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader className="pb-4 border-b">
+                <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
+                    <DialogHeader className="border-b pb-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-foreground/10 rounded-lg">
+                            <div className="rounded-lg bg-foreground/10 p-2">
                                 <Mail className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
                                 <DialogTitle className="text-xl font-semibold">{t('Contact Details')}</DialogTitle>
                                 <p className="text-sm text-muted-foreground">
-                                    {selectedContact?.name || `${selectedContact?.first_name || ''} ${selectedContact?.last_name || ''}`.trim() || 'Contact Message'}
+                                    {selectedContact?.name ||
+                                        `${selectedContact?.first_name || ''} ${selectedContact?.last_name || ''}`.trim() ||
+                                        'Contact Message'}
                                 </p>
                             </div>
                         </div>
                     </DialogHeader>
-                    
+
                     {selectedContact && (
-                        <div className="overflow-y-auto flex-1 p-4">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="flex-1 overflow-y-auto p-4">
+                            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                                 {/* Left Column */}
                                 <div className="space-y-4">
                                     {/* Contact Information */}
                                     <Card>
                                         <CardContent className="p-4">
-                                            <h3 className="font-semibold text-sm mb-3 text-foreground">{t('Contact Information')}</h3>
+                                            <h3 className="mb-3 text-sm font-semibold text-foreground">
+                                                {t('Contact Information')}
+                                            </h3>
                                             <div className="grid grid-cols-1 gap-3 text-sm">
                                                 <div>
                                                     <span className="text-muted-foreground">{t('Full Name')}</span>
                                                     <p className="mt-1 font-medium">
-                                                        {selectedContact.name || `${selectedContact.first_name || ''} ${selectedContact.last_name || ''}`.trim() || '-'}
+                                                        {selectedContact.name ||
+                                                            `${selectedContact.first_name || ''} ${selectedContact.last_name || ''}`.trim() ||
+                                                            '-'}
                                                     </p>
                                                 </div>
                                                 <div>
@@ -275,17 +296,25 @@ export default function Index({ contacts }: ContactIndexProps) {
                                     {/* Message Details */}
                                     <Card>
                                         <CardContent className="p-4">
-                                            <h3 className="font-semibold text-sm mb-3 text-foreground">{t('Message Details')}</h3>
+                                            <h3 className="mb-3 text-sm font-semibold text-foreground">
+                                                {t('Message Details')}
+                                            </h3>
                                             <div className="space-y-3">
                                                 <div>
-                                                    <span className="text-muted-foreground text-sm">{t('Subject')}</span>
+                                                    <span className="text-sm text-muted-foreground">
+                                                        {t('Subject')}
+                                                    </span>
                                                     <p className="mt-1 font-medium">{selectedContact.subject || '-'}</p>
                                                 </div>
                                                 <div>
-                                                    <span className="text-muted-foreground text-sm">{t('Received Date')}</span>
-                                                    <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-sm text-muted-foreground">
+                                                        {t('Received Date')}
+                                                    </span>
+                                                    <div className="mt-1 flex items-center gap-2">
                                                         <Calendar className="h-4 w-4 text-muted-foreground" />
-                                                        <p className="font-medium">{formatDateTime(selectedContact.created_at)}</p>
+                                                        <p className="font-medium">
+                                                            {formatDateTime(selectedContact.created_at)}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -298,9 +327,11 @@ export default function Index({ contacts }: ContactIndexProps) {
                                     {/* Message Content */}
                                     <Card>
                                         <CardContent className="p-4">
-                                            <h3 className="font-semibold text-sm mb-3 text-foreground">{t('Message Content')}</h3>
-                                            <div className="bg-muted/50 rounded-lg p-4 border min-h-[200px]">
-                                                <p className="text-foreground leading-relaxed whitespace-pre-wrap text-sm">
+                                            <h3 className="mb-3 text-sm font-semibold text-foreground">
+                                                {t('Message Content')}
+                                            </h3>
+                                            <div className="min-h-[200px] rounded-lg border bg-muted/50 p-4">
+                                                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
                                                     {selectedContact.message || 'No message content'}
                                                 </p>
                                             </div>

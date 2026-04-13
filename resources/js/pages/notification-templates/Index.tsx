@@ -49,49 +49,60 @@ export default function Index() {
     const { t } = useTranslation();
     const { notificationTemplates, allTypes, activeType, auth } = usePage<Props>().props;
 
-    const availableTypes = allTypes.filter(type => type !== 'mail');
+    const availableTypes = allTypes.filter((type) => type !== 'mail');
     const urlParams = new URLSearchParams(window.location.search);
     const [searchValue, setSearchValue] = useState(urlParams.get('action') || '');
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
 
-
     const handleTabChange = (type: string) => {
-        router.get(route('notification-templates.index'), {type, action: searchValue, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('notification-templates.index'),
+            { type, action: searchValue, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSearch = () => {
-        router.get(route('notification-templates.index'), {type: activeType, action: searchValue, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('notification-templates.index'),
+            { type: activeType, action: searchValue, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('notification-templates.index'), {type: activeType, action: searchValue, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('notification-templates.index'),
+            { type: activeType, action: searchValue, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const tableColumns = [
         {
             key: 'action',
             header: t('Subject'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'module',
             header: t('Module'),
             sortable: true,
-            render: (value: string) => (value ? getPackageAlias(value) : '-')
+            render: (value: string) => (value ? getPackageAlias(value) : '-'),
         },
         {
             key: 'actions',
@@ -118,8 +129,8 @@ export default function Index() {
                         )}
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
@@ -130,10 +141,10 @@ export default function Index() {
             <Head title={t('Notification Templates')} />
 
             {availableTypes.length > 0 && (
-                <div className='mb-4'>
+                <div className="mb-4">
                     <Tabs value={activeType} onValueChange={handleTabChange}>
                         <TabsList>
-                            {availableTypes.map(type => (
+                            {availableTypes.map((type) => (
                                 <TabsTrigger key={type} value={type} className="capitalize">
                                     {getPackageAlias(type)}
                                 </TabsTrigger>
@@ -144,9 +155,9 @@ export default function Index() {
             )}
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={searchValue}
                                 onChange={(value) => setSearchValue(value)}
@@ -154,16 +165,12 @@ export default function Index() {
                                 placeholder={t('Search notification templates...')}
                             />
                         </div>
-                        <PerPageSelector
-                            routeName="notification-templates.index"
-                        />
+                        <PerPageSelector routeName="notification-templates.index" />
                     </div>
                 </CardContent>
 
-
-
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={notificationTemplates.data}
@@ -177,7 +184,6 @@ export default function Index() {
                                         icon={Bell}
                                         title={t('No notification templates found')}
                                         description={t('Notification templates will appear here.')}
-
                                         className="h-auto"
                                     />
                                 }
@@ -186,11 +192,11 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={notificationTemplates}
                         routeName="notification-templates.index"
-                        filters={{type: activeType, action: searchValue, per_page: perPage}}
+                        filters={{ type: activeType, action: searchValue, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

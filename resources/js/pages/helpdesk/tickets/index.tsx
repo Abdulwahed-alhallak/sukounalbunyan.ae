@@ -5,17 +5,17 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Plus, Edit as EditIcon, Trash2, Eye, Ticket } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import Create from './create';
 import Edit from './edit';
@@ -32,53 +32,60 @@ export default function Index() {
         status: urlParams.get('status') || '',
         priority: urlParams.get('priority') || '',
         category_id: urlParams.get('category_id') || '',
-        company_id: urlParams.get('company_id') || ''
+        company_id: urlParams.get('company_id') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<HelpdeskTicketModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'helpdesk-tickets.destroy',
-        defaultMessage: t('Are you sure you want to delete this ticket?')
+        defaultMessage: t('Are you sure you want to delete this ticket?'),
     });
 
     const handleFilter = () => {
-        router.get(route('helpdesk-tickets.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('helpdesk-tickets.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('helpdesk-tickets.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('helpdesk-tickets.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ title: '', status: '', priority: '', category_id: '', company_id: '' });
-        router.get(route('helpdesk-tickets.index'), {per_page: perPage, view: viewMode});
+        router.get(route('helpdesk-tickets.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: any = null) => {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -86,7 +93,7 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
 
@@ -95,10 +102,10 @@ export default function Index() {
             open: 'bg-muted text-foreground',
             in_progress: 'bg-muted text-foreground',
             resolved: 'bg-muted text-foreground',
-            closed: 'bg-muted text-foreground'
+            closed: 'bg-muted text-foreground',
         };
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${colors[status as keyof typeof colors]}`}>
+            <span className={`rounded-full px-2 py-1 text-sm ${colors[status as keyof typeof colors]}`}>
                 {t(status.replace('_', ' '))}
             </span>
         );
@@ -109,10 +116,10 @@ export default function Index() {
             low: 'bg-muted text-foreground',
             medium: 'bg-muted text-foreground',
             high: 'bg-muted text-foreground',
-            urgent: 'bg-muted text-destructive'
+            urgent: 'bg-muted text-destructive',
         };
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${colors[priority as keyof typeof colors]}`}>
+            <span className={`rounded-full px-2 py-1 text-sm ${colors[priority as keyof typeof colors]}`}>
                 {t(priority)}
             </span>
         );
@@ -125,88 +132,115 @@ export default function Index() {
             sortable: true,
             render: (value: string, ticket: any) =>
                 auth.user?.permissions?.includes('view-helpdesk-tickets') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))}>#{value}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))}
+                    >
+                        #{value}
+                    </span>
                 ) : (
                     `#${value}`
-                )
+                ),
         },
         {
             key: 'title',
             header: t('Title'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'category',
             header: t('Category'),
-            render: (_: any, ticket: any) => ticket.category?.name || '-'
+            render: (_: any, ticket: any) => ticket.category?.name || '-',
         },
         {
             key: 'status',
             header: t('Status'),
             sortable: true,
-            render: (value: string) => getStatusBadge(value)
+            render: (value: string) => getStatusBadge(value),
         },
         {
             key: 'priority',
             header: t('Priority'),
             sortable: true,
-            render: (value: string) => getPriorityBadge(value)
+            render: (value: string) => getPriorityBadge(value),
         },
         {
             key: 'creator',
             header: t('Created By'),
-            render: (_: any, ticket: any) => ticket.creator?.name || '-'
+            render: (_: any, ticket: any) => ticket.creator?.name || '-',
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-helpdesk-tickets', 'edit-helpdesk-tickets', 'delete-helpdesk-tickets'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, ticket: any) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-helpdesk-tickets') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>{t('View')}</p></TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-helpdesk-tickets') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', ticket)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>{t('Edit')}</p></TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-helpdesk-tickets') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(ticket.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>{t('Delete')}</p></TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-helpdesk-tickets', 'edit-helpdesk-tickets', 'delete-helpdesk-tickets'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, ticket: any) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-helpdesk-tickets') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-helpdesk-tickets') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', ticket)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-helpdesk-tickets') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(ticket.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Support Tickets')}]}
+            breadcrumbs={[{ label: t('Support Tickets') }]}
             pageTitle={t('Manage Support Tickets')}
             pageActions={
                 <div className="flex gap-2">
@@ -232,12 +266,12 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.title}
-                                onChange={(value) => setFilters({...filters, title: value})}
+                                onChange={(value) => setFilters({ ...filters, title: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search tickets...')}
                             />
@@ -246,23 +280,27 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="helpdesk-tickets.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="helpdesk-tickets.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.status, filters.priority, filters.category_id, filters.company_id].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.status,
+                                        filters.priority,
+                                        filters.category_id,
+                                        filters.company_id,
+                                    ].filter(Boolean).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -272,11 +310,14 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status || undefined} onValueChange={(value) => setFilters({...filters, status: value || ''})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status || undefined}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value || '' })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by status')} />
                                     </SelectTrigger>
@@ -289,8 +330,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Priority')}</label>
-                                <Select value={filters.priority || undefined} onValueChange={(value) => setFilters({...filters, priority: value || ''})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Priority')}
+                                </label>
+                                <Select
+                                    value={filters.priority || undefined}
+                                    onValueChange={(value) => setFilters({ ...filters, priority: value || '' })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by priority')} />
                                     </SelectTrigger>
@@ -303,8 +349,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Category')}</label>
-                                <Select value={filters.category_id || undefined} onValueChange={(value) => setFilters({...filters, category_id: value || ''})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Category')}
+                                </label>
+                                <Select
+                                    value={filters.category_id || undefined}
+                                    onValueChange={(value) => setFilters({ ...filters, category_id: value || '' })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by category')} />
                                     </SelectTrigger>
@@ -319,8 +370,13 @@ export default function Index() {
                             </div>
                             {auth.user?.type === 'superadmin' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('User')}</label>
-                                    <Select value={filters.company_id || undefined} onValueChange={(value) => setFilters({...filters, company_id: value || ''})}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('User')}
+                                    </label>
+                                    <Select
+                                        value={filters.company_id || undefined}
+                                        onValueChange={(value) => setFilters({ ...filters, company_id: value || '' })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by User')} />
                                         </SelectTrigger>
@@ -335,8 +391,12 @@ export default function Index() {
                                 </div>
                             )}
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -345,87 +405,143 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={tickets.data}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={Ticket}
-                                        title={t('No tickets found')}
-                                        description={t('Get started by creating your first support ticket.')}
-                                        hasFilters={!!(filters.title || filters.status || filters.priority || filters.category_id || filters.company_id)}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-helpdesk-tickets"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Create Ticket')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={tickets.data}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={Ticket}
+                                            title={t('No tickets found')}
+                                            description={t('Get started by creating your first support ticket.')}
+                                            hasFilters={
+                                                !!(
+                                                    filters.title ||
+                                                    filters.status ||
+                                                    filters.priority ||
+                                                    filters.category_id ||
+                                                    filters.company_id
+                                                )
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-helpdesk-tickets"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText={t('Create Ticket')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {tickets.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {tickets.data.map((ticket) => (
                                         <Card key={ticket.id} className="border border-border">
                                             <div className="p-4">
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg">
+                                                <div className="mb-3 flex items-center gap-3">
+                                                    <div className="rounded-lg bg-foreground/10 p-2">
                                                         <Ticket className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="flex-1">
                                                         {auth.user?.permissions?.includes('view-helpdesk-tickets') ? (
-                                                            <h3 className="text-base text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))}>#{ticket.ticket_id}</h3>
+                                                            <h3
+                                                                className="cursor-pointer text-base text-foreground hover:text-foreground"
+                                                                onClick={() =>
+                                                                    router.get(
+                                                                        route('helpdesk-tickets.show', ticket.id)
+                                                                    )
+                                                                }
+                                                            >
+                                                                #{ticket.ticket_id}
+                                                            </h3>
                                                         ) : (
-                                                            <h3 className="text-base text-foreground">#{ticket.ticket_id}</h3>
+                                                            <h3 className="text-base text-foreground">
+                                                                #{ticket.ticket_id}
+                                                            </h3>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                <div className="space-y-3 mb-3">
+                                                <div className="mb-3 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-2">{t('Title')}</p>
-                                                        <p className="text-xs text-foreground truncate" title={ticket.title}>{ticket.title}</p>
+                                                        <p className="mb-2 text-xs font-medium text-muted-foreground">
+                                                            {t('Title')}
+                                                        </p>
+                                                        <p
+                                                            className="truncate text-xs text-foreground"
+                                                            title={ticket.title}
+                                                        >
+                                                            {ticket.title}
+                                                        </p>
                                                     </div>
 
                                                     <div className="grid grid-cols-2 gap-2">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Status')}</p>
-                                                            <div className="text-xs">{getStatusBadge(ticket.status)}</div>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Status')}
+                                                            </p>
+                                                            <div className="text-xs">
+                                                                {getStatusBadge(ticket.status)}
+                                                            </div>
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Priority')}</p>
-                                                            <div className="text-xs">{getPriorityBadge(ticket.priority)}</div>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Priority')}
+                                                            </p>
+                                                            <div className="text-xs">
+                                                                {getPriorityBadge(ticket.priority)}
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div className="grid grid-cols-2 gap-2">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Category')}</p>
-                                                            <p className="text-xs text-foreground truncate">{ticket.category?.name || '-'}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Category')}
+                                                            </p>
+                                                            <p className="truncate text-xs text-foreground">
+                                                                {ticket.category?.name || '-'}
+                                                            </p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Created By')}</p>
-                                                            <p className="text-xs text-foreground truncate">{ticket.creator?.name || '-'}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Created By')}
+                                                            </p>
+                                                            <p className="truncate text-xs text-foreground">
+                                                                {ticket.creator?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-end pt-3 border-t">
+                                                <div className="flex items-center justify-end border-t pt-3">
                                                     <div className="flex gap-1">
                                                         <TooltipProvider>
-                                                            {auth.user?.permissions?.includes('view-helpdesk-tickets') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'view-helpdesk-tickets'
+                                                            ) && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.get(route('helpdesk-tickets.show', ticket.id))} className="h-8 w-8 p-0 text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.get(
+                                                                                    route(
+                                                                                        'helpdesk-tickets.show',
+                                                                                        ticket.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -434,10 +550,17 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('edit-helpdesk-tickets') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'edit-helpdesk-tickets'
+                                                            ) && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', ticket)} className="h-8 w-8 p-0 text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', ticket)}
+                                                                            className="h-8 w-8 p-0 text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -446,7 +569,9 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-helpdesk-tickets') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-helpdesk-tickets'
+                                                            ) && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
@@ -475,7 +600,15 @@ export default function Index() {
                                     icon={Ticket}
                                     title={t('No tickets found')}
                                     description={t('Get started by creating your first support ticket.')}
-                                    hasFilters={!!(filters.title || filters.status || filters.priority || filters.category_id || filters.company_id)}
+                                    hasFilters={
+                                        !!(
+                                            filters.title ||
+                                            filters.status ||
+                                            filters.priority ||
+                                            filters.category_id ||
+                                            filters.company_id
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-helpdesk-tickets"
                                     onCreateClick={() => openModal('add')}
@@ -487,24 +620,19 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={tickets}
                         routeName="helpdesk-tickets.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <Edit
-                        ticket={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <Edit ticket={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

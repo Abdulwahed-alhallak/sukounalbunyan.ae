@@ -41,7 +41,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
         currencySymbolSpace: userSettings?.currencySymbolSpace === '1',
         currencySymbolPosition: userSettings?.currencySymbolPosition || 'before',
         currencySymbol: userSettings?.currencySymbol || '$',
-        currencyName: ''
+        currencyName: '',
     });
 
     // Preview amount
@@ -53,14 +53,14 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
         { value: '1', label: '1 (e.g., 1234.5)' },
         { value: '2', label: '2 (e.g., 1234.56)' },
         { value: '3', label: '3 (e.g., 1234.567)' },
-        { value: '4', label: '4 (e.g., 1234.5678)' }
+        { value: '4', label: '4 (e.g., 1234.5678)' },
     ];
 
     const thousandsSeparators = [
         { value: ',', label: 'Comma (1,234.56)' },
         { value: '.', label: 'Dot (1.234,56)' },
         { value: ' ', label: 'Space (1 234.56)' },
-        { value: 'none', label: 'None (123456.78)' }
+        { value: 'none', label: 'None (123456.78)' },
     ];
 
     // Initialize settings from userSettings
@@ -74,7 +74,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
             currencySymbolSpace: userSettings?.currencySymbolSpace === '1',
             currencySymbolPosition: userSettings?.currencySymbolPosition || 'before',
             currencySymbol: userSettings?.currencySymbol || '$',
-            currencyName: ''
+            currencyName: '',
         });
     }, [userSettings]);
 
@@ -82,9 +82,9 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
         if (currencies && currencies.length > 0) {
             const selectedCurrency = currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency);
             if (selectedCurrency) {
-                setCurrencySettings(prev => ({
+                setCurrencySettings((prev) => ({
                     ...prev,
-                    currencyName: selectedCurrency.name
+                    currencyName: selectedCurrency.name,
                 }));
             }
         }
@@ -92,9 +92,9 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
 
     // Handle currency settings form changes
     const handleCurrencySettingsChange = (field: string, value: string | boolean) => {
-        setCurrencySettings(prev => ({
+        setCurrencySettings((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
     };
 
@@ -102,11 +102,11 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
     const handleCurrencyChange = (value: string) => {
         const selectedCurrency = currencies.find((c: CurrencyProps) => c.code === value);
 
-        setCurrencySettings(prev => ({
+        setCurrencySettings((prev) => ({
             ...prev,
             defaultCurrency: value,
             currencySymbol: selectedCurrency?.symbol || '$',
-            currencyName: selectedCurrency?.name || value
+            currencyName: selectedCurrency?.name || value,
         }));
     };
 
@@ -156,17 +156,21 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
     const saveCurrencySettings = () => {
         setIsLoading(true);
 
-        router.post(route('settings.currency.update'), {
-            settings: currencySettings
-        }, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setIsLoading(false);
+        router.post(
+            route('settings.currency.update'),
+            {
+                settings: currencySettings,
             },
-            onError: () => {
-                setIsLoading(false);
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -177,24 +181,27 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         <DollarSign className="h-5 w-5" />
                         {t('Currency Settings')}
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="mt-1 text-sm text-muted-foreground">
                         {t('Configure how currency values are displayed throughout the application')}
                     </p>
                 </div>
                 {canEdit && (
-                    <Button className="order-2 rtl:order-1"onClick={saveCurrencySettings} disabled={isLoading} size="sm">
-                        <Save className="h-4 w-4 mr-2" />
+                    <Button
+                        className="order-2 rtl:order-1"
+                        onClick={saveCurrencySettings}
+                        disabled={isLoading}
+                        size="sm"
+                    >
+                        <Save className="mr-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
             </CardHeader>
             <CardContent>
                 {/* Live Preview Section */}
-                <div className="mb-6 p-4 bg-muted/30 rounded-md border flex flex-col md:flex-row items-center justify-between">
-                    <div className="flex flex-col items-center md:items-start mb-3 md:mb-0">
-                        <div className="text-2xl font-semibold mb-1">
-                            {formattedPreview()}
-                        </div>
+                <div className="mb-6 flex flex-col items-center justify-between rounded-md border bg-muted/30 p-4 md:flex-row">
+                    <div className="mb-3 flex flex-col items-center md:mb-0 md:items-start">
+                        <div className="mb-1 text-2xl font-semibold">{formattedPreview()}</div>
                         <div className="text-xs text-muted-foreground">
                             {currencySettings.currencyName} ({currencySettings.defaultCurrency})
                         </div>
@@ -203,7 +210,7 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         <div className="flex items-center gap-2">
                             <Input
                                 type="number"
-                                className="text-right h-8 text-sm"
+                                className="h-8 text-right text-sm"
                                 value={previewAmount}
                                 onChange={(e) => setPreviewAmount(parseFloat(e.target.value) || 0)}
                                 placeholder="Test amount"
@@ -217,13 +224,13 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                 className="h-8 text-xs"
                                 disabled={!canEdit}
                             >
-                                {t("Reset")}
+                                {t('Reset')}
                             </Button>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-3">
                         <Label>{t('Default Currency')}</Label>
                         <Select
@@ -241,7 +248,9 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                                             <SelectItem key={currency.id} value={currency.code}>
                                                 <div className="flex items-center">
                                                     <span className="w-8 text-center">{currency.symbol}</span>
-                                                    <span>{currency.code} - {currency.name}</span>
+                                                    <span>
+                                                        {currency.code} - {currency.name}
+                                                    </span>
                                                     {currency.code === currencySettings.defaultCurrency && (
                                                         <span className="ml-2 text-xs text-foreground">(Selected)</span>
                                                     )}
@@ -283,26 +292,34 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         <div className="grid grid-cols-2 gap-2">
                             <Button
                                 type="button"
-                                variant={currencySettings.currencySymbolPosition === 'before' ? "default" : "outline"}
+                                variant={currencySettings.currencySymbolPosition === 'before' ? 'default' : 'outline'}
                                 className="justify-center"
                                 onClick={() => handleCurrencySettingsChange('currencySymbolPosition', 'before')}
                                 disabled={!canEdit}
                             >
-                                <span className="mr-2">{currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)?.symbol || "$"}</span>100
+                                <span className="mr-2">
+                                    {currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)
+                                        ?.symbol || '$'}
+                                </span>
+                                100
                                 {currencySettings.currencySymbolPosition === 'before' && (
-                                    <Check className="h-4 w-4 ml-2" />
+                                    <Check className="ml-2 h-4 w-4" />
                                 )}
                             </Button>
                             <Button
                                 type="button"
-                                variant={currencySettings.currencySymbolPosition === 'after' ? "default" : "outline"}
+                                variant={currencySettings.currencySymbolPosition === 'after' ? 'default' : 'outline'}
                                 className="justify-center"
                                 onClick={() => handleCurrencySettingsChange('currencySymbolPosition', 'after')}
                                 disabled={!canEdit}
                             >
-                                100<span className="ml-2">{currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)?.symbol || "$"}</span>
+                                100
+                                <span className="ml-2">
+                                    {currencies.find((c: CurrencyProps) => c.code === currencySettings.defaultCurrency)
+                                        ?.symbol || '$'}
+                                </span>
                                 {currencySettings.currencySymbolPosition === 'after' && (
-                                    <Check className="h-4 w-4 ml-2" />
+                                    <Check className="ml-2 h-4 w-4" />
                                 )}
                             </Button>
                         </div>
@@ -313,27 +330,23 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         <div className="grid grid-cols-2 gap-2">
                             <Button
                                 type="button"
-                                variant={currencySettings.decimalSeparator === '.' ? "default" : "outline"}
+                                variant={currencySettings.decimalSeparator === '.' ? 'default' : 'outline'}
                                 className="justify-center"
                                 onClick={() => handleCurrencySettingsChange('decimalSeparator', '.')}
                                 disabled={!canEdit}
                             >
                                 {t('Dot')} (123.45)
-                                {currencySettings.decimalSeparator === '.' && (
-                                    <Check className="h-4 w-4 ml-2" />
-                                )}
+                                {currencySettings.decimalSeparator === '.' && <Check className="ml-2 h-4 w-4" />}
                             </Button>
                             <Button
                                 type="button"
-                                variant={currencySettings.decimalSeparator === ',' ? "default" : "outline"}
+                                variant={currencySettings.decimalSeparator === ',' ? 'default' : 'outline'}
                                 className="justify-center"
                                 onClick={() => handleCurrencySettingsChange('decimalSeparator', ',')}
                                 disabled={!canEdit}
                             >
                                 {t('Comma')} (123,45)
-                                {currencySettings.decimalSeparator === ',' && (
-                                    <Check className="h-4 w-4 ml-2" />
-                                )}
+                                {currencySettings.decimalSeparator === ',' && <Check className="ml-2 h-4 w-4" />}
                             </Button>
                         </div>
                     </div>
@@ -358,11 +371,13 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         </Select>
                     </div>
 
-                    <div className="space-y-3 border rounded-md p-4">
+                    <div className="space-y-3 rounded-md border p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <Label htmlFor="floatNumber">{t('Show Decimals')}</Label>
-                                <p className="text-xs text-muted-foreground mt-1">{t('Display decimal places in amounts')}</p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                    {t('Display decimal places in amounts')}
+                                </p>
                             </div>
                             <Switch
                                 id="floatNumber"
@@ -373,16 +388,20 @@ export default function CurrencySettings({ userSettings = {}, auth }: CurrencySe
                         </div>
                     </div>
 
-                    <div className="space-y-3 border rounded-md p-4">
+                    <div className="space-y-3 rounded-md border p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <Label htmlFor="currencySymbolSpace">{t('Add Space')}</Label>
-                                <p className="text-xs text-muted-foreground mt-1">{t('Space between amount and symbol')}</p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                    {t('Space between amount and symbol')}
+                                </p>
                             </div>
                             <Switch
                                 id="currencySymbolSpace"
                                 checked={currencySettings.currencySymbolSpace}
-                                onCheckedChange={(checked) => handleCurrencySettingsChange('currencySymbolSpace', checked)}
+                                onCheckedChange={(checked) =>
+                                    handleCurrencySettingsChange('currencySymbolSpace', checked)
+                                }
                                 disabled={!canEdit}
                             />
                         </div>

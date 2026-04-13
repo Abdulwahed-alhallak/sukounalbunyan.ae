@@ -1,7 +1,5 @@
 import { Calculator, Building2, CreditCard, FileText, Landmark, BarChart3 } from 'lucide-react';
 
-
-
 export const accountCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Account Dashboard'),

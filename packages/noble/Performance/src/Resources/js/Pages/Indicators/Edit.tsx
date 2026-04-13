@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 
 interface PerformanceIndicator {
     id: number;
@@ -54,7 +54,7 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
         put(route('performance.indicators.update', indicator.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -64,9 +64,11 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
                 <DialogTitle>{t('Edit Performance Indicator')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="name" required>{t('Name')}</Label>
+                        <Label htmlFor="name" required>
+                            {t('Name')}
+                        </Label>
                         <Input
                             id="name"
                             value={data.name}
@@ -76,10 +78,16 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
                         />
                         <InputError message={errors.name} />
                     </div>
-                    
+
                     <div>
-                        <Label htmlFor="category_id" required>{t('Category')}</Label>
-                        <Select value={data.category_id} onValueChange={(value) => setData('category_id', value)} required>
+                        <Label htmlFor="category_id" required>
+                            {t('Category')}
+                        </Label>
+                        <Select
+                            value={data.category_id}
+                            onValueChange={(value) => setData('category_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select category')} />
                             </SelectTrigger>
@@ -107,9 +115,11 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
                     <InputError message={errors.description} />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="measurement_unit" required>{t('Measurement Unit')}</Label>
+                        <Label htmlFor="measurement_unit" required>
+                            {t('Measurement Unit')}
+                        </Label>
                         <Input
                             id="measurement_unit"
                             value={data.measurement_unit}
@@ -119,7 +129,7 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
                         />
                         <InputError message={errors.measurement_unit} />
                     </div>
-                    
+
                     <div>
                         <Label htmlFor="target_value">{t('Target Value')}</Label>
                         <Input
@@ -145,7 +155,7 @@ export default function Edit({ indicator, onSuccess, categories }: EditProps) {
                     </Select>
                     <InputError message={errors.status} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

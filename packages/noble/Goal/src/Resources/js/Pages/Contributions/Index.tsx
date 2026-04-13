@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, DollarSign } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, DollarSign } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
@@ -36,31 +36,30 @@ export default function Index() {
         date_range: (() => {
             const fromDate = urlParams.get('date_from');
             const toDate = urlParams.get('date_to');
-            return (fromDate && toDate) ? `${fromDate} - ${toDate}` : '';
+            return fromDate && toDate ? `${fromDate} - ${toDate}` : '';
         })(),
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
 
     const [modalState, setModalState] = useState<ContributionModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'goal.contributions.destroy',
-        defaultMessage: t('Are you sure you want to delete this contribution?')
+        defaultMessage: t('Are you sure you want to delete this contribution?'),
     });
 
     const handleFilter = () => {
-        const filterParams = {...filters};
+        const filterParams = { ...filters };
 
         if (filters.date_range) {
             const [fromDate, toDate] = filters.date_range.split(' - ');
@@ -69,10 +68,14 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('goal.contributions.index'), {...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('goal.contributions.index'),
+            { ...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
@@ -80,7 +83,7 @@ export default function Index() {
         setSortField(field);
         setSortDirection(direction);
 
-        const filterParams = {...filters};
+        const filterParams = { ...filters };
         if (filters.date_range) {
             const [fromDate, toDate] = filters.date_range.split(' - ');
             filterParams.date_from = fromDate;
@@ -88,10 +91,14 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('goal.contributions.index'), {...filterParams, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('goal.contributions.index'),
+            { ...filterParams, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -101,7 +108,7 @@ export default function Index() {
             contribution_type: '',
             date_range: '',
         });
-        router.get(route('goal.contributions.index'), {per_page: perPage, view: viewMode});
+        router.get(route('goal.contributions.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: GoalContribution | null = null) => {
@@ -117,88 +124,101 @@ export default function Index() {
             key: 'goal',
             header: t('Goal'),
             sortable: false,
-            render: (_: any, contribution: GoalContribution) => contribution.goal?.goal_name || '-'
+            render: (_: any, contribution: GoalContribution) => contribution.goal?.goal_name || '-',
         },
         {
             key: 'contribution_date',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => formatDate(value)
+            render: (value: string) => formatDate(value),
         },
         {
             key: 'contribution_amount',
             header: t('Amount'),
             sortable: true,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'contribution_type',
             header: t('Type'),
             sortable: true,
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value === 'manual' ? 'bg-muted text-foreground' :
-                    value === 'automatic' ? 'bg-muted text-foreground' :
-                    value === 'journal_entry' ? 'bg-muted text-foreground' :
-                    'bg-muted text-foreground'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value === 'manual'
+                            ? 'bg-muted text-foreground'
+                            : value === 'automatic'
+                              ? 'bg-muted text-foreground'
+                              : value === 'journal_entry'
+                                ? 'bg-muted text-foreground'
+                                : 'bg-muted text-foreground'
+                    }`}
+                >
                     {t(value.replace('_', ' ').charAt(0).toUpperCase() + value.replace('_', ' ').slice(1))}
                 </span>
-            )
+            ),
         },
         {
             key: 'notes',
             header: t('Notes'),
             sortable: false,
-            render: (value: string) => value || '-'
+            render: (value: string) => value || '-',
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-goal-contributions', 'delete-goal-contributions'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, contribution: GoalContribution) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('edit-goal-contributions') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', contribution)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-goal-contributions') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(contribution.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['edit-goal-contributions', 'delete-goal-contributions'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, contribution: GoalContribution) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('edit-goal-contributions') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', contribution)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-goal-contributions') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(contribution.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Goal')},
-                {label: t('Contributions')}
-            ]}
+            breadcrumbs={[{ label: t('Goal') }, { label: t('Contributions') }]}
             pageTitle={t('Manage Contributions')}
             pageActions={
                 <TooltipProvider>
@@ -220,12 +240,12 @@ export default function Index() {
             <Head title={t('Contributions')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.goal_name}
-                                onChange={(value) => setFilters({...filters, goal_name: value})}
+                                onChange={(value) => setFilters({ ...filters, goal_name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Contributions...')}
                             />
@@ -234,23 +254,27 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="goal.contributions.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="goal.contributions.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.goal_name, filters.goal_id, filters.contribution_type, filters.date_range].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.goal_name,
+                                        filters.goal_id,
+                                        filters.contribution_type,
+                                        filters.date_range,
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -259,11 +283,16 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Goal')}</label>
-                                <Select value={filters.goal_id || 'all'} onValueChange={(value) => setFilters({...filters, goal_id: value === 'all' ? '' : value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Goal')}</label>
+                                <Select
+                                    value={filters.goal_id || 'all'}
+                                    onValueChange={(value) =>
+                                        setFilters({ ...filters, goal_id: value === 'all' ? '' : value })
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Goal')} />
                                     </SelectTrigger>
@@ -278,8 +307,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Type')}</label>
-                                <Select value={filters.contribution_type || 'all'} onValueChange={(value) => setFilters({...filters, contribution_type: value === 'all' ? '' : value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Type')}</label>
+                                <Select
+                                    value={filters.contribution_type || 'all'}
+                                    onValueChange={(value) =>
+                                        setFilters({ ...filters, contribution_type: value === 'all' ? '' : value })
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Type')} />
                                     </SelectTrigger>
@@ -292,16 +326,22 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DateRangePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -309,79 +349,128 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={contributions?.data || []}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={DollarSign}
-                                        title={t('No Contributions found')}
-                                        description={t('Get started by creating your first Contribution.')}
-                                        hasFilters={!!(filters.goal_name || filters.goal_id || filters.contribution_type || filters.date_range)}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-goal-contributions"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Create Contribution')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={contributions?.data || []}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={DollarSign}
+                                            title={t('No Contributions found')}
+                                            description={t('Get started by creating your first Contribution.')}
+                                            hasFilters={
+                                                !!(
+                                                    filters.goal_name ||
+                                                    filters.goal_id ||
+                                                    filters.contribution_type ||
+                                                    filters.date_range
+                                                )
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-goal-contributions"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText={t('Create Contribution')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {contributions?.data && contributions.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {contributions.data?.map((contribution) => (
-                                        <Card key={contribution.id} className="border border-border hover:shadow-md transition-shadow">
+                                        <Card
+                                            key={contribution.id}
+                                            className="border border-border transition-shadow hover:shadow-md"
+                                        >
                                             <div className="p-4">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <h3 className="font-semibold text-base text-foreground truncate">{contribution.goal?.goal_name}</h3>
+                                                <div className="mb-3 flex items-center justify-between">
+                                                    <h3 className="truncate text-base font-semibold text-foreground">
+                                                        {contribution.goal?.goal_name}
+                                                    </h3>
                                                 </div>
 
-                                                <div className="space-y-3 mb-4">
+                                                <div className="mb-4 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Date')}</p>
-                                                        <p className="text-sm text-foreground font-medium">{formatDate(contribution.contribution_date)}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Date')}
+                                                        </p>
+                                                        <p className="text-sm font-medium text-foreground">
+                                                            {formatDate(contribution.contribution_date)}
+                                                        </p>
                                                     </div>
-                                                    <div className="bg-muted/50 rounded-lg p-3">
-                                                        <div className="flex justify-between items-center mb-2">
-                                                            <span className="text-sm font-semibold text-foreground">{t('Amount')}</span>
-                                                            <span className="text-lg font-bold text-foreground">{formatCurrency(contribution.contribution_amount)}</span>
+                                                    <div className="rounded-lg bg-muted/50 p-3">
+                                                        <div className="mb-2 flex items-center justify-between">
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {t('Amount')}
+                                                            </span>
+                                                            <span className="text-lg font-bold text-foreground">
+                                                                {formatCurrency(contribution.contribution_amount)}
+                                                            </span>
                                                         </div>
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-sm text-muted-foreground">{t('Type')}</span>
-                                                            <span className={`px-2 py-1 rounded-full text-xs ${
-                                                                contribution.contribution_type === 'manual' ? 'bg-muted text-foreground' :
-                                                                contribution.contribution_type === 'automatic' ? 'bg-muted text-foreground' :
-                                                                contribution.contribution_type === 'journal_entry' ? 'bg-muted text-foreground' :
-                                                                'bg-muted text-foreground'
-                                                            }`}>
-                                                                {t(contribution.contribution_type.replace('_', ' ').charAt(0).toUpperCase() + contribution.contribution_type.replace('_', ' ').slice(1))}
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm text-muted-foreground">
+                                                                {t('Type')}
+                                                            </span>
+                                                            <span
+                                                                className={`rounded-full px-2 py-1 text-xs ${
+                                                                    contribution.contribution_type === 'manual'
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : contribution.contribution_type === 'automatic'
+                                                                          ? 'bg-muted text-foreground'
+                                                                          : contribution.contribution_type ===
+                                                                              'journal_entry'
+                                                                            ? 'bg-muted text-foreground'
+                                                                            : 'bg-muted text-foreground'
+                                                                }`}
+                                                            >
+                                                                {t(
+                                                                    contribution.contribution_type
+                                                                        .replace('_', ' ')
+                                                                        .charAt(0)
+                                                                        .toUpperCase() +
+                                                                        contribution.contribution_type
+                                                                            .replace('_', ' ')
+                                                                            .slice(1)
+                                                                )}
                                                             </span>
                                                         </div>
                                                     </div>
                                                     {contribution.notes && (
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Notes')}</p>
-                                                            <p className="text-xs text-foreground">{contribution.notes}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Notes')}
+                                                            </p>
+                                                            <p className="text-xs text-foreground">
+                                                                {contribution.notes}
+                                                            </p>
                                                         </div>
                                                     )}
                                                 </div>
 
-                                                <div className="flex justify-end pt-3 border-t">
+                                                <div className="flex justify-end border-t pt-3">
                                                     <div className="flex gap-1">
                                                         <TooltipProvider>
-                                                            {auth.user?.permissions?.includes('edit-goal-contributions') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'edit-goal-contributions'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', contribution)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                openModal('edit', contribution)
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -390,13 +479,17 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-goal-contributions') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-goal-contributions'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(contribution.id)}
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(contribution.id)
+                                                                            }
                                                                             className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
@@ -419,7 +512,14 @@ export default function Index() {
                                     icon={DollarSign}
                                     title={t('No Contributions found')}
                                     description={t('Get started by creating your first Contribution.')}
-                                    hasFilters={!!(filters.goal_name || filters.goal_id || filters.contribution_type || filters.date_range)}
+                                    hasFilters={
+                                        !!(
+                                            filters.goal_name ||
+                                            filters.goal_id ||
+                                            filters.contribution_type ||
+                                            filters.date_range
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-goal-contributions"
                                     onCreateClick={() => openModal('add')}
@@ -430,24 +530,19 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={contributions || { data: [], links: [], meta: {} }}
                         routeName="goal.contributions.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <CreateContribution onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <CreateContribution onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditContribution
-                        contribution={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditContribution contribution={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

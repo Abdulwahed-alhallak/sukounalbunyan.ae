@@ -15,8 +15,8 @@ export interface BudgetPeriod {
     status: string;
     approved_by?: {
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     created_at: string;
 }
 

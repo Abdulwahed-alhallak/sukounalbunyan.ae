@@ -18,7 +18,6 @@ interface SourcesProps {
 }
 
 export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => openSourceModal());
     }, [onRegisterAddHandler]);
@@ -33,25 +32,30 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
         try {
             const response = await fetch(route('lead.leads.available-sources', lead.id));
             const sources = await response.json();
-            setAvailableSources(sources?.map((source: any) => ({
-                value: source.id.toString(),
-                label: source.name
-            })));
-        } catch (error) {
-        }
+            setAvailableSources(
+                sources?.map((source: any) => ({
+                    value: source.id.toString(),
+                    label: source.name,
+                }))
+            );
+        } catch (error) {}
     };
 
     const handleAssignSources = () => {
         if (selectedSources.length === 0) return;
 
-        router.post(route('lead.leads.assign-sources', lead.id), {
-            source_ids: selectedSources?.map(id => parseInt(id))
-        }, {
-            onSuccess: () => {
-                setSourceModalOpen(false);
-                setSelectedSources([]);
+        router.post(
+            route('lead.leads.assign-sources', lead.id),
+            {
+                source_ids: selectedSources?.map((id) => parseInt(id)),
+            },
+            {
+                onSuccess: () => {
+                    setSourceModalOpen(false);
+                    setSelectedSources([]);
+                },
             }
-        });
+        );
     };
 
     const openSourceModal = () => {
@@ -63,7 +67,7 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
         setSourceDeleteState({
             isOpen: true,
             sourceId,
-            message: t('Are you sure you want to delete this source?')
+            message: t('Are you sure you want to delete this source?'),
         });
     };
 
@@ -73,7 +77,7 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
 
     const confirmSourceDelete = () => {
         if (sourceDeleteState.sourceId) {
-            router.delete(route('lead.leads.remove-source', {lead: lead.id, source: sourceDeleteState.sourceId}));
+            router.delete(route('lead.leads.remove-source', { lead: lead.id, source: sourceDeleteState.sourceId }));
             closeSourceDeleteDialog();
         }
     };
@@ -85,12 +89,11 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
                     const response = await fetch(route('lead.leads.available-sources', lead.id));
                     const sources = await response.json();
                     const names = {};
-                    sources.forEach(source => {
+                    sources.forEach((source) => {
                         names[source.id] = source.name;
                     });
                     setSourceNames(names);
-                } catch (error) {
-                }
+                } catch (error) {}
             }
         };
         fetchSourceNames();
@@ -98,15 +101,30 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
-                        data={lead.sources ? [...new Set(lead.sources.split(',').filter(Boolean)?.map(id => id.trim()))]?.map((sourceId: string, index: number) => ({ id: sourceId, key: `source-${sourceId}-${index}`, name: sourceNames[sourceId] || '' })) : []}
+                        data={
+                            lead.sources
+                                ? [
+                                      ...new Set(
+                                          lead.sources
+                                              .split(',')
+                                              .filter(Boolean)
+                                              ?.map((id) => id.trim())
+                                      ),
+                                  ]?.map((sourceId: string, index: number) => ({
+                                      id: sourceId,
+                                      key: `source-${sourceId}-${index}`,
+                                      name: sourceNames[sourceId] || '',
+                                  }))
+                                : []
+                        }
                         columns={[
                             {
                                 key: 'name',
                                 header: t('Source Name'),
-                                render: (value: string, source: any) => source.name || ''
+                                render: (value: string, source: any) => source.name || '',
                             },
                             {
                                 key: 'actions',
@@ -116,9 +134,14 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => {
-                                                        openSourceDeleteDialog(source.id);
-                                                    }} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            openSourceDeleteDialog(source.id);
+                                                        }}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -128,8 +151,8 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -163,8 +186,12 @@ export default function Sources({ lead, onRegisterAddHandler }: SourcesProps) {
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setSourceModalOpen(false)}>{t('Cancel')}</Button>
-                            <Button onClick={handleAssignSources} disabled={selectedSources.length === 0}>{t('Save')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setSourceModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button onClick={handleAssignSources} disabled={selectedSources.length === 0}>
+                                {t('Save')}
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>

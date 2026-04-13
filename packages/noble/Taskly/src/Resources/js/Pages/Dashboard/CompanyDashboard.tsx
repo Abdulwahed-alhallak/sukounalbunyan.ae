@@ -1,10 +1,21 @@
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Head, usePage, router } from "@inertiajs/react";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { LineChart, PieChart } from '@/components/charts';
-import { FolderKanban, CheckSquare, Bug, Users, UserCheck, Activity, Target, Zap, ShieldAlert, TrendingUp } from 'lucide-react';
+import {
+    FolderKanban,
+    CheckSquare,
+    Bug,
+    Users,
+    UserCheck,
+    Activity,
+    Target,
+    Zap,
+    ShieldAlert,
+    TrendingUp,
+} from 'lucide-react';
 
 interface Task {
     id: number;
@@ -53,24 +64,34 @@ interface CompanyDashboardProps {
 
 export default function CompanyDashboard() {
     const { t } = useTranslation();
-    const { stats, recentTasks, projectStatus, taskPriority, teamPerformance, monthlyProgress, bugStats } = usePage<CompanyDashboardProps>().props;
+    const { stats, recentTasks, projectStatus, taskPriority, teamPerformance, monthlyProgress, bugStats } =
+        usePage<CompanyDashboardProps>().props;
 
     const getPriorityColor = (priority: string) => {
         switch (priority?.toLowerCase()) {
-            case 'high': return 'bg-destructive text-background';
-            case 'medium': return 'bg-muted-foreground text-background';
-            case 'low': return 'bg-foreground text-background';
-            default: return 'bg-muted/500 text-background';
+            case 'high':
+                return 'bg-destructive text-background';
+            case 'medium':
+                return 'bg-muted-foreground text-background';
+            case 'low':
+                return 'bg-foreground text-background';
+            default:
+                return 'bg-muted/500 text-background';
         }
     };
 
     const getStageColor = (stage: string) => {
         switch (stage?.toLowerCase()) {
-            case 'done': return 'bg-foreground/10 text-foreground border-foreground/20';
-            case 'in progress': return 'bg-muted/500/10 text-foreground border-foreground/20';
-            case 'review': return 'bg-foreground/10 text-foreground border-foreground/20';
-            case 'todo': return 'bg-muted/500/10 text-muted-foreground border-border/20';
-            default: return 'bg-muted/500/10 text-muted-foreground border-border/20';
+            case 'done':
+                return 'bg-foreground/10 text-foreground border-foreground/20';
+            case 'in progress':
+                return 'bg-muted/500/10 text-foreground border-foreground/20';
+            case 'review':
+                return 'bg-foreground/10 text-foreground border-foreground/20';
+            case 'todo':
+                return 'bg-muted/500/10 text-muted-foreground border-border/20';
+            default:
+                return 'bg-muted/500/10 text-muted-foreground border-border/20';
         }
     };
 
@@ -84,89 +105,121 @@ export default function CompanyDashboard() {
             <div className="space-y-8 pb-12">
                 {/* Tactical KPI Matrix */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
-                    <div onClick={() => router.get(route('project.index'))} className="premium-card group cursor-pointer p-6 bg-gradient-to-br from-muted/500/10 via-transparent to-transparent hover:scale-[1.02] transition-all duration-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="h-10 w-10 rounded-xl bg-muted/500/20 flex items-center justify-center text-foreground group-hover:bg-muted/500 group-hover:text-background transition-all duration-500">
+                    <div
+                        onClick={() => router.get(route('project.index'))}
+                        className="premium-card from-muted/500/10 group cursor-pointer bg-gradient-to-br via-transparent to-transparent p-6 transition-all duration-500 hover:scale-[1.02]"
+                    >
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="bg-muted/500/20 group-hover:bg-muted/500 flex h-10 w-10 items-center justify-center rounded-xl text-foreground transition-all duration-500 group-hover:text-background">
                                 <FolderKanban className="h-5 w-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Payload Active')}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Payload Active')}
+                            </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{stats.total_projects}</h3>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
-                                {stats.overdue_projects > 0 ? `${stats.overdue_projects} ${t('Sector Anomalies')}` : t('Operational Integrity')}
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
+                                {stats.overdue_projects > 0
+                                    ? `${stats.overdue_projects} ${t('Sector Anomalies')}`
+                                    : t('Operational Integrity')}
                             </p>
                         </div>
                     </div>
 
-                    <div onClick={() => router.get(route('project.tasks.index'))} className="premium-card group cursor-pointer p-6 bg-gradient-to-br from-foreground/10 via-transparent to-transparent hover:scale-[1.02] transition-all duration-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="h-10 w-10 rounded-xl bg-foreground/20 flex items-center justify-center text-foreground group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                    <div
+                        onClick={() => router.get(route('project.tasks.index'))}
+                        className="premium-card group cursor-pointer bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6 transition-all duration-500 hover:scale-[1.02]"
+                    >
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground transition-all duration-500 group-hover:bg-foreground group-hover:text-background">
                                 <CheckSquare className="h-5 w-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Mission Velocity')}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Mission Velocity')}
+                            </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{stats.completion_rate}%</h3>
-                            <p className="text-[10px] font-bold text-foreground uppercase tracking-tight">
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-foreground">
                                 {stats.completed_tasks}/{stats.total_tasks} {t('Tasks Captured')}
                             </p>
                         </div>
                     </div>
 
-                    <div onClick={() => router.get(route('project.bugs.index'))} className="premium-card group cursor-pointer p-6 bg-gradient-to-br from-foreground/10 via-transparent to-transparent hover:scale-[1.02] transition-all duration-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="h-10 w-10 rounded-xl bg-destructive/20 flex items-center justify-center text-destructive group-hover:bg-destructive group-hover:text-background transition-all duration-500">
+                    <div
+                        onClick={() => router.get(route('project.bugs.index'))}
+                        className="premium-card group cursor-pointer bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6 transition-all duration-500 hover:scale-[1.02]"
+                    >
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/20 text-destructive transition-all duration-500 group-hover:bg-destructive group-hover:text-background">
                                 <ShieldAlert className="h-5 w-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Threat Density')}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Threat Density')}
+                            </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{bugStats.open}</h3>
-                            <p className="text-[10px] font-bold text-destructive uppercase tracking-tight">
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-destructive">
                                 {bugStats.resolved} {t('Threats Neutralized')}
                             </p>
                         </div>
                     </div>
 
-                    <div onClick={() => router.get(route('users.index'))} className="premium-card group cursor-pointer p-6 bg-gradient-to-br from-muted/500/10 via-transparent to-transparent hover:scale-[1.02] transition-all duration-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="h-10 w-10 rounded-xl bg-foreground/20 flex items-center justify-center text-foreground group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                    <div
+                        onClick={() => router.get(route('users.index'))}
+                        className="premium-card from-muted/500/10 group cursor-pointer bg-gradient-to-br via-transparent to-transparent p-6 transition-all duration-500 hover:scale-[1.02]"
+                    >
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground transition-all duration-500 group-hover:bg-foreground group-hover:text-background">
                                 <Users className="h-5 w-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Personnel Unit')}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Personnel Unit')}
+                            </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{stats.total_users}</h3>
-                            <p className="text-[10px] font-bold text-foreground uppercase tracking-tight">{t('Registered Agents')}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-foreground">
+                                {t('Registered Agents')}
+                            </p>
                         </div>
                     </div>
 
-                    <div className="premium-card group p-6 bg-gradient-to-br from-foreground/10 via-transparent to-transparent hover:scale-[1.02] transition-all duration-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="h-10 w-10 rounded-xl bg-muted-foreground/20 flex items-center justify-center text-muted-foreground group-hover:bg-muted-foreground group-hover:text-background transition-all duration-500">
+                    <div className="premium-card group bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6 transition-all duration-500 hover:scale-[1.02]">
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted-foreground/20 text-muted-foreground transition-all duration-500 group-hover:bg-muted-foreground group-hover:text-background">
                                 <UserCheck className="h-5 w-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Entity Breadth')}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Entity Breadth')}
+                            </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{stats.total_clients}</h3>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">{t('Sector Stakeholders')}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
+                                {t('Sector Stakeholders')}
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
                     {/* Mission Flux Analytics */}
                     <div className="lg:col-span-8">
-                        <Card className="premium-card border-none bg-foreground/40 backdrop-blur-3xl overflow-hidden h-full">
-                            <CardHeader className="p-8 border-b border-white/5 flex flex-row items-center justify-between">
+                        <Card className="premium-card h-full overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
+                            <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 p-8">
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-2">
-                                        <TrendingUp className="h-4 w-4 text-foreground animate-pulse" />
-                                        <CardTitle className="text-sm font-black uppercase tracking-widest">{t('Mission Flux Analytics')}</CardTitle>
+                                        <TrendingUp className="h-4 w-4 animate-pulse text-foreground" />
+                                        <CardTitle className="text-sm font-black uppercase tracking-widest">
+                                            {t('Mission Flux Analytics')}
+                                        </CardTitle>
                                     </div>
-                                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-tight">{t('Operational Temporal Progression')}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-tight text-muted-foreground">
+                                        {t('Operational Temporal Progression')}
+                                    </p>
                                 </div>
                             </CardHeader>
                             <CardContent className="p-8">
@@ -178,7 +231,7 @@ export default function CompanyDashboard() {
                                     showGrid={false}
                                     lines={[
                                         { dataKey: 'created', color: '#3b82f6', name: 'Vector Created' },
-                                        { dataKey: 'completed', color: '#10b77f', name: 'Vector Captured' }
+                                        { dataKey: 'completed', color: '#10b77f', name: 'Vector Captured' },
                                     ]}
                                     xAxisKey="month"
                                     showLegend={true}
@@ -188,18 +241,20 @@ export default function CompanyDashboard() {
                     </div>
 
                     {/* Sector Status Matrix */}
-                    <div className="lg:col-span-4 space-y-8">
-                        <Card className="premium-card border-none bg-foreground/40 backdrop-blur-3xl overflow-hidden text-background">
-                            <CardHeader className="p-6 border-b border-white/5">
+                    <div className="space-y-8 lg:col-span-4">
+                        <Card className="premium-card overflow-hidden border-none bg-foreground/40 text-background backdrop-blur-3xl">
+                            <CardHeader className="border-b border-white/5 p-6">
                                 <div className="flex items-center gap-2">
                                     <Activity className="h-4 w-4 text-foreground" />
-                                    <CardTitle className="text-xs font-black uppercase tracking-widest">{t('Mission Status Matrix')}</CardTitle>
+                                    <CardTitle className="text-xs font-black uppercase tracking-widest">
+                                        {t('Mission Status Matrix')}
+                                    </CardTitle>
                                 </div>
                             </CardHeader>
                             <CardContent className="p-6">
                                 <div className="space-y-6">
                                     <PieChart
-                                        data={projectStatus.filter(item => item.value > 0)}
+                                        data={projectStatus.filter((item) => item.value > 0)}
                                         dataKey="value"
                                         nameKey="name"
                                         height={180}
@@ -207,40 +262,57 @@ export default function CompanyDashboard() {
                                         showTooltip={true}
                                     />
                                     <div className="grid grid-cols-1 gap-3">
-                                        {projectStatus.filter(item => item.value > 0)?.map((item, index) => (
-                                            <div key={index} className="flex items-center justify-between p-3 rounded-xl bg-card/5 border border-white/5 hover:bg-card/10 transition-all duration-300">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color, boxShadow: `0 0 10px ${item.color}` }}></div>
-                                                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{item.name}</span>
+                                        {projectStatus
+                                            .filter((item) => item.value > 0)
+                                            ?.map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex items-center justify-between rounded-xl border border-white/5 bg-card/5 p-3 transition-all duration-300 hover:bg-card/10"
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <div
+                                                            className="h-2 w-2 rounded-full"
+                                                            style={{
+                                                                backgroundColor: item.color,
+                                                                boxShadow: `0 0 10px ${item.color}`,
+                                                            }}
+                                                        ></div>
+                                                        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                            {item.name}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-sm font-black">{item.value}</span>
                                                 </div>
-                                                <span className="text-sm font-black">{item.value}</span>
-                                            </div>
-                                        ))}
+                                            ))}
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
 
-                        <Card className="premium-card border-none bg-foreground/40 backdrop-blur-3xl overflow-hidden text-background">
-                            <CardHeader className="p-6 border-b border-white/5">
+                        <Card className="premium-card overflow-hidden border-none bg-foreground/40 text-background backdrop-blur-3xl">
+                            <CardHeader className="border-b border-white/5 p-6">
                                 <div className="flex items-center gap-2">
                                     <Zap className="h-4 w-4 text-muted-foreground" />
-                                    <CardTitle className="text-xs font-black uppercase tracking-widest">{t('Personnel Capability Index')}</CardTitle>
+                                    <CardTitle className="text-xs font-black uppercase tracking-widest">
+                                        {t('Personnel Capability Index')}
+                                    </CardTitle>
                                 </div>
                             </CardHeader>
-                            <CardContent className="p-6 space-y-6">
+                            <CardContent className="space-y-6 p-6">
                                 {teamPerformance.slice(0, 4)?.map((member, index) => (
                                     <div key={index} className="space-y-3">
-                                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
                                             <span className="text-background">{member.name}</span>
-                                            <span className="text-muted-foreground">{member.completed_tasks}/{member.total_tasks} {t('Tasks Captured')}</span>
+                                            <span className="text-muted-foreground">
+                                                {member.completed_tasks}/{member.total_tasks} {t('Tasks Captured')}
+                                            </span>
                                         </div>
-                                        <div className="relative w-full h-1.5 bg-card/5 rounded-full overflow-hidden">
-                                            <div 
-                                                className="absolute top-0 left-0 h-full bg-gradient-to-r from-muted/500 to-foreground rounded-full"
-                                                style={{ 
+                                        <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-card/5">
+                                            <div
+                                                className="from-muted/500 absolute left-0 top-0 h-full rounded-full bg-gradient-to-r to-foreground"
+                                                style={{
                                                     width: `${member.completion_rate}%`,
-                                                    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)' 
+                                                    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)',
                                                 }}
                                             />
                                         </div>
@@ -253,47 +325,67 @@ export default function CompanyDashboard() {
 
                 {/* Real-Time Operational Feed */}
                 <div>
-                    <Card className="premium-card border-none bg-foreground/40 backdrop-blur-3xl overflow-hidden">
-                        <CardHeader className="p-8 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
+                        <CardHeader className="flex flex-col justify-between gap-4 border-b border-white/5 p-8 md:flex-row md:items-center">
                             <div className="space-y-1">
                                 <div className="flex items-center gap-2">
                                     <Activity className="h-4 w-4 text-foreground" />
-                                    <CardTitle className="text-sm font-black uppercase tracking-widest">{t('Real-Time Operational Feed')}</CardTitle>
+                                    <CardTitle className="text-sm font-black uppercase tracking-widest">
+                                        {t('Real-Time Operational Feed')}
+                                    </CardTitle>
                                 </div>
-                                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-tight">
-                                    {stats.completed_tasks} {t('of')} {stats.total_tasks} {t('vectors captured across global fleet')}
+                                <p className="text-[10px] font-black uppercase tracking-tight text-muted-foreground">
+                                    {stats.completed_tasks} {t('of')} {stats.total_tasks}{' '}
+                                    {t('vectors captured across global fleet')}
                                 </p>
                             </div>
                         </CardHeader>
                         <CardContent className="p-8">
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                                 {recentTasks?.map((task) => (
-                                    <div key={task.id} className="relative group overflow-hidden rounded-2xl bg-card/5 border border-white/5 p-6 hover:bg-card/10 transition-all duration-500">
-                                        <div className="absolute top-0 left-0 w-1 h-full bg-foreground/20 group-hover:bg-foreground transition-all duration-500" />
-                                        <div className="flex items-start justify-between mb-4">
-                                            <h4 className="font-black text-xs uppercase tracking-tight truncate flex-1 pr-4 text-background">{task.title}</h4>
+                                    <div
+                                        key={task.id}
+                                        className="group relative overflow-hidden rounded-2xl border border-white/5 bg-card/5 p-6 transition-all duration-500 hover:bg-card/10"
+                                    >
+                                        <div className="absolute left-0 top-0 h-full w-1 bg-foreground/20 transition-all duration-500 group-hover:bg-foreground" />
+                                        <div className="mb-4 flex items-start justify-between">
+                                            <h4 className="flex-1 truncate pr-4 text-xs font-black uppercase tracking-tight text-background">
+                                                {task.title}
+                                            </h4>
                                             {task.is_completed && (
-                                                <div className="h-5 w-5 rounded-full bg-foreground/20 flex items-center justify-center text-foreground">
+                                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-foreground/20 text-foreground">
                                                     <CheckSquare className="h-3 w-3" />
                                                 </div>
                                             )}
                                         </div>
                                         <div className="space-y-4">
-                                            <div className="flex justify-between items-center">
-                                                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t('Threat Level')}</span>
-                                                <Badge className={`${getPriorityColor(task.priority)} text-[8px] font-black uppercase px-2 py-0 h-4 border-none`}>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                    {t('Threat Level')}
+                                                </span>
+                                                <Badge
+                                                    className={`${getPriorityColor(task.priority)} h-4 border-none px-2 py-0 text-[8px] font-black uppercase`}
+                                                >
                                                     {task.priority}
                                                 </Badge>
                                             </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t('Operational Stage')}</span>
-                                                <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border ${getStageColor(task.stage)}`}>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                    {t('Operational Stage')}
+                                                </span>
+                                                <span
+                                                    className={`rounded border px-1.5 py-0.5 text-[8px] font-black uppercase tracking-widest ${getStageColor(task.stage)}`}
+                                                >
                                                     {task.stage}
                                                 </span>
                                             </div>
-                                            <div className="flex justify-between items-center pt-4 border-t border-white/5">
-                                                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest truncate max-w-[50%]">{task.project}</span>
-                                                <span className="text-[10px] font-black text-background uppercase tracking-tight">{task.assignee}</span>
+                                            <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                                                <span className="max-w-[50%] truncate text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                    {task.project}
+                                                </span>
+                                                <span className="text-[10px] font-black uppercase tracking-tight text-background">
+                                                    {task.assignee}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

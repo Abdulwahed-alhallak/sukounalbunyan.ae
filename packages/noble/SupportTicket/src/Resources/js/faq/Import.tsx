@@ -51,10 +51,10 @@ export default function ImportFaq({ routes }: ImportFaqProps) {
                                 <Button type="submit" className="btn btn-primary" disabled={processing}>
                                     {processing ? t('Importing...') : t('Import')}
                                 </Button>
-                                <Button 
-                                    type="button" 
+                                <Button
+                                    type="button"
                                     className="btn btn-secondary ms-2"
-                                    onClick={() => window.location.href = routes.index}
+                                    onClick={() => (window.location.href = routes.index)}
                                 >
                                     {t('Cancel')}
                                 </Button>

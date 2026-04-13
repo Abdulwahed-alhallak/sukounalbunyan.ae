@@ -1,20 +1,11 @@
 import { useState, ReactNode } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { getImagePath } from '@/utils/helpers';
 import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
 
-import {
-    Menu,
-    X,
-    Ticket,
-    Search,
-    Book,
-    HelpCircle,
-    UserCircle,
-    Headphones
-} from 'lucide-react';
+import { Menu, X, Ticket, Search, Book, HelpCircle, UserCircle, Headphones } from 'lucide-react';
 
 interface SupportTicketLayoutProps {
     children: ReactNode;
@@ -62,23 +53,36 @@ interface PageProps {
     slug: string;
 }
 
-export default function SupportTicketLayout({ children, title = "Support Ticket", settings: layoutSettings, brandSettings }: SupportTicketLayoutProps) {
+export default function SupportTicketLayout({
+    children,
+    title = 'Support Ticket',
+    settings: layoutSettings,
+    brandSettings,
+}: SupportTicketLayoutProps) {
     const { t } = useTranslation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { auth, settings, privacyPolicy, termsConditions, slug } = usePage<PageProps>().props;
 
     const currentSettings = layoutSettings || settings;
 
-    const integrationFields = useFormFields('getIntegrationFields', {}, () => { }, {}, 'create', t, 'SupportTicket');
+    const integrationFields = useFormFields('getIntegrationFields', {}, () => {}, {}, 'create', t, 'SupportTicket');
     const currentYear = new Date().getFullYear();
-    const logoUrl = brandSettings?.logo_dark && brandSettings.logo_dark.trim() !== ''
-        ? (brandSettings.logo_dark.startsWith('http') ? brandSettings.logo_dark : getImagePath(brandSettings.logo_dark))
-        : getImagePath('packages/noble/SupportTicket/src/Resources/assets/images/logo.png');
-    const faviconUrl = brandSettings?.favicon && brandSettings.favicon.trim() !== ''
-        ? (brandSettings.favicon.startsWith('http') ? brandSettings.favicon : getImagePath(brandSettings.favicon))
-        : getImagePath('packages/noble/SupportTicket/src/Resources/assets/images/favicon.png');
+    const logoUrl =
+        brandSettings?.logo_dark && brandSettings.logo_dark.trim() !== ''
+            ? brandSettings.logo_dark.startsWith('http')
+                ? brandSettings.logo_dark
+                : getImagePath(brandSettings.logo_dark)
+            : getImagePath('packages/noble/SupportTicket/src/Resources/assets/images/logo.png');
+    const faviconUrl =
+        brandSettings?.favicon && brandSettings.favicon.trim() !== ''
+            ? brandSettings.favicon.startsWith('http')
+                ? brandSettings.favicon
+                : getImagePath(brandSettings.favicon)
+            : getImagePath('packages/noble/SupportTicket/src/Resources/assets/images/favicon.png');
     const siteTitle = brandSettings?.titleText || 'Support Ticket System';
-    const footerText = brandSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture Support System. All rights reserved.`;
+    const footerText =
+        brandSettings?.footerText ||
+        `© ${new Date().getFullYear()} Noble Architecture Support System. All rights reserved.`;
 
     const navigationItems = [
         { name: t('Create Ticket'), href: route('support-ticket.index', [slug]), icon: Ticket },
@@ -86,7 +90,11 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
     ];
 
     if (currentSettings?.knowledge_base_is_on === 'on') {
-        navigationItems.push({ name: t('Knowledge Base'), href: route('support-ticket.knowledge', [slug]), icon: Book });
+        navigationItems.push({
+            name: t('Knowledge Base'),
+            href: route('support-ticket.knowledge', [slug]),
+            icon: Book,
+        });
     }
 
     if (currentSettings?.faq_is_on === 'on') {
@@ -115,30 +123,36 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
                 }
             `}</style>
 
-            <div className="min-h-screen font-sans relative overflow-x-hidden" style={{
-                backgroundColor: '#14b8a614',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230284c7' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-            }}>
-                <div className="container mx-auto px-4 py-4 max-w-7xl relative z-10">
+            <div
+                className="relative min-h-screen overflow-x-hidden font-sans"
+                style={{
+                    backgroundColor: '#14b8a614',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230284c7' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                }}
+            >
+                <div className="container relative z-10 mx-auto max-w-7xl px-4 py-4">
                     {/* Header */}
                     <header className="mb-10 md:mb-16">
-                        <div className="bg-foreground text-background py-3 px-4 rounded-xl shadow-lg mb-4">
-                            <div className="flex justify-between items-center">
+                        <div className="mb-4 rounded-xl bg-foreground px-4 py-3 text-background shadow-lg">
+                            <div className="flex items-center justify-between">
                                 {/* Logo */}
                                 <h1>
-                                    <Link href={route('support-ticket.index', [slug])} className="flex items-center space-x-3 lg:max-w-none max-w-[120px]">
+                                    <Link
+                                        href={route('support-ticket.index', [slug])}
+                                        className="flex max-w-[120px] items-center space-x-3 lg:max-w-none"
+                                    >
                                         <img src={logoUrl} alt={siteTitle} className="h-8" />
                                     </Link>
                                 </h1>
 
                                 {/* Desktop Navigation */}
-                                <div className="main-nav hidden md:flex flex-1 justify-center">
+                                <div className="main-nav hidden flex-1 justify-center md:flex">
                                     <nav className="flex items-center gap-6">
                                         {navigationItems?.map((item) => (
                                             <Link
                                                 key={item.name}
                                                 href={item.href}
-                                                className="text-background transition font-medium duration-300 hover:text-muted-foreground/40"
+                                                className="font-medium text-background transition duration-300 hover:text-muted-foreground/40"
                                             >
                                                 {item.name}
                                             </Link>
@@ -148,21 +162,24 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
 
                                 {/* Contact Button */}
                                 <div className="hidden md:block">
-                                    <Button variant="secondary" size="sm" className="bg-card text-foreground hover:bg-muted" asChild>
+                                    <Button
+                                        variant="secondary"
+                                        size="sm"
+                                        className="bg-card text-foreground hover:bg-muted"
+                                        asChild
+                                    >
                                         <Link href={route('support-ticket.contact', [slug])}>
-                                            <Headphones className="h-4 w-4 mr-2" />
+                                            <Headphones className="mr-2 h-4 w-4" />
                                             {t('Contact')}
                                         </Link>
                                     </Button>
                                 </div>
 
-
-
                                 {/* Mobile Menu Button */}
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="md:hidden text-background"
+                                    className="text-background md:hidden"
                                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                 >
                                     {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -172,22 +189,22 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
 
                         {/* Mobile Menu */}
                         {mobileMenuOpen && (
-                            <div className="bg-card rounded-xl shadow-lg mb-4 p-4 md:hidden">
+                            <div className="mb-4 rounded-xl bg-card p-4 shadow-lg md:hidden">
                                 <nav className="flex flex-col space-y-2">
                                     {navigationItems?.map((item) => (
                                         <Link
                                             key={item.name}
                                             href={item.href}
-                                            className="text-foreground rounded-lg hover:text-foreground transition duration-300 flex items-center p-2"
+                                            className="flex items-center rounded-lg p-2 text-foreground transition duration-300 hover:text-foreground"
                                             onClick={() => setMobileMenuOpen(false)}
                                         >
-                                            <item.icon className="h-4 w-4 mr-2" /> {item.name}
+                                            <item.icon className="mr-2 h-4 w-4" /> {item.name}
                                         </Link>
                                     ))}
-                                    <div className="flex flex-wrap justify-center items-center border-t pt-3 gap-3">
+                                    <div className="flex flex-wrap items-center justify-center gap-3 border-t pt-3">
                                         <Button size="sm" asChild>
                                             <Link href={route('support-ticket.contact', [slug])}>
-                                                <Headphones className="h-4 w-4 mr-2" /> {t('Contact')}
+                                                <Headphones className="mr-2 h-4 w-4" /> {t('Contact')}
                                             </Link>
                                         </Button>
                                     </div>
@@ -200,9 +217,9 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
                     {children}
 
                     {/* Help Chat Button */}
-                    <div className="fixed right-4 bottom-4 md:right-8 md:bottom-8 z-10">
+                    <div className="fixed bottom-4 right-4 z-10 md:bottom-8 md:right-8">
                         <Button
-                            className="bg-foreground hover:bg-foreground text-background rounded-full w-14 h-14 p-0 shadow-lg hover:scale-110 transition-all duration-300"
+                            className="h-14 w-14 rounded-full bg-foreground p-0 text-background shadow-lg transition-all duration-300 hover:scale-110 hover:bg-foreground"
                             aria-label="Get Help"
                             asChild
                         >
@@ -214,29 +231,30 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
 
                     {/* Integration Widgets (Tawk.to, WhatsApp, etc.) */}
                     {integrationFields?.map((field) => (
-                        <div key={field.id}>
-                            {field.component}
-                        </div>
+                        <div key={field.id}>{field.component}</div>
                     ))}
 
                     {/* Footer */}
-                    <footer className="mt-8 md:mt-12 text-center text-muted-foreground text-sm">
+                    <footer className="mt-8 text-center text-sm text-muted-foreground md:mt-12">
                         <p>
-                            {footerText ?
-                                (footerText.includes('©') ?
-                                    footerText.replace(/©(\s*\d{4})?/, `© ${currentYear}`) :
-                                    `© ${currentYear} ${footerText}`
-                                ) :
-                                `© ${currentYear}`
-                            }
+                            {footerText
+                                ? footerText.includes('©')
+                                    ? footerText.replace(/©(\s*\d{4})?/, `© ${currentYear}`)
+                                    : `© ${currentYear} ${footerText}`
+                                : `© ${currentYear}`}
                         </p>
                         <div className="mt-2 flex flex-wrap justify-center space-x-4">
-                            <Link href={route('support-ticket.contact', [slug])} className="hover:text-foreground transition-colors duration-200">{t('Contact Us')}</Link>
+                            <Link
+                                href={route('support-ticket.contact', [slug])}
+                                className="transition-colors duration-200 hover:text-foreground"
+                            >
+                                {t('Contact Us')}
+                            </Link>
                             {brandSettings?.customPages?.map((page: any) => (
                                 <Link
                                     key={page.slug}
                                     href={route('support-ticket.custom-page', [slug, page.slug])}
-                                    className="hover:text-foreground transition-colors duration-200"
+                                    className="transition-colors duration-200 hover:text-foreground"
                                 >
                                     {page.name}
                                 </Link>
@@ -248,4 +266,3 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
         </>
     );
 }
-

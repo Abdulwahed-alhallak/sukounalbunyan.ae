@@ -2,17 +2,26 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, MessageSquareWarning, FileImage, Settings, Eye, ShieldAlert } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Plus,
+    Edit as EditIcon,
+    Trash2,
+    MessageSquareWarning,
+    FileImage,
+    Settings,
+    Eye,
+    ShieldAlert,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -39,36 +48,43 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<ComplaintModalState & { isManager?: boolean }>({
         isOpen: false,
         mode: '',
         data: null,
-        isManager: false
+        isManager: false,
     });
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'hrm.complaints.destroy',
-        defaultMessage: t('Are you sure you want to delete this complaint?')
+        defaultMessage: t('Are you sure you want to delete this complaint?'),
     });
 
     const handleFilter = () => {
-        router.get(route('hrm.complaints.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.complaints.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('hrm.complaints.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.complaints.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -81,7 +97,11 @@ export default function Index() {
         router.get(route('hrm.complaints.index'), { per_page: perPage, view: viewMode });
     };
 
-    const openModal = (mode: 'add' | 'edit' | 'status' | 'show', data: Complaint | null = null, isManager: boolean = false) => {
+    const openModal = (
+        mode: 'add' | 'edit' | 'status' | 'show',
+        data: Complaint | null = null,
+        isManager: boolean = false
+    ) => {
         setModalState({ isOpen: true, mode, data, isManager });
     };
 
@@ -89,37 +109,35 @@ export default function Index() {
         setModalState({ isOpen: false, mode: '', data: null });
     };
 
-
-
     const tableColumns = [
         {
             key: 'employee.name',
             header: t('Employee Name'),
             sortable: false,
-            render: (value: any, row: any) => row.employee?.name || '-'
+            render: (value: any, row: any) => row.employee?.name || '-',
         },
         {
             key: 'againstEmployee.name',
             header: t('Against Employee'),
             sortable: false,
-            render: (value: any, row: any) => row.againstEmployee?.name || '-'
+            render: (value: any, row: any) => row.againstEmployee?.name || '-',
         },
         {
             key: 'complaintType.complaint_type',
             header: t('Complaint Type'),
             sortable: false,
-            render: (value: any, row: any) => row.complaintType?.complaint_type || '-'
+            render: (value: any, row: any) => row.complaintType?.complaint_type || '-',
         },
         {
             key: 'subject',
             header: t('Subject'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'complaint_date',
             header: t('Complaint Date'),
             sortable: false,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'status',
@@ -127,130 +145,161 @@ export default function Index() {
             sortable: false,
             render: (value: string, row: Complaint) => {
                 const statusColors = {
-                    'pending': 'bg-muted text-foreground',
+                    pending: 'bg-muted text-foreground',
                     'in review': 'bg-muted text-foreground',
-                    'assigned': 'bg-muted text-foreground',
+                    assigned: 'bg-muted text-foreground',
                     'in progress': 'bg-muted text-foreground',
-                    'resolved': 'bg-muted text-foreground'
+                    resolved: 'bg-muted text-foreground',
                 };
                 const normalizedStatus = value?.toLowerCase() || '';
                 const displayValue = value ? value.charAt(0).toUpperCase() + value.slice(1) : '-';
-                
+
                 const isMultiTier = auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true;
                 const managerNormalized = row.manager_status?.toLowerCase() || '';
-                
+
                 return (
                     <div className="flex flex-col gap-1">
-                        <span className={`px-2 py-1 rounded-full w-fit text-sm ${statusColors[normalizedStatus as keyof typeof statusColors] || 'bg-muted text-foreground'}`}>
+                        <span
+                            className={`w-fit rounded-full px-2 py-1 text-sm ${statusColors[normalizedStatus as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
+                        >
                             {t(displayValue)}
                         </span>
                         {isMultiTier && row.manager_status && (
-                            <span className={`px-2 py-1 rounded-full text-[10px] whitespace-nowrap font-medium w-fit ${statusColors[managerNormalized as keyof typeof statusColors] || 'bg-muted text-foreground'}`}>
+                            <span
+                                className={`w-fit whitespace-nowrap rounded-full px-2 py-1 text-[10px] font-medium ${statusColors[managerNormalized as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
+                            >
                                 Mgr {t(row.manager_status.charAt(0).toUpperCase() + row.manager_status.slice(1))}
                             </span>
                         )}
                     </div>
                 );
-            }
+            },
         },
         {
             key: 'document',
             header: t('Document'),
             sortable: false,
-            render: (_: any, complaint: Complaint) => (
+            render: (_: any, complaint: Complaint) =>
                 complaint.document ? (
-                    <a href={getImagePath(complaint.document)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-foreground hover:text-foreground">
+                    <a
+                        href={getImagePath(complaint.document)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-foreground hover:text-foreground"
+                    >
                         <FileImage className="h-4 w-4" />
                     </a>
-                ) : '-'
-            )
+                ) : (
+                    '-'
+                ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-complaints', 'manage-complaint-status', 'edit-complaints', 'delete-complaints'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, complaint: Complaint) => (
-                <div className="flex gap-1">
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-complaints', 'manage-complaint-status', 'edit-complaints', 'delete-complaints'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, complaint: Complaint) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('manage-complaint-status') && (
+                                      <Tooltip delayDuration={300}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('status', complaint)}
+                                                  className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                              >
+                                                  <ShieldAlert className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('HR Status')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {(auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true) && (
+                                      <Tooltip delayDuration={300}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('status', complaint, true)}
+                                                  className="h-9 w-9 p-0 text-primary hover:bg-muted/50 hover:text-primary"
+                                              >
+                                                  <ShieldAlert className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Manager Status')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('view-complaints') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('show', complaint)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
 
-
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('manage-complaint-status') && (
-                            <Tooltip delayDuration={300}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('status', complaint)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
-                                        <ShieldAlert className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('HR Status')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {(auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true) && (
-                            <Tooltip delayDuration={300}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('status', complaint, true)} className="h-9 w-9 p-0 text-primary hover:text-primary hover:bg-muted/50">
-                                        <ShieldAlert className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Manager Status')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-complaints') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('show', complaint)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-
-                        {auth.user?.permissions?.includes('edit-complaints') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', complaint)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-complaints') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(complaint.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+                                  {auth.user?.permissions?.includes('edit-complaints') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', complaint)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-complaints') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(complaint.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Hrm'), url: route('hrm.index') },
-                { label: t('Complaints') }
-            ]}
+            breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Complaints') }]}
             pageTitle={t('Manage Complaints')}
             pageActions={
                 <TooltipProvider>
@@ -272,9 +321,9 @@ export default function Index() {
             <Head title={t('Complaints')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.subject}
                                 onChange={(value) => setFilters({ ...filters, subject: value })}
@@ -293,20 +342,19 @@ export default function Index() {
                                 filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [
                                         filters.employee_id !== 'all' ? filters.employee_id : '',
                                         filters.complaint_type_id !== 'all' ? filters.complaint_type_id : '',
-                                        filters.status !== 'all' ? filters.status : ''
-                                    ].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                        filters.status !== 'all' ? filters.status : '',
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -315,12 +363,17 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             {auth.user?.permissions?.includes('manage-employees') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Employee')}</label>
-                                    <Select value={filters.employee_id} onValueChange={(value) => setFilters({ ...filters, employee_id: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Employee')}
+                                    </label>
+                                    <Select
+                                        value={filters.employee_id}
+                                        onValueChange={(value) => setFilters({ ...filters, employee_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Employees')} />
                                         </SelectTrigger>
@@ -338,8 +391,13 @@ export default function Index() {
 
                             {auth.user?.permissions?.includes('manage-complaint-types') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Complaint Type')}</label>
-                                    <Select value={filters.complaint_type_id} onValueChange={(value) => setFilters({ ...filters, complaint_type_id: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Complaint Type')}
+                                    </label>
+                                    <Select
+                                        value={filters.complaint_type_id}
+                                        onValueChange={(value) => setFilters({ ...filters, complaint_type_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Types')} />
                                         </SelectTrigger>
@@ -356,8 +414,11 @@ export default function Index() {
                             )}
 
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Status')} />
                                     </SelectTrigger>
@@ -372,8 +433,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -381,7 +446,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={(complaints as any)?.data || []}
@@ -395,7 +460,15 @@ export default function Index() {
                                             icon={MessageSquareWarning}
                                             title={t('No Complaints found')}
                                             description={t('Get started by creating your first Complaint.')}
-                                            hasFilters={!!(filters.subject || (filters.employee_id !== 'all' && filters.employee_id) || (filters.complaint_type_id !== 'all' && filters.complaint_type_id) || (filters.status !== 'all' && filters.status))}
+                                            hasFilters={
+                                                !!(
+                                                    filters.subject ||
+                                                    (filters.employee_id !== 'all' && filters.employee_id) ||
+                                                    (filters.complaint_type_id !== 'all' &&
+                                                        filters.complaint_type_id) ||
+                                                    (filters.status !== 'all' && filters.status)
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-complaints"
                                             onCreateClick={() => openModal('add')}
@@ -407,84 +480,145 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {(complaints as any)?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {(complaints as any)?.data?.map((complaint: Complaint) => (
-                                        <Card key={complaint.id} className="p-0 hover:shadow-lg transition-all duration-200 relative overflow-hidden flex flex-col h-full min-w-0">
+                                        <Card
+                                            key={complaint.id}
+                                            className="relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-200 hover:shadow-lg"
+                                        >
                                             {/* Header */}
-                                            <div className="p-4 bg-gradient-to-r from-primary/5 to-transparent border-b flex-shrink-0">
+                                            <div className="flex-shrink-0 border-b bg-gradient-to-r from-primary/5 to-transparent p-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-12 h-12 bg-foreground/10 rounded-lg flex items-center justify-center">
+                                                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-foreground/10">
                                                         <MessageSquareWarning className="h-6 w-6 text-foreground" />
                                                     </div>
-                                                    <h3 className="font-semibold text-lg truncate">{complaint.employee?.name || 'Unknown Employee'}</h3>
+                                                    <h3 className="truncate text-lg font-semibold">
+                                                        {complaint.employee?.name || 'Unknown Employee'}
+                                                    </h3>
                                                 </div>
                                             </div>
 
                                             {/* Body */}
-                                            <div className="p-4 flex-1 min-h-0">
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Against Employee')}</p>
-                                                        <p className="font-medium text-xs">{complaint.againstEmployee?.name || '-'}</p>
+                                            <div className="min-h-0 flex-1 p-4">
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Against Employee')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {complaint.againstEmployee?.name || '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Complaint Date')}</p>
-                                                        <p className="font-medium text-xs">{complaint.complaint_date ? formatDate(complaint.complaint_date) : '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Complaint Date')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {complaint.complaint_date
+                                                                ? formatDate(complaint.complaint_date)
+                                                                : '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Complaint Type')}</p>
-                                                        <p className="font-medium text-xs">{complaint.complaintType?.complaint_type || '-'}</p>
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Complaint Type')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {complaint.complaintType?.complaint_type || '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Status')}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Status')}
+                                                        </p>
                                                         <div className="flex flex-col gap-1">
-                                                            <span className={`px-2 py-1 rounded-full text-xs font-medium inline-block w-fit ${
-                                                                complaint.status?.toLowerCase() === 'pending' ? 'bg-muted text-foreground' :
-                                                                complaint.status?.toLowerCase() === 'in review' ? 'bg-muted text-foreground' :
-                                                                complaint.status?.toLowerCase() === 'assigned' ? 'bg-muted text-foreground' :
-                                                                complaint.status?.toLowerCase() === 'in progress' ? 'bg-muted text-foreground' :
-                                                                complaint.status?.toLowerCase() === 'resolved' ? 'bg-muted text-foreground' :
-                                                                'bg-muted text-foreground'
-                                                            }`}>
-                                                                {t(complaint.status ? complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1) : '-')}
+                                                            <span
+                                                                className={`inline-block w-fit rounded-full px-2 py-1 text-xs font-medium ${
+                                                                    complaint.status?.toLowerCase() === 'pending'
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : complaint.status?.toLowerCase() ===
+                                                                            'in review'
+                                                                          ? 'bg-muted text-foreground'
+                                                                          : complaint.status?.toLowerCase() ===
+                                                                              'assigned'
+                                                                            ? 'bg-muted text-foreground'
+                                                                            : complaint.status?.toLowerCase() ===
+                                                                                'in progress'
+                                                                              ? 'bg-muted text-foreground'
+                                                                              : complaint.status?.toLowerCase() ===
+                                                                                  'resolved'
+                                                                                ? 'bg-muted text-foreground'
+                                                                                : 'bg-muted text-foreground'
+                                                                }`}
+                                                            >
+                                                                {t(
+                                                                    complaint.status
+                                                                        ? complaint.status.charAt(0).toUpperCase() +
+                                                                              complaint.status.slice(1)
+                                                                        : '-'
+                                                                )}
                                                             </span>
-                                                            {(auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true) && complaint.manager_status && (
-                                                                <span className={`px-2 py-1 rounded-full text-[10px] font-medium w-fit ${
-                                                                    complaint.manager_status?.toLowerCase() === 'pending' ? 'bg-muted text-foreground' :
-                                                                    'bg-muted text-foreground'
-                                                                }`}>
-                                                                    Mgr {t(complaint.manager_status.charAt(0).toUpperCase() + complaint.manager_status.slice(1))}
-                                                                </span>
-                                                            )}
+                                                            {(auth.user?.company_settings
+                                                                ?.enable_multi_tier_approval === 'on' ||
+                                                                true) &&
+                                                                complaint.manager_status && (
+                                                                    <span
+                                                                        className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${
+                                                                            complaint.manager_status?.toLowerCase() ===
+                                                                            'pending'
+                                                                                ? 'bg-muted text-foreground'
+                                                                                : 'bg-muted text-foreground'
+                                                                        }`}
+                                                                    >
+                                                                        Mgr{' '}
+                                                                        {t(
+                                                                            complaint.manager_status
+                                                                                .charAt(0)
+                                                                                .toUpperCase() +
+                                                                                complaint.manager_status.slice(1)
+                                                                        )}
+                                                                    </span>
+                                                                )}
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-4">
-                                                    <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Document')}</p>
+                                                    <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                        {t('Document')}
+                                                    </p>
                                                     {complaint.document ? (
-                                                        <a href={getImagePath(complaint.document)} target="_blank" className="text-foreground hover:text-foreground flex items-center gap-1 text-xs">
+                                                        <a
+                                                            href={getImagePath(complaint.document)}
+                                                            target="_blank"
+                                                            className="flex items-center gap-1 text-xs text-foreground hover:text-foreground"
+                                                        >
                                                             <FileImage className="h-3 w-3" />
                                                             {t('View Document')}
                                                         </a>
                                                     ) : (
-                                                        <p className="font-medium text-xs">-</p>
+                                                        <p className="text-xs font-medium">-</p>
                                                     )}
                                                 </div>
                                             </div>
 
                                             {/* Actions Footer */}
-                                            <div className="flex justify-end gap-2 p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
+                                            <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 justify-end gap-2 border-t p-3">
                                                 <TooltipProvider>
                                                     {auth.user?.permissions?.includes('view-complaints') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('show', complaint)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('show', complaint)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <Eye className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -496,7 +630,12 @@ export default function Index() {
                                                     {auth.user?.permissions?.includes('manage-complaint-status') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('status', complaint)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('status', complaint)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <ShieldAlert className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -505,10 +644,17 @@ export default function Index() {
                                                             </TooltipContent>
                                                         </Tooltip>
                                                     )}
-                                                    {(auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true) && (
+                                                    {(auth.user?.company_settings?.enable_multi_tier_approval ===
+                                                        'on' ||
+                                                        true) && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('status', complaint, true)} className="h-9 w-9 p-0 text-primary hover:text-primary">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('status', complaint, true)}
+                                                                    className="h-9 w-9 p-0 text-primary hover:text-primary"
+                                                                >
                                                                     <ShieldAlert className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -520,7 +666,12 @@ export default function Index() {
                                                     {auth.user?.permissions?.includes('edit-complaints') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('edit', complaint)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('edit', complaint)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <EditIcon className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -556,7 +707,14 @@ export default function Index() {
                                     icon={MessageSquareWarning}
                                     title={t('No Complaints found')}
                                     description={t('Get started by creating your first Complaint.')}
-                                    hasFilters={!!(filters.subject || (filters.employee_id !== 'all' && filters.employee_id) || (filters.complaint_type_id !== 'all' && filters.complaint_type_id) || (filters.status !== 'all' && filters.status))}
+                                    hasFilters={
+                                        !!(
+                                            filters.subject ||
+                                            (filters.employee_id !== 'all' && filters.employee_id) ||
+                                            (filters.complaint_type_id !== 'all' && filters.complaint_type_id) ||
+                                            (filters.status !== 'all' && filters.status)
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-complaints"
                                     onCreateClick={() => openModal('add')}
@@ -567,9 +725,9 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={complaints as any || { data: [], links: [], meta: {} }}
+                        data={(complaints as any) || { data: [], links: [], meta: {} }}
                         routeName="hrm.complaints.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
@@ -577,14 +735,9 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditComplaint
-                        complaint={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditComplaint complaint={modalState.data} onSuccess={closeModal} />
                 )}
                 {modalState.mode === 'status' && modalState.data && (
                     <ComplaintStatus
@@ -596,10 +749,7 @@ export default function Index() {
                     />
                 )}
                 {modalState.mode === 'show' && modalState.data && (
-                    <Show
-                        complaint={modalState.data}
-                        onClose={closeModal}
-                    />
+                    <Show complaint={modalState.data} onClose={closeModal} />
                 )}
             </Dialog>
 

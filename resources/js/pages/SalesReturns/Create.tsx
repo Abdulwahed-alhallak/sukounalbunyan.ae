@@ -38,13 +38,13 @@ interface SalesInvoice {
         discount_amount?: number;
         tax_percentage?: number;
         tax_amount?: number;
-        taxes?: Array<{tax_name: string; tax_rate: number}>;
+        taxes?: Array<{ tax_name: string; tax_rate: number }>;
     }>;
 }
 
 interface CreateProps {
     invoices: SalesInvoice[];
-    warehouses: Array<{id: number; name: string}>;
+    warehouses: Array<{ id: number; name: string }>;
     [key: string]: any;
 }
 
@@ -52,16 +52,17 @@ export default function Create() {
     const { t } = useTranslation();
     const { invoices, warehouses } = usePage<CreateProps>().props;
 
-
     const [selectedInvoice, setSelectedInvoice] = useState<SalesInvoice | null>(null);
-    const [returnItems, setReturnItems] = useState<Array<{
-        product_id: number;
-        original_invoice_item_id: number;
-        return_quantity: number;
-        unit_price: number;
-        reason: string;
-        total_amount: number;
-    }>>([]);
+    const [returnItems, setReturnItems] = useState<
+        Array<{
+            product_id: number;
+            original_invoice_item_id: number;
+            return_quantity: number;
+            unit_price: number;
+            reason: string;
+            total_amount: number;
+        }>
+    >([]);
 
     const { data, setData, post, processing, errors } = useForm({
         return_date: new Date().toISOString().split('T')[0],
@@ -70,27 +71,32 @@ export default function Create() {
         original_invoice_id: '',
         reason: 'defective',
         notes: '',
-        items: [] as any[]
+        items: [] as any[],
     });
 
     const handleInvoiceSelect = (invoiceId: string) => {
-        const invoice = invoices.find(inv => inv.id.toString() === invoiceId);
+        const invoice = invoices.find((inv) => inv.id.toString() === invoiceId);
         if (invoice) {
             setSelectedInvoice(invoice);
             setData({
                 ...data,
                 customer_id: invoice.customer.id.toString(),
                 warehouse_id: invoice.warehouse?.id?.toString() || '',
-                original_invoice_id: invoiceId
+                original_invoice_id: invoiceId,
             });
             setReturnItems([]);
         }
     };
 
-    const addReturnItem = (productId: number, originalInvoiceItemId: number, maxQuantity: number, unitPrice: number) => {
-        const existingItem = returnItems.find(item => item.original_invoice_item_id === originalInvoiceItemId);
+    const addReturnItem = (
+        productId: number,
+        originalInvoiceItemId: number,
+        maxQuantity: number,
+        unitPrice: number
+    ) => {
+        const existingItem = returnItems.find((item) => item.original_invoice_item_id === originalInvoiceItemId);
         if (!existingItem) {
-            const originalItem = selectedInvoice?.items.find(i => i.id === originalInvoiceItemId);
+            const originalItem = selectedInvoice?.items.find((i) => i.id === originalInvoiceItemId);
             const lineTotal = 1 * unitPrice;
             const discountAmount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
             const afterDiscount = lineTotal - discountAmount;
@@ -103,32 +109,34 @@ export default function Create() {
                 return_quantity: 1,
                 unit_price: unitPrice,
                 reason: '',
-                total_amount: totalAmount
+                total_amount: totalAmount,
             };
             setReturnItems([...returnItems, newItem]);
         }
     };
 
     const updateReturnItem = (originalInvoiceItemId: number, field: string, value: any) => {
-        setReturnItems(returnItems.map(item => {
-            if (item.original_invoice_item_id === originalInvoiceItemId) {
-                const updatedItem = { ...item, [field]: value };
-                if (field === 'return_quantity' || field === 'unit_price') {
-                    const originalItem = selectedInvoice?.items.find(i => i.id === originalInvoiceItemId);
-                    const lineTotal = updatedItem.return_quantity * updatedItem.unit_price;
-                    const discountAmount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
-                    const afterDiscount = lineTotal - discountAmount;
-                    const taxAmount = (afterDiscount * (originalItem?.tax_percentage || 0)) / 100;
-                    updatedItem.total_amount = afterDiscount + taxAmount;
+        setReturnItems(
+            returnItems.map((item) => {
+                if (item.original_invoice_item_id === originalInvoiceItemId) {
+                    const updatedItem = { ...item, [field]: value };
+                    if (field === 'return_quantity' || field === 'unit_price') {
+                        const originalItem = selectedInvoice?.items.find((i) => i.id === originalInvoiceItemId);
+                        const lineTotal = updatedItem.return_quantity * updatedItem.unit_price;
+                        const discountAmount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
+                        const afterDiscount = lineTotal - discountAmount;
+                        const taxAmount = (afterDiscount * (originalItem?.tax_percentage || 0)) / 100;
+                        updatedItem.total_amount = afterDiscount + taxAmount;
+                    }
+                    return updatedItem;
                 }
-                return updatedItem;
-            }
-            return item;
-        }));
+                return item;
+            })
+        );
     };
 
     const removeReturnItem = (originalInvoiceItemId: number) => {
-        setReturnItems(returnItems.filter(item => item.original_invoice_item_id !== originalInvoiceItemId));
+        setReturnItems(returnItems.filter((item) => item.original_invoice_item_id !== originalInvoiceItemId));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -143,30 +151,30 @@ export default function Create() {
 
     const totals = {
         subtotal: returnItems.reduce((sum, item) => {
-            return sum + (item.return_quantity * item.unit_price);
+            return sum + item.return_quantity * item.unit_price;
         }, 0),
         discountAmount: returnItems.reduce((sum, item) => {
-            const originalItem = selectedInvoice?.items.find(i => i.id === item.original_invoice_item_id);
+            const originalItem = selectedInvoice?.items.find((i) => i.id === item.original_invoice_item_id);
             const lineTotal = item.return_quantity * item.unit_price;
             const discount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
             return sum + discount;
         }, 0),
         taxAmount: returnItems.reduce((sum, item) => {
-            const originalItem = selectedInvoice?.items.find(i => i.id === item.original_invoice_item_id);
+            const originalItem = selectedInvoice?.items.find((i) => i.id === item.original_invoice_item_id);
             const lineTotal = item.return_quantity * item.unit_price;
             const discount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
             const afterDiscount = lineTotal - discount;
             const tax = (afterDiscount * (originalItem?.tax_percentage || 0)) / 100;
             return sum + tax;
         }, 0),
-        total: returnItems.reduce((sum, item) => sum + item.total_amount, 0)
+        total: returnItems.reduce((sum, item) => sum + item.total_amount, 0),
     };
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Sales Returns'), url: route('sales-returns.index')},
-                {label: t('Create Sales Return')}
+                { label: t('Sales Returns'), url: route('sales-returns.index') },
+                { label: t('Create Sales Return') },
             ]}
             pageTitle={t('Create Sales Return')}
         >
@@ -183,7 +191,7 @@ export default function Create() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 <div>
                                     <Label htmlFor="return_date" required>
                                         {t('Return Date')}
@@ -220,7 +228,10 @@ export default function Create() {
                                     <Label htmlFor="warehouse_id" required>
                                         {t('Warehouse')}
                                     </Label>
-                                    <Select value={data.warehouse_id} onValueChange={(value) => setData('warehouse_id', value)}>
+                                    <Select
+                                        value={data.warehouse_id}
+                                        onValueChange={(value) => setData('warehouse_id', value)}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Select Warehouse')} />
                                         </SelectTrigger>
@@ -256,9 +267,7 @@ export default function Create() {
                             </div>
 
                             <div className="mt-4">
-                                <Label htmlFor="notes">
-                                    {t('Notes')}
-                                </Label>
+                                <Label htmlFor="notes">{t('Notes')}</Label>
                                 <Textarea
                                     id="notes"
                                     value={data.notes}
@@ -284,13 +293,27 @@ export default function Create() {
                                     <table className="min-w-full">
                                         <thead>
                                             <tr className="border-b border-border">
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Product')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Available Qty')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Unit Price')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Discount')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Tax')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Total')}</th>
-                                                <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">{t('Action')}</th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Product')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Available Qty')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Unit Price')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Discount')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Tax')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Total')}
+                                                </th>
+                                                <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">
+                                                    {t('Action')}
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-border">
@@ -299,25 +322,37 @@ export default function Create() {
                                                     <td className="px-4 py-4">
                                                         <div>
                                                             <h4 className="font-medium">{item.product.name}</h4>
-                                                            <p className="text-xs text-muted-foreground">{item.product.sku || ''}</p>
+                                                            <p className="text-xs text-muted-foreground">
+                                                                {item.product.sku || ''}
+                                                            </p>
                                                         </div>
                                                     </td>
                                                     <td className="px-4 py-4">
-                                                        <span className={`text-sm font-medium ${(item.available_quantity || 0) <= 0 ? 'text-destructive' : ''}`}>
-                                                            {item.available_quantity !== undefined ? item.available_quantity : item.quantity}
+                                                        <span
+                                                            className={`text-sm font-medium ${(item.available_quantity || 0) <= 0 ? 'text-destructive' : ''}`}
+                                                        >
+                                                            {item.available_quantity !== undefined
+                                                                ? item.available_quantity
+                                                                : item.quantity}
                                                         </span>
                                                         {(item.available_quantity || 0) <= 0 && (
-                                                            <div className="text-xs text-destructive mt-1">{t('No items available for return')}</div>
+                                                            <div className="mt-1 text-xs text-destructive">
+                                                                {t('No items available for return')}
+                                                            </div>
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-4">
-                                                        <span className="text-sm">{formatCurrency(item.unit_price)}</span>
+                                                        <span className="text-sm">
+                                                            {formatCurrency(item.unit_price)}
+                                                        </span>
                                                     </td>
                                                     <td className="px-4 py-4">
                                                         {(item.discount_percentage || 0) > 0 ? (
                                                             <div className="text-sm">
                                                                 <span>{item.discount_percentage || 0}%</span>
-                                                                <div className="text-xs text-muted-foreground">({formatCurrency(item.discount_amount || 0)})</div>
+                                                                <div className="text-xs text-muted-foreground">
+                                                                    ({formatCurrency(item.discount_amount || 0)})
+                                                                </div>
                                                             </div>
                                                         ) : (
                                                             <span className="text-sm text-muted-foreground">-</span>
@@ -327,7 +362,10 @@ export default function Create() {
                                                         {item.taxes && item.taxes.length > 0 ? (
                                                             <div className="flex flex-wrap gap-1">
                                                                 {item.taxes.map((tax, taxIndex) => (
-                                                                    <span key={taxIndex} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-foreground">
+                                                                    <span
+                                                                        key={taxIndex}
+                                                                        className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-medium text-foreground"
+                                                                    >
                                                                         {tax.tax_name} ({tax.tax_rate}%)
                                                                     </span>
                                                                 ))}
@@ -335,30 +373,56 @@ export default function Create() {
                                                         ) : (item.tax_percentage || 0) > 0 ? (
                                                             <div className="text-sm">
                                                                 <span>{item.tax_percentage || 0}%</span>
-                                                                <div className="text-xs text-muted-foreground">({formatCurrency(item.tax_amount || 0)})</div>
+                                                                <div className="text-xs text-muted-foreground">
+                                                                    ({formatCurrency(item.tax_amount || 0)})
+                                                                </div>
                                                             </div>
                                                         ) : (
                                                             <span className="text-sm text-muted-foreground">-</span>
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-4">
-                                                        <span className="text-sm font-medium">{formatCurrency((() => {
-                                                            const qty = item.available_quantity || item.quantity;
-                                                            const lineTotal = qty * item.unit_price;
-                                                            const discountAmount = (lineTotal * (item.discount_percentage || 0)) / 100;
-                                                            const afterDiscount = lineTotal - discountAmount;
-                                                            const taxAmount = (afterDiscount * (item.tax_percentage || 0)) / 100;
-                                                            return afterDiscount + taxAmount;
-                                                        })())}</span>
+                                                        <span className="text-sm font-medium">
+                                                            {formatCurrency(
+                                                                (() => {
+                                                                    const qty =
+                                                                        item.available_quantity || item.quantity;
+                                                                    const lineTotal = qty * item.unit_price;
+                                                                    const discountAmount =
+                                                                        (lineTotal * (item.discount_percentage || 0)) /
+                                                                        100;
+                                                                    const afterDiscount = lineTotal - discountAmount;
+                                                                    const taxAmount =
+                                                                        (afterDiscount * (item.tax_percentage || 0)) /
+                                                                        100;
+                                                                    return afterDiscount + taxAmount;
+                                                                })()
+                                                            )}
+                                                        </span>
                                                     </td>
                                                     <td className="px-4 py-4 text-center">
                                                         <Button
                                                             type="button"
-                                                            onClick={() => addReturnItem(item.product.id, item.id, item.available_quantity || item.quantity, item.unit_price)}
-                                                            disabled={returnItems.some(ri => ri.original_invoice_item_id === item.id) || (item.available_quantity || 0) <= 0}
+                                                            onClick={() =>
+                                                                addReturnItem(
+                                                                    item.product.id,
+                                                                    item.id,
+                                                                    item.available_quantity || item.quantity,
+                                                                    item.unit_price
+                                                                )
+                                                            }
+                                                            disabled={
+                                                                returnItems.some(
+                                                                    (ri) => ri.original_invoice_item_id === item.id
+                                                                ) || (item.available_quantity || 0) <= 0
+                                                            }
                                                             size="sm"
                                                         >
-                                                            {returnItems.some(ri => ri.original_invoice_item_id === item.id) ? t('Added') : t('Add to Return')}
+                                                            {returnItems.some(
+                                                                (ri) => ri.original_invoice_item_id === item.id
+                                                            )
+                                                                ? t('Added')
+                                                                : t('Add to Return')}
                                                         </Button>
                                                     </td>
                                                 </tr>
@@ -384,46 +448,88 @@ export default function Create() {
                                     <table className="min-w-full">
                                         <thead>
                                             <tr className="border-b border-border">
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Product')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Return Qty')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Unit Price')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Discount')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Tax')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Total')}</th>
-                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Reason')}</th>
-                                                <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">{t('Action')}</th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Product')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Return Qty')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Unit Price')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Discount')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Tax')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Total')}
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
+                                                    {t('Reason')}
+                                                </th>
+                                                <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">
+                                                    {t('Action')}
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-border">
                                             {returnItems.map((item) => {
-                                                const originalItem = selectedInvoice?.items.find(i => i.id === item.original_invoice_item_id);
+                                                const originalItem = selectedInvoice?.items.find(
+                                                    (i) => i.id === item.original_invoice_item_id
+                                                );
                                                 return (
                                                     <tr key={item.original_invoice_item_id}>
                                                         <td className="px-4 py-4">
                                                             <div>
-                                                                <p className="font-medium">{originalItem?.product.name}</p>
-                                                                <p className="text-xs text-muted-foreground">{originalItem?.product.sku || ''}</p>
+                                                                <p className="font-medium">
+                                                                    {originalItem?.product.name}
+                                                                </p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    {originalItem?.product.sku || ''}
+                                                                </p>
                                                             </div>
                                                         </td>
                                                         <td className="px-4 py-4">
                                                             <Input
                                                                 type="number"
                                                                 min="1"
-                                                                max={originalItem?.available_quantity || originalItem?.quantity}
+                                                                max={
+                                                                    originalItem?.available_quantity ||
+                                                                    originalItem?.quantity
+                                                                }
                                                                 value={item.return_quantity}
-                                                                onChange={(e) => updateReturnItem(item.original_invoice_item_id, 'return_quantity', parseInt(e.target.value) || 1)}
+                                                                onChange={(e) =>
+                                                                    updateReturnItem(
+                                                                        item.original_invoice_item_id,
+                                                                        'return_quantity',
+                                                                        parseInt(e.target.value) || 1
+                                                                    )
+                                                                }
                                                                 className="w-20 text-sm"
                                                             />
                                                         </td>
                                                         <td className="px-4 py-4">
-                                                            <span className="text-sm">{formatCurrency(item.unit_price)}</span>
+                                                            <span className="text-sm">
+                                                                {formatCurrency(item.unit_price)}
+                                                            </span>
                                                         </td>
                                                         <td className="px-4 py-4">
                                                             {(originalItem?.discount_percentage || 0) > 0 ? (
                                                                 <div className="text-sm">
-                                                                    <span>{originalItem?.discount_percentage || 0}%</span>
+                                                                    <span>
+                                                                        {originalItem?.discount_percentage || 0}%
+                                                                    </span>
                                                                     <div className="text-xs text-muted-foreground">
-                                                                        -{formatCurrency((item.return_quantity * item.unit_price * (originalItem?.discount_percentage || 0)) / 100)}
+                                                                        -
+                                                                        {formatCurrency(
+                                                                            (item.return_quantity *
+                                                                                item.unit_price *
+                                                                                (originalItem?.discount_percentage ||
+                                                                                    0)) /
+                                                                                100
+                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             ) : (
@@ -434,7 +540,10 @@ export default function Create() {
                                                             {originalItem?.taxes && originalItem.taxes.length > 0 ? (
                                                                 <div className="flex flex-wrap gap-1">
                                                                     {originalItem.taxes.map((tax, taxIndex) => (
-                                                                        <span key={taxIndex} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-foreground">
+                                                                        <span
+                                                                            key={taxIndex}
+                                                                            className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-medium text-foreground"
+                                                                        >
                                                                             {tax.tax_name} ({tax.tax_rate}%)
                                                                         </span>
                                                                     ))}
@@ -443,12 +552,26 @@ export default function Create() {
                                                                 <div className="text-sm">
                                                                     <span>{originalItem?.tax_percentage || 0}%</span>
                                                                     <div className="text-xs text-muted-foreground">
-                                                                        {formatCurrency((() => {
-                                                                            const lineTotal = item.return_quantity * item.unit_price;
-                                                                            const discount = (lineTotal * (originalItem?.discount_percentage || 0)) / 100;
-                                                                            const afterDiscount = lineTotal - discount;
-                                                                            return (afterDiscount * (originalItem?.tax_percentage || 0)) / 100;
-                                                                        })())}
+                                                                        {formatCurrency(
+                                                                            (() => {
+                                                                                const lineTotal =
+                                                                                    item.return_quantity *
+                                                                                    item.unit_price;
+                                                                                const discount =
+                                                                                    (lineTotal *
+                                                                                        (originalItem?.discount_percentage ||
+                                                                                            0)) /
+                                                                                    100;
+                                                                                const afterDiscount =
+                                                                                    lineTotal - discount;
+                                                                                return (
+                                                                                    (afterDiscount *
+                                                                                        (originalItem?.tax_percentage ||
+                                                                                            0)) /
+                                                                                    100
+                                                                                );
+                                                                            })()
+                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             ) : (
@@ -456,12 +579,20 @@ export default function Create() {
                                                             )}
                                                         </td>
                                                         <td className="px-4 py-4">
-                                                            <span className="text-sm font-medium">{formatCurrency(item.total_amount)}</span>
+                                                            <span className="text-sm font-medium">
+                                                                {formatCurrency(item.total_amount)}
+                                                            </span>
                                                         </td>
                                                         <td className="px-4 py-4">
                                                             <Input
                                                                 value={item.reason}
-                                                                onChange={(e) => updateReturnItem(item.original_invoice_item_id, 'reason', e.target.value)}
+                                                                onChange={(e) =>
+                                                                    updateReturnItem(
+                                                                        item.original_invoice_item_id,
+                                                                        'reason',
+                                                                        e.target.value
+                                                                    )
+                                                                }
                                                                 placeholder={t('Optional reason')}
                                                                 className="text-sm"
                                                             />
@@ -471,8 +602,10 @@ export default function Create() {
                                                                 type="button"
                                                                 variant="ghost"
                                                                 size="sm"
-                                                                onClick={() => removeReturnItem(item.original_invoice_item_id)}
-                                                                className="text-destructive hover:text-destructive h-8 w-8 p-0"
+                                                                onClick={() =>
+                                                                    removeReturnItem(item.original_invoice_item_id)
+                                                                }
+                                                                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                                             >
                                                                 <Trash2 className="h-4 w-4" />
                                                             </Button>
@@ -486,8 +619,8 @@ export default function Create() {
 
                                 {/* Return Summary */}
                                 <div className="mt-6 flex justify-end">
-                                    <div className="w-80 bg-muted/30 rounded-lg p-4">
-                                        <h3 className="font-semibold mb-3">{t('Return Summary')}</h3>
+                                    <div className="w-80 rounded-lg bg-muted/30 p-4">
+                                        <h3 className="mb-3 font-semibold">{t('Return Summary')}</h3>
                                         <div>
                                             <div className="flex justify-between text-sm">
                                                 <span className="text-muted-foreground">{t('Subtotal')}</span>
@@ -496,19 +629,25 @@ export default function Create() {
                                             {totals.discountAmount > 0 && (
                                                 <div className="flex justify-between text-sm">
                                                     <span className="text-muted-foreground">{t('Discount')}</span>
-                                                    <span className="font-medium text-destructive">-{formatCurrency(totals.discountAmount)}</span>
+                                                    <span className="font-medium text-destructive">
+                                                        -{formatCurrency(totals.discountAmount)}
+                                                    </span>
                                                 </div>
                                             )}
                                             {totals.taxAmount > 0 && (
                                                 <div className="flex justify-between text-sm">
                                                     <span className="text-muted-foreground">{t('Tax')}</span>
-                                                    <span className="font-medium">{formatCurrency(totals.taxAmount)}</span>
+                                                    <span className="font-medium">
+                                                        {formatCurrency(totals.taxAmount)}
+                                                    </span>
                                                 </div>
                                             )}
                                             <div className="border-t pt-3">
                                                 <div className="flex justify-between">
                                                     <span className="font-semibold">{t('Total Return Amount')}</span>
-                                                    <span className="font-bold text-lg">{formatCurrency(totals.total)}</span>
+                                                    <span className="text-lg font-bold">
+                                                        {formatCurrency(totals.total)}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -519,22 +658,15 @@ export default function Create() {
                     )}
 
                     {/* Actions */}
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="text-sm text-muted-foreground">
                             {returnItems.length} {t('items selected for return')}
                         </div>
                         <div className="flex gap-3">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => window.history.back()}
-                            >
+                            <Button type="button" variant="outline" onClick={() => window.history.back()}>
                                 {t('Cancel')}
                             </Button>
-                            <Button
-                                type="submit"
-                                disabled={processing || returnItems.length === 0}
-                            >
+                            <Button type="submit" disabled={processing || returnItems.length === 0}>
                                 {processing ? t('Creating...') : t('Create')}
                             </Button>
                         </div>

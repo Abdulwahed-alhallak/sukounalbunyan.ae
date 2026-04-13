@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { BarChart3 } from "lucide-react";
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { BarChart3 } from 'lucide-react';
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { FilterButton } from '@/components/ui/filter-button';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import { formatCurrency, formatDate } from '@/utils/helpers';
 
 interface BudgetMonitoring {
     id: number;
-    budget?: { budget_name: string; };
+    budget?: { budget_name: string };
     monitoring_date: string;
     total_allocated: number;
     total_spent: number;
@@ -37,7 +37,7 @@ export default function Index() {
         date_range: (() => {
             const fromDate = urlParams.get('date_from');
             const toDate = urlParams.get('date_to');
-            return (fromDate && toDate) ? `${fromDate} - ${toDate}` : '';
+            return fromDate && toDate ? `${fromDate} - ${toDate}` : '';
         })(),
     });
 
@@ -47,14 +47,13 @@ export default function Index() {
 
     const [showFilters, setShowFilters] = useState(false);
 
-
     const handleFilter = () => {
         const filterParams: any = {
             search: filters.search,
             budget_id: filters.budget_id,
             per_page: perPage,
             sort: sortField,
-            direction: sortDirection
+            direction: sortDirection,
         };
 
         if (filters.date_range) {
@@ -65,7 +64,7 @@ export default function Index() {
 
         router.get(route('budget-planner.budget-monitorings.index'), filterParams, {
             preserveState: true,
-            replace: true
+            replace: true,
         });
     };
 
@@ -82,10 +81,14 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('budget-planner.budget-monitorings.index'), {...filterParams, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('budget-planner.budget-monitorings.index'),
+            { ...filterParams, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -98,57 +101,54 @@ export default function Index() {
             key: 'budget',
             header: t('Budget'),
             sortable: true,
-            render: (value: any, row: BudgetMonitoring) => row.budget?.budget_name || '-'
+            render: (value: any, row: BudgetMonitoring) => row.budget?.budget_name || '-',
         },
         {
             key: 'monitoring_date',
             header: t('Date'),
             sortable: true,
-             render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'total_allocated',
             header: t('Allocated'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'total_spent',
             header: t('Spent'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'total_remaining',
             header: t('Remaining'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'variance_percentage',
             header: t('Variance %'),
             sortable: false,
-            render: (value: any) => `${Number(value || 0).toFixed(2)}%`
-        }
+            render: (value: any) => `${Number(value || 0).toFixed(2)}%`,
+        },
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Budget Planner')},
-                {label: t('Budget Monitoring')}
-            ]}
+            breadcrumbs={[{ label: t('Budget Planner') }, { label: t('Budget Monitoring') }]}
             pageTitle={t('Budget Monitoring')}
         >
             <Head title={t('Budget Monitoring')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Budget Monitoring...')}
                             />
@@ -156,19 +156,20 @@ export default function Index() {
                         <div className="flex items-center gap-3">
                             <PerPageSelector
                                 routeName="budget-planner.budget-monitorings.index"
-                                filters={{...filters}}
+                                filters={{ ...filters }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.budget_id, filters.date_range].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.budget_id, filters.date_range].filter(
+                                        (f) => f !== '' && f !== null && f !== undefined
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -177,11 +178,14 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Budget')}</label>
-                                <Select value={filters.budget_id} onValueChange={(value) => setFilters({...filters, budget_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Budget')}</label>
+                                <Select
+                                    value={filters.budget_id}
+                                    onValueChange={(value) => setFilters({ ...filters, budget_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Budget')} />
                                     </SelectTrigger>
@@ -195,23 +199,29 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DateRangePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={budgetMonitorings?.data || []}
@@ -235,11 +245,11 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={budgetMonitorings || { data: [], links: [], meta: {} }}
                         routeName="budget-planner.budget-monitorings.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

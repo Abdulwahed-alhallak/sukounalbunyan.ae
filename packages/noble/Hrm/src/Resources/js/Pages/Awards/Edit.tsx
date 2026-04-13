@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -26,16 +26,24 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
     });
 
     // AI hooks for description field
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'hrm', 'award');
-
-
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'hrm',
+        'award'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.awards.update', award.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -46,7 +54,9 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
                     <Select value={data.employee_id} onValueChange={(value) => setData('employee_id', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
@@ -61,10 +71,16 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="award_type_id" required>{t('Award Type')}</Label>
-                    <Select value={data.award_type_id} onValueChange={(value) => setData('award_type_id', value)} required>
+                    <Label htmlFor="award_type_id" required>
+                        {t('Award Type')}
+                    </Label>
+                    <Select
+                        value={data.award_type_id}
+                        onValueChange={(value) => setData('award_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Award Type')} />
                         </SelectTrigger>
@@ -78,9 +94,11 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
                     </Select>
                     <InputError message={errors.award_type_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="award_date" required>{t('Award Date')}</Label>
+                    <Label htmlFor="award_date" required>
+                        {t('Award Date')}
+                    </Label>
                     <DatePicker
                         value={data.award_date}
                         onChange={(date) => setData('award_date', date)}
@@ -89,12 +107,14 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
                     />
                     <InputError message={errors.award_date} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -106,7 +126,7 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         id="certificate"
@@ -118,7 +138,7 @@ export default function EditAward({ award, onSuccess }: EditAwardProps) {
                     />
                     <InputError message={errors.certificate} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

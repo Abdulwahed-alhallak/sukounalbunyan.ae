@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -30,7 +30,17 @@ export default function Create({ onSuccess }: CreateWarningProps) {
 
     // AI hooks for subject and description fields
     const subjectAI = useFormFields('aiField', data, setData, errors, 'create', 'subject', 'Subject', 'hrm', 'warning');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'hrm', 'warning');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'hrm',
+        'warning'
+    );
 
     const filteredWarningBies = allUsers?.filter((user: any) => user.id.toString() !== data.employee_id) || [];
 
@@ -45,7 +55,7 @@ export default function Create({ onSuccess }: CreateWarningProps) {
         post(route('hrm.warnings.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -56,8 +66,14 @@ export default function Create({ onSuccess }: CreateWarningProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                    <Select value={data.employee_id?.toString() || ''} onValueChange={(value) => setData('employee_id', value)} required>  
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
+                    <Select
+                        value={data.employee_id?.toString() || ''}
+                        onValueChange={(value) => setData('employee_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -71,17 +87,21 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="warning_by" required>{t('Warning By')}</Label>
-                    <Select 
-                        value={data.warning_by?.toString() || ''} 
+                    <Label htmlFor="warning_by" required>
+                        {t('Warning By')}
+                    </Label>
+                    <Select
+                        value={data.warning_by?.toString() || ''}
                         onValueChange={(value) => setData('warning_by', value)}
                         disabled={!data.employee_id}
                         required
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.employee_id ? t('Select Warningby') : t('Select Employee first')} />
+                            <SelectValue
+                                placeholder={data.employee_id ? t('Select Warningby') : t('Select Employee first')}
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredWarningBies?.map((item: any) => (
@@ -93,17 +113,21 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     </Select>
                     <InputError message={errors.warning_by} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="warning_type_id" required>{t('Warning Type')}</Label>
-                    <Select 
-                        value={data.warning_type_id?.toString() || ''} 
+                    <Label htmlFor="warning_type_id" required>
+                        {t('Warning Type')}
+                    </Label>
+                    <Select
+                        value={data.warning_type_id?.toString() || ''}
                         onValueChange={(value) => setData('warning_type_id', value)}
                         disabled={!data.warning_by}
                         required
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.warning_by ? t('Select Warningtype') : t('Select Warningby first')} />
+                            <SelectValue
+                                placeholder={data.warning_by ? t('Select Warningtype') : t('Select Warningby first')}
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {warningtypes?.map((item: any) => (
@@ -115,11 +139,13 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     </Select>
                     <InputError message={errors.warning_type_id} />
                 </div>
-                
+
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="subject" required>{t('Subject')}</Label>
+                            <Label htmlFor="subject" required>
+                                {t('Subject')}
+                            </Label>
                             <Input
                                 id="subject"
                                 type="text"
@@ -130,13 +156,21 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                             />
                             <InputError message={errors.subject} />
                         </div>
-                        {subjectAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {subjectAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="severity" required>{t('Severity')}</Label>
-                    <Select value={data.severity || 'Minor'} onValueChange={(value) => setData('severity', value)} required>
+                    <Label htmlFor="severity" required>
+                        {t('Severity')}
+                    </Label>
+                    <Select
+                        value={data.severity || 'Minor'}
+                        onValueChange={(value) => setData('severity', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -148,7 +182,7 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     </Select>
                     <InputError message={errors.severity} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Warning Date')}</Label>
                     <DatePicker
@@ -159,12 +193,14 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     />
                     <InputError message={errors.warning_date} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -176,7 +212,7 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         label={t('Document')}
@@ -188,7 +224,7 @@ export default function Create({ onSuccess }: CreateWarningProps) {
                     />
                     <InputError message={errors.document} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

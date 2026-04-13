@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, TrendingUp, Eye } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, TrendingUp, Eye } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
@@ -35,30 +35,29 @@ export default function Index() {
         date_range: (() => {
             const fromDate = urlParams.get('date_from');
             const toDate = urlParams.get('date_to');
-            return (fromDate && toDate) ? `${fromDate} - ${toDate}` : '';
+            return fromDate && toDate ? `${fromDate} - ${toDate}` : '';
         })(),
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
 
     const [modalState, setModalState] = useState<TrackingModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'goal.tracking.destroy',
-        defaultMessage: t('Are you sure you want to delete this tracking?')
+        defaultMessage: t('Are you sure you want to delete this tracking?'),
     });
 
     const handleFilter = () => {
-        const filterParams = {...filters};
+        const filterParams = { ...filters };
 
         if (filters.date_range) {
             const [fromDate, toDate] = filters.date_range.split(' - ');
@@ -67,10 +66,14 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('goal.tracking.index'), {...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('goal.tracking.index'),
+            { ...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
@@ -78,7 +81,7 @@ export default function Index() {
         setSortField(field);
         setSortDirection(direction);
 
-        const filterParams = {...filters};
+        const filterParams = { ...filters };
         if (filters.date_range) {
             const [fromDate, toDate] = filters.date_range.split(' - ');
             filterParams.date_from = fromDate;
@@ -86,10 +89,14 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('goal.tracking.index'), {...filterParams, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('goal.tracking.index'),
+            { ...filterParams, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -99,7 +106,7 @@ export default function Index() {
             on_track_status: '',
             date_range: '',
         });
-        router.get(route('goal.tracking.index'), {per_page: perPage, view: viewMode});
+        router.get(route('goal.tracking.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: GoalTracking | null = null) => {
@@ -115,111 +122,129 @@ export default function Index() {
             key: 'goal',
             header: t('Goal'),
             sortable: false,
-            render: (_: any, tracking: GoalTracking) => tracking.goal?.goal_name || '-'
+            render: (_: any, tracking: GoalTracking) => tracking.goal?.goal_name || '-',
         },
         {
             key: 'tracking_date',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => formatDate(value)
+            render: (value: string) => formatDate(value),
         },
         {
             key: 'contribution_amount',
             header: t('Contribution'),
             sortable: true,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'current_amount',
             header: t('Current Amount'),
             sortable: true,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'progress_percentage',
             header: t('Progress'),
             sortable: false,
-            render: (value: number) => `${value}%`
+            render: (value: number) => `${value}%`,
         },
         {
             key: 'days_remaining',
             header: t('Days Left'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'on_track_status',
             header: t('Status'),
             sortable: false,
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value === 'ahead' ? 'bg-muted text-foreground' :
-                    value === 'on_track' ? 'bg-muted text-foreground' :
-                    value === 'behind' ? 'bg-muted text-foreground' :
-                    'bg-muted text-destructive'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value === 'ahead'
+                            ? 'bg-muted text-foreground'
+                            : value === 'on_track'
+                              ? 'bg-muted text-foreground'
+                              : value === 'behind'
+                                ? 'bg-muted text-foreground'
+                                : 'bg-muted text-destructive'
+                    }`}
+                >
                     {t(value.replace('_', ' ').charAt(0).toUpperCase() + value.replace('_', ' ').slice(1))}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-goal-tracking', 'edit-goal-tracking', 'delete-goal-tracking'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, tracking: GoalTracking) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-goal-tracking') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.visit(route('goal.tracking.show', tracking.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-goal-tracking') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', tracking)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-goal-tracking') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(tracking.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-goal-tracking', 'edit-goal-tracking', 'delete-goal-tracking'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, tracking: GoalTracking) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-goal-tracking') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => router.visit(route('goal.tracking.show', tracking.id))}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-goal-tracking') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', tracking)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-goal-tracking') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(tracking.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Goal')},
-                {label: t('Tracking')}
-            ]}
+            breadcrumbs={[{ label: t('Goal') }, { label: t('Tracking') }]}
             pageTitle={t('Manage Tracking')}
             pageActions={
                 <TooltipProvider>
@@ -241,12 +266,12 @@ export default function Index() {
             <Head title={t('Tracking')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.goal_name}
-                                onChange={(value) => setFilters({...filters, goal_name: value})}
+                                onChange={(value) => setFilters({ ...filters, goal_name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Goals...')}
                             />
@@ -255,23 +280,24 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="goal.tracking.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="goal.tracking.index"
-                                filters={{...filters, view: viewMode}}
-                            />
+                            <PerPageSelector routeName="goal.tracking.index" filters={{ ...filters, view: viewMode }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.goal_name, filters.goal_id, filters.on_track_status, filters.date_range].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.goal_name,
+                                        filters.goal_id,
+                                        filters.on_track_status,
+                                        filters.date_range,
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -280,11 +306,16 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Goal')}</label>
-                                <Select value={filters.goal_id || 'all'} onValueChange={(value) => setFilters({...filters, goal_id: value === 'all' ? '' : value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Goal')}</label>
+                                <Select
+                                    value={filters.goal_id || 'all'}
+                                    onValueChange={(value) =>
+                                        setFilters({ ...filters, goal_id: value === 'all' ? '' : value })
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Goal')} />
                                     </SelectTrigger>
@@ -299,8 +330,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.on_track_status || 'all'} onValueChange={(value) => setFilters({...filters, on_track_status: value === 'all' ? '' : value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.on_track_status || 'all'}
+                                    onValueChange={(value) =>
+                                        setFilters({ ...filters, on_track_status: value === 'all' ? '' : value })
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -314,16 +350,22 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DateRangePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -331,82 +373,137 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={trackings?.data || []}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={TrendingUp}
-                                        title={t('No Tracking found')}
-                                        description={t('Get started by creating your first Tracking.')}
-                                        hasFilters={!!(filters.goal_name || filters.goal_id || filters.on_track_status || filters.date_range)}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-goal-tracking"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Create Tracking')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={trackings?.data || []}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={TrendingUp}
+                                            title={t('No Tracking found')}
+                                            description={t('Get started by creating your first Tracking.')}
+                                            hasFilters={
+                                                !!(
+                                                    filters.goal_name ||
+                                                    filters.goal_id ||
+                                                    filters.on_track_status ||
+                                                    filters.date_range
+                                                )
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-goal-tracking"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText={t('Create Tracking')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {trackings?.data && trackings.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {trackings.data?.map((tracking) => (
-                                        <Card key={tracking.id} className="border border-border hover:shadow-md transition-shadow">
+                                        <Card
+                                            key={tracking.id}
+                                            className="border border-border transition-shadow hover:shadow-md"
+                                        >
                                             <div className="p-4">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <h3 className="font-semibold text-base text-foreground truncate">{tracking.goal?.goal_name}</h3>
+                                                <div className="mb-3 flex items-center justify-between">
+                                                    <h3 className="truncate text-base font-semibold text-foreground">
+                                                        {tracking.goal?.goal_name}
+                                                    </h3>
                                                 </div>
 
-                                                <div className="space-y-3 mb-4">
+                                                <div className="mb-4 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Date')}</p>
-                                                        <p className="text-sm text-foreground font-medium">{formatDate(tracking.tracking_date)}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Date')}
+                                                        </p>
+                                                        <p className="text-sm font-medium text-foreground">
+                                                            {formatDate(tracking.tracking_date)}
+                                                        </p>
                                                     </div>
-                                                    <div className="bg-muted/50 rounded-lg p-3">
-                                                        <div className="flex justify-between items-center mb-2">
-                                                            <span className="text-sm font-semibold text-foreground">{t('Contribution')}</span>
-                                                            <span className="text-lg font-bold text-foreground">{formatCurrency(tracking.contribution_amount)}</span>
+                                                    <div className="rounded-lg bg-muted/50 p-3">
+                                                        <div className="mb-2 flex items-center justify-between">
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {t('Contribution')}
+                                                            </span>
+                                                            <span className="text-lg font-bold text-foreground">
+                                                                {formatCurrency(tracking.contribution_amount)}
+                                                            </span>
                                                         </div>
-                                                        <div className="flex justify-between items-center mb-2">
-                                                            <span className="text-sm text-muted-foreground">{t('Current')}</span>
-                                                            <span className="text-sm font-semibold text-foreground">{formatCurrency(tracking.current_amount)}</span>
+                                                        <div className="mb-2 flex items-center justify-between">
+                                                            <span className="text-sm text-muted-foreground">
+                                                                {t('Current')}
+                                                            </span>
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {formatCurrency(tracking.current_amount)}
+                                                            </span>
                                                         </div>
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-sm text-muted-foreground">{t('Progress')}</span>
-                                                            <span className="text-sm font-semibold text-foreground">{tracking.progress_percentage}%</span>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm text-muted-foreground">
+                                                                {t('Progress')}
+                                                            </span>
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {tracking.progress_percentage}%
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Days Left')}</p>
-                                                        <p className="text-xs text-foreground">{tracking.days_remaining}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Days Left')}
+                                                        </p>
+                                                        <p className="text-xs text-foreground">
+                                                            {tracking.days_remaining}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex justify-between items-center pt-3 border-t">
-                                                    <span className={`px-2 py-1 rounded-full text-sm ${
-                                                        tracking.on_track_status === 'ahead' ? 'bg-muted text-foreground' :
-                                                        tracking.on_track_status === 'on_track' ? 'bg-muted text-foreground' :
-                                                        tracking.on_track_status === 'behind' ? 'bg-muted text-foreground' :
-                                                        'bg-muted text-destructive'
-                                                    }`}>
-                                                        {t(tracking.on_track_status.replace('_', ' ').charAt(0).toUpperCase() + tracking.on_track_status.replace('_', ' ').slice(1))}
+                                                <div className="flex items-center justify-between border-t pt-3">
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-sm ${
+                                                            tracking.on_track_status === 'ahead'
+                                                                ? 'bg-muted text-foreground'
+                                                                : tracking.on_track_status === 'on_track'
+                                                                  ? 'bg-muted text-foreground'
+                                                                  : tracking.on_track_status === 'behind'
+                                                                    ? 'bg-muted text-foreground'
+                                                                    : 'bg-muted text-destructive'
+                                                        }`}
+                                                    >
+                                                        {t(
+                                                            tracking.on_track_status
+                                                                .replace('_', ' ')
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                                tracking.on_track_status.replace('_', ' ').slice(1)
+                                                        )}
                                                     </span>
                                                     <div className="flex gap-1">
                                                         <TooltipProvider>
                                                             {auth.user?.permissions?.includes('view-goal-tracking') && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.visit(route('goal.tracking.show', tracking.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.visit(
+                                                                                    route(
+                                                                                        'goal.tracking.show',
+                                                                                        tracking.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -418,7 +515,12 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-goal-tracking') && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', tracking)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', tracking)}
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -427,13 +529,17 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-goal-tracking') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-goal-tracking'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(tracking.id)}
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(tracking.id)
+                                                                            }
                                                                             className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
@@ -456,7 +562,14 @@ export default function Index() {
                                     icon={TrendingUp}
                                     title={t('No Tracking found')}
                                     description={t('Get started by creating your first Tracking.')}
-                                    hasFilters={!!(filters.goal_name || filters.goal_id || filters.on_track_status || filters.date_range)}
+                                    hasFilters={
+                                        !!(
+                                            filters.goal_name ||
+                                            filters.goal_id ||
+                                            filters.on_track_status ||
+                                            filters.date_range
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-goal-tracking"
                                     onCreateClick={() => openModal('add')}
@@ -467,25 +580,19 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={trackings || { data: [], links: [], meta: {} }}
                         routeName="goal.tracking.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create goals={goals} onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create goals={goals} onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <Edit
-                        tracking={modalState.data}
-                        goals={goals}
-                        onSuccess={closeModal}
-                    />
+                    <Edit tracking={modalState.data} goals={goals} onSuccess={closeModal} />
                 )}
             </Dialog>
 

@@ -1,4 +1,26 @@
-import { LayoutGrid, Users, Warehouse, ArrowRightLeft, Package, Tag, Tags, Shield, Settings, Image, CreditCard, Headphones, ShoppingCart, Kanban, Calendar, MessageCircle, Replace, Receipt, BarChart3, Bell, Zap} from 'lucide-react';
+import {
+    LayoutGrid,
+    Users,
+    Warehouse,
+    ArrowRightLeft,
+    Package,
+    Tag,
+    Tags,
+    Shield,
+    Settings,
+    Image,
+    CreditCard,
+    Headphones,
+    ShoppingCart,
+    Kanban,
+    Calendar,
+    MessageCircle,
+    Replace,
+    Receipt,
+    BarChart3,
+    Bell,
+    Zap,
+} from 'lucide-react';
 import { NavItem } from '@/types';
 
 export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
@@ -151,8 +173,8 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
                 title: t('Orders'),
                 href: route('orders.index'),
                 permission: 'manage-orders',
-            }
-        ]
+            },
+        ],
     },
     {
         title: t('Audit Logs'),

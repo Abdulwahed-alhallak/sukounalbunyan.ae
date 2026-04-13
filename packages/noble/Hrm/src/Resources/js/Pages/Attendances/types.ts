@@ -6,8 +6,8 @@ export interface Employee {
     user?: {
         id: number;
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     rate_per_hour?: number;
 }
 

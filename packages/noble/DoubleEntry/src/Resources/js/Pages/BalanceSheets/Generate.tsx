@@ -27,7 +27,7 @@ export default function Generate({ open, onOpenChange }: GenerateProps) {
             onSuccess: () => {
                 reset();
                 onOpenChange(false);
-            }
+            },
         });
     };
 
@@ -44,9 +44,7 @@ export default function Generate({ open, onOpenChange }: GenerateProps) {
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="balance_sheet_date">
-                            {t('Balance Sheet Date')}
-                        </Label>
+                        <Label htmlFor="balance_sheet_date">{t('Balance Sheet Date')}</Label>
                         <DatePicker
                             id="balance_sheet_date"
                             value={data.balance_sheet_date}
@@ -63,9 +61,7 @@ export default function Generate({ open, onOpenChange }: GenerateProps) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="financial_year">
-                            {t('Financial Year')}
-                        </Label>
+                        <Label htmlFor="financial_year">{t('Financial Year')}</Label>
                         <Input
                             id="financial_year"
                             type="text"
@@ -76,19 +72,17 @@ export default function Generate({ open, onOpenChange }: GenerateProps) {
                             maxLength={4}
                             required
                         />
-                        {errors.financial_year && (
-                            <p className="text-sm text-destructive">{errors.financial_year}</p>
-                        )}
-                        <p className="text-xs text-muted-foreground">
-                            {t('Enter the financial year (e.g., 2024)')}
-                        </p>
+                        {errors.financial_year && <p className="text-sm text-destructive">{errors.financial_year}</p>}
+                        <p className="text-xs text-muted-foreground">{t('Enter the financial year (e.g., 2024)')}</p>
                     </div>
 
-                    <div className="bg-muted/50 border border-border rounded-lg p-4">
-                        <h4 className="font-medium text-foreground mb-2">{t('How it works')}</h4>
-                        <ul className="text-sm text-foreground space-y-1">
+                    <div className="rounded-lg border border-border bg-muted/50 p-4">
+                        <h4 className="mb-2 font-medium text-foreground">{t('How it works')}</h4>
+                        <ul className="space-y-1 text-sm text-foreground">
                             <li>• {t('System will calculate balances for all accounts up to the selected date')}</li>
-                            <li>• {t('Accounts will be automatically categorized into Assets, Liabilities, and Equity')}</li>
+                            <li>
+                                • {t('Accounts will be automatically categorized into Assets, Liabilities, and Equity')}
+                            </li>
                             <li>• {t('Balance sheet will be validated to ensure Assets = Liabilities + Equity')}</li>
                             <li>• {t('You can review and finalize the balance sheet after generation')}</li>
                         </ul>

@@ -12,10 +12,12 @@ export interface BranchFormData {
     [key: string]: any;
 }
 
-export interface CreateBranchProps extends CreateProps  {[key: string]: any;
+export interface CreateBranchProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditBranchProps extends EditProps<Branch>  {[key: string]: any;
+export interface EditBranchProps extends EditProps<Branch> {
+    [key: string]: any;
 }
 
 export type PaginatedBranches = PaginatedData<Branch>;

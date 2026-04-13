@@ -3,16 +3,16 @@ import React from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
-import { Plus, Package, Edit, Trash2, Eye, Bug, User } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
+import { Plus, Package, Edit, Trash2, Eye, Bug, User } from 'lucide-react';
 import { getImagePath, formatDate } from '@/utils/helpers';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { FilterButton } from '@/components/ui/filter-button';
@@ -38,17 +38,17 @@ export default function Index() {
         title: urlParams.get('title') || '',
         priority: urlParams.get('priority') || '',
         date_range: urlParams.get('date_range') || '',
-        user_id: urlParams.get('user_id') || ''
+        user_id: urlParams.get('user_id') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<ProjectBugModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [deleteState, setDeleteState] = useState({ isOpen: false, bugId: null as number | null });
@@ -77,12 +77,11 @@ export default function Index() {
 
     const dropboxBtn = usePageButtons('dropboxBtn', { module: 'Project Bug', settingKey: 'Dropbox Project Bug' });
 
-
     // Helper function for rendering assigned users
     const renderAssignedUsers = (bug: ProjectBug, maxVisible: number = 4) => {
         if (bug.assigned_to && typeof bug.assigned_to === 'string') {
             const userIds = bug.assigned_to.split(',').filter(Boolean);
-            const assignedUsers = teamMembers.filter(member => userIds.includes(member.id.toString()));
+            const assignedUsers = teamMembers.filter((member) => userIds.includes(member.id.toString()));
 
             if (assignedUsers.length === 0) return '-';
 
@@ -93,7 +92,7 @@ export default function Index() {
                             <TooltipProvider key={user.id}>
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="h-8 w-8 rounded-full border-2 border-background overflow-hidden bg-muted flex items-center justify-center">
+                                        <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-background bg-muted">
                                             {user.avatar ? (
                                                 <img
                                                     src={getImagePath(user.avatar)}
@@ -112,8 +111,10 @@ export default function Index() {
                             </TooltipProvider>
                         ))}
                         {assignedUsers.length > maxVisible && (
-                            <div className="h-8 w-8 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                                <span className="text-xs text-muted-foreground">+{assignedUsers.length - maxVisible}</span>
+                            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-muted">
+                                <span className="text-xs text-muted-foreground">
+                                    +{assignedUsers.length - maxVisible}
+                                </span>
                             </div>
                         )}
                     </div>
@@ -123,7 +124,7 @@ export default function Index() {
         if (bug.assignedUser) {
             return (
                 <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-muted">
                         {bug.assignedUser.avatar ? (
                             <img
                                 src={getImagePath(bug.assignedUser.avatar)}
@@ -142,11 +143,11 @@ export default function Index() {
     };
 
     const handleFilter = () => {
-        const params = {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode};
+        const params = { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode };
         if (project) params.project_id = project.id;
         router.get(route('project.bugs.index'), params, {
             preserveState: true,
-            replace: true
+            replace: true,
         });
     };
 
@@ -154,17 +155,17 @@ export default function Index() {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        const params = {...filters, per_page: perPage, sort: field, direction, view: viewMode};
+        const params = { ...filters, per_page: perPage, sort: field, direction, view: viewMode };
         if (project) params.project_id = project.id;
         router.get(route('project.bugs.index'), params, {
             preserveState: true,
-            replace: true
+            replace: true,
         });
     };
 
     const clearFilters = () => {
         setFilters({ title: '', priority: '', date_range: '', user_id: '' });
-        const params = {per_page: perPage, view: viewMode};
+        const params = { per_page: perPage, view: viewMode };
         if (project) params.project_id = project.id;
         router.get(route('project.bugs.index'), params);
     };
@@ -173,7 +174,7 @@ export default function Index() {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -181,7 +182,7 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
 
@@ -189,7 +190,7 @@ export default function Index() {
         {
             key: 'title',
             header: t('Title'),
-            sortable: true
+            sortable: true,
         },
 
         {
@@ -208,7 +209,7 @@ export default function Index() {
                                 <TooltipProvider key={user.id}>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
-                                            <div className="h-8 w-8 rounded-full border-2 border-background overflow-hidden bg-muted flex items-center justify-center">
+                                            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-background bg-muted">
                                                 {user.avatar ? (
                                                     <img
                                                         src={getImagePath(user.avatar)}
@@ -227,28 +228,33 @@ export default function Index() {
                                 </TooltipProvider>
                             ))}
                             {assignedUsers.length > maxVisible && (
-                                <div className="h-8 w-8 rounded-full bg-muted border-2 border-background flex items-center justify-center">
-                                    <span className="text-xs text-muted-foreground">+{assignedUsers.length - maxVisible}</span>
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-muted">
+                                    <span className="text-xs text-muted-foreground">
+                                        +{assignedUsers.length - maxVisible}
+                                    </span>
                                 </div>
                             )}
                         </div>
                     </div>
                 );
-            }
+            },
         },
         {
             key: 'stage',
             header: t('Stage'),
             render: (_: any, bug: ProjectBug) => {
-                const stage = bugStages.find(s => s.id === (bug as any).stage_id);
+                const stage = bugStages.find((s) => s.id === (bug as any).stage_id);
                 const stageName = stage?.name || '-';
                 if (stageName === '-') return stageName;
                 return (
-                    <span className="px-2 py-1 rounded-full text-sm" style={{ backgroundColor: `${stage?.color || '#e5e7eb'}30`, color: '#374151' }}>
+                    <span
+                        className="rounded-full px-2 py-1 text-sm"
+                        style={{ backgroundColor: `${stage?.color || '#e5e7eb'}30`, color: '#374151' }}
+                    >
                         {t(stageName)}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'priority',
@@ -256,16 +262,18 @@ export default function Index() {
             sortable: true,
             render: (value: string) => {
                 const priorityColors = {
-                    'High': 'bg-muted text-destructive',
-                    'Medium': 'bg-muted text-foreground',
-                    'Low': 'bg-muted text-foreground'
+                    High: 'bg-muted text-destructive',
+                    Medium: 'bg-muted text-foreground',
+                    Low: 'bg-muted text-foreground',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${priorityColors[value as keyof typeof priorityColors]}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${priorityColors[value as keyof typeof priorityColors]}`}
+                    >
                         {t(value)}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'actions',
@@ -276,7 +284,12 @@ export default function Index() {
                         {auth.user?.permissions?.includes('view-project-bug') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('view', bug)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => openModal('view', bug)}
+                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                    >
                                         <Eye className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
@@ -288,7 +301,12 @@ export default function Index() {
                         {auth.user?.permissions?.includes('edit-project-bug') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', bug)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => openModal('edit', bug)}
+                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                    >
                                         <Edit className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
@@ -316,15 +334,15 @@ export default function Index() {
                         )}
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     const breadcrumbs = project
         ? [
-            { label: t('Project'), url: route('project.index') },
-            { label: project.name, url: route('project.show', project.id) },
-            { label: t('Bug') }
+              { label: t('Project'), url: route('project.index') },
+              { label: project.name, url: route('project.show', project.id) },
+              { label: t('Bug') },
           ]
         : [{ label: t('Bug') }];
 
@@ -349,7 +367,8 @@ export default function Index() {
                         {project && auth.user?.permissions?.includes('manage-project-bug') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button size="sm"
+                                    <Button
+                                        size="sm"
                                         onClick={() => router.get(route('project.bugs.kanban', project.id))}
                                     >
                                         <Bug className="h-4 w-4" />
@@ -360,8 +379,6 @@ export default function Index() {
                                 </TooltipContent>
                             </Tooltip>
                         )}
-
-
                     </TooltipProvider>
                 </div>
             }
@@ -369,12 +386,12 @@ export default function Index() {
             <Head title={t('Bug')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.title}
-                                onChange={(value) => setFilters({...filters, title: value})}
+                                onChange={(value) => setFilters({ ...filters, title: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search bug...')}
                             />
@@ -383,23 +400,26 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="project.bugs.index"
-                                filters={{...filters, per_page: perPage, ...(project && {project_id: project.id})}}
+                                filters={{ ...filters, per_page: perPage, ...(project && { project_id: project.id }) }}
                             />
                             <PerPageSelector
                                 routeName="project.bugs.index"
-                                filters={{...filters, view: viewMode, ...(project && {project_id: project.id})}}
+                                filters={{ ...filters, view: viewMode, ...(project && { project_id: project.id }) }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.priority, filters.date_range, filters.user_id].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.priority,
+                                        filters.date_range,
+                                        filters.user_id,
+                                    ].filter(Boolean).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -408,11 +428,16 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Priority')}</label>
-                                <Select value={filters.priority} onValueChange={(value) => setFilters({...filters, priority: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Priority')}
+                                </label>
+                                <Select
+                                    value={filters.priority}
+                                    onValueChange={(value) => setFilters({ ...filters, priority: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by priority')} />
                                     </SelectTrigger>
@@ -424,36 +449,49 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DatePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('User')}</label>
-                                <Select value={filters.user_id} onValueChange={(value) => setFilters({...filters, user_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('User')}</label>
+                                <Select
+                                    value={filters.user_id}
+                                    onValueChange={(value) => setFilters({ ...filters, user_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by user')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {(() => {
-                                            const usersWithBugs = teamMembers.filter(user =>
-                                                bugs.data.some(bug =>
-                                                    bug.assignedUsers?.some(assignedUser => assignedUser.id === user.id)
+                                            const usersWithBugs = teamMembers.filter((user) =>
+                                                bugs.data.some((bug) =>
+                                                    bug.assignedUsers?.some(
+                                                        (assignedUser) => assignedUser.id === user.id
+                                                    )
                                                 )
                                             );
                                             return usersWithBugs?.map((user) => (
-                                                <SelectItem key={user.id} value={user.id.toString()}>{user.name}</SelectItem>
+                                                <SelectItem key={user.id} value={user.id.toString()}>
+                                                    {user.name}
+                                                </SelectItem>
                                             ));
                                         })()}
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -461,7 +499,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={bugs.data}
@@ -475,10 +513,20 @@ export default function Index() {
                                             icon={Package}
                                             title={t('No bug found')}
                                             description={t('Get started by creating your first bug.')}
-                                            hasFilters={!!(filters.title || filters.priority || filters.date_range || filters.user_id)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.title ||
+                                                    filters.priority ||
+                                                    filters.date_range ||
+                                                    filters.user_id
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-project-bug"
-                                            onCreateClick={() => auth.user?.permissions?.includes('create-project-bug') && openModal('add')}
+                                            onCreateClick={() =>
+                                                auth.user?.permissions?.includes('create-project-bug') &&
+                                                openModal('add')
+                                            }
                                             createButtonText={t('Create Bug')}
                                             className="h-auto"
                                         />
@@ -487,27 +535,39 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {bugs.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {bugs.data?.map((bug) => (
                                         <Card key={bug.id} className="border border-border">
                                             <div className="p-4">
-                                                <div className="flex items-center gap-3 mb-3">
+                                                <div className="mb-3 flex items-center gap-3">
                                                     <div className="flex-1">
-                                                        <h3 className="font-semibold text-base text-foreground">{bug.title}</h3>
+                                                        <h3 className="text-base font-semibold text-foreground">
+                                                            {bug.title}
+                                                        </h3>
                                                     </div>
                                                 </div>
-                                                <div className="grid grid-cols-2 gap-2 mb-4">
+                                                <div className="mb-4 grid grid-cols-2 gap-2">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Stage')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Stage')}
+                                                        </p>
                                                         <div>
                                                             {(() => {
-                                                                const stage = bugStages.find(s => s.id === (bug as any).stage_id);
+                                                                const stage = bugStages.find(
+                                                                    (s) => s.id === (bug as any).stage_id
+                                                                );
                                                                 const stageName = stage?.name || '-';
                                                                 if (stageName === '-') return stageName;
                                                                 return (
-                                                                    <span className="px-2 py-1 rounded-full text-xs" style={{ backgroundColor: `${stage?.color || '#e5e7eb'}30`, color: '#374151' }}>
+                                                                    <span
+                                                                        className="rounded-full px-2 py-1 text-xs"
+                                                                        style={{
+                                                                            backgroundColor: `${stage?.color || '#e5e7eb'}30`,
+                                                                            color: '#374151',
+                                                                        }}
+                                                                    >
                                                                         {t(stageName)}
                                                                     </span>
                                                                 );
@@ -516,16 +576,20 @@ export default function Index() {
                                                     </div>
 
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1 text-right">{t('Priority')}</p>
+                                                        <p className="mb-1 text-right text-xs font-medium text-muted-foreground">
+                                                            {t('Priority')}
+                                                        </p>
                                                         <div className="text-right">
                                                             {(() => {
                                                                 const priorityColors = {
-                                                                    'High': 'bg-muted text-destructive',
-                                                                    'Medium': 'bg-muted text-foreground',
-                                                                    'Low': 'bg-muted text-foreground'
+                                                                    High: 'bg-muted text-destructive',
+                                                                    Medium: 'bg-muted text-foreground',
+                                                                    Low: 'bg-muted text-foreground',
                                                                 };
                                                                 return (
-                                                                    <span className={`px-2 py-1 rounded-full text-xs ${priorityColors[bug.priority as keyof typeof priorityColors]}`}>
+                                                                    <span
+                                                                        className={`rounded-full px-2 py-1 text-xs ${priorityColors[bug.priority as keyof typeof priorityColors]}`}
+                                                                    >
                                                                         {t(bug.priority)}
                                                                     </span>
                                                                 );
@@ -534,47 +598,57 @@ export default function Index() {
                                                     </div>
                                                 </div>
 
-
-                                                <div className="flex items-center justify-between pt-3 border-t">
-                                                     <div className="text-xs text-foreground">
-                                                            {bug.assignedUsers && bug.assignedUsers.length > 0 ? (
-                                                                <div className="flex -space-x-1">
-                                                                    {bug.assignedUsers.slice(0, 2)?.map((user) => (
-                                                                        <TooltipProvider key={user.id}>
-                                                                            <Tooltip delayDuration={0}>
-                                                                                <TooltipTrigger>
-                                                                                    <div className="h-8 w-8 rounded-full border border-background overflow-hidden bg-muted flex items-center justify-center">
-                                                                                        {user.avatar ? (
-                                                                                            <img
-                                                                                                src={getImagePath(user.avatar)}
-                                                                                                alt={user.name}
-                                                                                                className="h-full w-full object-cover"
-                                                                                            />
-                                                                                        ) : (
-                                                                                            <User className="h-2 w-2 text-muted-foreground" />
-                                                                                        )}
-                                                                                    </div>
-                                                                                </TooltipTrigger>
-                                                                                <TooltipContent>
-                                                                                    <p>{user.name}</p>
-                                                                                </TooltipContent>
-                                                                            </Tooltip>
-                                                                        </TooltipProvider>
-                                                                    ))}
-                                                                    {bug.assignedUsers.length > 2 && (
-                                                                        <div className="h-8 w-8 rounded-full bg-muted border border-background flex items-center justify-center">
-                                                                            <span className="text-xs text-muted-foreground">+{bug.assignedUsers.length - 2}</span>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            ) : '-'}
-                                                        </div>
+                                                <div className="flex items-center justify-between border-t pt-3">
+                                                    <div className="text-xs text-foreground">
+                                                        {bug.assignedUsers && bug.assignedUsers.length > 0 ? (
+                                                            <div className="flex -space-x-1">
+                                                                {bug.assignedUsers.slice(0, 2)?.map((user) => (
+                                                                    <TooltipProvider key={user.id}>
+                                                                        <Tooltip delayDuration={0}>
+                                                                            <TooltipTrigger>
+                                                                                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-background bg-muted">
+                                                                                    {user.avatar ? (
+                                                                                        <img
+                                                                                            src={getImagePath(
+                                                                                                user.avatar
+                                                                                            )}
+                                                                                            alt={user.name}
+                                                                                            className="h-full w-full object-cover"
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <User className="h-2 w-2 text-muted-foreground" />
+                                                                                    )}
+                                                                                </div>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p>{user.name}</p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    </TooltipProvider>
+                                                                ))}
+                                                                {bug.assignedUsers.length > 2 && (
+                                                                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-background bg-muted">
+                                                                        <span className="text-xs text-muted-foreground">
+                                                                            +{bug.assignedUsers.length - 2}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            '-'
+                                                        )}
+                                                    </div>
                                                     <div className="flex gap-1">
                                                         <TooltipProvider>
                                                             {auth.user?.permissions?.includes('view-project-bug') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('view', bug)} className="h-8 w-8 p-0 text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('view', bug)}
+                                                                            className="h-8 w-8 p-0 text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -586,7 +660,12 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-project-bug') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', bug)} className="h-8 w-8 p-0 text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', bug)}
+                                                                            className="h-8 w-8 p-0 text-foreground"
+                                                                        >
                                                                             <Edit className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -624,10 +703,14 @@ export default function Index() {
                                     icon={Package}
                                     title={t('No bug found')}
                                     description={t('Get started by creating your first bug.')}
-                                    hasFilters={!!(filters.title || filters.priority || filters.date_range || filters.user_id)}
+                                    hasFilters={
+                                        !!(filters.title || filters.priority || filters.date_range || filters.user_id)
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-project-bug"
-                                    onCreateClick={() => auth.user?.permissions?.includes('create-project-bug') && openModal('add')}
+                                    onCreateClick={() =>
+                                        auth.user?.permissions?.includes('create-project-bug') && openModal('add')
+                                    }
                                     createButtonText={t('Create Bug')}
                                 />
                             )}
@@ -635,23 +718,23 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={bugs}
                         routeName="project.bugs.index"
-                        filters={{...filters, per_page: perPage, view: viewMode, ...(project && {project_id: project.id})}}
+                        filters={{
+                            ...filters,
+                            per_page: perPage,
+                            view: viewMode,
+                            ...(project && { project_id: project.id }),
+                        }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
                 {modalState.mode === 'add' && (
-                    <Create
-                        onSuccess={closeModal}
-                        project={project}
-                        teamMembers={teamMembers}
-                        bugStages={bugStages}
-                    />
+                    <Create onSuccess={closeModal} project={project} teamMembers={teamMembers} bugStages={bugStages} />
                 )}
                 {modalState.mode === 'edit' && modalState.data && (
                     <EditBug
@@ -666,10 +749,7 @@ export default function Index() {
                     />
                 )}
                 {modalState.mode === 'view' && modalState.data && (
-                    <ViewBug
-                        bug={{ id: modalState.data.id }}
-                        auth={auth}
-                    />
+                    <ViewBug bug={{ id: modalState.data.id }} auth={auth} />
                 )}
             </Dialog>
 

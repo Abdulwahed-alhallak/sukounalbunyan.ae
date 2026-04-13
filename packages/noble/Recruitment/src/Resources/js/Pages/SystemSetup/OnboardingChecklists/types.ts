@@ -19,10 +19,12 @@ export interface OnboardingChecklistFormData {
     [key: string]: any;
 }
 
-export interface CreateOnboardingChecklistProps extends CreateProps  {[key: string]: any;
+export interface CreateOnboardingChecklistProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditOnboardingChecklistProps extends EditProps<OnboardingChecklist>  {[key: string]: any;
+export interface EditOnboardingChecklistProps extends EditProps<OnboardingChecklist> {
+    [key: string]: any;
 }
 
 export type PaginatedOnboardingChecklists = PaginatedData<OnboardingChecklist>;

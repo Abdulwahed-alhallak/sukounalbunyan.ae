@@ -27,39 +27,35 @@ export default function NoRecordsFound({
     createPermission,
     onCreateClick,
     createButtonText,
-    className = 'h-64'
+    className = 'h-64',
 }: NoRecordsFoundProps) {
     const { t } = useTranslation();
     const { auth } = usePage().props as any;
-    
-    const hasCreatePermission = createPermission ? 
-        auth.user?.permissions?.includes(createPermission) : true;
 
-    const displayDescription = hasFilters ? 
-        (filteredDescription || t('No records match your current filters or search criteria.')) :
-        description;
+    const hasCreatePermission = createPermission ? auth.user?.permissions?.includes(createPermission) : true;
+
+    const displayDescription = hasFilters
+        ? filteredDescription || t('No records match your current filters or search criteria.')
+        : description;
 
     return (
         <div className={`flex flex-col items-center justify-center text-center ${className}`}>
-            <Icon className="h-16 w-16 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
-            {displayDescription && (
-                <p className="text-muted-foreground mb-4">{displayDescription}</p>
-            )}
-            {hasFilters ? (
-                onClearFilters && (
-                    <Button variant="outline" onClick={onClearFilters}>
-                        {t('Clear filters')}
-                    </Button>
-                )
-            ) : (
-                hasCreatePermission && onCreateClick && (
-                    <Button onClick={onCreateClick}>
-                        <Plus className="h-4 w-4 mr-2" />
-                        {createButtonText || t('Create')}
-                    </Button>
-                )
-            )}
+            <Icon className="mb-4 h-16 w-16 text-muted-foreground" />
+            <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+            {displayDescription && <p className="mb-4 text-muted-foreground">{displayDescription}</p>}
+            {hasFilters
+                ? onClearFilters && (
+                      <Button variant="outline" onClick={onClearFilters}>
+                          {t('Clear filters')}
+                      </Button>
+                  )
+                : hasCreatePermission &&
+                  onCreateClick && (
+                      <Button onClick={onCreateClick}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          {createButtonText || t('Create')}
+                      </Button>
+                  )}
         </div>
     );
 }

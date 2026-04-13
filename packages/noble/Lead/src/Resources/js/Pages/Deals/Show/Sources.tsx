@@ -19,7 +19,6 @@ interface SourcesProps {
 }
 
 export default function Sources({ deal, availableSources, onRegisterAddHandler }: SourcesProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => openSourceModal());
     }, [onRegisterAddHandler]);
@@ -31,23 +30,29 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
     const [sourceDeleteState, setSourceDeleteState] = useState({ isOpen: false, sourceId: null, message: '' });
 
     const formatAvailableSources = () => {
-        setAvailableSourcesState(availableSources?.map((source: any) => ({
-            value: source.id.toString(),
-            label: source.name
-        })));
+        setAvailableSourcesState(
+            availableSources?.map((source: any) => ({
+                value: source.id.toString(),
+                label: source.name,
+            }))
+        );
     };
 
     const handleAssignSources = () => {
         if (selectedSources.length === 0) return;
-        
-        router.post(route('lead.deals.assign-sources', deal.id), {
-            source_ids: selectedSources?.map(id => parseInt(id))
-        }, {
-            onSuccess: () => {
-                setSourceModalOpen(false);
-                setSelectedSources([]);
+
+        router.post(
+            route('lead.deals.assign-sources', deal.id),
+            {
+                source_ids: selectedSources?.map((id) => parseInt(id)),
+            },
+            {
+                onSuccess: () => {
+                    setSourceModalOpen(false);
+                    setSelectedSources([]);
+                },
             }
-        });
+        );
     };
 
     const openSourceModal = () => {
@@ -59,7 +64,7 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
         setSourceDeleteState({
             isOpen: true,
             sourceId,
-            message: t('Are you sure you want to delete this source?')
+            message: t('Are you sure you want to delete this source?'),
         });
     };
 
@@ -69,7 +74,7 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
 
     const confirmSourceDelete = () => {
         if (sourceDeleteState.sourceId) {
-            router.delete(route('lead.deals.remove-source', {deal: deal.id, source: sourceDeleteState.sourceId}));
+            router.delete(route('lead.deals.remove-source', { deal: deal.id, source: sourceDeleteState.sourceId }));
             closeSourceDeleteDialog();
         }
     };
@@ -77,7 +82,7 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
     useEffect(() => {
         if (deal.sources && availableSources.length > 0) {
             const names = {};
-            availableSources.forEach(source => {
+            availableSources.forEach((source) => {
                 names[source.id] = source.name;
             });
             setSourceNames(names);
@@ -86,15 +91,29 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
-                        data={deal.sources ? [...new Set((Array.isArray(deal.sources) ? deal.sources : []).filter(Boolean)?.map(id => id.toString().trim()))]?.map((sourceId: string, index: number) => ({ id: sourceId, key: `source-${sourceId}-${index}`, name: sourceNames[sourceId] || '' })) : []}
+                        data={
+                            deal.sources
+                                ? [
+                                      ...new Set(
+                                          (Array.isArray(deal.sources) ? deal.sources : [])
+                                              .filter(Boolean)
+                                              ?.map((id) => id.toString().trim())
+                                      ),
+                                  ]?.map((sourceId: string, index: number) => ({
+                                      id: sourceId,
+                                      key: `source-${sourceId}-${index}`,
+                                      name: sourceNames[sourceId] || '',
+                                  }))
+                                : []
+                        }
                         columns={[
                             {
                                 key: 'name',
                                 header: t('Source Name'),
-                                render: (value: string, source: any) => source.name || '-'
+                                render: (value: string, source: any) => source.name || '-',
                             },
                             {
                                 key: 'actions',
@@ -104,9 +123,14 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => {
-                                                        openSourceDeleteDialog(source.id);
-                                                    }} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            openSourceDeleteDialog(source.id);
+                                                        }}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -116,8 +140,8 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -151,8 +175,12 @@ export default function Sources({ deal, availableSources, onRegisterAddHandler }
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setSourceModalOpen(false)}>{t('Cancel')}</Button>
-                            <Button onClick={handleAssignSources} disabled={selectedSources.length === 0}>{t('Save')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setSourceModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button onClick={handleAssignSources} disabled={selectedSources.length === 0}>
+                                {t('Save')}
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>

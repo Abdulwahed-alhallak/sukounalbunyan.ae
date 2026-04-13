@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { TrendingUp } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
@@ -36,20 +36,22 @@ export default function Show({ indicator }: ShowProps) {
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <TrendingUp className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
-                        <DialogTitle className="text-xl font-semibold">{t('Performance Indicator Details')}</DialogTitle>
+                        <DialogTitle className="text-xl font-semibold">
+                            {t('Performance Indicator Details')}
+                        </DialogTitle>
                         <p className="text-sm text-muted-foreground">{indicator.name}</p>
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-4 space-y-6">
+
+            <div className="flex-1 space-y-6 overflow-y-auto p-4">
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -59,11 +61,15 @@ export default function Show({ indicator }: ShowProps) {
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Category')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                {categories?.find((cat: any) => cat.id.toString() === indicator.category?.id?.toString())?.name || indicator.category?.name || '-'}
+                                {categories?.find(
+                                    (cat: any) => cat.id.toString() === indicator.category?.id?.toString()
+                                )?.name ||
+                                    indicator.category?.name ||
+                                    '-'}
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Measurement Unit')}</label>
@@ -74,12 +80,12 @@ export default function Show({ indicator }: ShowProps) {
                             <p className="mt-1 text-sm text-foreground">{indicator.target_value || '-'}</p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(indicator.status)}`}>
+                                <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(indicator.status)}`}>
                                     {getStatusLabel(indicator.status)}
                                 </span>
                             </p>

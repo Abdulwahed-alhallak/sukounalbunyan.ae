@@ -55,17 +55,17 @@ const getCountryFlag = (countryCode: string): string => {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
-        .map(char => 127397 + char.charCodeAt(0));
+        .map((char) => 127397 + char.charCodeAt(0));
     return String.fromCodePoint(...codePoints);
 };
 
-export default function LanguageManage({ 
-    currentLanguage, 
+export default function LanguageManage({
+    currentLanguage,
     translations: paginatedTranslations,
     enabledPackages,
     availableLanguages,
     isCurrentLanguageEnabled,
-    filters
+    filters,
 }: LanguageManageProps) {
     const { t } = useTranslation();
     const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
@@ -96,7 +96,7 @@ export default function LanguageManage({
             return Object.entries(packageData);
         }
     }, [paginatedTranslations.data, packageTranslations, packagePaginationData, activeSource]);
-    
+
     // Handle search with debounce
     const handleSearch = () => {
         const params = new URLSearchParams(window.location.search);
@@ -125,7 +125,7 @@ export default function LanguageManage({
             const response = await fetch(route('languages.translations', languageCode));
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
-            
+
             if (data.translations) {
                 setTranslations(data.translations);
                 setHasChanges(false);
@@ -143,7 +143,7 @@ export default function LanguageManage({
             setSelectedLanguage(languageCode);
             router.get(route('languages.manage'), { lang: languageCode }, { preserveState: true, replace: true });
         };
-        
+
         if (hasChanges) {
             setPendingLanguageChange(languageCode);
             setShowUnsavedConfirm(true);
@@ -156,7 +156,11 @@ export default function LanguageManage({
         if (pendingLanguageChange) {
             setSelectedLanguage(pendingLanguageChange);
             setHasChanges(false);
-            router.get(route('languages.manage'), { lang: pendingLanguageChange }, { preserveState: true, replace: true });
+            router.get(
+                route('languages.manage'),
+                { lang: pendingLanguageChange },
+                { preserveState: true, replace: true }
+            );
         }
         setShowUnsavedConfirm(false);
         setPendingLanguageChange(null);
@@ -164,32 +168,34 @@ export default function LanguageManage({
 
     // Load package translations
     const loadPackageTranslations = async (packageName: string, page: number = 1, search: string = '') => {
-        setLoadingPackages(prev => ({ ...prev, [packageName]: true }));
+        setLoadingPackages((prev) => ({ ...prev, [packageName]: true }));
         try {
             const params = new URLSearchParams({ page: page.toString() });
             if (search) params.set('search', search);
-            
-            const response = await fetch(`${route('languages.package.translations', { locale: selectedLanguage, packageName })}?${params}`);
+
+            const response = await fetch(
+                `${route('languages.package.translations', { locale: selectedLanguage, packageName })}?${params}`
+            );
             if (response.ok) {
                 const data = await response.json();
                 // Always update pagination data for the current request
-                setPackagePaginationData(prev => ({
+                setPackagePaginationData((prev) => ({
                     ...prev,
                     [packageName]: {
                         ...data.translations,
                         current_page: parseInt(page.toString()),
-                        search: search
-                    }
+                        search: search,
+                    },
                 }));
-                setPackageTranslations(prev => ({
+                setPackageTranslations((prev) => ({
                     ...prev,
-                    [packageName]: data.translations?.data || {}
+                    [packageName]: data.translations?.data || {},
                 }));
             }
         } catch (error) {
             toast.error('Failed to load package translations');
         } finally {
-            setLoadingPackages(prev => ({ ...prev, [packageName]: false }));
+            setLoadingPackages((prev) => ({ ...prev, [packageName]: false }));
         }
     };
 
@@ -205,21 +211,21 @@ export default function LanguageManage({
 
     // Handle translation value change
     const handleTranslationChange = (key: string, value: string) => {
-        setTranslations(prev => ({
+        setTranslations((prev) => ({
             ...prev,
-            [key]: value
+            [key]: value,
         }));
         setHasChanges(true);
     };
 
     // Handle package translation change
     const handlePackageTranslationChange = (packageName: string, key: string, value: string) => {
-        setPackageTranslations(prev => ({
+        setPackageTranslations((prev) => ({
             ...prev,
             [packageName]: {
                 ...prev[packageName],
-                [key]: value
-            }
+                [key]: value,
+            },
         }));
         setHasChanges(true);
     };
@@ -282,9 +288,10 @@ export default function LanguageManage({
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                        'X-CSRF-TOKEN':
+                            document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                     },
-                    body: JSON.stringify({ translations })
+                    body: JSON.stringify({ translations }),
                 });
                 if (response.ok) {
                     toast.success(t('Translations saved successfully'));
@@ -293,14 +300,18 @@ export default function LanguageManage({
                     toast.error(t('Failed to save translations'));
                 }
             } else {
-                const response = await fetch(route('languages.package.update', { locale: selectedLanguage, packageName: activeSource }), {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-                    },
-                    body: JSON.stringify({ translations: packageTranslations[activeSource] })
-                });
+                const response = await fetch(
+                    route('languages.package.update', { locale: selectedLanguage, packageName: activeSource }),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN':
+                                document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                        },
+                        body: JSON.stringify({ translations: packageTranslations[activeSource] }),
+                    }
+                );
                 if (response.ok) {
                     toast.success(t('Package translations saved successfully'));
                     setHasChanges(false);
@@ -315,269 +326,272 @@ export default function LanguageManage({
         }
     };
 
-    const currentLang = availableLanguages.find(lang => lang.code === selectedLanguage);
+    const currentLang = availableLanguages.find((lang) => lang.code === selectedLanguage);
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: 'Languages'}]}
+            breadcrumbs={[{ label: 'Languages' }]}
             pageTitle="Language Management"
             pageActions={
                 <div className="flex items-center gap-2">
-                        {hasChanges && (
-                            <Badge variant="secondary" className="animate-pulse">
-                                {t('Unsaved changes')}
-                            </Badge>
-                        )}
-                        {selectedLanguage !== 'en' && (
-                            <>
-                                <Button 
-                                    onClick={handleToggleLanguage}
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={isToggling}
-                                    className="gap-2"
-                                >
-                                    {isToggling ? (
-                                        <RefreshCw className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <Power className="h-4 w-4" />
-                                    )}
-                                    {isToggling ? t('Updating...') : (isCurrentLanguageEnabled ? t('Disable Language') : t('Enable Language'))}
-                                </Button>
-                                <Button 
-                                    onClick={() => setShowDeleteConfirm(true)}
-                                    variant="destructive"
-                                    size="sm"
-                                    className="gap-2"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                    {t('Delete Language')}
-                                </Button>
-                            </>
-                        )}
-                        <Button 
-                            onClick={handleSave} 
-                            disabled={!hasChanges || isSaving}
-                            className="gap-2"
-                        >
-                            {isSaving ? (
-                                <RefreshCw className="h-4 w-4 animate-spin" />
-                            ) : (
-                                <Save className="h-4 w-4" />
-                            )}
-                            {t('Save Changes')}
-                        </Button>
+                    {hasChanges && (
+                        <Badge variant="secondary" className="animate-pulse">
+                            {t('Unsaved changes')}
+                        </Badge>
+                    )}
+                    {selectedLanguage !== 'en' && (
+                        <>
+                            <Button
+                                onClick={handleToggleLanguage}
+                                variant="outline"
+                                size="sm"
+                                disabled={isToggling}
+                                className="gap-2"
+                            >
+                                {isToggling ? (
+                                    <RefreshCw className="h-4 w-4 animate-spin" />
+                                ) : (
+                                    <Power className="h-4 w-4" />
+                                )}
+                                {isToggling
+                                    ? t('Updating...')
+                                    : isCurrentLanguageEnabled
+                                      ? t('Disable Language')
+                                      : t('Enable Language')}
+                            </Button>
+                            <Button
+                                onClick={() => setShowDeleteConfirm(true)}
+                                variant="destructive"
+                                size="sm"
+                                className="gap-2"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                                {t('Delete Language')}
+                            </Button>
+                        </>
+                    )}
+                    <Button onClick={handleSave} disabled={!hasChanges || isSaving} className="gap-2">
+                        {isSaving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                        {t('Save Changes')}
+                    </Button>
                 </div>
             }
         >
             <Head title="Languages" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    {/* Translation Source Sidebar */}
-                    <Card className="lg:col-span-1">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-                                <Package className="h-4 w-4" />
-                                {t('Translation Source')}
-                            </CardTitle>
-                            <CardDescription>
-                                {t('Select translation source to edit')}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="relative mb-3">
-                                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    placeholder="Search packages..."
-                                    value={sourceSearchTerm}
-                                    onChange={(e) => setSourceSearchTerm(e.target.value)}
-                                    className="pl-8"
-                                />
-                            </div>
-                            <div className="max-h-[85vh] overflow-auto scrollbar-hover-only">
-                                <Button
-                                variant={activeSource === 'general' ? "default" : "ghost"}
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                {/* Translation Source Sidebar */}
+                <Card className="lg:col-span-1">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+                            <Package className="h-4 w-4" />
+                            {t('Translation Source')}
+                        </CardTitle>
+                        <CardDescription>{t('Select translation source to edit')}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                        <div className="relative mb-3">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                placeholder="Search packages..."
+                                value={sourceSearchTerm}
+                                onChange={(e) => setSourceSearchTerm(e.target.value)}
+                                className="pl-8"
+                            />
+                        </div>
+                        <div className="scrollbar-hover-only max-h-[85vh] overflow-auto">
+                            <Button
+                                variant={activeSource === 'general' ? 'default' : 'ghost'}
                                 className="w-full justify-start gap-2"
                                 onClick={() => handleSourceChange('general')}
                                 disabled={isLoading}
                             >
                                 <Globe className="h-4 w-4" />
                                 <span>{t('General')}</span>
-                                {activeSource === 'general' && (
-                                    <Edit3 className="h-3 w-3 ml-auto" />
-                                )}
+                                {activeSource === 'general' && <Edit3 className="ml-auto h-3 w-3" />}
                             </Button>
                             {enabledPackages
-                                .filter(pkg => 
-                                    pkg.name.toLowerCase().includes(sourceSearchTerm.toLowerCase()) ||
-                                    pkg.package_name.toLowerCase().includes(sourceSearchTerm.toLowerCase())
+                                .filter(
+                                    (pkg) =>
+                                        pkg.name.toLowerCase().includes(sourceSearchTerm.toLowerCase()) ||
+                                        pkg.package_name.toLowerCase().includes(sourceSearchTerm.toLowerCase())
                                 )
                                 .map((pkg) => (
-                                <Button
-                                    key={pkg.package_name}
-                                    variant={activeSource === pkg.package_name ? "default" : "ghost"}
-                                    className="w-full justify-start gap-2"
-                                    onClick={() => handleSourceChange(pkg.package_name)}
-                                    disabled={isLoading}
-                                >
-                                    <Package className="h-4 w-4" />
-                                    <span>{pkg.name}</span>
-                                    {activeSource === pkg.package_name && (
-                                        <Edit3 className="h-3 w-3 ml-auto" />
-                                    )}
-                                </Button>
-                            ))}
-                            </div>
-                        </CardContent>
-                    </Card>
+                                    <Button
+                                        key={pkg.package_name}
+                                        variant={activeSource === pkg.package_name ? 'default' : 'ghost'}
+                                        className="w-full justify-start gap-2"
+                                        onClick={() => handleSourceChange(pkg.package_name)}
+                                        disabled={isLoading}
+                                    >
+                                        <Package className="h-4 w-4" />
+                                        <span>{pkg.name}</span>
+                                        {activeSource === pkg.package_name && <Edit3 className="ml-auto h-3 w-3" />}
+                                    </Button>
+                                ))}
+                        </div>
+                    </CardContent>
+                </Card>
 
-                    {/* Translation Editor */}
-                    <Card className="lg:col-span-3">
-                        <CardHeader className="pb-3">
-                            <div className="flex items-center justify-between gap-4 mb-2">
-                                <div>
-                                    <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-                                        {currentLang?.flag} {currentLang?.name} {t('Translations')}
-                                    </CardTitle>
-                                    <CardDescription>
-                                        {t('Edit translation keys and values for')} {currentLang?.name}
-                                    </CardDescription>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <SearchInput
-                                        value={searchTerm}
-                                        onChange={setSearchTerm}
-                                        onSearch={(clearSearch = false) => {
-                                            if (activeSource === 'general') {
-                                                handleSearch();
-                                            } else {
-                                                loadPackageTranslations(activeSource, 1, clearSearch ? '' : searchTerm);
-                                            }
-                                        }}
-                                        placeholder={t('Search translations...')}
-                                    />
-                                    <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
-                                        <SelectTrigger className="w-48">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {languagesData.filter(language => language.enabled !== false).map((language) => {
-                                                const isEnabled = availableLanguages.some(lang => lang.code === language.code);
+                {/* Translation Editor */}
+                <Card className="lg:col-span-3">
+                    <CardHeader className="pb-3">
+                        <div className="mb-2 flex items-center justify-between gap-4">
+                            <div>
+                                <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+                                    {currentLang?.flag} {currentLang?.name} {t('Translations')}
+                                </CardTitle>
+                                <CardDescription>
+                                    {t('Edit translation keys and values for')} {currentLang?.name}
+                                </CardDescription>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <SearchInput
+                                    value={searchTerm}
+                                    onChange={setSearchTerm}
+                                    onSearch={(clearSearch = false) => {
+                                        if (activeSource === 'general') {
+                                            handleSearch();
+                                        } else {
+                                            loadPackageTranslations(activeSource, 1, clearSearch ? '' : searchTerm);
+                                        }
+                                    }}
+                                    placeholder={t('Search translations...')}
+                                />
+                                <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
+                                    <SelectTrigger className="w-48">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languagesData
+                                            .filter((language) => language.enabled !== false)
+                                            .map((language) => {
+                                                const isEnabled = availableLanguages.some(
+                                                    (lang) => lang.code === language.code
+                                                );
                                                 return (
-                                                    <SelectItem 
-                                                        key={language.code} 
+                                                    <SelectItem
+                                                        key={language.code}
                                                         value={language.code}
-                                                        className={!isEnabled ? "opacity-50" : ""}
+                                                        className={!isEnabled ? 'opacity-50' : ''}
                                                     >
                                                         <div className="flex items-center gap-2">
                                                             <span>{getCountryFlag(language.countryCode)}</span>
                                                             <span>{language.name}</span>
                                                             {!isEnabled && (
-                                                                <Lock className="h-3 w-3 ml-auto text-muted-foreground" />
+                                                                <Lock className="ml-auto h-3 w-3 text-muted-foreground" />
                                                             )}
                                                         </div>
                                                     </SelectItem>
                                                 );
                                             })}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                                    </SelectContent>
+                                </Select>
                             </div>
-                        </CardHeader>
-                        <CardContent>
-                            {activeSource === 'general' && (
-                                <div>
-                                    {isLoading ? (
-                                        <div className="flex items-center justify-center py-8">
-                                            <RefreshCw className="h-6 w-6 animate-spin" />
-                                            <span className="ml-2">{t('Loading translations...')}</span>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        {activeSource === 'general' && (
+                            <div>
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center py-8">
+                                        <RefreshCw className="h-6 w-6 animate-spin" />
+                                        <span className="ml-2">{t('Loading translations...')}</span>
+                                    </div>
+                                ) : currentTranslations.length === 0 ? (
+                                    <div className="py-8 text-center text-muted-foreground">
+                                        {searchTerm
+                                            ? t('No translations found matching your search.')
+                                            : t('No translations available.')}
+                                    </div>
+                                ) : (
+                                    <div className="rounded-lg border">
+                                        <div className="grid grid-cols-5 gap-4 border-b bg-muted/50 p-3 text-sm font-medium">
+                                            <div className="col-span-2">{t('Translation Key')}</div>
+                                            <div className="col-span-3">{t('Translation Value')}</div>
                                         </div>
-                                    ) : currentTranslations.length === 0 ? (
-                                        <div className="text-center py-8 text-muted-foreground">
-                                            {searchTerm ? t('No translations found matching your search.') : t('No translations available.')}
+                                        <div className="scrollbar-hover-only max-h-[80vh] overflow-auto">
+                                            {currentTranslations.map(([key, value]) => (
+                                                <TranslationItem
+                                                    key={key}
+                                                    translationKey={key}
+                                                    value={value as string}
+                                                    onChange={(k, v) => {
+                                                        handleTranslationChange(k, v);
+                                                        // Update the paginated data as well
+                                                        paginatedTranslations.data[k] = v;
+                                                    }}
+                                                />
+                                            ))}
                                         </div>
-                                    ) : (
-                                        <div className="border rounded-lg">
-                                            <div className="grid grid-cols-5 gap-4 p-3 bg-muted/50 border-b font-medium text-sm">
+                                    </div>
+                                )}
+                                {activeSource === 'general' && paginatedTranslations.last_page > 1 && (
+                                    <div className="mt-4">
+                                        <Pagination
+                                            data={paginatedTranslations}
+                                            routeName="languages.manage"
+                                            filters={{ lang: selectedLanguage, search: searchTerm }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {activeSource !== 'general' && (
+                            <div>
+                                {loadingPackages[activeSource] ? (
+                                    <div className="flex items-center justify-center py-8">
+                                        <RefreshCw className="h-6 w-6 animate-spin" />
+                                        <span className="ml-2">{t('Loading package translations...')}</span>
+                                    </div>
+                                ) : !packageTranslations[activeSource] ||
+                                  Object.keys(packageTranslations[activeSource]).length === 0 ? (
+                                    <div className="py-8 text-center text-muted-foreground">
+                                        <Package className="mx-auto mb-4 h-12 w-12 opacity-50" />
+                                        {t('No translations found for this package.')}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="rounded-lg border">
+                                            <div className="grid grid-cols-5 gap-4 border-b bg-muted/50 p-3 text-sm font-medium">
                                                 <div className="col-span-2">{t('Translation Key')}</div>
                                                 <div className="col-span-3">{t('Translation Value')}</div>
                                             </div>
-                                            <div className="max-h-[80vh] overflow-auto scrollbar-hover-only">
+                                            <div className="scrollbar-hover-only max-h-[80vh] overflow-auto">
                                                 {currentTranslations.map(([key, value]) => (
                                                     <TranslationItem
                                                         key={key}
                                                         translationKey={key}
                                                         value={value as string}
-                                                        onChange={(k, v) => {
-                                                            handleTranslationChange(k, v);
-                                                            // Update the paginated data as well
-                                                            paginatedTranslations.data[k] = v;
-                                                        }}
+                                                        onChange={(k, v) =>
+                                                            handlePackageTranslationChange(activeSource, k, v)
+                                                        }
                                                     />
                                                 ))}
                                             </div>
                                         </div>
-                                    )}
-                                    {activeSource === 'general' && paginatedTranslations.last_page > 1 && (
-                                        <div className="mt-4">
-                                             <Pagination
-                                                data={paginatedTranslations}
-                                                routeName="languages.manage"
-                                                filters={{ lang: selectedLanguage, search: searchTerm }}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                            
-                            {activeSource !== 'general' && (
-                                <div>
-                                    {loadingPackages[activeSource] ? (
-                                        <div className="flex items-center justify-center py-8">
-                                            <RefreshCw className="h-6 w-6 animate-spin" />
-                                            <span className="ml-2">{t('Loading package translations...')}</span>
-                                        </div>
-                                    ) : !packageTranslations[activeSource] || Object.keys(packageTranslations[activeSource]).length === 0 ? (
-                                        <div className="text-center py-8 text-muted-foreground">
-                                            <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                            {t('No translations found for this package.')}
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <div className="border rounded-lg">
-                                                <div className="grid grid-cols-5 gap-4 p-3 bg-muted/50 border-b font-medium text-sm">
-                                                    <div className="col-span-2">{t('Translation Key')}</div>
-                                                    <div className="col-span-3">{t('Translation Value')}</div>
-                                                </div>
-                                                <div className="max-h-[80vh] overflow-auto scrollbar-hover-only">
-                                                    {currentTranslations.map(([key, value]) => (
-                                                        <TranslationItem
-                                                            key={key}
-                                                            translationKey={key}
-                                                            value={value as string}
-                                                            onChange={(k, v) => handlePackageTranslationChange(activeSource, k, v)}
-                                                        />
-                                                    ))}
-                                                </div>
+                                        {activeSource !== 'general' && paginatedTranslations.last_page > 1 && (
+                                            <div className="mt-4">
+                                                <Pagination
+                                                    data={packagePaginationData[activeSource] || {}}
+                                                    routeName="languages.manage"
+                                                    filters={{
+                                                        lang: selectedLanguage,
+                                                        search: searchTerm,
+                                                        package: activeSource,
+                                                    }}
+                                                />
                                             </div>
-                                            {activeSource !== 'general' && paginatedTranslations.last_page > 1 && (
-                                                <div className="mt-4">
-                                                    <Pagination
-                                                        data={packagePaginationData[activeSource] || {}}
-                                                        routeName="languages.manage"
-                                                        filters={{ lang: selectedLanguage, search: searchTerm, package: activeSource }}
-                                                    />
-                                                </div>
-                                            )}
-                                        </>
-                                    )}
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </div>
 
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
-                </div>
-                
             <ConfirmationDialog
                 open={showDeleteConfirm}
                 onOpenChange={setShowDeleteConfirm}

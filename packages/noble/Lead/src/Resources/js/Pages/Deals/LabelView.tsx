@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from 'react-i18next';
@@ -26,22 +26,22 @@ interface Label {
 export default function DealLabelView({ deal, onSuccess }: DealLabelViewProps) {
     const { t } = useTranslation();
     const { labels } = usePage().props as { labels: Label[] };
-    
+
     // Filter labels for current deal's pipeline only
-    const pipelineLabels = labels?.filter(label => label.pipeline_id === deal.pipeline_id) || [];
-    const [selectedLabels, setSelectedLabels] = useState<{[key: number]: boolean}>(() => {
-        const selected: {[key: number]: boolean} = {};
+    const pipelineLabels = labels?.filter((label) => label.pipeline_id === deal.pipeline_id) || [];
+    const [selectedLabels, setSelectedLabels] = useState<{ [key: number]: boolean }>(() => {
+        const selected: { [key: number]: boolean } = {};
         if (deal.labels) {
             const labelIds = deal.labels.split(',')?.map(Number).filter(Boolean);
-            labelIds.forEach(id => {
+            labelIds.forEach((id) => {
                 selected[id] = true;
             });
         }
         return selected;
     });
-    
+
     const { data, setData, patch, processing } = useForm({
-        labels: deal.labels || ''
+        labels: deal.labels || '',
     });
 
     const handleLabelChange = (labelId: number, checked: boolean) => {
@@ -52,8 +52,8 @@ export default function DealLabelView({ deal, onSuccess }: DealLabelViewProps) {
             delete newSelected[labelId];
         }
         setSelectedLabels(newSelected);
-        const labelIds = Object.keys(newSelected).filter(key => newSelected[parseInt(key)]);
-        
+        const labelIds = Object.keys(newSelected).filter((key) => newSelected[parseInt(key)]);
+
         setData('labels', labelIds.join(','));
     };
 
@@ -62,15 +62,15 @@ export default function DealLabelView({ deal, onSuccess }: DealLabelViewProps) {
         patch(route('lead.deals.update-labels', deal.id), {
             onSuccess: () => {
                 onSuccess?.();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-muted rounded-lg">
+                    <div className="rounded-lg bg-muted p-2">
                         <Tag className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -79,8 +79,8 @@ export default function DealLabelView({ deal, onSuccess }: DealLabelViewProps) {
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-6">
+
+            <div className="flex-1 overflow-y-auto p-6">
                 <div className="space-y-4">
                     {pipelineLabels?.map((label) => (
                         <div key={label.id} className="flex items-center space-x-3">
@@ -89,9 +89,9 @@ export default function DealLabelView({ deal, onSuccess }: DealLabelViewProps) {
                                 checked={selectedLabels[label.id] || false}
                                 onCheckedChange={(checked) => handleLabelChange(label.id, !!checked)}
                             />
-                            <label htmlFor={`label-${label.id}`} className="text-sm font-medium cursor-pointer">
-                                <div 
-                                    className="px-3 py-1 rounded text-background text-sm font-medium" 
+                            <label htmlFor={`label-${label.id}`} className="cursor-pointer text-sm font-medium">
+                                <div
+                                    className="rounded px-3 py-1 text-sm font-medium text-background"
                                     style={{ backgroundColor: label.color }}
                                 >
                                     {label.name}

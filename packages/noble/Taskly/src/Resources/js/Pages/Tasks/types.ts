@@ -12,8 +12,8 @@ export interface ProjectTask {
     project?: {
         id: number;
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     milestone?: {
         id: number;
         title: string;
@@ -80,8 +80,8 @@ export interface Project {
     teamMembers?: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
 }
 
 export interface Milestone {
@@ -110,8 +110,8 @@ export interface ProjectTasksIndexProps {
     teamMembers: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     taskStages: TaskStage[];
     auth: AuthContext;
     [key: string]: any;

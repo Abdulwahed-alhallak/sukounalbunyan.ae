@@ -4,16 +4,16 @@ import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { usePageButtons } from '@/hooks/usePageButtons';
 import { formatDate } from '@/utils/helpers';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, FileText, Play, Eye } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, FileText, Play, Eye } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -54,40 +54,78 @@ interface ShowModalState {
     averageRating: number | null;
 }
 
-const EmployeeReviewActionButtons = ({ review, auth, t, openModal, openDeleteDialog, openShowModal, router, isGrid = false }: any) => {
-    const { additionalButtons } = usePageButtons('employee-reviews-actions', { review, auth, t, openModal, openDeleteDialog, openShowModal, router });
-    const buttonClass = isGrid ? "h-9 w-9 p-0" : "h-8 w-8 p-0";
+const EmployeeReviewActionButtons = ({
+    review,
+    auth,
+    t,
+    openModal,
+    openDeleteDialog,
+    openShowModal,
+    router,
+    isGrid = false,
+}: any) => {
+    const { additionalButtons } = usePageButtons('employee-reviews-actions', {
+        review,
+        auth,
+        t,
+        openModal,
+        openDeleteDialog,
+        openShowModal,
+        router,
+    });
+    const buttonClass = isGrid ? 'h-9 w-9 p-0' : 'h-8 w-8 p-0';
 
     return (
         <>
             {auth.user?.permissions?.includes('conduct-employee-reviews') && (
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
-                        <Button variant="ghost" size="sm" onClick={() => router.get(route('performance.employee-reviews.conduct', review.id))} className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.get(route('performance.employee-reviews.conduct', review.id))}
+                            className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}
+                        >
                             <Play className="h-4 w-4" />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent><p>{t('Conduct Review')}</p></TooltipContent>
+                    <TooltipContent>
+                        <p>{t('Conduct Review')}</p>
+                    </TooltipContent>
                 </Tooltip>
             )}
             {auth.user?.permissions?.includes('view-employee-reviews') && (
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
-                        <Button variant="ghost" size="sm" onClick={() => openShowModal(review)} className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openShowModal(review)}
+                            className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}
+                        >
                             <Eye className="h-4 w-4" />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent><p>{t('View')}</p></TooltipContent>
+                    <TooltipContent>
+                        <p>{t('View')}</p>
+                    </TooltipContent>
                 </Tooltip>
             )}
             {auth.user?.permissions?.includes('edit-employee-reviews') && (
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
-                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', review)} className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openModal('edit', review)}
+                            className={`${buttonClass} text-foreground hover:text-foreground ${isGrid ? 'hover:bg-muted/50' : ''}`}
+                        >
                             <Edit className="h-4 w-4" />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent><p>{t('Edit')}</p></TooltipContent>
+                    <TooltipContent>
+                        <p>{t('Edit')}</p>
+                    </TooltipContent>
                 </Tooltip>
             )}
             {auth.user?.permissions?.includes('delete-employee-reviews') && (
@@ -97,12 +135,14 @@ const EmployeeReviewActionButtons = ({ review, auth, t, openModal, openDeleteDia
                             variant="ghost"
                             size="sm"
                             onClick={() => openDeleteDialog(review.id)}
-                            className={`${buttonClass} ${isGrid ? 'text-destructive hover:text-destructive hover:bg-muted/50' : 'text-destructive hover:text-destructive'}`}
+                            className={`${buttonClass} ${isGrid ? 'text-destructive hover:bg-muted/50 hover:text-destructive' : 'text-destructive hover:text-destructive'}`}
                         >
                             <Trash2 className="h-4 w-4" />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent><p>{t('Delete')}</p></TooltipContent>
+                    <TooltipContent>
+                        <p>{t('Delete')}</p>
+                    </TooltipContent>
                 </Tooltip>
             )}
             {additionalButtons}
@@ -112,12 +152,18 @@ const EmployeeReviewActionButtons = ({ review, auth, t, openModal, openDeleteDia
 
 export default function Index() {
     const { t } = useTranslation();
-    const { employeeReviews, employees = [], reviewers = [], reviewCycles = [], auth } = usePage<{ 
-        employeeReviews: any; 
-        employees: any[]; 
-        reviewers: any[]; 
-        reviewCycles: any[]; 
-        auth: any 
+    const {
+        employeeReviews,
+        employees = [],
+        reviewers = [],
+        reviewCycles = [],
+        auth,
+    } = usePage<{
+        employeeReviews: any;
+        employees: any[];
+        reviewers: any[];
+        reviewCycles: any[];
+        auth: any;
     }>().props;
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), [window.location.search]);
 
@@ -125,48 +171,55 @@ export default function Index() {
         employee_name: urlParams.get('employee_name') || '',
         reviewer_name: urlParams.get('reviewer_name') || '',
         review_cycle_id: urlParams.get('review_cycle_id') || '',
-        status: urlParams.get('status') || ''
+        status: urlParams.get('status') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
     const [modalState, setModalState] = useState<EmployeeReviewModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-    
+
     const [showModalState, setShowModalState] = useState<ShowModalState>({
         isOpen: false,
         data: null,
         performanceIndicators: {},
-        averageRating: null
+        averageRating: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'performance.employee-reviews.destroy',
-        defaultMessage: t('Are you sure you want to delete this employee review?')
+        defaultMessage: t('Are you sure you want to delete this employee review?'),
     });
 
     const handleFilter = () => {
-        router.get(route('performance.employee-reviews.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('performance.employee-reviews.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('performance.employee-reviews.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('performance.employee-reviews.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -181,27 +234,27 @@ export default function Index() {
     const closeModal = () => {
         setModalState({ isOpen: false, mode: '', data: null });
     };
-    
+
     const openShowModal = async (review: EmployeeReview) => {
         try {
             const response = await fetch(route('performance.employee-reviews.show', review.id), {
                 headers: {
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
             });
             const data = await response.json();
             setShowModalState({
                 isOpen: true,
                 data: data.props.employeeReview,
                 performanceIndicators: data.props.performanceIndicators,
-                averageRating: data.props.averageRating
+                averageRating: data.props.averageRating,
             });
         } catch (error) {
             console.error('Error fetching review details:', error);
         }
     };
-    
+
     const closeShowModal = () => {
         setShowModalState({ isOpen: false, data: null, performanceIndicators: {}, averageRating: null });
     };
@@ -211,7 +264,7 @@ export default function Index() {
             pending: t('Pending'),
             in_progress: t('In Progress'),
             completed: t('Completed'),
-            cancelled: t('Cancelled')
+            cancelled: t('Cancelled'),
         };
         return labels[status] || status;
     };
@@ -221,7 +274,7 @@ export default function Index() {
             pending: 'bg-muted text-foreground',
             in_progress: 'bg-muted text-foreground',
             completed: 'bg-muted text-foreground',
-            cancelled: 'bg-muted text-destructive'
+            cancelled: 'bg-muted text-destructive',
         };
         return colors[status] || 'bg-muted text-foreground';
     };
@@ -231,12 +284,10 @@ export default function Index() {
             pending: 'bg-muted text-foreground',
             in_progress: 'bg-muted text-foreground',
             completed: 'bg-muted text-foreground',
-            cancelled: 'bg-muted text-destructive'
+            cancelled: 'bg-muted text-destructive',
         };
         return colors[status] || 'bg-muted text-foreground';
     };
-
-
 
     const tableColumns = [
         {
@@ -245,27 +296,26 @@ export default function Index() {
             sortable: true,
             render: (value: any, item: EmployeeReview) => {
                 return item.user?.name || '-';
-            }
+            },
         },
         {
             key: 'reviewer_id',
             header: t('Reviewer'),
             sortable: true,
-            render: (value: any, item: EmployeeReview) => item.reviewer?.name || '-'
+            render: (value: any, item: EmployeeReview) => item.reviewer?.name || '-',
         },
         {
             key: 'review_cycle_id',
             header: t('Review Cycle'),
             sortable: true,
-            render: (value: any, item: EmployeeReview) => item.review_cycle?.name || '-'
+            render: (value: any, item: EmployeeReview) => item.review_cycle?.name || '-',
         },
         {
             key: 'review_date',
             header: t('Review Date'),
             sortable: true,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
-
 
         {
             key: 'average_rating',
@@ -275,15 +325,21 @@ export default function Index() {
                 const rating = Math.round(value * 10) / 10;
                 const fullStars = Math.floor(rating);
                 const hasHalfStar = rating % 1 >= 0.5;
-                
+
                 return (
                     <div className="flex items-center gap-1">
                         <div className="flex">
                             {[...Array(5)]?.map((_, i) => (
-                                <span key={i} className={`text-lg ${
-                                    i < fullStars ? 'text-muted-foreground' : 
-                                    i === fullStars && hasHalfStar ? 'text-muted-foreground' : 'text-muted-foreground/60'
-                                }`}>
+                                <span
+                                    key={i}
+                                    className={`text-lg ${
+                                        i < fullStars
+                                            ? 'text-muted-foreground'
+                                            : i === fullStars && hasHalfStar
+                                              ? 'text-muted-foreground'
+                                              : 'text-muted-foreground/60'
+                                    }`}
+                                >
                                     {i < fullStars ? '★' : i === fullStars && hasHalfStar ? '★' : '☆'}
                                 </span>
                             ))}
@@ -291,44 +347,47 @@ export default function Index() {
                         <span className="text-sm text-muted-foreground">({rating})</span>
                     </div>
                 );
-            }
+            },
         },
         {
             key: 'status',
             header: t('Status'),
             sortable: true,
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(value)}`}>
+                <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(value)}`}>
                     {getStatusLabel(value)}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['manage-employee-reviews', 'manage-any-employee-reviews', 'manage-own-employee-reviews'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, item: EmployeeReview) => (
-                <div className="flex gap-1">
-                    <EmployeeReviewActionButtons 
-                        review={item} 
-                        auth={auth} 
-                        t={t} 
-                        openModal={openModal} 
-                        openDeleteDialog={openDeleteDialog} 
-                        openShowModal={openShowModal} 
-                        router={router} 
-                    />
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['manage-employee-reviews', 'manage-any-employee-reviews', 'manage-own-employee-reviews'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, item: EmployeeReview) => (
+                          <div className="flex gap-1">
+                              <EmployeeReviewActionButtons
+                                  review={item}
+                                  auth={auth}
+                                  t={t}
+                                  openModal={openModal}
+                                  openDeleteDialog={openDeleteDialog}
+                                  openShowModal={openShowModal}
+                                  router={router}
+                              />
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <TooltipProvider>
             <AuthenticatedLayout
-                breadcrumbs={[
-                    { label: t('Performance')},
-                    { label: t('Employee Reviews') }
-                ]}
+                breadcrumbs={[{ label: t('Performance') }, { label: t('Employee Reviews') }]}
                 pageTitle={t('Manage Employee Reviews')}
                 pageActions={
                     <div className="flex gap-2">
@@ -339,7 +398,9 @@ export default function Index() {
                                         <Plus className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent><p>{t('Create')}</p></TooltipContent>
+                                <TooltipContent>
+                                    <p>{t('Create')}</p>
+                                </TooltipContent>
                             </Tooltip>
                         )}
                     </div>
@@ -348,9 +409,9 @@ export default function Index() {
                 <Head title={t('Employee Reviews')} />
 
                 <Card className="shadow-sm">
-                    <CardContent className="p-6 border-b bg-muted/50/50">
+                    <CardContent className="bg-muted/50/50 border-b p-6">
                         <div className="flex items-center justify-between gap-4">
-                            <div className="flex-1 max-w-md">
+                            <div className="max-w-md flex-1">
                                 <SearchInput
                                     value={filters.employee_name}
                                     onChange={(value) => setFilters({ ...filters, employee_name: value })}
@@ -374,11 +435,17 @@ export default function Index() {
                                         onToggle={() => setShowFilters(!showFilters)}
                                     />
                                     {(() => {
-                                        const activeFilters = [filters.reviewer_name, filters.review_cycle_id, filters.status].filter(Boolean).length;
-                                        return activeFilters > 0 && (
-                                            <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                                {activeFilters}
-                                            </span>
+                                        const activeFilters = [
+                                            filters.reviewer_name,
+                                            filters.review_cycle_id,
+                                            filters.status,
+                                        ].filter(Boolean).length;
+                                        return (
+                                            activeFilters > 0 && (
+                                                <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                    {activeFilters}
+                                                </span>
+                                            )
                                         );
                                     })()}
                                 </div>
@@ -387,11 +454,16 @@ export default function Index() {
                     </CardContent>
 
                     {showFilters && (
-                        <CardContent className="p-6 bg-muted/50/30 border-b">
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <CardContent className="bg-muted/50/30 border-b p-6">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Reviewer')}</label>
-                                    <Select value={filters.reviewer_name} onValueChange={(value) => setFilters({ ...filters, reviewer_name: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Reviewer')}
+                                    </label>
+                                    <Select
+                                        value={filters.reviewer_name}
+                                        onValueChange={(value) => setFilters({ ...filters, reviewer_name: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Reviewers')} />
                                         </SelectTrigger>
@@ -405,8 +477,13 @@ export default function Index() {
                                     </Select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Review Cycle')}</label>
-                                    <Select value={filters.review_cycle_id} onValueChange={(value) => setFilters({ ...filters, review_cycle_id: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Review Cycle')}
+                                    </label>
+                                    <Select
+                                        value={filters.review_cycle_id}
+                                        onValueChange={(value) => setFilters({ ...filters, review_cycle_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Cycles')} />
                                         </SelectTrigger>
@@ -420,8 +497,13 @@ export default function Index() {
                                     </Select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                    <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Status')}
+                                    </label>
+                                    <Select
+                                        value={filters.status}
+                                        onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Status')} />
                                         </SelectTrigger>
@@ -434,8 +516,12 @@ export default function Index() {
                                     </Select>
                                 </div>
                                 <div className="flex items-end gap-2">
-                                    <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                    <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                    <Button onClick={handleFilter} size="sm">
+                                        {t('Apply')}
+                                    </Button>
+                                    <Button variant="outline" onClick={clearFilters} size="sm">
+                                        {t('Clear')}
+                                    </Button>
                                 </div>
                             </div>
                         </CardContent>
@@ -443,7 +529,7 @@ export default function Index() {
 
                     <CardContent className="p-0">
                         {viewMode === 'list' ? (
-                            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                                 <div className="min-w-[800px]">
                                     <DataTable
                                         data={employeeReviews?.data || []}
@@ -457,7 +543,14 @@ export default function Index() {
                                                 icon={FileText}
                                                 title={t('No employee reviews found')}
                                                 description={t('Get started by creating your first employee review.')}
-                                                hasFilters={!!(filters.employee_name || filters.reviewer_name || filters.review_cycle_id || filters.status)}
+                                                hasFilters={
+                                                    !!(
+                                                        filters.employee_name ||
+                                                        filters.reviewer_name ||
+                                                        filters.review_cycle_id ||
+                                                        filters.status
+                                                    )
+                                                }
                                                 onClearFilters={clearFilters}
                                                 createPermission="create-employee-reviews"
                                                 onCreateClick={() => openModal('add')}
@@ -469,85 +562,151 @@ export default function Index() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="overflow-auto max-h-[70vh] p-6">
+                            <div className="max-h-[70vh] overflow-auto p-6">
                                 {employeeReviews?.data?.length > 0 ? (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                         {employeeReviews.data?.map((review: EmployeeReview) => (
-                                            <Card key={review.id} className="p-0 hover:shadow-lg transition-all duration-200 flex flex-col h-full min-w-0">
+                                            <Card
+                                                key={review.id}
+                                                className="flex h-full min-w-0 flex-col p-0 transition-all duration-200 hover:shadow-lg"
+                                            >
                                                 {/* Header */}
-                                                <div className="p-4 border-b flex-shrink-0">
+                                                <div className="flex-shrink-0 border-b p-4">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="p-2 bg-foreground/10 rounded-lg">
+                                                        <div className="rounded-lg bg-foreground/10 p-2">
                                                             <FileText className="h-5 w-5 text-foreground" />
                                                         </div>
                                                         <div className="min-w-0 flex-1">
-                                                            <h3 className="font-semibold text-sm text-foreground">{review.user?.name || 'N/A'}</h3>
-                                                            <p className="text-xs text-muted-foreground truncate">{review.review_cycle?.name || '-'}</p>
+                                                            <h3 className="text-sm font-semibold text-foreground">
+                                                                {review.user?.name || 'N/A'}
+                                                            </h3>
+                                                            <p className="truncate text-xs text-muted-foreground">
+                                                                {review.review_cycle?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 {/* Body */}
-                                                <div className="p-4 flex-1 min-h-0">
-                                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Cycle')}</p>
-                                                            <p className="font-medium text-xs">{review.review_cycle?.name || '-'}</p>
+                                                <div className="min-h-0 flex-1 p-4">
+                                                    <div className="mb-4 grid grid-cols-2 gap-4">
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Cycle')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {review.review_cycle?.name || '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Reviewer')}</p>
-                                                            <p className="font-medium text-xs">{review.reviewer?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Reviewer')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {review.reviewer?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
 
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Date')}</p>
-                                                            <p className="font-medium text-xs">{review.review_date ? formatDate(review.review_date) : '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Date')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {review.review_date
+                                                                    ? formatDate(review.review_date)
+                                                                    : '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Rating')}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Rating')}
+                                                            </p>
                                                             {review.average_rating ? (
                                                                 <div className="flex items-center gap-1">
                                                                     <div className="flex">
                                                                         {[...Array(5)]?.map((_, i) => {
-                                                                            const rating = Math.round(review.average_rating! * 10) / 10;
+                                                                            const rating =
+                                                                                Math.round(
+                                                                                    review.average_rating! * 10
+                                                                                ) / 10;
                                                                             const fullStars = Math.floor(rating);
                                                                             const hasHalfStar = rating % 1 >= 0.5;
                                                                             return (
-                                                                                <span key={i} className={`text-sm ${
-                                                                                    i < fullStars ? 'text-muted-foreground' : 
-                                                                                    i === fullStars && hasHalfStar ? 'text-muted-foreground' : 'text-muted-foreground/60'
-                                                                                }`}>
-                                                                                    {i < fullStars ? '★' : i === fullStars && hasHalfStar ? '★' : '☆'}
+                                                                                <span
+                                                                                    key={i}
+                                                                                    className={`text-sm ${
+                                                                                        i < fullStars
+                                                                                            ? 'text-muted-foreground'
+                                                                                            : i === fullStars &&
+                                                                                                hasHalfStar
+                                                                                              ? 'text-muted-foreground'
+                                                                                              : 'text-muted-foreground/60'
+                                                                                    }`}
+                                                                                >
+                                                                                    {i < fullStars
+                                                                                        ? '★'
+                                                                                        : i === fullStars && hasHalfStar
+                                                                                          ? '★'
+                                                                                          : '☆'}
                                                                                 </span>
                                                                             );
                                                                         })}
                                                                     </div>
-                                                                    <span className="text-xs text-muted-foreground font-medium">({Math.round(review.average_rating * 10) / 10})</span>
+                                                                    <span className="text-xs font-medium text-muted-foreground">
+                                                                        ({Math.round(review.average_rating * 10) / 10})
+                                                                    </span>
                                                                 </div>
                                                             ) : (
-                                                                <p className="font-medium text-xs">-</p>
+                                                                <p className="text-xs font-medium">-</p>
                                                             )}
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 {/* Actions Footer */}
-                                                <div className="flex justify-between items-center gap-2 p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
-                                                    <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(review.status)}`}>
+                                                <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 items-center justify-between gap-2 border-t p-3">
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-sm ${getStatusColor(review.status)}`}
+                                                    >
                                                         {getStatusLabel(review.status)}
                                                     </span>
                                                     <div className="flex gap-1">
                                                         <TooltipProvider>
                                                             {(() => {
-                                                                const { additionalButtons } = usePageButtons('employee-reviews-actions', { review, auth, t, openModal, openDeleteDialog, openShowModal, router });
+                                                                const { additionalButtons } = usePageButtons(
+                                                                    'employee-reviews-actions',
+                                                                    {
+                                                                        review,
+                                                                        auth,
+                                                                        t,
+                                                                        openModal,
+                                                                        openDeleteDialog,
+                                                                        openShowModal,
+                                                                        router,
+                                                                    }
+                                                                );
                                                                 return additionalButtons;
                                                             })()}
-                                                            {auth.user?.permissions?.includes('conduct-employee-reviews') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'conduct-employee-reviews'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.get(route('performance.employee-reviews.conduct', review.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.get(
+                                                                                    route(
+                                                                                        'performance.employee-reviews.conduct',
+                                                                                        review.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Play className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -556,10 +715,17 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('view-employee-reviews') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'view-employee-reviews'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openShowModal(review)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openShowModal(review)}
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -568,10 +734,17 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('edit-employee-reviews') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'edit-employee-reviews'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', review)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', review)}
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Edit className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -580,7 +753,9 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-employee-reviews') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-employee-reviews'
+                                                            ) && (
                                                                 <Tooltip delayDuration={0}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
@@ -608,7 +783,14 @@ export default function Index() {
                                         icon={FileText}
                                         title={t('No employee reviews found')}
                                         description={t('Get started by creating your first employee review.')}
-                                        hasFilters={!!(filters.employee_name || filters.reviewer_name || filters.review_cycle_id || filters.status)}
+                                        hasFilters={
+                                            !!(
+                                                filters.employee_name ||
+                                                filters.reviewer_name ||
+                                                filters.review_cycle_id ||
+                                                filters.status
+                                            )
+                                        }
                                         onClearFilters={clearFilters}
                                         createPermission="create-employee-reviews"
                                         onCreateClick={() => openModal('add')}
@@ -620,7 +802,7 @@ export default function Index() {
                         )}
                     </CardContent>
 
-                    <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                    <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                         <Pagination
                             data={employeeReviews || { data: [], links: [], meta: {} }}
                             routeName="performance.employee-reviews.index"
@@ -641,16 +823,16 @@ export default function Index() {
 
                 <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
                     {modalState.mode === 'add' && (
-                        <Create 
-                            onSuccess={closeModal} 
+                        <Create
+                            onSuccess={closeModal}
                             employees={employees}
                             reviewers={reviewers}
                             reviewCycles={reviewCycles}
                         />
                     )}
                     {modalState.mode === 'edit' && modalState.data && (
-                        <EditEmployeeReview 
-                            employeeReview={modalState.data} 
+                        <EditEmployeeReview
+                            employeeReview={modalState.data}
                             onSuccess={closeModal}
                             employees={employees}
                             reviewers={reviewers}
@@ -658,10 +840,10 @@ export default function Index() {
                         />
                     )}
                 </Dialog>
-                
+
                 <Dialog open={showModalState.isOpen} onOpenChange={closeShowModal}>
                     {showModalState.data && (
-                        <Show 
+                        <Show
                             employeeReview={showModalState.data}
                             performanceIndicators={showModalState.performanceIndicators}
                             averageRating={showModalState.averageRating}

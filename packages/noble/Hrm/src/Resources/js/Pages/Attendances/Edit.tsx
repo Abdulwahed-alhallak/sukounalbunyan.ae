@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -29,20 +29,26 @@ export default function Edit({ attendance, onSuccess }: EditAttendanceProps) {
         put(route('hrm.attendances.update', attendance.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Attendance')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                        <Select value={data.employee_id?.toString() || ''} onValueChange={(value) => setData('employee_id', value)} required>
+                        <Label htmlFor="employee_id" required>
+                            {t('Employee')}
+                        </Label>
+                        <Select
+                            value={data.employee_id?.toString() || ''}
+                            onValueChange={(value) => setData('employee_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Employee')} />
                             </SelectTrigger>
@@ -57,8 +63,6 @@ export default function Edit({ attendance, onSuccess }: EditAttendanceProps) {
                         <InputError message={errors.employee_id} />
                     </div>
 
-
-
                     <div>
                         <Label required>{t('Date')}</Label>
                         <DatePicker
@@ -71,7 +75,9 @@ export default function Edit({ attendance, onSuccess }: EditAttendanceProps) {
                     </div>
 
                     <div>
-                        <Label htmlFor="clock_in" required>{t('Clock In Time')}</Label>
+                        <Label htmlFor="clock_in" required>
+                            {t('Clock In Time')}
+                        </Label>
                         <DateTimeRangePicker
                             value={data.clock_in}
                             onChange={(value) => setData('clock_in', value)}
@@ -93,8 +99,6 @@ export default function Edit({ attendance, onSuccess }: EditAttendanceProps) {
                         />
                         <InputError message={errors.clock_out} />
                     </div>
-
-
                 </div>
 
                 <div>

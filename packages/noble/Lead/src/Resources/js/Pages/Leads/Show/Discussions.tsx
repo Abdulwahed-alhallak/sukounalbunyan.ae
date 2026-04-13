@@ -17,7 +17,6 @@ interface DiscussionsProps {
 }
 
 export default function Discussions({ lead, onRegisterAddHandler }: DiscussionsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => setDiscussionModalOpen(true));
     }, [onRegisterAddHandler]);
@@ -31,13 +30,13 @@ export default function Discussions({ lead, onRegisterAddHandler }: DiscussionsP
             onSuccess: () => {
                 setDiscussionForm({ message: '' });
                 setDiscussionModalOpen(false);
-            }
+            },
         });
     };
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={lead.discussions || []}
@@ -45,7 +44,7 @@ export default function Discussions({ lead, onRegisterAddHandler }: DiscussionsP
                             {
                                 key: 'creator.name',
                                 header: t('User'),
-                                render: (value: string, discussion: any) => discussion.creator?.name || '-'
+                                render: (value: string, discussion: any) => discussion.creator?.name || '-',
                             },
                             {
                                 key: 'comment',
@@ -53,17 +52,17 @@ export default function Discussions({ lead, onRegisterAddHandler }: DiscussionsP
                                 render: (value: string) => {
                                     if (!value) return '-';
                                     return (
-                                        <span className="text-sm text-muted-foreground truncate max-w-xs" title={value}>
+                                        <span className="max-w-xs truncate text-sm text-muted-foreground" title={value}>
                                             {value.length > 50 ? `${value.substring(0, 50)}...` : value}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'created_at',
                                 header: t('Date'),
-                                render: (value: string) => formatDateTime(value)
-                            }
+                                render: (value: string) => formatDateTime(value),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -91,14 +90,16 @@ export default function Discussions({ lead, onRegisterAddHandler }: DiscussionsP
                             <Textarea
                                 id="message"
                                 value={discussionForm.message}
-                                onChange={(e) => setDiscussionForm({...discussionForm, message: e.target.value})}
+                                onChange={(e) => setDiscussionForm({ ...discussionForm, message: e.target.value })}
                                 placeholder={t('Enter your message')}
                                 rows={4}
                                 required
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Save')}</Button>
                         </div>
                     </form>

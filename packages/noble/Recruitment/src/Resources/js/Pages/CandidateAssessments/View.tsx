@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { ClipboardCheck } from 'lucide-react';
 import { CandidateAssessment } from './types';
@@ -16,46 +16,52 @@ export default function View({ candidateassessment }: ViewProps) {
     const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
     const firstName = candidateassessment.candidate?.first_name || '';
     const lastName = candidateassessment.candidate?.last_name || '';
-    const fullName = firstName && lastName ? `${firstName} ${lastName}` : (firstName || lastName || '-');
+    const fullName = firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName || '-';
 
     const getStatusColor = (status: string) => {
-        switch(status) {
-            case '0': return 'bg-muted text-foreground';
-            case '1': return 'bg-muted text-destructive';
-            case '2': return 'bg-muted text-foreground';
-            default: return 'bg-muted text-foreground';
+        switch (status) {
+            case '0':
+                return 'bg-muted text-foreground';
+            case '1':
+                return 'bg-muted text-destructive';
+            case '2':
+                return 'bg-muted text-foreground';
+            default:
+                return 'bg-muted text-foreground';
         }
     };
 
     const getStatusText = (status: string) => {
-        const options: any = {"0":"Pass","1":"Fail","2":"Pending"};
+        const options: any = { '0': 'Pass', '1': 'Fail', '2': 'Pending' };
         return options[status] || status || '-';
     };
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <ClipboardCheck className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
-                        <DialogTitle className="text-xl font-semibold">{t('Candidate Assessments Details')}</DialogTitle>
+                        <DialogTitle className="text-xl font-semibold">
+                            {t('Candidate Assessments Details')}
+                        </DialogTitle>
                     </div>
                 </div>
             </DialogHeader>
 
-            <div className="p-6 space-y-6">
+            <div className="space-y-6 p-6">
                 {/* Basic Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-4">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Assessment Name')}</label>
-                            <p className="text-foreground font-medium">{candidateassessment.assessment_name || '-'}</p>
+                            <p className="font-medium text-foreground">{candidateassessment.assessment_name || '-'}</p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Candidate')}</label>
-                            <p className="text-foreground font-medium">{fullName}</p>
+                            <p className="font-medium text-foreground">{fullName}</p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Conducted By')}</label>
@@ -69,7 +75,9 @@ export default function View({ candidateassessment }: ViewProps) {
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
-                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(candidateassessment.pass_fail_status)}`}>
+                            <span
+                                className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(candidateassessment.pass_fail_status)}`}
+                            >
                                 {t(getStatusText(candidateassessment.pass_fail_status))}
                             </span>
                         </div>
@@ -77,8 +85,8 @@ export default function View({ candidateassessment }: ViewProps) {
                 </div>
 
                 {/* Score Section */}
-                <div className="bg-muted/50 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">{t('Score Details')}</h3>
+                <div className="rounded-lg bg-muted/50 p-6">
+                    <h3 className="mb-4 text-lg font-semibold text-foreground">{t('Score Details')}</h3>
                     <div className="grid grid-cols-3 gap-4 text-center">
                         <div>
                             <div className="text-2xl font-bold text-foreground">{score}</div>
@@ -94,11 +102,8 @@ export default function View({ candidateassessment }: ViewProps) {
                         </div>
                     </div>
                     <div className="mt-4">
-                        <div className="w-full bg-muted rounded-full h-3">
-                            <div
-                                className="bg-muted/500 h-3 rounded-full"
-                                style={{width: `${percentage}%`}}
-                            ></div>
+                        <div className="h-3 w-full rounded-full bg-muted">
+                            <div className="bg-muted/500 h-3 rounded-full" style={{ width: `${percentage}%` }}></div>
                         </div>
                     </div>
                 </div>
@@ -106,14 +111,12 @@ export default function View({ candidateassessment }: ViewProps) {
                 {/* Comments */}
                 {candidateassessment.comments && (
                     <div>
-                        <label className="text-sm font-medium text-muted-foreground block mb-2">{t('Comments')}</label>
-                        <div className="bg-muted/50 rounded-lg p-4">
-                            <p className="text-foreground whitespace-pre-wrap">{candidateassessment.comments}</p>
+                        <label className="mb-2 block text-sm font-medium text-muted-foreground">{t('Comments')}</label>
+                        <div className="rounded-lg bg-muted/50 p-4">
+                            <p className="whitespace-pre-wrap text-foreground">{candidateassessment.comments}</p>
                         </div>
                     </div>
                 )}
-
-
             </div>
         </DialogContent>
     );

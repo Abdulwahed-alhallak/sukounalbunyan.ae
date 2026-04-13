@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Create({ onSuccess }: CreateCustomQuestionProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateCustomQuestionFormData>({
@@ -28,14 +28,12 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
 
     const [optionsArray, setOptionsArray] = useState([{ id: '1', option: '' }]);
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('recruitment.custom-questions.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -60,18 +58,21 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
 
                 <div>
                     <Label htmlFor="type">{t('Type')}</Label>
-                    <Select value={data.type || 'text'} onValueChange={(value) => {
-                        setData('type', value);
-                        if (['text', 'textarea', 'date', 'number'].includes(value)) {
-                            setData('options', '[]');
-                            setOptionsArray([]);
-                        } else {
-                            // For select, radio, checkbox - ensure we have at least one option
-                            if (optionsArray.length === 0) {
-                                setOptionsArray([{ id: '1', option: '' }]);
+                    <Select
+                        value={data.type || 'text'}
+                        onValueChange={(value) => {
+                            setData('type', value);
+                            if (['text', 'textarea', 'date', 'number'].includes(value)) {
+                                setData('options', '[]');
+                                setOptionsArray([]);
+                            } else {
+                                // For select, radio, checkbox - ensure we have at least one option
+                                if (optionsArray.length === 0) {
+                                    setOptionsArray([{ id: '1', option: '' }]);
+                                }
                             }
-                        }
-                    }}>
+                        }}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -100,7 +101,14 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
                                             const newOptions = [...optionsArray];
                                             newOptions[index] = { ...newOptions[index], option: e.target.value };
                                             setOptionsArray(newOptions);
-                                            setData('options', JSON.stringify(newOptions?.map(item => item.option).filter(option => option.trim() !== '')));
+                                            setData(
+                                                'options',
+                                                JSON.stringify(
+                                                    newOptions
+                                                        ?.map((item) => item.option)
+                                                        .filter((option) => option.trim() !== '')
+                                                )
+                                            );
                                         }}
                                         placeholder={t('Enter Option')}
                                         className="flex-1"
@@ -126,7 +134,14 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
                                             onClick={() => {
                                                 const newOptions = optionsArray.filter((_, i) => i !== index);
                                                 setOptionsArray(newOptions);
-                                                setData('options', JSON.stringify(newOptions?.map(item => item.option).filter(option => option.trim() !== '')));
+                                                setData(
+                                                    'options',
+                                                    JSON.stringify(
+                                                        newOptions
+                                                            ?.map((item) => item.option)
+                                                            .filter((option) => option.trim() !== '')
+                                                    )
+                                                );
                                             }}
                                             className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                         >
@@ -147,7 +162,9 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
                             checked={data.is_required || false}
                             onCheckedChange={(checked) => setData('is_required', !!checked)}
                         />
-                        <Label htmlFor="is_required" className="cursor-pointer">{t('Is Required')}</Label>
+                        <Label htmlFor="is_required" className="cursor-pointer">
+                            {t('Is Required')}
+                        </Label>
                         <InputError message={errors.is_required} />
                     </div>
 
@@ -157,7 +174,9 @@ export default function Create({ onSuccess }: CreateCustomQuestionProps) {
                             checked={data.is_active || false}
                             onCheckedChange={(checked) => setData('is_active', !!checked)}
                         />
-                        <Label htmlFor="is_active" className="cursor-pointer">{t('Is Active')}</Label>
+                        <Label htmlFor="is_active" className="cursor-pointer">
+                            {t('Is Active')}
+                        </Label>
                         <InputError message={errors.is_active} />
                     </div>
                 </div>

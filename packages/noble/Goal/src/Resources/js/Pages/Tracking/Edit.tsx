@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -30,12 +30,12 @@ export default function Edit({ tracking, goals, onSuccess }: EditTrackingProps) 
         put(route('goal.tracking.update', tracking.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Tracking')}</DialogTitle>
             </DialogHeader>
@@ -67,7 +67,7 @@ export default function Edit({ tracking, goals, onSuccess }: EditTrackingProps) 
                     <InputError message={errors.tracking_date} />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <CurrencyInput
                             label={t('Previous Amount')}
@@ -89,7 +89,7 @@ export default function Edit({ tracking, goals, onSuccess }: EditTrackingProps) 
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <CurrencyInput
                             label={t('Current Amount')}
@@ -117,7 +117,7 @@ export default function Edit({ tracking, goals, onSuccess }: EditTrackingProps) 
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label htmlFor="days_remaining">{t('Days Remaining')}</Label>
                         <Input

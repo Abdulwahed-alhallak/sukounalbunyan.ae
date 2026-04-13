@@ -6,17 +6,17 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Dialog } from "@/components/ui/dialog";
-import { Eye, Trash2, CheckCircle, Plus, CreditCard, X } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog } from '@/components/ui/dialog';
+import { Eye, Trash2, CheckCircle, Plus, CreditCard, X } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { formatCurrency, formatDate } from '@/utils/helpers';
 import NoRecordsFound from '@/components/no-records-found';
@@ -33,7 +33,13 @@ interface CustomerPaymentFilters {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { payments = [], customers = [], bankAccounts, filters: initialFilters, auth } = usePage<CustomerPaymentsIndexProps>().props;
+    const {
+        payments = [],
+        customers = [],
+        bankAccounts,
+        filters: initialFilters,
+        auth,
+    } = usePage<CustomerPaymentsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<CustomerPaymentFilters>({
@@ -43,38 +49,40 @@ export default function Index() {
         date_range: (() => {
             const fromDate = urlParams.get('date_from');
             const toDate = urlParams.get('date_to');
-            return (fromDate && toDate) ? `${fromDate} - ${toDate}` : '';
-        })()
+            return fromDate && toDate ? `${fromDate} - ${toDate}` : '';
+        })(),
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || 'created_at');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'desc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
     const [modalState, setModalState] = useState<CustomerPaymentModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [viewingItem, setViewingItem] = useState<CustomerPayment | null>(null);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'account.customer-payments.destroy',
-        defaultMessage: t('Are you sure you want to delete this payment?')
+        defaultMessage: t('Are you sure you want to delete this payment?'),
     });
 
     const getStatusBadgeClasses = (status: string) => {
         switch (status) {
-            case 'pending': return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
-            case 'cleared': return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
-            default: return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
+            case 'pending':
+                return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
+            case 'cleared':
+                return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
+            default:
+                return 'inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-muted text-foreground';
         }
     };
 
     const handleFilter = () => {
-        const filterParams = {...filters};
+        const filterParams = { ...filters };
 
         // Convert date_range to date_from and date_to for backend
         if (filters.date_range) {
@@ -84,25 +92,33 @@ export default function Index() {
         }
         delete filterParams.date_range;
 
-        router.get(route('account.customer-payments.index'), {...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.customer-payments.index'),
+            { ...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('account.customer-payments.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.customer-payments.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ search: '', customer_id: '', status: '', date_range: '' });
-        router.get(route('account.customer-payments.index'), {per_page: perPage, view: viewMode});
+        router.get(route('account.customer-payments.index'), { per_page: perPage, view: viewMode });
     };
 
     const handleStatusUpdate = (paymentId: number, status: string) => {
@@ -124,128 +140,148 @@ export default function Index() {
             sortable: true,
             render: (value: string, payment: CustomerPayment) =>
                 auth.user?.permissions?.includes('view-customer-payments') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => setViewingItem(payment)}>{value}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => setViewingItem(payment)}
+                    >
+                        {value}
+                    </span>
                 ) : (
                     value
-                )
+                ),
         },
         {
             key: 'customer',
             header: t('Customer'),
-            render: (value: any) => value?.name || '-'
+            render: (value: any) => value?.name || '-',
         },
         {
             key: 'payment_date',
             header: t('Payment Date'),
             sortable: true,
-            render: (value: string) => formatDate(value)
+            render: (value: string) => formatDate(value),
         },
         {
             key: 'payment_amount',
             header: t('Amount'),
             sortable: true,
-            render: (value: number) => formatCurrency(parseFloat(value.toString()))
+            render: (value: number) => formatCurrency(parseFloat(value.toString())),
         },
         {
             key: 'bank_account',
             header: t('Bank Account'),
-            render: (value: any) => value?.account_name || '-'
+            render: (value: any) => value?.account_name || '-',
         },
         {
             key: 'status',
             header: t('Status'),
             sortable: true,
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value === 'cleared' ? 'bg-muted text-foreground' :
-                    value === 'pending' ? 'bg-muted text-foreground' :
-                    'bg-muted text-destructive'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value === 'cleared'
+                            ? 'bg-muted text-foreground'
+                            : value === 'pending'
+                              ? 'bg-muted text-foreground'
+                              : 'bg-muted text-destructive'
+                    }`}
+                >
                     {t(value)}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-customer-payments', 'cleared-customer-payments', 'delete-customer-payments'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, payment: CustomerPayment) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {payment.status === 'pending' && auth.user?.permissions?.includes('cleared-customer-payments') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleStatusUpdate(payment.id, 'cleared')}
-                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                    >
-                                        <CheckCircle className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Mark as Cleared')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {payment.status === 'pending' && auth.user?.permissions?.includes('cleared-customer-payments') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleStatusUpdate(payment.id, 'cancelled')}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Cancel Payment')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-customer-payments') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => setViewingItem(payment)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {payment.status === 'pending' && auth.user?.permissions?.includes('delete-customer-payments') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(payment.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-customer-payments', 'cleared-customer-payments', 'delete-customer-payments'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, payment: CustomerPayment) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {payment.status === 'pending' &&
+                                      auth.user?.permissions?.includes('cleared-customer-payments') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => handleStatusUpdate(payment.id, 'cleared')}
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <CheckCircle className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Mark as Cleared')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  {payment.status === 'pending' &&
+                                      auth.user?.permissions?.includes('cleared-customer-payments') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => handleStatusUpdate(payment.id, 'cancelled')}
+                                                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                  >
+                                                      <X className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Cancel Payment')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  {auth.user?.permissions?.includes('view-customer-payments') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => setViewingItem(payment)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {payment.status === 'pending' &&
+                                      auth.user?.permissions?.includes('delete-customer-payments') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openDeleteDialog(payment.id)}
+                                                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                  >
+                                                      <Trash2 className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Delete')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Accounting'), url: route('account.index')},
-                {label: t('Customer Payments')}
-            ]}
+            breadcrumbs={[{ label: t('Accounting'), url: route('account.index') }, { label: t('Customer Payments') }]}
             pageTitle={t('Manage Customer Payments')}
             pageActions={
                 <TooltipProvider>
@@ -267,12 +303,12 @@ export default function Index() {
             <Head title={t('Customer Payments')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search || ''}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search payments...')}
                             />
@@ -281,23 +317,26 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="account.customer-payments.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="account.customer-payments.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.customer_id, filters.status, filters.date_range].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.customer_id,
+                                        filters.status,
+                                        filters.date_range,
+                                    ].filter(Boolean).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -306,11 +345,16 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Customer')}</label>
-                                <Select value={filters.customer_id} onValueChange={(value) => setFilters({...filters, customer_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Customer')}
+                                </label>
+                                <Select
+                                    value={filters.customer_id}
+                                    onValueChange={(value) => setFilters({ ...filters, customer_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by customer')} />
                                     </SelectTrigger>
@@ -324,8 +368,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by status')} />
                                     </SelectTrigger>
@@ -336,16 +383,22 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DateRangePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -353,7 +406,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={payments.data}
@@ -367,7 +420,14 @@ export default function Index() {
                                             icon={CreditCard}
                                             title={t('No payments found')}
                                             description={t('Get started by creating your first customer payment.')}
-                                            hasFilters={!!(filters.search || filters.customer_id || filters.status || filters.date_range)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.search ||
+                                                    filters.customer_id ||
+                                                    filters.status ||
+                                                    filters.date_range
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-customer-payments"
                                             onCreateClick={() => openModal('add')}
@@ -379,93 +439,142 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {payments.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5">
                                     {payments.data?.map((payment) => (
-                                        <Card key={payment.id} className="border border-border flex flex-col">
-                                            <div className="p-4 flex-1">
+                                        <Card key={payment.id} className="flex flex-col border border-border">
+                                            <div className="flex-1 p-4">
                                                 <div className="mb-3">
                                                     {auth.user?.permissions?.includes('view-customer-payments') ? (
-                                                        <h3 className="font-semibold text-base text-foreground hover:text-foreground cursor-pointer" onClick={() => setViewingItem(payment)}>{payment.payment_number}</h3>
+                                                        <h3
+                                                            className="cursor-pointer text-base font-semibold text-foreground hover:text-foreground"
+                                                            onClick={() => setViewingItem(payment)}
+                                                        >
+                                                            {payment.payment_number}
+                                                        </h3>
                                                     ) : (
-                                                        <h3 className="font-semibold text-base text-foreground">{payment.payment_number}</h3>
+                                                        <h3 className="text-base font-semibold text-foreground">
+                                                            {payment.payment_number}
+                                                        </h3>
                                                     )}
                                                 </div>
 
-                                                <div className="space-y-3 mb-3">
+                                                <div className="mb-3 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Customer')}</p>
-                                                        <p className="text-sm text-foreground truncate font-medium">{payment.customer?.name}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Customer')}
+                                                        </p>
+                                                        <p className="truncate text-sm font-medium text-foreground">
+                                                            {payment.customer?.name}
+                                                        </p>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Date')}</p>
-                                                            <p className="text-xs text-foreground">{formatDate(payment.payment_date)}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Date')}
+                                                            </p>
+                                                            <p className="text-xs text-foreground">
+                                                                {formatDate(payment.payment_date)}
+                                                            </p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1 text-end">{t('Bank Account')}</p>
-                                                            <p className="text-xs text-foreground text-end">{payment.bank_account?.account_name || '-'}</p>
+                                                            <p className="mb-1 text-end text-xs font-medium text-muted-foreground">
+                                                                {t('Bank Account')}
+                                                            </p>
+                                                            <p className="text-end text-xs text-foreground">
+                                                                {payment.bank_account?.account_name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div className="bg-muted/50 rounded-lg p-3">
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-sm font-semibold text-foreground">{t('Amount')}</span>
-                                                            <span className="text-lg font-bold text-foreground">{formatCurrency(parseFloat(payment.payment_amount.toString()))}</span>
+                                                    <div className="rounded-lg bg-muted/50 p-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {t('Amount')}
+                                                            </span>
+                                                            <span className="text-lg font-bold text-foreground">
+                                                                {formatCurrency(
+                                                                    parseFloat(payment.payment_amount.toString())
+                                                                )}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     {payment.notes && (
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Notes')}</p>
-                                                            <p className="text-xs text-foreground line-clamp-2">{payment.notes}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Notes')}
+                                                            </p>
+                                                            <p className="line-clamp-2 text-xs text-foreground">
+                                                                {payment.notes}
+                                                            </p>
                                                         </div>
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="flex items-center justify-between p-3 border-t bg-muted/50/50">
-                                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                                    payment.status === 'cleared' ? 'bg-muted text-foreground' :
-                                                    payment.status === 'pending' ? 'bg-muted text-foreground' :
-                                                    'bg-muted text-destructive'
-                                                }`}>
+                                            <div className="bg-muted/50/50 flex items-center justify-between border-t p-3">
+                                                <span
+                                                    className={`rounded-full px-2 py-1 text-sm ${
+                                                        payment.status === 'cleared'
+                                                            ? 'bg-muted text-foreground'
+                                                            : payment.status === 'pending'
+                                                              ? 'bg-muted text-foreground'
+                                                              : 'bg-muted text-destructive'
+                                                    }`}
+                                                >
                                                     {t(payment.status)}
                                                 </span>
                                                 <div className="flex gap-1">
                                                     <TooltipProvider>
-                                                        {payment.status === 'pending' && auth.user?.permissions?.includes('cleared-customer-payments') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => handleStatusUpdate(payment.id, 'cleared')}
-                                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                                                    >
-                                                                        <CheckCircle className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Mark as Cleared')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {payment.status === 'pending' && auth.user?.permissions?.includes('cleared-customer-payments') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => handleStatusUpdate(payment.id, 'cancelled')}
-                                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                                                    >
-                                                                        <X className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Cancel Payment')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
+                                                        {payment.status === 'pending' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'cleared-customer-payments'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                handleStatusUpdate(
+                                                                                    payment.id,
+                                                                                    'cleared'
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
+                                                                            <CheckCircle className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Mark as Cleared')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {payment.status === 'pending' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'cleared-customer-payments'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                handleStatusUpdate(
+                                                                                    payment.id,
+                                                                                    'cancelled'
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                                        >
+                                                                            <X className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Cancel Payment')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
                                                         {auth.user?.permissions?.includes('view-customer-payments') && (
                                                             <Tooltip delayDuration={0}>
                                                                 <TooltipTrigger asChild>
@@ -483,23 +592,26 @@ export default function Index() {
                                                                 </TooltipContent>
                                                             </Tooltip>
                                                         )}
-                                                        {payment.status === 'pending' && auth.user?.permissions?.includes('delete-customer-payments') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => openDeleteDialog(payment.id)}
-                                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                                                    >
-                                                                        <Trash2 className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Delete')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
+                                                        {payment.status === 'pending' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'delete-customer-payments'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openDeleteDialog(payment.id)}
+                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                                        >
+                                                                            <Trash2 className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Delete')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
                                                     </TooltipProvider>
                                                 </div>
                                             </div>
@@ -511,7 +623,14 @@ export default function Index() {
                                     icon={CreditCard}
                                     title={t('No payments found')}
                                     description={t('Get started by creating your first customer payment.')}
-                                    hasFilters={!!(filters.search || filters.customer_id || filters.status || filters.date_range)}
+                                    hasFilters={
+                                        !!(
+                                            filters.search ||
+                                            filters.customer_id ||
+                                            filters.status ||
+                                            filters.date_range
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-customer-payments"
                                     onCreateClick={() => openModal('add')}
@@ -522,22 +641,18 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={{...payments, ...payments.meta}}
+                        data={{ ...payments, ...payments.meta }}
                         routeName="account.customer-payments.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
                 {modalState.mode === 'add' && (
-                    <Create
-                        customers={customers}
-                        bankAccounts={bankAccounts}
-                        onSuccess={closeModal}
-                    />
+                    <Create customers={customers} bankAccounts={bankAccounts} onSuccess={closeModal} />
                 )}
             </Dialog>
 

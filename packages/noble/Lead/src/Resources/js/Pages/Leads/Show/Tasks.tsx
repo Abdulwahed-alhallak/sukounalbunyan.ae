@@ -37,16 +37,24 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
         time: '',
         priority: 'Low',
         status: 'On Going',
-        sync_to_google_calendar: false
+        sync_to_google_calendar: false,
     });
 
-    const calendarFields = useFormFields('createCalendarSyncField', taskForm, (field, value) => {
-        setTaskForm(prev => ({ ...prev, [field]: value }));
-    }, {}, 'create', t, 'Lead');
+    const calendarFields = useFormFields(
+        'createCalendarSyncField',
+        taskForm,
+        (field, value) => {
+            setTaskForm((prev) => ({ ...prev, [field]: value }));
+        },
+        {},
+        'create',
+        t,
+        'Lead'
+    );
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'lead.tasks.destroy',
-        defaultMessage: t('Are you sure you want to delete this task?')
+        defaultMessage: t('Are you sure you want to delete this task?'),
     });
 
     const handleTaskSubmit = (e: React.FormEvent) => {
@@ -57,18 +65,22 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                     setTaskForm({ name: '', date: '', time: '', priority: 'Low', status: 'On Going' });
                     setTaskModalOpen(false);
                     setEditingTask(null);
-                }
+                },
             });
         } else {
-            router.post(route('lead.tasks.store'), {
-                lead_id: lead.id,
-                ...taskForm
-            }, {
-                onSuccess: () => {
-                    setTaskForm({ name: '', date: '', time: '', priority: 'Low', status: 'On Going' });
-                    setTaskModalOpen(false);
+            router.post(
+                route('lead.tasks.store'),
+                {
+                    lead_id: lead.id,
+                    ...taskForm,
+                },
+                {
+                    onSuccess: () => {
+                        setTaskForm({ name: '', date: '', time: '', priority: 'Low', status: 'On Going' });
+                        setTaskModalOpen(false);
+                    },
                 }
-            });
+            );
         }
     };
 
@@ -93,7 +105,7 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                 date: formattedDate,
                 time: editingTask.time || '',
                 priority: editingTask.priority || 'Low',
-                status: editingTask.status || 'On Going'
+                status: editingTask.status || 'On Going',
             });
         } else {
             setTaskForm({
@@ -101,14 +113,14 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                 date: '',
                 time: '',
                 priority: 'Low',
-                status: 'On Going'
+                status: 'On Going',
             });
         }
     }, [editingTask]);
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={lead.tasks || []}
@@ -126,19 +138,19 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                     today.setHours(0, 0, 0, 0);
                                     taskDate.setHours(0, 0, 0, 0);
                                     const isExpired = taskDate < today && task.status !== 'Complete';
-                                    
+
                                     return (
-                                        <span className={isExpired ? 'text-destructive font-medium' : ''}>
+                                        <span className={isExpired ? 'font-medium text-destructive' : ''}>
                                             {formatDate(value)}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'time',
                                 header: t('Time'),
                                 sortable: false,
-                                render: (value: string) => formatTime(value)
+                                render: (value: string) => formatTime(value),
                             },
                             {
                                 key: 'priority',
@@ -146,18 +158,22 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                 render: (value: string) => {
                                     const getPriorityClass = (priority: string) => {
                                         switch (priority) {
-                                            case 'Low': return 'bg-muted text-foreground';
-                                            case 'Medium': return 'bg-muted text-foreground';
-                                            case 'High': return 'bg-muted text-destructive';
-                                            default: return 'bg-muted text-foreground';
+                                            case 'Low':
+                                                return 'bg-muted text-foreground';
+                                            case 'Medium':
+                                                return 'bg-muted text-foreground';
+                                            case 'High':
+                                                return 'bg-muted text-destructive';
+                                            default:
+                                                return 'bg-muted text-foreground';
                                         }
                                     };
                                     return (
-                                        <span className={`px-2 py-1 rounded-full text-sm ${getPriorityClass(value)}`}>
+                                        <span className={`rounded-full px-2 py-1 text-sm ${getPriorityClass(value)}`}>
                                             {t(value)}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'status',
@@ -165,17 +181,20 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                 render: (value: string) => {
                                     const getStatusClass = (status: string) => {
                                         switch (status) {
-                                            case 'On Going': return 'bg-muted text-foreground';
-                                            case 'Complete': return 'bg-muted text-foreground';
-                                            default: return 'bg-muted text-foreground';
+                                            case 'On Going':
+                                                return 'bg-muted text-foreground';
+                                            case 'Complete':
+                                                return 'bg-muted text-foreground';
+                                            default:
+                                                return 'bg-muted text-foreground';
                                         }
                                     };
                                     return (
-                                        <span className={`px-2 py-1 rounded-full text-sm ${getStatusClass(value)}`}>
+                                        <span className={`rounded-full px-2 py-1 text-sm ${getStatusClass(value)}`}>
                                             {t(value)}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'actions',
@@ -185,7 +204,12 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => handleEditTask(task)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleEditTask(task)}
+                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                    >
                                                         <Edit className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -195,7 +219,12 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                             </Tooltip>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => openDeleteDialog(task.id)} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => openDeleteDialog(task.id)}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -205,8 +234,8 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -223,25 +252,28 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                 </div>
             </div>
 
-            <Dialog open={taskModalOpen} onOpenChange={(open) => {
-                setTaskModalOpen(open);
-                if (!open) {
-                    setEditingTask(null);
-                    setTaskForm({ name: '', date: '', time: '', priority: 'Low', status: 'On Going' });
-                }
-            }}>
+            <Dialog
+                open={taskModalOpen}
+                onOpenChange={(open) => {
+                    setTaskModalOpen(open);
+                    if (!open) {
+                        setEditingTask(null);
+                        setTaskForm({ name: '', date: '', time: '', priority: 'Low', status: 'On Going' });
+                    }
+                }}
+            >
                 <DialogContent className="max-w-md">
                     <DialogHeader>
                         <DialogTitle>{editingTask ? t('Edit Task') : t('Create Task')}</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={handleTaskSubmit} className="space-y-4">
                         <div>
-                        <Label required>{t('Name')}</Label>
+                            <Label required>{t('Name')}</Label>
                             <input
                                 type="text"
                                 value={taskForm.name}
-                                onChange={(e) => setTaskForm({...taskForm, name: e.target.value})}
-                                className="w-full mt-1 px-3 py-2 border border-border rounded-md"
+                                onChange={(e) => setTaskForm({ ...taskForm, name: e.target.value })}
+                                className="mt-1 w-full rounded-md border border-border px-3 py-2"
                                 placeholder={t('Enter task name')}
                                 required
                             />
@@ -251,7 +283,7 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                 <Label required>{t('Date')}</Label>
                                 <DatePicker
                                     value={taskForm.date}
-                                    onChange={(date) => setTaskForm({...taskForm, date: formatDate(date)})}
+                                    onChange={(date) => setTaskForm({ ...taskForm, date: formatDate(date) })}
                                     placeholder={t('Select Date')}
                                 />
                             </div>
@@ -262,14 +294,17 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                     required
                                     type="time"
                                     value={taskForm.time}
-                                    onChange={(e) => setTaskForm({...taskForm, time: e.target.value})}
+                                    onChange={(e) => setTaskForm({ ...taskForm, time: e.target.value })}
                                 />
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <Label htmlFor="priority">{t('Priority')}</Label>
-                                <Select value={taskForm.priority} onValueChange={(value) => setTaskForm({...taskForm, priority: value})}>
+                                <Select
+                                    value={taskForm.priority}
+                                    onValueChange={(value) => setTaskForm({ ...taskForm, priority: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Select priority')} />
                                     </SelectTrigger>
@@ -282,7 +317,10 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                             </div>
                             <div>
                                 <Label htmlFor="status">{t('Status')}</Label>
-                                <Select value={taskForm.status} onValueChange={(value) => setTaskForm({...taskForm, status: value})}>
+                                <Select
+                                    value={taskForm.status}
+                                    onValueChange={(value) => setTaskForm({ ...taskForm, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Select status')} />
                                     </SelectTrigger>
@@ -293,16 +331,14 @@ export default function Tasks({ lead, onRegisterAddHandler }: TasksProps) {
                                 </Select>
                             </div>
                         </div>
-                        
+
                         {/* Calendar Sync Field - Only show for create form */}
-                        {!editingTask && calendarFields?.map((field) => (
-                            <div key={field.id}>
-                                {field.component}
-                            </div>
-                        ))}
-                        
+                        {!editingTask && calendarFields?.map((field) => <div key={field.id}>{field.component}</div>)}
+
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setTaskModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setTaskModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{editingTask ? t('Update') : t('Save')}</Button>
                         </div>
                     </form>

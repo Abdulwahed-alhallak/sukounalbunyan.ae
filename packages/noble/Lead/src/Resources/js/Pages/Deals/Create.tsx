@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -29,7 +29,7 @@ export default function Create({ onSuccess }: CreateDealProps) {
         post(route('lead.deals.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -39,7 +39,7 @@ export default function Create({ onSuccess }: CreateDealProps) {
                 <DialogTitle>{t('Create Deal')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="flex gap-2 items-end">
+                <div className="flex items-end gap-2">
                     <div className="flex-1">
                         <Label htmlFor="name">{t('Deal Name')}</Label>
                         <Input
@@ -52,9 +52,11 @@ export default function Create({ onSuccess }: CreateDealProps) {
                         />
                         <InputError message={errors.name} />
                     </div>
-                    {dealNameAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                    {dealNameAI?.map((field) => (
+                        <div key={field.id}>{field.component}</div>
+                    ))}
                 </div>
-                
+
                 <div>
                     <CurrencyInput
                         label={t('Price')}
@@ -64,7 +66,7 @@ export default function Create({ onSuccess }: CreateDealProps) {
                         required
                     />
                 </div>
-                
+
                 <div>
                     <PhoneInputComponent
                         label={t('Phone No')}
@@ -73,14 +75,18 @@ export default function Create({ onSuccess }: CreateDealProps) {
                         error={errors.phone}
                     />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="client_id" required>{t('Clients')}</Label>
+                    <Label htmlFor="client_id" required>
+                        {t('Clients')}
+                    </Label>
                     <MultiSelectEnhanced
-                        options={users?.map((user: any) => ({
-                            value: user.id.toString(),
-                            label: user.name
-                        })) || []}
+                        options={
+                            users?.map((user: any) => ({
+                                value: user.id.toString(),
+                                label: user.name,
+                            })) || []
+                        }
                         value={Array.isArray(data.clients) ? data.clients : []}
                         onValueChange={(value) => setData('clients', value)}
                         placeholder={t('Select Clients')}
@@ -88,7 +94,7 @@ export default function Create({ onSuccess }: CreateDealProps) {
                     />
                     <InputError message={errors.clients} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

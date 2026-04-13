@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -23,7 +23,7 @@ export default function Edit({ employeedocumenttype, onSuccess }: EditEmployeeDo
         put(route('hrm.employee-document-types.update', employeedocumenttype.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -45,7 +45,7 @@ export default function Edit({ employeedocumenttype, onSuccess }: EditEmployeeDo
                     />
                     <InputError message={errors.document_name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -57,14 +57,16 @@ export default function Edit({ employeedocumenttype, onSuccess }: EditEmployeeDo
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_required"
                         checked={data.is_required || false}
                         onCheckedChange={(checked) => setData('is_required', !!checked)}
                     />
-                    <Label htmlFor="is_required" className="cursor-pointer">{t('Is Required')}</Label>
+                    <Label htmlFor="is_required" className="cursor-pointer">
+                        {t('Is Required')}
+                    </Label>
                     <InputError message={errors.is_required} />
                 </div>
 

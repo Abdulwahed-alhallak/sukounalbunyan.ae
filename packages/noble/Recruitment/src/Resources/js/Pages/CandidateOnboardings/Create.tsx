@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -25,7 +25,7 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
         post(route('recruitment.candidate-onboardings.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -36,8 +36,14 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="candidate_id" required>{t('Candidate')} </Label>
-                    <Select value={data.candidate_id?.toString() || ''} onValueChange={(value) => setData('candidate_id', value)} required>
+                    <Label htmlFor="candidate_id" required>
+                        {t('Candidate')}{' '}
+                    </Label>
+                    <Select
+                        value={data.candidate_id?.toString() || ''}
+                        onValueChange={(value) => setData('candidate_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Candidate')} />
                         </SelectTrigger>
@@ -51,21 +57,28 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
                     </Select>
                     <InputError message={errors.candidate_id} />
                     {(!candidates || candidates.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create candidate here. ')}
                             <a
                                 href={route('recruitment.candidates.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('candidate')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <Label htmlFor="checklist_id" required>{t('Onboarding Checklist')} </Label>
-                    <Select value={data.checklist_id?.toString() || ''} onValueChange={(value) => setData('checklist_id', value)} required>
+                    <Label htmlFor="checklist_id" required>
+                        {t('Onboarding Checklist')}{' '}
+                    </Label>
+                    <Select
+                        value={data.checklist_id?.toString() || ''}
+                        onValueChange={(value) => setData('checklist_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Checklist')} />
                         </SelectTrigger>
@@ -79,14 +92,15 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
                     </Select>
                     <InputError message={errors.checklist_id} />
                     {(!onboardingchecklists || onboardingchecklists.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create onboarding checklist here. ')}
                             <a
                                 href={route('recruitment.onboarding-checklists.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('onboarding checklist')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -105,7 +119,10 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
 
                 <div>
                     <Label htmlFor="buddy_employee_id">{t('Buddy Employee')}</Label>
-                    <Select value={data.buddy_employee_id?.toString() || ''} onValueChange={(value) => setData('buddy_employee_id', value)}>
+                    <Select
+                        value={data.buddy_employee_id?.toString() || ''}
+                        onValueChange={(value) => setData('buddy_employee_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Buddy Employee')} />
                         </SelectTrigger>
@@ -118,18 +135,19 @@ export default function Create({ onSuccess }: CreateCandidateOnboardingProps) {
                         </SelectContent>
                     </Select>
                     <InputError message={errors.buddy_employee_id} />
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="mt-1 text-xs text-muted-foreground">
                         {t('Buddy employees are users with staff role.')}
                     </p>
                     {(!users || users.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create user here. ')}
                             <a
                                 href={route('users.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('Create User')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>

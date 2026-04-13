@@ -48,7 +48,7 @@ interface JobApplyProps {
         titleText?: string;
         footerText?: string;
     };
-    applicationTips: { title: string; }[];
+    applicationTips: { title: string }[];
     storageSettings: {
         allowedFileTypes: string;
         maxUploadSize: number;
@@ -60,7 +60,15 @@ interface JobApplyProps {
     };
 }
 
-export default function JobApply({ job, userSlug, brandSettings, applicationTips, storageSettings, customQuestions, jobPostingSettings }: JobApplyProps) {
+export default function JobApply({
+    job,
+    userSlug,
+    brandSettings,
+    applicationTips,
+    storageSettings,
+    customQuestions,
+    jobPostingSettings,
+}: JobApplyProps) {
     const { t } = useTranslation();
 
     const integrationFields = useFormFields('getIntegrationFields', {}, () => {}, {}, 'create', t, 'Recruitment');
@@ -83,11 +91,13 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
         skills: '',
         education: '',
         portfolioUrl: '',
-        linkedinUrl: ''
+        linkedinUrl: '',
     });
     const [customAnswers, setCustomAnswers] = useState<Record<string, string | string[]>>({});
-    const [uploadedFiles, setUploadedFiles] = useState<{resume?: File, coverLetter?: File, profilePhoto?: File}>({});
-    const [filePreviews, setFilePreviews] = useState<{resume?: string, coverLetter?: string, profilePhoto?: string}>({});
+    const [uploadedFiles, setUploadedFiles] = useState<{ resume?: File; coverLetter?: File; profilePhoto?: File }>({});
+    const [filePreviews, setFilePreviews] = useState<{ resume?: string; coverLetter?: string; profilePhoto?: string }>(
+        {}
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -96,9 +106,9 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
     };
 
     const handleInputChange = (field: string, value: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
     };
 
@@ -131,18 +141,25 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
         if (uploadedFiles.profilePhoto) formDataToSubmit.append('profilePhoto', uploadedFiles.profilePhoto);
 
         try {
-            const response = await fetch(route('recruitment.frontend.careers.jobs.apply.submit', { userSlug, id: job.encrypted_id }), {
-                method: 'POST',
-                body: formDataToSubmit,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            const response = await fetch(
+                route('recruitment.frontend.careers.jobs.apply.submit', { userSlug, id: job.encrypted_id }),
+                {
+                    method: 'POST',
+                    body: formDataToSubmit,
+                    headers: {
+                        'X-CSRF-TOKEN':
+                            document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    },
                 }
-            });
+            );
 
             const result = await response.json();
 
             if (response.ok && result.success) {
-                window.location.href = route('recruitment.frontend.careers.application.success', { userSlug, trackingId: result.tracking_id });
+                window.location.href = route('recruitment.frontend.careers.application.success', {
+                    userSlug,
+                    trackingId: result.tracking_id,
+                });
             } else {
                 setIsSubmitting(false);
             }
@@ -155,7 +172,7 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
         const basicFieldsValid = formData.name && formData.email && formData.experienceYears;
 
         // Check required custom questions
-        const requiredCustomQuestionsValid = customQuestions.every(question => {
+        const requiredCustomQuestionsValid = customQuestions.every((question) => {
             if (question.is_required) {
                 const fieldName = `custom_question_${question.id}`;
                 const value = customAnswers[fieldName];
@@ -178,22 +195,29 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
         <FrontendLayout userSlug={userSlug} brandSettings={brandSettings}>
             <Head title={`Apply for ${job.title}`} />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="flex flex-col lg:flex-row gap-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                <div className="flex flex-col gap-8 lg:flex-row">
                     {/* Main Application Form */}
                     <div className="lg:w-2/3">
                         <div className="mb-8">
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-muted-foreground hover:text-foreground hover:bg-muted mb-6"
-                                onClick={() => window.location.href = route('recruitment.frontend.careers.jobs.show', { userSlug, id: job.encrypted_id })}
+                                className="mb-6 text-muted-foreground hover:bg-muted hover:text-foreground"
+                                onClick={() =>
+                                    (window.location.href = route('recruitment.frontend.careers.jobs.show', {
+                                        userSlug,
+                                        id: job.encrypted_id,
+                                    }))
+                                }
                             >
-                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                <ArrowLeft className="mr-2 h-4 w-4" />
                                 {t('Back to Job Details')}
                             </Button>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">{t('Apply for Position')}</h1>
-                            <p className="text-muted-foreground">{t('Please fill out the form below to submit your application')}</p>
+                            <h1 className="mb-2 text-3xl font-bold text-foreground">{t('Apply for Position')}</h1>
+                            <p className="text-muted-foreground">
+                                {t('Please fill out the form below to submit your application')}
+                            </p>
                         </div>
 
                         <Card className="shadow-sm">
@@ -201,11 +225,16 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                 <form onSubmit={handleSubmit} className="space-y-8">
                                     {/* Personal Information Section */}
                                     <div>
-                                        <h2 className="text-lg font-semibold text-foreground mb-6 pb-2 border-b border-border">{t('Personal Information')}</h2>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <h2 className="mb-6 border-b border-border pb-2 text-lg font-semibold text-foreground">
+                                            {t('Personal Information')}
+                                        </h2>
+                                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             {/* Full Name */}
                                             <div className="md:col-span-2">
-                                                <Label htmlFor="name" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="name"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Full Name')}
                                                 </Label>
                                                 <Input
@@ -222,7 +251,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Email */}
                                             <div>
-                                                <Label htmlFor="email" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="email"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Email Address')}
                                                 </Label>
                                                 <Input
@@ -252,10 +284,16 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* Gender */}
                                             {jobPostingSettings.applicant.includes('gender') && (
                                                 <div>
-                                                    <Label htmlFor="gender" className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label
+                                                        htmlFor="gender"
+                                                        className="mb-2 block text-sm font-medium text-foreground"
+                                                    >
                                                         {t('Gender')}
                                                     </Label>
-                                                    <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
+                                                    <Select
+                                                        value={formData.gender}
+                                                        onValueChange={(value) => handleInputChange('gender', value)}
+                                                    >
                                                         <SelectTrigger className="h-11">
                                                             <SelectValue placeholder={t('Select Gender')} />
                                                         </SelectTrigger>
@@ -271,7 +309,7 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* Date of Birth */}
                                             {jobPostingSettings.applicant.includes('date_of_birth') && (
                                                 <div>
-                                                    <Label className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label className="mb-2 block text-sm font-medium text-foreground">
                                                         {t('Date of Birth')}
                                                     </Label>
                                                     <DatePicker
@@ -286,7 +324,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* Country */}
                                             {jobPostingSettings.applicant.includes('country') && (
                                                 <div>
-                                                    <Label htmlFor="country" className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label
+                                                        htmlFor="country"
+                                                        className="mb-2 block text-sm font-medium text-foreground"
+                                                    >
                                                         {t('Country')}
                                                     </Label>
                                                     <Input
@@ -304,7 +345,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* State */}
                                             {jobPostingSettings.applicant.includes('country') && (
                                                 <div>
-                                                    <Label htmlFor="state" className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label
+                                                        htmlFor="state"
+                                                        className="mb-2 block text-sm font-medium text-foreground"
+                                                    >
                                                         {t('State')}
                                                     </Label>
                                                     <Input
@@ -321,7 +365,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* City */}
                                             {jobPostingSettings.applicant.includes('country') && (
                                                 <div>
-                                                    <Label htmlFor="city" className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label
+                                                        htmlFor="city"
+                                                        className="mb-2 block text-sm font-medium text-foreground"
+                                                    >
                                                         {t('City')}
                                                     </Label>
                                                     <Input
@@ -338,7 +385,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                             {/* Profile Photo */}
                                             {jobPostingSettings.visibility.includes('profile_image') && (
                                                 <div>
-                                                    <Label htmlFor="profilePhoto" className="text-sm font-medium text-foreground mb-2 block">
+                                                    <Label
+                                                        htmlFor="profilePhoto"
+                                                        className="mb-2 block text-sm font-medium text-foreground"
+                                                    >
                                                         {t('Profile Photo')}
                                                     </Label>
                                                     {!uploadedFiles.profilePhoto ? (
@@ -347,15 +397,25 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                 id="profilePhoto"
                                                                 name="profilePhoto"
                                                                 type="file"
-                                                                accept={storageSettings.allowedFileTypes.split(',')?.map(type => `.${type.trim()}`).join(',')}
+                                                                accept={storageSettings.allowedFileTypes
+                                                                    .split(',')
+                                                                    ?.map((type) => `.${type.trim()}`)
+                                                                    .join(',')}
                                                                 onChange={(e) => {
                                                                     const file = e.target.files?.[0];
                                                                     if (file) {
-                                                                        setUploadedFiles(prev => ({...prev, profilePhoto: file}));
+                                                                        setUploadedFiles((prev) => ({
+                                                                            ...prev,
+                                                                            profilePhoto: file,
+                                                                        }));
                                                                         if (file.type.startsWith('image/')) {
                                                                             const reader = new FileReader();
                                                                             reader.onload = (e) => {
-                                                                                setFilePreviews(prev => ({...prev, profilePhoto: e.target?.result as string}));
+                                                                                setFilePreviews((prev) => ({
+                                                                                    ...prev,
+                                                                                    profilePhoto: e.target
+                                                                                        ?.result as string,
+                                                                                }));
                                                                             };
                                                                             reader.readAsDataURL(file);
                                                                         }
@@ -363,43 +423,73 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                 }}
                                                                 className="h-11"
                                                             />
-                                                            <p className="text-xs text-muted-foreground mt-1">{t('JPG, PNG, GIF up to')} {storageSettings.maxUploadSize} {t('MB')}</p>
+                                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                                {t('JPG, PNG, GIF up to')}{' '}
+                                                                {storageSettings.maxUploadSize} {t('MB')}
+                                                            </p>
                                                         </div>
                                                     ) : (
-                                                        <div className="mt-1 relative">
+                                                        <div className="relative mt-1">
                                                             {filePreviews.profilePhoto ? (
                                                                 <div className="relative inline-block">
-                                                                    <img src={filePreviews.profilePhoto} alt="Profile photo preview" className="w-32 h-32 object-cover rounded-lg border" />
+                                                                    <img
+                                                                        src={filePreviews.profilePhoto}
+                                                                        alt="Profile photo preview"
+                                                                        className="h-32 w-32 rounded-lg border object-cover"
+                                                                    />
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => {
-                                                                            setUploadedFiles(prev => ({...prev, profilePhoto: undefined}));
-                                                                            setFilePreviews(prev => ({...prev, profilePhoto: undefined}));
+                                                                            setUploadedFiles((prev) => ({
+                                                                                ...prev,
+                                                                                profilePhoto: undefined,
+                                                                            }));
+                                                                            setFilePreviews((prev) => ({
+                                                                                ...prev,
+                                                                                profilePhoto: undefined,
+                                                                            }));
                                                                         }}
-                                                                        className="absolute -top-2 -right-2 bg-muted/500 text-background rounded-full p-1 hover:bg-destructive"
+                                                                        className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                     >
-                                                                        <X className="w-4 h-4" />
+                                                                        <X className="h-4 w-4" />
                                                                     </button>
-                                                                    <p className="text-sm text-foreground mt-2">{uploadedFiles.profilePhoto.name}</p>
+                                                                    <p className="mt-2 text-sm text-foreground">
+                                                                        {uploadedFiles.profilePhoto.name}
+                                                                    </p>
                                                                 </div>
                                                             ) : (
-                                                                <div className="flex items-center space-x-3 p-3 border rounded-lg bg-muted/50">
-                                                                    <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                        <Image className="w-6 h-6 text-foreground" />
+                                                                <div className="flex items-center space-x-3 rounded-lg border bg-muted/50 p-3">
+                                                                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                        <Image className="h-6 w-6 text-foreground" />
                                                                     </div>
                                                                     <div className="flex-1">
-                                                                        <p className="text-sm font-medium text-foreground">{uploadedFiles.profilePhoto.name}</p>
-                                                                        <p className="text-xs text-muted-foreground">{(uploadedFiles.profilePhoto.size / 1024 / 1024).toFixed(2)} MB</p>
+                                                                        <p className="text-sm font-medium text-foreground">
+                                                                            {uploadedFiles.profilePhoto.name}
+                                                                        </p>
+                                                                        <p className="text-xs text-muted-foreground">
+                                                                            {(
+                                                                                uploadedFiles.profilePhoto.size /
+                                                                                1024 /
+                                                                                1024
+                                                                            ).toFixed(2)}{' '}
+                                                                            MB
+                                                                        </p>
                                                                     </div>
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => {
-                                                                            setUploadedFiles(prev => ({...prev, profilePhoto: undefined}));
-                                                                            setFilePreviews(prev => ({...prev, profilePhoto: undefined}));
+                                                                            setUploadedFiles((prev) => ({
+                                                                                ...prev,
+                                                                                profilePhoto: undefined,
+                                                                            }));
+                                                                            setFilePreviews((prev) => ({
+                                                                                ...prev,
+                                                                                profilePhoto: undefined,
+                                                                            }));
                                                                         }}
                                                                         className="text-destructive hover:text-destructive"
                                                                     >
-                                                                        <X className="w-5 h-5" />
+                                                                        <X className="h-5 w-5" />
                                                                     </button>
                                                                 </div>
                                                             )}
@@ -412,18 +502,26 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                     {/* Professional Information Section */}
                                     <div>
-                                        <h2 className="text-lg font-semibold text-foreground mb-6 pb-2 border-b border-border"> {t('Professional Information')} </h2>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <h2 className="mb-6 border-b border-border pb-2 text-lg font-semibold text-foreground">
+                                            {' '}
+                                            {t('Professional Information')}{' '}
+                                        </h2>
+                                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             {/* Current Company */}
                                             <div>
-                                                <Label htmlFor="currentCompany" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="currentCompany"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Current Company')}
                                                 </Label>
                                                 <Input
                                                     id="currentCompany"
                                                     type="text"
                                                     value={formData.currentCompany}
-                                                    onChange={(e) => handleInputChange('currentCompany', e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleInputChange('currentCompany', e.target.value)
+                                                    }
                                                     placeholder={t('Enter your current company')}
                                                     className="h-11"
                                                 />
@@ -431,14 +529,19 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Current Position */}
                                             <div>
-                                                <Label htmlFor="currentPosition" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="currentPosition"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Current Position')}
                                                 </Label>
                                                 <Input
                                                     id="currentPosition"
                                                     type="text"
                                                     value={formData.currentPosition}
-                                                    onChange={(e) => handleInputChange('currentPosition', e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleInputChange('currentPosition', e.target.value)
+                                                    }
                                                     placeholder={t('Enter your current position')}
                                                     className="h-11"
                                                 />
@@ -446,7 +549,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Experience Years */}
                                             <div>
-                                                <Label htmlFor="experienceYears" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="experienceYears"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Experience (Years)')}
                                                 </Label>
                                                 <Input
@@ -455,7 +561,9 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                     min="0"
                                                     step="1"
                                                     value={formData.experienceYears}
-                                                    onChange={(e) => handleInputChange('experienceYears', e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleInputChange('experienceYears', e.target.value)
+                                                    }
                                                     placeholder={t('Enter experience years')}
                                                     className="h-11"
                                                     required
@@ -464,7 +572,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Current Salary */}
                                             <div>
-                                                <Label htmlFor="currentSalary" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="currentSalary"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Current Salary')}
                                                 </Label>
                                                 <Input
@@ -480,7 +591,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Expected Salary */}
                                             <div>
-                                                <Label htmlFor="expectedSalary" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="expectedSalary"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Expected Salary')}
                                                 </Label>
                                                 <Input
@@ -488,7 +602,9 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                     type="number"
                                                     min="0"
                                                     value={formData.expectedSalary}
-                                                    onChange={(e) => handleInputChange('expectedSalary', e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleInputChange('expectedSalary', e.target.value)
+                                                    }
                                                     placeholder={t('Enter expected salary')}
                                                     className="h-11"
                                                 />
@@ -496,7 +612,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Notice Period */}
                                             <div>
-                                                <Label htmlFor="noticePeriod" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="noticePeriod"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Notice Period')}
                                                 </Label>
                                                 <Input
@@ -511,7 +630,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Skills */}
                                             <div className="md:col-span-2">
-                                                <Label htmlFor="skills" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="skills"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Skills')}
                                                 </Label>
                                                 <Textarea
@@ -525,7 +647,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Education */}
                                             <div className="md:col-span-2">
-                                                <Label htmlFor="education" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="education"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Education')}
                                                 </Label>
                                                 <Textarea
@@ -539,7 +664,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* Portfolio URL */}
                                             <div>
-                                                <Label htmlFor="portfolioUrl" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="portfolioUrl"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('Portfolio URL')}
                                                 </Label>
                                                 <Input
@@ -554,7 +682,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                             {/* LinkedIn URL */}
                                             <div>
-                                                <Label htmlFor="linkedinUrl" className="text-sm font-medium text-foreground mb-2 block">
+                                                <Label
+                                                    htmlFor="linkedinUrl"
+                                                    className="mb-2 block text-sm font-medium text-foreground"
+                                                >
                                                     {t('LinkedIn URL')}
                                                 </Label>
                                                 <Input
@@ -570,14 +701,21 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                     </div>
 
                                     {/* Documents Section */}
-                                    {(jobPostingSettings.visibility.includes('resume') || jobPostingSettings.visibility.includes('cover_letter')) && (
+                                    {(jobPostingSettings.visibility.includes('resume') ||
+                                        jobPostingSettings.visibility.includes('cover_letter')) && (
                                         <div>
-                                            <h2 className="text-lg font-semibold text-foreground mb-6 pb-2 border-b border-border"> {t('Documents')} </h2>
+                                            <h2 className="mb-6 border-b border-border pb-2 text-lg font-semibold text-foreground">
+                                                {' '}
+                                                {t('Documents')}{' '}
+                                            </h2>
                                             <div className="space-y-4">
                                                 {/* Resume Upload */}
                                                 {jobPostingSettings.visibility.includes('resume') && (
                                                     <div>
-                                                        <Label htmlFor="resume" className="text-sm font-medium text-foreground mb-2 block">
+                                                        <Label
+                                                            htmlFor="resume"
+                                                            className="mb-2 block text-sm font-medium text-foreground"
+                                                        >
                                                             {t('Resume/CV')}
                                                         </Label>
                                                         {!uploadedFiles.resume ? (
@@ -586,15 +724,25 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                     id="resume"
                                                                     name="resume"
                                                                     type="file"
-                                                                    accept={storageSettings.allowedFileTypes.split(',')?.map(type => `.${type.trim()}`).join(',')}
+                                                                    accept={storageSettings.allowedFileTypes
+                                                                        .split(',')
+                                                                        ?.map((type) => `.${type.trim()}`)
+                                                                        .join(',')}
                                                                     onChange={(e) => {
                                                                         const file = e.target.files?.[0];
                                                                         if (file) {
-                                                                            setUploadedFiles(prev => ({...prev, resume: file}));
+                                                                            setUploadedFiles((prev) => ({
+                                                                                ...prev,
+                                                                                resume: file,
+                                                                            }));
                                                                             if (file.type.startsWith('image/')) {
                                                                                 const reader = new FileReader();
                                                                                 reader.onload = (e) => {
-                                                                                    setFilePreviews(prev => ({...prev, resume: e.target?.result as string}));
+                                                                                    setFilePreviews((prev) => ({
+                                                                                        ...prev,
+                                                                                        resume: e.target
+                                                                                            ?.result as string,
+                                                                                    }));
                                                                                 };
                                                                                 reader.readAsDataURL(file);
                                                                             }
@@ -602,53 +750,85 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                     }}
                                                                     className="h-11"
                                                                 />
-                                                                <p className="text-xs text-muted-foreground mt-1">{storageSettings.allowedFileTypes} {t('up to')} {storageSettings.maxUploadSize} {t('MB')}</p>
+                                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                                    {storageSettings.allowedFileTypes} {t('up to')}{' '}
+                                                                    {storageSettings.maxUploadSize} {t('MB')}
+                                                                </p>
                                                             </div>
                                                         ) : (
-                                                            <div className="mt-1 relative">
+                                                            <div className="relative mt-1">
                                                                 {filePreviews.resume ? (
                                                                     <div className="relative inline-block">
-                                                                        <img src={filePreviews.resume} alt="Resume preview" className="w-32 h-32 object-cover rounded-lg border" />
+                                                                        <img
+                                                                            src={filePreviews.resume}
+                                                                            alt="Resume preview"
+                                                                            className="h-32 w-32 rounded-lg border object-cover"
+                                                                        />
                                                                         <button
                                                                             type="button"
                                                                             onClick={() => {
-                                                                                setUploadedFiles(prev => ({...prev, resume: undefined}));
-                                                                                setFilePreviews(prev => ({...prev, resume: undefined}));
+                                                                                setUploadedFiles((prev) => ({
+                                                                                    ...prev,
+                                                                                    resume: undefined,
+                                                                                }));
+                                                                                setFilePreviews((prev) => ({
+                                                                                    ...prev,
+                                                                                    resume: undefined,
+                                                                                }));
                                                                             }}
-                                                                            className="absolute -top-2 -right-2 bg-muted/500 text-background rounded-full p-1 hover:bg-destructive"
+                                                                            className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                         >
-                                                                            <X className="w-4 h-4" />
+                                                                            <X className="h-4 w-4" />
                                                                         </button>
-                                                                        <p className="text-sm text-foreground mt-2">{uploadedFiles.resume.name}</p>
+                                                                        <p className="mt-2 text-sm text-foreground">
+                                                                            {uploadedFiles.resume.name}
+                                                                        </p>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-muted/50">
+                                                                    <div className="flex items-center space-x-3 rounded-lg border bg-muted/50 p-3">
                                                                         {uploadedFiles.resume.type.includes('pdf') ? (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <FileText className="w-6 h-6 text-destructive" />
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <FileText className="h-6 w-6 text-destructive" />
                                                                             </div>
-                                                                        ) : uploadedFiles.resume.type.includes('doc') ? (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <File className="w-6 h-6 text-foreground" />
+                                                                        ) : uploadedFiles.resume.type.includes(
+                                                                              'doc'
+                                                                          ) ? (
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <File className="h-6 w-6 text-foreground" />
                                                                             </div>
                                                                         ) : (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <File className="w-6 h-6 text-muted-foreground" />
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <File className="h-6 w-6 text-muted-foreground" />
                                                                             </div>
                                                                         )}
                                                                         <div className="flex-1">
-                                                                            <p className="text-sm font-medium text-foreground">{uploadedFiles.resume.name}</p>
-                                                                            <p className="text-xs text-muted-foreground">{(uploadedFiles.resume.size / 1024 / 1024).toFixed(2)} {t('MB')} </p>
+                                                                            <p className="text-sm font-medium text-foreground">
+                                                                                {uploadedFiles.resume.name}
+                                                                            </p>
+                                                                            <p className="text-xs text-muted-foreground">
+                                                                                {(
+                                                                                    uploadedFiles.resume.size /
+                                                                                    1024 /
+                                                                                    1024
+                                                                                ).toFixed(2)}{' '}
+                                                                                {t('MB')}{' '}
+                                                                            </p>
                                                                         </div>
                                                                         <button
                                                                             type="button"
                                                                             onClick={() => {
-                                                                                setUploadedFiles(prev => ({...prev, resume: undefined}));
-                                                                                setFilePreviews(prev => ({...prev, resume: undefined}));
+                                                                                setUploadedFiles((prev) => ({
+                                                                                    ...prev,
+                                                                                    resume: undefined,
+                                                                                }));
+                                                                                setFilePreviews((prev) => ({
+                                                                                    ...prev,
+                                                                                    resume: undefined,
+                                                                                }));
                                                                             }}
                                                                             className="text-destructive hover:text-destructive"
                                                                         >
-                                                                            <X className="w-5 h-5" />
+                                                                            <X className="h-5 w-5" />
                                                                         </button>
                                                                     </div>
                                                                 )}
@@ -660,7 +840,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                 {/* Cover Letter Upload */}
                                                 {jobPostingSettings.visibility.includes('cover_letter') && (
                                                     <div>
-                                                        <Label htmlFor="coverLetter" className="text-sm font-medium text-foreground mb-2 block">
+                                                        <Label
+                                                            htmlFor="coverLetter"
+                                                            className="mb-2 block text-sm font-medium text-foreground"
+                                                        >
                                                             {t('Cover Letter')}
                                                         </Label>
                                                         {!uploadedFiles.coverLetter ? (
@@ -669,15 +852,25 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                     id="coverLetter"
                                                                     name="coverLetter"
                                                                     type="file"
-                                                                    accept={storageSettings.allowedFileTypes.split(',')?.map(type => `.${type.trim()}`).join(',')}
+                                                                    accept={storageSettings.allowedFileTypes
+                                                                        .split(',')
+                                                                        ?.map((type) => `.${type.trim()}`)
+                                                                        .join(',')}
                                                                     onChange={(e) => {
                                                                         const file = e.target.files?.[0];
                                                                         if (file) {
-                                                                            setUploadedFiles(prev => ({...prev, coverLetter: file}));
+                                                                            setUploadedFiles((prev) => ({
+                                                                                ...prev,
+                                                                                coverLetter: file,
+                                                                            }));
                                                                             if (file.type.startsWith('image/')) {
                                                                                 const reader = new FileReader();
                                                                                 reader.onload = (e) => {
-                                                                                    setFilePreviews(prev => ({...prev, coverLetter: e.target?.result as string}));
+                                                                                    setFilePreviews((prev) => ({
+                                                                                        ...prev,
+                                                                                        coverLetter: e.target
+                                                                                            ?.result as string,
+                                                                                    }));
                                                                                 };
                                                                                 reader.readAsDataURL(file);
                                                                             }
@@ -685,53 +878,87 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                     }}
                                                                     className="h-11"
                                                                 />
-                                                                <p className="text-xs text-muted-foreground mt-1">{storageSettings.allowedFileTypes} {t('up to')} {storageSettings.maxUploadSize} {t('MB')}</p>
+                                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                                    {storageSettings.allowedFileTypes} {t('up to')}{' '}
+                                                                    {storageSettings.maxUploadSize} {t('MB')}
+                                                                </p>
                                                             </div>
                                                         ) : (
-                                                            <div className="mt-1 relative">
+                                                            <div className="relative mt-1">
                                                                 {filePreviews.coverLetter ? (
                                                                     <div className="relative inline-block">
-                                                                        <img src={filePreviews.coverLetter} alt="Cover letter preview" className="w-32 h-32 object-cover rounded-lg border" />
+                                                                        <img
+                                                                            src={filePreviews.coverLetter}
+                                                                            alt="Cover letter preview"
+                                                                            className="h-32 w-32 rounded-lg border object-cover"
+                                                                        />
                                                                         <button
                                                                             type="button"
                                                                             onClick={() => {
-                                                                                setUploadedFiles(prev => ({...prev, coverLetter: undefined}));
-                                                                                setFilePreviews(prev => ({...prev, coverLetter: undefined}));
+                                                                                setUploadedFiles((prev) => ({
+                                                                                    ...prev,
+                                                                                    coverLetter: undefined,
+                                                                                }));
+                                                                                setFilePreviews((prev) => ({
+                                                                                    ...prev,
+                                                                                    coverLetter: undefined,
+                                                                                }));
                                                                             }}
-                                                                            className="absolute -top-2 -right-2 bg-muted/500 text-background rounded-full p-1 hover:bg-destructive"
+                                                                            className="bg-muted/500 absolute -right-2 -top-2 rounded-full p-1 text-background hover:bg-destructive"
                                                                         >
-                                                                            <X className="w-4 h-4" />
+                                                                            <X className="h-4 w-4" />
                                                                         </button>
-                                                                        <p className="text-sm text-foreground mt-2">{uploadedFiles.coverLetter.name}</p>
+                                                                        <p className="mt-2 text-sm text-foreground">
+                                                                            {uploadedFiles.coverLetter.name}
+                                                                        </p>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-muted/50">
-                                                                        {uploadedFiles.coverLetter.type.includes('pdf') ? (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <FileText className="w-6 h-6 text-destructive" />
+                                                                    <div className="flex items-center space-x-3 rounded-lg border bg-muted/50 p-3">
+                                                                        {uploadedFiles.coverLetter.type.includes(
+                                                                            'pdf'
+                                                                        ) ? (
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <FileText className="h-6 w-6 text-destructive" />
                                                                             </div>
-                                                                        ) : uploadedFiles.coverLetter.type.includes('doc') ? (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <File className="w-6 h-6 text-foreground" />
+                                                                        ) : uploadedFiles.coverLetter.type.includes(
+                                                                              'doc'
+                                                                          ) ? (
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <File className="h-6 w-6 text-foreground" />
                                                                             </div>
                                                                         ) : (
-                                                                            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                                                                                <File className="w-6 h-6 text-muted-foreground" />
+                                                                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+                                                                                <File className="h-6 w-6 text-muted-foreground" />
                                                                             </div>
                                                                         )}
                                                                         <div className="flex-1">
-                                                                            <p className="text-sm font-medium text-foreground">{uploadedFiles.coverLetter.name}</p>
-                                                                            <p className="text-xs text-muted-foreground">{(uploadedFiles.coverLetter.size / 1024 / 1024).toFixed(2)} MB</p>
+                                                                            <p className="text-sm font-medium text-foreground">
+                                                                                {uploadedFiles.coverLetter.name}
+                                                                            </p>
+                                                                            <p className="text-xs text-muted-foreground">
+                                                                                {(
+                                                                                    uploadedFiles.coverLetter.size /
+                                                                                    1024 /
+                                                                                    1024
+                                                                                ).toFixed(2)}{' '}
+                                                                                MB
+                                                                            </p>
                                                                         </div>
                                                                         <button
                                                                             type="button"
                                                                             onClick={() => {
-                                                                                setUploadedFiles(prev => ({...prev, coverLetter: undefined}));
-                                                                                setFilePreviews(prev => ({...prev, coverLetter: undefined}));
+                                                                                setUploadedFiles((prev) => ({
+                                                                                    ...prev,
+                                                                                    coverLetter: undefined,
+                                                                                }));
+                                                                                setFilePreviews((prev) => ({
+                                                                                    ...prev,
+                                                                                    coverLetter: undefined,
+                                                                                }));
                                                                             }}
                                                                             className="text-destructive hover:text-destructive"
                                                                         >
-                                                                            <X className="w-5 h-5" />
+                                                                            <X className="h-5 w-5" />
                                                                         </button>
                                                                     </div>
                                                                 )}
@@ -746,21 +973,31 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                     {/* Custom Questions Section */}
                                     {customQuestions.length > 0 && (
                                         <div>
-                                            <h2 className="text-lg font-semibold text-foreground mb-6 pb-2 border-b border-border"> {t('Application Questions')} </h2>
+                                            <h2 className="mb-6 border-b border-border pb-2 text-lg font-semibold text-foreground">
+                                                {' '}
+                                                {t('Application Questions')}{' '}
+                                            </h2>
                                             <div className="space-y-6">
                                                 {customQuestions?.map((question) => {
                                                     const fieldName = `custom_question_${question.id}`;
                                                     return (
                                                         <div key={question.id}>
-                                                            <Label className="text-sm font-medium text-foreground mb-2 block">
+                                                            <Label className="mb-2 block text-sm font-medium text-foreground">
                                                                 {question.question}
-                                                                {question.is_required && <span className="text-destructive ml-1">*</span>}
+                                                                {question.is_required && (
+                                                                    <span className="ml-1 text-destructive">*</span>
+                                                                )}
                                                             </Label>
                                                             {question.type === 'text' && (
                                                                 <Input
                                                                     type="text"
                                                                     value={customAnswers[fieldName] || ''}
-                                                                    onChange={(e) => setCustomAnswers(prev => ({ ...prev, [fieldName]: e.target.value }))}
+                                                                    onChange={(e) =>
+                                                                        setCustomAnswers((prev) => ({
+                                                                            ...prev,
+                                                                            [fieldName]: e.target.value,
+                                                                        }))
+                                                                    }
                                                                     className="h-11"
                                                                     required={question.is_required}
                                                                 />
@@ -769,7 +1006,12 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                                 <Input
                                                                     type="number"
                                                                     value={customAnswers[fieldName] || ''}
-                                                                    onChange={(e) => setCustomAnswers(prev => ({ ...prev, [fieldName]: e.target.value }))}
+                                                                    onChange={(e) =>
+                                                                        setCustomAnswers((prev) => ({
+                                                                            ...prev,
+                                                                            [fieldName]: e.target.value,
+                                                                        }))
+                                                                    }
                                                                     className="h-11"
                                                                     required={question.is_required}
                                                                 />
@@ -777,15 +1019,25 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                             {question.type === 'textarea' && (
                                                                 <Textarea
                                                                     value={customAnswers[fieldName] || ''}
-                                                                    onChange={(e) => setCustomAnswers(prev => ({ ...prev, [fieldName]: e.target.value }))}
+                                                                    onChange={(e) =>
+                                                                        setCustomAnswers((prev) => ({
+                                                                            ...prev,
+                                                                            [fieldName]: e.target.value,
+                                                                        }))
+                                                                    }
                                                                     rows={3}
                                                                     required={question.is_required}
                                                                 />
                                                             )}
                                                             {question.type === 'select' && (
                                                                 <Select
-                                                                    value={customAnswers[fieldName] as string || ''}
-                                                                    onValueChange={(value) => setCustomAnswers(prev => ({ ...prev, [fieldName]: value }))}
+                                                                    value={(customAnswers[fieldName] as string) || ''}
+                                                                    onValueChange={(value) =>
+                                                                        setCustomAnswers((prev) => ({
+                                                                            ...prev,
+                                                                            [fieldName]: value,
+                                                                        }))
+                                                                    }
                                                                 >
                                                                     <SelectTrigger className="h-11">
                                                                         <SelectValue placeholder="Select an option" />
@@ -801,20 +1053,28 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                             )}
                                                             {question.type === 'radio' && (
                                                                 <RadioGroup
-                                                                    value={customAnswers[fieldName] as string || ''}
-                                                                    onValueChange={(value) => setCustomAnswers(prev => ({ ...prev, [fieldName]: value }))}
+                                                                    value={(customAnswers[fieldName] as string) || ''}
+                                                                    onValueChange={(value) =>
+                                                                        setCustomAnswers((prev) => ({
+                                                                            ...prev,
+                                                                            [fieldName]: value,
+                                                                        }))
+                                                                    }
                                                                     className="flex flex-wrap gap-6"
                                                                 >
                                                                     {question.options?.map((option, index) => (
-                                                                        <div key={index} className="flex items-center space-x-2">
+                                                                        <div
+                                                                            key={index}
+                                                                            className="flex items-center space-x-2"
+                                                                        >
                                                                             <RadioGroupItem
                                                                                 value={option}
                                                                                 id={`${fieldName}_${index}`}
-                                                                                className="w-4 h-4"
+                                                                                className="h-4 w-4"
                                                                             />
                                                                             <Label
                                                                                 htmlFor={`${fieldName}_${index}`}
-                                                                                className="text-sm text-foreground cursor-pointer"
+                                                                                className="cursor-pointer text-sm text-foreground"
                                                                             >
                                                                                 {option}
                                                                             </Label>
@@ -825,26 +1085,52 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                             {question.type === 'checkbox' && (
                                                                 <div className="space-y-2">
                                                                     {question.options?.map((option, index) => {
-                                                                        const currentValues = (customAnswers[fieldName] as string[]) || [];
-                                                                        const isChecked = currentValues.includes(option);
+                                                                        const currentValues =
+                                                                            (customAnswers[fieldName] as string[]) ||
+                                                                            [];
+                                                                        const isChecked =
+                                                                            currentValues.includes(option);
 
                                                                         return (
-                                                                            <div key={index} className="flex items-center space-x-2">
+                                                                            <div
+                                                                                key={index}
+                                                                                className="flex items-center space-x-2"
+                                                                            >
                                                                                 <Checkbox
                                                                                     id={`${fieldName}_${index}`}
                                                                                     checked={isChecked}
                                                                                     onCheckedChange={(checked) => {
-                                                                                        setCustomAnswers(prev => {
-                                                                                            const currentValues = (prev[fieldName] as string[]) || [];
+                                                                                        setCustomAnswers((prev) => {
+                                                                                            const currentValues =
+                                                                                                (prev[
+                                                                                                    fieldName
+                                                                                                ] as string[]) || [];
                                                                                             if (checked) {
-                                                                                                return { ...prev, [fieldName]: [...currentValues, option] };
+                                                                                                return {
+                                                                                                    ...prev,
+                                                                                                    [fieldName]: [
+                                                                                                        ...currentValues,
+                                                                                                        option,
+                                                                                                    ],
+                                                                                                };
                                                                                             } else {
-                                                                                                return { ...prev, [fieldName]: currentValues.filter(v => v !== option) };
+                                                                                                return {
+                                                                                                    ...prev,
+                                                                                                    [fieldName]:
+                                                                                                        currentValues.filter(
+                                                                                                            (v) =>
+                                                                                                                v !==
+                                                                                                                option
+                                                                                                        ),
+                                                                                                };
                                                                                             }
                                                                                         });
                                                                                     }}
                                                                                 />
-                                                                                <Label htmlFor={`${fieldName}_${index}`} className="text-sm font-normal cursor-pointer">
+                                                                                <Label
+                                                                                    htmlFor={`${fieldName}_${index}`}
+                                                                                    className="cursor-pointer text-sm font-normal"
+                                                                                >
                                                                                     {option}
                                                                                 </Label>
                                                                             </div>
@@ -862,7 +1148,10 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                     {/* Terms & Conditions Section */}
                                     {job.show_terms_condition && job.terms_condition && (
                                         <div>
-                                            <h2 className="text-lg font-semibold text-foreground mb-6 pb-2 border-b border-border"> {t('Terms & Conditions')} </h2>
+                                            <h2 className="mb-6 border-b border-border pb-2 text-lg font-semibold text-foreground">
+                                                {' '}
+                                                {t('Terms & Conditions')}{' '}
+                                            </h2>
                                             <div className="flex items-start space-x-2">
                                                 <Checkbox
                                                     id="terms_accepted"
@@ -870,28 +1159,34 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                                     onCheckedChange={(checked) => setTermsAccepted(!!checked)}
                                                     className="mt-1"
                                                 />
-                                                <Label htmlFor="terms_accepted" className="text-sm text-foreground cursor-pointer leading-relaxed">
-                                                    {t('I have read and agree to the')} {' '}
+                                                <Label
+                                                    htmlFor="terms_accepted"
+                                                    className="cursor-pointer text-sm leading-relaxed text-foreground"
+                                                >
+                                                    {t('I have read and agree to the')}{' '}
                                                     <a
-                                                        href={route('recruitment.frontend.careers.jobs.terms', { userSlug, id: job.encrypted_id })}
+                                                        href={route('recruitment.frontend.careers.jobs.terms', {
+                                                            userSlug,
+                                                            id: job.encrypted_id,
+                                                        })}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-foreground hover:text-foreground underline font-medium"
+                                                        className="font-medium text-foreground underline hover:text-foreground"
                                                     >
                                                         {t('terms and conditions')}
-                                                    </a>
-                                                    {' '}{t('for this position')}.
+                                                    </a>{' '}
+                                                    {t('for this position')}.
                                                 </Label>
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Submit Button */}
-                                    <div className="pt-6 border-t border-border">
+                                    <div className="border-t border-border pt-6">
                                         <div className="flex justify-end">
                                             <Button
                                                 type="submit"
-                                                className="bg-muted hover:bg-card text-background px-8 h-11"
+                                                className="h-11 bg-muted px-8 text-background hover:bg-card"
                                                 disabled={!isFormValid() || isSubmitting}
                                             >
                                                 {isSubmitting ? 'Submitting...' : 'Submit Application'}
@@ -907,19 +1202,19 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                     <div className="lg:w-1/3">
                         <Card>
                             <CardContent className="p-6">
-                                <h3 className="text-lg font-semibold text-foreground mb-4"> {t('Job Summary')} </h3>
+                                <h3 className="mb-4 text-lg font-semibold text-foreground"> {t('Job Summary')} </h3>
 
                                 <div className="space-y-4">
                                     <div>
-                                        <h4 className="font-medium text-foreground mb-2">{job.title}</h4>
-                                        <div className="flex items-center text-muted-foreground text-sm mb-2">
-                                            <MapPin className="h-4 w-4 mr-1" />
+                                        <h4 className="mb-2 font-medium text-foreground">{job.title}</h4>
+                                        <div className="mb-2 flex items-center text-sm text-muted-foreground">
+                                            <MapPin className="mr-1 h-4 w-4" />
                                             {job.location}
                                         </div>
-                                        <div className="flex gap-2 mb-3">
+                                        <div className="mb-3 flex gap-2">
                                             {job.featured && (
-                                                <Badge className="bg-muted text-foreground border-border hover:bg-muted">
-                                                    <Star className="h-3 w-3 mr-1" />
+                                                <Badge className="border-border bg-muted text-foreground hover:bg-muted">
+                                                    <Star className="mr-1 h-3 w-3" />
                                                     {t('Featured')}
                                                 </Badge>
                                             )}
@@ -927,18 +1222,20 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3">
-                                        <div className="bg-muted/50 rounded-lg p-3">
+                                        <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <DollarSign className="h-4 w-4 mr-2 text-foreground" />
+                                                <DollarSign className="mr-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground"> {t('Salary')} </p>
-                                                    <p className="font-medium text-foreground">{formatSalary(job.salaryFrom, job.salaryTo)}</p>
+                                                    <p className="font-medium text-foreground">
+                                                        {formatSalary(job.salaryFrom, job.salaryTo)}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="bg-muted/50 rounded-lg p-3">
+                                        <div className="rounded-lg bg-muted/50 p-3">
                                             <div className="flex items-center">
-                                                <Briefcase className="h-4 w-4 mr-2 text-foreground" />
+                                                <Briefcase className="mr-2 h-4 w-4 text-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground"> {t('Type')} </p>
                                                     <p className="font-medium text-foreground">{job.jobType}</p>
@@ -949,10 +1246,17 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
                                     {job.skills && job.skills.length > 0 && (
                                         <div>
-                                            <p className="text-xs text-muted-foreground mb-2"> {t('Required Skills')} </p>
+                                            <p className="mb-2 text-xs text-muted-foreground">
+                                                {' '}
+                                                {t('Required Skills')}{' '}
+                                            </p>
                                             <div className="flex flex-wrap gap-1">
                                                 {job.skills?.map((skill) => (
-                                                    <Badge key={skill} variant="outline" className="text-xs bg-muted/50 text-foreground border-border">
+                                                    <Badge
+                                                        key={skill}
+                                                        variant="outline"
+                                                        className="border-border bg-muted/50 text-xs text-foreground"
+                                                    >
                                                         {skill}
                                                     </Badge>
                                                 ))}
@@ -962,9 +1266,9 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
                                 </div>
 
                                 {applicationTips.length > 0 && (
-                                    <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                                        <h4 className="font-medium text-foreground mb-2"> {t('Application Tips')} </h4>
-                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                    <div className="mt-6 rounded-lg bg-muted/50 p-4">
+                                        <h4 className="mb-2 font-medium text-foreground"> {t('Application Tips')} </h4>
+                                        <ul className="space-y-1 text-sm text-muted-foreground">
                                             {applicationTips?.map((tip, index) => (
                                                 <li key={index}>• {tip.title}</li>
                                             ))}
@@ -979,9 +1283,7 @@ export default function JobApply({ job, userSlug, brandSettings, applicationTips
 
             {/* Integration Widgets (Tawk.to, etc.) */}
             {integrationFields?.map((field) => (
-                <div key={field.id}>
-                    {field.component}
-                </div>
+                <div key={field.id}>{field.component}</div>
             ))}
         </FrontendLayout>
     );

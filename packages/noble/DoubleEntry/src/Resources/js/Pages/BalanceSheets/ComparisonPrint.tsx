@@ -36,11 +36,14 @@ export default function ComparisonPrint() {
                 filename: `balance-sheet-comparison.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -64,18 +67,16 @@ export default function ComparisonPrint() {
         return acc;
     }, {});
 
-    const allAccountCodes = Array.from(new Set([
-        ...Object.keys(currentItems),
-        ...Object.keys(previousItems)
-    ])).sort();
+    const allAccountCodes = Array.from(new Set([...Object.keys(currentItems), ...Object.keys(previousItems)])).sort();
 
     const calculateSectionTotal = (items: any[], sectionType: string) => {
-        return (items || []).filter((item: any) => item.section_type === sectionType)
+        return (items || [])
+            .filter((item: any) => item.section_type === sectionType)
             .reduce((sum: number, item: any) => sum + (parseFloat(item.amount) || 0), 0);
     };
 
     const renderSection = (sectionType: string, sectionTitle: string) => {
-        const sectionAccounts = allAccountCodes.filter(code => {
+        const sectionAccounts = allAccountCodes.filter((code) => {
             const item = currentItems[code] || previousItems[code];
             return item?.section_type === sectionType;
         });
@@ -86,11 +87,11 @@ export default function ComparisonPrint() {
         let previousTotal = 0;
 
         return (
-            <div className="mb-6 page-break-inside-avoid">
-                <h3 className="text-base font-bold border-b-2 border-border pb-1 mb-2">{sectionTitle}</h3>
+            <div className="page-break-inside-avoid mb-6">
+                <h3 className="mb-2 border-b-2 border-border pb-1 text-base font-bold">{sectionTitle}</h3>
                 <table className="w-full border-collapse">
                     <tbody>
-                        {sectionAccounts?.map(accountCode => {
+                        {sectionAccounts?.map((accountCode) => {
                             const currentItem = currentItems[accountCode];
                             const previousItem = previousItems[accountCode];
                             const currentAmount = parseFloat(currentItem?.amount) || 0;
@@ -101,29 +102,38 @@ export default function ComparisonPrint() {
                             previousTotal += previousAmount;
 
                             return (
-                                <tr key={accountCode} className="border-b border-border page-break-inside-avoid">
-                                    <td className="py-2 px-2 text-sm" style={{ width: '40%' }}>
+                                <tr key={accountCode} className="page-break-inside-avoid border-b border-border">
+                                    <td className="px-2 py-2 text-sm" style={{ width: '40%' }}>
                                         {currentItem?.account.account_name || previousItem?.account.account_name}
-                                        <span className="text-xs text-muted-foreground ml-1">({accountCode})</span>
+                                        <span className="ml-1 text-xs text-muted-foreground">({accountCode})</span>
                                     </td>
-                                    <td className="py-2 px-2 text-sm text-right tabular-nums" style={{ width: '20%' }}>
+                                    <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
                                         {formatCurrency(currentAmount)}
                                     </td>
-                                    <td className="py-2 px-2 text-sm text-right tabular-nums" style={{ width: '20%' }}>
+                                    <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
                                         {formatCurrency(previousAmount)}
                                     </td>
-                                    <td className="py-2 px-2 text-sm text-right tabular-nums font-medium" style={{ width: '20%' }}>
-                                        {change >= 0 ? '+' : ''}{formatCurrency(change)}
+                                    <td
+                                        className="px-2 py-2 text-right text-sm font-medium tabular-nums"
+                                        style={{ width: '20%' }}
+                                    >
+                                        {change >= 0 ? '+' : ''}
+                                        {formatCurrency(change)}
                                     </td>
                                 </tr>
                             );
                         })}
                         <tr className="border-t-2 border-black font-bold">
-                            <td className="py-2 px-2 text-sm">TOTAL {sectionTitle.toUpperCase()}</td>
-                            <td className="py-2 px-2 text-sm text-right tabular-nums">{formatCurrency(currentTotal)}</td>
-                            <td className="py-2 px-2 text-sm text-right tabular-nums">{formatCurrency(previousTotal)}</td>
-                            <td className="py-2 px-2 text-sm text-right tabular-nums">
-                                {(currentTotal - previousTotal) >= 0 ? '+' : ''}{formatCurrency(currentTotal - previousTotal)}
+                            <td className="px-2 py-2 text-sm">TOTAL {sectionTitle.toUpperCase()}</td>
+                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                {formatCurrency(currentTotal)}
+                            </td>
+                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                {formatCurrency(previousTotal)}
+                            </td>
+                            <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                {currentTotal - previousTotal >= 0 ? '+' : ''}
+                                {formatCurrency(currentTotal - previousTotal)}
                             </td>
                         </tr>
                     </tbody>
@@ -137,51 +147,65 @@ export default function ComparisonPrint() {
             <Head title={t('Balance Sheet Comparison')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="report-container bg-card max-w-6xl mx-auto p-8">
-                <div className="border-b-2 border-border pb-6 mb-8">
-                    <div className="flex justify-between items-start">
+            <div className="report-container mx-auto max-w-6xl bg-card p-8">
+                <div className="mb-8 border-b-2 border-border pb-6">
+                    <div className="flex items-start justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                            <div className="text-sm text-muted-foreground space-y-0.5">
+                            <h1 className="mb-2 text-3xl font-bold text-foreground">
+                                {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                            </h1>
+                            <div className="space-y-0.5 text-sm text-muted-foreground">
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
-                                {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                                {(getCompanySetting('company_city') ||
+                                    getCompanySetting('company_state') ||
+                                    getCompanySetting('company_zipcode')) && (
                                     <p>
-                                        {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                        {getCompanySetting('company_city')}
+                                        {getCompanySetting('company_state') &&
+                                            `, ${getCompanySetting('company_state')}`}{' '}
+                                        {getCompanySetting('company_zipcode')}
                                     </p>
                                 )}
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
                         <div className="text-right">
-                            <h2 className="text-2xl font-bold text-foreground mb-3">{t('COMPARATIVE BALANCE SHEET')}</h2>
+                            <h2 className="mb-3 text-2xl font-bold text-foreground">
+                                {t('COMPARATIVE BALANCE SHEET')}
+                            </h2>
                             <p className="text-sm text-muted-foreground">
-                                {formatDate(currentPeriod?.balance_sheet_date)} vs {formatDate(previousPeriod?.balance_sheet_date)}
+                                {formatDate(currentPeriod?.balance_sheet_date)} vs{' '}
+                                {formatDate(previousPeriod?.balance_sheet_date)}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <table className="w-full border-collapse mb-6">
+                <table className="mb-6 w-full border-collapse">
                     <thead>
                         <tr className="border-b-2 border-black">
-                            <th className="text-left py-2 px-2 text-sm font-semibold" style={{ width: '40%' }}>{t('Account')}</th>
-                            <th className="text-right py-2 px-2 text-sm font-semibold" style={{ width: '20%' }}>
+                            <th className="px-2 py-2 text-left text-sm font-semibold" style={{ width: '40%' }}>
+                                {t('Account')}
+                            </th>
+                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
                                 {formatDate(currentPeriod?.balance_sheet_date)}
                             </th>
-                            <th className="text-right py-2 px-2 text-sm font-semibold" style={{ width: '20%' }}>
+                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
                                 {formatDate(previousPeriod?.balance_sheet_date)}
                             </th>
-                            <th className="text-right py-2 px-2 text-sm font-semibold" style={{ width: '20%' }}>{t('Change')}</th>
+                            <th className="px-2 py-2 text-right text-sm font-semibold" style={{ width: '20%' }}>
+                                {t('Change')}
+                            </th>
                         </tr>
                     </thead>
                 </table>
@@ -190,33 +214,46 @@ export default function ComparisonPrint() {
                 {renderSection('liabilities', t('LIABILITIES'))}
                 {renderSection('equity', t('EQUITY'))}
 
-                <div className="mt-6 pt-4 border-t-4 border-black">
+                <div className="mt-6 border-t-4 border-black pt-4">
                     <table className="w-full border-collapse">
                         <tbody>
                             <tr className="font-bold">
-                                <td className="py-2 px-2 text-sm" style={{ width: '40%' }}>TOTAL ASSETS</td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums" style={{ width: '20%' }}>
+                                <td className="px-2 py-2 text-sm" style={{ width: '40%' }}>
+                                    TOTAL ASSETS
+                                </td>
+                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
                                     {formatCurrency(calculateSectionTotal(currentPeriod?.items, 'assets'))}
                                 </td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums" style={{ width: '20%' }}>
+                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
                                     {formatCurrency(calculateSectionTotal(previousPeriod?.items, 'assets'))}
                                 </td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums" style={{ width: '20%' }}>
-                                    {formatCurrency(calculateSectionTotal(currentPeriod?.items, 'assets') - calculateSectionTotal(previousPeriod?.items, 'assets'))}
+                                <td className="px-2 py-2 text-right text-sm tabular-nums" style={{ width: '20%' }}>
+                                    {formatCurrency(
+                                        calculateSectionTotal(currentPeriod?.items, 'assets') -
+                                            calculateSectionTotal(previousPeriod?.items, 'assets')
+                                    )}
                                 </td>
                             </tr>
-                            <tr className="font-bold border-t">
-                                <td className="py-2 px-2 text-sm">TOTAL LIABILITIES AND EQUITY</td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums">
-                                    {formatCurrency(calculateSectionTotal(currentPeriod?.items, 'liabilities') + calculateSectionTotal(currentPeriod?.items, 'equity'))}
-                                </td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums">
-                                    {formatCurrency(calculateSectionTotal(previousPeriod?.items, 'liabilities') + calculateSectionTotal(previousPeriod?.items, 'equity'))}
-                                </td>
-                                <td className="py-2 px-2 text-sm text-right tabular-nums">
+                            <tr className="border-t font-bold">
+                                <td className="px-2 py-2 text-sm">TOTAL LIABILITIES AND EQUITY</td>
+                                <td className="px-2 py-2 text-right text-sm tabular-nums">
                                     {formatCurrency(
-                                        (calculateSectionTotal(currentPeriod?.items, 'liabilities') + calculateSectionTotal(currentPeriod?.items, 'equity')) -
-                                        (calculateSectionTotal(previousPeriod?.items, 'liabilities') + calculateSectionTotal(previousPeriod?.items, 'equity'))
+                                        calculateSectionTotal(currentPeriod?.items, 'liabilities') +
+                                            calculateSectionTotal(currentPeriod?.items, 'equity')
+                                    )}
+                                </td>
+                                <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                    {formatCurrency(
+                                        calculateSectionTotal(previousPeriod?.items, 'liabilities') +
+                                            calculateSectionTotal(previousPeriod?.items, 'equity')
+                                    )}
+                                </td>
+                                <td className="px-2 py-2 text-right text-sm tabular-nums">
+                                    {formatCurrency(
+                                        calculateSectionTotal(currentPeriod?.items, 'liabilities') +
+                                            calculateSectionTotal(currentPeriod?.items, 'equity') -
+                                            (calculateSectionTotal(previousPeriod?.items, 'liabilities') +
+                                                calculateSectionTotal(previousPeriod?.items, 'equity'))
                                     )}
                                 </td>
                             </tr>
@@ -224,8 +261,10 @@ export default function ComparisonPrint() {
                     </table>
                 </div>
 
-                <div className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
-                    <p>{t('Generated on')} {formatDate(new Date().toISOString())}</p>
+                <div className="mt-8 border-t pt-4 text-center text-xs text-muted-foreground">
+                    <p>
+                        {t('Generated on')} {formatDate(new Date().toISOString())}
+                    </p>
                 </div>
             </div>
 

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { FileText, Search, Printer } from "lucide-react";
+import { FileText, Search, Printer } from 'lucide-react';
 import { DatePicker } from '@/components/ui/date-picker';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 import NoRecordsFound from '@/components/no-records-found';
@@ -44,35 +44,35 @@ export default function Index() {
     const [fromDate, setFromDate] = useState(urlParams.get('from_date') || trialBalance.from_date);
     const [toDate, setToDate] = useState(urlParams.get('to_date') || trialBalance.to_date);
 
-
     const handleGenerate = () => {
         if (!fromDate || !toDate) return;
-        router.get(route('double-entry.trial-balance.index'), {
-            from_date: fromDate,
-            to_date: toDate
-        }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('double-entry.trial-balance.index'),
+            {
+                from_date: fromDate,
+                to_date: toDate,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Double Entry')},
-                {label: t('Trial Balance')}
-            ]}
+            breadcrumbs={[{ label: t('Double Entry') }, { label: t('Trial Balance') }]}
             pageTitle={t('Trial Balance')}
         >
             <Head title={t('Trial Balance')} />
 
-            <div className="max-w-7xl mx-auto space-y-6">
-                <Card className="shadow-lg border-0 bg-gradient-to-r from-white to-muted/50">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <Card className="border-0 bg-gradient-to-r from-white to-muted/50 shadow-lg">
                     <CardHeader className="pb-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-muted/50 rounded-lg border flex items-center justify-center">
-                                    <FileText className="w-5 h-5 text-foreground" />
+                                <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-muted/50">
+                                    <FileText className="h-5 w-5 text-foreground" />
                                 </div>
                                 <div>
                                     <CardTitle className="text-xl">{t('Trial Balance')}</CardTitle>
@@ -99,15 +99,21 @@ export default function Index() {
                                     />
                                 </div>
                                 <Button onClick={handleGenerate} disabled={!fromDate || !toDate} size="sm">
-                                    <Search className="h-4 w-4 mr-2" />
+                                    <Search className="mr-2 h-4 w-4" />
                                     {t('Generate')}
                                 </Button>
                                 {auth.user?.permissions?.includes('print-trial-balance') && (
-                                    <Button variant="outline" size="sm" onClick={() => {
-                                        const printUrl = route('double-entry.trial-balance.print') + `?from_date=${fromDate}&to_date=${toDate}&download=pdf`;
-                                        window.open(printUrl, '_blank');
-                                    }}>
-                                        <Printer className="h-4 w-4 mr-2" />
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            const printUrl =
+                                                route('double-entry.trial-balance.print') +
+                                                `?from_date=${fromDate}&to_date=${toDate}&download=pdf`;
+                                            window.open(printUrl, '_blank');
+                                        }}
+                                    >
+                                        <Printer className="mr-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}
@@ -116,24 +122,24 @@ export default function Index() {
                     </CardHeader>
 
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="text-center p-6 bg-gradient-to-br from-muted/50 to-muted rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
-                                <h4 className="font-semibold text-foreground mb-2">{t('Total Debit')}</h4>
-                                <p className="text-3xl font-bold text-foreground tabular-nums">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="rounded-xl border border-border bg-gradient-to-br from-muted/50 to-muted p-6 text-center shadow-sm transition-shadow hover:shadow-md">
+                                <h4 className="mb-2 font-semibold text-foreground">{t('Total Debit')}</h4>
+                                <p className="text-3xl font-bold tabular-nums text-foreground">
                                     {formatCurrency(trialBalance.total_debit)}
                                 </p>
                             </div>
-                            <div className="text-center p-6 bg-gradient-to-br from-muted/50 to-muted rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
-                                <h4 className="font-semibold text-foreground mb-2">{t('Total Credit')}</h4>
-                                <p className="text-3xl font-bold text-foreground tabular-nums">
+                            <div className="rounded-xl border border-border bg-gradient-to-br from-muted/50 to-muted p-6 text-center shadow-sm transition-shadow hover:shadow-md">
+                                <h4 className="mb-2 font-semibold text-foreground">{t('Total Credit')}</h4>
+                                <p className="text-3xl font-bold tabular-nums text-foreground">
                                     {formatCurrency(trialBalance.total_credit)}
                                 </p>
                             </div>
                         </div>
 
                         {!trialBalance.is_balanced && (
-                            <div className="mt-4 p-4 bg-muted/50 border border-border rounded-lg">
-                                <p className="text-destructive font-medium">
+                            <div className="mt-4 rounded-lg border border-border bg-muted/50 p-4">
+                                <p className="font-medium text-destructive">
                                     ⚠️ {t('Warning: Trial balance is not balanced!')}
                                 </p>
                             </div>
@@ -141,19 +147,22 @@ export default function Index() {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-lg border-0">
+                <Card className="border-0 shadow-lg">
                     <CardContent className="p-8">
                         {trialBalance.accounts && trialBalance.accounts.length > 0 ? (
                             <>
                                 <div className="space-y-1">
-                                    <div className="grid grid-cols-12 gap-4 py-2 border-b-2 border-border font-bold">
+                                    <div className="grid grid-cols-12 gap-4 border-b-2 border-border py-2 font-bold">
                                         <div className="col-span-2">{t('Account Code')}</div>
                                         <div className="col-span-6">{t('Account Name')}</div>
                                         <div className="col-span-2 text-right">{t('Debit')}</div>
                                         <div className="col-span-2 text-right">{t('Credit')}</div>
                                     </div>
                                     {trialBalance.accounts?.map((account) => (
-                                        <div key={account.id} className="grid grid-cols-12 gap-4 py-1.5 border-b border-border">
+                                        <div
+                                            key={account.id}
+                                            className="grid grid-cols-12 gap-4 border-b border-border py-1.5"
+                                        >
                                             <div className="col-span-2 text-sm">
                                                 <span className="text-foreground">{account.account_code}</span>
                                             </div>
@@ -168,10 +177,14 @@ export default function Index() {
                                     ))}
                                 </div>
 
-                                <div className="grid grid-cols-12 gap-4 pt-3 mt-3 border-t-2 border-border font-bold">
+                                <div className="mt-3 grid grid-cols-12 gap-4 border-t-2 border-border pt-3 font-bold">
                                     <div className="col-span-8">{t('TOTAL')}</div>
-                                    <div className="col-span-2 text-right tabular-nums">{formatCurrency(trialBalance.total_debit)}</div>
-                                    <div className="col-span-2 text-right tabular-nums">{formatCurrency(trialBalance.total_credit)}</div>
+                                    <div className="col-span-2 text-right tabular-nums">
+                                        {formatCurrency(trialBalance.total_debit)}
+                                    </div>
+                                    <div className="col-span-2 text-right tabular-nums">
+                                        {formatCurrency(trialBalance.total_credit)}
+                                    </div>
                                 </div>
                             </>
                         ) : (

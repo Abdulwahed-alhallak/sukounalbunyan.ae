@@ -24,7 +24,7 @@ export default function Modules({ data, getSectionData, updateSectionData, updat
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <Monitor className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -73,20 +73,52 @@ export default function Modules({ data, getSectionData, updateSectionData, updat
                         <Textarea
                             value={getSectionData('modules').subtitle || ''}
                             onChange={(e) => updateSectionData('modules', { subtitle: e.target.value })}
-                            placeholder={t('Discover our comprehensive modules designed to streamline every aspect of your business operations')}
+                            placeholder={t(
+                                'Discover our comprehensive modules designed to streamline every aspect of your business operations'
+                            )}
                             rows={3}
                         />
                     </div>
-                    
+
                     <div className="space-y-4">
                         <Label>{t('Modules List')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'key', label: t('Module Key'), type: 'text', placeholder: t('sales'), required: true },
-                                { name: 'label', label: t('Module Label'), type: 'text', placeholder: t('Sales & Accounting'), required: true },
-                                { name: 'title', label: t('Module Title'), type: 'text', placeholder: t('Account Helps You Simplify Your Accounting and Billing'), required: true },
-                                { name: 'description', label: t('Module Description'), type: 'textarea', placeholder: t('Module description'), required: true },
-                                { name: 'image', label: t('Module Image'), type: 'image', placeholder: t('Select module image...'), required: true }
+                                {
+                                    name: 'key',
+                                    label: t('Module Key'),
+                                    type: 'text',
+                                    placeholder: t('sales'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'label',
+                                    label: t('Module Label'),
+                                    type: 'text',
+                                    placeholder: t('Sales & Accounting'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'title',
+                                    label: t('Module Title'),
+                                    type: 'text',
+                                    placeholder: t('Account Helps You Simplify Your Accounting and Billing'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'description',
+                                    label: t('Module Description'),
+                                    type: 'textarea',
+                                    placeholder: t('Module description'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'image',
+                                    label: t('Module Image'),
+                                    type: 'image',
+                                    placeholder: t('Select module image...'),
+                                    required: true,
+                                },
                             ]}
                             value={(getSectionData('modules').modules || [])?.map((module: any, index: number) => ({
                                 id: `module-${index}`,
@@ -94,7 +126,7 @@ export default function Modules({ data, getSectionData, updateSectionData, updat
                                 label: module.label || '',
                                 title: module.title || '',
                                 description: module.description || '',
-                                image: module.image || ''
+                                image: module.image || '',
                             }))}
                             onChange={(items) => {
                                 const modules = items?.map(({ id, ...item }) => item);

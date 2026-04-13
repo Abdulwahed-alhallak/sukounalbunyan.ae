@@ -14,11 +14,11 @@ export const usePageButtons = (hookName: string, data?: any, admin: boolean = fa
         const { auth } = usePage().props as any;
         // const activatedPackages = auth?.user?.activatedPackages || [];
 
-        const activatedPackages = admin
-            ? adminPackages()
-            : auth?.user?.activatedPackages || [];
+        const activatedPackages = admin ? adminPackages() : auth?.user?.activatedPackages || [];
 
-        const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/buttons/buttons.tsx', { eager: true });
+        const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/buttons/buttons.tsx', {
+            eager: true,
+        });
 
         const buttons: PageButton[] = [];
 

@@ -14,13 +14,13 @@ interface CreateProps {
 export default function Create({ onSuccess }: CreateProps) {
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
-        title: ''
+        title: '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('knowledge-category.store'), {
-            onSuccess: () => onSuccess()
+            onSuccess: () => onSuccess(),
         });
     };
 

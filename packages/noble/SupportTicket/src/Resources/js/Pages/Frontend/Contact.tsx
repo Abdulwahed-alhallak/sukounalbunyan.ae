@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
 import SupportTicketLayout from './Layouts/SupportTicketLayout';
 import { useTranslation } from 'react-i18next';
-import { 
+import {
     MessageCircle,
     Mail,
     Phone,
@@ -21,7 +21,7 @@ import {
     Twitter,
     Linkedin,
     Instagram,
-    Youtube
+    Youtube,
 } from 'lucide-react';
 
 interface ContactProps {
@@ -63,14 +63,16 @@ interface ContactProps {
 }
 
 export default function Contact({ settings, brandSettings, titleSections, contactInformation, slug }: ContactProps) {
-     const { t } = useTranslation();
+    const { t } = useTranslation();
     const { flash } = usePage().props as any;
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
-    
+
     const pageTitle = titleSections?.contact?.title || 'Contact Support';
-    const pageDescription = titleSections?.contact?.description || 'Get in touch with our friendly support team. We\'re here to help you with any questions or issues you may have.';
-    
+    const pageDescription =
+        titleSections?.contact?.description ||
+        "Get in touch with our friendly support team. We're here to help you with any questions or issues you may have.";
+
     const { data, setData, post, processing, errors, reset } = useForm({
         firstName: '',
         lastName: '',
@@ -78,7 +80,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
         subject: '',
         message: '',
         priority: 'medium',
-        attachments: []
+        attachments: [],
     });
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,24 +98,24 @@ export default function Contact({ settings, brandSettings, titleSections, contac
     const faqData = [
         {
             icon: Clock,
-            question: "How quickly will I get a response?",
-            answer: "We strive to respond to all inquiries within 24 hours. For urgent matters, please use the live chat or phone support options for immediate assistance. Premium support customers receive priority response times."
+            question: 'How quickly will I get a response?',
+            answer: 'We strive to respond to all inquiries within 24 hours. For urgent matters, please use the live chat or phone support options for immediate assistance. Premium support customers receive priority response times.',
         },
         {
             icon: MessageCircle,
-            question: "What information should I include in my message?",
-            answer: "To help us resolve your issue faster, please include your account details, specific error messages, steps to reproduce the issue, and any relevant screenshots or files. The more details you provide, the quicker we can help you."
+            question: 'What information should I include in my message?',
+            answer: 'To help us resolve your issue faster, please include your account details, specific error messages, steps to reproduce the issue, and any relevant screenshots or files. The more details you provide, the quicker we can help you.',
         },
         {
             icon: MapPin,
-            question: "Do you offer phone support in other languages?",
-            answer: "Yes, we offer multilingual support in English, Spanish, French, German, Japanese, and Chinese during regular business hours. Please specify your language preference when initiating contact with our support team."
+            question: 'Do you offer phone support in other languages?',
+            answer: 'Yes, we offer multilingual support in English, Spanish, French, German, Japanese, and Chinese during regular business hours. Please specify your language preference when initiating contact with our support team.',
         },
         {
             icon: Phone,
             question: "What's the difference between standard and premium support?",
-            answer: "Premium support includes 24/7 priority assistance, dedicated support agents, faster response times, and direct phone access to senior support engineers. Standard support is available during business hours with standard response times."
-        }
+            answer: 'Premium support includes 24/7 priority assistance, dedicated support agents, faster response times, and direct phone access to senior support engineers. Standard support is available during business hours with standard response times.',
+        },
     ];
 
     useEffect(() => {
@@ -124,41 +126,47 @@ export default function Contact({ settings, brandSettings, titleSections, contac
         if (flash?.error) {
             toast.error(flash.error);
         }
-        
     }, [flash, contactInformation]);
 
     return (
         <SupportTicketLayout title={pageTitle} settings={settings} brandSettings={brandSettings}>
             {/* Page Title */}
-            <div className="text-center lg:mb-8 mb-6">
-                <h2 className="lg:text-3xl md:text-2xl text-xl font-bold text-foreground">{pageTitle}</h2>
-                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{pageDescription}</p>
+            <div className="mb-6 text-center lg:mb-8">
+                <h2 className="text-xl font-bold text-foreground md:text-2xl lg:text-3xl">{pageTitle}</h2>
+                <p className="mx-auto mt-2 max-w-2xl text-muted-foreground">{pageDescription}</p>
             </div>
 
             {/* Contact Form Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:mb-12 mb-10">
+            <div className="mb-10 grid grid-cols-1 gap-8 md:mb-12 lg:grid-cols-2">
                 {/* Left Side: Form */}
                 <Card className="shadow-lg">
                     <CardContent className="p-4 md:p-8">
-                        <h2 className="lg:text-3xl md:text-2xl text-xl font-bold mb-3 md:mb-4">{t('Send Us a Message')}</h2>
-                        
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            post(route('support-ticket.contact.store',[slug]), {
-                                onSuccess: () => {
-                                    reset();
-                                    setSelectedFiles([]);
-                                    toast.success('The contact has been added successfully.');
-                                },
-                                onError: (errors) => {
-                                    console.error('Contact form errors:', errors);
-                                    const errorMessage = Object.values(errors).flat().join(', ') || 'Failed to send message. Please try again.';
-                                    toast.error(errorMessage);
-                                }
-                            });
-                        }} className="space-y-5">
+                        <h2 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl lg:text-3xl">
+                            {t('Send Us a Message')}
+                        </h2>
+
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                post(route('support-ticket.contact.store', [slug]), {
+                                    onSuccess: () => {
+                                        reset();
+                                        setSelectedFiles([]);
+                                        toast.success('The contact has been added successfully.');
+                                    },
+                                    onError: (errors) => {
+                                        console.error('Contact form errors:', errors);
+                                        const errorMessage =
+                                            Object.values(errors).flat().join(', ') ||
+                                            'Failed to send message. Please try again.';
+                                        toast.error(errorMessage);
+                                    },
+                                });
+                            }}
+                            className="space-y-5"
+                        >
                             {/* Name Fields */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="firstName">{t('First Name')}</Label>
                                     <Input
@@ -168,7 +176,9 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                         placeholder="John"
                                         required
                                     />
-                                    {errors.firstName && <p className="text-destructive text-sm mt-1">{errors.firstName}</p>}
+                                    {errors.firstName && (
+                                        <p className="mt-1 text-sm text-destructive">{errors.firstName}</p>
+                                    )}
                                 </div>
                                 <div>
                                     <Label htmlFor="lastName">{t('Last Name')}</Label>
@@ -179,7 +189,9 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                         placeholder="Doe"
                                         required
                                     />
-                                    {errors.lastName && <p className="text-destructive text-sm mt-1">{errors.lastName}</p>}
+                                    {errors.lastName && (
+                                        <p className="mt-1 text-sm text-destructive">{errors.lastName}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -194,7 +206,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                     placeholder="john.doe@example.com"
                                     required
                                 />
-                                {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
+                                {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email}</p>}
                             </div>
 
                             {/* Subject */}
@@ -207,7 +219,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                     placeholder="How can we help you?"
                                     required
                                 />
-                                {errors.subject && <p className="text-destructive text-sm mt-1">{errors.subject}</p>}
+                                {errors.subject && <p className="mt-1 text-sm text-destructive">{errors.subject}</p>}
                             </div>
 
                             {/* Message */}
@@ -222,13 +234,16 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                     className="resize-none"
                                     required
                                 />
-                                {errors.message && <p className="text-destructive text-sm mt-1">{errors.message}</p>}
+                                {errors.message && <p className="mt-1 text-sm text-destructive">{errors.message}</p>}
                             </div>
 
-
                             {/* Submit Button */}
-                            <Button type="submit" disabled={processing} className="w-full bg-foreground hover:bg-foreground">
-                                <Send className="h-4 w-4 mr-2" />
+                            <Button
+                                type="submit"
+                                disabled={processing}
+                                className="w-full bg-foreground hover:bg-foreground"
+                            >
+                                <Send className="mr-2 h-4 w-4" />
                                 {processing ? 'Sending...' : 'Send Message'}
                             </Button>
                         </form>
@@ -238,8 +253,8 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                 {/* Right Side: Office Info */}
                 <div className="space-y-6">
                     {/* Company Location */}
-                    <Card className="shadow-lg overflow-hidden">
-                        <div className="h-64 bg-muted relative">
+                    <Card className="overflow-hidden shadow-lg">
+                        <div className="relative h-64 bg-muted">
                             {contactInformation?.map_embed_url && contactInformation.map_embed_url.trim() !== '' ? (
                                 <iframe
                                     src={(() => {
@@ -251,7 +266,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                         }
                                         return mapUrl;
                                     })()}
-                                    className="w-full h-full border-0"
+                                    className="h-full w-full border-0"
                                     allowFullScreen
                                     loading="lazy"
                                     title="Office Location Map"
@@ -259,7 +274,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                             ) : (
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.305935303!2d-74.25986548248684!3d40.697149422055104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1652814677887!5m2!1sen!2s"
-                                    className="w-full h-full border-0"
+                                    className="h-full w-full border-0"
                                     allowFullScreen
                                     loading="lazy"
                                     title="Default Office Location Map"
@@ -268,52 +283,87 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                             )}
                         </div>
                         <CardContent className="p-4 md:p-6">
-                            <h3 className="text-xl font-semibold text-foreground mb-4">{t('Our Headquarters')}</h3>
+                            <h3 className="mb-4 text-xl font-semibold text-foreground">{t('Our Headquarters')}</h3>
                             <div className="space-y-3">
                                 <div className="flex items-start">
-                                    <MapPin className="text-foreground mt-1 mr-3 h-4 w-4 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{contactInformation?.address || '350 Fifth Avenue, New York, NY 10118'}</span>
+                                    <MapPin className="mr-3 mt-1 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <span className="text-muted-foreground">
+                                        {contactInformation?.address || '350 Fifth Avenue, New York, NY 10118'}
+                                    </span>
                                 </div>
                                 <div className="flex items-center">
-                                    <Phone className="text-foreground mr-3 h-4 w-4 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{contactInformation?.phone || '+1 (212) 736-3100'}</span>
+                                    <Phone className="mr-3 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <span className="text-muted-foreground">
+                                        {contactInformation?.phone || '+1 (212) 736-3100'}
+                                    </span>
                                 </div>
                                 <div className="flex items-center">
-                                    <Mail className="text-foreground mr-3 h-4 w-4 flex-shrink-0" />
-                                    <span className="text-muted-foreground">{contactInformation?.email || 'info@dashsupport.com'}</span>
+                                    <Mail className="mr-3 h-4 w-4 flex-shrink-0 text-foreground" />
+                                    <span className="text-muted-foreground">
+                                        {contactInformation?.email || 'info@dashsupport.com'}
+                                    </span>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
                     {/* Social Media Links */}
-                    {(contactInformation?.social_media?.facebook || contactInformation?.social_media?.twitter || contactInformation?.social_media?.linkedin || contactInformation?.social_media?.instagram || contactInformation?.social_media?.youtube) && (
+                    {(contactInformation?.social_media?.facebook ||
+                        contactInformation?.social_media?.twitter ||
+                        contactInformation?.social_media?.linkedin ||
+                        contactInformation?.social_media?.instagram ||
+                        contactInformation?.social_media?.youtube) && (
                         <Card className="shadow-lg">
                             <CardContent className="p-4 md:p-6">
-                                <h3 className="text-xl font-semibold text-foreground mb-4">Follow Us</h3>
+                                <h3 className="mb-4 text-xl font-semibold text-foreground">Follow Us</h3>
                                 <div className="flex space-x-4">
                                     {contactInformation?.social_media?.facebook && (
-                                        <a href={contactInformation.social_media.facebook} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-foreground transition-colors">
+                                        <a
+                                            href={contactInformation.social_media.facebook}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-foreground transition-colors hover:text-foreground"
+                                        >
                                             <Facebook className="h-6 w-6" />
                                         </a>
                                     )}
                                     {contactInformation?.social_media?.twitter && (
-                                        <a href={contactInformation.social_media.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                                        <a
+                                            href={contactInformation.social_media.twitter}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-muted-foreground transition-colors hover:text-foreground"
+                                        >
                                             <Twitter className="h-6 w-6" />
                                         </a>
                                     )}
                                     {contactInformation?.social_media?.linkedin && (
-                                        <a href={contactInformation.social_media.linkedin} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-foreground transition-colors">
+                                        <a
+                                            href={contactInformation.social_media.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-foreground transition-colors hover:text-foreground"
+                                        >
                                             <Linkedin className="h-6 w-6" />
                                         </a>
                                     )}
                                     {contactInformation?.social_media?.instagram && (
-                                        <a href={contactInformation.social_media.instagram} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-foreground transition-colors">
+                                        <a
+                                            href={contactInformation.social_media.instagram}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-foreground transition-colors hover:text-foreground"
+                                        >
                                             <Instagram className="h-6 w-6" />
                                         </a>
                                     )}
                                     {contactInformation?.social_media?.youtube && (
-                                        <a href={contactInformation.social_media.youtube} target="_blank" rel="noopener noreferrer" className="text-destructive hover:text-destructive transition-colors">
+                                        <a
+                                            href={contactInformation.social_media.youtube}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-destructive transition-colors hover:text-destructive"
+                                        >
                                             <Youtube className="h-6 w-6" />
                                         </a>
                                     )}

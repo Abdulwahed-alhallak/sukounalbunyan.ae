@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Trash2, Paperclip, Download } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ChatMessageProps } from './types';
 import { formatDateTime, getImagePath } from '@/utils/helpers';
 import { isImageFile } from '@/utils/fileHelpers';
@@ -14,33 +14,35 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
     const { t } = useTranslation();
     const [showActions, setShowActions] = useState(false);
 
-
-
     return (
-        <div className={`flex mb-4 ${isOwnMessage ? 'justify-end' : 'justify-start'}`}>
+        <div className={`mb-4 flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[70%] ${isOwnMessage ? 'order-2' : 'order-1'}`}>
                 <div
                     className={`rounded-lg p-3 ${
                         reply.is_internal
-                            ? 'bg-muted border-l-4 border-border text-foreground'
+                            ? 'border-l-4 border-border bg-muted text-foreground'
                             : isOwnMessage
-                                ? 'bg-foreground text-background'
-                                : 'bg-muted text-foreground'
+                              ? 'bg-foreground text-background'
+                              : 'bg-muted text-foreground'
                     }`}
                     onMouseEnter={() => setShowActions(true)}
                     onMouseLeave={() => setShowActions(false)}
                 >
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="mb-1 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <span className={`text-sm font-medium ${
-                                reply.is_internal
-                                    ? 'text-foreground'
-                                    : isOwnMessage ? 'text-foreground' : 'text-muted-foreground'
-                            }`}>
+                            <span
+                                className={`text-sm font-medium ${
+                                    reply.is_internal
+                                        ? 'text-foreground'
+                                        : isOwnMessage
+                                          ? 'text-foreground'
+                                          : 'text-muted-foreground'
+                                }`}
+                            >
                                 {reply.creator?.name}
                             </span>
                             {reply.is_internal && (
-                                <span className="text-xs bg-muted text-foreground px-2 py-0.5 rounded-full font-medium">
+                                <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
                                     {t('Internal Note')}
                                 </span>
                             )}
@@ -55,10 +57,10 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                                             onClick={() => onDelete(reply.id)}
                                             className={`h-6 w-6 p-0 ${
                                                 reply.is_internal
-                                                    ? 'text-foreground hover:text-destructive hover:bg-muted'
+                                                    ? 'text-foreground hover:bg-muted hover:text-destructive'
                                                     : isOwnMessage
-                                                        ? 'text-foreground hover:text-background hover:bg-accent'
-                                                        : 'text-muted-foreground hover:text-destructive hover:bg-muted'
+                                                      ? 'text-foreground hover:bg-accent hover:text-background'
+                                                      : 'text-muted-foreground hover:bg-muted hover:text-destructive'
                                             }`}
                                         >
                                             <Trash2 className="h-3 w-3" />
@@ -72,10 +74,7 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                         )}
                     </div>
 
-                    <div
-                        className="text-sm whitespace-pre-wrap"
-                        dangerouslySetInnerHTML={{ __html: reply.message }}
-                    />
+                    <div className="whitespace-pre-wrap text-sm" dangerouslySetInnerHTML={{ __html: reply.message }} />
 
                     {(() => {
                         let attachments = [];
@@ -93,18 +92,20 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                                 {attachments.map((attachment: string, index: number) => {
                                     const isImage = isImageFile(attachment);
                                     return (
-                                        <div key={index} className={`flex items-center gap-2 p-2 rounded ${
-                                            isOwnMessage ? 'bg-foreground/20' : 'bg-muted'
-                                        }`}>
+                                        <div
+                                            key={index}
+                                            className={`flex items-center gap-2 rounded p-2 ${
+                                                isOwnMessage ? 'bg-foreground/20' : 'bg-muted'
+                                            }`}
+                                        >
                                             {isImage ? (
                                                 <img
                                                     src={getImagePath(attachment)}
                                                     alt="Preview"
-                                                    className="w-16 h-16 object-cover rounded"
-
+                                                    className="h-16 w-16 rounded object-cover"
                                                 />
                                             ) : (
-                                                <div className="flex items-center gap-2 flex-1">
+                                                <div className="flex flex-1 items-center gap-2">
                                                     <Paperclip className="h-4 w-4" />
                                                     <span className="text-sm">{attachment}</span>
                                                 </div>
@@ -114,7 +115,9 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                                                 size="sm"
                                                 onClick={() => {
                                                     const link = document.createElement('a');
-                                                    link.href = isImage ? getImagePath(attachment) : `${imageUrlPrefix}/${attachment}`;
+                                                    link.href = isImage
+                                                        ? getImagePath(attachment)
+                                                        : `${imageUrlPrefix}/${attachment}`;
                                                     link.download = attachment.split('/').pop() || 'file';
                                                     document.body.appendChild(link);
                                                     link.click();
@@ -132,9 +135,7 @@ export default function ChatMessage({ reply, isOwnMessage, onDelete, canDelete }
                     })()}
                 </div>
 
-                <div className={`text-xs text-muted-foreground mt-1 ${
-                    isOwnMessage ? 'text-right' : 'text-left'
-                }`}>
+                <div className={`mt-1 text-xs text-muted-foreground ${isOwnMessage ? 'text-right' : 'text-left'}`}>
                     {formatDateTime(reply.created_at)}
                 </div>
             </div>

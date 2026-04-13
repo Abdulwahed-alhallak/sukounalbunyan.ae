@@ -1,9 +1,22 @@
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import {  Tag, Briefcase, Users, MessageSquare, Settings, Building, Lightbulb, ArrowRight, HelpCircle, FileQuestion, FileText , CheckSquare } from "lucide-react";
+import {
+    Tag,
+    Briefcase,
+    Users,
+    MessageSquare,
+    Settings,
+    Building,
+    Lightbulb,
+    ArrowRight,
+    HelpCircle,
+    FileQuestion,
+    FileText,
+    CheckSquare,
+} from 'lucide-react';
 
 interface SidebarItem {
     key: string;
@@ -29,102 +42,100 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
             label: t('Job Categories'),
             icon: Tag,
             route: 'recruitment.job-categories.index',
-            permission: 'manage-job-categories'
+            permission: 'manage-job-categories',
         },
         {
             key: 'job-types',
             label: t('Job Types'),
             icon: Briefcase,
             route: 'recruitment.job-types.index',
-            permission: 'manage-job-types'
+            permission: 'manage-job-types',
         },
         {
             key: 'candidate-sources',
             label: t('Candidate Sources'),
             icon: Users,
             route: 'recruitment.candidate-sources.index',
-            permission: 'manage-candidate-sources'
+            permission: 'manage-candidate-sources',
         },
         {
             key: 'interview-types',
             label: t('Interview Types'),
             icon: MessageSquare,
             route: 'recruitment.interview-types.index',
-            permission: 'manage-interview-types'
+            permission: 'manage-interview-types',
         },
         {
             key: 'onboarding-checklists',
             label: t('Onboarding Checklists'),
             icon: CheckSquare,
             route: 'recruitment.onboarding-checklists.index',
-            permission: 'manage-onboarding-checklists'
+            permission: 'manage-onboarding-checklists',
         },
         {
             key: 'brand-settings',
             label: t('Brand Settings'),
             icon: Settings,
             route: 'recruitment.settings.index',
-            permission: 'manage-recruitment-brand-settings'
+            permission: 'manage-recruitment-brand-settings',
         },
         {
             key: 'about-company',
             label: t('About Company Section'),
             icon: Building,
             route: 'recruitment.about-company.index',
-            permission: 'manage-about-company'
+            permission: 'manage-about-company',
         },
         {
             key: 'application-tips',
             label: t('Application Tips Section'),
             icon: Lightbulb,
             route: 'recruitment.application-tips.index',
-            permission: 'manage-application-tips'
+            permission: 'manage-application-tips',
         },
         {
             key: 'what-happens-next',
             label: t('What Happens Next Section'),
             icon: ArrowRight,
             route: 'recruitment.what-happens-next.index',
-            permission: 'manage-what-happens-next'
+            permission: 'manage-what-happens-next',
         },
         {
             key: 'need-help',
             label: t('Need Help Section'),
             icon: HelpCircle,
             route: 'recruitment.need-help.index',
-            permission: 'manage-need-help'
+            permission: 'manage-need-help',
         },
         {
             key: 'tracking-faq',
             label: t('Tracking FAQ'),
             icon: FileQuestion,
             route: 'recruitment.tracking-faq.index',
-            permission: 'manage-tracking-faq'
+            permission: 'manage-tracking-faq',
         },
         {
             key: 'offer-letter-template',
             label: t('Offer Letter Template'),
             icon: FileText,
             route: 'recruitment.offer-letter-template.index',
-            permission: 'manage-offer-letter-template'
+            permission: 'manage-offer-letter-template',
         },
         {
             key: 'dashboard-welcome-card',
             label: t('Dashboard Welcome Card'),
             icon: Settings,
             route: 'recruitment.dashboard-welcome-card.index',
-            permission: 'manage-recruitment-dashboard-welcome-card'
+            permission: 'manage-recruitment-dashboard-welcome-card',
         },
     ];
 
-    const filteredItems = sidebarItems.filter(item =>
-        auth.user?.permissions?.includes(item.permission)
-    );
+    const filteredItems = sidebarItems.filter((item) => auth.user?.permissions?.includes(item.permission));
 
     return (
         <div className="sticky top-4">
             <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="pr-4 space-y-1">
+                <div className="space-y-1 pr-4">
                     {filteredItems?.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeItem === item.key || currentRoute === item.route;
@@ -141,7 +152,7 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
                                     onSectionChange?.(item.key);
                                 }}
                             >
-                                <Icon className="h-4 w-4 mr-2" />
+                                <Icon className="mr-2 h-4 w-4" />
                                 {item.label}
                             </Button>
                         );

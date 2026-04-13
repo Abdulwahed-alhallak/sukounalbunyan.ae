@@ -1,14 +1,14 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DatePicker } from "@/components/ui/date-picker";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { DatePicker } from '@/components/ui/date-picker';
+import InputError from '@/components/ui/input-error';
 import { useState, useEffect } from 'react';
 import { useFormFields } from '@/hooks/useFormFields';
 
@@ -34,7 +34,7 @@ interface CreateTimesheetProps {
 export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }: CreateTimesheetProps) {
     const { t } = useTranslation();
     const { auth } = usePage<any>().props;
-    
+
     const { data, setData, post, processing, errors } = useForm<CreateTimesheetFormData>({
         user_id: auth.user?.id?.toString() || '',
         project_id: '',
@@ -57,18 +57,18 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
 
     const fetchAttendanceHours = async (userId: string, date: string) => {
         if (!userId || !date) return;
-        
+
         try {
             const response = await fetch(`${route('timesheet.attendance-hours')}?user_id=${userId}&date=${date}`);
             const attendanceData = await response.json();
-            
+
             if (attendanceData && !attendanceData.error) {
                 setAttendanceInfo(attendanceData);
                 setRemainingHours({
                     hours: attendanceData.remaining_hours || 0,
-                    minutes: attendanceData.remaining_minutes || 0
+                    minutes: attendanceData.remaining_minutes || 0,
                 });
-                
+
                 // Auto-fill with remaining hours for clock_in_out type only
                 if (data.type === 'clock_in_out') {
                     setData('hours', attendanceData.remaining_hours || 0);
@@ -100,11 +100,9 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
         post(route('timesheet.store'), {
             onSuccess: () => {
                 onSuccess?.();
-            }
+            },
         });
     };
-
-
 
     return (
         <DialogContent className="max-w-lg">
@@ -114,7 +112,11 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
             <form onSubmit={submit} className="space-y-4">
                 <div>
                     <Label>{t('Type')}</Label>
-                    <RadioGroup value={data.type} onValueChange={(value: any) => setData('type', value)} className="flex gap-6 mt-2">
+                    <RadioGroup
+                        value={data.type}
+                        onValueChange={(value: any) => setData('type', value)}
+                        className="mt-2 flex gap-6"
+                    >
                         {hasHRM && (
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="clock_in_out" id="clock_in_out" />
@@ -135,31 +137,31 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
                     <InputError message={errors.type} />
                 </div>
 
-                {(auth.user?.permissions?.includes('manage-any-users') || auth.user?.permissions?.includes('manage-own-users')) && users?.length > 0 && (
-                    <div>
-                        <Label htmlFor="user_id">{t('User')}</Label>
-                        <Select value={data.user_id} onValueChange={(value) => setData('user_id', value)}>
-                            <SelectTrigger>
-                                <SelectValue placeholder={t('Select user')} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {users?.map((user) => (
-                                    <SelectItem key={user.id} value={user.id.toString()}>
-                                        {user.name}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <InputError message={errors.user_id} />
-                    </div>
-                )}
+                {(auth.user?.permissions?.includes('manage-any-users') ||
+                    auth.user?.permissions?.includes('manage-own-users')) &&
+                    users?.length > 0 && (
+                        <div>
+                            <Label htmlFor="user_id">{t('User')}</Label>
+                            <Select value={data.user_id} onValueChange={(value) => setData('user_id', value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder={t('Select user')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {users?.map((user) => (
+                                        <SelectItem key={user.id} value={user.id.toString()}>
+                                            {user.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={errors.user_id} />
+                        </div>
+                    )}
 
                 {data.type === 'project' && hasTaskly && (
                     <>
                         {formFields?.map((field) => (
-                            <div key={field.id}>
-                                {field.component}
-                            </div>
+                            <div key={field.id}>{field.component}</div>
                         ))}
                     </>
                 )}
@@ -175,19 +177,25 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
                 </div>
 
                 {attendanceInfo && data.type === 'clock_in_out' && (
-                    <div className="p-3 bg-muted/50 rounded-lg text-sm">
+                    <div className="rounded-lg bg-muted/50 p-3 text-sm">
                         <div className="grid grid-cols-3 gap-4 text-center">
                             <div>
                                 <div className="font-medium text-foreground">{t('Total Hours')}</div>
-                                <div className="text-foreground">{attendanceInfo.total_hours}h {attendanceInfo.total_minutes}m</div>
+                                <div className="text-foreground">
+                                    {attendanceInfo.total_hours}h {attendanceInfo.total_minutes}m
+                                </div>
                             </div>
                             <div>
                                 <div className="font-medium text-foreground">{t('Used Hours')}</div>
-                                <div className="text-foreground">{attendanceInfo.used_hours}h {attendanceInfo.used_minutes}m</div>
+                                <div className="text-foreground">
+                                    {attendanceInfo.used_hours}h {attendanceInfo.used_minutes}m
+                                </div>
                             </div>
                             <div>
                                 <div className="font-medium text-foreground">{t('Remaining Hours')}</div>
-                                <div className="text-foreground">{attendanceInfo.remaining_hours}h {attendanceInfo.remaining_minutes}m</div>
+                                <div className="text-foreground">
+                                    {attendanceInfo.remaining_hours}h {attendanceInfo.remaining_minutes}m
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -209,27 +217,36 @@ export default function Create({ users, projects, hasHRM, hasTaskly, onSuccess }
                     </div>
                     <div>
                         <Label htmlFor="minutes">{t('Minutes')}</Label>
-                        <Select value={data.minutes.toString()} onValueChange={(value) => setData('minutes', parseInt(value))}>
+                        <Select
+                            value={data.minutes.toString()}
+                            onValueChange={(value) => setData('minutes', parseInt(value))}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select minutes')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {(() => {
                                     const allMinutes = Array.from({ length: 60 }, (_, i) => i + 1);
-                                    
+
                                     if (data.type === 'clock_in_out' && remainingHours) {
-                                        const totalRemainingMinutes = (remainingHours.hours * 60) + remainingHours.minutes;
+                                        const totalRemainingMinutes =
+                                            remainingHours.hours * 60 + remainingHours.minutes;
                                         const selectedHours = data.hours || 0;
-                                        const availableMinutesForHour = Math.max(0, totalRemainingMinutes - (selectedHours * 60));
-                                        
-                                        return allMinutes.filter(minute => minute <= availableMinutesForHour)?.map(minute => (
-                                            <SelectItem key={minute} value={minute.toString()}>
-                                                {minute}
-                                            </SelectItem>
-                                        ));
+                                        const availableMinutesForHour = Math.max(
+                                            0,
+                                            totalRemainingMinutes - selectedHours * 60
+                                        );
+
+                                        return allMinutes
+                                            .filter((minute) => minute <= availableMinutesForHour)
+                                            ?.map((minute) => (
+                                                <SelectItem key={minute} value={minute.toString()}>
+                                                    {minute}
+                                                </SelectItem>
+                                            ));
                                     }
-                                    
-                                    return allMinutes?.map(minute => (
+
+                                    return allMinutes?.map((minute) => (
                                         <SelectItem key={minute} value={minute.toString()}>
                                             {minute}
                                         </SelectItem>

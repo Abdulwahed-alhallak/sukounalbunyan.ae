@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, DollarSign } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, DollarSign } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import NoRecordsFound from '@/components/no-records-found';
@@ -22,8 +22,8 @@ import Edit from './Edit';
 
 interface BudgetAllocation {
     id: number;
-    budget?: { budget_name: string; };
-    account?: { account_name: string; };
+    budget?: { budget_name: string };
+    account?: { account_name: string };
     allocated_amount: number;
     spent_amount: number;
     remaining_amount: number;
@@ -47,30 +47,37 @@ export default function Index() {
     const [modalState, setModalState] = useState({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'budget-planner.budget-allocations.destroy',
-        defaultMessage: t('Are you sure you want to delete this budget allocation?')
+        defaultMessage: t('Are you sure you want to delete this budget allocation?'),
     });
 
     const handleFilter = () => {
-        router.get(route('budget-planner.budget-allocations.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('budget-planner.budget-allocations.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('budget-planner.budget-allocations.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('budget-planner.budget-allocations.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -79,7 +86,7 @@ export default function Index() {
             budget_id: '',
             account_id: '',
         });
-        router.get(route('budget-planner.budget-allocations.index'), {per_page: perPage});
+        router.get(route('budget-planner.budget-allocations.index'), { per_page: perPage });
     };
 
     const openModal = (mode: 'add' | 'edit', data: BudgetAllocation | null = null) => {
@@ -95,31 +102,31 @@ export default function Index() {
             key: 'budget',
             header: t('Budget'),
             sortable: false,
-            render: (value: any, row: BudgetAllocation) => row.budget?.budget_name || '-'
+            render: (value: any, row: BudgetAllocation) => row.budget?.budget_name || '-',
         },
         {
             key: 'account',
             header: t('Account'),
             sortable: false,
-            render: (value: any, row: BudgetAllocation) => row.account?.account_name || '-'
+            render: (value: any, row: BudgetAllocation) => row.account?.account_name || '-',
         },
         {
             key: 'allocated_amount',
             header: t('Allocated Amount'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'spent_amount',
             header: t('Spent Amount'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'remaining_amount',
             header: t('Remaining Amount'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'actions',
@@ -163,16 +170,13 @@ export default function Index() {
                         )}
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Budget Planner')},
-                {label: t('Budget Allocations')}
-            ]}
+            breadcrumbs={[{ label: t('Budget Planner') }, { label: t('Budget Allocations') }]}
             pageTitle={t('Manage Budget Allocations')}
             pageActions={
                 <TooltipProvider>
@@ -196,12 +200,12 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Budget Allocations...')}
                             />
@@ -209,19 +213,20 @@ export default function Index() {
                         <div className="flex items-center gap-3">
                             <PerPageSelector
                                 routeName="budget-planner.budget-allocations.index"
-                                filters={{...filters}}
+                                filters={{ ...filters }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.budget_id, filters.account_id].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.budget_id, filters.account_id].filter(
+                                        (f) => f !== '' && f !== null && f !== undefined
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -231,11 +236,14 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Budget')}</label>
-                                <Select value={filters.budget_id} onValueChange={(value) => setFilters({...filters, budget_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Budget')}</label>
+                                <Select
+                                    value={filters.budget_id}
+                                    onValueChange={(value) => setFilters({ ...filters, budget_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Budget')} />
                                     </SelectTrigger>
@@ -249,8 +257,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Account')}</label>
-                                <Select value={filters.account_id} onValueChange={(value) => setFilters({...filters, account_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Account')}</label>
+                                <Select
+                                    value={filters.account_id}
+                                    onValueChange={(value) => setFilters({ ...filters, account_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Account')} />
                                     </SelectTrigger>
@@ -264,8 +275,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -273,7 +288,7 @@ export default function Index() {
 
                 {/* Table Content */}
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={budgetAllocations?.data || []}
@@ -301,24 +316,19 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={budgetAllocations || { data: [], links: [], meta: {} }}
                         routeName="budget-planner.budget-allocations.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <Edit
-                        budgetAllocation={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <Edit budgetAllocation={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

@@ -2,17 +2,27 @@ import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Megaphone as MegaphoneIcon, Download, FileImage, Upload, Star } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Plus,
+    Edit as EditIcon,
+    Trash2,
+    Eye,
+    Megaphone as MegaphoneIcon,
+    Download,
+    FileImage,
+    Upload,
+    Star,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -41,11 +51,11 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<JobPostingModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [filteredJobTypes, setFilteredJobTypes] = useState(jobtypes || []);
@@ -58,27 +68,34 @@ export default function Index() {
         setFilteredLocations(joblocations || []);
     }, [jobtypes, joblocations]);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'recruitment.job-postings.destroy',
-        defaultMessage: t('Are you sure you want to delete this job posting?')
+        defaultMessage: t('Are you sure you want to delete this job posting?'),
     });
 
     const handleFilter = () => {
-        router.get(route('recruitment.job-postings.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.job-postings.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('recruitment.job-postings.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.job-postings.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -90,7 +107,7 @@ export default function Index() {
             branch_id: 'all',
             status: 'all',
         });
-        router.get(route('recruitment.job-postings.index'), {per_page: perPage, view: viewMode});
+        router.get(route('recruitment.job-postings.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: JobPosting | null = null) => {
@@ -108,10 +125,15 @@ export default function Index() {
             sortable: true,
             render: (value: string, jobposting: JobPosting) =>
                 auth.user?.permissions?.includes('view-job-postings') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('recruitment.job-postings.show', jobposting.id))}>{value}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => router.get(route('recruitment.job-postings.show', jobposting.id))}
+                    >
+                        {value}
+                    </span>
                 ) : (
                     value
-                )
+                ),
         },
         {
             key: 'title',
@@ -122,25 +144,25 @@ export default function Index() {
                     <span>{value}</span>
                     {row.is_featured && <Star className="h-4 w-4 text-muted-foreground" />}
                 </div>
-            )
+            ),
         },
         {
             key: 'jobType.name',
             header: t('Type'),
             sortable: false,
-            render: (value: any, row: any) => row.jobType?.name || row.job_type?.name || row.jobtype?.name || '-'
+            render: (value: any, row: any) => row.jobType?.name || row.job_type?.name || row.jobtype?.name || '-',
         },
         {
             key: 'location.name',
             header: t('Location'),
             sortable: false,
-            render: (value: any, row: any) => row.location?.name || '-'
+            render: (value: any, row: any) => row.location?.name || '-',
         },
         {
             key: 'branch_name',
             header: t('Branch'),
             sortable: true,
-            render: (value: any, row: any) => row.branch_name || '-'
+            render: (value: any, row: any) => row.branch_name || '-',
         },
         {
             key: 'salary_range',
@@ -151,7 +173,7 @@ export default function Index() {
                     return `${formatCurrency(row.min_salary)} - ${formatCurrency(row.max_salary)}`;
                 }
                 return '-';
-            }
+            },
         },
         {
             key: 'status',
@@ -159,111 +181,133 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const statusConfig: any = {
-                    "0": { label: "Draft", class: "bg-muted text-foreground" },
-                    "1": { label: "Published", class: "bg-muted text-foreground" },
-                    "2": { label: "Closed", class: "bg-muted text-destructive" },
-                    "draft": { label: "Draft", class: "bg-muted text-foreground" },
-                    "active": { label: "Published", class: "bg-muted text-foreground" },
-                    "closed": { label: "Closed", class: "bg-muted text-destructive" }
+                    '0': { label: 'Draft', class: 'bg-muted text-foreground' },
+                    '1': { label: 'Published', class: 'bg-muted text-foreground' },
+                    '2': { label: 'Closed', class: 'bg-muted text-destructive' },
+                    draft: { label: 'Draft', class: 'bg-muted text-foreground' },
+                    active: { label: 'Published', class: 'bg-muted text-foreground' },
+                    closed: { label: 'Closed', class: 'bg-muted text-destructive' },
                 };
                 const config = statusConfig[value] || { label: value || '-', class: 'bg-muted text-foreground' };
-                return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${config.class}`}>
-                        {t(config.label)}
-                    </span>
-                );
-            }
+                return <span className={`rounded-full px-2 py-1 text-sm ${config.class}`}>{t(config.label)}</span>;
+            },
         },
         {
             key: 'application_deadline',
             header: t('Deadline'),
             sortable: true,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['publish-job-postings', 'view-job-postings', 'edit-job-postings', 'delete-job-postings'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, jobposting: JobPosting) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('publish-job-postings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => router.post(route('recruitment.job-postings.toggle-publish', jobposting.id))}
-                                        className={`h-8 w-8 p-0 ${
-                                            (jobposting.status === 'draft' || jobposting.status === '0')
-                                                ? 'text-foreground hover:text-foreground'
-                                                : 'text-foreground hover:text-foreground'
-                                        }`}
-                                    >
-                                        {(jobposting.status === 'draft' || jobposting.status === '0') ? (
-                                            <Upload className="h-4 w-4" />
-                                        ) : (
-                                            <Download className="h-4 w-4" />
-                                        )}
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{(jobposting.status === 'draft' || jobposting.status === '0') ? t('Publish') : t('Unpublish')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-job-postings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('recruitment.job-postings.show', jobposting.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-job-postings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', jobposting)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-job-postings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(jobposting.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['publish-job-postings', 'view-job-postings', 'edit-job-postings', 'delete-job-postings'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, jobposting: JobPosting) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('publish-job-postings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() =>
+                                                      router.post(
+                                                          route(
+                                                              'recruitment.job-postings.toggle-publish',
+                                                              jobposting.id
+                                                          )
+                                                      )
+                                                  }
+                                                  className={`h-8 w-8 p-0 ${
+                                                      jobposting.status === 'draft' || jobposting.status === '0'
+                                                          ? 'text-foreground hover:text-foreground'
+                                                          : 'text-foreground hover:text-foreground'
+                                                  }`}
+                                              >
+                                                  {jobposting.status === 'draft' || jobposting.status === '0' ? (
+                                                      <Upload className="h-4 w-4" />
+                                                  ) : (
+                                                      <Download className="h-4 w-4" />
+                                                  )}
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>
+                                                  {jobposting.status === 'draft' || jobposting.status === '0'
+                                                      ? t('Publish')
+                                                      : t('Unpublish')}
+                                              </p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('view-job-postings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() =>
+                                                      router.get(route('recruitment.job-postings.show', jobposting.id))
+                                                  }
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-job-postings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', jobposting)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-job-postings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(jobposting.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Recruitment'), url: route('recruitment.index') },
-                {label: t('Job Postings')}
-            ]}
+            breadcrumbs={[{ label: t('Recruitment'), url: route('recruitment.index') }, { label: t('Job Postings') }]}
             pageTitle={t('Manage Job Postings')}
             pageActions={
                 <TooltipProvider>
@@ -285,14 +329,14 @@ export default function Index() {
             <Head title={t('Job Postings')} />
 
             {/* Main Content Card */}
-            <Card className="shadow-sm border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden">
+            <Card className="overflow-hidden border-border/50 bg-card/50 shadow-sm backdrop-blur-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-4 md:p-6 border-b bg-muted/20">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                <CardContent className="border-b bg-muted/20 p-4 md:p-6">
+                    <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.title}
-                                onChange={(value) => setFilters({...filters, title: value})}
+                                onChange={(value) => setFilters({ ...filters, title: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Job Postings...')}
                             />
@@ -301,23 +345,27 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="recruitment.job-postings.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="recruitment.job-postings.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.job_type_id !== 'all' ? filters.job_type_id : '', filters.location_id !== 'all' ? filters.location_id : '', filters.branch_id !== 'all' ? filters.branch_id : '', filters.status !== 'all' ? filters.status : ''].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.job_type_id !== 'all' ? filters.job_type_id : '',
+                                        filters.location_id !== 'all' ? filters.location_id : '',
+                                        filters.branch_id !== 'all' ? filters.branch_id : '',
+                                        filters.status !== 'all' ? filters.status : '',
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -327,11 +375,16 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-4 md:p-6 bg-foreground/5 border-b backdrop-blur-md">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="border-b bg-foreground/5 p-4 backdrop-blur-md md:p-6">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Job type')}</label>
-                                <Select value={filters.job_type_id} onValueChange={(value) => setFilters({...filters, job_type_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Job type')}
+                                </label>
+                                <Select
+                                    value={filters.job_type_id}
+                                    onValueChange={(value) => setFilters({ ...filters, job_type_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Jobtypes')} />
                                     </SelectTrigger>
@@ -346,8 +399,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Location')}</label>
-                                <Select value={filters.location_id} onValueChange={(value) => setFilters({...filters, location_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Location')}
+                                </label>
+                                <Select
+                                    value={filters.location_id}
+                                    onValueChange={(value) => setFilters({ ...filters, location_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Locations')} />
                                     </SelectTrigger>
@@ -362,8 +420,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Branch')}</label>
-                                <Select value={filters.branch_id} onValueChange={(value) => setFilters({...filters, branch_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Branch')}</label>
+                                <Select
+                                    value={filters.branch_id}
+                                    onValueChange={(value) => setFilters({ ...filters, branch_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Branches')} />
                                     </SelectTrigger>
@@ -378,8 +439,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -392,8 +456,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -402,112 +470,185 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-                            <div className="min-w-full inline-block align-middle">
-                            <DataTable
-                                data={jobpostings?.data || []}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={MegaphoneIcon}
-                                        title={t('No Job Postings found')}
-                                        description={t('Get started by creating your first Job Posting.')}
-                                        hasFilters={!!(filters.title || filters.description || (filters.job_type_id !== 'all' && filters.job_type_id) || (filters.location_id !== 'all' && filters.location_id) || (filters.branch_id !== 'all' && filters.branch_id) || (filters.status !== 'all' && filters.status))}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-job-postings"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Create Job Posting')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                        <div className="scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent overflow-x-auto">
+                            <div className="inline-block min-w-full align-middle">
+                                <DataTable
+                                    data={jobpostings?.data || []}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={MegaphoneIcon}
+                                            title={t('No Job Postings found')}
+                                            description={t('Get started by creating your first Job Posting.')}
+                                            hasFilters={
+                                                !!(
+                                                    filters.title ||
+                                                    filters.description ||
+                                                    (filters.job_type_id !== 'all' && filters.job_type_id) ||
+                                                    (filters.location_id !== 'all' && filters.location_id) ||
+                                                    (filters.branch_id !== 'all' && filters.branch_id) ||
+                                                    (filters.status !== 'all' && filters.status)
+                                                )
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-job-postings"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText={t('Create Job Posting')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {jobpostings?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {jobpostings?.data?.map((jobposting) => {
                                         const statusConfig: any = {
-                                            "0": { label: "Draft", class: "bg-muted text-foreground" },
-                                            "1": { label: "Published", class: "bg-muted text-foreground" },
-                                            "2": { label: "Closed", class: "bg-muted text-destructive" },
-                                            "draft": { label: "Draft", class: "bg-muted text-foreground" },
-                                            "active": { label: "Published", class: "bg-muted text-foreground" },
-                                            "closed": { label: "Closed", class: "bg-muted text-destructive" }
+                                            '0': { label: 'Draft', class: 'bg-muted text-foreground' },
+                                            '1': { label: 'Published', class: 'bg-muted text-foreground' },
+                                            '2': { label: 'Closed', class: 'bg-muted text-destructive' },
+                                            draft: { label: 'Draft', class: 'bg-muted text-foreground' },
+                                            active: { label: 'Published', class: 'bg-muted text-foreground' },
+                                            closed: { label: 'Closed', class: 'bg-muted text-destructive' },
                                         };
-                                        const statusInfo = statusConfig[jobposting.status] || { label: jobposting.status || '-', class: 'bg-muted text-foreground' };
+                                        const statusInfo = statusConfig[jobposting.status] || {
+                                            label: jobposting.status || '-',
+                                            class: 'bg-muted text-foreground',
+                                        };
 
                                         return (
-                                            <Card key={jobposting.id} className="flex flex-col h-full hover:shadow-md transition-shadow duration-200">
-                                                <div className="flex items-center gap-3 p-3 border-b bg-muted/50/50">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg flex-shrink-0">
+                                            <Card
+                                                key={jobposting.id}
+                                                className="flex h-full flex-col transition-shadow duration-200 hover:shadow-md"
+                                            >
+                                                <div className="bg-muted/50/50 flex items-center gap-3 border-b p-3">
+                                                    <div className="flex-shrink-0 rounded-lg bg-foreground/10 p-2">
                                                         <MegaphoneIcon className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="min-w-0 flex-1">
                                                         <div className="flex items-center gap-2">
-                                                            <h3 className="font-semibold text-sm leading-tight">{jobposting.title}</h3>
-                                                            {jobposting.is_featured && <Star className="h-4 w-4 text-muted-foreground" />}
+                                                            <h3 className="text-sm font-semibold leading-tight">
+                                                                {jobposting.title}
+                                                            </h3>
+                                                            {jobposting.is_featured && (
+                                                                <Star className="h-4 w-4 text-muted-foreground" />
+                                                            )}
                                                         </div>
                                                         {auth.user?.permissions?.includes('view-job-postings') ? (
-                                                            <p className="text-xs text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('recruitment.job-postings.show', jobposting.id))}>{jobposting.posting_code}</p>
+                                                            <p
+                                                                className="cursor-pointer text-xs text-foreground hover:text-foreground"
+                                                                onClick={() =>
+                                                                    router.get(
+                                                                        route(
+                                                                            'recruitment.job-postings.show',
+                                                                            jobposting.id
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                {jobposting.posting_code}
+                                                            </p>
                                                         ) : (
-                                                            <p className="text-xs text-muted-foreground">{jobposting.posting_code}</p>
+                                                            <p className="text-xs text-muted-foreground">
+                                                                {jobposting.posting_code}
+                                                            </p>
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div className="flex-1 p-3 space-y-3">
+                                                <div className="flex-1 space-y-3 p-3">
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Type')}</p>
-                                                            <p className="font-medium">{jobposting.jobType?.name || jobposting.job_type?.name || jobposting.jobtype?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Type')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {jobposting.jobType?.name ||
+                                                                    jobposting.job_type?.name ||
+                                                                    jobposting.jobtype?.name ||
+                                                                    '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Location')}</p>
-                                                            <p className="font-medium">{jobposting.location?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Location')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {jobposting.location?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Branch')}</p>
-                                                            <p className="font-medium">{jobposting.branch_name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Branch')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {jobposting.branch_name || '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Salary')}</p>
-                                                            <p className="font-medium">{jobposting.min_salary && jobposting.max_salary ? `${formatCurrency(jobposting.min_salary)} - ${formatCurrency(jobposting.max_salary)}` : '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Salary')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {jobposting.min_salary && jobposting.max_salary
+                                                                    ? `${formatCurrency(jobposting.min_salary)} - ${formatCurrency(jobposting.max_salary)}`
+                                                                    : '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Deadline')}</p>
-                                                            <p className="font-medium">{jobposting.application_deadline ? formatDate(jobposting.application_deadline) : '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Deadline')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {jobposting.application_deadline
+                                                                    ? formatDate(jobposting.application_deadline)
+                                                                    : '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between items-center p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${statusInfo.class}`}>
+                                                <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 items-center justify-between border-t p-3">
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-xs ${statusInfo.class}`}
+                                                    >
                                                         {t(statusInfo.label)}
                                                     </span>
                                                     <div className="flex gap-2">
                                                         <TooltipProvider>
-                                                            {auth.user?.permissions?.includes('publish-job-postings') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'publish-job-postings'
+                                                            ) && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => router.post(route('recruitment.job-postings.toggle-publish', jobposting.id))}
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'recruitment.job-postings.toggle-publish',
+                                                                                        jobposting.id
+                                                                                    )
+                                                                                )
+                                                                            }
                                                                             className={`h-9 w-9 p-0 ${
-                                                                                (jobposting.status === 'draft' || jobposting.status === '0')
-                                                                                    ? 'text-foreground hover:text-foreground hover:bg-muted/50'
-                                                                                    : 'text-foreground hover:text-foreground hover:bg-muted/50'
+                                                                                jobposting.status === 'draft' ||
+                                                                                jobposting.status === '0'
+                                                                                    ? 'text-foreground hover:bg-muted/50 hover:text-foreground'
+                                                                                    : 'text-foreground hover:bg-muted/50 hover:text-foreground'
                                                                             }`}
                                                                         >
-                                                                            {(jobposting.status === 'draft' || jobposting.status === '0') ? (
+                                                                            {jobposting.status === 'draft' ||
+                                                                            jobposting.status === '0' ? (
                                                                                 <Upload className="h-4 w-4" />
                                                                             ) : (
                                                                                 <Download className="h-4 w-4" />
@@ -515,14 +656,31 @@ export default function Index() {
                                                                         </Button>
                                                                     </TooltipTrigger>
                                                                     <TooltipContent>
-                                                                        <p>{(jobposting.status === 'draft' || jobposting.status === '0') ? t('Publish') : t('Unpublish')}</p>
+                                                                        <p>
+                                                                            {jobposting.status === 'draft' ||
+                                                                            jobposting.status === '0'
+                                                                                ? t('Publish')
+                                                                                : t('Unpublish')}
+                                                                        </p>
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
                                                             {auth.user?.permissions?.includes('view-job-postings') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.get(route('recruitment.job-postings.show', jobposting.id))} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.get(
+                                                                                    route(
+                                                                                        'recruitment.job-postings.show',
+                                                                                        jobposting.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -534,7 +692,14 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-job-postings') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', jobposting)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                openModal('edit', jobposting)
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -543,14 +708,18 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-job-postings') && (
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-job-postings'
+                                                            ) && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(jobposting.id)}
-                                                                            className="h-9 w-9 p-0 text-destructive hover:text-destructive hover:bg-muted/50"
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(jobposting.id)
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
                                                                         </Button>
@@ -572,7 +741,16 @@ export default function Index() {
                                     icon={MegaphoneIcon}
                                     title={t('No Job Postings found')}
                                     description={t('Get started by creating your first Job Posting.')}
-                                    hasFilters={!!(filters.title || filters.description || (filters.job_type_id !== 'all' && filters.job_type_id) || (filters.location_id !== 'all' && filters.location_id) || (filters.branch_id !== 'all' && filters.branch_id) || (filters.status !== 'all' && filters.status))}
+                                    hasFilters={
+                                        !!(
+                                            filters.title ||
+                                            filters.description ||
+                                            (filters.job_type_id !== 'all' && filters.job_type_id) ||
+                                            (filters.location_id !== 'all' && filters.location_id) ||
+                                            (filters.branch_id !== 'all' && filters.branch_id) ||
+                                            (filters.status !== 'all' && filters.status)
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-job-postings"
                                     onCreateClick={() => openModal('add')}
@@ -584,28 +762,21 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={jobpostings || { data: [], links: [], meta: {} }}
                         routeName="recruitment.job-postings.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditJobPosting
-                        jobposting={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditJobPosting jobposting={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
-
-
 
             <ConfirmationDialog
                 open={deleteState.isOpen}

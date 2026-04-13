@@ -1,6 +1,4 @@
-import {  Package , DollarSign } from 'lucide-react';
-
-
+import { Package, DollarSign } from 'lucide-react';
 
 export const budgetplannerCompanyMenu = (t: (key: string) => string) => [
     {
@@ -31,5 +29,4 @@ export const budgetplannerCompanyMenu = (t: (key: string) => string) => [
             },
         ],
     },
-
 ];

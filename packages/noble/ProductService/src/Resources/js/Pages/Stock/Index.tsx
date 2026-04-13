@@ -2,14 +2,14 @@ import { useState, useMemo } from 'react';
 import { Head, usePage, router, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Plus, Package } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Plus, Package } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import NoRecordsFound from '@/components/no-records-found';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -56,7 +56,7 @@ export default function Index() {
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
     const [filters, setFilters] = useState<StockFilters>({
-        name: urlParams.get('name') || ''
+        name: urlParams.get('name') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
@@ -66,15 +66,18 @@ export default function Index() {
     const { data, setData, post, processing, errors, reset } = useForm({
         product_id: '',
         warehouse_id: '',
-        quantity: ''
+        quantity: '',
     });
 
-
     const handleFilter = () => {
-        router.get(route('product-service.stock.index'), {...filters, per_page: perPage}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('product-service.stock.index'),
+            { ...filters, per_page: perPage },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const openModal = (item: StockItem) => {
@@ -94,28 +97,26 @@ export default function Index() {
         post(route('product-service.stock.store'), {
             onSuccess: () => {
                 closeModal();
-            }
+            },
         });
     };
-
-
 
     const tableColumns = [
         {
             key: 'name',
             header: t('Name'),
-            sortable: false
+            sortable: false,
         },
         {
             key: 'sku',
             header: t('SKU'),
-            sortable: false
+            sortable: false,
         },
         {
             key: 'total_quantity',
             header: t('Quantity'),
             sortable: false,
-            render: (value: number) => Math.floor(value) || 0
+            render: (value: number) => Math.floor(value) || 0,
         },
         {
             key: 'actions',
@@ -140,72 +141,72 @@ export default function Index() {
                         </Tooltip>
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <TooltipProvider>
             <AuthenticatedLayout
                 breadcrumbs={[
-                    {label: t('Product & Service'), url: route('product-service.items.index'), onClick: () => router.visit(route('product-service.items.index'))},
-                    {label: t('Product Stock')}
+                    {
+                        label: t('Product & Service'),
+                        url: route('product-service.items.index'),
+                        onClick: () => router.visit(route('product-service.items.index')),
+                    },
+                    { label: t('Product Stock') },
                 ]}
                 pageTitle={t('Product Stock')}
             >
-            <Head title={t('Product Stock')} />
+                <Head title={t('Product Stock')} />
 
-            <Card className="shadow-sm">
-                {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
-                            <SearchInput
-                                value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
-                                onSearch={handleFilter}
-                                placeholder={t('Search by name...')}
-                            />
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="product-service.stock.index"
-                                filters={filters}
-                            />
-                        </div>
-                    </div>
-                </CardContent>
-
-                {/* Table Content */}
-                <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
-                        <DataTable
-                            data={stocks.data}
-                            columns={tableColumns}
-                            className="rounded-none"
-                            emptyState={
-                                <NoRecordsFound
-                                    icon={Package}
-                                    title={t('No stock found')}
-                                    description={t('No product stock records available.')}
-                                    hasFilters={!!filters.name}
-                                    className="h-auto"
+                <Card className="shadow-sm">
+                    {/* Search & Controls Header */}
+                    <CardContent className="bg-muted/50/50 border-b p-6">
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="max-w-md flex-1">
+                                <SearchInput
+                                    value={filters.name}
+                                    onChange={(value) => setFilters({ ...filters, name: value })}
+                                    onSearch={handleFilter}
+                                    placeholder={t('Search by name...')}
                                 />
-                            }
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <PerPageSelector routeName="product-service.stock.index" filters={filters} />
+                            </div>
+                        </div>
+                    </CardContent>
+
+                    {/* Table Content */}
+                    <CardContent className="p-0">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
+                            <DataTable
+                                data={stocks.data}
+                                columns={tableColumns}
+                                className="rounded-none"
+                                emptyState={
+                                    <NoRecordsFound
+                                        icon={Package}
+                                        title={t('No stock found')}
+                                        description={t('No product stock records available.')}
+                                        hasFilters={!!filters.name}
+                                        className="h-auto"
+                                    />
+                                }
+                            />
+                        </div>
+                    </CardContent>
+
+                    {/* Pagination Footer */}
+                    <CardContent className="bg-muted/50/30 border-t px-4 py-2">
+                        <Pagination
+                            data={stocks}
+                            routeName="product-service.stock.index"
+                            filters={{ ...filters, per_page: perPage }}
                         />
-                    </div>
-                </CardContent>
-
-                {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
-                    <Pagination
-                        data={stocks}
-                        routeName="product-service.stock.index"
-                        filters={{...filters, per_page: perPage}}
-                    />
-                </CardContent>
-            </Card>
-
+                    </CardContent>
+                </Card>
             </AuthenticatedLayout>
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -216,13 +217,13 @@ export default function Index() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label className="text-sm font-medium text-foreground">{t('Product Name')}</Label>
-                            <div className="px-3 py-2 bg-muted/50 border rounded-md text-foreground">
+                            <div className="rounded-md border bg-muted/50 px-3 py-2 text-foreground">
                                 {selectedItem?.name || ''}
                             </div>
                         </div>
                         <div className="space-y-2">
                             <Label className="text-sm font-medium text-foreground">{t('SKU')}</Label>
-                            <div className="px-3 py-2 bg-muted/50 border rounded-md text-foreground">
+                            <div className="rounded-md border bg-muted/50 px-3 py-2 text-foreground">
                                 {selectedItem?.sku || ''}
                             </div>
                         </div>

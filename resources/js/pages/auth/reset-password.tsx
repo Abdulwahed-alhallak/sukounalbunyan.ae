@@ -34,33 +34,31 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     };
 
     return (
-        <AuthLayout
-            title={t('Reset password')}
-            description={t('Please enter your new password below')}
-        >
+        <AuthLayout title={t('Reset password')} description={t('Please enter your new password below')}>
             <Head title={t('Reset password')} />
 
             <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">{t('Email')}</Label>
+                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Email')}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
                             name="email"
                             autoComplete="email"
                             value={email}
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                             readOnly
                         />
-                        <InputError
-                            message={errors.email}
-                            className="mt-2"
-                        />
+                        <InputError message={errors.email} className="mt-2" />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">{t('Password')}</Label>
+                        <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Password')}
+                        </Label>
                         <Input
                             id="password"
                             type="password"
@@ -68,7 +66,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             autoComplete="new-password"
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                             autoFocus
                             placeholder={t('Password')}
                         />
@@ -76,7 +74,10 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation" className="text-sm font-medium text-foreground dark:text-foreground">
+                        <Label
+                            htmlFor="password_confirmation"
+                            className="text-sm font-medium text-foreground dark:text-foreground"
+                        >
                             {t('Confirm password')}
                         </Label>
                         <Input
@@ -86,18 +87,15 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             autoComplete="new-password"
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                             placeholder={t('Confirm password')}
                         />
-                        <InputError
-                            message={errors.password_confirmation}
-                            className="mt-2"
-                        />
+                        <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
                     <Button
                         type="submit"
-                        className="w-full bg-foreground text-background py-2.5 text-sm font-medium tracking-wide transition-all duration-200 rounded-md shadow-md hover:shadow-lg transform hover:scale-[1.02] mt-6"
+                        className="mt-6 w-full transform rounded-md bg-foreground py-2.5 text-sm font-medium tracking-wide text-background shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
                         disabled={processing}
                         data-test="reset-password-button"
                     >

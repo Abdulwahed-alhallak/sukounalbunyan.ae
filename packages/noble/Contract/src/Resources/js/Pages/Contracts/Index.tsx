@@ -3,17 +3,17 @@ import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { usePageButtons } from '@/hooks/usePageButtons';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, FileSignature, FileText } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, Eye, FileSignature, FileText } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -85,43 +85,50 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<ContractModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const [showFilters, setShowFilters] = useState(false);
 
-
-
-
     const pageButtons = usePageButtons('contractStackBtn', 'Contracts');
-    const googleDriveButtons = usePageButtons('googleDriveBtn', { module: 'Contracts', settingKey: 'GoogleDrive Contracts' });
+    const googleDriveButtons = usePageButtons('googleDriveBtn', {
+        module: 'Contracts',
+        settingKey: 'GoogleDrive Contracts',
+    });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Contracts', settingKey: 'OneDrive Contracts' });
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'contract.destroy',
-        defaultMessage: t('Are you sure you want to delete this contract?')
+        defaultMessage: t('Are you sure you want to delete this contract?'),
     });
 
     const handleFilter = () => {
-        router.get(route('contract.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: false,
-            replace: true
-        });
+        router.get(
+            route('contract.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: false,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('contract.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: false,
-            replace: true
-        });
+        router.get(
+            route('contract.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: false,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -150,43 +157,45 @@ export default function Index() {
             key: 'contract_number',
             header: t('Contract Number'),
             sortable: false,
-            render: (value: any, row: any) => { return row.contract_number || '-'; }
+            render: (value: any, row: any) => {
+                return row.contract_number || '-';
+            },
         },
         {
             key: 'subject',
             header: t('Subject'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'user.name',
             header: t('User Name'),
             sortable: false,
-            render: (value: any, row: any) => row.user?.name || '-'
+            render: (value: any, row: any) => row.user?.name || '-',
         },
 
         {
             key: 'value',
             header: t('Value'),
             sortable: false,
-            render: (value: number) => value ? formatCurrency(value) : '-'
+            render: (value: number) => (value ? formatCurrency(value) : '-'),
         },
         {
             key: 'contract_type.name',
             header: t('Type'),
             sortable: false,
-            render: (value: any, row: any) => row.contract_type?.name || '-'
+            render: (value: any, row: any) => row.contract_type?.name || '-',
         },
         {
             key: 'start_date',
             header: t('Start Date'),
             sortable: false,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'end_date',
             header: t('End Date'),
             sortable: false,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'status',
@@ -195,87 +204,102 @@ export default function Index() {
             render: (value: string) => {
                 const displayValue = getContractStatusText(value, t);
                 const colorClass = getContractStatusColor(value);
-                return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${colorClass}`}>
-                        {displayValue}
-                    </span>
-                );
-            }
+                return <span className={`rounded-full px-2 py-1 text-sm ${colorClass}`}>{displayValue}</span>;
+            },
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-contracts', 'edit-contracts', 'delete-contracts', 'duplicate-contracts'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, contract: Contract) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {usePageButtons('contractActionBtn', contract)?.map((button) => (
-                            <div key={button.id}>{button.component}</div>
-                        ))}
-                        <DuplicateButton contract={contract} />
-                        {auth.user?.permissions?.includes('preview-contracts') && (
-                            <Tooltip >
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('contract.preview', contract.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <FileText className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Preview')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-contracts') && (
-                            <Tooltip >
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('contract.show', contract.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-contracts') && (
-                            <Tooltip >
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', contract)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-contracts') && (
-                            <Tooltip >
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(contract.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-contracts', 'edit-contracts', 'delete-contracts', 'duplicate-contracts'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, contract: Contract) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {usePageButtons('contractActionBtn', contract)?.map((button) => (
+                                      <div key={button.id}>{button.component}</div>
+                                  ))}
+                                  <DuplicateButton contract={contract} />
+                                  {auth.user?.permissions?.includes('preview-contracts') && (
+                                      <Tooltip>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => router.get(route('contract.preview', contract.id))}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <FileText className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Preview')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('view-contracts') && (
+                                      <Tooltip>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => router.get(route('contract.show', contract.id))}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-contracts') && (
+                                      <Tooltip>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', contract)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-contracts') && (
+                                      <Tooltip>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(contract.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Contract') }
-            ]}
+            breadcrumbs={[{ label: t('Contract') }]}
             pageTitle={t('Manage Contracts')}
             pageActions={
                 <div className="flex gap-2">
@@ -290,7 +314,7 @@ export default function Index() {
                             <div key={button.id}>{button.component}</div>
                         ))}
                         {auth.user?.permissions?.includes('create-contracts') && (
-                            <Tooltip >
+                            <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button size="sm" onClick={() => openModal('add')}>
                                         <Plus className="h-4 w-4" />
@@ -310,9 +334,9 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.subject}
                                 onChange={(value) => setFilters({ ...filters, subject: value })}
@@ -326,21 +350,23 @@ export default function Index() {
                                 routeName="contract.index"
                                 filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="contract.index"
-                                filters={{ ...filters, view: viewMode }}
-                            />
+                            <PerPageSelector routeName="contract.index" filters={{ ...filters, view: viewMode }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.type_id, filters.status, filters.user_id, filters.start_date, filters.end_date].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.type_id,
+                                        filters.status,
+                                        filters.user_id,
+                                        filters.start_date,
+                                        filters.end_date,
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -350,13 +376,17 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            {(auth.user?.permissions?.includes('manage-contract-types')) && (
-
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+                            {auth.user?.permissions?.includes('manage-contract-types') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Type')}</label>
-                                    <Select value={filters.type_id} onValueChange={(value) => setFilters({ ...filters, type_id: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Type')}
+                                    </label>
+                                    <Select
+                                        value={filters.type_id}
+                                        onValueChange={(value) => setFilters({ ...filters, type_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by Type')} />
                                         </SelectTrigger>
@@ -371,8 +401,11 @@ export default function Index() {
                                 </div>
                             )}
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -385,8 +418,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('User')}</label>
-                                <Select value={filters.user_id} onValueChange={(value) => setFilters({ ...filters, user_id: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('User')}</label>
+                                <Select
+                                    value={filters.user_id}
+                                    onValueChange={(value) => setFilters({ ...filters, user_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by User')} />
                                     </SelectTrigger>
@@ -400,7 +436,9 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Start Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Start Date')}
+                                </label>
                                 <DatePicker
                                     value={filters.start_date}
                                     onChange={(date) => setFilters({ ...filters, start_date: date })}
@@ -408,7 +446,9 @@ export default function Index() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('End Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('End Date')}
+                                </label>
                                 <DatePicker
                                     value={filters.end_date}
                                     onChange={(date) => setFilters({ ...filters, end_date: date })}
@@ -417,8 +457,12 @@ export default function Index() {
                             </div>
 
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -427,7 +471,7 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={contracts?.data || []}
@@ -441,7 +485,17 @@ export default function Index() {
                                             icon={FileSignature}
                                             title={t('No Contracts found')}
                                             description={t('Get started by creating your first Contract.')}
-                                            hasFilters={!!(filters.subject || filters.description || filters.type_id || filters.status || filters.user_id || filters.start_date || filters.end_date)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.subject ||
+                                                    filters.description ||
+                                                    filters.type_id ||
+                                                    filters.status ||
+                                                    filters.user_id ||
+                                                    filters.start_date ||
+                                                    filters.end_date
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-contracts"
                                             onCreateClick={() => openModal('add')}
@@ -453,58 +507,91 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {contracts?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {contracts?.data?.map((contract) => (
-                                        <Card key={contract.id} className="p-0 hover:shadow-lg transition-all duration-200 relative overflow-hidden flex flex-col h-full min-w-0">
+                                        <Card
+                                            key={contract.id}
+                                            className="relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-200 hover:shadow-lg"
+                                        >
                                             {/* Arrow decoration */}
-                                            <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary/20"></div>
+                                            <div className="absolute right-0 top-0 h-0 w-0 border-l-[20px] border-t-[20px] border-l-transparent border-t-primary/20"></div>
                                             {/* Header */}
-                                            <div className="p-4 bg-gradient-to-r from-primary/5 to-transparent border-b flex-shrink-0">
+                                            <div className="flex-shrink-0 border-b bg-gradient-to-r from-primary/5 to-transparent p-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg">
+                                                    <div className="rounded-lg bg-foreground/10 p-2">
                                                         <FileSignature className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="min-w-0 flex-1">
-                                                        <h3 className="font-semibold text-sm text-foreground">{contract.subject}</h3>
-                                                        <p className="text-xs font-medium text-foreground">{contract.contract_number || '-'}</p>
+                                                        <h3 className="text-sm font-semibold text-foreground">
+                                                            {contract.subject}
+                                                        </h3>
+                                                        <p className="text-xs font-medium text-foreground">
+                                                            {contract.contract_number || '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             {/* Body */}
-                                            <div className="p-4 flex-1 min-h-0">
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Value')}</p>
-                                                        <p className="font-medium text-xs">{contract.value ? formatCurrency(contract.value) : '-'}</p>
+                                            <div className="min-h-0 flex-1 p-4">
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Value')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {contract.value ? formatCurrency(contract.value) : '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Type')}</p>
-                                                        <p className="font-medium text-xs">{contract.contract_type?.name || '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Type')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {contract.contract_type?.name || '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Start Date')}</p>
-                                                        <p className="font-medium text-xs">{contract.start_date ? formatDate(contract.start_date) : '-'}</p>
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Start Date')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {contract.start_date
+                                                                ? formatDate(contract.start_date)
+                                                                : '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('End Date')}</p>
-                                                        <p className="font-medium text-xs">{contract.end_date ? formatDate(contract.end_date) : '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('End Date')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {contract.end_date ? formatDate(contract.end_date) : '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
 
                                                 <div className="grid grid-cols-2 gap-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Assigned To')}</p>
-                                                        <p className="font-medium text-xs">{contract.user?.name || '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Assigned To')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {contract.user?.name || '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Status')}</p>
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium inline-block ${getContractStatusColor(contract.status)}`}>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Status')}
+                                                        </p>
+                                                        <span
+                                                            className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${getContractStatusColor(contract.status)}`}
+                                                        >
                                                             {getContractStatusText(contract.status, t)}
                                                         </span>
                                                     </div>
@@ -512,7 +599,7 @@ export default function Index() {
                                             </div>
 
                                             {/* Actions Footer */}
-                                            <div className="flex justify-center gap-2 p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
+                                            <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 justify-center gap-2 border-t p-3">
                                                 <TooltipProvider>
                                                     {usePageButtons('contractActionBtn', contract)?.map((button) => (
                                                         <div key={button.id}>{button.component}</div>
@@ -522,9 +609,18 @@ export default function Index() {
                                                         className="h-9 w-9 p-0 text-foreground hover:text-foreground"
                                                     />
                                                     {auth.user?.permissions?.includes('preview-contracts') && (
-                                                        <Tooltip >
+                                                        <Tooltip>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => router.get(route('contract.preview', contract.id))} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        router.get(
+                                                                            route('contract.preview', contract.id)
+                                                                        )
+                                                                    }
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <FileText className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -534,9 +630,16 @@ export default function Index() {
                                                         </Tooltip>
                                                     )}
                                                     {auth.user?.permissions?.includes('view-contracts') && (
-                                                        <Tooltip >
+                                                        <Tooltip>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => router.get(route('contract.show', contract.id))} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        router.get(route('contract.show', contract.id))
+                                                                    }
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <Eye className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -546,9 +649,14 @@ export default function Index() {
                                                         </Tooltip>
                                                     )}
                                                     {auth.user?.permissions?.includes('edit-contracts') && (
-                                                        <Tooltip >
+                                                        <Tooltip>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('edit', contract)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('edit', contract)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <EditIcon className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -558,7 +666,7 @@ export default function Index() {
                                                         </Tooltip>
                                                     )}
                                                     {auth.user?.permissions?.includes('delete-contracts') && (
-                                                        <Tooltip >
+                                                        <Tooltip>
                                                             <TooltipTrigger asChild>
                                                                 <Button
                                                                     variant="ghost"
@@ -584,7 +692,17 @@ export default function Index() {
                                     icon={FileSignature}
                                     title={t('No Contracts found')}
                                     description={t('Get started by creating your first Contract.')}
-                                    hasFilters={!!(filters.subject || filters.description || filters.type_id || filters.status || filters.user_id || filters.start_date || filters.end_date)}
+                                    hasFilters={
+                                        !!(
+                                            filters.subject ||
+                                            filters.description ||
+                                            filters.type_id ||
+                                            filters.status ||
+                                            filters.user_id ||
+                                            filters.start_date ||
+                                            filters.end_date
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-contracts"
                                     onCreateClick={() => openModal('add')}
@@ -596,7 +714,7 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={contracts || { data: [], links: [], meta: {} }}
                         routeName="contract.index"
@@ -606,18 +724,11 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditContract
-                        contract={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditContract contract={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
-
-
 
             <ConfirmationDialog
                 open={deleteState.isOpen}

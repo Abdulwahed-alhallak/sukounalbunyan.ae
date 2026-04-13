@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { EditHelpdeskCategoryProps, EditHelpdeskCategoryFormData } from './types';
 
 export default function Edit({ category, onSuccess }: EditHelpdeskCategoryProps) {
@@ -15,7 +15,7 @@ export default function Edit({ category, onSuccess }: EditHelpdeskCategoryProps)
         name: category.name,
         description: category.description || '',
         color: category.color,
-        is_active: category.is_active
+        is_active: category.is_active,
     });
 
     const submit = (e: React.FormEvent) => {
@@ -23,7 +23,7 @@ export default function Edit({ category, onSuccess }: EditHelpdeskCategoryProps)
         put(route('helpdesk-categories.update', category.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -70,7 +70,10 @@ export default function Edit({ category, onSuccess }: EditHelpdeskCategoryProps)
                     </div>
                     <div>
                         <Label htmlFor="edit_is_active">{t('Status')}</Label>
-                        <Select value={data.is_active ? "1" : "0"} onValueChange={(value) => setData('is_active', value === "1")}>
+                        <Select
+                            value={data.is_active ? '1' : '0'}
+                            onValueChange={(value) => setData('is_active', value === '1')}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>

@@ -28,13 +28,13 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
             default_price_type: 'monthly',
             show_pre_package: true,
             show_monthly_yearly_toggle: true,
-            empty_message: 'No plans available. Check back later for new pricing plans.'
+            empty_message: 'No plans available. Check back later for new pricing plans.',
         };
-        
+
         // Only update if pricing section is empty or missing keys
         const currentData = getSectionData('pricing');
-        const hasAllKeys = Object.keys(defaultSettings).every(key => key in currentData);
-        
+        const hasAllKeys = Object.keys(defaultSettings).every((key) => key in currentData);
+
         if (!hasAllKeys) {
             updateSectionData('pricing', { ...defaultSettings, ...currentData });
         }
@@ -64,7 +64,10 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
                             <Label htmlFor="pricing-subtitle">{t('Page Subtitle')}</Label>
                             <Textarea
                                 id="pricing-subtitle"
-                                value={sectionData.subtitle || 'Choose the perfect subscription plan for your business needs'}
+                                value={
+                                    sectionData.subtitle ||
+                                    'Choose the perfect subscription plan for your business needs'
+                                }
                                 onChange={(e) => updateSectionData('pricing', { subtitle: e.target.value })}
                                 placeholder={t('Enter page subtitle')}
                                 rows={3}
@@ -78,7 +81,9 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
                             <Label htmlFor="pricing-subscription-type">{t('Default Subscription Type')}</Label>
                             <Select
                                 value={sectionData.default_subscription_type || 'pre-package'}
-                                onValueChange={(value) => updateSectionData('pricing', { default_subscription_type: value })}
+                                onValueChange={(value) =>
+                                    updateSectionData('pricing', { default_subscription_type: value })
+                                }
                             >
                                 <SelectTrigger>
                                     <SelectValue />
@@ -110,7 +115,10 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
                         <Label htmlFor="pricing-empty-message">{t('Empty State Message')}</Label>
                         <Textarea
                             id="pricing-empty-message"
-                            value={sectionData.empty_message || 'No plans available. Check back later for new pricing plans.'}
+                            value={
+                                sectionData.empty_message ||
+                                'No plans available. Check back later for new pricing plans.'
+                            }
                             onChange={(e) => updateSectionData('pricing', { empty_message: e.target.value })}
                             placeholder={t('Message to show when no plans are available')}
                             rows={3}
@@ -125,7 +133,9 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
                                 <Switch
                                     id="show-pre-package"
                                     checked={sectionData.show_pre_package !== false}
-                                    onCheckedChange={(checked) => updateSectionData('pricing', { show_pre_package: checked })}
+                                    onCheckedChange={(checked) =>
+                                        updateSectionData('pricing', { show_pre_package: checked })
+                                    }
                                 />
                                 <Label htmlFor="show-pre-package">{t('Show Pre Package Subscription')}</Label>
                             </div>
@@ -133,7 +143,9 @@ export default function Pricing({ data, getSectionData, updateSectionData, updat
                                 <Switch
                                     id="show-monthly-yearly-toggle"
                                     checked={sectionData.show_monthly_yearly_toggle !== false}
-                                    onCheckedChange={(checked) => updateSectionData('pricing', { show_monthly_yearly_toggle: checked })}
+                                    onCheckedChange={(checked) =>
+                                        updateSectionData('pricing', { show_monthly_yearly_toggle: checked })
+                                    }
                                 />
                                 <Label htmlFor="show-monthly-yearly-toggle">{t('Show Monthly/Yearly Toggle')}</Label>
                             </div>

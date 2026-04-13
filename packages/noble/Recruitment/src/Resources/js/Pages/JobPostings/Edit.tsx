@@ -1,8 +1,8 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,6 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { EditJobPostingProps, EditJobPostingFormData } from './types';
 import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
-
 
 export default function EditJobPosting({ jobposting, onSuccess }: EditJobPostingProps) {
     const { jobtypes, joblocations, customquestions, branches } = usePage<any>().props;
@@ -91,35 +90,90 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                 return [];
             }
         })(),
-        skills: jobposting.skills ? jobposting.skills.split(',')?.map(s => s.trim()).filter(s => s) : [],
+        skills: jobposting.skills
+            ? jobposting.skills
+                  .split(',')
+                  ?.map((s) => s.trim())
+                  .filter((s) => s)
+            : [],
     });
 
     // AI hooks for job posting fields
-    const titleAI = useFormFields('aiField', data, setData, errors, 'edit', 'title', 'Title', 'recruitment', 'job_posting');
+    const titleAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'title',
+        'Title',
+        'recruitment',
+        'job_posting'
+    );
 
     const [descriptionEditorKey, setDescriptionEditorKey] = useState(0);
-    const descriptionAI = useFormFields('aiField', data, (field, value) => {
-        setData('description', value);
-        setDescriptionEditorKey(prev => prev + 1);
-    }, errors, 'edit', 'description', 'Description', 'recruitment', 'job_posting');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('description', value);
+            setDescriptionEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'recruitment',
+        'job_posting'
+    );
 
     const [requirementsEditorKey, setRequirementsEditorKey] = useState(0);
-    const requirementsAI = useFormFields('aiField', data, (field, value) => {
-        setData('requirements', value);
-        setRequirementsEditorKey(prev => prev + 1);
-    }, errors, 'edit', 'requirements', 'Requirements', 'recruitment', 'job_posting');
+    const requirementsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('requirements', value);
+            setRequirementsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'edit',
+        'requirements',
+        'Requirements',
+        'recruitment',
+        'job_posting'
+    );
 
     const [benefitsEditorKey, setBenefitsEditorKey] = useState(0);
-    const benefitsAI = useFormFields('aiField', data, (field, value) => {
-        setData('benefits', value);
-        setBenefitsEditorKey(prev => prev + 1);
-    }, errors, 'edit', 'benefits', 'Benefits', 'recruitment', 'job_posting');
+    const benefitsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('benefits', value);
+            setBenefitsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'edit',
+        'benefits',
+        'Benefits',
+        'recruitment',
+        'job_posting'
+    );
 
     const [termsEditorKey, setTermsEditorKey] = useState(0);
-    const termsAI = useFormFields('aiField', data, (field, value) => {
-        setData('terms_condition', value);
-        setTermsEditorKey(prev => prev + 1);
-    }, errors, 'edit', 'terms_condition', 'Terms Condition', 'recruitment', 'job_posting');
+    const termsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('terms_condition', value);
+            setTermsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'edit',
+        'terms_condition',
+        'Terms Condition',
+        'recruitment',
+        'job_posting'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -137,7 +191,7 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
         put(route('recruitment.job-postings.update', jobposting.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -147,9 +201,9 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                 <DialogTitle>{t('Edit Job Posting')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <div className="flex gap-2 items-end">
+                        <div className="flex items-end gap-2">
                             <div className="flex-1">
                                 <Label htmlFor="title">{t('Title')}</Label>
                                 <Input
@@ -162,11 +216,15 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 />
                                 <InputError message={errors.title} />
                             </div>
-                            {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {titleAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <div>
-                        <Label htmlFor="job_type_id" required>{t('Job Type')}</Label>
+                        <Label htmlFor="job_type_id" required>
+                            {t('Job Type')}
+                        </Label>
                         <Select
                             value={data.job_type_id?.toString() || ''}
                             onValueChange={(value) => setData('job_type_id', value)}
@@ -176,18 +234,22 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 <SelectValue placeholder={t('Select Job Type')} />
                             </SelectTrigger>
                             <SelectContent>
-                                {Array.isArray(jobtypes) ? jobtypes?.map((item: any) => (
-                                    <SelectItem key={item.id} value={item.id.toString()}>
-                                        {item.name}
-                                    </SelectItem>
-                                )) : []}
+                                {Array.isArray(jobtypes)
+                                    ? jobtypes?.map((item: any) => (
+                                          <SelectItem key={item.id} value={item.id.toString()}>
+                                              {item.name}
+                                          </SelectItem>
+                                      ))
+                                    : []}
                             </SelectContent>
                         </Select>
                         <InputError message={errors.job_type_id} />
                     </div>
 
                     <div>
-                        <Label htmlFor="location_id" required>{t('Location')}</Label>
+                        <Label htmlFor="location_id" required>
+                            {t('Location')}
+                        </Label>
                         <Select
                             value={data.location_id?.toString() || ''}
                             onValueChange={(value) => setData('location_id', value)}
@@ -197,35 +259,51 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 <SelectValue placeholder={t('Select Location')} />
                             </SelectTrigger>
                             <SelectContent>
-                                {Array.isArray(joblocations) ? joblocations?.map((item: any) => (
-                                    <SelectItem key={item.id} value={item.id.toString()}>
-                                        {item.name}
-                                    </SelectItem>
-                                )) : []}
+                                {Array.isArray(joblocations)
+                                    ? joblocations?.map((item: any) => (
+                                          <SelectItem key={item.id} value={item.id.toString()}>
+                                              {item.name}
+                                          </SelectItem>
+                                      ))
+                                    : []}
                             </SelectContent>
                         </Select>
                         <InputError message={errors.location_id} />
                     </div>
                     <div>
-                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
-                        <Select value={data.branch_id?.toString() || ''} onValueChange={(value) => setData('branch_id', value)} required>
+                        <Label htmlFor="branch_id" required>
+                            {t('Branch')}
+                        </Label>
+                        <Select
+                            value={data.branch_id?.toString() || ''}
+                            onValueChange={(value) => setData('branch_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Branch')} />
                             </SelectTrigger>
                             <SelectContent>
-                                {Array.isArray(branches) ? branches?.map((branch: any) => (
-                                    <SelectItem key={branch.id} value={branch.id.toString()}>
-                                        {branch.branch_name}
-                                    </SelectItem>
-                                )) : []}
+                                {Array.isArray(branches)
+                                    ? branches?.map((branch: any) => (
+                                          <SelectItem key={branch.id} value={branch.id.toString()}>
+                                              {branch.branch_name}
+                                          </SelectItem>
+                                      ))
+                                    : []}
                             </SelectContent>
                         </Select>
                         <InputError message={errors.branch_id} />
                     </div>
 
                     <div>
-                        <Label htmlFor="job_application" required>{t('Job Application')}</Label>
-                        <Select value={data.job_application || ''} onValueChange={(value) => setData('job_application', value)} required>
+                        <Label htmlFor="job_application" required>
+                            {t('Job Application')}
+                        </Label>
+                        <Select
+                            value={data.job_application || ''}
+                            onValueChange={(value) => setData('job_application', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Application Type')} />
                             </SelectTrigger>
@@ -240,14 +318,18 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                         <div>
                             <Label>{t('Career Portal URL')}</Label>
                             <Input
-                                value={route('recruitment.frontend.careers.jobs.index', { userSlug: usePage<any>().props.auth?.user?.slug || 'demo' })}
+                                value={route('recruitment.frontend.careers.jobs.index', {
+                                    userSlug: usePage<any>().props.auth?.user?.slug || 'demo',
+                                })}
                                 readOnly
                                 className="bg-muted/50"
                             />
                         </div>
                     ) : data.job_application === 'custom' ? (
                         <div>
-                            <Label htmlFor="application_url" required>{t('Application URL')}</Label>
+                            <Label htmlFor="application_url" required>
+                                {t('Application URL')}
+                            </Label>
                             <Input
                                 id="application_url"
                                 type="url"
@@ -262,7 +344,9 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                         <div></div>
                     )}
                     <div>
-                        <Label htmlFor="position" required>{t('Number of Positions')}</Label>
+                        <Label htmlFor="position" required>
+                            {t('Number of Positions')}
+                        </Label>
                         <Input
                             id="position"
                             type="number"
@@ -275,8 +359,14 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                         <InputError message={errors.position} />
                     </div>
                     <div>
-                        <Label htmlFor="priority" required>{t('Priority')}</Label>
-                        <Select value={data.priority?.toString() || ''} onValueChange={(value) => setData('priority', value)} required>
+                        <Label htmlFor="priority" required>
+                            {t('Priority')}
+                        </Label>
+                        <Select
+                            value={data.priority?.toString() || ''}
+                            onValueChange={(value) => setData('priority', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Priority')} />
                             </SelectTrigger>
@@ -290,7 +380,9 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                     </div>
 
                     <div>
-                        <Label htmlFor="min_experience" required>{t('Min Experience (Years)')}</Label>
+                        <Label htmlFor="min_experience" required>
+                            {t('Min Experience (Years)')}
+                        </Label>
                         <Input
                             id="min_experience"
                             type="number"
@@ -354,27 +446,39 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                             checked={data.is_featured || false}
                             onCheckedChange={(checked) => setData('is_featured', !!checked)}
                         />
-                        <Label htmlFor="is_featured" className="cursor-pointer">{t('Featured Job')}</Label>
+                        <Label htmlFor="is_featured" className="cursor-pointer">
+                            {t('Featured Job')}
+                        </Label>
                         <InputError message={errors.is_featured} />
                     </div>
                 </div>
 
                 <div>
                     <Label>{t('Need to Ask?')}</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="applicant_gender"
                                 checked={Array.isArray(data.applicant) && data.applicant.includes('gender')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('applicant', Array.isArray(data.applicant) ? [...data.applicant, 'gender'] : ['gender']);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant) ? [...data.applicant, 'gender'] : ['gender']
+                                        );
                                     } else {
-                                        setData('applicant', Array.isArray(data.applicant) ? data.applicant.filter(item => item !== 'gender') : []);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant)
+                                                ? data.applicant.filter((item) => item !== 'gender')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_gender" className="cursor-pointer">{t('Gender')}</Label>
+                            <Label htmlFor="applicant_gender" className="cursor-pointer">
+                                {t('Gender')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -382,13 +486,25 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 checked={Array.isArray(data.applicant) && data.applicant.includes('date_of_birth')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('applicant', Array.isArray(data.applicant) ? [...data.applicant, 'date_of_birth'] : ['date_of_birth']);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant)
+                                                ? [...data.applicant, 'date_of_birth']
+                                                : ['date_of_birth']
+                                        );
                                     } else {
-                                        setData('applicant', Array.isArray(data.applicant) ? data.applicant.filter(item => item !== 'date_of_birth') : []);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant)
+                                                ? data.applicant.filter((item) => item !== 'date_of_birth')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_date_of_birth" className="cursor-pointer">{t('Date Of Birth')}</Label>
+                            <Label htmlFor="applicant_date_of_birth" className="cursor-pointer">
+                                {t('Date Of Birth')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -396,33 +512,55 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 checked={Array.isArray(data.applicant) && data.applicant.includes('country')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('applicant', Array.isArray(data.applicant) ? [...data.applicant, 'country'] : ['country']);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant) ? [...data.applicant, 'country'] : ['country']
+                                        );
                                     } else {
-                                        setData('applicant', Array.isArray(data.applicant) ? data.applicant.filter(item => item !== 'country') : []);
+                                        setData(
+                                            'applicant',
+                                            Array.isArray(data.applicant)
+                                                ? data.applicant.filter((item) => item !== 'country')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_country" className="cursor-pointer">{t('Country')}</Label>
+                            <Label htmlFor="applicant_country" className="cursor-pointer">
+                                {t('Country')}
+                            </Label>
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <Label>{t('Need to show Option?')}</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="visibility_profile_image"
                                 checked={Array.isArray(data.visibility) && data.visibility.includes('profile_image')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('visibility', Array.isArray(data.visibility) ? [...data.visibility, 'profile_image'] : ['profile_image']);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility)
+                                                ? [...data.visibility, 'profile_image']
+                                                : ['profile_image']
+                                        );
                                     } else {
-                                        setData('visibility', Array.isArray(data.visibility) ? data.visibility.filter(item => item !== 'profile_image') : []);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility)
+                                                ? data.visibility.filter((item) => item !== 'profile_image')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_profile_image" className="cursor-pointer">{t('Profile Image')}</Label>
+                            <Label htmlFor="visibility_profile_image" className="cursor-pointer">
+                                {t('Profile Image')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -430,13 +568,23 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 checked={Array.isArray(data.visibility) && data.visibility.includes('resume')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('visibility', Array.isArray(data.visibility) ? [...data.visibility, 'resume'] : ['resume']);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility) ? [...data.visibility, 'resume'] : ['resume']
+                                        );
                                     } else {
-                                        setData('visibility', Array.isArray(data.visibility) ? data.visibility.filter(item => item !== 'resume') : []);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility)
+                                                ? data.visibility.filter((item) => item !== 'resume')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_resume" className="cursor-pointer">{t('Resume')}</Label>
+                            <Label htmlFor="visibility_resume" className="cursor-pointer">
+                                {t('Resume')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -444,19 +592,33 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                 checked={Array.isArray(data.visibility) && data.visibility.includes('cover_letter')}
                                 onCheckedChange={(checked) => {
                                     if (checked) {
-                                        setData('visibility', Array.isArray(data.visibility) ? [...data.visibility, 'cover_letter'] : ['cover_letter']);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility)
+                                                ? [...data.visibility, 'cover_letter']
+                                                : ['cover_letter']
+                                        );
                                     } else {
-                                        setData('visibility', Array.isArray(data.visibility) ? data.visibility.filter(item => item !== 'cover_letter') : []);
+                                        setData(
+                                            'visibility',
+                                            Array.isArray(data.visibility)
+                                                ? data.visibility.filter((item) => item !== 'cover_letter')
+                                                : []
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_cover_letter" className="cursor-pointer">{t('Cover Letter')}</Label>
+                            <Label htmlFor="visibility_cover_letter" className="cursor-pointer">
+                                {t('Cover Letter')}
+                            </Label>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <Label htmlFor="skills" required>{t('Required Skills')}</Label>
+                    <Label htmlFor="skills" required>
+                        {t('Required Skills')}
+                    </Label>
                     <TagsInput
                         value={data.skills}
                         onChange={(skills) => setData('skills', skills)}
@@ -464,17 +626,17 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                         allowCustom={true}
                         required
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
-                        {t('Type Required Skills and press Enter')}
-                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">{t('Type Required Skills and press Enter')}</p>
                     <InputError message={errors.skills} />
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -487,10 +649,12 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="requirements">{t('Requirements')}</Label>
                         <div className="flex gap-2">
-                            {requirementsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {requirementsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -503,10 +667,12 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="benefits">{t('Benefits')}</Label>
                         <div className="flex gap-2">
-                            {benefitsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {benefitsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -519,10 +685,14 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="terms_condition" required>{t('Terms Condition')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="terms_condition" required>
+                            {t('Terms Condition')}
+                        </Label>
                         <div className="flex gap-2">
-                            {termsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {termsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -531,20 +701,22 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                         onChange={(content) => setData('terms_condition', content)}
                         placeholder={t('Enter Terms Condition')}
                     />
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="mt-2 flex items-center space-x-2">
                         <Checkbox
                             id="show_terms_condition"
                             checked={data.show_terms_condition || false}
                             onCheckedChange={(checked) => setData('show_terms_condition', !!checked)}
                         />
-                        <Label htmlFor="show_terms_condition" className="cursor-pointer">{t('Show Terms & Conditions on Application Form')}</Label>
+                        <Label htmlFor="show_terms_condition" className="cursor-pointer">
+                            {t('Show Terms & Conditions on Application Form')}
+                        </Label>
                     </div>
                     <InputError message={errors.terms_condition} />
                 </div>
 
                 <div>
                     <Label>{t('Application Questions')}</Label>
-                    <div className="space-y-2 mt-2">
+                    <div className="mt-2 space-y-2">
                         {customquestions?.map((question: any) => (
                             <div key={question.id} className="flex items-center space-x-2">
                                 <Checkbox
@@ -554,14 +726,17 @@ export default function EditJobPosting({ jobposting, onSuccess }: EditJobPosting
                                         if (checked) {
                                             setData('custom_questions', [...data.custom_questions, question.id]);
                                         } else {
-                                            setData('custom_questions', data.custom_questions.filter(id => id !== question.id));
+                                            setData(
+                                                'custom_questions',
+                                                data.custom_questions.filter((id) => id !== question.id)
+                                            );
                                         }
                                         setCustomQuestionsError('');
                                     }}
                                 />
                                 <Label htmlFor={`question_${question.id}`} className="cursor-pointer">
                                     {question.question}
-                                    {question.is_required && <span className="text-destructive ml-1">*</span>}
+                                    {question.is_required && <span className="ml-1 text-destructive">*</span>}
                                 </Label>
                             </div>
                         ))}

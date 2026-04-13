@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { usePage } from '@inertiajs/react';
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Trash2, User } from 'lucide-react';
 import axios from 'axios';
@@ -47,7 +47,7 @@ export default function View({ bug }: ViewBugProps) {
 
     if (loading) {
         return (
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{t('Bug Details')}</DialogTitle>
                 </DialogHeader>
@@ -63,7 +63,7 @@ export default function View({ bug }: ViewBugProps) {
     const assignedUsers = bugData.assignedUsers || [];
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Bug Details')}</DialogTitle>
             </DialogHeader>
@@ -73,34 +73,43 @@ export default function View({ bug }: ViewBugProps) {
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold text-foreground">{bugData.title}</h3>
                     </div>
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            bugData.priority === 'Low' ? 'bg-muted text-foreground' :
-                            bugData.priority === 'Medium' ? 'bg-muted text-foreground' :
-                            bugData.priority === 'High' ? 'bg-muted text-destructive' :
-                            'bg-muted text-destructive'
-                        }`}>
-                            {t(bugData.priority)}
+                    <span
+                        className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                            bugData.priority === 'Low'
+                                ? 'bg-muted text-foreground'
+                                : bugData.priority === 'Medium'
+                                  ? 'bg-muted text-foreground'
+                                  : bugData.priority === 'High'
+                                    ? 'bg-muted text-destructive'
+                                    : 'bg-muted text-destructive'
+                        }`}
+                    >
+                        {t(bugData.priority)}
                     </span>
-
                 </div>
 
                 {bugData.description && (
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Description')}</h4>
-                        <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">{bugData.description}</p>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Description')}</h4>
+                        <p className="rounded-md bg-muted/50 p-3 text-sm text-muted-foreground">
+                            {bugData.description}
+                        </p>
                     </div>
                 )}
 
                 <div className="grid grid-cols-2 gap-6">
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Project')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Project')}</h4>
                         <p className="text-sm text-foreground">{bugData.project?.name || '-'}</p>
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Status')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Status')}</h4>
                         {bugData.stage?.name ? (
-                            <span className="px-2 py-1 rounded-full text-sm" style={{ backgroundColor: `${bugData.stage?.color || '#e5e7eb'}30`, color: '#374151' }}>
+                            <span
+                                className="rounded-full px-2 py-1 text-sm"
+                                style={{ backgroundColor: `${bugData.stage?.color || '#e5e7eb'}30`, color: '#374151' }}
+                            >
                                 {t(bugData.stage.name)}
                             </span>
                         ) : (
@@ -110,12 +119,12 @@ export default function View({ bug }: ViewBugProps) {
                 </div>
 
                 <div>
-                    <h4 className="text-sm font-medium text-foreground mb-3">{t('Assigned To')}</h4>
+                    <h4 className="mb-3 text-sm font-medium text-foreground">{t('Assigned To')}</h4>
                     {assignedUsers.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                             {assignedUsers?.map((user: any, index: number) => (
-                                <div key={index} className="flex items-center gap-2 bg-muted/50 px-3 py-2 rounded-md">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                                <div key={index} className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
+                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-muted">
                                         <img
                                             src={user.avatar ? getImagePath(user.avatar) : getImagePath('avatar.png')}
                                             alt={user.name}
@@ -139,7 +148,12 @@ export default function View({ bug }: ViewBugProps) {
                         </TabsList>
 
                         <TabsContent value="comments" className="space-y-4">
-                            <CommentsTab bugId={bugData.id} canManageComments={canManageComments} canCreateComments={canCreateComments} canDeleteComments={canDeleteComments} />
+                            <CommentsTab
+                                bugId={bugData.id}
+                                canManageComments={canManageComments}
+                                canCreateComments={canCreateComments}
+                                canDeleteComments={canDeleteComments}
+                            />
                         </TabsContent>
                     </Tabs>
                 )}
@@ -148,7 +162,17 @@ export default function View({ bug }: ViewBugProps) {
     );
 }
 
-function CommentsTab({ bugId, canManageComments, canCreateComments, canDeleteComments }: { bugId: number; canManageComments: boolean; canCreateComments: boolean; canDeleteComments: boolean }) {
+function CommentsTab({
+    bugId,
+    canManageComments,
+    canCreateComments,
+    canDeleteComments,
+}: {
+    bugId: number;
+    canManageComments: boolean;
+    canCreateComments: boolean;
+    canDeleteComments: boolean;
+}) {
     const { t } = useTranslation();
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState<any[]>([]);
@@ -230,16 +254,16 @@ function CommentsTab({ bugId, canManageComments, canCreateComments, canDeleteCom
             )}
 
             {loadingComments ? (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('Loading comments...')}</p>
                 </div>
             ) : comments.length > 0 ? (
                 <div className="space-y-3">
                     {comments?.map((comment) => (
-                        <div key={comment.id} className="bg-muted/50 p-3 rounded-md">
+                        <div key={comment.id} className="rounded-md bg-muted/50 p-3">
                             <div className="flex items-start justify-between">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                                <div className="mb-2 flex items-center gap-2">
+                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-muted">
                                         {comment.user.avatar ? (
                                             <img
                                                 src={getImagePath(comment.user.avatar)}
@@ -263,7 +287,7 @@ function CommentsTab({ bugId, canManageComments, canCreateComments, canDeleteCom
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openDeleteDialog(comment.id)}
-                                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive mt-1"
+                                                    className="mt-1 h-6 w-6 p-0 text-destructive hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-3 w-3" />
                                                 </Button>
@@ -280,7 +304,7 @@ function CommentsTab({ bugId, canManageComments, canCreateComments, canDeleteCom
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('No comments yet')}</p>
                 </div>
             )}

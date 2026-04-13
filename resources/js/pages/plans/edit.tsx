@@ -42,17 +42,19 @@ export default function EditPlan({ plan, activeModules, userSubscriptionInfo }: 
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Subscription Setting'), url: route('plans.index') },
-                { label: t('Edit Plan') }
-            ]}
+            breadcrumbs={[{ label: t('Subscription Setting'), url: route('plans.index') }, { label: t('Edit Plan') }]}
             pageTitle={t('Edit Plan')}
         >
             <Head title={t('Edit Plan')} />
 
             <Card>
                 <CardContent className="pt-6">
-                    <PlanForm plan={plan} activeModules={activeModules} isEdit={true} userSubscriptionInfo={userSubscriptionInfo} />
+                    <PlanForm
+                        plan={plan}
+                        activeModules={activeModules}
+                        isEdit={true}
+                        userSubscriptionInfo={userSubscriptionInfo}
+                    />
                 </CardContent>
             </Card>
         </AuthenticatedLayout>

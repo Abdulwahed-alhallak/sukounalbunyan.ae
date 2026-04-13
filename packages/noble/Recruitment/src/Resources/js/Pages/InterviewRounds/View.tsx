@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { MessageCircle } from 'lucide-react';
 import { InterviewRound } from './types';
@@ -12,9 +12,9 @@ export default function View({ interviewround }: ViewProps) {
 
     return (
         <DialogContent className="max-w-2xl">
-            <DialogHeader className="flex-shrink-0 pb-4 border-b">
+            <DialogHeader className="flex-shrink-0 border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <MessageCircle className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -23,7 +23,7 @@ export default function View({ interviewround }: ViewProps) {
                 </div>
             </DialogHeader>
 
-            <div className="p-4 space-y-6">
+            <div className="space-y-6 p-4">
                 {/* Two Column Layout */}
                 <div className="grid grid-cols-2 gap-8">
                     {/* Left Column */}
@@ -44,7 +44,7 @@ export default function View({ interviewround }: ViewProps) {
                         <div>
                             <label className="font-medium text-foreground">{t('Sequence Number')}:</label>
                             <div>
-                                <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground">
+                                <span className="rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                     {interviewround.sequence_number || '-'}
                                 </span>
                             </div>
@@ -53,10 +53,14 @@ export default function View({ interviewround }: ViewProps) {
                         <div>
                             <label className="font-medium text-foreground">{t('Status')}:</label>
                             <div>
-                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                    interviewround.status === "0" ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
-                                }`}>
-                                    {interviewround.status === "0" ? t('Active') : t('Inactive')}
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${
+                                        interviewround.status === '0'
+                                            ? 'bg-muted text-foreground'
+                                            : 'bg-muted text-destructive'
+                                    }`}
+                                >
+                                    {interviewround.status === '0' ? t('Active') : t('Inactive')}
                                 </span>
                             </div>
                         </div>

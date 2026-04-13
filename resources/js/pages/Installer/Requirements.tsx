@@ -18,19 +18,18 @@ interface Props {
 
 export default function Requirements({ requirements }: Props) {
     const { t } = useTranslation();
-    const allPassed = requirements.php.check && 
-        Object.values(requirements.extensions).every(ext => ext.check);
+    const allPassed = requirements.php.check && Object.values(requirements.extensions).every((ext) => ext.check);
 
     return (
         <>
             <Head title={t('Installation - Requirements')} />
-            <div className="min-h-screen bg-muted/50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="flex min-h-screen flex-col justify-center bg-muted/50 py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
-                    <div className="bg-card py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <h2 className="text-2xl font-bold text-foreground mb-6">{t('Server Requirements')}</h2>
-                        
+                    <div className="bg-card px-4 py-8 shadow sm:rounded-lg sm:px-10">
+                        <h2 className="mb-6 text-2xl font-bold text-foreground">{t('Server Requirements')}</h2>
+
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between p-3 border rounded">
+                            <div className="flex items-center justify-between rounded border p-3">
                                 <span>{requirements.php.name}</span>
                                 <div className="flex items-center space-x-2">
                                     <span className="text-sm text-muted-foreground">{requirements.php.current}</span>
@@ -43,7 +42,7 @@ export default function Requirements({ requirements }: Props) {
                             </div>
 
                             {Object.entries(requirements.extensions).map(([key, ext]) => (
-                                <div key={key} className="flex items-center justify-between p-3 border rounded">
+                                <div key={key} className="flex items-center justify-between rounded border p-3">
                                     <span>{ext.name}</span>
                                     {ext.check ? (
                                         <span className="text-foreground">✓</span>
@@ -57,21 +56,21 @@ export default function Requirements({ requirements }: Props) {
                         <div className="mt-8 flex justify-between">
                             <Link
                                 href={route('installer.welcome')}
-                                className="py-2 px-4 border border-border rounded-md shadow-sm text-sm font-medium text-foreground bg-card hover:bg-muted/50"
+                                className="rounded-md border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm hover:bg-muted/50"
                             >
                                 {t('Back')}
                             </Link>
                             {allPassed ? (
                                 <Link
                                     href={route('installer.permissions')}
-                                    className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-background bg-foreground hover:bg-accent"
+                                    className="rounded-md border border-transparent bg-foreground px-4 py-2 text-sm font-medium text-background shadow-sm hover:bg-accent"
                                 >
                                     {t('Next')}
                                 </Link>
                             ) : (
                                 <button
                                     disabled
-                                    className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-background bg-muted-foreground cursor-not-allowed"
+                                    className="cursor-not-allowed rounded-md border border-transparent bg-muted-foreground px-4 py-2 text-sm font-medium text-background shadow-sm"
                                 >
                                     {t('Fix Requirements First')}
                                 </button>

@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, User, Building, Users, Calendar, FileText, Download } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -15,43 +15,43 @@ export default function View({ employeetransfer }: ViewProps) {
 
     const getStatusColor = (status: string) => {
         const statusMap: any = {
-            'pending': 'bg-muted text-foreground',
-            'approved': 'bg-muted text-foreground', 
+            pending: 'bg-muted text-foreground',
+            approved: 'bg-muted text-foreground',
             'in progress': 'bg-muted text-foreground',
-            'completed': 'bg-muted text-foreground',
-            'rejected': 'bg-muted text-destructive',
-            'cancelled': 'bg-muted text-foreground'
+            completed: 'bg-muted text-foreground',
+            rejected: 'bg-muted text-destructive',
+            cancelled: 'bg-muted text-foreground',
         };
         return statusMap[status] || 'bg-muted text-foreground';
     };
 
     const getStatusText = (status: string) => {
         const statusMap: any = {
-            'pending': 'Pending',
-            'approved': 'Approved',
-            'in progress': 'In Progress', 
-            'completed': 'Completed',
-            'rejected': 'Rejected',
-            'cancelled': 'Cancelled'
+            pending: 'Pending',
+            approved: 'Approved',
+            'in progress': 'In Progress',
+            completed: 'Completed',
+            rejected: 'Rejected',
+            cancelled: 'Cancelled',
         };
         return statusMap[status] || status;
     };
 
     return (
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <DialogTitle className="flex items-center gap-2">
                     <User className="h-5 w-5" />
                     {t('Employee Transfer Details')}
                 </DialogTitle>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-6 space-y-6">
+
+            <div className="flex-1 space-y-6 overflow-y-auto p-6">
                 {/* Employee Info */}
-                <div className="bg-muted/50 p-4 rounded-lg">
+                <div className="rounded-lg bg-muted/50 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h3 className="font-semibold text-lg">{employeetransfer.employee?.name || '-'}</h3>
+                            <h3 className="text-lg font-semibold">{employeetransfer.employee?.name || '-'}</h3>
                             <p className="text-sm text-muted-foreground">{t('Employee')}</p>
                         </div>
                         <Badge className={getStatusColor(employeetransfer.status)}>
@@ -61,22 +61,31 @@ export default function View({ employeetransfer }: ViewProps) {
                 </div>
 
                 {/* Transfer Path Visualization */}
-                <div className="bg-muted/50 p-6 rounded-lg">
-                    <h4 className="font-semibold mb-4 flex items-center gap-2">
+                <div className="rounded-lg bg-muted/50 p-6">
+                    <h4 className="mb-4 flex items-center gap-2 font-semibold">
                         <ArrowRight className="h-4 w-4" />
                         {t('Transfer Path')}
                     </h4>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+
+                    <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
                         {/* From */}
                         <div className="text-center">
-                            <div className="bg-card p-4 rounded-lg border-2 border-border">
-                                <Building className="h-8 w-8 mx-auto mb-2 text-destructive" />
+                            <div className="rounded-lg border-2 border-border bg-card p-4">
+                                <Building className="mx-auto mb-2 h-8 w-8 text-destructive" />
                                 <h5 className="font-semibold text-destructive">{t('From')}</h5>
                                 <div className="mt-2 space-y-1 text-sm">
-                                    <p><strong>{t('Branch')}:</strong> {employeetransfer.from_branch?.branch_name || '-'}</p>
-                                    <p><strong>{t('Department')}:</strong> {employeetransfer.from_department?.department_name || '-'}</p>
-                                    <p><strong>{t('Designation')}:</strong> {employeetransfer.from_designation?.designation_name || '-'}</p>
+                                    <p>
+                                        <strong>{t('Branch')}:</strong>{' '}
+                                        {employeetransfer.from_branch?.branch_name || '-'}
+                                    </p>
+                                    <p>
+                                        <strong>{t('Department')}:</strong>{' '}
+                                        {employeetransfer.from_department?.department_name || '-'}
+                                    </p>
+                                    <p>
+                                        <strong>{t('Designation')}:</strong>{' '}
+                                        {employeetransfer.from_designation?.designation_name || '-'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -88,13 +97,21 @@ export default function View({ employeetransfer }: ViewProps) {
 
                         {/* To */}
                         <div className="text-center">
-                            <div className="bg-card p-4 rounded-lg border-2 border-border">
-                                <Building className="h-8 w-8 mx-auto mb-2 text-foreground" />
+                            <div className="rounded-lg border-2 border-border bg-card p-4">
+                                <Building className="mx-auto mb-2 h-8 w-8 text-foreground" />
                                 <h5 className="font-semibold text-foreground">{t('To')}</h5>
                                 <div className="mt-2 space-y-1 text-sm">
-                                    <p><strong>{t('Branch')}:</strong> {employeetransfer.to_branch?.branch_name || '-'}</p>
-                                    <p><strong>{t('Department')}:</strong> {employeetransfer.to_department?.department_name || '-'}</p>
-                                    <p><strong>{t('Designation')}:</strong> {employeetransfer.to_designation?.designation_name || '-'}</p>
+                                    <p>
+                                        <strong>{t('Branch')}:</strong> {employeetransfer.to_branch?.branch_name || '-'}
+                                    </p>
+                                    <p>
+                                        <strong>{t('Department')}:</strong>{' '}
+                                        {employeetransfer.to_department?.department_name || '-'}
+                                    </p>
+                                    <p>
+                                        <strong>{t('Designation')}:</strong>{' '}
+                                        {employeetransfer.to_designation?.designation_name || '-'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -103,32 +120,37 @@ export default function View({ employeetransfer }: ViewProps) {
                     {/* Transfer Summary */}
                     <div className="mt-4 text-center">
                         <p className="text-lg font-semibold text-foreground">
-                            {employeetransfer.from_branch?.branch_name || '-'} → {employeetransfer.to_branch?.branch_name || '-'}
+                            {employeetransfer.from_branch?.branch_name || '-'} →{' '}
+                            {employeetransfer.to_branch?.branch_name || '-'}
                         </p>
                     </div>
                 </div>
 
                 {/* Transfer Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-4">
                         <div>
-                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                 <Calendar className="h-4 w-4" />
                                 {t('Transfer Date')}
                             </label>
-                            <p className="mt-1 font-medium">{employeetransfer.transfer_date ? formatDate(employeetransfer.transfer_date) : '-'}</p>
-                        </div>
-                        
-                        <div>
-                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                {t('Effective Date')}
-                            </label>
-                            <p className="mt-1 font-medium">{employeetransfer.effective_date ? formatDate(employeetransfer.effective_date) : '-'}</p>
+                            <p className="mt-1 font-medium">
+                                {employeetransfer.transfer_date ? formatDate(employeetransfer.transfer_date) : '-'}
+                            </p>
                         </div>
 
                         <div>
-                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                                <Calendar className="h-4 w-4" />
+                                {t('Effective Date')}
+                            </label>
+                            <p className="mt-1 font-medium">
+                                {employeetransfer.effective_date ? formatDate(employeetransfer.effective_date) : '-'}
+                            </p>
+                        </div>
+
+                        <div>
+                            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                 <Users className="h-4 w-4" />
                                 {t('Approved By')}
                             </label>
@@ -138,27 +160,28 @@ export default function View({ employeetransfer }: ViewProps) {
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                 <FileText className="h-4 w-4" />
                                 {t('Reason')}
                             </label>
                             <p className="mt-1">{employeetransfer.reason || '-'}</p>
                         </div>
-                        
+
                         {employeetransfer.document && (
                             <div>
-                                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                     <Download className="h-4 w-4" />
                                     {t('Document')}
                                 </label>
                                 <div className="mt-1">
-                                    <Button 
-                                        variant="outline" 
+                                    <Button
+                                        variant="outline"
                                         size="sm"
                                         onClick={() => {
                                             const link = document.createElement('a');
                                             link.href = getImagePath(employeetransfer.document);
-                                            link.download = employeetransfer.document?.split('/').pop() || 'transfer-document';
+                                            link.download =
+                                                employeetransfer.document?.split('/').pop() || 'transfer-document';
                                             link.click();
                                         }}
                                         className="flex items-center gap-2"

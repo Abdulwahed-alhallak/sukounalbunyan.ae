@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -41,14 +41,12 @@ export default function EditChartOfAccount({ chartofaccount, onSuccess }: EditCh
         }
     };
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('account.chart-of-accounts.update', chartofaccount.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -59,8 +57,13 @@ export default function EditChartOfAccount({ chartofaccount, onSuccess }: EditCh
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="account_type_id" required>{t('Account Type')}</Label>
-                    <Select value={data.account_type_id?.toString() || ''} onValueChange={(value) => setData('account_type_id', value)}>
+                    <Label htmlFor="account_type_id" required>
+                        {t('Account Type')}
+                    </Label>
+                    <Select
+                        value={data.account_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('account_type_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Account Type')} />
                         </SelectTrigger>
@@ -104,14 +107,22 @@ export default function EditChartOfAccount({ chartofaccount, onSuccess }: EditCh
 
                 <div>
                     <Label>{t('Normal Balance')}</Label>
-                    <RadioGroup value={data.normal_balance || 'debit'} onValueChange={(value) => setData('normal_balance', value)} className="flex gap-6 mt-2">
+                    <RadioGroup
+                        value={data.normal_balance || 'debit'}
+                        onValueChange={(value) => setData('normal_balance', value)}
+                        className="mt-2 flex gap-6"
+                    >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="debit" id="normal_balance_debit" />
-                            <Label htmlFor="normal_balance_debit" className="cursor-pointer">{t('Debit')}</Label>
+                            <Label htmlFor="normal_balance_debit" className="cursor-pointer">
+                                {t('Debit')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="credit" id="normal_balance_credit" />
-                            <Label htmlFor="normal_balance_credit" className="cursor-pointer">{t('Credit')}</Label>
+                            <Label htmlFor="normal_balance_credit" className="cursor-pointer">
+                                {t('Credit')}
+                            </Label>
                         </div>
                     </RadioGroup>
                     <InputError message={errors.normal_balance} />
@@ -145,33 +156,38 @@ export default function EditChartOfAccount({ chartofaccount, onSuccess }: EditCh
                             onCheckedChange={(checked) => setData('is_active', !!checked)}
                             disabled={chartofaccount.is_system_account === 1}
                         />
-                        <Label htmlFor="is_active" className="cursor-pointer">{t('Is Active')}</Label>
+                        <Label htmlFor="is_active" className="cursor-pointer">
+                            {t('Is Active')}
+                        </Label>
                         <InputError message={errors.is_active} />
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="is_sub_account"
-                            checked={isSubAccount}
-                            onCheckedChange={handleSubAccountChange}
-                        />
-                        <Label htmlFor="is_sub_account" className="cursor-pointer">{t('Create as sub account')}</Label>
+                        <Checkbox id="is_sub_account" checked={isSubAccount} onCheckedChange={handleSubAccountChange} />
+                        <Label htmlFor="is_sub_account" className="cursor-pointer">
+                            {t('Create as sub account')}
+                        </Label>
                     </div>
                 </div>
 
                 {isSubAccount && (
                     <div>
                         <Label htmlFor="parent_account_id">{t('Parent Account')}</Label>
-                        <Select value={data.parent_account_id?.toString() || ''} onValueChange={(value) => setData('parent_account_id', value)}>
+                        <Select
+                            value={data.parent_account_id?.toString() || ''}
+                            onValueChange={(value) => setData('parent_account_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Parent Account')} />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="0">{t('None')}</SelectItem>
-                                {filteredParentAccounts.filter((item: any) => item.id !== chartofaccount.id)?.map((item: any) => (
-                                    <SelectItem key={item.id} value={item.id.toString()}>
-                                        {item.account_name}
-                                    </SelectItem>
-                                ))}
+                                {filteredParentAccounts
+                                    .filter((item: any) => item.id !== chartofaccount.id)
+                                    ?.map((item: any) => (
+                                        <SelectItem key={item.id} value={item.id.toString()}>
+                                            {item.account_name}
+                                        </SelectItem>
+                                    ))}
                             </SelectContent>
                         </Select>
                         <InputError message={errors.parent_account_id} />

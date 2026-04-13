@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,7 +21,7 @@ import {
     ExternalLink,
     Star,
     Award,
-    Activity
+    Activity,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useMemo } from 'react';
@@ -90,9 +90,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
         if (userSlug) {
             const link = route('recruitment.frontend.careers.jobs.index', { userSlug });
             const fullUrl = link.startsWith('http') ? link : window.location.origin + link;
-            QRCode.toDataURL(fullUrl)
-                .then(setQrCodeUrl)
-                .catch(console.error);
+            QRCode.toDataURL(fullUrl).then(setQrCodeUrl).catch(console.error);
         }
     }, [userSlug]);
 
@@ -101,13 +99,13 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
         { name: t('Shortlisted'), value: dashboardData?.candidatesByStatus?.shortlisted || 0, color: '#3b82f6' },
         { name: t('Interview'), value: dashboardData?.candidatesByStatus?.interviewScheduled || 0, color: '#f59e0b' },
         { name: t('Hired'), value: dashboardData?.candidatesByStatus?.hired || 0, color: '#10b77f' },
-        { name: t('Rejected'), value: dashboardData?.candidatesByStatus?.rejected || 0, color: '#ef4444' }
+        { name: t('Rejected'), value: dashboardData?.candidatesByStatus?.rejected || 0, color: '#ef4444' },
     ];
 
     const onboardingChart = [
         { name: t('Pending'), value: dashboardData?.onboardingStatus?.pending || 0, color: '#f59e0b' },
         { name: t('In Progress'), value: dashboardData?.onboardingStatus?.inProgress || 0, color: '#3b82f6' },
-        { name: t('Completed'), value: dashboardData?.onboardingStatus?.completed || 0, color: '#10b77f' }
+        { name: t('Completed'), value: dashboardData?.onboardingStatus?.completed || 0, color: '#10b77f' },
     ];
 
     return (
@@ -119,12 +117,20 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
 
             <div className="space-y-6">
                 {/* Hero Section - Left Side Copy Link, Right Side 4 Cards */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                <div className="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-2">
                     {/* Left Side - Welcome Banner with Copy Link */}
-                    <div className="bg-gradient-to-r from-primary/90 to-primary/70 rounded-lg p-8 text-background relative overflow-hidden" style={{ minHeight: '200px' }}>
+                    <div
+                        className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/90 to-primary/70 p-8 text-background"
+                        style={{ minHeight: '200px' }}
+                    >
                         {/* Background SVG Pattern */}
                         <div className="absolute inset-0 opacity-25">
-                            <svg className="w-full h-full" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg
+                                className="h-full w-full"
+                                viewBox="0 0 400 200"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <defs>
                                     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
@@ -142,138 +148,300 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                 {/* Users Vector */}
                                 <g transform="translate(60, 40)" filter="url(#glow)">
                                     <circle cx="15" cy="12" r="8" fill="url(#grad1)">
-                                        <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.8;1;0.8"
+                                            dur="3s"
+                                            repeatCount="indefinite"
+                                        />
                                     </circle>
                                     <path d="M5 35 Q5 25 15 25 Q25 25 25 35" fill="url(#grad1)">
-                                        <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" begin="1s" repeatCount="indefinite" />
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.8;1;0.8"
+                                            dur="3s"
+                                            begin="1s"
+                                            repeatCount="indefinite"
+                                        />
                                     </path>
-                                    <circle cx="15" cy="12" r="5" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
-                                    <path d="M7 30 Q7 22 15 22 Q23 22 23 30" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.4" />
+                                    <circle
+                                        cx="15"
+                                        cy="12"
+                                        r="5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        opacity="0.4"
+                                    />
+                                    <path
+                                        d="M7 30 Q7 22 15 22 Q23 22 23 30"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        fill="none"
+                                        opacity="0.4"
+                                    />
                                 </g>
 
                                 {/* Briefcase Vector */}
                                 <g transform="translate(280, 30)" filter="url(#glow)">
                                     <rect width="25" height="18" rx="3" fill="url(#grad1)">
-                                        <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />
+                                        <animateTransform
+                                            attributeName="transform"
+                                            type="scale"
+                                            values="1;1.05;1"
+                                            dur="3s"
+                                            repeatCount="indefinite"
+                                        />
                                     </rect>
-                                    <rect x="2" y="4" width="21" height="12" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+                                    <rect
+                                        x="2"
+                                        y="4"
+                                        width="21"
+                                        height="12"
+                                        rx="2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        opacity="0.4"
+                                    />
                                     <rect x="10" y="0" width="5" height="4" rx="1" fill="currentColor" opacity="0.6" />
-                                    <line x1="8" y1="10" x2="17" y2="10" stroke="currentColor" strokeWidth="1" opacity="0.5">
-                                        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" />
+                                    <line
+                                        x1="8"
+                                        y1="10"
+                                        x2="17"
+                                        y2="10"
+                                        stroke="currentColor"
+                                        strokeWidth="1"
+                                        opacity="0.5"
+                                    >
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.5;0.8;0.5"
+                                            dur="2s"
+                                            repeatCount="indefinite"
+                                        />
                                     </line>
                                 </g>
 
                                 {/* Calendar Vector */}
                                 <g transform="translate(150, 120)" filter="url(#glow)">
                                     <rect width="30" height="35" rx="4" fill="url(#grad1)">
-                                        <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="3s" repeatCount="indefinite" />
+                                        <animateTransform
+                                            attributeName="transform"
+                                            type="scale"
+                                            values="1;1.05;1"
+                                            dur="3s"
+                                            repeatCount="indefinite"
+                                        />
                                     </rect>
-                                    <rect x="3" y="8" width="24" height="24" rx="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-                                    <line x1="8" y1="3" x2="8" y2="12" stroke="currentColor" strokeWidth="2" opacity="0.6" />
-                                    <line x1="22" y1="3" x2="22" y2="12" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+                                    <rect
+                                        x="3"
+                                        y="8"
+                                        width="24"
+                                        height="24"
+                                        rx="2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1"
+                                        opacity="0.4"
+                                    />
+                                    <line
+                                        x1="8"
+                                        y1="3"
+                                        x2="8"
+                                        y2="12"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        opacity="0.6"
+                                    />
+                                    <line
+                                        x1="22"
+                                        y1="3"
+                                        x2="22"
+                                        y2="12"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        opacity="0.6"
+                                    />
                                     <circle cx="10" cy="18" r="1.5" fill="currentColor" opacity="0.7">
-                                        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.7;1;0.7"
+                                            dur="2s"
+                                            repeatCount="indefinite"
+                                        />
                                     </circle>
                                     <circle cx="15" cy="18" r="1.5" fill="currentColor" opacity="0.7">
-                                        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.5s" repeatCount="indefinite" />
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.7;1;0.7"
+                                            dur="2s"
+                                            begin="0.5s"
+                                            repeatCount="indefinite"
+                                        />
                                     </circle>
                                     <circle cx="20" cy="18" r="1.5" fill="currentColor" opacity="0.7">
-                                        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1s" repeatCount="indefinite" />
+                                        <animate
+                                            attributeName="opacity"
+                                            values="0.7;1;0.7"
+                                            dur="2s"
+                                            begin="1s"
+                                            repeatCount="indefinite"
+                                        />
                                     </circle>
                                 </g>
 
                                 {/* User Check Vector */}
                                 <g transform="translate(320, 120)" filter="url(#glow)">
                                     <rect width="25" height="25" rx="5" fill="url(#grad1)">
-                                        <animateTransform attributeName="transform" type="rotate" values="0 12.5 12.5;5 12.5 12.5;0 12.5 12.5;-5 12.5 12.5;0 12.5 12.5" dur="4s" repeatCount="indefinite" />
+                                        <animateTransform
+                                            attributeName="transform"
+                                            type="rotate"
+                                            values="0 12.5 12.5;5 12.5 12.5;0 12.5 12.5;-5 12.5 12.5;0 12.5 12.5"
+                                            dur="4s"
+                                            repeatCount="indefinite"
+                                        />
                                     </rect>
-                                    <path d="M8 12 L11 15 L17 9" stroke="currentColor" strokeWidth="2.5" fill="none" opacity="0.7">
-                                        <animate attributeName="stroke-dasharray" values="0 20;20 0;0 20" dur="2s" repeatCount="indefinite" />
+                                    <path
+                                        d="M8 12 L11 15 L17 9"
+                                        stroke="currentColor"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        opacity="0.7"
+                                    >
+                                        <animate
+                                            attributeName="stroke-dasharray"
+                                            values="0 20;20 0;0 20"
+                                            dur="2s"
+                                            repeatCount="indefinite"
+                                        />
                                     </path>
                                 </g>
 
                                 {/* Flowing Lines */}
-                                <path d="M0 100 Q100 80 200 100 T400 100" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.2">
-                                    <animate attributeName="stroke-dasharray" values="0 400;200 200;400 0;0 400" dur="6s" repeatCount="indefinite" />
+                                <path
+                                    d="M0 100 Q100 80 200 100 T400 100"
+                                    stroke="currentColor"
+                                    strokeWidth="1"
+                                    fill="none"
+                                    opacity="0.2"
+                                >
+                                    <animate
+                                        attributeName="stroke-dasharray"
+                                        values="0 400;200 200;400 0;0 400"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
                                 </path>
-                                <path d="M0 140 Q150 120 300 140 T400 140" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.15">
-                                    <animate attributeName="stroke-dasharray" values="400 0;200 200;0 400;400 0" dur="8s" repeatCount="indefinite" />
+                                <path
+                                    d="M0 140 Q150 120 300 140 T400 140"
+                                    stroke="currentColor"
+                                    strokeWidth="1"
+                                    fill="none"
+                                    opacity="0.15"
+                                >
+                                    <animate
+                                        attributeName="stroke-dasharray"
+                                        values="400 0;200 200;0 400;400 0"
+                                        dur="8s"
+                                        repeatCount="indefinite"
+                                    />
                                 </path>
                             </svg>
                         </div>
 
-                        <div className="flex items-center justify-between relative z-10 h-full">
+                        <div className="relative z-10 flex h-full items-center justify-between">
                             <div className="flex-1 pr-4">
-                                <h2 className="text-3xl font-bold mb-3">{welcomeCard?.card_title || t('Recruitment Hub')}</h2>
-                                <p className="text-background/90 mb-4 text-sm max-w-2xl">{welcomeCard?.card_description || t('Streamline hiring process from job posting to onboarding.')}</p>
+                                <h2 className="mb-3 text-3xl font-bold">
+                                    {welcomeCard?.card_title || t('Recruitment Hub')}
+                                </h2>
+                                <p className="mb-4 max-w-2xl text-sm text-background/90">
+                                    {welcomeCard?.card_description ||
+                                        t('Streamline hiring process from job posting to onboarding.')}
+                                </p>
                                 <div className="flex items-center gap-3">
                                     <Button
                                         onClick={copyJobPortalLink}
-                                        className="bg-card/20 hover:bg-card/30 border-white/30 backdrop-blur-sm"
+                                        className="border-white/30 bg-card/20 backdrop-blur-sm hover:bg-card/30"
                                         size="sm"
                                     >
                                         {welcomeCard?.button_icon && (
-                                            <SocialLinks
-                                                icon={welcomeCard.button_icon}
-                                                className="h-4 w-4 mr-2"
-                                            />
+                                            <SocialLinks icon={welcomeCard.button_icon} className="mr-2 h-4 w-4" />
                                         )}
                                         {welcomeCard?.button_text || t('Copy Portal Link')}
                                     </Button>
                                 </div>
                             </div>
                             {userSlug && qrCodeUrl && (
-                                <div className="hidden lg:block bg-card p-4 rounded-lg shadow-lg">
-                                    <img src={qrCodeUrl} alt="QR Code" className="w-24 h-24" />
-                                    <p className="text-xs text-muted-foreground text-center mt-2">{t('Scan to visit')}</p>
+                                <div className="hidden rounded-lg bg-card p-4 shadow-lg lg:block">
+                                    <img src={qrCodeUrl} alt="QR Code" className="h-24 w-24" />
+                                    <p className="mt-2 text-center text-xs text-muted-foreground">
+                                        {t('Scan to visit')}
+                                    </p>
                                 </div>
                             )}
                         </div>
                     </div>
 
                     {/* Right Side - 4 Stats Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <Link href={route('recruitment.candidates.index')}>
-                            <Card className="bg-card/60 backdrop-blur-md border-border/50 hover:shadow-lg transition-all cursor-pointer group">
+                            <Card className="group cursor-pointer border-border/50 bg-card/60 backdrop-blur-md transition-all hover:shadow-lg">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{t('Total Candidates')}</CardTitle>
-                                    <Users className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                    <CardTitle className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                                        {t('Total Candidates')}
+                                    </CardTitle>
+                                    <Users className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-foreground">{dashboardData?.overview?.totalCandidates || 0}</div>
+                                    <div className="text-2xl font-bold text-foreground">
+                                        {dashboardData?.overview?.totalCandidates || 0}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Link>
                         <Link href={route('recruitment.job-postings.index')}>
-                            <Card className="bg-card/60 backdrop-blur-md border-border/50 hover:shadow-lg transition-all cursor-pointer group">
+                            <Card className="group cursor-pointer border-border/50 bg-card/60 backdrop-blur-md transition-all hover:shadow-lg">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{t('Active Jobs')}</CardTitle>
-                                    <Briefcase className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                    <CardTitle className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                                        {t('Active Jobs')}
+                                    </CardTitle>
+                                    <Briefcase className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-foreground">{dashboardData?.overview?.activeJobPostings || 0}</div>
+                                    <div className="text-2xl font-bold text-foreground">
+                                        {dashboardData?.overview?.activeJobPostings || 0}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Link>
                         <Link href={route('recruitment.interviews.index')}>
-                            <Card className="bg-card/60 backdrop-blur-md border-border/50 hover:shadow-lg transition-all cursor-pointer group">
+                            <Card className="group cursor-pointer border-border/50 bg-card/60 backdrop-blur-md transition-all hover:shadow-lg">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{t('Interviews')}</CardTitle>
-                                    <Calendar className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                    <CardTitle className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                                        {t('Interviews')}
+                                    </CardTitle>
+                                    <Calendar className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-foreground">{dashboardData?.overview?.pendingInterviews || 0}</div>
+                                    <div className="text-2xl font-bold text-foreground">
+                                        {dashboardData?.overview?.pendingInterviews || 0}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Link>
                         <Link href={route('recruitment.candidate-onboardings.index')}>
-                            <Card className="bg-card/60 backdrop-blur-md border-border/50 hover:shadow-lg transition-all cursor-pointer group">
+                            <Card className="group cursor-pointer border-border/50 bg-card/60 backdrop-blur-md transition-all hover:shadow-lg">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{t('Onboarded')}</CardTitle>
-                                    <UserCheck className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                                    <CardTitle className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                                        {t('Onboarded')}
+                                    </CardTitle>
+                                    <UserCheck className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-foreground">{dashboardData?.overview?.completedOnboardings || 0}</div>
+                                    <div className="text-2xl font-bold text-foreground">
+                                        {dashboardData?.overview?.completedOnboardings || 0}
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Link>
@@ -281,7 +449,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                 </div>
 
                 {/* Calendar and Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Interview Calendar */}
                     <Card className="lg:col-span-2">
                         <CardHeader>
@@ -292,20 +460,27 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                         </CardHeader>
                         <CardContent>
                             <CalendarView
-                                events={dashboardData?.calendarEvents?.map(event => ({
-                                    id: event.id,
-                                    title: event.title,
-                                    startDate: event.date,
-                                    endDate: event.date,
-                                    time: event.time || '09:00',
-                                    color: event.status === 'pending' ? '#f59e0b' :
-                                        event.status === 'completed' ? '#10b77f' :
-                                            event.status === 'cancelled' ? '#ef4444' : '#3b82f6',
-                                    description: `${t('Interview')}: ${event.title} - ${t('Status')}: ${t(event.status)}`,
-                                    type: 'Interview',
-                                })) || []}
-                                onEventClick={(event) => { }}
-                                onDateClick={(date) => { }}
+                                events={
+                                    dashboardData?.calendarEvents?.map((event) => ({
+                                        id: event.id,
+                                        title: event.title,
+                                        startDate: event.date,
+                                        endDate: event.date,
+                                        time: event.time || '09:00',
+                                        color:
+                                            event.status === 'pending'
+                                                ? '#f59e0b'
+                                                : event.status === 'completed'
+                                                  ? '#10b77f'
+                                                  : event.status === 'cancelled'
+                                                    ? '#ef4444'
+                                                    : '#3b82f6',
+                                        description: `${t('Interview')}: ${event.title} - ${t('Status')}: ${t(event.status)}`,
+                                        type: 'Interview',
+                                    })) || []
+                                }
+                                onEventClick={(event) => {}}
+                                onDateClick={(date) => {}}
                             />
                         </CardContent>
                     </Card>
@@ -322,14 +497,14 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                             <div className="space-y-6">
                                 {/* Candidate Status */}
                                 <div>
-                                    <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                                    <h4 className="mb-3 flex items-center gap-2 text-sm font-medium">
                                         <Users className="h-4 w-4 text-foreground" />
                                         {t('Candidate Status')}
                                     </h4>
-                                    {candidateStatusChart.filter(item => item.value > 0).length > 0 ? (
+                                    {candidateStatusChart.filter((item) => item.value > 0).length > 0 ? (
                                         <>
                                             <PieChart
-                                                data={candidateStatusChart.filter(item => item.value > 0)}
+                                                data={candidateStatusChart.filter((item) => item.value > 0)}
                                                 dataKey="value"
                                                 nameKey="name"
                                                 height={170}
@@ -337,16 +512,26 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 showTooltip={true}
                                                 showLegend={false}
                                             />
-                                            <div className="space-y-1 mt-3">
-                                                {candidateStatusChart.filter(item => item.value > 0)?.map((item, index) => (
-                                                    <div key={index} className="flex items-center justify-between p-1 bg-muted/50 rounded">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                                            <span className="text-xs font-medium">{item.name}</span>
+                                            <div className="mt-3 space-y-1">
+                                                {candidateStatusChart
+                                                    .filter((item) => item.value > 0)
+                                                    ?.map((item, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="flex items-center justify-between rounded bg-muted/50 p-1"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <div
+                                                                    className="h-2 w-2 rounded-full"
+                                                                    style={{ backgroundColor: item.color }}
+                                                                ></div>
+                                                                <span className="text-xs font-medium">{item.name}</span>
+                                                            </div>
+                                                            <Badge variant="outline" className="text-xs">
+                                                                {item.value}
+                                                            </Badge>
                                                         </div>
-                                                        <Badge variant="outline" className="text-xs">{item.value}</Badge>
-                                                    </div>
-                                                ))}
+                                                    ))}
                                             </div>
                                         </>
                                     ) : (
@@ -360,14 +545,22 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 showTooltip={false}
                                                 showLegend={false}
                                             />
-                                            <div className="space-y-1 mt-3">
+                                            <div className="mt-3 space-y-1">
                                                 {candidateStatusChart.slice(0, 4)?.map((item, index) => (
-                                                    <div key={index} className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                                    <div
+                                                        key={index}
+                                                        className="flex items-center justify-between rounded bg-muted/50 p-1"
+                                                    >
                                                         <div className="flex items-center gap-2">
-                                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
+                                                            <div
+                                                                className="h-2 w-2 rounded-full"
+                                                                style={{ backgroundColor: item.color }}
+                                                            ></div>
                                                             <span className="text-xs font-medium">{item.name}</span>
                                                         </div>
-                                                        <Badge variant="outline" className="text-xs">{item.value}</Badge>
+                                                        <Badge variant="outline" className="text-xs">
+                                                            {item.value}
+                                                        </Badge>
                                                     </div>
                                                 ))}
                                             </div>
@@ -387,14 +580,14 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
 
                                 {/* Onboarding Progress */}
                                 <div>
-                                    <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                                    <h4 className="mb-3 flex items-center gap-2 text-sm font-medium">
                                         <UserCheck className="h-4 w-4 text-foreground" />
                                         {t('Onboarding Progress')}
                                     </h4>
-                                    {onboardingChart.filter(item => item.value > 0).length > 0 ? (
+                                    {onboardingChart.filter((item) => item.value > 0).length > 0 ? (
                                         <>
                                             <PieChart
-                                                data={onboardingChart.filter(item => item.value > 0)}
+                                                data={onboardingChart.filter((item) => item.value > 0)}
                                                 dataKey="value"
                                                 nameKey="name"
                                                 height={170}
@@ -402,27 +595,33 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 showTooltip={true}
                                                 showLegend={false}
                                             />
-                                            <div className="space-y-1 mt-3">
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                            <div className="mt-3 space-y-1">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('Pending')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-muted-foreground">{dashboardData?.onboardingStatus?.pending || 0}</span>
+                                                    <span className="text-xs font-bold text-muted-foreground">
+                                                        {dashboardData?.onboardingStatus?.pending || 0}
+                                                    </span>
                                                 </div>
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('In Progress')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-foreground">{dashboardData?.onboardingStatus?.inProgress || 0}</span>
+                                                    <span className="text-xs font-bold text-foreground">
+                                                        {dashboardData?.onboardingStatus?.inProgress || 0}
+                                                    </span>
                                                 </div>
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('Completed')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-foreground">{dashboardData?.onboardingStatus?.completed || 0}</span>
+                                                    <span className="text-xs font-bold text-foreground">
+                                                        {dashboardData?.onboardingStatus?.completed || 0}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </>
@@ -437,27 +636,33 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                                 showTooltip={false}
                                                 showLegend={false}
                                             />
-                                            <div className="space-y-1 mt-3">
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                            <div className="mt-3 space-y-1">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('Pending')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-muted-foreground">{dashboardData?.onboardingStatus?.pending || 0}</span>
+                                                    <span className="text-xs font-bold text-muted-foreground">
+                                                        {dashboardData?.onboardingStatus?.pending || 0}
+                                                    </span>
                                                 </div>
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('In Progress')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-foreground">{dashboardData?.onboardingStatus?.inProgress || 0}</span>
+                                                    <span className="text-xs font-bold text-foreground">
+                                                        {dashboardData?.onboardingStatus?.inProgress || 0}
+                                                    </span>
                                                 </div>
-                                                <div className="flex items-center justify-between p-1 bg-muted/50 rounded">
+                                                <div className="flex items-center justify-between rounded bg-muted/50 p-1">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 bg-muted/500 rounded-full"></div>
+                                                        <div className="bg-muted/500 h-2 w-2 rounded-full"></div>
                                                         <span className="text-xs font-medium">{t('Completed')}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-foreground">{dashboardData?.onboardingStatus?.completed || 0}</span>
+                                                    <span className="text-xs font-bold text-foreground">
+                                                        {dashboardData?.onboardingStatus?.completed || 0}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </>
@@ -481,68 +686,94 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                             {dashboardData?.hiringFunnel ? (
                                 <>
                                     <div className="relative">
-                                        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-muted/50 to-muted rounded-lg border border-border">
+                                        <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-muted-foreground rounded-lg">
+                                                <div className="rounded-lg bg-muted-foreground p-2">
                                                     <Users className="h-4 w-4 text-background" />
                                                 </div>
                                                 <div>
-                                                    <span className="font-medium text-foreground">{t('Applications')}</span>
+                                                    <span className="font-medium text-foreground">
+                                                        {t('Applications')}
+                                                    </span>
                                                     <p className="text-xs text-foreground">{t('Initial stage')}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground mb-1 inline-block">
+                                                <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.applications} {t('Candidates')}
                                                 </span>
                                                 <p className="text-xs text-foreground">{t('100%')}</p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full w-0.5 h-4 bg-muted"></div>
+                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
                                     <div className="relative">
-                                        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-muted/50 to-muted rounded-lg border border-border">
+                                        <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-muted/500 rounded-lg">
+                                                <div className="bg-muted/500 rounded-lg p-2">
                                                     <Target className="h-4 w-4 text-background" />
                                                 </div>
                                                 <div>
-                                                    <span className="font-medium text-foreground">{t('Shortlisted')}</span>
+                                                    <span className="font-medium text-foreground">
+                                                        {t('Shortlisted')}
+                                                    </span>
                                                     <p className="text-xs text-foreground">{t('Screening passed')}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground mb-1 inline-block">
+                                                <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.shortlisted} {t('Candidates')}
                                                 </span>
-                                                <p className="text-xs text-foreground">{dashboardData.hiringFunnel.applications > 0 ? Math.round((dashboardData.hiringFunnel.shortlisted / dashboardData.hiringFunnel.applications) * 100) : 0}%</p>
+                                                <p className="text-xs text-foreground">
+                                                    {dashboardData.hiringFunnel.applications > 0
+                                                        ? Math.round(
+                                                              (dashboardData.hiringFunnel.shortlisted /
+                                                                  dashboardData.hiringFunnel.applications) *
+                                                                  100
+                                                          )
+                                                        : 0}
+                                                    %
+                                                </p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full w-0.5 h-4 bg-muted"></div>
+                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
                                     <div className="relative">
-                                        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-muted/50 to-muted rounded-lg border border-border">
+                                        <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-foreground rounded-lg">
+                                                <div className="rounded-lg bg-foreground p-2">
                                                     <Calendar className="h-4 w-4 text-background" />
                                                 </div>
                                                 <div>
-                                                    <span className="font-medium text-foreground">{t('Interviewed')}</span>
-                                                    <p className="text-xs text-foreground">{t('Interview completed')}</p>
+                                                    <span className="font-medium text-foreground">
+                                                        {t('Interviewed')}
+                                                    </span>
+                                                    <p className="text-xs text-foreground">
+                                                        {t('Interview completed')}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground mb-1 inline-block">
+                                                <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                     {dashboardData.hiringFunnel.interviewed} {t('Candidates')}
                                                 </span>
-                                                <p className="text-xs text-foreground">{dashboardData.hiringFunnel.applications > 0 ? Math.round((dashboardData.hiringFunnel.interviewed / dashboardData.hiringFunnel.applications) * 100) : 0}%</p>
+                                                <p className="text-xs text-foreground">
+                                                    {dashboardData.hiringFunnel.applications > 0
+                                                        ? Math.round(
+                                                              (dashboardData.hiringFunnel.interviewed /
+                                                                  dashboardData.hiringFunnel.applications) *
+                                                                  100
+                                                          )
+                                                        : 0}
+                                                    %
+                                                </p>
                                             </div>
                                         </div>
-                                        <div className="absolute left-8 top-full w-0.5 h-4 bg-muted"></div>
+                                        <div className="absolute left-8 top-full h-4 w-0.5 bg-muted"></div>
                                     </div>
-                                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-muted/50 to-muted rounded-lg border border-border">
+                                    <div className="flex items-center justify-between rounded-lg border border-border bg-gradient-to-r from-muted/50 to-muted p-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-muted/500 rounded-lg">
+                                            <div className="bg-muted/500 rounded-lg p-2">
                                                 <CheckCircle className="h-4 w-4 text-background" />
                                             </div>
                                             <div>
@@ -551,16 +782,25 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground mb-1 inline-block">
+                                            <span className="mb-1 inline-block rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                                                 {dashboardData.hiringFunnel.hired} {t('Candidates')}
                                             </span>
-                                            <p className="text-xs text-foreground">{dashboardData.hiringFunnel.applications > 0 ? Math.round((dashboardData.hiringFunnel.hired / dashboardData.hiringFunnel.applications) * 100) : 0}%</p>
+                                            <p className="text-xs text-foreground">
+                                                {dashboardData.hiringFunnel.applications > 0
+                                                    ? Math.round(
+                                                          (dashboardData.hiringFunnel.hired /
+                                                              dashboardData.hiringFunnel.applications) *
+                                                              100
+                                                      )
+                                                    : 0}
+                                                %
+                                            </p>
                                         </div>
                                     </div>
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-                                    <TrendingUp className="h-12 w-12 text-muted-foreground/60 mb-2" />
+                                    <TrendingUp className="mb-2 h-12 w-12 text-muted-foreground/60" />
                                     <p className="text-sm">{t('No funnel data available')}</p>
                                 </div>
                             )}
@@ -571,7 +811,7 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                 {/* Alerts */}
                 <div className="grid grid-cols-1 gap-6">
                     {/* Alerts */}
-                    <Card className="border-border bg-muted/50/50">
+                    <Card className="bg-muted/50/50 border-border">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-foreground">
                                 <AlertTriangle className="h-5 w-5" />
@@ -581,24 +821,32 @@ export default function RecruitmentIndex({ message, dashboardData, userSlug, wel
                         <CardContent>
                             <div className="space-y-3">
                                 {dashboardData?.onboardingStatus?.pending > 0 && (
-                                    <div className="flex items-center justify-between p-3 bg-card rounded-lg border border-border">
+                                    <div className="flex items-center justify-between rounded-lg border border-border bg-card p-3">
                                         <div className="flex items-center gap-3">
                                             <Clock className="h-5 w-5 text-muted-foreground" />
                                             <div>
-                                                <p className="font-medium text-foreground">{t('Pending Onboardings')}</p>
-                                                <p className="text-sm text-foreground">{dashboardData.onboardingStatus.pending} {t('items need attention')}</p>
+                                                <p className="font-medium text-foreground">
+                                                    {t('Pending Onboardings')}
+                                                </p>
+                                                <p className="text-sm text-foreground">
+                                                    {dashboardData.onboardingStatus.pending} {t('items need attention')}
+                                                </p>
                                             </div>
                                         </div>
                                         <Link href={route('recruitment.candidate-onboardings.index')}>
-                                            <Button size="sm" variant="outline" className="border-border text-foreground hover:bg-muted">
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="border-border text-foreground hover:bg-muted"
+                                            >
                                                 {t('Review')}
                                             </Button>
                                         </Link>
                                     </div>
                                 )}
                                 {!dashboardData?.onboardingStatus?.pending && (
-                                    <div className="text-center py-8 text-muted-foreground">
-                                        <CheckCircle className="h-12 w-12 mx-auto mb-2 text-foreground" />
+                                    <div className="py-8 text-center text-muted-foreground">
+                                        <CheckCircle className="mx-auto mb-2 h-12 w-12 text-foreground" />
                                         <p>{t('All tasks are up to date!')}</p>
                                     </div>
                                 )}

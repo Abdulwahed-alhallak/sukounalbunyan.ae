@@ -24,9 +24,7 @@ export interface NavItem {
     isLabel?: boolean;
 }
 
-export type PageProps<
-    T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
         permissions?: string[];

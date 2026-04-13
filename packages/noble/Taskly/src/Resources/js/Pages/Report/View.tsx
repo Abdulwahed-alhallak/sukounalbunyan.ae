@@ -55,28 +55,28 @@ interface ProjectReportViewProps {
 
 export default function View() {
     const { t } = useTranslation();
-    const { project, taskStatusData, taskPriorityData, projectStats, usersData, milestonesData } = usePage<ProjectReportViewProps>().props;
+    const { project, taskStatusData, taskPriorityData, projectStats, usersData, milestonesData } =
+        usePage<ProjectReportViewProps>().props;
 
     const getStatusColor = (status: string) => {
         const colors = {
-            'active': 'bg-muted text-foreground',
-            'completed': 'bg-muted text-foreground',
-            'on_hold': 'bg-muted text-foreground',
-            'cancelled': 'bg-muted text-destructive'
+            active: 'bg-muted text-foreground',
+            completed: 'bg-muted text-foreground',
+            on_hold: 'bg-muted text-foreground',
+            cancelled: 'bg-muted text-destructive',
         };
         return colors[status as keyof typeof colors] || 'bg-muted text-foreground';
     };
 
-    const completionPercentage = projectStats.total_tasks > 0
-        ? Math.round((projectStats.completed_tasks / projectStats.total_tasks) * 100)
-        : 0;
+    const completionPercentage =
+        projectStats.total_tasks > 0 ? Math.round((projectStats.completed_tasks / projectStats.total_tasks) * 100) : 0;
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Project'), url: route('project.dashboard.index')},
+                { label: t('Project'), url: route('project.dashboard.index') },
                 { label: t('Project Report'), url: route('project.report.index') },
-                { label: project.name }
+                { label: project.name },
             ]}
             pageTitle={`${t('Project Report')}: ${project.name}`}
         >
@@ -84,31 +84,38 @@ export default function View() {
 
             <div className="space-y-4">
                 {/* Project Overview Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {/* Project Info Card */}
                     <Card className="shadow-sm">
                         <CardContent className="p-4">
-                            <h3 className="font-semibold text-base mb-2">{project.name}</h3>
+                            <h3 className="mb-2 text-base font-semibold">{project.name}</h3>
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2">
                                     <span className="text-xs font-medium">{t('Status')} :</span>
-                                    <span className={`text-xs px-2 py-1 rounded-full ${
-                                        project.status === 'Finished' ? 'bg-muted text-foreground' :
-                                        project.status === 'Ongoing' ? 'bg-muted text-foreground' :
-                                        project.status === 'Onhold' ? 'bg-muted text-foreground' :
-                                        'bg-muted text-foreground'
-                                    }`}>
+                                    <span
+                                        className={`rounded-full px-2 py-1 text-xs ${
+                                            project.status === 'Finished'
+                                                ? 'bg-muted text-foreground'
+                                                : project.status === 'Ongoing'
+                                                  ? 'bg-muted text-foreground'
+                                                  : project.status === 'Onhold'
+                                                    ? 'bg-muted text-foreground'
+                                                    : 'bg-muted text-foreground'
+                                        }`}
+                                    >
                                         {t(project.status.replace('_', ' '))}
                                     </span>
                                 </div>
                                 {project.budget && (
                                     <div className="text-xs">
-                                        <span className="font-medium">{t('Budget')} :</span> {formatCurrency(project.budget)}
+                                        <span className="font-medium">{t('Budget')} :</span>{' '}
+                                        {formatCurrency(project.budget)}
                                     </div>
                                 )}
                                 {projectStats.total_expenses !== undefined && (
-                                    <div className="text-xs text-muted-foreground mt-1">
-                                        <span className="font-medium">{t('Expenses')} :</span> {formatCurrency(projectStats.total_expenses)}
+                                    <div className="mt-1 text-xs text-muted-foreground">
+                                        <span className="font-medium">{t('Expenses')} :</span>{' '}
+                                        {formatCurrency(projectStats.total_expenses)}
                                     </div>
                                 )}
                             </div>
@@ -118,16 +125,18 @@ export default function View() {
                     {/* Dates Card */}
                     <Card className="shadow-sm">
                         <CardContent className="p-4">
-                            <h4 className="font-semibold text-sm mb-2 flex items-center gap-1">
+                            <h4 className="mb-2 flex items-center gap-1 text-sm font-semibold">
                                 <CalendarDays className="h-3 w-3" />
                                 {t('Timeline')}
                             </h4>
                             <div className="space-y-1">
                                 <div className="text-xs">
-                                    <span className="font-medium">{t('Start')} :</span> {formatDate(project.start_date) || t('Not set')}
+                                    <span className="font-medium">{t('Start')} :</span>{' '}
+                                    {formatDate(project.start_date) || t('Not set')}
                                 </div>
                                 <div className="text-xs">
-                                    <span className="font-medium">{t('End')} :</span> {formatDate(project.end_date) || t('Not set')}
+                                    <span className="font-medium">{t('End')} :</span>{' '}
+                                    {formatDate(project.end_date) || t('Not set')}
                                 </div>
                             </div>
                         </CardContent>
@@ -136,22 +145,26 @@ export default function View() {
                     {/* Task Stats Card */}
                     <Card className="shadow-sm">
                         <CardContent className="p-4">
-                            <h4 className="font-semibold text-sm mb-2 flex items-center gap-1">
+                            <h4 className="mb-2 flex items-center gap-1 text-sm font-semibold">
                                 <CheckCircle className="h-3 w-3" />
                                 {t('Tasks')}
                             </h4>
                             <div className="space-y-1">
-                                <div className="text-xs flex justify-between">
+                                <div className="flex justify-between text-xs">
                                     <span>{t('Total')} :</span>
                                     <span className="font-semibold">{projectStats.total_tasks}</span>
                                 </div>
-                                <div className="text-xs flex justify-between">
+                                <div className="flex justify-between text-xs">
                                     <span>{t('Completed')} :</span>
-                                    <span className="font-semibold text-foreground">{projectStats.completed_tasks}</span>
+                                    <span className="font-semibold text-foreground">
+                                        {projectStats.completed_tasks}
+                                    </span>
                                 </div>
-                                <div className="text-xs flex justify-between">
+                                <div className="flex justify-between text-xs">
                                     <span>{t('In Progress')} :</span>
-                                    <span className="font-semibold text-foreground">{projectStats.in_progress_tasks}</span>
+                                    <span className="font-semibold text-foreground">
+                                        {projectStats.in_progress_tasks}
+                                    </span>
                                 </div>
                             </div>
                         </CardContent>
@@ -160,12 +173,12 @@ export default function View() {
                     {/* Progress Card */}
                     <Card className="shadow-sm">
                         <CardContent className="p-4">
-                            <h4 className="font-semibold text-sm mb-2 flex items-center gap-1">
+                            <h4 className="mb-2 flex items-center gap-1 text-sm font-semibold">
                                 <Users className="h-3 w-3" />
                                 {t('Progress')}
                             </h4>
                             <div className="space-y-2">
-                                <div className="text-xs flex justify-between">
+                                <div className="flex justify-between text-xs">
                                     <span>{t('Team Member')} :</span>
                                     <span className="font-semibold">{projectStats.team_members}</span>
                                 </div>
@@ -174,9 +187,9 @@ export default function View() {
                                         <span>{t('Complete')} :</span>
                                         <span className="font-semibold">{completionPercentage}%</span>
                                     </div>
-                                    <div className="w-full bg-muted rounded-full h-1.5">
+                                    <div className="h-1.5 w-full rounded-full bg-muted">
                                         <div
-                                            className="bg-foreground h-1.5 rounded-full transition-all duration-300"
+                                            className="h-1.5 rounded-full bg-foreground transition-all duration-300"
                                             style={{ width: `${completionPercentage}%` }}
                                         ></div>
                                     </div>
@@ -187,7 +200,7 @@ export default function View() {
                 </div>
 
                 {/* Charts Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Task Status Pie Chart */}
                     <Card className="shadow-sm">
                         <CardHeader className="pb-3">
@@ -196,7 +209,7 @@ export default function View() {
                                 {t('Task Status Distribution')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 pb-3">
+                        <CardContent className="pb-3 pt-0">
                             {taskStatusData.length > 0 ? (
                                 <div className="flex items-start justify-between">
                                     {/* Pie Chart - Left Side */}
@@ -210,18 +223,27 @@ export default function View() {
                                             showLabels={false}
                                             showLegend={false}
                                             showTooltip={true}
-                                            colors={taskStatusData?.map(item => item.color)}
+                                            colors={taskStatusData?.map((item) => item.color)}
                                         />
                                     </div>
 
                                     {/* Status List - Right Side */}
-                                    <div className="w-44 space-y-3 mt-8">
+                                    <div className="mt-8 w-44 space-y-3">
                                         {taskStatusData?.map((item, index) => (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                                            <div
+                                                key={index}
+                                                className="flex items-center justify-between rounded-lg bg-muted/50 p-3"
+                                            >
                                                 <div className="flex items-center gap-3">
                                                     <div
-                                                        className="w-4 h-4 rounded-full"
-                                                        style={{ backgroundColor: item.color || ['#3b82f6', '#10b77f', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5] }}
+                                                        className="h-4 w-4 rounded-full"
+                                                        style={{
+                                                            backgroundColor:
+                                                                item.color ||
+                                                                ['#3b82f6', '#10b77f', '#f59e0b', '#ef4444', '#8b5cf6'][
+                                                                    index % 5
+                                                                ],
+                                                        }}
                                                     ></div>
                                                     <span className="text-sm font-medium">{item.name}</span>
                                                 </div>
@@ -231,9 +253,9 @@ export default function View() {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex items-center justify-center h-64 text-muted-foreground">
+                                <div className="flex h-64 items-center justify-center text-muted-foreground">
                                     <div className="text-center">
-                                        <PieChartIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                        <PieChartIcon className="mx-auto mb-2 h-8 w-8 opacity-50" />
                                         <p className="text-sm">{t('No task data available')}</p>
                                     </div>
                                 </div>
@@ -249,7 +271,7 @@ export default function View() {
                                 {t('Task Priority Distribution')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 pb-0 flex justify-center">
+                        <CardContent className="flex justify-center pb-0 pt-0">
                             {taskPriorityData.length > 0 ? (
                                 <div className="w-full">
                                     <BarChart
@@ -263,9 +285,9 @@ export default function View() {
                                     />
                                 </div>
                             ) : (
-                                <div className="flex items-center justify-center h-48 text-muted-foreground">
+                                <div className="flex h-48 items-center justify-center text-muted-foreground">
                                     <div className="text-center">
-                                        <BarChart3 className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                        <BarChart3 className="mx-auto mb-2 h-8 w-8 opacity-50" />
                                         <p className="text-sm">{t('No priority data available')}</p>
                                     </div>
                                 </div>
@@ -275,21 +297,23 @@ export default function View() {
                 </div>
 
                 {/* Users and Milestones Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Users Table */}
                     <Card className="shadow-sm">
                         <CardHeader className="pb-3">
                             <CardTitle className="text-base">{t('Users')}</CardTitle>
                         </CardHeader>
                         <CardContent className="pt-0">
-                            <div className={`overflow-x-auto ${usersData?.length > 4 ? 'max-h-48 overflow-y-auto' : ''}`}>
+                            <div
+                                className={`overflow-x-auto ${usersData?.length > 4 ? 'max-h-48 overflow-y-auto' : ''}`}
+                            >
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="text-left py-2 font-medium">{t('NAME')}</th>
-                                            <th className="text-left py-2 font-medium">{t('ASSIGNED TASKS')}</th>
-                                            <th className="text-left py-2 font-medium">{t('DONE TASKS')}</th>
-                                            <th className="text-left py-2 font-medium">{t('TIME LOGGED')}</th>
+                                            <th className="py-2 text-left font-medium">{t('NAME')}</th>
+                                            <th className="py-2 text-left font-medium">{t('ASSIGNED TASKS')}</th>
+                                            <th className="py-2 text-left font-medium">{t('DONE TASKS')}</th>
+                                            <th className="py-2 text-left font-medium">{t('TIME LOGGED')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -299,7 +323,9 @@ export default function View() {
                                                     <td className="py-3">{user.name}</td>
                                                     <td className="py-3">{user.assigned_tasks}</td>
                                                     <td className="py-3">{user.done_tasks}</td>
-                                                    <td className="py-3 font-medium text-foreground">{user.time_logged_formatted}</td>
+                                                    <td className="py-3 font-medium text-foreground">
+                                                        {user.time_logged_formatted}
+                                                    </td>
                                                 </tr>
                                             ))
                                         ) : (
@@ -321,16 +347,18 @@ export default function View() {
                             <CardTitle className="text-base">{t('Milestones')}</CardTitle>
                         </CardHeader>
                         <CardContent className="pt-0">
-                            <div className={`overflow-x-auto ${milestonesData?.length > 4 ? 'max-h-48 overflow-y-auto' : ''}`}>
+                            <div
+                                className={`overflow-x-auto ${milestonesData?.length > 4 ? 'max-h-48 overflow-y-auto' : ''}`}
+                            >
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="text-left py-2 font-medium">{t('NAME')}</th>
-                                            <th className="text-left py-2 font-medium">{t('PROGRESS')}</th>
-                                            <th className="text-left py-2 font-medium">{t('COST')}</th>
-                                            <th className="text-left py-2 font-medium">{t('STATUS')}</th>
-                                            <th className="text-left py-2 font-medium">{t('START DATE')}</th>
-                                            <th className="text-left py-2 font-medium">{t('END DATE')}</th>
+                                            <th className="py-2 text-left font-medium">{t('NAME')}</th>
+                                            <th className="py-2 text-left font-medium">{t('PROGRESS')}</th>
+                                            <th className="py-2 text-left font-medium">{t('COST')}</th>
+                                            <th className="py-2 text-left font-medium">{t('STATUS')}</th>
+                                            <th className="py-2 text-left font-medium">{t('START DATE')}</th>
+                                            <th className="py-2 text-left font-medium">{t('END DATE')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -340,19 +368,26 @@ export default function View() {
                                                     <td className="py-3">{milestone.name}</td>
                                                     <td className="py-3">
                                                         <div className="flex items-center gap-2">
-                                                            <div className="w-16 bg-muted rounded-full h-2">
-                                                                <div className="bg-foreground h-2 rounded-full" style={{width: `${milestone.progress}%`}}></div>
+                                                            <div className="h-2 w-16 rounded-full bg-muted">
+                                                                <div
+                                                                    className="h-2 rounded-full bg-foreground"
+                                                                    style={{ width: `${milestone.progress}%` }}
+                                                                ></div>
                                                             </div>
                                                             <span className="text-xs">{milestone.progress}%</span>
                                                         </div>
                                                     </td>
                                                     <td className="py-3">{formatCurrency(milestone.cost)}</td>
                                                     <td className="py-3">
-                                                        <span className={`px-2 py-1 rounded-full text-xs ${
-                                                            milestone.status === 'Complete' ? 'bg-muted text-foreground' :
-                                                            milestone.status === 'Ongoing' ? 'bg-muted text-foreground' :
-                                                            'bg-muted text-destructive'
-                                                        }`}>
+                                                        <span
+                                                            className={`rounded-full px-2 py-1 text-xs ${
+                                                                milestone.status === 'Complete'
+                                                                    ? 'bg-muted text-foreground'
+                                                                    : milestone.status === 'Ongoing'
+                                                                      ? 'bg-muted text-foreground'
+                                                                      : 'bg-muted text-destructive'
+                                                            }`}
+                                                        >
                                                             {t(milestone.status)}
                                                         </span>
                                                     </td>

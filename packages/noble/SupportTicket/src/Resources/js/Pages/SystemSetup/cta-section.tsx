@@ -1,14 +1,14 @@
 import { Head, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import InputError from '@/components/ui/input-error';
-import { Save } from "lucide-react";
-import SystemSetupSidebar from "./SystemSetupSidebar";
+import { Save } from 'lucide-react';
+import SystemSetupSidebar from './SystemSetupSidebar';
 
 interface CtaSectionData {
     knowledge_base: {
@@ -30,11 +30,10 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
 
     const defaultCtaSections: CtaSectionData = {
         knowledge_base: { title: '', description: '' },
-        faq: { title: '', description: '' }
+        faq: { title: '', description: '' },
     };
 
     const { data, setData, post, processing, errors } = useForm<CtaSectionData>(ctaSections || defaultCtaSections);
-
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,24 +45,24 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
             breadcrumbs={[
                 { label: t('Support Ticket'), url: route('support-tickets.index') },
                 { label: t('System Setup'), url: route('support-ticket.settings.brand') },
-                { label: t('CTA Sections') }
+                { label: t('CTA Sections') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('CTA Sections')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="cta-sections" />
                 </div>
 
                 <div className="flex-1">
                     <Card>
                         <CardHeader>
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 <CardTitle>{t('CTA Sections')}</CardTitle>
                                 <Button type="submit" disabled={processing} form="cta-sections-form">
-                                    <Save className="h-4 w-4 mr-2" />
+                                    <Save className="mr-2 h-4 w-4" />
                                     {processing ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>
@@ -71,9 +70,9 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                         <CardContent>
                             <form id="cta-sections-form" onSubmit={submit} className="space-y-8">
                                 {/* Knowledge Base & FAQ Row (6x6) */}
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                                     {/* Knowledge Base CTA Section */}
-                                    <div className="border rounded-lg p-6 space-y-4">
+                                    <div className="space-y-4 rounded-lg border p-6">
                                         <h3 className="text-lg font-semibold">{t('Knowledge Base CTA')}</h3>
                                         <div className="space-y-4">
                                             <div>
@@ -82,7 +81,12 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                                     id="knowledge-base-title"
                                                     type="text"
                                                     value={data.knowledge_base?.title || ''}
-                                                    onChange={(e) => setData('knowledge_base', { ...data.knowledge_base, title: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setData('knowledge_base', {
+                                                            ...data.knowledge_base,
+                                                            title: e.target.value,
+                                                        })
+                                                    }
                                                     placeholder={t('Enter knowledge base CTA title')}
                                                     required
                                                 />
@@ -93,7 +97,12 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                                 <Textarea
                                                     id="knowledge-base-description"
                                                     value={data.knowledge_base?.description || ''}
-                                                    onChange={(e) => setData('knowledge_base', { ...data.knowledge_base, description: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setData('knowledge_base', {
+                                                            ...data.knowledge_base,
+                                                            description: e.target.value,
+                                                        })
+                                                    }
                                                     placeholder={t('Enter knowledge base CTA description')}
                                                     rows={4}
                                                     required
@@ -104,7 +113,7 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                     </div>
 
                                     {/* FAQ CTA Section */}
-                                    <div className="border rounded-lg p-6 space-y-4">
+                                    <div className="space-y-4 rounded-lg border p-6">
                                         <h3 className="text-lg font-semibold">{t('FAQ CTA')}</h3>
                                         <div className="space-y-4">
                                             <div>
@@ -113,7 +122,9 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                                     id="faq-title"
                                                     type="text"
                                                     value={data.faq?.title || ''}
-                                                    onChange={(e) => setData('faq', { ...data.faq, title: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setData('faq', { ...data.faq, title: e.target.value })
+                                                    }
                                                     placeholder={t('Enter FAQ CTA title')}
                                                     required
                                                 />
@@ -124,7 +135,9 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                                 <Textarea
                                                     id="faq-description"
                                                     value={data.faq?.description || ''}
-                                                    onChange={(e) => setData('faq', { ...data.faq, description: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setData('faq', { ...data.faq, description: e.target.value })
+                                                    }
                                                     placeholder={t('Enter FAQ CTA description')}
                                                     rows={4}
                                                     required
@@ -134,8 +147,6 @@ export default function CtaSection({ ctaSections }: CtaSectionProps) {
                                         </div>
                                     </div>
                                 </div>
-
-
                             </form>
                         </CardContent>
                     </Card>

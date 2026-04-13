@@ -26,10 +26,7 @@ export default function CreatePlan({ activeModules, userSubscriptionInfo }: Prop
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Subscription Setting'), url: route('plans.index') },
-                { label: t('Create Plan') }
-            ]}
+            breadcrumbs={[{ label: t('Subscription Setting'), url: route('plans.index') }, { label: t('Create Plan') }]}
             pageTitle={t('Create Plan')}
         >
             <Head title={t('Create Plan')} />

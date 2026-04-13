@@ -20,7 +20,7 @@ export default function Create({ onSuccess }: CreateProps) {
         title: '',
         description: '',
         contents: '',
-        enable_page_footer: 'on'
+        enable_page_footer: 'on',
     });
 
     const submit = (e: React.FormEvent) => {
@@ -28,19 +28,17 @@ export default function Create({ onSuccess }: CreateProps) {
         post(route('support-ticket.custom-pages.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Create Custom Page')}</DialogTitle>
-                <DialogDescription>
-                    {t('Create a new custom page for your website')}
-                </DialogDescription>
+                <DialogDescription>{t('Create a new custom page for your website')}</DialogDescription>
             </DialogHeader>
-            
+
             <form onSubmit={submit} className="space-y-4">
                 <div>
                     <Label htmlFor="title">{t('Title')}</Label>
@@ -68,7 +66,9 @@ export default function Create({ onSuccess }: CreateProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="contents" required>{t('Contents')}</Label>
+                    <Label htmlFor="contents" required>
+                        {t('Contents')}
+                    </Label>
                     <RichTextEditor
                         content={data.contents}
                         onChange={(content) => setData('contents', content)}

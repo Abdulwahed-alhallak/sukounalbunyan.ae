@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { UnitCreateProps, UnitFormData } from './types';
 
 export default function Create({ onSuccess }: UnitCreateProps) {
@@ -18,7 +18,7 @@ export default function Create({ onSuccess }: UnitCreateProps) {
         post(route('product-service.units.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

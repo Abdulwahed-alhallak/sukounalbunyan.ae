@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -29,18 +29,20 @@ export default function EditMilestone({ milestone, goals, onSuccess }: EditMiles
         put(route('goal.milestones.update', milestone.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Milestone')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="goal_id" required>{t('Goal')}</Label>
+                    <Label htmlFor="goal_id" required>
+                        {t('Goal')}
+                    </Label>
                     <Select value={data.goal_id} onValueChange={(value) => setData('goal_id', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Goal')} />

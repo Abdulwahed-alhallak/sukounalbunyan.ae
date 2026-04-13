@@ -28,15 +28,14 @@ export default function Register() {
     };
 
     return (
-        <AuthLayout
-            title={t('Create an account')}
-            description={t('Enter your details below to create your account')}
-        >
+        <AuthLayout title={t('Create an account')} description={t('Enter your details below to create your account')}>
             <Head title={t('Register')} />
             <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name" className="text-sm font-medium text-foreground dark:text-foreground">{t('Name')}</Label>
+                        <Label htmlFor="name" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Name')}
+                        </Label>
                         <Input
                             id="name"
                             type="text"
@@ -48,16 +47,15 @@ export default function Register() {
                             tabIndex={1}
                             autoComplete="name"
                             placeholder={t('Full name')}
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
-                        <InputError
-                            message={errors.name}
-                            className="mt-2"
-                        />
+                        <InputError message={errors.name} className="mt-2" />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">{t('Email address')}</Label>
+                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Email address')}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
@@ -68,13 +66,15 @@ export default function Register() {
                             tabIndex={2}
                             autoComplete="email"
                             placeholder="email@example.com"
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
                         <InputError message={errors.email} />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">{t('Password')}</Label>
+                        <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Password')}
+                        </Label>
                         <Input
                             id="password"
                             type="password"
@@ -85,13 +85,16 @@ export default function Register() {
                             tabIndex={3}
                             autoComplete="new-password"
                             placeholder={t('Password')}
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
                         <InputError message={errors.password} />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation" className="text-sm font-medium text-foreground dark:text-foreground">
+                        <Label
+                            htmlFor="password_confirmation"
+                            className="text-sm font-medium text-foreground dark:text-foreground"
+                        >
                             {t('Confirm password')}
                         </Label>
                         <Input
@@ -104,16 +107,14 @@ export default function Register() {
                             tabIndex={4}
                             autoComplete="new-password"
                             placeholder={t('Confirm password')}
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
-                        <InputError
-                            message={errors.password_confirmation}
-                        />
+                        <InputError message={errors.password_confirmation} />
                     </div>
 
                     <Button
                         type="submit"
-                        className="w-full bg-foreground text-background py-2.5 text-sm font-medium tracking-wide transition-all duration-200 rounded-md shadow-md hover:shadow-lg transform hover:scale-[1.02] mt-6"
+                        className="mt-6 w-full transform rounded-md bg-foreground py-2.5 text-sm font-medium tracking-wide text-background shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
                         tabIndex={5}
                         disabled={processing}
                         data-test="register-user-button"
@@ -122,10 +123,14 @@ export default function Register() {
                     </Button>
                 </div>
 
-                <div className="text-center mt-5">
+                <div className="mt-5 text-center">
                     <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                         {t('Already have an account?')}{' '}
-                        <Link href={route('login')} tabIndex={6} className="text-foreground font-medium hover:underline">
+                        <Link
+                            href={route('login')}
+                            tabIndex={6}
+                            className="font-medium text-foreground hover:underline"
+                        >
                             {t('Log in')}
                         </Link>
                     </p>

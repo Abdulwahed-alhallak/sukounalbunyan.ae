@@ -3,7 +3,7 @@
 namespace $NAMESPACE$\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Workdo\LandingPage\Models\MarketplaceSetting;
+use Noble\LandingPage\Models\MarketplaceSetting;
 use Illuminate\Support\Facades\File;
 
 class MarketplaceSettingSeeder extends Seeder
@@ -18,7 +18,7 @@ class MarketplaceSettingSeeder extends Seeder
             $files = File::files($marketplaceDir);
             foreach ($files as $file) {
                 if (in_array($file->getExtension(), ['png', 'jpg', 'jpeg', 'gif', 'webp'])) {
-                    $screenshots[] = '/packages/workdo/$PACKAGE_NAME$/src/marketplace/' . $file->getFilename();
+                    $screenshots[] = '/packages/noble/$PACKAGE_NAME$/src/marketplace/' . $file->getFilename();
                 }
             }
         }
@@ -33,7 +33,7 @@ class MarketplaceSettingSeeder extends Seeder
                 'sections' => [
                     'hero' => [
                         'variant' => 'hero1',
-                        'title' => '$PACKAGE_NAME$ Module for WorkDo Dash',
+                        'title' => '$PACKAGE_NAME$ Module for noble Dash',
                         'subtitle' => 'Streamline your $PACKAGE_LOWER$ workflow with comprehensive tools and automated management.',
                         'primary_button_text' => 'Install $PACKAGE_NAME$ Module',
                         'primary_button_link' => '#install',
@@ -55,19 +55,19 @@ class MarketplaceSettingSeeder extends Seeder
                                 'title' => 'Feature 1',
                                 'description' => 'Description of first key feature for $PACKAGE_LOWER$ management.',
                                 'keyPoints' => ['Point 1', 'Point 2', 'Point 3', 'Point 4'],
-                                'screenshot' => '/packages/workdo/$PACKAGE_NAME$/src/marketplace/image1.png'
+                                'screenshot' => '/packages/noble/$PACKAGE_NAME$/src/marketplace/image1.png'
                             ],
                             [
                                 'title' => 'Feature 2',
                                 'description' => 'Description of second key feature for $PACKAGE_LOWER$ organization.',
                                 'keyPoints' => ['Point 1', 'Point 2', 'Point 3', 'Point 4'],
-                                'screenshot' => '/packages/workdo/$PACKAGE_NAME$/src/marketplace/image2.png'
+                                'screenshot' => '/packages/noble/$PACKAGE_NAME$/src/marketplace/image2.png'
                             ],
                             [
                                 'title' => 'Feature 3',
                                 'description' => 'Description of third key feature for $PACKAGE_LOWER$ tracking.',
                                 'keyPoints' => ['Point 1', 'Point 2', 'Point 3', 'Point 4'],
-                                'screenshot' => '/packages/workdo/$PACKAGE_NAME$/src/marketplace/image3.png'
+                                'screenshot' => '/packages/noble/$PACKAGE_NAME$/src/marketplace/image3.png'
                             ]
                         ]
                     ],

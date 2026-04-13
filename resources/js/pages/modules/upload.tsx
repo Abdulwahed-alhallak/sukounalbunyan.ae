@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import { Head, router, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, X, FileArchive } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Upload, X, FileArchive } from 'lucide-react';
 
 export default function UploadPackages() {
     const { t } = useTranslation();
     const [files, setFiles] = useState<File[]>([]);
 
     const { data, setData, post, processing, errors } = useForm({
-        files: [] as File[]
+        files: [] as File[],
     });
-
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -36,16 +35,13 @@ export default function UploadPackages() {
             onSuccess: () => {
                 setFiles([]);
                 setData('files', []);
-            }
+            },
         });
     };
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Add-ons'), url: route('add-ons.index')},
-                {label: t('Upload')}
-            ]}
+            breadcrumbs={[{ label: t('Add-ons'), url: route('add-ons.index') }, { label: t('Upload') }]}
             pageTitle={t('Upload Add-ons')}
         >
             <Head title={t('Upload Add-ons')} />
@@ -56,14 +52,10 @@ export default function UploadPackages() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="border-2 border-dashed rounded-lg p-8 text-center">
-                            <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                            <p className="text-lg font-medium mb-2">
-                                {t('Select ZIP files to upload')}
-                            </p>
-                            <p className="text-sm text-muted-foreground mb-4">
-                                {t('Support for multiple ZIP files')}
-                            </p>
+                        <div className="rounded-lg border-2 border-dashed p-8 text-center">
+                            <Upload className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                            <p className="mb-2 text-lg font-medium">{t('Select ZIP files to upload')}</p>
+                            <p className="mb-4 text-sm text-muted-foreground">{t('Support for multiple ZIP files')}</p>
                             <input
                                 type="file"
                                 multiple
@@ -83,14 +75,19 @@ export default function UploadPackages() {
 
                         {files.length > 0 && (
                             <div className="space-y-2">
-                                <h3 className="font-medium">{t('Selected Files')} ({files.length})</h3>
-                                <div className="space-y-2 max-h-60 overflow-y-auto">
+                                <h3 className="font-medium">
+                                    {t('Selected Files')} ({files.length})
+                                </h3>
+                                <div className="max-h-60 space-y-2 overflow-y-auto">
                                     {files.map((file, index) => (
-                                        <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                                        <div
+                                            key={index}
+                                            className="flex items-center justify-between rounded-lg bg-muted/50 p-3"
+                                        >
                                             <div className="flex items-center gap-3">
                                                 <FileArchive className="h-5 w-5 text-foreground" />
                                                 <div>
-                                                    <p className="font-medium text-sm">{file.name}</p>
+                                                    <p className="text-sm font-medium">{file.name}</p>
                                                     <p className="text-xs text-muted-foreground">
                                                         {(file.size / 1024 / 1024).toFixed(2)} MB
                                                     </p>
@@ -119,10 +116,7 @@ export default function UploadPackages() {
                             >
                                 {t('Cancel')}
                             </Button>
-                            <Button
-                                type="submit"
-                                disabled={processing || files.length === 0}
-                            >
+                            <Button type="submit" disabled={processing || files.length === 0}>
                                 {processing ? t('Installing...') : t('Install Add-ons')}
                             </Button>
                         </div>

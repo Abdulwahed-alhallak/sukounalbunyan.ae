@@ -14,10 +14,12 @@ export interface DeductionTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateDeductionTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateDeductionTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditDeductionTypeProps extends EditProps<DeductionType>  {[key: string]: any;
+export interface EditDeductionTypeProps extends EditProps<DeductionType> {
+    [key: string]: any;
 }
 
 export type PaginatedDeductionTypes = PaginatedData<DeductionType>;

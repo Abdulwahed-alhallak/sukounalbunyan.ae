@@ -15,13 +15,13 @@ export default function Create({ onSuccess }: CreateProps) {
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         name: '',
-        color: '#000000'
+        color: '#000000',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('ticket-category.store'), {
-            onSuccess: () => onSuccess()
+            onSuccess: () => onSuccess(),
         });
     };
 

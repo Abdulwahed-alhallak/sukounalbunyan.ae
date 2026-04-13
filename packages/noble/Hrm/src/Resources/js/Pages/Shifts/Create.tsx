@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -25,14 +25,12 @@ export default function Create({ onSuccess }: CreateShiftProps) {
         is_night_shift: false,
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('hrm.shifts.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -54,7 +52,7 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     />
                     <InputError message={errors.shift_name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="start_time">{t('Start Time')}</Label>
                     <Input
@@ -66,7 +64,7 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     />
                     <InputError message={errors.start_time} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="end_time">{t('End Time')}</Label>
                     <Input
@@ -78,7 +76,7 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     />
                     <InputError message={errors.end_time} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="break_start_time">{t('Break Start Time')}</Label>
                     <Input
@@ -90,7 +88,7 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     />
                     <InputError message={errors.break_start_time} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="break_end_time">{t('Break End Time')}</Label>
                     <Input
@@ -102,19 +100,19 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     />
                     <InputError message={errors.break_end_time} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Checkbox
                         id="is_night_shift"
                         checked={data.is_night_shift || false}
                         onCheckedChange={(checked) => setData('is_night_shift', !!checked)}
                     />
-                    <Label htmlFor="is_night_shift" className="cursor-pointer">{t('Is Night Shift')}</Label>
+                    <Label htmlFor="is_night_shift" className="cursor-pointer">
+                        {t('Is Night Shift')}
+                    </Label>
                     <InputError message={errors.is_night_shift} />
                 </div>
-                
 
-                
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

@@ -1,7 +1,5 @@
 import { PaginatedData, ModalState, AuthContext } from '@/types/common';
 
-
-
 export interface Payroll {
     id: number;
     title: string;

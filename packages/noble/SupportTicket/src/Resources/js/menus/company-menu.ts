@@ -1,7 +1,5 @@
 import { Headphones } from 'lucide-react';
 
-
-
 export const supportticketCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Support Dashboard'),
@@ -42,5 +40,5 @@ export const supportticketCompanyMenu = (t: (key: string) => string) => [
                 permission: 'manage-ticket-categories',
             },
         ],
-    }
+    },
 ];

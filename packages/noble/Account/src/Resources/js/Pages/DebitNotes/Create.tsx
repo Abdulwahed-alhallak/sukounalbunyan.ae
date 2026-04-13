@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from 'lucide-react';
 import { formatCurrency } from '@/utils/helpers';
 
 interface Product {
@@ -34,7 +34,7 @@ interface DebitNoteItem {
 }
 
 interface CreateProps {
-    vendors: Array<{id: number; name: string}>;
+    vendors: Array<{ id: number; name: string }>;
     products: Product[];
 }
 
@@ -53,9 +53,9 @@ export default function Create() {
                 quantity: 1,
                 unit_price: 0,
                 tax_amount: 0,
-                total_amount: 0
-            }
-        ] as DebitNoteItem[]
+                total_amount: 0,
+            },
+        ] as DebitNoteItem[],
     });
 
     const addItem = () => {
@@ -66,8 +66,8 @@ export default function Create() {
                 quantity: 1,
                 unit_price: 0,
                 tax_amount: 0,
-                total_amount: 0
-            }
+                total_amount: 0,
+            },
         ]);
     };
 
@@ -83,7 +83,7 @@ export default function Create() {
         newItems[index] = { ...newItems[index], [field]: value };
 
         if (field === 'product_id') {
-            const product = products.find(p => p.id.toString() === value);
+            const product = products.find((p) => p.id.toString() === value);
             if (product) {
                 newItems[index].unit_price = product.purchase_price;
                 const taxRate = product.taxes.reduce((sum, tax) => sum + tax.rate, 0);
@@ -93,7 +93,7 @@ export default function Create() {
             }
         } else if (field === 'quantity' || field === 'unit_price') {
             const lineTotal = newItems[index].quantity * newItems[index].unit_price;
-            const product = products.find(p => p.id.toString() === newItems[index].product_id);
+            const product = products.find((p) => p.id.toString() === newItems[index].product_id);
             const taxRate = product ? product.taxes.reduce((sum, tax) => sum + tax.rate, 0) : 0;
             newItems[index].tax_amount = (lineTotal * taxRate) / 100;
             newItems[index].total_amount = lineTotal + newItems[index].tax_amount;
@@ -103,7 +103,7 @@ export default function Create() {
     };
 
     const calculateTotals = () => {
-        const subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
+        const subtotal = data.items.reduce((sum, item) => sum + item.quantity * item.unit_price, 0);
         const totalTax = data.items.reduce((sum, item) => sum + item.tax_amount, 0);
         const total = subtotal + totalTax;
 
@@ -119,10 +119,7 @@ export default function Create() {
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Debit Notes'), url: route('account.debit-notes.index')},
-                {label: t('Create')}
-            ]}
+            breadcrumbs={[{ label: t('Debit Notes'), url: route('account.debit-notes.index') }, { label: t('Create') }]}
             pageTitle={t('Create Debit Note')}
         >
             <Head title={t('Create Debit Note')} />
@@ -131,10 +128,13 @@ export default function Create() {
                 <div className="space-y-6">
                     <Card>
                         <CardContent className="space-y-4 pt-4">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                 <div>
                                     <Label htmlFor="vendor_id">{t('Vendor')}</Label>
-                                    <Select value={data.vendor_id} onValueChange={(value) => setData('vendor_id', value)}>
+                                    <Select
+                                        value={data.vendor_id}
+                                        onValueChange={(value) => setData('vendor_id', value)}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Select vendor')} />
                                         </SelectTrigger>
@@ -157,7 +157,9 @@ export default function Create() {
                                         value={data.debit_note_date}
                                         onChange={(e) => setData('debit_note_date', e.target.value)}
                                     />
-                                    {errors.debit_note_date && <p className="text-sm text-destructive">{errors.debit_note_date}</p>}
+                                    {errors.debit_note_date && (
+                                        <p className="text-sm text-destructive">{errors.debit_note_date}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -187,10 +189,10 @@ export default function Create() {
 
                     <Card>
                         <CardHeader>
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 <CardTitle>{t('Items')}</CardTitle>
                                 <Button type="button" onClick={addItem} size="sm">
-                                    <Plus className="h-4 w-4 mr-2" />
+                                    <Plus className="mr-2 h-4 w-4" />
                                     {t('Add Item')}
                                 </Button>
                             </div>
@@ -198,8 +200,8 @@ export default function Create() {
                         <CardContent>
                             <div className="space-y-4">
                                 {data.items?.map((item, index) => (
-                                    <div key={index} className="border rounded-lg p-4">
-                                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    <div key={index} className="rounded-lg border p-4">
+                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
                                             <div className="md:col-span-2">
                                                 <Label>{t('Product')}</Label>
                                                 <Select
@@ -226,7 +228,9 @@ export default function Create() {
                                                     min="0.01"
                                                     step="0.01"
                                                     value={item.quantity}
-                                                    onChange={(e) => updateItem(index, 'quantity', parseFloat(e.target.value) || 0)}
+                                                    onChange={(e) =>
+                                                        updateItem(index, 'quantity', parseFloat(e.target.value) || 0)
+                                                    }
                                                 />
                                             </div>
 
@@ -237,14 +241,16 @@ export default function Create() {
                                                     min="0"
                                                     step="0.01"
                                                     value={item.unit_price}
-                                                    onChange={(e) => updateItem(index, 'unit_price', parseFloat(e.target.value) || 0)}
+                                                    onChange={(e) =>
+                                                        updateItem(index, 'unit_price', parseFloat(e.target.value) || 0)
+                                                    }
                                                 />
                                             </div>
 
                                             <div className="flex items-end">
                                                 <div className="flex-1">
                                                     <Label>{t('Total')}</Label>
-                                                    <div className="text-sm font-medium text-foreground mt-2">
+                                                    <div className="mt-2 text-sm font-medium text-foreground">
                                                         {formatCurrency(item.total_amount)}
                                                     </div>
                                                 </div>

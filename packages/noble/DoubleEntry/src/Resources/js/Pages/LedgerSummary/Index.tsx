@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
-import { DataTable } from "@/components/ui/data-table";
-import { FileText, Printer } from "lucide-react";
+import { DataTable } from '@/components/ui/data-table';
+import { FileText, Printer } from 'lucide-react';
 import NoRecordsFound from '@/components/no-records-found';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from '@/components/ui/pagination';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from '@/components/ui/search-input';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface Account {
@@ -57,7 +57,7 @@ export default function Index() {
         search: urlParams.get('search') || '',
         account_id: urlParams.get('account_id') || '',
         from_date: urlParams.get('from_date') || '',
-        to_date: urlParams.get('to_date') || ''
+        to_date: urlParams.get('to_date') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
@@ -65,27 +65,34 @@ export default function Index() {
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'desc');
     const [showFilters, setShowFilters] = useState(false);
 
-
     const handleFilter = () => {
-        router.get(route('double-entry.ledger-summary.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('double-entry.ledger-summary.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('double-entry.ledger-summary.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('double-entry.ledger-summary.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ search: '', account_id: '', from_date: '', to_date: '' });
-        router.get(route('double-entry.ledger-summary.index'), {per_page: perPage});
+        router.get(route('double-entry.ledger-summary.index'), { per_page: perPage });
     };
 
     const tableColumns = [
@@ -93,80 +100,77 @@ export default function Index() {
             key: 'journal_date',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => formatDate(value)
+            render: (value: string) => formatDate(value),
         },
         {
             key: 'account_code',
             header: t('Account Code'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'account_name',
             header: t('Account Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'reference_type',
             header: t('Reference'),
-            sortable: false
+            sortable: false,
         },
         {
             key: 'description',
             header: t('Description'),
             sortable: false,
-            render: (value: string, entry: LedgerEntry) => value || entry.journal_description
+            render: (value: string, entry: LedgerEntry) => value || entry.journal_description,
         },
         {
             key: 'debit_amount',
             header: t('Debit'),
             sortable: false,
-            render: (value: number) => value > 0 ? formatCurrency(value) : '-'
+            render: (value: number) => (value > 0 ? formatCurrency(value) : '-'),
         },
         {
             key: 'credit_amount',
             header: t('Credit'),
             sortable: false,
-            render: (value: number) => value > 0 ? formatCurrency(value) : '-'
-        }
+            render: (value: number) => (value > 0 ? formatCurrency(value) : '-'),
+        },
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Double Entry')},
-                {label: t('Ledger Summary')}
-            ]}
+            breadcrumbs={[{ label: t('Double Entry') }, { label: t('Ledger Summary') }]}
             pageTitle={t('Ledger Summary')}
         >
             <Head title={t('Ledger Summary')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search ledger entries...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="double-entry.ledger-summary.index"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="double-entry.ledger-summary.index" filters={filters} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.account_id, filters.from_date, filters.to_date].filter(f => f !== '').length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.account_id,
+                                        filters.from_date,
+                                        filters.to_date,
+                                    ].filter((f) => f !== '').length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -175,11 +179,14 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Account')}</label>
-                                <Select value={filters.account_id} onValueChange={(value) => setFilters({...filters, account_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Account')}</label>
+                                <Select
+                                    value={filters.account_id}
+                                    onValueChange={(value) => setFilters({ ...filters, account_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Accounts')} />
                                     </SelectTrigger>
@@ -193,30 +200,42 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('From Date')}
+                                </label>
                                 <DatePicker
                                     value={filters.from_date}
-                                    onChange={(value) => setFilters({...filters, from_date: value})}
+                                    onChange={(value) => setFilters({ ...filters, from_date: value })}
                                     placeholder={t('Select from date')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
                                 <DatePicker
                                     value={filters.to_date}
-                                    onChange={(value) => setFilters({...filters, to_date: value})}
+                                    onChange={(value) => setFilters({ ...filters, to_date: value })}
                                     placeholder={t('Select to date')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                                 {auth.user?.permissions?.includes('print-ledger-summary') && (
-                                    <Button variant="outline" size="sm" onClick={() => {
-                                        const printUrl = route('double-entry.ledger-summary.print') + `?from_date=${filters.from_date}&to_date=${filters.to_date}&account_id=${filters.account_id}&download=pdf`;
-                                        window.open(printUrl, '_blank');
-                                    }}>
-                                        <Printer className="h-4 w-4 mr-2" />
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            const printUrl =
+                                                route('double-entry.ledger-summary.print') +
+                                                `?from_date=${filters.from_date}&to_date=${filters.to_date}&account_id=${filters.account_id}&download=pdf`;
+                                            window.open(printUrl, '_blank');
+                                        }}
+                                    >
+                                        <Printer className="mr-2 h-4 w-4" />
                                         {t('Download PDF')}
                                     </Button>
                                 )}
@@ -226,7 +245,7 @@ export default function Index() {
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[1000px]">
                             <DataTable
                                 data={entries?.data || []}
@@ -240,7 +259,14 @@ export default function Index() {
                                         icon={FileText}
                                         title={t('No ledger entries found')}
                                         description={t('No journal entries found for the selected filters.')}
-                                        hasFilters={!!(filters.search || filters.account_id || filters.from_date || filters.to_date)}
+                                        hasFilters={
+                                            !!(
+                                                filters.search ||
+                                                filters.account_id ||
+                                                filters.from_date ||
+                                                filters.to_date
+                                            )
+                                        }
                                         onClearFilters={clearFilters}
                                         className="h-auto"
                                     />
@@ -250,11 +276,11 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={entries || { data: [], links: [], meta: {} }}
                         routeName="double-entry.ledger-summary.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

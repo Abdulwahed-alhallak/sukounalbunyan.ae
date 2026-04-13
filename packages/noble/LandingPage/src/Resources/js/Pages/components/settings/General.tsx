@@ -18,32 +18,34 @@ export default function General({ data, updateSectionData }: GeneralProps) {
             <Card>
                 <CardHeader>
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-muted rounded-lg">
+                        <div className="rounded-lg bg-muted p-2">
                             <Type className="h-5 w-5 text-foreground" />
                         </div>
                         <div>
                             <CardTitle>{t('Company Information')}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{t('Basic company details for your landing page')}</p>
+                            <p className="text-sm text-muted-foreground">
+                                {t('Basic company details for your landing page')}
+                            </p>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label>{t('Company Name')}</Label>
-                            <Input 
+                            <Input
                                 value={data.company_name || ''}
                                 onChange={(e) => updateSectionData('company_name', e.target.value)}
-                                placeholder={t('Your Company Name')} 
+                                placeholder={t('Your Company Name')}
                             />
                         </div>
                         <div className="space-y-2">
                             <Label>{t('Contact Email')}</Label>
-                            <Input 
-                                type="email" 
+                            <Input
+                                type="email"
                                 value={data.contact_email || ''}
                                 onChange={(e) => updateSectionData('contact_email', e.target.value)}
-                                placeholder="support@company.com" 
+                                placeholder="support@company.com"
                             />
                         </div>
                         <div className="space-y-2">
@@ -56,10 +58,10 @@ export default function General({ data, updateSectionData }: GeneralProps) {
                         </div>
                         <div className="space-y-2">
                             <Label>{t('Contact Address')}</Label>
-                            <Input 
+                            <Input
                                 value={data.contact_address || ''}
                                 onChange={(e) => updateSectionData('contact_address', e.target.value)}
-                                placeholder="123 Business Ave, City, State" 
+                                placeholder="123 Business Ave, City, State"
                             />
                         </div>
                     </div>

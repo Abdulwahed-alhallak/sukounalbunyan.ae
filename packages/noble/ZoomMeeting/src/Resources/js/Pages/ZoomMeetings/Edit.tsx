@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -35,14 +35,12 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
         host_id: zoommeeting.host_id?.toString() || '',
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('zoommeeting.zoom-meetings.update', zoommeeting.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -64,7 +62,7 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     />
                     <InputError message={errors.title} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -76,7 +74,6 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     />
                     <InputError message={errors.description} />
                 </div>
-                
 
                 <div>
                     <Label htmlFor="meeting_password">{t('Meeting Password')}</Label>
@@ -86,11 +83,10 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                         value={data.meeting_password}
                         onChange={(e) => setData('meeting_password', e.target.value)}
                         placeholder={t('Enter Meeting Password')}
-                        
                     />
                     <InputError message={errors.meeting_password} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Start Time')}</Label>
                     <DateTimeRangePicker
@@ -101,7 +97,7 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     />
                     <InputError message={errors.start_time} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="duration">{t('Duration')}</Label>
                     <Input
@@ -116,49 +112,55 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     />
                     <InputError message={errors.duration} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="host_video"
                         checked={data.host_video || false}
                         onCheckedChange={(checked) => setData('host_video', !!checked)}
                     />
-                    <Label htmlFor="host_video" className="cursor-pointer">{t('Host Video')}</Label>
+                    <Label htmlFor="host_video" className="cursor-pointer">
+                        {t('Host Video')}
+                    </Label>
                     <InputError message={errors.host_video} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="participant_video"
                         checked={data.participant_video || false}
                         onCheckedChange={(checked) => setData('participant_video', !!checked)}
                     />
-                    <Label htmlFor="participant_video" className="cursor-pointer">{t('Participant Video')}</Label>
+                    <Label htmlFor="participant_video" className="cursor-pointer">
+                        {t('Participant Video')}
+                    </Label>
                     <InputError message={errors.participant_video} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="waiting_room"
                         checked={data.waiting_room || false}
                         onCheckedChange={(checked) => setData('waiting_room', !!checked)}
                     />
-                    <Label htmlFor="waiting_room" className="cursor-pointer">{t('Waiting Room')}</Label>
+                    <Label htmlFor="waiting_room" className="cursor-pointer">
+                        {t('Waiting Room')}
+                    </Label>
                     <InputError message={errors.waiting_room} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="recording"
                         checked={data.recording || false}
                         onCheckedChange={(checked) => setData('recording', !!checked)}
                     />
-                    <Label htmlFor="recording" className="cursor-pointer">{t('Recording')}</Label>
+                    <Label htmlFor="recording" className="cursor-pointer">
+                        {t('Recording')}
+                    </Label>
                     <InputError message={errors.recording} />
                 </div>
-                
 
-                
                 <div>
                     <Label>{t('Participants')}</Label>
                     <MultiSelectEnhanced
@@ -170,7 +172,7 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     />
                     <InputError message={errors.participants} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="host_id">{t('Host')}</Label>
                     <Select value={data.host_id?.toString() || ''} onValueChange={(value) => setData('host_id', value)}>
@@ -187,7 +189,7 @@ export default function EditZoomMeeting({ zoommeeting, onSuccess }: EditZoomMeet
                     </Select>
                     <InputError message={errors.host_id} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -21,14 +21,12 @@ export default function Edit({ budgetperiod, onSuccess }: EditBudgetPeriodProps)
         status: budgetperiod.status ?? '',
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('budget-planner.budget-periods.update', budgetperiod.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -99,8 +97,6 @@ export default function Edit({ budgetperiod, onSuccess }: EditBudgetPeriodProps)
                     </Select>
                     <InputError message={errors.status} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

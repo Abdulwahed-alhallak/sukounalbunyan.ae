@@ -4,13 +4,18 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Plus, Calendar, Edit, Trash2, MoreVertical, Users, List, Eye, User } from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
@@ -31,10 +36,10 @@ interface BugsByStatus {
 
 interface BugKanbanProps {
     project: Project;
-    stages: Array<{ id: number; name: string; color: string; order: number; }>;
+    stages: Array<{ id: number; name: string; color: string; order: number }>;
     bugs: BugsByStatus;
-    teamMembers: Array<{ id: number; name: string; }>;
-    bugStages: Array<{ id: number; name: string; color: string; }>;
+    teamMembers: Array<{ id: number; name: string }>;
+    bugStages: Array<{ id: number; name: string; color: string }>;
     auth: { user?: { permissions?: string[] } };
 }
 
@@ -58,7 +63,7 @@ export default function BugKanban() {
     const [modalState, setModalState] = useState<ModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [deleteState, setDeleteState] = useState({ isOpen: false, bugId: null as number | null });
@@ -85,7 +90,7 @@ export default function BugKanban() {
     };
 
     const handleMove = async (bugId: number, fromStatus: string, toStatus: string) => {
-        const stageId = stages.find(stage => stage.name.toLowerCase().replace(/\s+/g, '-') === toStatus)?.id;
+        const stageId = stages.find((stage) => stage.name.toLowerCase().replace(/\s+/g, '-') === toStatus)?.id;
         if (stageId) {
             try {
                 const response = await axios.patch(route('project.bugs.move', bugId), { stage_id: stageId });
@@ -125,8 +130,6 @@ export default function BugKanban() {
         refreshBugs();
     }, [refreshBugs]);
 
-
-
     const BugCard = ({ task }: { task: KanbanTask }) => {
         const handleDragStart = (e: React.DragEvent) => {
             e.dataTransfer.setData('application/json', JSON.stringify({ taskId: task.id }));
@@ -135,73 +138,89 @@ export default function BugKanban() {
 
         return (
             <div
-                className="bg-card rounded-lg shadow-sm border border-border p-3 mb-2 hover:shadow-md transition-all cursor-move select-none group"
+                className="group mb-2 cursor-move select-none rounded-lg border border-border bg-card p-3 shadow-sm transition-all hover:shadow-md"
                 draggable={true}
                 onDragStart={handleDragStart}
             >
-                <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-medium text-sm text-foreground leading-tight pr-2">{task.title}</h4>
+                <div className="mb-2 flex items-start justify-between">
+                    <h4 className="pr-2 text-sm font-medium leading-tight text-foreground">{task.title}</h4>
                     <div className="flex items-center gap-1">
                         {task.priority && (
-                            <Badge className={`text-xs shrink-0 pointer-events-none ${
-                                task.priority === 'Low' ? 'bg-muted text-foreground' :
-                                task.priority === 'Medium' ? 'bg-muted text-foreground' :
-                                task.priority === 'High' ? 'bg-muted text-foreground' :
-                                'bg-muted text-destructive'
-                            }`}>
+                            <Badge
+                                className={`pointer-events-none shrink-0 text-xs ${
+                                    task.priority === 'Low'
+                                        ? 'bg-muted text-foreground'
+                                        : task.priority === 'Medium'
+                                          ? 'bg-muted text-foreground'
+                                          : task.priority === 'High'
+                                            ? 'bg-muted text-foreground'
+                                            : 'bg-muted text-destructive'
+                                }`}
+                            >
                                 {task.priority}
                             </Badge>
                         )}
                         {(auth.user?.permissions?.includes('view-project-bug') ||
-                          auth.user?.permissions?.includes('edit-project-bug') ||
-                          auth.user?.permissions?.includes('delete-project-bug')) && (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100">
-                                    <MoreVertical className="h-3 w-3" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {auth.user?.permissions?.includes('view-project-bug') && (
-                                <DropdownMenuItem onClick={() => {
-                                    openModal('view', { id: task.id });
-                                }}>
-                                    <Eye className="h-3 w-3 mr-2" />
-                                    {t('View')}
-                                </DropdownMenuItem>
-                                )}
-                                {auth.user?.permissions?.includes('edit-project-bug') && (
-                                    <DropdownMenuItem onClick={() => {
-                                        openModal('edit', { id: task.id });
-                                    }}>
-                                        <Edit className="h-3 w-3 mr-2" />
-                                        {t('Edit')}
-                                    </DropdownMenuItem>
-                                )}
-                                {auth.user?.permissions?.includes('delete-project-bug') && (
-                                    <DropdownMenuItem onClick={() => openDeleteDialog(task.id)} className="text-destructive">
-                                        <Trash2 className="h-3 w-3 mr-2" />
-                                        {t('Delete')}
-                                    </DropdownMenuItem>
-                                )}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                            auth.user?.permissions?.includes('edit-project-bug') ||
+                            auth.user?.permissions?.includes('delete-project-bug')) && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                                    >
+                                        <MoreVertical className="h-3 w-3" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    {auth.user?.permissions?.includes('view-project-bug') && (
+                                        <DropdownMenuItem
+                                            onClick={() => {
+                                                openModal('view', { id: task.id });
+                                            }}
+                                        >
+                                            <Eye className="mr-2 h-3 w-3" />
+                                            {t('View')}
+                                        </DropdownMenuItem>
+                                    )}
+                                    {auth.user?.permissions?.includes('edit-project-bug') && (
+                                        <DropdownMenuItem
+                                            onClick={() => {
+                                                openModal('edit', { id: task.id });
+                                            }}
+                                        >
+                                            <Edit className="mr-2 h-3 w-3" />
+                                            {t('Edit')}
+                                        </DropdownMenuItem>
+                                    )}
+                                    {auth.user?.permissions?.includes('delete-project-bug') && (
+                                        <DropdownMenuItem
+                                            onClick={() => openDeleteDialog(task.id)}
+                                            className="text-destructive"
+                                        >
+                                            <Trash2 className="mr-2 h-3 w-3" />
+                                            {t('Delete')}
+                                        </DropdownMenuItem>
+                                    )}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         )}
                     </div>
                 </div>
 
                 {task.description && (
-                    <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{task.description}</p>
+                    <p className="mb-3 line-clamp-2 text-xs text-muted-foreground">{task.description}</p>
                 )}
 
-                <div className="flex items-center justify-between mt-3">
+                <div className="mt-3 flex items-center justify-between">
                     {task.assigned_users && task.assigned_users.length > 0 ? (
                         <div className="flex -space-x-1">
                             {task.assigned_users.slice(0, 2)?.map((user: any, index: number) => (
                                 <TooltipProvider key={index}>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
-                                            <div className="h-8 w-8 rounded-full border-2 border-white overflow-hidden bg-muted flex items-center justify-center">
+                                            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-muted">
                                                 {user.avatar ? (
                                                     <img
                                                         src={getImagePath(user.avatar)}
@@ -220,8 +239,10 @@ export default function BugKanban() {
                                 </TooltipProvider>
                             ))}
                             {task.assigned_users.length > 2 && (
-                                <div className="h-8 w-8 rounded-full bg-muted border-2 border-white flex items-center justify-center">
-                                    <span className="text-xs text-muted-foreground">+{task.assigned_users.length - 2}</span>
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-muted">
+                                    <span className="text-xs text-muted-foreground">
+                                        +{task.assigned_users.length - 2}
+                                    </span>
                                 </div>
                             )}
                         </div>
@@ -230,7 +251,7 @@ export default function BugKanban() {
                     )}
 
                     {task.due_date && (
-                        <div className="flex items-center space-x-1 text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
+                        <div className="flex items-center space-x-1 rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
                             <span>{task.due_date}</span>
                         </div>
@@ -245,7 +266,7 @@ export default function BugKanban() {
             breadcrumbs={[
                 { label: t('Project'), url: route('project.index') },
                 { label: project.name, url: route('project.show', project.id) },
-                { label: t('Bug') }
+                { label: t('Bug') },
             ]}
             pageTitle={`${project.name} - ${t('Bug')}`}
             pageActions={
@@ -253,7 +274,7 @@ export default function BugKanban() {
                     {pageButtons?.map((button) => (
                         <div key={button.id}>{button.component}</div>
                     ))}
-                     {oneDriveButtons?.map((button) => (
+                    {oneDriveButtons?.map((button) => (
                         <div key={button.id}>{button.component}</div>
                     ))}
                     {dropboxBtn?.map((button) => (
@@ -263,8 +284,11 @@ export default function BugKanban() {
                         {auth.user?.permissions?.includes('manage-project-bug') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button size="sm"
-                                        onClick={() => router.get(route('project.bugs.index', { project_id: project.id }))}
+                                    <Button
+                                        size="sm"
+                                        onClick={() =>
+                                            router.get(route('project.bugs.index', { project_id: project.id }))
+                                        }
                                     >
                                         <List className="h-4 w-4" />
                                     </Button>
@@ -294,15 +318,15 @@ export default function BugKanban() {
 
             <KanbanBoard
                 tasks={currentBugs}
-                columns={stages?.map(stage => ({
+                columns={stages?.map((stage) => ({
                     id: stage.name.toLowerCase().replace(/\s+/g, '-'),
                     title: stage.name,
-                    color: stage.color
+                    color: stage.color,
                 }))}
                 onMove={handleMove}
                 taskCard={BugCard}
                 kanbanActions={(columnId: string) => {
-                    const stage = stages.find(s => s.name.toLowerCase().replace(/\s+/g, '-') === columnId);
+                    const stage = stages.find((s) => s.name.toLowerCase().replace(/\s+/g, '-') === columnId);
                     return auth.user?.permissions?.includes('create-project-bug') ? (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
@@ -315,7 +339,7 @@ export default function BugKanban() {
                                             isOpen: true,
                                             mode: 'add',
                                             data: null,
-                                            preSelectedStage: stage?.id
+                                            preSelectedStage: stage?.id,
                                         });
                                     }}
                                 >

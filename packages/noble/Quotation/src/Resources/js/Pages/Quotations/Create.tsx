@@ -18,8 +18,8 @@ import { Separator } from '@/components/ui/separator';
 import { CalendarDays, Package } from 'lucide-react';
 
 interface CreateProps {
-    customers: Array<{id: number; name: string; email: string}>;
-    warehouses: Array<{id: number; name: string; address: string}>;
+    customers: Array<{ id: number; name: string; email: string }>;
+    warehouses: Array<{ id: number; name: string; address: string }>;
     [key: string]: any;
 }
 
@@ -35,16 +35,18 @@ export default function Create() {
         warehouse_id: '',
         payment_terms: '',
         notes: '',
-        items: [{
-            product_id: 0,
-            quantity: 1,
-            unit_price: 0,
-            discount_percentage: 0,
-            discount_amount: 0,
-            tax_percentage: 0,
-            tax_amount: 0,
-            total_amount: 0
-        }] as QuotationItem[]
+        items: [
+            {
+                product_id: 0,
+                quantity: 1,
+                unit_price: 0,
+                discount_percentage: 0,
+                discount_amount: 0,
+                tax_percentage: 0,
+                tax_amount: 0,
+                total_amount: 0,
+            },
+        ] as QuotationItem[],
     });
 
     const handleWarehouseChange = async (warehouseId: string) => {
@@ -63,19 +65,19 @@ export default function Create() {
             setAvailableProducts([]);
         }
 
-        setData('items', [{
-            product_id: 0,
-            quantity: 1,
-            unit_price: 0,
-            discount_percentage: 0,
-            discount_amount: 0,
-            tax_percentage: 0,
-            tax_amount: 0,
-            total_amount: 0
-        }]);
+        setData('items', [
+            {
+                product_id: 0,
+                quantity: 1,
+                unit_price: 0,
+                discount_percentage: 0,
+                discount_amount: 0,
+                tax_percentage: 0,
+                tax_amount: 0,
+                total_amount: 0,
+            },
+        ]);
     };
-
-
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -86,10 +88,7 @@ export default function Create() {
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Quotations'), url: route('quotations.index')},
-                {label: t('Create Quotation')}
-            ]}
+            breadcrumbs={[{ label: t('Quotations'), url: route('quotations.index') }, { label: t('Create Quotation') }]}
             pageTitle={t('Create Quotation')}
         >
             <Head title={t('Create Quotation')} />
@@ -104,7 +103,7 @@ export default function Create() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 <div>
                                     <Label htmlFor="invoice_date" required>
                                         {t('Quotation Date')}
@@ -135,7 +134,10 @@ export default function Create() {
                                     <Label htmlFor="customer_id" required>
                                         {t('Customer')}
                                     </Label>
-                                    <Select value={data.customer_id} onValueChange={(value) => setData('customer_id', value)}>
+                                    <Select
+                                        value={data.customer_id}
+                                        onValueChange={(value) => setData('customer_id', value)}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Select Customer')} />
                                         </SelectTrigger>
@@ -170,11 +172,9 @@ export default function Create() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <Label htmlFor="payment_terms">
-                                        {t('Payment Terms')}
-                                    </Label>
+                                    <Label htmlFor="payment_terms">{t('Payment Terms')}</Label>
                                     <Input
                                         id="payment_terms"
                                         value={data.payment_terms}
@@ -184,9 +184,7 @@ export default function Create() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="notes">
-                                        {t('Notes')}
-                                    </Label>
+                                    <Label htmlFor="notes">{t('Notes')}</Label>
                                     <Textarea
                                         id="notes"
                                         value={data.notes}
@@ -217,7 +215,7 @@ export default function Create() {
                                             discount_amount: 0,
                                             tax_percentage: 0,
                                             tax_amount: 0,
-                                            total_amount: 0
+                                            total_amount: 0,
                                         };
                                         setData('items', [...data.items, newItem]);
                                     }}
@@ -238,8 +236,8 @@ export default function Create() {
                             />
 
                             <div className="mt-6 flex justify-end">
-                                <div className="w-80 bg-muted/30 rounded-lg p-4">
-                                    <h3 className="font-semibold mb-3">{t('Quotation Summary')}</h3>
+                                <div className="w-80 rounded-lg bg-muted/30 p-4">
+                                    <h3 className="mb-3 font-semibold">{t('Quotation Summary')}</h3>
                                     <div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Subtotal')}</span>
@@ -247,7 +245,9 @@ export default function Create() {
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Discount')}</span>
-                                            <span className="font-medium text-destructive">-{formatCurrency(totals.discountAmount)}</span>
+                                            <span className="font-medium text-destructive">
+                                                -{formatCurrency(totals.discountAmount)}
+                                            </span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Tax')}</span>
@@ -256,7 +256,7 @@ export default function Create() {
                                         <Separator className="my-2" />
                                         <div className="flex justify-between">
                                             <span className="font-semibold">{t('Total')}</span>
-                                            <span className="font-bold text-lg">{formatCurrency(totals.total)}</span>
+                                            <span className="text-lg font-bold">{formatCurrency(totals.total)}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -264,22 +264,15 @@ export default function Create() {
                         </CardContent>
                     </Card>
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="text-sm text-muted-foreground">
                             {data.items.length} {t('items added')}
                         </div>
                         <div className="flex gap-3">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => window.history.back()}
-                            >
+                            <Button type="button" variant="outline" onClick={() => window.history.back()}>
                                 {t('Cancel')}
                             </Button>
-                            <Button
-                                type="submit"
-                                disabled={processing || data.items.length === 0}
-                            >
+                            <Button type="submit" disabled={processing || data.items.length === 0}>
                                 {processing ? t('Creating...') : t('Create')}
                             </Button>
                         </div>

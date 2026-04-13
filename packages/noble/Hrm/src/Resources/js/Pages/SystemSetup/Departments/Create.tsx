@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,7 @@ export default function Create({ onSuccess, branches }: CreateDepartmentProps) {
         post(route('hrm.departments.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -43,10 +43,16 @@ export default function Create({ onSuccess, branches }: CreateDepartmentProps) {
                     />
                     <InputError message={errors.department_name} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="branch_id" required>{t('Branch')}</Label>
-                    <Select value={data.branch_id?.toString() || ''} onValueChange={(value) => setData('branch_id', value)} required>
+                    <Label htmlFor="branch_id" required>
+                        {t('Branch')}
+                    </Label>
+                    <Select
+                        value={data.branch_id?.toString() || ''}
+                        onValueChange={(value) => setData('branch_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Branch')} />
                         </SelectTrigger>

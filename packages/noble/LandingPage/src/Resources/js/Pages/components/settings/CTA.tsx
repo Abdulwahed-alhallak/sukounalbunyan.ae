@@ -25,7 +25,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <ArrowUpDown className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -74,7 +74,9 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                         <Textarea
                             value={getSectionData('cta').subtitle || ''}
                             onChange={(e) => updateSectionData('cta', { subtitle: e.target.value })}
-                            placeholder={t('Join thousands of businesses already usingNobleArchitecture to streamline their operations.')}
+                            placeholder={t(
+                                'Join thousands of businesses already usingNobleArchitecture to streamline their operations.'
+                            )}
                             rows={3}
                         />
                     </div>
@@ -98,9 +100,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label className="flex items-center gap-2">
-                                {t('Primary Button Link')}
-                            </Label>
+                            <Label className="flex items-center gap-2">{t('Primary Button Link')}</Label>
                             <Input
                                 value={getSectionData('cta').primary_button_link || ''}
                                 onChange={(e) => updateSectionData('cta', { primary_button_link: e.target.value })}
@@ -108,9 +108,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label className="flex items-center gap-2">
-                                {t('Secondary Button Link')}
-                            </Label>
+                            <Label className="flex items-center gap-2">{t('Secondary Button Link')}</Label>
                             <Input
                                 value={getSectionData('cta').secondary_button_link || ''}
                                 onChange={(e) => updateSectionData('cta', { secondary_button_link: e.target.value })}
@@ -120,9 +118,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                     </div>
                     {getSectionData('cta').variant === 'cta2' && (
                         <div className="space-y-2">
-                            <Label className="flex items-center gap-2">
-                                {t('CTA Image (Split Layout)')}
-                            </Label>
+                            <Label className="flex items-center gap-2">{t('CTA Image (Split Layout)')}</Label>
                             <MediaPicker
                                 value={getSectionData('cta').image || ''}
                                 onChange={(value) => updateSectionData('cta', { image: value })}
@@ -136,4 +132,3 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
         </div>
     );
 }
-

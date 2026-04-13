@@ -17,7 +17,13 @@ interface ComplaintStatusProps {
     isManager?: boolean;
 }
 
-export default function ComplaintStatus({ complaint, onSuccess, auth, globalSettings, isManager = false }: ComplaintStatusProps) {
+export default function ComplaintStatus({
+    complaint,
+    onSuccess,
+    auth,
+    globalSettings,
+    isManager = false,
+}: ComplaintStatusProps) {
     const { t } = useTranslation();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,9 +31,9 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
     const isHrApproval = auth.user.permissions?.includes('manage-complaint-status');
 
     const { data, setData, put, errors, processing } = useForm({
-        status: isManager ? (complaint.manager_status || 'pending') : (complaint.status || 'pending'),
-        manager_status: isManager ? (complaint.manager_status || 'pending') : (complaint.status || 'pending'),
-        approver_comment: isManager ? (complaint.manager_comment || '') : ''
+        status: isManager ? complaint.manager_status || 'pending' : complaint.status || 'pending',
+        manager_status: isManager ? complaint.manager_status || 'pending' : complaint.status || 'pending',
+        approver_comment: isManager ? complaint.manager_comment || '' : '',
     });
 
     useEffect(() => {
@@ -44,7 +50,7 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
         { value: 'in review', label: t('In Review') },
         { value: 'assigned', label: t('Assigned') },
         { value: 'in progress', label: t('In Progress') },
-        { value: 'resolved', label: t('Resolved') }
+        { value: 'resolved', label: t('Resolved') },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -52,7 +58,7 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
         setIsSubmitting(true);
 
         const payload: Record<string, any> = {
-            approver_comment: data.approver_comment
+            approver_comment: data.approver_comment,
         };
 
         if (isManager) {
@@ -69,11 +75,12 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
             },
             onError: () => {
                 setIsSubmitting(false);
-            }
+            },
         });
     };
 
-    const cannotApproveAsHr = isMultiTierEnabled && !isManager && isHrApproval && complaint.manager_status === 'pending';
+    const cannotApproveAsHr =
+        isMultiTierEnabled && !isManager && isHrApproval && complaint.manager_status === 'pending';
 
     return (
         <DialogContent className="sm:max-w-md">
@@ -86,18 +93,20 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {cannotApproveAsHr && (
-                    <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-md flex items-start gap-3">
-                        <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-3 rounded-md bg-destructive/10 px-4 py-3 text-destructive">
+                        <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
                         <div className="text-sm">
-                            {t('This complaint must be reviewed by the Line Manager first before you can update the status.')}
+                            {t(
+                                'This complaint must be reviewed by the Line Manager first before you can update the status.'
+                            )}
                         </div>
                     </div>
                 )}
 
                 <div className="space-y-2">
                     <Label htmlFor="status">{t('Status')}</Label>
-                    <Select 
-                        value={isManager ? data.manager_status : data.status} 
+                    <Select
+                        value={isManager ? data.manager_status : data.status}
                         onValueChange={(value) => setData(isManager ? 'manager_status' : 'status', value)}
                         disabled={cannotApproveAsHr}
                     >
@@ -112,7 +121,9 @@ export default function ComplaintStatus({ complaint, onSuccess, auth, globalSett
                             ))}
                         </SelectContent>
                     </Select>
-                    {(errors.status || errors.manager_status) && <p className="text-sm text-destructive">{errors.status || errors.manager_status}</p>}
+                    {(errors.status || errors.manager_status) && (
+                        <p className="text-sm text-destructive">{errors.status || errors.manager_status}</p>
+                    )}
                 </div>
 
                 <div className="space-y-2">

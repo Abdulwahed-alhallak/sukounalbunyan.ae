@@ -20,7 +20,6 @@ interface UsersProps {
 }
 
 export default function Users({ deal, availableUsers, onRegisterAddHandler }: UsersProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => openUserModal());
     }, [onRegisterAddHandler]);
@@ -31,23 +30,29 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
     const [userDeleteState, setUserDeleteState] = useState({ isOpen: false, userId: null, message: '' });
 
     const formatAvailableUsers = () => {
-        setAvailableUsersState(availableUsers?.map((user: any) => ({
-            value: user.id.toString(),
-            label: user.name
-        })));
+        setAvailableUsersState(
+            availableUsers?.map((user: any) => ({
+                value: user.id.toString(),
+                label: user.name,
+            }))
+        );
     };
 
     const handleAssignUsers = () => {
         if (selectedUsers.length === 0) return;
-        
-        router.post(route('lead.deals.assign-users', deal.id), {
-            user_ids: selectedUsers?.map(id => parseInt(id))
-        }, {
-            onSuccess: () => {
-                setUserModalOpen(false);
-                setSelectedUsers([]);
+
+        router.post(
+            route('lead.deals.assign-users', deal.id),
+            {
+                user_ids: selectedUsers?.map((id) => parseInt(id)),
+            },
+            {
+                onSuccess: () => {
+                    setUserModalOpen(false);
+                    setSelectedUsers([]);
+                },
             }
-        });
+        );
     };
 
     const openUserModal = () => {
@@ -59,7 +64,7 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
         setUserDeleteState({
             isOpen: true,
             userId,
-            message: t('Are you sure you want to remove this user?')
+            message: t('Are you sure you want to remove this user?'),
         });
     };
 
@@ -69,15 +74,14 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
 
     const confirmUserDelete = () => {
         if (userDeleteState.userId) {
-            router.delete(route('lead.deals.remove-user', {deal: deal.id, user: userDeleteState.userId}));
+            router.delete(route('lead.deals.remove-user', { deal: deal.id, user: userDeleteState.userId }));
             closeUserDeleteDialog();
         }
     };
 
     return (
         <>
-
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={deal.user_deals || []}
@@ -88,26 +92,26 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
                                 render: (value: string, userDeal: any) => {
                                     const user = userDeal.user;
                                     return (
-                                        <div className="h-8 w-8 rounded-full border-2 border-background overflow-hidden">
+                                        <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-background">
                                             {user?.avatar ? (
-                                                <img 
-                                                    src={getImagePath(user.avatar)} 
+                                                <img
+                                                    src={getImagePath(user.avatar)}
                                                     alt={user.name}
                                                     className="h-full w-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="h-full w-full bg-foreground/10 flex items-center justify-center text-sm font-medium">
+                                                <div className="flex h-full w-full items-center justify-center bg-foreground/10 text-sm font-medium">
                                                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                                 </div>
                                             )}
                                         </div>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'user.name',
                                 header: t('User Name'),
-                                render: (value: string, userDeal: any) => userDeal.user?.name || '-'
+                                render: (value: string, userDeal: any) => userDeal.user?.name || '-',
                             },
                             {
                                 key: 'actions',
@@ -117,9 +121,14 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => {
-                                                        openUserDeleteDialog(userDeal.user?.id);
-                                                    }} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            openUserDeleteDialog(userDeal.user?.id);
+                                                        }}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -129,8 +138,8 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -164,8 +173,12 @@ export default function Users({ deal, availableUsers, onRegisterAddHandler }: Us
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setUserModalOpen(false)}>{t('Cancel')}</Button>
-                            <Button onClick={handleAssignUsers} disabled={selectedUsers.length === 0}>{t('Save')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setUserModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button onClick={handleAssignUsers} disabled={selectedUsers.length === 0}>
+                                {t('Save')}
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>

@@ -1,8 +1,8 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,6 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { CreateJobPostingProps, CreateJobPostingFormData } from './types';
 import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
-
 
 export default function Create({ onSuccess }: CreateJobPostingProps) {
     const { jobtypes, joblocations, customquestions, departments, branches } = usePage<any>().props;
@@ -53,31 +52,81 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
     });
 
     // AI hooks for job posting fields
-    const titleAI = useFormFields('aiField', data, setData, errors, 'create', 'title', 'Title', 'recruitment', 'job_posting');
+    const titleAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'title',
+        'Title',
+        'recruitment',
+        'job_posting'
+    );
 
     const [descriptionEditorKey, setDescriptionEditorKey] = useState(0);
-    const descriptionAI = useFormFields('aiField', data, (field, value) => {
-        setData('description', value);
-        setDescriptionEditorKey(prev => prev + 1);
-    }, errors, 'create', 'description', 'Description', 'recruitment', 'job_posting');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('description', value);
+            setDescriptionEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'create',
+        'description',
+        'Description',
+        'recruitment',
+        'job_posting'
+    );
 
     const [requirementsEditorKey, setRequirementsEditorKey] = useState(0);
-    const requirementsAI = useFormFields('aiField', data, (field, value) => {
-        setData('requirements', value);
-        setRequirementsEditorKey(prev => prev + 1);
-    }, errors, 'create', 'requirements', 'Requirements', 'recruitment', 'job_posting');
+    const requirementsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('requirements', value);
+            setRequirementsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'create',
+        'requirements',
+        'Requirements',
+        'recruitment',
+        'job_posting'
+    );
 
     const [benefitsEditorKey, setBenefitsEditorKey] = useState(0);
-    const benefitsAI = useFormFields('aiField', data, (field, value) => {
-        setData('benefits', value);
-        setBenefitsEditorKey(prev => prev + 1);
-    }, errors, 'create', 'benefits', 'Benefits', 'recruitment', 'job_posting');
+    const benefitsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('benefits', value);
+            setBenefitsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'create',
+        'benefits',
+        'Benefits',
+        'recruitment',
+        'job_posting'
+    );
 
     const [termsEditorKey, setTermsEditorKey] = useState(0);
-    const termsAI = useFormFields('aiField', data, (field, value) => {
-        setData('terms_condition', value);
-        setTermsEditorKey(prev => prev + 1);
-    }, errors, 'create', 'terms_condition', 'Terms Condition', 'recruitment', 'job_posting');
+    const termsAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('terms_condition', value);
+            setTermsEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'create',
+        'terms_condition',
+        'Terms Condition',
+        'recruitment',
+        'job_posting'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -95,7 +144,7 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
         post(route('recruitment.job-postings.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -105,9 +154,9 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                 <DialogTitle>{t('Create Job Posting')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <div className="flex gap-2 items-end">
+                        <div className="flex items-end gap-2">
                             <div className="flex-1">
                                 <Label htmlFor="title">{t('Title')}</Label>
                                 <Input
@@ -120,11 +169,15 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                 />
                                 <InputError message={errors.title} />
                             </div>
-                            {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {titleAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <div>
-                        <Label htmlFor="job_type_id" required>{t('Job Type')}</Label>
+                        <Label htmlFor="job_type_id" required>
+                            {t('Job Type')}
+                        </Label>
                         <Select
                             value={data.job_type_id?.toString() || ''}
                             onValueChange={(value) => setData('job_type_id', value)}
@@ -142,21 +195,24 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                             </SelectContent>
                         </Select>
                         {(!jobtypes || jobtypes.length === 0) && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {t('Create job type here. ')}
                                 <a
                                     href={route('recruitment.job-types.index')}
-                                    className="text-foreground hover:text-foreground cursor-pointer"
+                                    className="cursor-pointer text-foreground hover:text-foreground"
                                 >
                                     {t('job type')}
-                                </a>.
+                                </a>
+                                .
                             </p>
                         )}
                         <InputError message={errors.job_type_id} />
                     </div>
 
                     <div>
-                        <Label htmlFor="location_id" required>{t('Location')}</Label>
+                        <Label htmlFor="location_id" required>
+                            {t('Location')}
+                        </Label>
                         <Select
                             value={data.location_id?.toString() || ''}
                             onValueChange={(value) => setData('location_id', value)}
@@ -174,21 +230,28 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                             </SelectContent>
                         </Select>
                         {(!joblocations || joblocations.length === 0) && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {t('Create job location here. ')}
                                 <a
                                     href={route('recruitment.job-locations.index')}
-                                    className="text-foreground hover:text-foreground cursor-pointer"
+                                    className="cursor-pointer text-foreground hover:text-foreground"
                                 >
                                     {t('job location')}
-                                </a>.
+                                </a>
+                                .
                             </p>
                         )}
                         <InputError message={errors.location_id} />
                     </div>
                     <div>
-                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
-                        <Select value={data.branch_id?.toString() || ''} onValueChange={(value) => setData('branch_id', value)} required>
+                        <Label htmlFor="branch_id" required>
+                            {t('Branch')}
+                        </Label>
+                        <Select
+                            value={data.branch_id?.toString() || ''}
+                            onValueChange={(value) => setData('branch_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Branch')} />
                             </SelectTrigger>
@@ -201,25 +264,34 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                             </SelectContent>
                         </Select>
                         <InputError message={errors.branch_id} />
-                        <p className="text-xs text-muted-foreground mt-1">
-                            {t('Branch data comes from HRM add-on. Please ensure branches are created in HRM module first.')}
+                        <p className="mt-1 text-xs text-muted-foreground">
+                            {t(
+                                'Branch data comes from HRM add-on. Please ensure branches are created in HRM module first.'
+                            )}
                         </p>
                         {(!branches || branches.length === 0) && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {t('Create branch here. ')}
                                 <a
                                     href={route('hrm.branches.index')}
-                                    className="text-foreground hover:text-foreground cursor-pointer"
+                                    className="cursor-pointer text-foreground hover:text-foreground"
                                 >
                                     {t('branch')}
-                                </a>.
+                                </a>
+                                .
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <Label htmlFor="job_application" required>{t('Job Application')}</Label>
-                        <Select value={data.job_application || ''} onValueChange={(value) => setData('job_application', value)} required>
+                        <Label htmlFor="job_application" required>
+                            {t('Job Application')}
+                        </Label>
+                        <Select
+                            value={data.job_application || ''}
+                            onValueChange={(value) => setData('job_application', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Application Type')} />
                             </SelectTrigger>
@@ -234,14 +306,18 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                         <div>
                             <Label>{t('Career Portal URL')}</Label>
                             <Input
-                                value={route('recruitment.frontend.careers.jobs.index', { userSlug: usePage<any>().props.auth?.user?.slug || 'demo' })}
+                                value={route('recruitment.frontend.careers.jobs.index', {
+                                    userSlug: usePage<any>().props.auth?.user?.slug || 'demo',
+                                })}
                                 readOnly
                                 className="bg-muted/50"
                             />
                         </div>
                     ) : data.job_application === 'custom' ? (
                         <div>
-                            <Label htmlFor="application_url" required>{t('Application URL')}</Label>
+                            <Label htmlFor="application_url" required>
+                                {t('Application URL')}
+                            </Label>
                             <Input
                                 id="application_url"
                                 type="url"
@@ -256,7 +332,9 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                         <div></div>
                     )}
                     <div>
-                        <Label htmlFor="position" required>{t('Number of Positions')}</Label>
+                        <Label htmlFor="position" required>
+                            {t('Number of Positions')}
+                        </Label>
                         <Input
                             id="position"
                             type="number"
@@ -269,8 +347,14 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                         <InputError message={errors.position} />
                     </div>
                     <div>
-                        <Label htmlFor="priority" required>{t('Priority')}</Label>
-                        <Select value={data.priority?.toString() || ''} onValueChange={(value) => setData('priority', value)} required>
+                        <Label htmlFor="priority" required>
+                            {t('Priority')}
+                        </Label>
+                        <Select
+                            value={data.priority?.toString() || ''}
+                            onValueChange={(value) => setData('priority', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Priority')} />
                             </SelectTrigger>
@@ -284,7 +368,9 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                     </div>
 
                     <div>
-                        <Label htmlFor="min_experience" required>{t('Min Experience (Years)')}</Label>
+                        <Label htmlFor="min_experience" required>
+                            {t('Min Experience (Years)')}
+                        </Label>
                         <Input
                             id="min_experience"
                             type="number"
@@ -348,14 +434,16 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                             checked={data.is_featured || false}
                             onCheckedChange={(checked) => setData('is_featured', !!checked)}
                         />
-                        <Label htmlFor="is_featured" className="cursor-pointer">{t('Featured Job')}</Label>
+                        <Label htmlFor="is_featured" className="cursor-pointer">
+                            {t('Featured Job')}
+                        </Label>
                         <InputError message={errors.is_featured} />
                     </div>
                 </div>
 
                 <div>
                     <Label>{t('Need to Ask?')}</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="applicant_gender"
@@ -364,11 +452,16 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('applicant', [...data.applicant, 'gender']);
                                     } else {
-                                        setData('applicant', data.applicant.filter(item => item !== 'gender'));
+                                        setData(
+                                            'applicant',
+                                            data.applicant.filter((item) => item !== 'gender')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_gender" className="cursor-pointer">{t('Gender')}</Label>
+                            <Label htmlFor="applicant_gender" className="cursor-pointer">
+                                {t('Gender')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -378,11 +471,16 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('applicant', [...data.applicant, 'date_of_birth']);
                                     } else {
-                                        setData('applicant', data.applicant.filter(item => item !== 'date_of_birth'));
+                                        setData(
+                                            'applicant',
+                                            data.applicant.filter((item) => item !== 'date_of_birth')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_date_of_birth" className="cursor-pointer">{t('Date Of Birth')}</Label>
+                            <Label htmlFor="applicant_date_of_birth" className="cursor-pointer">
+                                {t('Date Of Birth')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -392,18 +490,23 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('applicant', [...data.applicant, 'country']);
                                     } else {
-                                        setData('applicant', data.applicant.filter(item => item !== 'country'));
+                                        setData(
+                                            'applicant',
+                                            data.applicant.filter((item) => item !== 'country')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="applicant_country" className="cursor-pointer">{t('Country')}</Label>
+                            <Label htmlFor="applicant_country" className="cursor-pointer">
+                                {t('Country')}
+                            </Label>
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <Label>{t('Need to show Option?')}</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-2">
                             <Checkbox
                                 id="visibility_profile_image"
@@ -412,11 +515,16 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('visibility', [...data.visibility, 'profile_image']);
                                     } else {
-                                        setData('visibility', data.visibility.filter(item => item !== 'profile_image'));
+                                        setData(
+                                            'visibility',
+                                            data.visibility.filter((item) => item !== 'profile_image')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_profile_image" className="cursor-pointer">{t('Profile Image')}</Label>
+                            <Label htmlFor="visibility_profile_image" className="cursor-pointer">
+                                {t('Profile Image')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -426,11 +534,16 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('visibility', [...data.visibility, 'resume']);
                                     } else {
-                                        setData('visibility', data.visibility.filter(item => item !== 'resume'));
+                                        setData(
+                                            'visibility',
+                                            data.visibility.filter((item) => item !== 'resume')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_resume" className="cursor-pointer">{t('Resume')}</Label>
+                            <Label htmlFor="visibility_resume" className="cursor-pointer">
+                                {t('Resume')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox
@@ -440,17 +553,24 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                     if (checked) {
                                         setData('visibility', [...data.visibility, 'cover_letter']);
                                     } else {
-                                        setData('visibility', data.visibility.filter(item => item !== 'cover_letter'));
+                                        setData(
+                                            'visibility',
+                                            data.visibility.filter((item) => item !== 'cover_letter')
+                                        );
                                     }
                                 }}
                             />
-                            <Label htmlFor="visibility_cover_letter" className="cursor-pointer">{t('Cover Letter')}</Label>
+                            <Label htmlFor="visibility_cover_letter" className="cursor-pointer">
+                                {t('Cover Letter')}
+                            </Label>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <Label htmlFor="skills" required>{t('Required Skills')}</Label>
+                    <Label htmlFor="skills" required>
+                        {t('Required Skills')}
+                    </Label>
                     <TagsInput
                         value={data.skills}
                         onChange={(skills) => setData('skills', skills)}
@@ -458,17 +578,17 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                         allowCustom={true}
                         required
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
-                        {t('Type Required Skills and press Enter')}
-                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">{t('Type Required Skills and press Enter')}</p>
                     <InputError message={errors.skills} />
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -481,10 +601,12 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="requirements">{t('Requirements')}</Label>
                         <div className="flex gap-2">
-                            {requirementsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {requirementsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -497,10 +619,12 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="benefits">{t('Benefits')}</Label>
                         <div className="flex gap-2">
-                            {benefitsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {benefitsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -513,10 +637,14 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="terms_condition" required>{t('Terms Condition')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="terms_condition" required>
+                            {t('Terms Condition')}
+                        </Label>
                         <div className="flex gap-2">
-                            {termsAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {termsAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor
@@ -526,19 +654,21 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                         placeholder={t('Enter Terms Condition')}
                     />
                     <InputError message={errors.terms_condition} />
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="mt-2 flex items-center space-x-2">
                         <Checkbox
                             id="show_terms_condition"
                             checked={data.show_terms_condition || false}
                             onCheckedChange={(checked) => setData('show_terms_condition', !!checked)}
                         />
-                        <Label htmlFor="show_terms_condition" className="cursor-pointer">{t('Show Terms & Conditions on Application Form')}</Label>
+                        <Label htmlFor="show_terms_condition" className="cursor-pointer">
+                            {t('Show Terms & Conditions on Application Form')}
+                        </Label>
                     </div>
                 </div>
 
                 <div>
                     <Label>{t('Application Questions')}</Label>
-                    <div className="space-y-2 mt-2">
+                    <div className="mt-2 space-y-2">
                         {customquestions?.map((question: any) => (
                             <div key={question.id} className="flex items-center space-x-2">
                                 <Checkbox
@@ -548,14 +678,17 @@ export default function Create({ onSuccess }: CreateJobPostingProps) {
                                         if (checked) {
                                             setData('custom_questions', [...data.custom_questions, question.id]);
                                         } else {
-                                            setData('custom_questions', data.custom_questions.filter(id => id !== question.id));
+                                            setData(
+                                                'custom_questions',
+                                                data.custom_questions.filter((id) => id !== question.id)
+                                            );
                                         }
                                         setCustomQuestionsError('');
                                     }}
                                 />
                                 <Label htmlFor={`question_${question.id}`} className="cursor-pointer">
                                     {question.question}
-                                    {question.is_required && <span className="text-destructive ml-1">*</span>}
+                                    {question.is_required && <span className="ml-1 text-destructive">*</span>}
                                 </Label>
                             </div>
                         ))}

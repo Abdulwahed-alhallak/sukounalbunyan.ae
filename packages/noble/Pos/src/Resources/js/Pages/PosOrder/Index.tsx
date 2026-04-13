@@ -56,41 +56,49 @@ export default function Index() {
     const { t } = useTranslation();
     const { sales, auth } = usePage<IndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     const [filters, setFilters] = useState({
         search: urlParams.get('search') || '',
         customer: urlParams.get('customer') || '',
-        warehouse: urlParams.get('warehouse') || ''
+        warehouse: urlParams.get('warehouse') || '',
     });
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'desc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
 
     const pageButtons = usePageButtons('googleDriveBtn', { module: 'POS Order', settingKey: 'GoogleDrive POS Order' });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'POS Order', settingKey: 'OneDrive POS Order' });
 
     const handleFilter = () => {
-        router.get(route('pos.orders'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('pos.orders'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ search: '', customer: '', warehouse: '' });
-        router.get(route('pos.orders'), {per_page: perPage, view: viewMode});
+        router.get(route('pos.orders'), { per_page: perPage, view: viewMode });
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('pos.orders'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('pos.orders'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const tableColumns = [
@@ -100,83 +108,86 @@ export default function Index() {
             sortable: true,
             render: (value: string, sale: PosSale) =>
                 auth.user?.permissions?.includes('view-pos-orders') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('pos.show', sale.id))}>{value}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => router.get(route('pos.show', sale.id))}
+                    >
+                        {value}
+                    </span>
                 ) : (
                     value
-                )
+                ),
         },
         {
             key: 'customer',
             header: t('Customer'),
-            render: (_: any, sale: PosSale) => sale.customer?.name || t('Walk-in Customer')
+            render: (_: any, sale: PosSale) => sale.customer?.name || t('Walk-in Customer'),
         },
         {
             key: 'warehouse',
             header: t('Warehouse'),
-            render: (_: any, sale: PosSale) => sale.warehouse?.name
+            render: (_: any, sale: PosSale) => sale.warehouse?.name,
         },
         {
             key: 'total',
             header: t('Total'),
             sortable: false,
-            render: (_: any, sale: PosSale) => (
-                <span>
-                    {formatCurrency(sale.total || 0)}
-                </span>
-            )
+            render: (_: any, sale: PosSale) => <span>{formatCurrency(sale.total || 0)}</span>,
         },
-        ...(auth.user?.permissions?.includes('view-pos-orders') ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, sale: PosSale) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="sm" onClick={() => router.get(route('pos.show', sale.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                    <Eye className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{t('View')}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.includes('view-pos-orders')
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, sale: PosSale) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              onClick={() => router.get(route('pos.show', sale.id))}
+                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                          >
+                                              <Eye className="h-4 w-4" />
+                                          </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('View')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('POS'), url: route('pos.index') },
-                { label: t('POS Orders')}
-            ]}
+            breadcrumbs={[{ label: t('POS'), url: route('pos.index') }, { label: t('POS Orders') }]}
             pageTitle={t('POS Orders')}
             pageActions={
                 <div className="flex items-center gap-2">
                     {pageButtons?.map((button) => (
-                        <div key={button.id} >
-                            {button.component}
-                        </div>
+                        <div key={button.id}>{button.component}</div>
                     ))}
                     {oneDriveButtons?.map((button) => (
-                        <div key={button.id} >
-                            {button.component}
-                        </div>
+                        <div key={button.id}>{button.component}</div>
                     ))}
                 </div>
             }
         >
-            <Head title={t('POS Orders')} /> 
+            <Head title={t('POS Orders')} />
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search by order number, customer, warehouse...')}
                             />
@@ -185,23 +196,19 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="pos.orders"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="pos.orders"
-                                filters={{...filters, view: viewMode}}
-                            />
+                            <PerPageSelector routeName="pos.orders" filters={{ ...filters, view: viewMode }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [filters.customer, filters.warehouse].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -211,27 +218,35 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Customer')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Customer')}
+                                </label>
                                 <Input
                                     placeholder={t('Filter by customer')}
                                     value={filters.customer}
-                                    onChange={(e) => setFilters({...filters, customer: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, customer: e.target.value })}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Warehouse')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Warehouse')}
+                                </label>
                                 <Input
                                     placeholder={t('Filter by warehouse')}
                                     value={filters.warehouse}
-                                    onChange={(e) => setFilters({...filters, warehouse: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, warehouse: e.target.value })}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -239,7 +254,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={sales.data}
@@ -265,28 +280,42 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {sales.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {sales.data?.map((sale) => (
                                         <Card key={sale.id} className="border border-border">
                                             <div className="p-4">
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg">
+                                                <div className="mb-3 flex items-center gap-3">
+                                                    <div className="rounded-lg bg-foreground/10 p-2">
                                                         <ShoppingCart className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="flex-1">
                                                         {auth.user?.permissions?.includes('view-pos-orders') ? (
-                                                            <h3 className="font-semibold text-base text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('pos.show', sale.id))}>{sale.sale_number}</h3>
+                                                            <h3
+                                                                className="cursor-pointer text-base font-semibold text-foreground hover:text-foreground"
+                                                                onClick={() => router.get(route('pos.show', sale.id))}
+                                                            >
+                                                                {sale.sale_number}
+                                                            </h3>
                                                         ) : (
-                                                            <h3 className="font-semibold text-base text-foreground">{sale.sale_number}</h3>
+                                                            <h3 className="text-base font-semibold text-foreground">
+                                                                {sale.sale_number}
+                                                            </h3>
                                                         )}
                                                     </div>
                                                     {auth.user?.permissions?.includes('view-pos-orders') && (
                                                         <TooltipProvider>
                                                             <Tooltip delayDuration={300}>
                                                                 <TooltipTrigger asChild>
-                                                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('pos.show', sale.id))} className="h-8 w-8 p-0 text-foreground">
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        onClick={() =>
+                                                                            router.get(route('pos.show', sale.id))
+                                                                        }
+                                                                        className="h-8 w-8 p-0 text-foreground"
+                                                                    >
                                                                         <Eye className="h-4 w-4" />
                                                                     </Button>
                                                                 </TooltipTrigger>
@@ -298,22 +327,30 @@ export default function Index() {
                                                     )}
                                                 </div>
 
-                                                <div className="space-y-3 mb-3">
+                                                <div className="mb-3 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Customer')}</p>
-                                                        <p className="text-xs text-foreground truncate">{sale.customer?.name || t('Walk-in Customer')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Customer')}
+                                                        </p>
+                                                        <p className="truncate text-xs text-foreground">
+                                                            {sale.customer?.name || t('Walk-in Customer')}
+                                                        </p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Warehouse')}</p>
-                                                        <p className="text-xs text-foreground truncate">{sale.warehouse?.name}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Warehouse')}
+                                                        </p>
+                                                        <p className="truncate text-xs text-foreground">
+                                                            {sale.warehouse?.name}
+                                                        </p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Total')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Total')}
+                                                        </p>
                                                         <p className="text-sm">{formatCurrency(sale.total || 0)}</p>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </Card>
                                     ))}
@@ -334,11 +371,11 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={sales}
                         routeName="pos.orders"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>

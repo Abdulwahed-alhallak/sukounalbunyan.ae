@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { TaxCreateProps, TaxFormData } from './types';
 
 export default function Create({ onSuccess }: TaxCreateProps) {
@@ -19,7 +19,7 @@ export default function Create({ onSuccess }: TaxCreateProps) {
         post(route('product-service.taxes.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

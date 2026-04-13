@@ -46,9 +46,9 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
 
     useEffect(() => {
         if (data.branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
             }
         } else {
@@ -66,7 +66,9 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="name" required>{t('Name')}</Label>
+                        <Label htmlFor="name" required>
+                            {t('Name')}
+                        </Label>
                         <Input
                             id="name"
                             value={data.name}
@@ -89,7 +91,9 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
                     </div>
 
                     <div>
-                        <Label htmlFor="email" required>{t('Email')}</Label>
+                        <Label htmlFor="email" required>
+                            {t('Email')}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
@@ -102,7 +106,9 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
                     </div>
 
                     <div>
-                        <Label htmlFor="experience" required>{t('Experience')}</Label>
+                        <Label htmlFor="experience" required>
+                            {t('Experience')}
+                        </Label>
                         <Input
                             id="experience"
                             value={data.experience}
@@ -114,7 +120,9 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
                     </div>
 
                     <div>
-                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                        <Label htmlFor="branch_id" required>
+                            {t('Branch')}
+                        </Label>
                         <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select branch')} />
@@ -131,14 +139,18 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
                     </div>
 
                     <div>
-                        <Label htmlFor="department_id" required>{t('Department')}</Label>
+                        <Label htmlFor="department_id" required>
+                            {t('Department')}
+                        </Label>
                         <Select
                             value={data.department_id}
                             onValueChange={(value) => setData('department_id', value)}
                             disabled={!data.branch_id}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                                <SelectValue
+                                    placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredDepartments?.map((department) => (
@@ -174,7 +186,7 @@ export default function EditTrainer({ data: initialData, trainer, onSuccess, bra
                         rows={2}
                     />
                     <InputError message={errors.qualification} />
-                </div>             
+                </div>
 
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>

@@ -9,9 +9,9 @@ interface TranslationItemProps {
 
 export function TranslationItem({ translationKey, value, onChange }: TranslationItemProps) {
     return (
-        <div className="grid grid-cols-5 gap-4 p-3 border-b hover:bg-muted/30 transition-colors">
+        <div className="grid grid-cols-5 gap-4 border-b p-3 transition-colors hover:bg-muted/30">
             <div className="col-span-2">
-                <div className="text-sm font-medium text-foreground truncate" title={translationKey}>
+                <div className="truncate text-sm font-medium text-foreground" title={translationKey}>
                     {translationKey}
                 </div>
             </div>
@@ -20,7 +20,7 @@ export function TranslationItem({ translationKey, value, onChange }: Translation
                     <Textarea
                         value={value}
                         onChange={(e) => onChange(translationKey, e.target.value)}
-                        className="min-h-[60px] text-sm resize-none"
+                        className="min-h-[60px] resize-none text-sm"
                         rows={2}
                         placeholder="Enter translation value..."
                     />

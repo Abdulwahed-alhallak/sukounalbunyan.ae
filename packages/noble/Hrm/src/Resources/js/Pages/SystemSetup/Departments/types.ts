@@ -15,12 +15,12 @@ export interface DepartmentFormData {
     [key: string]: any;
 }
 
-export interface CreateDepartmentProps extends CreateProps  {
+export interface CreateDepartmentProps extends CreateProps {
     branches: any[];
     [key: string]: any;
 }
 
-export interface EditDepartmentProps extends EditProps<Department>  {
+export interface EditDepartmentProps extends EditProps<Department> {
     branches: any[];
     [key: string]: any;
 }

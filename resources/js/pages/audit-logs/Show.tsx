@@ -2,8 +2,17 @@ import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import {
-    Shield, ArrowLeft, User, Calendar, Globe, Monitor,
-    FileText, Plus, Pencil, Trash2, Activity,
+    Shield,
+    ArrowLeft,
+    User,
+    Calendar,
+    Globe,
+    Monitor,
+    FileText,
+    Plus,
+    Pencil,
+    Trash2,
+    Activity,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -40,13 +49,22 @@ const eventConfig: Record<string, { icon: any; color: string; bg: string; label:
 
 export default function AuditLogShow({ auditLog }: Props) {
     const { t } = useTranslation();
-    const config = eventConfig[auditLog.event] || { icon: Activity, color: 'text-muted-foreground', bg: 'bg-muted/500/10', label: auditLog.event };
+    const config = eventConfig[auditLog.event] || {
+        icon: Activity,
+        color: 'text-muted-foreground',
+        bg: 'bg-muted/500/10',
+        label: auditLog.event,
+    };
     const EventIcon = config.icon;
 
     const formatDate = (date: string) => {
         return new Date(date).toLocaleString('en-GB', {
-            year: 'numeric', month: 'long', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
         });
     };
 
@@ -84,7 +102,8 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 {t('Audit Log')} #{auditLog.id}
                             </h1>
                             <p className="text-sm text-muted-foreground">
-                                {getModelBasename(auditLog.auditable_type)} — {auditLog.auditable_label || `ID: ${auditLog.auditable_id}`}
+                                {getModelBasename(auditLog.auditable_type)} —{' '}
+                                {auditLog.auditable_label || `ID: ${auditLog.auditable_id}`}
                             </p>
                         </div>
                     </div>
@@ -103,7 +122,9 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground">{t('Event')}</div>
-                                    <div className={`text-sm font-semibold capitalize ${config.color}`}>{auditLog.event}</div>
+                                    <div className={`text-sm font-semibold capitalize ${config.color}`}>
+                                        {auditLog.event}
+                                    </div>
                                 </div>
                             </div>
 
@@ -113,8 +134,12 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground">{t('User')}</div>
-                                    <div className="text-sm font-medium text-foreground">{auditLog.user_name || 'System'}</div>
-                                    {auditLog.user && <div className="text-xs text-muted-foreground">{auditLog.user.email}</div>}
+                                    <div className="text-sm font-medium text-foreground">
+                                        {auditLog.user_name || 'System'}
+                                    </div>
+                                    {auditLog.user && (
+                                        <div className="text-xs text-muted-foreground">{auditLog.user.email}</div>
+                                    )}
                                 </div>
                             </div>
 
@@ -124,7 +149,9 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground">{t('Model')}</div>
-                                    <div className="text-sm font-medium text-foreground">{getModelBasename(auditLog.auditable_type)}</div>
+                                    <div className="text-sm font-medium text-foreground">
+                                        {getModelBasename(auditLog.auditable_type)}
+                                    </div>
                                     <div className="text-xs text-muted-foreground">ID: {auditLog.auditable_id}</div>
                                 </div>
                             </div>
@@ -135,7 +162,9 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground">{t('Date')}</div>
-                                    <div className="text-sm font-medium text-foreground">{formatDate(auditLog.created_at)}</div>
+                                    <div className="text-sm font-medium text-foreground">
+                                        {formatDate(auditLog.created_at)}
+                                    </div>
                                 </div>
                             </div>
 
@@ -145,7 +174,9 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground">{t('IP Address')}</div>
-                                    <div className="text-sm font-mono text-foreground">{auditLog.ip_address || '—'}</div>
+                                    <div className="font-mono text-sm text-foreground">
+                                        {auditLog.ip_address || '—'}
+                                    </div>
                                 </div>
                             </div>
 
@@ -156,7 +187,7 @@ export default function AuditLogShow({ auditLog }: Props) {
                                     </div>
                                     <div>
                                         <div className="text-xs text-muted-foreground">{t('Route')}</div>
-                                        <div className="text-sm font-mono text-foreground">
+                                        <div className="font-mono text-sm text-foreground">
                                             {auditLog.method} {auditLog.route_name}
                                         </div>
                                     </div>
@@ -167,8 +198,11 @@ export default function AuditLogShow({ auditLog }: Props) {
                                 <div>
                                     <div className="mb-2 text-xs text-muted-foreground">{t('Changed Fields')}</div>
                                     <div className="flex flex-wrap gap-1">
-                                        {auditLog.changed_fields.map(field => (
-                                            <span key={field} className="rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-medium text-foreground">
+                                        {auditLog.changed_fields.map((field) => (
+                                            <span
+                                                key={field}
+                                                className="rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-medium text-foreground"
+                                            >
                                                 {field}
                                             </span>
                                         ))}
@@ -191,15 +225,23 @@ export default function AuditLogShow({ auditLog }: Props) {
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Field')}</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Value')}</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Field')}
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Value')}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-border">
                                                 {Object.entries(auditLog.new_values).map(([key, value]) => (
                                                     <tr key={key} className="hover:bg-muted/20">
-                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">{key}</td>
-                                                        <td className="px-4 py-2 text-sm text-foreground font-mono break-all">{renderValue(value)}</td>
+                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">
+                                                            {key}
+                                                        </td>
+                                                        <td className="break-all px-4 py-2 font-mono text-sm text-foreground">
+                                                            {renderValue(value)}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -214,19 +256,27 @@ export default function AuditLogShow({ auditLog }: Props) {
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Field')}</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Old Value')}</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('New Value')}</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Field')}
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Old Value')}
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('New Value')}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-border">
-                                                {auditLog.changed_fields?.map(field => (
+                                                {auditLog.changed_fields?.map((field) => (
                                                     <tr key={field} className="hover:bg-muted/20">
-                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">{field}</td>
-                                                        <td className="px-4 py-2 text-sm text-muted-foreground font-mono break-all">
+                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">
+                                                            {field}
+                                                        </td>
+                                                        <td className="break-all px-4 py-2 font-mono text-sm text-muted-foreground">
                                                             {renderValue(auditLog.old_values?.[field])}
                                                         </td>
-                                                        <td className="px-4 py-2 text-sm text-foreground font-mono break-all">
+                                                        <td className="break-all px-4 py-2 font-mono text-sm text-foreground">
                                                             {renderValue(auditLog.new_values?.[field])}
                                                         </td>
                                                     </tr>
@@ -239,20 +289,30 @@ export default function AuditLogShow({ auditLog }: Props) {
 
                             {auditLog.event === 'deleted' && auditLog.old_values && (
                                 <div>
-                                    <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{t('Deleted Values')}</h3>
+                                    <h3 className="mb-3 text-sm font-semibold text-muted-foreground">
+                                        {t('Deleted Values')}
+                                    </h3>
                                     <div className="overflow-hidden rounded-lg border border-border">
                                         <table className="w-full">
                                             <thead>
                                                 <tr className="border-b border-border bg-muted/50">
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Field')}</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">{t('Value')}</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Field')}
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-muted-foreground">
+                                                        {t('Value')}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-border">
                                                 {Object.entries(auditLog.old_values).map(([key, value]) => (
                                                     <tr key={key} className="hover:bg-muted/20">
-                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">{key}</td>
-                                                        <td className="px-4 py-2 text-sm text-muted-foreground font-mono break-all line-through">{renderValue(value)}</td>
+                                                        <td className="px-4 py-2 text-sm font-medium text-foreground">
+                                                            {key}
+                                                        </td>
+                                                        <td className="break-all px-4 py-2 font-mono text-sm text-muted-foreground line-through">
+                                                            {renderValue(value)}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -264,7 +324,9 @@ export default function AuditLogShow({ auditLog }: Props) {
                             {!auditLog.old_values && !auditLog.new_values && (
                                 <div className="flex flex-col items-center py-12 text-center">
                                     <Shield className="mb-3 h-10 w-10 text-muted-foreground/30" />
-                                    <p className="text-sm text-muted-foreground">{t('No detailed change data recorded for this event.')}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {t('No detailed change data recorded for this event.')}
+                                    </p>
                                 </div>
                             )}
                         </CardContent>

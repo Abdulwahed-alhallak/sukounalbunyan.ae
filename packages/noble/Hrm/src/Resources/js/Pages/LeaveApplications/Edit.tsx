@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -14,7 +14,6 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { EditLeaveApplicationProps, EditLeaveApplicationFormData } from './types';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
 
 export default function EditLeaveApplication({ leaveapplication, onSuccess }: EditLeaveApplicationProps) {
     const { employees = [], leavetypes } = usePage<any>().props;
@@ -33,7 +32,17 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
     const [totalDays, setTotalDays] = useState(0);
 
     // AI hooks for reason field
-    const reasonAI = useFormFields('aiField', data, setData, errors, 'edit', 'reason', 'Reason', 'hrm', 'leave_application');
+    const reasonAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'reason',
+        'Reason',
+        'hrm',
+        'leave_application'
+    );
 
     // Calculate total days when dates change
     useEffect(() => {
@@ -51,10 +60,11 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
     // Get leave balance when employee and leave type are selected
     useEffect(() => {
         if (data.employee_id && data.leave_type_id) {
-            axios.get(route('hrm.leave-balance', [data.employee_id, data.leave_type_id]), {
-                params: { exclude_id: leaveapplication.id }
-            })
-                .then(response => {
+            axios
+                .get(route('hrm.leave-balance', [data.employee_id, data.leave_type_id]), {
+                    params: { exclude_id: leaveapplication.id },
+                })
+                .then((response) => {
                     setLeaveBalance(response.data);
                 })
                 .catch(() => {
@@ -65,14 +75,12 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
         }
     }, [data.employee_id, data.leave_type_id]);
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.leave-applications.update', leaveapplication.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -83,8 +91,14 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                    <Select value={data.employee_id?.toString() || ''} onValueChange={(value) => setData('employee_id', value)} required>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
+                    <Select
+                        value={data.employee_id?.toString() || ''}
+                        onValueChange={(value) => setData('employee_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -98,10 +112,16 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="leave_type_id" required>{t('Leave Type')}</Label>
-                    <Select value={data.leave_type_id?.toString() || ''} onValueChange={(value) => setData('leave_type_id', value)} required>
+                    <Label htmlFor="leave_type_id" required>
+                        {t('Leave Type')}
+                    </Label>
+                    <Select
+                        value={data.leave_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('leave_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Leave Type')} />
                         </SelectTrigger>
@@ -115,9 +135,11 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.leave_type_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="start_date" required>{t('Start Date')}</Label>
+                    <Label htmlFor="start_date" required>
+                        {t('Start Date')}
+                    </Label>
                     <DatePicker
                         id="start_date"
                         value={data.start_date}
@@ -127,9 +149,11 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                     />
                     <InputError message={errors.start_date} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="end_date" required>{t('End Date')}</Label>
+                    <Label htmlFor="end_date" required>
+                        {t('End Date')}
+                    </Label>
                     <DatePicker
                         id="end_date"
                         value={data.end_date}
@@ -139,28 +163,46 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                     />
                     <InputError message={errors.end_date} />
                 </div>
-                
+
                 {leaveBalance && (
-                    <div className="p-3 bg-muted/50 rounded-lg">
-                        <div className="text-sm space-y-1">
-                            <p><strong>{t('Leave Balance')}:</strong></p>
-                            <p>{t('Total')}: {leaveBalance.total_leaves} {t('days')}</p>
-                            <p>{t('Used')}: {leaveBalance.used_leaves} {t('days')} </p>
-                            <p>{t('Available')}: {leaveBalance.available_leaves} {t('days')}</p>
+                    <div className="rounded-lg bg-muted/50 p-3">
+                        <div className="space-y-1 text-sm">
+                            <p>
+                                <strong>{t('Leave Balance')}:</strong>
+                            </p>
+                            <p>
+                                {t('Total')}: {leaveBalance.total_leaves} {t('days')}
+                            </p>
+                            <p>
+                                {t('Used')}: {leaveBalance.used_leaves} {t('days')}{' '}
+                            </p>
+                            <p>
+                                {t('Available')}: {leaveBalance.available_leaves} {t('days')}
+                            </p>
                             {totalDays > 0 && (
-                                <p className={totalDays > leaveBalance.available_leaves ? 'text-destructive font-semibold' : 'text-foreground'}>
+                                <p
+                                    className={
+                                        totalDays > leaveBalance.available_leaves
+                                            ? 'font-semibold text-destructive'
+                                            : 'text-foreground'
+                                    }
+                                >
                                     {t('Requesting')}: {totalDays} {t('days')}
                                 </p>
                             )}
                         </div>
                     </div>
                 )}
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="reason" required>{t('Reason')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="reason" required>
+                            {t('Reason')}
+                        </Label>
                         <div className="flex gap-2">
-                            {reasonAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {reasonAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -173,14 +215,14 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                     />
                     <InputError message={errors.reason} />
                 </div>
-                
+
                 <div className="space-y-4">
-                    <ModuleAttachments 
-                        attachments={leaveapplication.attachments} 
+                    <ModuleAttachments
+                        attachments={leaveapplication.attachments}
                         onDelete={(id: number) => {
                             if (confirm(t('Are you sure you want to delete this attachment?'))) {
                                 router.delete(route('hrm.leave-applications.attachments.destroy', id), {
-                                    preserveScroll: true
+                                    preserveScroll: true,
                                 });
                             }
                         }}
@@ -197,7 +239,7 @@ export default function EditLeaveApplication({ leaveapplication, onSuccess }: Ed
                         <InputError message={errors.attachment_ids} />
                     </div>
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

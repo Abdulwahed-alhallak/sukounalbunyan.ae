@@ -3,14 +3,24 @@ import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShieldAlert, ShieldCheck, Search, Filter, Shield, AlertTriangle, Fingerprint, MapPin, MonitorSmartphone } from 'lucide-react';
+import {
+    ShieldAlert,
+    ShieldCheck,
+    Search,
+    Filter,
+    Shield,
+    AlertTriangle,
+    Fingerprint,
+    MapPin,
+    MonitorSmartphone,
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface AuditLog {
     id: number;
     action: string;
     entity_type: string | null;
-    user: { name: string, email: string };
+    user: { name: string; email: string };
     ip_address: string;
     risk_level: 'LOW' | 'MEDIUM' | 'CRITICAL';
     created_at: string;
@@ -21,27 +31,30 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
 
     const renderRiskBadge = (risk: string) => {
         switch (risk) {
-            case 'CRITICAL': return <Badge className="bg-muted text-destructive border-destructive">CRITICAL</Badge>;
-            case 'MEDIUM': return <Badge className="bg-dion-amber/10 text-dion-amber border-dion-amber">MEDIUM</Badge>;
-            default: return <Badge className="bg-muted text-foreground border-border">LOW</Badge>;
+            case 'CRITICAL':
+                return <Badge className="border-destructive bg-muted text-destructive">CRITICAL</Badge>;
+            case 'MEDIUM':
+                return <Badge className="bg-dion-amber/10 text-dion-amber border-dion-amber">MEDIUM</Badge>;
+            default:
+                return <Badge className="border-border bg-muted text-foreground">LOW</Badge>;
         }
     };
 
     return (
-        <div className="p-4 md:p-6 max-w-[1600px] mx-auto space-y-6">
+        <div className="mx-auto max-w-[1600px] space-y-6 p-4 md:p-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground flex items-center gap-3">
-                        <Shield className="w-8 h-8 text-black dark:text-foreground" />
+                    <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight text-foreground dark:text-foreground">
+                        <Shield className="h-8 w-8 text-black dark:text-foreground" />
                         Zero-Trust Audit Log
                     </h1>
-                    <p className="text-muted-foreground dark:text-muted-foreground mt-2">
+                    <p className="mt-2 text-muted-foreground dark:text-muted-foreground">
                         Immutable, cryptographic tracking of all workspace mutations and access attempts.
                     </p>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" className="border-border dark:border-border">
-                        <Filter className="w-4 h-4 mr-2" /> Filter
+                        <Filter className="mr-2 h-4 w-4" /> Filter
                     </Button>
                     <Button className="bg-foreground text-background dark:bg-card dark:text-black">
                         Export Forensics CSV
@@ -49,11 +62,11 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="bg-foreground/5 border-destructive/20 shadow-none">
-                    <CardContent className="p-6 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-foreground/20 flex items-center justify-center">
-                            <ShieldAlert className="w-6 h-6 text-destructive" />
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <Card className="border-destructive/20 bg-foreground/5 shadow-none">
+                    <CardContent className="flex items-center gap-4 p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground/20">
+                            <ShieldAlert className="h-6 w-6 text-destructive" />
                         </div>
                         <div>
                             <p className="text-sm font-medium text-destructive/80">Critical Events (24h)</p>
@@ -61,10 +74,10 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="bg-foreground/5 border-border/20 shadow-none">
-                    <CardContent className="p-6 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-foreground/20 flex items-center justify-center">
-                            <ShieldCheck className="w-6 h-6 text-foreground" />
+                <Card className="border-border/20 bg-foreground/5 shadow-none">
+                    <CardContent className="flex items-center gap-4 p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground/20">
+                            <ShieldCheck className="h-6 w-6 text-foreground" />
                         </div>
                         <div>
                             <p className="text-sm font-medium text-foreground/80">System Health</p>
@@ -72,10 +85,10 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="bg-muted/50 dark:bg-foreground border-border dark:border-border shadow-none">
-                    <CardContent className="p-6 flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-muted dark:bg-card flex items-center justify-center">
-                            <Fingerprint className="w-6 h-6 text-muted-foreground" />
+                <Card className="border-border bg-muted/50 shadow-none dark:border-border dark:bg-foreground">
+                    <CardContent className="flex items-center gap-4 p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted dark:bg-card">
+                            <Fingerprint className="h-6 w-6 text-muted-foreground" />
                         </div>
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">Identity Checks</p>
@@ -85,21 +98,21 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                 </Card>
             </div>
 
-            <Card className="bg-muted/50 dark:bg-foreground border-border dark:border-border">
-                <div className="p-4 border-b border-border dark:border-border flex justify-between items-center bg-card dark:bg-foreground">
+            <Card className="border-border bg-muted/50 dark:border-border dark:bg-foreground">
+                <div className="flex items-center justify-between border-b border-border bg-card p-4 dark:border-border dark:bg-foreground">
                     <div className="relative w-72">
                         <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input 
-                            placeholder="Search IP, User, or Action..." 
-                            className="pl-9 bg-muted/50 dark:bg-foreground border-border dark:border-border"
+                        <Input
+                            placeholder="Search IP, User, or Action..."
+                            className="border-border bg-muted/50 pl-9 dark:border-border dark:bg-foreground"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
-                <div className="p-0 overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-muted-foreground bg-muted/50 dark:bg-foreground/50 uppercase border-b border-border dark:border-border font-mono tracking-wider">
+                <div className="overflow-x-auto p-0">
+                    <table className="w-full text-left text-sm">
+                        <thead className="border-b border-border bg-muted/50 font-mono text-xs uppercase tracking-wider text-muted-foreground dark:border-border dark:bg-foreground/50">
                             <tr>
                                 <th className="px-6 py-4">Timestamp</th>
                                 <th className="px-6 py-4">Actor</th>
@@ -110,10 +123,12 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                         </thead>
                         <tbody>
                             {/* Mock Data for Beta Build */}
-                            <tr className="bg-card dark:bg-foreground border-b border-border dark:border-border hover:bg-muted/50 dark:hover:bg-foreground/50 transition-colors">
-                                <td className="px-6 py-4 text-muted-foreground font-mono">Just now</td>
-                                <td className="px-6 py-4 font-semibold flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-foreground">S</div>
+                            <tr className="border-b border-border bg-card transition-colors hover:bg-muted/50 dark:border-border dark:bg-foreground dark:hover:bg-foreground/50">
+                                <td className="px-6 py-4 font-mono text-muted-foreground">Just now</td>
+                                <td className="flex items-center gap-2 px-6 py-4 font-semibold">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-foreground">
+                                        S
+                                    </div>
                                     Super Admin
                                 </td>
                                 <td className="px-6 py-4 font-mono text-foreground dark:text-muted-foreground/60">
@@ -121,16 +136,22 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-                                        <div className="flex items-center gap-1"><MonitorSmartphone className="w-3 h-3"/> Windows 11 / Chrome</div>
-                                        <div className="flex items-center gap-1"><MapPin className="w-3 h-3"/> IP: 127.0.0.1 (Local)</div>
+                                        <div className="flex items-center gap-1">
+                                            <MonitorSmartphone className="h-3 w-3" /> Windows 11 / Chrome
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <MapPin className="h-3 w-3" /> IP: 127.0.0.1 (Local)
+                                        </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">{renderRiskBadge('LOW')}</td>
                             </tr>
-                            <tr className="bg-card dark:bg-foreground border-b border-border dark:border-border hover:bg-muted/50 dark:hover:bg-foreground/50 transition-colors">
-                                <td className="px-6 py-4 text-muted-foreground font-mono">2 mins ago</td>
-                                <td className="px-6 py-4 font-semibold flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-dion-cyan/10 flex items-center justify-center text-dion-cyan">E</div>
+                            <tr className="border-b border-border bg-card transition-colors hover:bg-muted/50 dark:border-border dark:bg-foreground dark:hover:bg-foreground/50">
+                                <td className="px-6 py-4 font-mono text-muted-foreground">2 mins ago</td>
+                                <td className="flex items-center gap-2 px-6 py-4 font-semibold">
+                                    <div className="bg-dion-cyan/10 text-dion-cyan flex h-6 w-6 items-center justify-center rounded-full">
+                                        E
+                                    </div>
                                     Employee John
                                 </td>
                                 <td className="px-6 py-4 font-mono text-foreground dark:text-muted-foreground/60">
@@ -138,8 +159,12 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-                                        <div className="flex items-center gap-1"><MonitorSmartphone className="w-3 h-3"/> macOS / Safari</div>
-                                        <div className="flex items-center gap-1"><MapPin className="w-3 h-3"/> IP: 192.168.1.45</div>
+                                        <div className="flex items-center gap-1">
+                                            <MonitorSmartphone className="h-3 w-3" /> macOS / Safari
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <MapPin className="h-3 w-3" /> IP: 192.168.1.45
+                                        </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">{renderRiskBadge('CRITICAL')}</td>

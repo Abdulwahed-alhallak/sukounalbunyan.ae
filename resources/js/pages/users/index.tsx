@@ -6,18 +6,29 @@ import { usePageButtons } from '@/hooks/usePageButtons';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, Key, Users as UsersIcon, User as UserIcon, UserCheck, History, Lock, Zap } from "lucide-react";
+import {
+    Plus,
+    Edit,
+    Trash2,
+    Key,
+    Users as UsersIcon,
+    User as UserIcon,
+    UserCheck,
+    History,
+    Lock,
+    Zap,
+} from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import Create from './create';
 import EditUser from './edit';
@@ -35,56 +46,64 @@ export default function Index() {
         name: urlParams.get('name') || '',
         email: urlParams.get('email') || '',
         role: urlParams.get('role') || '',
-        is_enable_login: urlParams.get('is_enable_login') || ''
+        is_enable_login: urlParams.get('is_enable_login') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
 
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<UserModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [showFilters, setShowFilters] = useState(false);
 
     // Add hook here
-    const pageButtons = usePageButtons('userBtn','Test data');
+    const pageButtons = usePageButtons('userBtn', 'Test data');
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'users.destroy',
-        defaultMessage: t('Are you sure you want to delete this user?')
+        defaultMessage: t('Are you sure you want to delete this user?'),
     });
 
     const handleFilter = () => {
-        router.get(route('users.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('users.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('users.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('users.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ name: '', email: '', role: '', is_enable_login: '' });
-        router.get(route('users.index'), {per_page: perPage, view: viewMode});
+        router.get(route('users.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit' | 'change-password' | 'assign-plan', data: User | null = null) => {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -92,7 +111,7 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
 
@@ -101,153 +120,173 @@ export default function Index() {
             key: 'avatar',
             header: t('Avatar'),
             render: (value: string) => (
-                <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted border flex items-center justify-center">
+                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border bg-muted">
                     {value ? (
-                        <img
-                            src={getImagePath(value)}
-                            alt="Avatar"
-                            className="w-full h-full object-cover"
-                        />
+                        <img src={getImagePath(value)} alt="Avatar" className="h-full w-full object-cover" />
                     ) : (
-                        <UserIcon className="w-5 h-5 text-muted-foreground" />
+                        <UserIcon className="h-5 w-5 text-muted-foreground" />
                     )}
                 </div>
-            )
+            ),
         },
         {
             key: 'name',
             header: t('Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'email',
             header: t('Email'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'mobile_no',
-            header: t('Mobile No')
+            header: t('Mobile No'),
         },
         {
             key: 'type',
             header: t('Role'),
             sortable: true,
             render: (value: string) => (
-                <span className="capitalize px-2 py-1 bg-muted rounded-full text-sm">
-                    {value}
-                </span>
-            )
+                <span className="rounded-full bg-muted px-2 py-1 text-sm capitalize">{value}</span>
+            ),
         },
         {
             key: 'is_enable_login',
             header: t('Login Status'),
             sortable: true,
             render: (value: boolean) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value ? 'bg-muted text-foreground' : 'bg-muted/50 text-muted-foreground'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value ? 'bg-muted text-foreground' : 'bg-muted/50 text-muted-foreground'
+                    }`}
+                >
                     {value ? t('Enabled') : t('Disabled')}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['change-password-users', 'edit-users', 'delete-users'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, user: User) => (
-                <div className="flex gap-1">
-                    {user.is_disable === 1 ? (
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <div className="h-8 w-8 p-0 flex items-center justify-center text-muted-foreground">
-                                    <Lock className="h-4 w-4" />
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{t('User is disabled')}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    ) : (
-                        <TooltipProvider>
-                        {auth.user?.permissions?.includes('impersonate-users') && user.id !== auth.user?.id && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => router.post(route('users.impersonate', user.id))}
-                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                                        >
-                                            <UserCheck className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Login As User')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.type === 'superadmin' && user.type === 'company' && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => openModal('assign-plan', user)} className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-                                            <Zap className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Assign Plan')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('change-password-users') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => openModal('change-password', user)} className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-                                            <Key className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Change Password')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('edit-users') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', user)} className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-                                            <Edit className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Edit')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('delete-users') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => openDeleteDialog(user.id)}
-                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Delete')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                        </TooltipProvider>
-                    )}
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['change-password-users', 'edit-users', 'delete-users'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, user: User) => (
+                          <div className="flex gap-1">
+                              {user.is_disable === 1 ? (
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <div className="flex h-8 w-8 items-center justify-center p-0 text-muted-foreground">
+                                              <Lock className="h-4 w-4" />
+                                          </div>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('User is disabled')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              ) : (
+                                  <TooltipProvider>
+                                      {auth.user?.permissions?.includes('impersonate-users') &&
+                                          user.id !== auth.user?.id && (
+                                              <Tooltip delayDuration={0}>
+                                                  <TooltipTrigger asChild>
+                                                      <Button
+                                                          variant="ghost"
+                                                          size="sm"
+                                                          onClick={() =>
+                                                              router.post(route('users.impersonate', user.id))
+                                                          }
+                                                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                      >
+                                                          <UserCheck className="h-4 w-4" />
+                                                      </Button>
+                                                  </TooltipTrigger>
+                                                  <TooltipContent>
+                                                      <p>{t('Login As User')}</p>
+                                                  </TooltipContent>
+                                              </Tooltip>
+                                          )}
+                                      {auth.user?.type === 'superadmin' && user.type === 'company' && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openModal('assign-plan', user)}
+                                                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                  >
+                                                      <Zap className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Assign Plan')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('change-password-users') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openModal('change-password', user)}
+                                                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                  >
+                                                      <Key className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Change Password')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('edit-users') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openModal('edit', user)}
+                                                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                  >
+                                                      <Edit className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Edit')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('delete-users') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openDeleteDialog(user.id)}
+                                                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                  >
+                                                      <Trash2 className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Delete')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  </TooltipProvider>
+                              )}
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Users')}]}
+            breadcrumbs={[{ label: t('Users') }]}
             pageTitle={t('Manage Users')}
             pageActions={
                 <div className="flex gap-2">
@@ -255,7 +294,11 @@ export default function Index() {
                         {auth.user?.permissions?.includes('view-login-history') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button variant="outline" size="sm" onClick={() => router.get(route('users.login-history'))}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.get(route('users.login-history'))}
+                                    >
                                         <History className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
@@ -288,12 +331,12 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
+                                onChange={(value) => setFilters({ ...filters, name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search users...')}
                             />
@@ -302,23 +345,21 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="users.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="users.index"
-                                filters={{...filters, view: viewMode}}
-                            />
+                            <PerPageSelector routeName="users.index" filters={{ ...filters, view: viewMode }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.email, filters.role, filters.is_enable_login].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.email, filters.role, filters.is_enable_login].filter(
+                                        Boolean
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -328,20 +369,25 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Email')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Email')}</label>
                                 <Input
                                     placeholder={t('Filter by email')}
                                     value={filters.email}
-                                    onChange={(e) => setFilters({...filters, email: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, email: e.target.value })}
                                 />
                             </div>
                             {auth.user?.permissions?.includes('manage-roles') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Role')}</label>
-                                    <Select value={filters.role} onValueChange={(value) => setFilters({...filters, role: value})}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Role')}
+                                    </label>
+                                    <Select
+                                        value={filters.role}
+                                        onValueChange={(value) => setFilters({ ...filters, role: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by role')} />
                                         </SelectTrigger>
@@ -356,8 +402,13 @@ export default function Index() {
                                 </div>
                             )}
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Login Status')}</label>
-                                <Select value={filters.is_enable_login} onValueChange={(value) => setFilters({...filters, is_enable_login: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Login Status')}
+                                </label>
+                                <Select
+                                    value={filters.is_enable_login}
+                                    onValueChange={(value) => setFilters({ ...filters, is_enable_login: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by login status')} />
                                     </SelectTrigger>
@@ -368,8 +419,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -378,90 +433,116 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={users.data}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={UsersIcon}
-                                        title={t('No users found')}
-                                        description={t('Get started by creating your first user.')}
-                                        hasFilters={!!(filters.name || filters.email || filters.role || filters.is_enable_login)}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-users"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Create User')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={users.data}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={UsersIcon}
+                                            title={t('No users found')}
+                                            description={t('Get started by creating your first user.')}
+                                            hasFilters={
+                                                !!(
+                                                    filters.name ||
+                                                    filters.email ||
+                                                    filters.role ||
+                                                    filters.is_enable_login
+                                                )
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-users"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText={t('Create User')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {users.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {users.data.map((user) => (
                                         <Card key={user.id} className="border border-border">
                                             <div className="p-4">
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted border flex-shrink-0">
+                                                <div className="mb-3 flex items-center gap-3">
+                                                    <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
                                                         {user.avatar ? (
                                                             <img
                                                                 src={getImagePath(user.avatar)}
                                                                 alt={user.name}
-                                                                className="w-full h-full object-cover"
+                                                                className="h-full w-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className="w-full h-full flex items-center justify-center">
-                                                                <UserIcon className="w-5 h-5 text-foreground" />
+                                                            <div className="flex h-full w-full items-center justify-center">
+                                                                <UserIcon className="h-5 w-5 text-foreground" />
                                                             </div>
                                                         )}
                                                     </div>
                                                     <div className="flex-1">
-                                                        <h3 className="font-semibold text-base text-foreground">{user.name}</h3>
+                                                        <h3 className="text-base font-semibold text-foreground">
+                                                            {user.name}
+                                                        </h3>
                                                     </div>
                                                 </div>
 
-                                                <div className="space-y-3 mb-3">
-
+                                                <div className="mb-3 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-2">{t('Email')}</p>
-                                                        <p className="text-xs text-foreground truncate" title={user.email}>{user.email}</p>
+                                                        <p className="mb-2 text-xs font-medium text-muted-foreground">
+                                                            {t('Email')}
+                                                        </p>
+                                                        <p
+                                                            className="truncate text-xs text-foreground"
+                                                            title={user.email}
+                                                        >
+                                                            {user.email}
+                                                        </p>
                                                     </div>
 
                                                     <div className="grid grid-cols-2 gap-2">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Role')}</p>
-                                                            <p className="text-xs text-foreground capitalize truncate">{user.type}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Role')}
+                                                            </p>
+                                                            <p className="truncate text-xs capitalize text-foreground">
+                                                                {user.type}
+                                                            </p>
                                                         </div>
                                                         {user.mobile_no && (
                                                             <div>
-                                                                <p className="text-xs font-medium text-muted-foreground mb-1">{t('Mobile')}</p>
-                                                                <p className="text-xs text-foreground">{user.mobile_no}</p>
+                                                                <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                    {t('Mobile')}
+                                                                </p>
+                                                                <p className="text-xs text-foreground">
+                                                                    {user.mobile_no}
+                                                                </p>
                                                             </div>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-between pt-3 border-t">
-                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${
-                                                        user.is_enable_login ? 'bg-muted text-foreground' : 'bg-muted/50 text-muted-foreground'
-                                                    }`}>
+                                                <div className="flex items-center justify-between border-t pt-3">
+                                                    <span
+                                                        className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${
+                                                            user.is_enable_login
+                                                                ? 'bg-muted text-foreground'
+                                                                : 'bg-muted/50 text-muted-foreground'
+                                                        }`}
+                                                    >
                                                         {user.is_enable_login ? t('Enabled') : t('Disabled')}
                                                     </span>
                                                     <div className="flex gap-1">
-
                                                         {user.is_disable === 1 ? (
                                                             <Tooltip delayDuration={300}>
                                                                 <TooltipTrigger asChild>
-                                                                    <div className="h-8 w-8 p-0 flex items-center justify-center text-muted-foreground">
+                                                                    <div className="flex h-8 w-8 items-center justify-center p-0 text-muted-foreground">
                                                                         <Lock className="h-4 w-4" />
                                                                     </div>
                                                                 </TooltipTrigger>
@@ -471,39 +552,66 @@ export default function Index() {
                                                             </Tooltip>
                                                         ) : (
                                                             <TooltipProvider>
-                                                            {auth.user?.permissions?.includes('impersonate-users') && user.id !== auth.user?.id && (
+                                                                {auth.user?.permissions?.includes(
+                                                                    'impersonate-users'
+                                                                ) &&
+                                                                    user.id !== auth.user?.id && (
+                                                                        <Tooltip delayDuration={300}>
+                                                                            <TooltipTrigger asChild>
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() =>
+                                                                                        router.post(
+                                                                                            route(
+                                                                                                'users.impersonate',
+                                                                                                user.id
+                                                                                            )
+                                                                                        )
+                                                                                    }
+                                                                                    className="h-8 w-8 p-0 text-muted-foreground"
+                                                                                >
+                                                                                    <UserCheck className="h-4 w-4" />
+                                                                                </Button>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p>{t('Login As User')}</p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                {auth.user?.type === 'superadmin' &&
+                                                                    user.type === 'company' && (
+                                                                        <Tooltip delayDuration={300}>
+                                                                            <TooltipTrigger asChild>
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() =>
+                                                                                        openModal('assign-plan', user)
+                                                                                    }
+                                                                                    className="h-8 w-8 p-0 text-muted-foreground hover:bg-accent"
+                                                                                >
+                                                                                    <Zap className="h-4 w-4" />
+                                                                                </Button>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>
+                                                                                <p>{t('Assign Plan')}</p>
+                                                                            </TooltipContent>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                {auth.user?.permissions?.includes(
+                                                                    'change-password-users'
+                                                                ) && (
                                                                     <Tooltip delayDuration={300}>
                                                                         <TooltipTrigger asChild>
                                                                             <Button
                                                                                 variant="ghost"
                                                                                 size="sm"
-                                                                                onClick={() => router.post(route('users.impersonate', user.id))}
+                                                                                onClick={() =>
+                                                                                    openModal('change-password', user)
+                                                                                }
                                                                                 className="h-8 w-8 p-0 text-muted-foreground"
                                                                             >
-                                                                                <UserCheck className="h-4 w-4" />
-                                                                            </Button>
-                                                                        </TooltipTrigger>
-                                                                        <TooltipContent>
-                                                                            <p>{t('Login As User')}</p>
-                                                                        </TooltipContent>
-                                                                    </Tooltip>
-                                                                )}
-                                                                {auth.user?.type === 'superadmin' && user.type === 'company' && (
-                                                                    <Tooltip delayDuration={300}>
-                                                                        <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => openModal('assign-plan', user)} className="h-8 w-8 p-0 text-muted-foreground hover:bg-accent">
-                                                                                <Zap className="h-4 w-4" />
-                                                                            </Button>
-                                                                        </TooltipTrigger>
-                                                                        <TooltipContent>
-                                                                            <p>{t('Assign Plan')}</p>
-                                                                        </TooltipContent>
-                                                                    </Tooltip>
-                                                                )}
-                                                                {auth.user?.permissions?.includes('change-password-users') && (
-                                                                    <Tooltip delayDuration={300}>
-                                                                        <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => openModal('change-password', user)} className="h-8 w-8 p-0 text-muted-foreground">
                                                                                 <Key className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -515,7 +623,12 @@ export default function Index() {
                                                                 {auth.user?.permissions?.includes('edit-users') && (
                                                                     <Tooltip delayDuration={300}>
                                                                         <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => openModal('edit', user)} className="h-8 w-8 p-0 text-muted-foreground">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => openModal('edit', user)}
+                                                                                className="h-8 w-8 p-0 text-muted-foreground"
+                                                                            >
                                                                                 <Edit className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -530,7 +643,9 @@ export default function Index() {
                                                                             <Button
                                                                                 variant="ghost"
                                                                                 size="sm"
-                                                                                onClick={() => openDeleteDialog(user.id)}
+                                                                                onClick={() =>
+                                                                                    openDeleteDialog(user.id)
+                                                                                }
                                                                                 className="h-8 w-8 p-0 text-destructive"
                                                                             >
                                                                                 <Trash2 className="h-4 w-4" />
@@ -554,7 +669,9 @@ export default function Index() {
                                     icon={UsersIcon}
                                     title={t('No users found')}
                                     description={t('Get started by creating your first user.')}
-                                    hasFilters={!!(filters.name || filters.email || filters.role || filters.is_enable_login)}
+                                    hasFilters={
+                                        !!(filters.name || filters.email || filters.role || filters.is_enable_login)
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-users"
                                     onCreateClick={() => openModal('add')}
@@ -566,38 +683,25 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={users}
                         routeName="users.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} roles={roles} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} roles={roles} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditUser
-                        user={modalState.data}
-                        onSuccess={closeModal}
-                        roles={roles}
-                    />
+                    <EditUser user={modalState.data} onSuccess={closeModal} roles={roles} />
                 )}
                 {modalState.mode === 'change-password' && modalState.data && (
-                    <ChangePassword
-                        user={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <ChangePassword user={modalState.data} onSuccess={closeModal} />
                 )}
                 {modalState.mode === 'assign-plan' && modalState.data && (
-                    <AssignPlan
-                        user={modalState.data}
-                        plans={plans || []}
-                        onSuccess={closeModal}
-                    />
+                    <AssignPlan user={modalState.data} plans={plans || []} onSuccess={closeModal} />
                 )}
             </Dialog>
 

@@ -12,10 +12,12 @@ export interface EventTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateEventTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateEventTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditEventTypeProps extends EditProps<EventType>  {[key: string]: any;
+export interface EditEventTypeProps extends EditProps<EventType> {
+    [key: string]: any;
 }
 
 export type PaginatedEventTypes = PaginatedData<EventType>;

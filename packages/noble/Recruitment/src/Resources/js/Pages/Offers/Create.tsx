@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -39,8 +39,9 @@ export default function Create({ onSuccess }: CreateOfferProps) {
 
     useEffect(() => {
         if (data.candidate_id) {
-            axios.get(route('recruitment.candidates.jobs', data.candidate_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.candidates.jobs', data.candidate_id))
+                .then((response) => {
                     setFilteredJobs(response.data);
                 })
                 .catch(() => {
@@ -57,7 +58,7 @@ export default function Create({ onSuccess }: CreateOfferProps) {
         post(route('recruitment.offers.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -68,8 +69,14 @@ export default function Create({ onSuccess }: CreateOfferProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="candidate_id" required>{t('Candidate')} </Label>
-                    <Select value={data.candidate_id?.toString() || ''} onValueChange={(value) => setData('candidate_id', value)} required>
+                    <Label htmlFor="candidate_id" required>
+                        {t('Candidate')}{' '}
+                    </Label>
+                    <Select
+                        value={data.candidate_id?.toString() || ''}
+                        onValueChange={(value) => setData('candidate_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Candidate')} />
                         </SelectTrigger>
@@ -82,18 +89,17 @@ export default function Create({ onSuccess }: CreateOfferProps) {
                         </SelectContent>
                     </Select>
                     <InputError message={errors.candidate_id} />
-                    <p className="text-xs text-muted-foreground mt-1">
-                        {t('Only qualified candidates are shown.')}
-                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">{t('Only qualified candidates are shown.')}</p>
                     {(!candidates || candidates.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create candidate here. ')}
                             <a
                                 href={route('recruitment.candidates.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('candidate')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -112,8 +118,14 @@ export default function Create({ onSuccess }: CreateOfferProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="department_id" required>{t('Department')} </Label>
-                    <Select value={data.department_id?.toString() || ''} onValueChange={(value) => setData('department_id', value)} required>
+                    <Label htmlFor="department_id" required>
+                        {t('Department')}{' '}
+                    </Label>
+                    <Select
+                        value={data.department_id?.toString() || ''}
+                        onValueChange={(value) => setData('department_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Department')} />
                         </SelectTrigger>
@@ -127,14 +139,15 @@ export default function Create({ onSuccess }: CreateOfferProps) {
                     </Select>
                     <InputError message={errors.department_id} />
                     {(!departments || departments.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create department here. ')}
                             <a
                                 href={route('hrm.departments.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('department')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -188,13 +201,15 @@ export default function Create({ onSuccess }: CreateOfferProps) {
                         value={data.expiration_date}
                         onChange={(date) => setData('expiration_date', date)}
                         placeholder={t('Select Expiration Date')}
-                        minDate={data.start_date ? new Date(new Date(data.start_date).getTime() + 24 * 60 * 60 * 1000) : new Date(Date.now() + 24 * 60 * 60 * 1000)}
+                        minDate={
+                            data.start_date
+                                ? new Date(new Date(data.start_date).getTime() + 24 * 60 * 60 * 1000)
+                                : new Date(Date.now() + 24 * 60 * 60 * 1000)
+                        }
                         required
                     />
                     <InputError message={errors.expiration_date} />
                 </div>
-
-
 
                 <div>
                     <Label htmlFor="benefits">{t('Benefits')}</Label>

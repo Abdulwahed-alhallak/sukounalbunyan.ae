@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
@@ -34,12 +34,15 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
     // Filter interviewers based on selected interview
     useEffect(() => {
         if (data.interview_id) {
-            const selectedInterview = interviews.find((interview: any) => interview.id.toString() === data.interview_id);
+            const selectedInterview = interviews.find(
+                (interview: any) => interview.id.toString() === data.interview_id
+            );
             if (selectedInterview && selectedInterview.interviewers && selectedInterview.interviewers.length > 0) {
                 // Filter users to only show those who were interviewers for this interview
-                const interviewerUsers = users.filter((user: any) =>
-                    selectedInterview.interviewers.includes(user.name) ||
-                    selectedInterview.interviewers.includes(user.id.toString())
+                const interviewerUsers = users.filter(
+                    (user: any) =>
+                        selectedInterview.interviewers.includes(user.name) ||
+                        selectedInterview.interviewers.includes(user.id.toString())
                 );
                 setFilteredInterviewers(interviewerUsers);
             } else {
@@ -53,11 +56,14 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
     // Initialize filtered interviewers on component mount
     useEffect(() => {
         if (interviewfeedback.interview_id) {
-            const selectedInterview = interviews.find((interview: any) => interview.id.toString() === interviewfeedback.interview_id.toString());
+            const selectedInterview = interviews.find(
+                (interview: any) => interview.id.toString() === interviewfeedback.interview_id.toString()
+            );
             if (selectedInterview && selectedInterview.interviewers && selectedInterview.interviewers.length > 0) {
-                const interviewerUsers = users.filter((user: any) =>
-                    selectedInterview.interviewers.includes(user.name) ||
-                    selectedInterview.interviewers.includes(user.id.toString())
+                const interviewerUsers = users.filter(
+                    (user: any) =>
+                        selectedInterview.interviewers.includes(user.name) ||
+                        selectedInterview.interviewers.includes(user.id.toString())
                 );
                 setFilteredInterviewers(interviewerUsers);
             }
@@ -69,7 +75,7 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
         put(route('recruitment.interview-feedbacks.update', interviewfeedback.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -80,8 +86,13 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="interview_id" required>{t('Interview')} </Label>
-                    <Select value={data.interview_id?.toString() || ''} onValueChange={(value) => setData('interview_id', value)}>
+                    <Label htmlFor="interview_id" required>
+                        {t('Interview')}{' '}
+                    </Label>
+                    <Select
+                        value={data.interview_id?.toString() || ''}
+                        onValueChange={(value) => setData('interview_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Interview')} />
                         </SelectTrigger>
@@ -95,14 +106,15 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
                     </Select>
                     <InputError message={errors.interview_id} />
                     {(!interviews || interviews.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create interview here. ')}
                             <a
                                 href={route('recruitment.interviews.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('interview')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -112,27 +124,34 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
                     <MultiSelectEnhanced
                         options={filteredInterviewers?.map((user: any) => ({
                             value: user.id.toString(),
-                            label: user.name
+                            label: user.name,
                         }))}
                         value={data.interviewer_ids}
                         onValueChange={(value) => setData('interviewer_ids', value)}
-                        placeholder={!data.interview_id ? t('Select Interview first') : (filteredInterviewers.length === 0 ? t('No interviewers available') : t('Select Interviewers...'))}
+                        placeholder={
+                            !data.interview_id
+                                ? t('Select Interview first')
+                                : filteredInterviewers.length === 0
+                                  ? t('No interviewers available')
+                                  : t('Select Interviewers...')
+                        }
                         searchable={true}
                         disabled={!data.interview_id || filteredInterviewers.length === 0}
                     />
                     <InputError message={errors.interviewer_ids} />
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="mt-1 text-xs text-muted-foreground">
                         {t('Interviewers are filtered based on selected interview.')}
                     </p>
                     {(!filteredInterviewers || filteredInterviewers.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create user here. ')}
                             <a
                                 href={route('users.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('Create User')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -164,11 +183,12 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
                     <InputError message={errors.cultural_fit_rating} />
                 </div>
 
-
-
                 <div>
                     <Label htmlFor="recommendation">{t('Recommendation')}</Label>
-                    <Select value={data.recommendation?.toString() || '0'} onValueChange={(value) => setData('recommendation', value)}>
+                    <Select
+                        value={data.recommendation?.toString() || '0'}
+                        onValueChange={(value) => setData('recommendation', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>

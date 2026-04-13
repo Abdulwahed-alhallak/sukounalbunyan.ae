@@ -61,7 +61,7 @@ export default function Index() {
 
     const [filters, setFilters] = useState<EmailTemplateFilters>({
         name: urlParams.get('name') || '',
-        module_name: urlParams.get('module_name') || ''
+        module_name: urlParams.get('module_name') || '',
     });
 
     const [showFilters, setShowFilters] = useState(false);
@@ -70,44 +70,48 @@ export default function Index() {
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
 
-
-
     const handleFilter = () => {
-        router.get(route('email-templates.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('email-templates.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('email-templates.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('email-templates.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ name: '', module_name: '' });
-        router.get(route('email-templates.index'), {per_page: perPage});
+        router.get(route('email-templates.index'), { per_page: perPage });
     };
-
-
 
     const tableColumns = [
         {
             key: 'name',
             header: t('Name'),
             sortable: true,
-            render: (value: string) => t(value)
+            render: (value: string) => t(value),
         },
         {
             key: 'module_name',
             header: t('Module'),
             sortable: true,
-            render: (value: string) => (value ? t(getPackageAlias(value) || '') : '-')
+            render: (value: string) => (value ? t(getPackageAlias(value) || '') : '-'),
         },
         {
             key: 'actions',
@@ -134,46 +138,39 @@ export default function Index() {
                         )}
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
-        <AuthenticatedLayout
-            breadcrumbs={[{ label: t('Email Templates') }]}
-            pageTitle={t('Manage Email Templates')}
-        >
+        <AuthenticatedLayout breadcrumbs={[{ label: t('Email Templates') }]} pageTitle={t('Manage Email Templates')}>
             <Head title={t('Email Templates')} />
 
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
+                                onChange={(value) => setFilters({ ...filters, name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search email templates...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="email-templates.index"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="email-templates.index" filters={filters} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [filters.module_name].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -183,24 +180,33 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Module')}</label>
-                                <Select value={filters.module_name} onValueChange={(value) => setFilters({...filters, module_name: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Module')}</label>
+                                <Select
+                                    value={filters.module_name}
+                                    onValueChange={(value) => setFilters({ ...filters, module_name: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by module')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {allModules.map(module => (
-                                            <SelectItem key={module} value={module}>{module.charAt(0).toUpperCase() + module.slice(1)}</SelectItem>
+                                        {allModules.map((module) => (
+                                            <SelectItem key={module} value={module}>
+                                                {module.charAt(0).toUpperCase() + module.slice(1)}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -208,7 +214,7 @@ export default function Index() {
 
                 {/* Table Content */}
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={emailTemplates.data}
@@ -233,16 +239,14 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={emailTemplates}
                         routeName="email-templates.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
-
-
         </AuthenticatedLayout>
     );
 }

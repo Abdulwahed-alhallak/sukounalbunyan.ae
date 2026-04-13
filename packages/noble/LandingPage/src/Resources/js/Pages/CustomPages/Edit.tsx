@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,14 +26,14 @@ interface EditProps {
 
 export default function Edit({ page }: EditProps) {
     const { t } = useTranslation();
-    
+
     const { data, setData, put, processing, errors } = useForm({
         title: page.title,
         slug: page.slug,
         content: page.content,
         meta_title: page.meta_title || '',
         meta_description: page.meta_description || '',
-        is_active: page.is_active
+        is_active: page.is_active,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -48,38 +48,35 @@ export default function Edit({ page }: EditProps) {
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-            }
+            },
         });
     };
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Custom Pages'), url: route('custom-pages.index') },
-                { label: t('Edit Page') }
-            ]}
+            breadcrumbs={[{ label: t('Custom Pages'), url: route('custom-pages.index') }, { label: t('Edit Page') }]}
             pageTitle={t('Edit Custom Page')}
             pageActions={
-                <Button 
+                <Button
                     onClick={handleSubmit}
                     disabled={processing}
                     className="text-background"
                     style={{ backgroundColor: 'hsl(var(--primary))' }}
                 >
-                    <Save className="h-4 w-4 mr-2" />
+                    <Save className="mr-2 h-4 w-4" />
                     {processing ? t('Saving...') : t('Update Page')}
                 </Button>
             }
         >
             <Head title={t('Edit Custom Page')} />
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>{t('Page Details')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="space-y-2">
                                 <Label htmlFor="title">{t('Page Title')}</Label>
                                 <Input
@@ -100,10 +97,12 @@ export default function Edit({ page }: EditProps) {
                                     placeholder={t('URL-friendly name (e.g., about-us, privacy-policy)')}
                                     error={errors.slug}
                                 />
-                                <p className="text-xs text-muted-foreground">{t('This will be the URL path for your page')}</p>
+                                <p className="text-xs text-muted-foreground">
+                                    {t('This will be the URL path for your page')}
+                                </p>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-center space-x-2">
                             <Switch
                                 id="is_active"
@@ -125,11 +124,17 @@ export default function Edit({ page }: EditProps) {
                             <RichTextEditor
                                 content={data.content}
                                 onChange={(value) => setData('content', value)}
-                                placeholder={t('Write your page content here. You can use rich text formatting, add images, links, and more.')}
+                                placeholder={t(
+                                    'Write your page content here. You can use rich text formatting, add images, links, and more.'
+                                )}
                                 required
                             />
-                            {errors.content && <p className="text-sm text-destructive mt-1">{errors.content}</p>}
-                            <p className="text-xs text-muted-foreground">{t('Use the toolbar above to format your content with headings, lists, links, and images.')}</p>
+                            {errors.content && <p className="mt-1 text-sm text-destructive">{errors.content}</p>}
+                            <p className="text-xs text-muted-foreground">
+                                {t(
+                                    'Use the toolbar above to format your content with headings, lists, links, and images.'
+                                )}
+                            </p>
                         </div>
                     </CardContent>
                 </Card>
@@ -149,7 +154,9 @@ export default function Edit({ page }: EditProps) {
                                 error={errors.meta_title}
                                 maxLength={60}
                             />
-                            <p className="text-xs text-muted-foreground">{data.meta_title.length}/60 {t('characters')}</p>
+                            <p className="text-xs text-muted-foreground">
+                                {data.meta_title.length}/60 {t('characters')}
+                            </p>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="meta_description">{t('Meta Description')}</Label>
@@ -161,7 +168,9 @@ export default function Edit({ page }: EditProps) {
                                 error={errors.meta_description}
                                 maxLength={160}
                             />
-                            <p className="text-xs text-muted-foreground">{data.meta_description.length}/160 {t('characters')}</p>
+                            <p className="text-xs text-muted-foreground">
+                                {data.meta_description.length}/160 {t('characters')}
+                            </p>
                         </div>
                     </CardContent>
                 </Card>

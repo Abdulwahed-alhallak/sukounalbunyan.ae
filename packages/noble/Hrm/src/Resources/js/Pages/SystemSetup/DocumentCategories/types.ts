@@ -14,10 +14,12 @@ export interface DocumentCategoryFormData {
     [key: string]: any;
 }
 
-export interface CreateDocumentCategoryProps extends CreateProps  {[key: string]: any;
+export interface CreateDocumentCategoryProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditDocumentCategoryProps extends EditProps<DocumentCategory>  {[key: string]: any;
+export interface EditDocumentCategoryProps extends EditProps<DocumentCategory> {
+    [key: string]: any;
 }
 
 export type PaginatedDocumentCategories = PaginatedData<DocumentCategory>;

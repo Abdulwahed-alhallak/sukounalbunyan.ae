@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { MultiSelectEnhanced } from "@/components/ui/multi-select-enhanced";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import InputError from '@/components/ui/input-error';
 import { useFormFields } from '@/hooks/useFormFields';
 import axios from 'axios';
 import { toast } from 'sonner';
@@ -15,8 +15,8 @@ import { toast } from 'sonner';
 interface EditBugProps {
     onSuccess: () => void;
     bug: { id: number };
-    teamMembers: Array<{ id: number; name: string; }>;
-    bugStages: Array<{ id: number; name: string; }>;
+    teamMembers: Array<{ id: number; name: string }>;
+    bugStages: Array<{ id: number; name: string }>;
 }
 
 export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBugProps) {
@@ -33,12 +33,22 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
     const [loading, setLoading] = useState(true);
 
     const updateData = (key: string, value: any) => {
-        setData(prev => ({ ...prev, [key]: value }));
+        setData((prev) => ({ ...prev, [key]: value }));
     };
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, updateData, errors, 'edit', 'title', 'Title', 'taskly', 'bug');
-    const descriptionAI = useFormFields('aiField', data, updateData, errors, 'edit', 'description', 'Description', 'taskly', 'bug');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        updateData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'taskly',
+        'bug'
+    );
 
     useEffect(() => {
         const fetchBug = async () => {
@@ -47,11 +57,11 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
                 const bugData = response.data.bug;
                 // Get assigned user IDs
                 const assignedIds = bugData.assignedUsers?.map((user: any) => user.id.toString()) || [];
-                
+
                 setData({
                     title: bugData.title,
                     priority: bugData.priority,
-                    assigned_to: assignedIds?.map(id => parseInt(id)),
+                    assigned_to: assignedIds?.map((id) => parseInt(id)),
                     stage_id: bugData.stage_id,
                     description: bugData.description || '',
                 });
@@ -105,7 +115,7 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="edit_title">{t('Title')}</Label>
                             <Input
@@ -117,13 +127,15 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
                             />
                             <InputError message={errors.title?.[0]} />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
 
                 <div>
                     <Label required>{t('Priority')}</Label>
-                    <Select value={data.priority} onValueChange={(value) => setData({...data, priority: value})}>
+                    <Select value={data.priority} onValueChange={(value) => setData({ ...data, priority: value })}>
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -139,9 +151,9 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
                 <div>
                     <Label required>{t('Assign To')}</Label>
                     <MultiSelectEnhanced
-                        options={teamMembers?.map(member => ({ value: member.id.toString(), label: member.name }))}
-                        value={data.assigned_to?.map(id => id.toString())}
-                        onValueChange={(value) => setData({...data, assigned_to: value?.map(v => parseInt(v))})}
+                        options={teamMembers?.map((member) => ({ value: member.id.toString(), label: member.name }))}
+                        value={data.assigned_to?.map((id) => id.toString())}
+                        onValueChange={(value) => setData({ ...data, assigned_to: value?.map((v) => parseInt(v)) })}
                         placeholder={t('Select team members')}
                         searchable={true}
                     />
@@ -150,13 +162,18 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
 
                 <div>
                     <Label>{t('Status')}</Label>
-                    <Select value={data.stage_id.toString()} onValueChange={(value) => setData({...data, stage_id: parseInt(value)})}>
+                    <Select
+                        value={data.stage_id.toString()}
+                        onValueChange={(value) => setData({ ...data, stage_id: parseInt(value) })}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                             {bugStages?.map((stage) => (
-                                <SelectItem key={stage.id} value={stage.id.toString()}>{stage.name}</SelectItem>
+                                <SelectItem key={stage.id} value={stage.id.toString()}>
+                                    {stage.name}
+                                </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
@@ -164,10 +181,12 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="edit_description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea

@@ -16,7 +16,7 @@ interface CreateOvertimeProps {
 
 export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
     const { t } = useTranslation();
-    
+
     const { data, setData, post, processing, errors } = useForm({
         employee_id: employeeId,
         title: '',
@@ -38,19 +38,21 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
             },
             onError: () => {
                 // Keep modal open on validation errors
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Add Overtime')}</DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         value={data.title}
@@ -63,7 +65,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="total_days" required>{t('Total Days')}</Label>
+                        <Label htmlFor="total_days" required>
+                            {t('Total Days')}
+                        </Label>
                         <Input
                             id="total_days"
                             type="number"
@@ -77,7 +81,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
                     </div>
 
                     <div>
-                        <Label htmlFor="hours" required>{t('Hours')}</Label>
+                        <Label htmlFor="hours" required>
+                            {t('Hours')}
+                        </Label>
                         <Input
                             id="hours"
                             type="number"
@@ -93,7 +99,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="rate" required>{t('Rate')}</Label>
+                    <Label htmlFor="rate" required>
+                        {t('Rate')}
+                    </Label>
                     <Input
                         id="rate"
                         type="number"
@@ -109,7 +117,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="start_date" required>{t('Start Date')}</Label>
+                        <Label htmlFor="start_date" required>
+                            {t('Start Date')}
+                        </Label>
                         <DatePicker
                             id="start_date"
                             value={data.start_date}
@@ -120,7 +130,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
                     </div>
 
                     <div>
-                        <Label htmlFor="end_date" required>{t('End Date')}</Label>
+                        <Label htmlFor="end_date" required>
+                            {t('End Date')}
+                        </Label>
                         <DatePicker
                             id="end_date"
                             value={data.end_date}
@@ -132,7 +144,9 @@ export default function Create({ employeeId, onSuccess }: CreateOvertimeProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="status" required>{t('Status')}</Label>
+                    <Label htmlFor="status" required>
+                        {t('Status')}
+                    </Label>
                     <Select value={data.status} onValueChange={(value) => setData('status', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select status')} />

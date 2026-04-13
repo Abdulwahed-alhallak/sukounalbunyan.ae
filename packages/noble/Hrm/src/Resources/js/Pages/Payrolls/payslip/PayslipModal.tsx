@@ -71,7 +71,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+            <DialogContent className="max-h-[90vh] max-w-4xl overflow-hidden">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <User className="h-5 w-5" />
@@ -79,11 +79,11 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                     </DialogTitle>
                 </DialogHeader>
 
-                <div className="space-y-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+                <div className="max-h-[calc(90vh-8rem)] space-y-6 overflow-y-auto">
                     {/* Header Info */}
                     <Card>
                         <CardHeader className="pb-4">
-                            <div className="flex justify-between items-start">
+                            <div className="flex items-start justify-between">
                                 <div>
                                     <h3 className="text-lg font-semibold">{employeeName}</h3>
                                     <p className="text-sm text-muted-foreground">{employeeEmail}</p>
@@ -107,30 +107,34 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                            <div className="grid grid-cols-2 gap-3 md:grid-cols-6">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Working Days')}</p>
                                     <p className="text-xl font-bold text-foreground">{payrollEntry.working_days}</p>
                                 </div>
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Present Days')}</p>
                                     <p className="text-xl font-bold text-foreground">{payrollEntry.present_days}</p>
                                 </div>
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Half Days')}</p>
                                     <p className="text-xl font-bold text-muted-foreground">{payrollEntry.half_days}</p>
                                 </div>
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Absent Days')}</p>
                                     <p className="text-xl font-bold text-destructive">{payrollEntry.absent_days}</p>
                                 </div>
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Manual OT Hours')}</p>
-                                    <p className="text-xl font-bold text-foreground">{payrollEntry.manual_overtime_hours}</p>
+                                    <p className="text-xl font-bold text-foreground">
+                                        {payrollEntry.manual_overtime_hours}
+                                    </p>
                                 </div>
-                                <div className="text-center p-3 bg-muted/50 rounded-lg">
+                                <div className="rounded-lg bg-muted/50 p-3 text-center">
                                     <p className="text-sm text-muted-foreground">{t('Attendance OT Hours')}</p>
-                                    <p className="text-xl font-bold text-foreground">{payrollEntry.attendance_overtime_hours}</p>
+                                    <p className="text-xl font-bold text-foreground">
+                                        {payrollEntry.attendance_overtime_hours}
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
@@ -149,7 +153,7 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                 <span>{t('Basic Salary')}</span>
                                 <span className="font-medium">{formatCurrency(payrollEntry.basic_salary)}</span>
                             </div>
-                            
+
                             {payrollEntry.total_allowances > 0 && (
                                 <>
                                     <Separator />
@@ -158,12 +162,17 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             <span>{t('Allowances')}</span>
                                             <span>{formatCurrency(payrollEntry.total_allowances)}</span>
                                         </div>
-                                        {Object.entries(payrollEntry.allowances_breakdown || {})?.map(([name, amount]) => (
-                                            <div key={name} className="flex justify-between text-sm text-muted-foreground ml-4">
-                                                <span>• {name}</span>
-                                                <span>{formatCurrency(amount)}</span>
-                                            </div>
-                                        ))}
+                                        {Object.entries(payrollEntry.allowances_breakdown || {})?.map(
+                                            ([name, amount]) => (
+                                                <div
+                                                    key={name}
+                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                >
+                                                    <span>• {name}</span>
+                                                    <span>{formatCurrency(amount)}</span>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
                                 </>
                             )}
@@ -176,12 +185,17 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             <span>{t('Manual Overtime')}</span>
                                             <span>{formatCurrency(payrollEntry.total_manual_overtimes)}</span>
                                         </div>
-                                        {Object.entries(payrollEntry.manual_overtimes_breakdown || {})?.map(([name, amount]) => (
-                                            <div key={name} className="flex justify-between text-sm text-muted-foreground ml-4">
-                                                <span>• {name}</span>
-                                                <span>{formatCurrency(amount)}</span>
-                                            </div>
-                                        ))}
+                                        {Object.entries(payrollEntry.manual_overtimes_breakdown || {})?.map(
+                                            ([name, amount]) => (
+                                                <div
+                                                    key={name}
+                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                >
+                                                    <span>• {name}</span>
+                                                    <span>{formatCurrency(amount)}</span>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
                                 </>
                             )}
@@ -194,8 +208,11 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                             <span>{t('Attendance Overtime')}</span>
                                             <span>{formatCurrency(payrollEntry.attendance_overtime_amount)}</span>
                                         </div>
-                                        <div className="flex justify-between text-sm text-muted-foreground ml-4">
-                                            <span>• {payrollEntry.attendance_overtime_hours} hrs @ {formatCurrency(payrollEntry.attendance_overtime_rate)}/hr</span>
+                                        <div className="ml-4 flex justify-between text-sm text-muted-foreground">
+                                            <span>
+                                                • {payrollEntry.attendance_overtime_hours} hrs @{' '}
+                                                {formatCurrency(payrollEntry.attendance_overtime_rate)}/hr
+                                            </span>
                                             <span>{formatCurrency(payrollEntry.attendance_overtime_amount)}</span>
                                         </div>
                                     </div>
@@ -213,50 +230,72 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 <span className="font-medium">{t('Paid Leave Days')}</span>
                                 <div className="flex items-center gap-4">
-                                    <span className="font-medium text-foreground">{payrollEntry.paid_leave_days} days</span>
-                                    <span className="text-sm text-muted-foreground w-24 text-right">{t('No deduction')}</span>
+                                    <span className="font-medium text-foreground">
+                                        {payrollEntry.paid_leave_days} days
+                                    </span>
+                                    <span className="w-24 text-right text-sm text-muted-foreground">
+                                        {t('No deduction')}
+                                    </span>
                                 </div>
                             </div>
-                            
+
                             <Separator />
-                            
-                            <div className="flex justify-between items-center">
+
+                            <div className="flex items-center justify-between">
                                 <span className="font-medium">{t('Unpaid Leave Days')}</span>
                                 <div className="flex items-center gap-4">
-                                    <span className="font-medium text-destructive">{payrollEntry.unpaid_leave_days} days</span>
-                                    <span className="font-medium text-destructive w-24 text-right">{formatCurrency(payrollEntry.unpaid_leave_deduction)}</span>
+                                    <span className="font-medium text-destructive">
+                                        {payrollEntry.unpaid_leave_days} days
+                                    </span>
+                                    <span className="w-24 text-right font-medium text-destructive">
+                                        {formatCurrency(payrollEntry.unpaid_leave_deduction)}
+                                    </span>
                                 </div>
                             </div>
-                            
+
                             <Separator />
-                            
-                            <div className="flex justify-between items-center">
+
+                            <div className="flex items-center justify-between">
                                 <span className="font-medium">{t('Half Days')}</span>
                                 <div className="flex items-center gap-4">
-                                    <span className="font-medium text-muted-foreground">{payrollEntry.half_days} days</span>
-                                    <span className="font-medium text-destructive w-24 text-right">{formatCurrency(payrollEntry.half_day_deduction)}</span>
+                                    <span className="font-medium text-muted-foreground">
+                                        {payrollEntry.half_days} days
+                                    </span>
+                                    <span className="w-24 text-right font-medium text-destructive">
+                                        {formatCurrency(payrollEntry.half_day_deduction)}
+                                    </span>
                                 </div>
                             </div>
-                            
+
                             <Separator />
-                            
-                            <div className="flex justify-between items-center">
+
+                            <div className="flex items-center justify-between">
                                 <span className="font-medium">{t('Absent Days')}</span>
                                 <div className="flex items-center gap-4">
-                                    <span className="font-medium text-destructive">{payrollEntry.absent_days} days</span>
-                                    <span className="font-medium text-destructive w-24 text-right">{formatCurrency(payrollEntry.absent_day_deduction)}</span>
+                                    <span className="font-medium text-destructive">
+                                        {payrollEntry.absent_days} days
+                                    </span>
+                                    <span className="w-24 text-right font-medium text-destructive">
+                                        {formatCurrency(payrollEntry.absent_day_deduction)}
+                                    </span>
                                 </div>
                             </div>
-                            
+
                             <Separator className="border-t-2" />
-                            
-                            <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
+
+                            <div className="flex items-center justify-between rounded-lg bg-muted/50 p-3">
                                 <span className="font-bold">{t('Total Leave Deductions')}</span>
-                                
-                                <span className="font-bold text-destructive">{formatCurrency(Number(payrollEntry.unpaid_leave_deduction) + Number(payrollEntry.half_day_deduction) + Number(payrollEntry.absent_day_deduction))}</span>
+
+                                <span className="font-bold text-destructive">
+                                    {formatCurrency(
+                                        Number(payrollEntry.unpaid_leave_deduction) +
+                                            Number(payrollEntry.half_day_deduction) +
+                                            Number(payrollEntry.absent_day_deduction)
+                                    )}
+                                </span>
                             </div>
                         </CardContent>
                     </Card>
@@ -270,21 +309,27 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
-
                             {payrollEntry.total_deductions > 0 && (
                                 <>
                                     <Separator />
                                     <div className="space-y-2">
                                         <div className="flex justify-between font-medium">
                                             <span>{t('Other Deductions')}</span>
-                                            <span className="text-destructive">{formatCurrency(payrollEntry.total_deductions)}</span>
+                                            <span className="text-destructive">
+                                                {formatCurrency(payrollEntry.total_deductions)}
+                                            </span>
                                         </div>
-                                        {Object.entries(payrollEntry.deductions_breakdown || {})?.map(([name, amount]) => (
-                                            <div key={name} className="flex justify-between text-sm text-muted-foreground ml-4">
-                                                <span>• {name}</span>
-                                                <span className="text-destructive">{formatCurrency(amount)}</span>
-                                            </div>
-                                        ))}
+                                        {Object.entries(payrollEntry.deductions_breakdown || {})?.map(
+                                            ([name, amount]) => (
+                                                <div
+                                                    key={name}
+                                                    className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                                >
+                                                    <span>• {name}</span>
+                                                    <span className="text-destructive">{formatCurrency(amount)}</span>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
                                 </>
                             )}
@@ -295,10 +340,15 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                     <div className="space-y-2">
                                         <div className="flex justify-between font-medium">
                                             <span>{t('Loans')}</span>
-                                            <span className="text-destructive">{formatCurrency(payrollEntry.total_loans)}</span>
+                                            <span className="text-destructive">
+                                                {formatCurrency(payrollEntry.total_loans)}
+                                            </span>
                                         </div>
                                         {Object.entries(payrollEntry.loans_breakdown || {})?.map(([name, amount]) => (
-                                            <div key={name} className="flex justify-between text-sm text-muted-foreground ml-4">
+                                            <div
+                                                key={name}
+                                                className="ml-4 flex justify-between text-sm text-muted-foreground"
+                                            >
                                                 <span>• {name}</span>
                                                 <span className="text-destructive">{formatCurrency(amount)}</span>
                                             </div>
@@ -316,21 +366,25 @@ export function PayslipModal({ open, onOpenChange, payrollEntry, payroll }: Pays
                                 <div className="flex justify-between text-lg">
                                     <div>
                                         <span className="font-medium">{t('Gross Pay')}</span>
-                                        <p className="text-xs text-muted-foreground mt-1">
+                                        <p className="mt-1 text-xs text-muted-foreground">
                                             (Basic + Allowances + Overtimes) - Leave Deductions
                                         </p>
                                     </div>
-                                    <span className="font-bold text-foreground">{formatCurrency(payrollEntry.gross_pay)}</span>
+                                    <span className="font-bold text-foreground">
+                                        {formatCurrency(payrollEntry.gross_pay)}
+                                    </span>
                                 </div>
                                 <Separator />
                                 <div className="flex justify-between text-xl">
                                     <div>
                                         <span className="font-bold">{t('Net Pay')}</span>
-                                        <p className="text-xs text-muted-foreground mt-1">
+                                        <p className="mt-1 text-xs text-muted-foreground">
                                             Gross Pay - (Other Deductions + Loans)
                                         </p>
                                     </div>
-                                    <span className="font-bold text-foreground">{formatCurrency(payrollEntry.net_pay)}</span>
+                                    <span className="font-bold text-foreground">
+                                        {formatCurrency(payrollEntry.net_pay)}
+                                    </span>
                                 </div>
                             </div>
                         </CardContent>

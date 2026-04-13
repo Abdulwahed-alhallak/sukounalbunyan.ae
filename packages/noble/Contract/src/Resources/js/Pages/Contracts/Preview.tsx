@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, Printer } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Contract } from './types';
@@ -44,12 +44,16 @@ export default function Preview() {
             filename: `contract-${contract.contract_number || contract.id}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-            setIsDownloading(false);
-        });
+        html2pdf()
+            .set(opt)
+            .from(element)
+            .save()
+            .then(() => {
+                setIsDownloading(false);
+            });
     };
 
     const handlePrint = () => {
@@ -94,8 +98,11 @@ export default function Preview() {
         <AuthenticatedLayout
             breadcrumbs={[
                 { label: t('Contract'), url: route('contract.index') },
-                { label: contract.contract_number || `Contract ${contract.id}`, url: route('contract.show', contract.id) },
-                { label: t('Preview') }
+                {
+                    label: contract.contract_number || `Contract ${contract.id}`,
+                    url: route('contract.show', contract.id),
+                },
+                { label: t('Preview') },
             ]}
             pageTitle={t('Contract Preview')}
             pageActions={
@@ -111,15 +118,10 @@ export default function Preview() {
                                 <p>{t('Print')}</p>
                             </TooltipContent>
                         </Tooltip>
-                        
+
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    onClick={handleDownload}
-                                    disabled={isDownloading}
-                                >
+                                <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading}>
                                     <Download className="h-4 w-4" />
                                 </Button>
                             </TooltipTrigger>
@@ -132,18 +134,20 @@ export default function Preview() {
             }
         >
             <Head title={`${t('Contract Preview')} - ${contract.subject}`} />
-            
+
             <div className="space-y-6">
-                <Card ref={printRef} className="max-w-4xl mx-auto bg-card">
-                    <CardHeader className="text-center border-b print:border-b-2">
+                <Card ref={printRef} className="mx-auto max-w-4xl bg-card">
+                    <CardHeader className="border-b text-center print:border-b-2">
                         <CardTitle className="text-3xl font-bold">{contract.subject}</CardTitle>
-                        <p className="text-lg text-muted-foreground">Contract #{contract.contract_number || 'Not Generated'}</p>
+                        <p className="text-lg text-muted-foreground">
+                            Contract #{contract.contract_number || 'Not Generated'}
+                        </p>
                     </CardHeader>
-                    
-                    <CardContent className="p-8 space-y-8">
+
+                    <CardContent className="space-y-8 p-8">
                         <div className="grid grid-cols-2 gap-8">
                             <div>
-                                <h3 className="text-lg font-semibold mb-4">{t('Contract Information')}</h3>
+                                <h3 className="mb-4 text-lg font-semibold">{t('Contract Information')}</h3>
                                 <div className="space-y-3">
                                     <div>
                                         <span className="font-medium">{t('Subject')}:</span>
@@ -163,9 +167,9 @@ export default function Preview() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div>
-                                <h3 className="text-lg font-semibold mb-4">{t('Contract Details')}</h3>
+                                <h3 className="mb-4 text-lg font-semibold">{t('Contract Details')}</h3>
                                 <div className="space-y-3">
                                     {contract.user && (
                                         <div>
@@ -197,7 +201,7 @@ export default function Preview() {
 
                         {contract.description && (
                             <div>
-                                <h3 className="text-lg font-semibold mb-4">{t('Description')}</h3>
+                                <h3 className="mb-4 text-lg font-semibold">{t('Description')}</h3>
                                 <div className="prose max-w-none">
                                     <div dangerouslySetInnerHTML={{ __html: contract.description }} />
                                 </div>
@@ -205,17 +209,17 @@ export default function Preview() {
                         )}
 
                         {contract.signatures && contract.signatures.length > 0 && (
-                            <div className="border-t pt-8 mt-8">
-                                <h3 className="text-lg font-semibold mb-4">{t('Signatures')}</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="mt-8 border-t pt-8">
+                                <h3 className="mb-4 text-lg font-semibold">{t('Signatures')}</h3>
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     {contract.signatures?.map((signature, index) => (
-                                        <div key={signature.id} className="border rounded-lg p-4">
-                                            <h4 className="font-semibold mb-3">{signature.user.name}</h4>
+                                        <div key={signature.id} className="rounded-lg border p-4">
+                                            <h4 className="mb-3 font-semibold">{signature.user.name}</h4>
                                             <div className="mb-3">
                                                 <img
                                                     src={signature.signature_data}
                                                     alt={`${signature.user.name} signature`}
-                                                    className="max-h-16 max-w-full object-contain border-b-2 border-border"
+                                                    className="max-h-16 max-w-full border-b-2 border-border object-contain"
                                                 />
                                             </div>
                                             <p className="text-sm text-muted-foreground">
@@ -227,8 +231,10 @@ export default function Preview() {
                             </div>
                         )}
 
-                        <div className="text-center text-sm text-muted-foreground border-t pt-4">
-                            <p>{t('Generated on')} {new Date().toLocaleDateString()}</p>
+                        <div className="border-t pt-4 text-center text-sm text-muted-foreground">
+                            <p>
+                                {t('Generated on')} {new Date().toLocaleDateString()}
+                            </p>
                         </div>
                     </CardContent>
                 </Card>
@@ -245,7 +251,8 @@ export default function Preview() {
                     body * {
                         visibility: hidden;
                     }
-                    .max-w-4xl, .max-w-4xl * {
+                    .max-w-4xl,
+                    .max-w-4xl * {
                         visibility: visible;
                     }
                     .max-w-4xl {

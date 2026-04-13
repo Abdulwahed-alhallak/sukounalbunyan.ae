@@ -18,7 +18,7 @@ export default function StatusModal({ employeeTransfer, onClose }: StatusModalPr
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { data, setData, put, processing, errors, reset } = useForm({
-        status: employeeTransfer?.status || 'pending'
+        status: employeeTransfer?.status || 'pending',
     });
 
     const statusOptions = [
@@ -27,7 +27,7 @@ export default function StatusModal({ employeeTransfer, onClose }: StatusModalPr
         { value: 'in progress', label: t('In Progress') },
 
         { value: 'rejected', label: t('Rejected') },
-        { value: 'cancelled', label: t('Cancelled') }
+        { value: 'cancelled', label: t('Cancelled') },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -44,7 +44,7 @@ export default function StatusModal({ employeeTransfer, onClose }: StatusModalPr
             },
             onFinish: () => {
                 setIsSubmitting(false);
-            }
+            },
         });
     };
 
@@ -60,12 +60,8 @@ export default function StatusModal({ employeeTransfer, onClose }: StatusModalPr
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="employee">{t('Employee')}</Label>
-                        <div className="p-2 bg-muted/50 rounded border">
-                            {employeeTransfer.employee?.name || '-'}
-                        </div>
+                        <div className="rounded border bg-muted/50 p-2">{employeeTransfer.employee?.name || '-'}</div>
                     </div>
-
-
 
                     <div className="space-y-2">
                         <Label htmlFor="status">{t('Status')} *</Label>

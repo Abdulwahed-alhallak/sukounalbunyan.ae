@@ -12,10 +12,12 @@ export interface PipelineFormData {
     [key: string]: any;
 }
 
-export interface CreatePipelineProps extends CreateProps  {[key: string]: any;
+export interface CreatePipelineProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditPipelineProps extends EditProps<Pipeline>  {[key: string]: any;
+export interface EditPipelineProps extends EditProps<Pipeline> {
+    [key: string]: any;
 }
 
 export type PaginatedPipelines = PaginatedData<Pipeline>;

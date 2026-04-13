@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -15,11 +15,11 @@ interface ContractPDFExportProps {
             signed_at: string;
         }>;
     };
-    variant?: "outline" | "default";
-    size?: "sm" | "default";
+    variant?: 'outline' | 'default';
+    size?: 'sm' | 'default';
 }
 
-export default function ContractPDFExport({ contract, variant = "outline", size = "sm" }: ContractPDFExportProps) {
+export default function ContractPDFExport({ contract, variant = 'outline', size = 'sm' }: ContractPDFExportProps) {
     const { t } = useTranslation();
 
     const handleDownloadPDF = () => {
@@ -54,19 +54,26 @@ export default function ContractPDFExport({ contract, variant = "outline", size 
                         </div>
                     </div>
                 </div>
-                ${contract.description ? `
+                ${
+                    contract.description
+                        ? `
                     <div style="margin-bottom: 32px;">
                         <h3 style="font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 16px;">${t('Terms and Conditions')}</h3>
                         <div style="border-left: 4px solid #d1d5db; padding-left: 16px;">
                             <p style="color: hsl(var(--foreground)); line-height: 1.6; white-space: pre-wrap;">${contract.description}</p>
                         </div>
                     </div>
-                ` : ''}
+                `
+                        : ''
+                }
                 <div style="border-top: 1px solid #e5e7eb; padding-top: 32px;">
                     <h3 style="font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 24px;">${t('Signatures')}</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
-                        ${contract.signatures && contract.signatures.length > 0 ? 
-                            contract.signatures?.map(signature => `
+                        ${
+                            contract.signatures && contract.signatures.length > 0
+                                ? contract.signatures
+                                      ?.map(
+                                          (signature) => `
                                 <div style="text-align: center;">
                                     <div style="border-bottom: 2px solid #9ca3af; padding-bottom: 8px; margin-bottom: 12px; height: 64px; display: flex; align-items: end; justify-content: center;">
                                         <img src="${signature.signature_data}" alt="Signature" style="max-height: 48px; max-width: 100%; object-fit: contain;" />
@@ -74,8 +81,10 @@ export default function ContractPDFExport({ contract, variant = "outline", size 
                                     <p style="font-weight: 500; color: #111827;">${signature.user.name}</p>
                                     <p style="font-size: 14px; color: hsl(var(--muted-foreground));">${formatDateTime(signature.signed_at)}</p>
                                 </div>
-                            `).join('') : 
-                            `<div style="text-align: center;">
+                            `
+                                      )
+                                      .join('')
+                                : `<div style="text-align: center;">
                                 <div style="border-bottom: 2px solid #d1d5db; padding-bottom: 8px; margin-bottom: 12px; height: 64px;"></div>
                                 <p style="font-weight: 500; color: #111827;">${t('Client Signature')}</p>
                                 <p style="font-size: 14px; color: hsl(var(--muted-foreground));">${t('Date')}: _______________</p>
@@ -93,16 +102,16 @@ export default function ContractPDFExport({ contract, variant = "outline", size 
                 </div>
             </div>
         `;
-        
+
         const opt = {
             margin: 0.5,
             filename: `contract-${contract.contract_number}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
         };
-        
-        import('html2pdf.js').then(html2pdf => {
+
+        import('html2pdf.js').then((html2pdf) => {
             html2pdf.default().set(opt).from(element).save();
         });
     };
@@ -110,11 +119,7 @@ export default function ContractPDFExport({ contract, variant = "outline", size 
     return (
         <Tooltip>
             <TooltipTrigger asChild>
-                <Button
-                    variant={variant}
-                    size={size}
-                    onClick={handleDownloadPDF}
-                >
+                <Button variant={variant} size={size} onClick={handleDownloadPDF}>
                     <Download className="h-4 w-4" />
                 </Button>
             </TooltipTrigger>

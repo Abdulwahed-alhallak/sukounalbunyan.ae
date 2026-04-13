@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, Ruler } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, Ruler } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 import Create from './Create';
 import EditUnit from './Edit';
 import NoRecordsFound from '@/components/no-records-found';
 import { Unit, UnitsIndexProps, UnitModalState } from './types';
-import SystemSetupSidebar from "../SystemSetupSidebar";
+import SystemSetupSidebar from '../SystemSetupSidebar';
 
 export default function Index() {
     const { t } = useTranslation();
@@ -24,13 +24,12 @@ export default function Index() {
     const [modalState, setModalState] = useState<UnitModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'product-service.units.destroy',
-        defaultMessage: t('Are you sure you want to delete this unit?')
+        defaultMessage: t('Are you sure you want to delete this unit?'),
     });
 
     const openModal = (mode: 'add' | 'edit', data: Unit | null = null) => {
@@ -44,70 +43,81 @@ export default function Index() {
     const tableColumns = [
         {
             key: 'unit_name',
-            header: t('Unit Name')
+            header: t('Unit Name'),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-product-service-units', 'delete-product-service-units'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Action'),
-            render: (_: any, unit: Unit) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('edit-product-service-units') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', unit)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-product-service-units') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(unit.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['edit-product-service-units', 'delete-product-service-units'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Action'),
+                      render: (_: any, unit: Unit) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('edit-product-service-units') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', unit)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Edit className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-product-service-units') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(unit.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <TooltipProvider>
             <AuthenticatedLayout
                 breadcrumbs={[
-                    {label: t('Product & Service'), url: route('product-service.items.index')},
-                    {label: t('System Setup')},
-                    {label: t('Units')}
+                    { label: t('Product & Service'), url: route('product-service.items.index') },
+                    { label: t('System Setup') },
+                    { label: t('Units') },
                 ]}
                 pageTitle={t('System Setup')}
             >
                 <Head title={t('Units')} />
 
-                <div className="flex flex-col md:flex-row gap-8">
-                    <div className="md:w-64 flex-shrink-0">
+                <div className="flex flex-col gap-8 md:flex-row">
+                    <div className="flex-shrink-0 md:w-64">
                         <SystemSetupSidebar activeItem="units" />
                     </div>
 
                     <div className="flex-1">
                         <Card className="shadow-sm">
                             <CardContent className="p-6">
-                                <div className="flex justify-between items-center mb-6">
+                                <div className="mb-6 flex items-center justify-between">
                                     <h3 className="text-lg font-medium">{t('Units')}</h3>
                                     {auth.user?.permissions?.includes('create-product-service-units') && (
                                         <Tooltip delayDuration={0}>
@@ -122,7 +132,7 @@ export default function Index() {
                                         </Tooltip>
                                     )}
                                 </div>
-                                <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+                                <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                                     <div className="min-w-[600px]">
                                         <DataTable
                                             data={units}
@@ -148,14 +158,9 @@ export default function Index() {
                 </div>
 
                 <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                    {modalState.mode === 'add' && (
-                        <Create onSuccess={closeModal} />
-                    )}
+                    {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                     {modalState.mode === 'edit' && modalState.data && (
-                        <EditUnit
-                            unit={modalState.data}
-                            onSuccess={closeModal}
-                        />
+                        <EditUnit unit={modalState.data} onSuccess={closeModal} />
                     )}
                 </Dialog>
 

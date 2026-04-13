@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -36,17 +36,15 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
         host_id: '',
         sync_to_google_calendar: false,
     });
-    
+
     const calendarFields = useFormFields('createCalendarSyncField', data, setData, errors, 'create', t, 'ZoomMeeting');
-
-
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('zoommeeting.zoom-meetings.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -68,7 +66,7 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     />
                     <InputError message={errors.title} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -80,7 +78,6 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
 
                 <div>
                     <Label htmlFor="meeting_password">{t('Meeting Password')}</Label>
@@ -90,11 +87,10 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                         value={data.meeting_password}
                         onChange={(e) => setData('meeting_password', e.target.value)}
                         placeholder={t('Enter Meeting Password')}
-                        
                     />
                     <InputError message={errors.meeting_password} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Start Time')}</Label>
                     <DateTimeRangePicker
@@ -105,7 +101,7 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     />
                     <InputError message={errors.start_time} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="duration">{t('Duration')}</Label>
                     <Input
@@ -120,70 +116,90 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     />
                     <InputError message={errors.duration} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="host_video"
                         checked={data.host_video || false}
                         onCheckedChange={(checked) => setData('host_video', !!checked)}
                     />
-                    <Label htmlFor="host_video" className="cursor-pointer">{t('Host Video')}</Label>
+                    <Label htmlFor="host_video" className="cursor-pointer">
+                        {t('Host Video')}
+                    </Label>
                     <InputError message={errors.host_video} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="participant_video"
                         checked={data.participant_video || false}
                         onCheckedChange={(checked) => setData('participant_video', !!checked)}
                     />
-                    <Label htmlFor="participant_video" className="cursor-pointer">{t('Participant Video')}</Label>
+                    <Label htmlFor="participant_video" className="cursor-pointer">
+                        {t('Participant Video')}
+                    </Label>
                     <InputError message={errors.participant_video} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="waiting_room"
                         checked={data.waiting_room || false}
                         onCheckedChange={(checked) => setData('waiting_room', !!checked)}
                     />
-                    <Label htmlFor="waiting_room" className="cursor-pointer">{t('Waiting Room')}</Label>
+                    <Label htmlFor="waiting_room" className="cursor-pointer">
+                        {t('Waiting Room')}
+                    </Label>
                     <InputError message={errors.waiting_room} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="recording"
                         checked={data.recording || false}
                         onCheckedChange={(checked) => setData('recording', !!checked)}
                     />
-                    <Label htmlFor="recording" className="cursor-pointer">{t('Recording')}</Label>
+                    <Label htmlFor="recording" className="cursor-pointer">
+                        {t('Recording')}
+                    </Label>
                     <InputError message={errors.recording} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Status')}</Label>
-                    <RadioGroup value={data.status || 'Scheduled'} onValueChange={(value) => setData('status', value)} className="flex gap-6 mt-2">
+                    <RadioGroup
+                        value={data.status || 'Scheduled'}
+                        onValueChange={(value) => setData('status', value)}
+                        className="mt-2 flex gap-6"
+                    >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Scheduled" id="status_scheduled" />
-                            <Label htmlFor="status_scheduled" className="cursor-pointer">{t('Scheduled')}</Label>
+                            <Label htmlFor="status_scheduled" className="cursor-pointer">
+                                {t('Scheduled')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Started" id="status_started" />
-                            <Label htmlFor="status_started" className="cursor-pointer">{t('Started')}</Label>
+                            <Label htmlFor="status_started" className="cursor-pointer">
+                                {t('Started')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Ended" id="status_ended" />
-                            <Label htmlFor="status_ended" className="cursor-pointer">{t('Ended')}</Label>
+                            <Label htmlFor="status_ended" className="cursor-pointer">
+                                {t('Ended')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Cancelled" id="status_cancelled" />
-                            <Label htmlFor="status_cancelled" className="cursor-pointer">{t('Cancelled')}</Label>
+                            <Label htmlFor="status_cancelled" className="cursor-pointer">
+                                {t('Cancelled')}
+                            </Label>
                         </div>
                     </RadioGroup>
                     <InputError message={errors.status} />
                 </div>
-                
+
                 <div>
                     <Label>{t('Participants')}</Label>
                     <MultiSelectEnhanced
@@ -195,7 +211,7 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     />
                     <InputError message={errors.participants} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="host_id">{t('Host')}</Label>
                     <Select value={data.host_id?.toString() || ''} onValueChange={(value) => setData('host_id', value)}>
@@ -212,14 +228,12 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
                     </Select>
                     <InputError message={errors.host_id} />
                 </div>
-                
+
                 {/* Calendar Sync Field */}
                 {calendarFields?.map((field) => (
-                    <div key={field.id}>
-                        {field.component}
-                    </div>
+                    <div key={field.id}>{field.component}</div>
                 ))}
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

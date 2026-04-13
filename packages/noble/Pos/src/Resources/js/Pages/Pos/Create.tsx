@@ -9,8 +9,22 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ShoppingCart, Search, CreditCard, Plus, Minus, Trash2, X, Home, Printer, FileText, Image, Package, Barcode } from 'lucide-react';
-import { getImagePath, formatCurrency,formatDate } from '@/utils/helpers';
+import {
+    ShoppingCart,
+    Search,
+    CreditCard,
+    Plus,
+    Minus,
+    Trash2,
+    X,
+    Home,
+    Printer,
+    FileText,
+    Image,
+    Package,
+    Barcode,
+} from 'lucide-react';
+import { getImagePath, formatCurrency, formatDate } from '@/utils/helpers';
 import { useFavicon } from '@/hooks/use-favicon';
 import { useFormFields } from '@/hooks/useFormFields';
 import { BrandProvider } from '@/contexts/brand-context';
@@ -87,9 +101,9 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                 params.append('category_id', selectedCategory);
             }
             fetch(`${route('pos.products')}?${params}`)
-                .then(response => response.json())
-                .then(data => setProducts(data))
-                .catch(error => console.error('Error:', error))
+                .then((response) => response.json())
+                .then((data) => setProducts(data))
+                .catch((error) => console.error('Error:', error))
                 .finally(() => setLoading(false));
         }
     }, [selectedWarehouse, selectedCategory]);
@@ -102,9 +116,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
     const handleSkuInput = (value: string) => {
         setSkuInput(value);
         if (value.trim() && selectedWarehouse) {
-            const matchedProduct = products.find(product =>
-                product.sku === value
-            );
+            const matchedProduct = products.find((product) => product.sku === value);
             if (matchedProduct) {
                 addToCart(matchedProduct);
                 setSkuInput('');
@@ -113,13 +125,11 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
     };
 
     const addToCart = (product: Product) => {
-        setCart(prev => {
-            const existing = prev.find(item => item.id === product.id);
+        setCart((prev) => {
+            const existing = prev.find((item) => item.id === product.id);
             if (existing) {
-                return prev?.map(item =>
-                    item.id === product.id
-                        ? { ...item, quantity: Math.min(item.quantity + 1, product.stock) }
-                        : item
+                return prev?.map((item) =>
+                    item.id === product.id ? { ...item, quantity: Math.min(item.quantity + 1, product.stock) } : item
                 );
             }
             return [...prev, { ...product, quantity: 1 }];
@@ -128,21 +138,19 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
 
     const updateQuantity = (id: number, quantity: number) => {
         if (quantity <= 0) {
-            setCart(prev => prev.filter(item => item.id !== id));
+            setCart((prev) => prev.filter((item) => item.id !== id));
         } else {
-            setCart(prev => prev?.map(item =>
-                item.id === id ? { ...item, quantity } : item
-            ));
+            setCart((prev) => prev?.map((item) => (item.id === id ? { ...item, quantity } : item)));
         }
     };
 
-    const getSubtotal = () => cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const getSubtotal = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const getTaxAmount = () => {
         let totalTax = 0;
-        cart.forEach(item => {
+        cart.forEach((item) => {
             const itemSubtotal = item.price * item.quantity;
             if (item.taxes && item.taxes.length > 0) {
-                item.taxes.forEach(tax => {
+                item.taxes.forEach((tax) => {
                     totalTax += (itemSubtotal * tax.rate) / 100;
                 });
             }
@@ -152,10 +160,10 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
 
     const getTaxBreakdown = () => {
         const taxBreakdown: { [key: string]: { name: string; amount: number } } = {};
-        cart.forEach(item => {
+        cart.forEach((item) => {
             const itemSubtotal = item.price * item.quantity;
             if (item.taxes && item.taxes.length > 0) {
-                item.taxes.forEach(tax => {
+                item.taxes.forEach((tax) => {
                     const taxAmount = (itemSubtotal * tax.rate) / 100;
                     const taxKey = `${tax.name}_${tax.rate}`;
                     if (taxBreakdown[taxKey]) {
@@ -163,7 +171,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                     } else {
                         taxBreakdown[taxKey] = {
                             name: `${tax.name} (${tax.rate}%)`,
-                            amount: taxAmount
+                            amount: taxAmount,
                         };
                     }
                 });
@@ -184,7 +192,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
     const [data, setData] = useState(() => {
         const savedBankAccount = sessionStorage.getItem('pos_selected_bank_account');
         return {
-            bank_account_id: savedBankAccount || ''
+            bank_account_id: savedBankAccount || '',
         };
     });
     const [errors, setErrors] = useState({});
@@ -194,7 +202,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
         if (key === 'bank_account_id') {
             sessionStorage.setItem('pos_selected_bank_account', value);
         }
-        setData(prev => ({ ...prev, [key]: value }));
+        setData((prev) => ({ ...prev, [key]: value }));
     };
 
     const bankAccountField = useFormFields('bankAccountField', data, handleSetData, errors);
@@ -202,9 +210,9 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
     useEffect(() => {
         // Fetch next POS number from backend
         fetch(route('pos.pos-number'))
-            .then(response => response.json())
-            .then(data => setNextPosNumber(data.pos_number))
-            .catch(error => {
+            .then((response) => response.json())
+            .then((data) => setNextPosNumber(data.pos_number))
+            .catch((error) => {
                 // Fallback to generated number
                 const randomCount = Math.floor(Math.random() * 100) + 1;
                 setNextPosNumber('#POS' + String(randomCount).padStart(5, '0'));
@@ -214,19 +222,20 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
     const handlePayment = () => {
         // Get fresh POS number before processing
         fetch(route('pos.pos-number'))
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 const freshPosNumber = data.pos_number;
                 setNextPosNumber(freshPosNumber);
 
                 // Get current bank account ID from sessionStorage as backup
-                const currentBankAccountId = data.bank_account_id || sessionStorage.getItem('pos_selected_bank_account');
+                const currentBankAccountId =
+                    data.bank_account_id || sessionStorage.getItem('pos_selected_bank_account');
 
                 const formData = {
                     customer_id: selectedCustomer || null,
                     warehouse_id: selectedWarehouse,
                     bank_account_id: currentBankAccountId || null,
-                    items: cart?.map(item => ({
+                    items: cart?.map((item) => ({
                         id: item.id,
                         quantity: item.quantity,
                         price: item.price,
@@ -235,41 +244,43 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                     tax_amount: getTaxAmount(),
                     payment_method: paymentMethod,
                     paid_amount: parseFloat(paidAmount || '0'),
-                    pos_number: freshPosNumber
+                    pos_number: freshPosNumber,
                 };
 
                 setProcessing(true);
 
                 router.post(route('pos.store'), formData, {
-            onSuccess: (response: any) => {
-                setProcessing(false);
-                setCompletedSale({
-                    pos_number: response.props?.pos_number || nextPosNumber,
-                    items: cart,
-                    subtotal: getSubtotal(),
-                    tax: getTaxAmount(),
-                    discount: discountAmount,
-                    total: getTotal(),
-                    customer: selectedCustomer ? customers.find(c => c.id.toString() === selectedCustomer) : null,
-                    warehouse: warehouses.find(w => w.id.toString() === selectedWarehouse),
-                    payment_method: paymentMethod,
-                    paid_amount: parseFloat(paidAmount || '0')
-                });
-                // Close payment modal first, then show receipt
-                setShowPaymentModal(false);
-                setTimeout(() => {
-                    setShowReceiptModal(true);
-                }, 100);
-            },
-            onError: (errors) => {
-                setProcessing(false);
-                console.error('Payment failed:', errors);
-            },
+                    onSuccess: (response: any) => {
+                        setProcessing(false);
+                        setCompletedSale({
+                            pos_number: response.props?.pos_number || nextPosNumber,
+                            items: cart,
+                            subtotal: getSubtotal(),
+                            tax: getTaxAmount(),
+                            discount: discountAmount,
+                            total: getTotal(),
+                            customer: selectedCustomer
+                                ? customers.find((c) => c.id.toString() === selectedCustomer)
+                                : null,
+                            warehouse: warehouses.find((w) => w.id.toString() === selectedWarehouse),
+                            payment_method: paymentMethod,
+                            paid_amount: parseFloat(paidAmount || '0'),
+                        });
+                        // Close payment modal first, then show receipt
+                        setShowPaymentModal(false);
+                        setTimeout(() => {
+                            setShowReceiptModal(true);
+                        }, 100);
+                    },
+                    onError: (errors) => {
+                        setProcessing(false);
+                        console.error('Payment failed:', errors);
+                    },
                     preserveState: true,
-                    preserveScroll: true
+                    preserveScroll: true,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error fetching fresh POS number:', error);
                 setProcessing(false);
             });
@@ -283,198 +294,205 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
         setCompletedSale(null);
         // Refresh POS number for next transaction
         fetch(route('pos.pos-number'))
-            .then(response => response.json())
-            .then(data => setNextPosNumber(data.pos_number))
-            .catch(error => console.error('Error fetching new POS number:', error));
+            .then((response) => response.json())
+            .then((data) => setNextPosNumber(data.pos_number))
+            .catch((error) => console.error('Error fetching new POS number:', error));
     };
 
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredProducts = products.filter(
+        (product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.sku.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <>
             <Head title={t('POS')} />
 
-            <div className="h-screen bg-muted/50 flex flex-col">
-                <div className="flex flex-col lg:flex-row flex-1 overflow-hidden p-2 sm:p-4 gap-2 sm:gap-4 min-h-0">
+            <div className="flex h-screen flex-col bg-muted/50">
+                <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden p-2 sm:gap-4 sm:p-4 lg:flex-row">
                     {/* Products Section Card */}
-                    <Card className="flex-1 flex flex-col min-w-0 order-2 lg:order-1">
-                        <CardContent className="p-3 sm:p-6 flex flex-col h-full overflow-hidden">
-                        {/* Controls */}
-                        <div className="mb-4 sm:mb-6 space-y-2 sm:space-y-4 flex-shrink-0">
-                            <div className="flex flex-col lg:flex-row gap-2 items-stretch lg:items-center">
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Link href={route('pos.index')}>
-                                                <Button variant="outline" className="h-10 px-3 w-full lg:w-auto">
-                                                    <Home className="h-4 w-4" />
-                                                </Button>
-                                            </Link>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Home')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                    <Card className="order-2 flex min-w-0 flex-1 flex-col lg:order-1">
+                        <CardContent className="flex h-full flex-col overflow-hidden p-3 sm:p-6">
+                            {/* Controls */}
+                            <div className="mb-4 flex-shrink-0 space-y-2 sm:mb-6 sm:space-y-4">
+                                <div className="flex flex-col items-stretch gap-2 lg:flex-row lg:items-center">
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Link href={route('pos.index')}>
+                                                    <Button variant="outline" className="h-10 w-full px-3 lg:w-auto">
+                                                        <Home className="h-4 w-4" />
+                                                    </Button>
+                                                </Link>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>{t('Home')}</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
 
-                                <div className="relative flex-1 lg:w-80">
-                                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        placeholder={t('Search products...')}
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 h-10"
-                                    />
+                                    <div className="relative flex-1 lg:w-80">
+                                        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                        <Input
+                                            placeholder={t('Search products...')}
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="h-10 pl-10"
+                                        />
+                                    </div>
+
+                                    <Select value={selectedCustomer} onValueChange={setSelectedCustomer}>
+                                        <SelectTrigger className="h-10 w-full lg:w-80">
+                                            <SelectValue placeholder={t('Walk-in Customer')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {customers?.map((customer) => (
+                                                <SelectItem key={customer.id} value={customer.id.toString()}>
+                                                    {customer.name} - {customer.email}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+
+                                    <Select
+                                        value={selectedWarehouse}
+                                        onValueChange={(value) => {
+                                            setSelectedWarehouse(value);
+                                            sessionStorage.setItem('pos_selected_warehouse', value);
+                                        }}
+                                    >
+                                        <SelectTrigger className="h-10 w-full lg:w-96">
+                                            <SelectValue placeholder={t('Select Warehouse')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {warehouses?.map((warehouse) => (
+                                                <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
+                                                    {warehouse.name} - {warehouse.address}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <div className="relative lg:w-72">
+                                                    <Barcode className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                    <Input
+                                                        placeholder={t('Add To Cart by SKU')}
+                                                        className="h-10 pl-10"
+                                                        value={skuInput}
+                                                        onChange={(e) => handleSkuInput(e.target.value)}
+                                                    />
+                                                </div>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>{t('Enter SKU to add product to cart.')}</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 </div>
 
-                                <Select value={selectedCustomer} onValueChange={setSelectedCustomer}>
-                                    <SelectTrigger className="h-10 w-full lg:w-80">
-                                        <SelectValue placeholder={t('Walk-in Customer')} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {customers?.map(customer => (
-                                            <SelectItem key={customer.id} value={customer.id.toString()}>
-                                                {customer.name} - {customer.email}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-
-                                <Select value={selectedWarehouse} onValueChange={(value) => {
-                                    setSelectedWarehouse(value);
-                                    sessionStorage.setItem('pos_selected_warehouse', value);
-                                }}>
-                                    <SelectTrigger className="h-10 w-full lg:w-96">
-                                        <SelectValue placeholder={t('Select Warehouse')} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {warehouses?.map(warehouse => (
-                                            <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
-                                                {warehouse.name} - {warehouse.address}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <div className="relative lg:w-72">
-                                                <Barcode className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                                <Input
-                                                    placeholder={t('Add To Cart by SKU')}
-                                                    className="pl-10 h-10"
-                                                    value={skuInput}
-                                                    onChange={(e) => handleSkuInput(e.target.value)}
-                                                />
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Enter SKU to add product to cart.')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400">
-                                <Button
-                                    variant={selectedCategory === 'all' ? 'default' : 'outline'}
-                                    onClick={() => setSelectedCategory('all')}
-                                >
-                                    {t('All')}
-                                </Button>
-                                {categories?.map(category => (
+                                <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 flex max-h-24 flex-wrap gap-2 overflow-y-auto">
                                     <Button
-                                        key={category.id}
-                                        variant={selectedCategory === category.id.toString() ? 'default' : 'outline'}
-                                        onClick={() => setSelectedCategory(category.id.toString())}
+                                        variant={selectedCategory === 'all' ? 'default' : 'outline'}
+                                        onClick={() => setSelectedCategory('all')}
                                     >
-                                        {category.name}
+                                        {t('All')}
                                     </Button>
-                                ))}
+                                    {categories?.map((category) => (
+                                        <Button
+                                            key={category.id}
+                                            variant={
+                                                selectedCategory === category.id.toString() ? 'default' : 'outline'
+                                            }
+                                            onClick={() => setSelectedCategory(category.id.toString())}
+                                        >
+                                            {category.name}
+                                        </Button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Products Grid */}
-                        <div className="flex-1 overflow-y-auto min-h-0">
-                        {loading ? (
-                            <div className="text-center py-12">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground mx-auto"></div>
-                                <p className="mt-2 text-muted-foreground">{t('Loading products...')}</p>
+                            {/* Products Grid */}
+                            <div className="min-h-0 flex-1 overflow-y-auto">
+                                {loading ? (
+                                    <div className="py-12 text-center">
+                                        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-foreground"></div>
+                                        <p className="mt-2 text-muted-foreground">{t('Loading products...')}</p>
+                                    </div>
+                                ) : filteredProducts.length > 0 ? (
+                                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
+                                        {filteredProducts?.map((product) => (
+                                            <Card
+                                                key={product.id}
+                                                className="cursor-pointer hover:shadow-md"
+                                                onClick={() => addToCart(product)}
+                                            >
+                                                <CardContent className="p-4">
+                                                    <div className="mb-3 flex aspect-square items-center justify-center rounded bg-muted">
+                                                        {product.image ? (
+                                                            <img
+                                                                src={getImagePath(product.image)}
+                                                                alt={product.name}
+                                                                className="h-full w-full rounded object-cover"
+                                                                onError={(e) => {
+                                                                    const target = e.target as HTMLImageElement;
+                                                                    target.style.display = 'none';
+                                                                    const parent = target.parentElement;
+                                                                    if (parent) {
+                                                                        parent.innerHTML =
+                                                                            '<div class="flex items-center justify-center w-full h-full"><svg class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>';
+                                                                    }
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <Image className="h-8 w-8 text-muted-foreground" />
+                                                        )}
+                                                    </div>
+                                                    <h3 className="truncate font-medium">{product.name}</h3>
+                                                    <p className="text-sm text-muted-foreground">{product.sku}</p>
+                                                    <div className="mt-2 flex items-center justify-between">
+                                                        <span className="font-bold text-foreground">
+                                                            {formatCurrency(product.price)}
+                                                        </span>
+                                                        <Badge
+                                                            variant={product.stock > 0 ? 'secondary' : 'destructive'}
+                                                        >
+                                                            {Math.floor(product.stock)}
+                                                        </Badge>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="py-12 text-center">
+                                        <Package className="mx-auto mb-2 h-12 w-12 text-muted-foreground" />
+                                        <p className="text-muted-foreground">{t('No products available')}</p>
+                                    </div>
+                                )}
                             </div>
-                        ) : filteredProducts.length > 0 ? (
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
-                                {filteredProducts?.map(product => (
-                                    <Card
-                                        key={product.id}
-                                        className="cursor-pointer hover:shadow-md"
-                                        onClick={() => addToCart(product)}
-                                    >
-                                        <CardContent className="p-4">
-                                            <div className="aspect-square bg-muted rounded mb-3 flex items-center justify-center">
-                                                {product.image ? (
-                                                    <img
-                                                        src={getImagePath(product.image)}
-                                                        alt={product.name}
-                                                        className="w-full h-full object-cover rounded"
-                                                        onError={(e) => {
-                                                            const target = e.target as HTMLImageElement;
-                                                            target.style.display = 'none';
-                                                            const parent = target.parentElement;
-                                                            if (parent) {
-                                                                parent.innerHTML = '<div class="flex items-center justify-center w-full h-full"><svg class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>';
-                                                            }
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <Image className="w-8 h-8 text-muted-foreground" />
-                                                )}
-                                            </div>
-                                            <h3 className="font-medium truncate">{product.name}</h3>
-                                            <p className="text-sm text-muted-foreground">{product.sku}</p>
-                                            <div className="flex justify-between items-center mt-2">
-                                                <span className="font-bold text-foreground">
-                                                    {formatCurrency(product.price)}
-                                                </span>
-                                                <Badge variant={product.stock > 0 ? "secondary" : "destructive"}>
-                                                    {Math.floor(product.stock)}
-                                                </Badge>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-12">
-                                <Package className="h-12 w-12 text-muted-foreground mb-2 mx-auto" />
-                                <p className="text-muted-foreground">{t('No products available')}</p>
-                            </div>
-                        )}
-                        </div>
                         </CardContent>
                     </Card>
 
                     {/* Cart Sidebar Card */}
-                    <Card className="w-full lg:w-80 xl:w-96 flex flex-col flex-shrink-0 min-h-0 order-1 lg:order-2 max-h-[40vh] lg:max-h-none">
-                        <CardContent className="p-3 sm:p-4 xl:p-6 border-b flex-shrink-0">
+                    <Card className="order-1 flex max-h-[40vh] min-h-0 w-full flex-shrink-0 flex-col lg:order-2 lg:max-h-none lg:w-80 xl:w-96">
+                        <CardContent className="flex-shrink-0 border-b p-3 sm:p-4 xl:p-6">
                             {bankAccountField?.map((field) => (
                                 <div key={field.id}>{field.component}</div>
                             ))}
-                            <div className="flex items-center justify-between mt-4">
-                                <h3 className="text-lg font-bold text-foreground flex items-center">
-                                    <ShoppingCart className="h-5 w-5 mr-2 text-muted-foreground" />
+                            <div className="mt-4 flex items-center justify-between">
+                                <h3 className="flex items-center text-lg font-bold text-foreground">
+                                    <ShoppingCart className="mr-2 h-5 w-5 text-muted-foreground" />
                                     {t('Shopping Cart')}
                                 </h3>
                                 <div className="flex items-center space-x-2">
-                                    <Badge variant="secondary">
-                                        {cart.length}
-                                    </Badge>
+                                    <Badge variant="secondary">{cart.length}</Badge>
                                     {cart.length > 0 && (
                                         <X
-                                            className="h-4 w-4 text-destructive cursor-pointer hover:text-destructive"
+                                            className="h-4 w-4 cursor-pointer text-destructive hover:text-destructive"
                                             onClick={() => setCart([])}
                                         />
                                     )}
@@ -482,48 +500,58 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                             </div>
                         </CardContent>
 
-                        <CardContent className="flex-1 overflow-auto p-2 sm:p-3 xl:p-4 min-h-0">
+                        <CardContent className="min-h-0 flex-1 overflow-auto p-2 sm:p-3 xl:p-4">
                             {cart.length === 0 ? (
-                                <div className="text-center py-12">
-                                    <div className="bg-muted rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <div className="py-12 text-center">
+                                    <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
                                         <ShoppingCart className="h-10 w-10 text-muted-foreground" />
                                     </div>
-                                    <h3 className="text-lg font-medium text-muted-foreground mb-2">{t('Your cart is empty')}</h3>
+                                    <h3 className="mb-2 text-lg font-medium text-muted-foreground">
+                                        {t('Your cart is empty')}
+                                    </h3>
                                     <p className="text-sm text-muted-foreground">{t('Add products to get started')}</p>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
-                                    {cart?.map(item => (
-                                        <div key={item.id} className="bg-muted/50 rounded-lg p-4 border border-border hover:shadow-md transition-shadow">
-                                            <div className="flex items-center space-x-3 mb-3">
-                                                <div className="w-10 h-10 bg-muted rounded flex items-center justify-center flex-shrink-0">
+                                    {cart?.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="rounded-lg border border-border bg-muted/50 p-4 transition-shadow hover:shadow-md"
+                                        >
+                                            <div className="mb-3 flex items-center space-x-3">
+                                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-muted">
                                                     {item.image ? (
                                                         <img
                                                             src={getImagePath(item.image)}
                                                             alt={item.name}
-                                                            className="w-full h-full object-cover rounded"
+                                                            className="h-full w-full rounded object-cover"
                                                             onError={(e) => {
                                                                 const target = e.target as HTMLImageElement;
                                                                 target.style.display = 'none';
                                                                 const parent = target.parentElement;
                                                                 if (parent) {
-                                                                    parent.innerHTML = '<svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
+                                                                    parent.innerHTML =
+                                                                        '<svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
                                                                 }
                                                             }}
                                                         />
                                                     ) : (
-                                                        <Image className="w-4 h-4 text-muted-foreground" />
+                                                        <Image className="h-4 w-4 text-muted-foreground" />
                                                     )}
                                                 </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <h4 className="font-semibold text-foreground text-sm truncate">{item.name}</h4>
-                                                    <p className="text-sm font-medium text-foreground">{formatCurrency(item.price)} {t('each')}</p>
+                                                <div className="min-w-0 flex-1">
+                                                    <h4 className="truncate text-sm font-semibold text-foreground">
+                                                        {item.name}
+                                                    </h4>
+                                                    <p className="text-sm font-medium text-foreground">
+                                                        {formatCurrency(item.price)} {t('each')}
+                                                    </p>
                                                 </div>
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => updateQuantity(item.id, 0)}
-                                                    className="text-destructive hover:text-destructive hover:bg-muted/50 p-2"
+                                                    className="p-2 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
@@ -534,16 +562,18 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="h-7 w-7 p-0 border-border"
+                                                        className="h-7 w-7 border-border p-0"
                                                     >
                                                         <Minus className="h-3 w-3" />
                                                     </Button>
-                                                    <span className="w-8 text-center font-semibold text-sm">{item.quantity}</span>
+                                                    <span className="w-8 text-center text-sm font-semibold">
+                                                        {item.quantity}
+                                                    </span>
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                        className="h-7 w-7 p-0 border-border"
+                                                        className="h-7 w-7 border-border p-0"
                                                         disabled={item.quantity >= item.stock}
                                                     >
                                                         <Plus className="h-3 w-3" />
@@ -562,17 +592,15 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                         </CardContent>
 
                         {cart.length > 0 && (
-                            <CardContent className="p-2 sm:p-3 xl:p-4 border-t flex-shrink-0">
+                            <CardContent className="flex-shrink-0 border-t p-2 sm:p-3 xl:p-4">
                                 <div className="space-y-2">
-                                    <div className="flex justify-between items-center py-0.5">
+                                    <div className="flex items-center justify-between py-0.5">
                                         <span className="text-xs text-muted-foreground">{t('Subtotal')}</span>
-                                        <span className="text-xs text-foreground">
-                                            {formatCurrency(getSubtotal())}
-                                        </span>
+                                        <span className="text-xs text-foreground">{formatCurrency(getSubtotal())}</span>
                                     </div>
                                     {getTaxBreakdown().length > 0 ? (
                                         getTaxBreakdown()?.map((tax, index) => (
-                                            <div key={index} className="flex justify-between items-center py-0.5">
+                                            <div key={index} className="flex items-center justify-between py-0.5">
                                                 <span className="text-xs text-muted-foreground">{tax.name}</span>
                                                 <span className="text-xs text-foreground">
                                                     {formatCurrency(tax.amount)}
@@ -580,43 +608,42 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="flex justify-between items-center py-0.5">
+                                        <div className="flex items-center justify-between py-0.5">
                                             <span className="text-xs text-muted-foreground">{t('Tax')}</span>
                                             <span className="text-xs text-foreground">
                                                 {formatCurrency(getTaxAmount())}
                                             </span>
                                         </div>
                                     )}
-                                    <div className="flex justify-between items-center py-0.5">
+                                    <div className="flex items-center justify-between py-0.5">
                                         <span className="text-xs text-muted-foreground">{t('Discount')}</span>
                                         <Input
                                             type="number"
                                             value={discountAmount}
                                             onChange={(e) => setDiscountAmount(Number(e.target.value) || 0)}
-                                            className="w-16 h-6 text-right text-xs"
+                                            className="h-6 w-16 text-right text-xs"
                                             min="0"
                                             max={getSubtotal() + getTaxAmount()}
                                         />
                                     </div>
 
-                                    <div className="flex justify-between items-center py-1 border-t border-border">
+                                    <div className="flex items-center justify-between border-t border-border py-1">
                                         <span className="text-lg font-bold text-foreground">{t('Total')}</span>
                                         <span className="text-xl font-bold text-foreground">
                                             {formatCurrency(getTotal())}
                                         </span>
                                     </div>
                                     <Button
-                                        className="w-full h-10 text-sm font-semibold bg-foreground hover:bg-foreground/80"
+                                        className="h-10 w-full bg-foreground text-sm font-semibold hover:bg-foreground/80"
                                         onClick={() => {
                                             setPaidAmount(getTotal().toString());
                                             setShowPaymentModal(true);
                                         }}
                                         disabled={cart.length === 0 || !selectedWarehouse}
                                     >
-                                        <CreditCard className="h-4 w-4 mr-2" />
+                                        <CreditCard className="mr-2 h-4 w-4" />
                                         {t('Checkout')}
                                     </Button>
-
                                 </div>
                             </CardContent>
                         )}
@@ -626,10 +653,10 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
 
             {/* Payment Modal */}
             <Dialog open={showPaymentModal} onOpenChange={(open) => !processing && setShowPaymentModal(open)}>
-                <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto backdrop-blur-none">
-                    <DialogHeader className="pb-4 border-b">
+                <DialogContent className="max-h-[90vh] max-w-[95vw] overflow-y-auto backdrop-blur-none sm:max-w-2xl">
+                    <DialogHeader className="border-b pb-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-foreground/10 rounded-lg">
+                            <div className="rounded-lg bg-foreground/10 p-2">
                                 <CreditCard className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -638,9 +665,9 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                         </div>
                     </DialogHeader>
 
-                    <div className="overflow-y-auto flex-1 p-4">
+                    <div className="flex-1 overflow-y-auto p-4">
                         {/* Header Info */}
-                        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+                        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row">
                             {/* Left Side - POS Details */}
                             <div className="space-y-2 text-sm">
                                 <div>
@@ -653,35 +680,56 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                 </div>
                                 <div>
                                     <span className="font-medium">{t('Customer')}: </span>
-                                    <span>{selectedCustomer ? customers.find(c => c.id.toString() === selectedCustomer)?.name : t('Walk-in Customer')}</span>
+                                    <span>
+                                        {selectedCustomer
+                                            ? customers.find((c) => c.id.toString() === selectedCustomer)?.name
+                                            : t('Walk-in Customer')}
+                                    </span>
                                 </div>
                                 <div>
                                     <span className="font-medium">{t('Warehouse')}: </span>
-                                    <span>{warehouses.find(w => w.id.toString() === selectedWarehouse)?.name}</span>
+                                    <span>{warehouses.find((w) => w.id.toString() === selectedWarehouse)?.name}</span>
                                 </div>
                             </div>
 
                             {/* Right Side - Company Details */}
-                            <div className="text-right space-y-1 text-sm">
+                            <div className="space-y-1 text-right text-sm">
                                 <h2 className="text-lg font-bold">{globalSettings?.company_name || 'Company Name'}</h2>
                                 <p>{globalSettings?.company_address || 'Company Address'}</p>
-                                <p>{globalSettings?.company_city || 'City'}, {globalSettings?.company_state || 'State'}</p>
-                                <p>{globalSettings?.company_country || 'Country'} - {globalSettings?.company_zipcode || 'Zipcode'}</p>
+                                <p>
+                                    {globalSettings?.company_city || 'City'}, {globalSettings?.company_state || 'State'}
+                                </p>
+                                <p>
+                                    {globalSettings?.company_country || 'Country'} -{' '}
+                                    {globalSettings?.company_zipcode || 'Zipcode'}
+                                </p>
                             </div>
                         </div>
 
                         {/* Products Table */}
                         <Card className="mb-4">
-                            <CardContent className="p-0 overflow-x-auto">
+                            <CardContent className="overflow-x-auto p-0">
                                 <table className="w-full min-w-[600px]">
                                     <thead className="bg-muted/50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">{t('Product')}</th>
-                                            <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground uppercase">{t('Qty')}</th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">{t('Price')}</th>
-                                            <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground uppercase">{t('Taxes')}</th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">{t('Tax Amount')}</th>
-                                            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">{t('Total')}</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Product')}
+                                            </th>
+                                            <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Qty')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Price')}
+                                            </th>
+                                            <th className="px-4 py-3 text-center text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Taxes')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Tax Amount')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-xs font-medium uppercase text-muted-foreground">
+                                                {t('Total')}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border">
@@ -690,7 +738,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                             let itemTaxAmount = 0;
                                             let taxDisplay = '';
                                             if (item.taxes && item.taxes.length > 0) {
-                                                const taxNames = item.taxes?.map(tax => {
+                                                const taxNames = item.taxes?.map((tax) => {
                                                     itemTaxAmount += (itemSubtotal * tax.rate) / 100;
                                                     return `${tax.name} (${tax.rate}%)`;
                                                 });
@@ -702,17 +750,25 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                                 <tr key={item.id}>
                                                     <td className="px-4 py-3">
                                                         <div>
-                                                            <p className="text-sm font-medium text-foreground">{item.name}</p>
+                                                            <p className="text-sm font-medium text-foreground">
+                                                                {item.name}
+                                                            </p>
                                                             <p className="text-xs text-muted-foreground">{item.sku}</p>
                                                         </div>
                                                     </td>
                                                     <td className="px-4 py-3 text-center text-sm">{item.quantity}</td>
-                                                    <td className="px-4 py-3 text-right text-sm">{formatCurrency(item.price)}</td>
+                                                    <td className="px-4 py-3 text-right text-sm">
+                                                        {formatCurrency(item.price)}
+                                                    </td>
                                                     <td className="px-4 py-3 text-center text-sm">
                                                         <div className="text-xs">{taxDisplay}</div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-right text-sm">{formatCurrency(itemTaxAmount)}</td>
-                                                    <td className="px-4 py-3 text-right text-sm font-medium">{formatCurrency(itemSubtotal + itemTaxAmount)}</td>
+                                                    <td className="px-4 py-3 text-right text-sm">
+                                                        {formatCurrency(itemTaxAmount)}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-right text-sm font-medium">
+                                                        {formatCurrency(itemSubtotal + itemTaxAmount)}
+                                                    </td>
                                                 </tr>
                                             );
                                         })}
@@ -738,7 +794,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                         <span>-{formatCurrency(discountAmount)}</span>
                                     </div>
                                     <Separator className="my-2" />
-                                    <div className="flex justify-between font-bold text-lg">
+                                    <div className="flex justify-between text-lg font-bold">
                                         <span>{t('Total')}:</span>
                                         <span className="text-foreground">{formatCurrency(getTotal())}</span>
                                     </div>
@@ -747,7 +803,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                         </Card>
 
                         {/* Action Buttons */}
-                        <div className="flex justify-end gap-2 mt-6">
+                        <div className="mt-6 flex justify-end gap-2">
                             <Button type="button" variant="outline" onClick={() => setShowPaymentModal(false)}>
                                 {t('Cancel')}
                             </Button>

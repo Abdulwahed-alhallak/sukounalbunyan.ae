@@ -7,18 +7,27 @@ interface FormField {
     order?: number;
 }
 
-export const useFormFields = (hookName: string, data: any, setData: any, errors: any, mode: string = 'create', ...additionalParams: any[]): FormField[] => {
+export const useFormFields = (
+    hookName: string,
+    data: any,
+    setData: any,
+    errors: any,
+    mode: string = 'create',
+    ...additionalParams: any[]
+): FormField[] => {
     try {
         const { auth } = usePage().props as any;
         const activatedPackages = auth?.user?.activatedPackages || [];
-        const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/fields/fields.tsx', { eager: true });
+        const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/fields/fields.tsx', {
+            eager: true,
+        });
 
         const fields: FormField[] = [];
 
         activatedPackages.forEach((packageName: string) => {
             const fieldPath = `../../../packages/noble/${packageName}/src/Resources/js/fields/fields.tsx`;
             const module = allModules[fieldPath] as any;
-            
+
             if (module && module[hookName]) {
                 const fieldExport = module[hookName];
                 if (typeof fieldExport === 'function') {

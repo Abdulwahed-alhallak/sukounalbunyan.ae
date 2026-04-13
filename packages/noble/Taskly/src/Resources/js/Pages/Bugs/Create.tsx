@@ -1,22 +1,22 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { MultiSelectEnhanced } from "@/components/ui/multi-select-enhanced";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import InputError from '@/components/ui/input-error';
 import { useFormFields } from '@/hooks/useFormFields';
 import axios from 'axios';
 import { toast } from 'sonner';
 
 interface CreateBugProps {
     onSuccess: () => void;
-    project: { id: number; name: string; };
-    teamMembers: Array<{ id: number; name: string; }>;
-    bugStages: Array<{ id: number; name: string; }>;
+    project: { id: number; name: string };
+    teamMembers: Array<{ id: number; name: string }>;
+    bugStages: Array<{ id: number; name: string }>;
     preSelectedStageId?: number;
 }
 
@@ -33,7 +33,17 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, setData, errors, 'create', 'title', 'Title', 'taskly', 'bug');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'taskly', 'bug');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'taskly',
+        'bug'
+    );
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,7 +55,7 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
             onSuccess();
         } catch (error: any) {
             if (error.response?.data?.errors) {
-                Object.keys(error.response.data.errors).forEach(key => {
+                Object.keys(error.response.data.errors).forEach((key) => {
                     setError(key as any, error.response.data.errors[key][0]);
                 });
             } else {
@@ -61,7 +71,7 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="title">{t('Title')}</Label>
                             <Input
@@ -73,7 +83,9 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
                             />
                             <InputError message={errors.title} />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
 
@@ -95,9 +107,14 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
                 <div>
                     <Label required>{t('Assign To')}</Label>
                     <MultiSelectEnhanced
-                        options={teamMembers?.map(member => ({ value: member.id.toString(), label: member.name }))}
-                        value={data.assigned_to?.map(id => id.toString())}
-                        onValueChange={(value) => setData('assigned_to', value?.map(v => parseInt(v)))}
+                        options={teamMembers?.map((member) => ({ value: member.id.toString(), label: member.name }))}
+                        value={data.assigned_to?.map((id) => id.toString())}
+                        onValueChange={(value) =>
+                            setData(
+                                'assigned_to',
+                                value?.map((v) => parseInt(v))
+                            )
+                        }
                         placeholder={t('Select team members')}
                         searchable={true}
                     />
@@ -106,24 +123,32 @@ export default function Create({ onSuccess, project, teamMembers, bugStages, pre
 
                 <div>
                     <Label>{t('Status')}</Label>
-                    <Select value={data.stage_id.toString()} onValueChange={(value) => setData('stage_id', parseInt(value))}>
+                    <Select
+                        value={data.stage_id.toString()}
+                        onValueChange={(value) => setData('stage_id', parseInt(value))}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            {bugStages && bugStages?.map((stage) => (
-                                <SelectItem key={stage.id} value={stage.id.toString()}>{stage.name}</SelectItem>
-                            ))}
+                            {bugStages &&
+                                bugStages?.map((stage) => (
+                                    <SelectItem key={stage.id} value={stage.id.toString()}>
+                                        {stage.name}
+                                    </SelectItem>
+                                ))}
                         </SelectContent>
                     </Select>
                     <InputError message={errors.stage_id} />
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea

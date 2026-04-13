@@ -18,7 +18,6 @@ interface ProductsProps {
 }
 
 export default function Products({ lead, onRegisterAddHandler }: ProductsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => openProductModal());
     }, [onRegisterAddHandler]);
@@ -33,25 +32,30 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
         try {
             const response = await fetch(route('lead.leads.available-products', lead.id));
             const products = await response.json();
-            setAvailableProducts(products?.map((product: any) => ({
-                value: product.id.toString(),
-                label: product.name
-            })));
-        } catch (error) {
-        }
+            setAvailableProducts(
+                products?.map((product: any) => ({
+                    value: product.id.toString(),
+                    label: product.name,
+                }))
+            );
+        } catch (error) {}
     };
 
     const handleAssignProducts = () => {
         if (selectedProducts.length === 0) return;
 
-        router.post(route('lead.leads.assign-products', lead.id), {
-            product_ids: selectedProducts?.map(id => parseInt(id))
-        }, {
-            onSuccess: () => {
-                setProductModalOpen(false);
-                setSelectedProducts([]);
+        router.post(
+            route('lead.leads.assign-products', lead.id),
+            {
+                product_ids: selectedProducts?.map((id) => parseInt(id)),
+            },
+            {
+                onSuccess: () => {
+                    setProductModalOpen(false);
+                    setSelectedProducts([]);
+                },
             }
-        });
+        );
     };
 
     const openProductModal = () => {
@@ -63,7 +67,7 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
         setProductDeleteState({
             isOpen: true,
             productId,
-            message: t('Are you sure you want to delete this product?')
+            message: t('Are you sure you want to delete this product?'),
         });
     };
 
@@ -73,7 +77,7 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
 
     const confirmProductDelete = () => {
         if (productDeleteState.productId) {
-            router.delete(route('lead.leads.remove-product', {lead: lead.id, product: productDeleteState.productId}));
+            router.delete(route('lead.leads.remove-product', { lead: lead.id, product: productDeleteState.productId }));
             closeProductDeleteDialog();
         }
     };
@@ -85,12 +89,11 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
                     const response = await fetch(route('lead.leads.available-products', lead.id));
                     const products = await response.json();
                     const names = {};
-                    products.forEach(product => {
+                    products.forEach((product) => {
                         names[product.id] = product.name;
                     });
                     setProductNames(names);
-                } catch (error) {
-                }
+                } catch (error) {}
             }
         };
         fetchProductNames();
@@ -98,15 +101,30 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
-                        data={lead.products ? [...new Set(lead.products.split(',').filter(Boolean)?.map(id => id.trim()))]?.map((productId: string, index: number) => ({ id: productId, key: `product-${productId}-${index}`, name: productNames[productId] || '' })) : []}
+                        data={
+                            lead.products
+                                ? [
+                                      ...new Set(
+                                          lead.products
+                                              .split(',')
+                                              .filter(Boolean)
+                                              ?.map((id) => id.trim())
+                                      ),
+                                  ]?.map((productId: string, index: number) => ({
+                                      id: productId,
+                                      key: `product-${productId}-${index}`,
+                                      name: productNames[productId] || '',
+                                  }))
+                                : []
+                        }
                         columns={[
                             {
                                 key: 'name',
                                 header: t('Product Name'),
-                                render: (value: string, product: any) => product.name || ''
+                                render: (value: string, product: any) => product.name || '',
                             },
                             {
                                 key: 'actions',
@@ -116,9 +134,14 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => {
-                                                        openProductDeleteDialog(product.id);
-                                                    }} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            openProductDeleteDialog(product.id);
+                                                        }}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -128,8 +151,8 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -163,8 +186,12 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setProductModalOpen(false)}>{t('Cancel')}</Button>
-                            <Button onClick={handleAssignProducts} disabled={selectedProducts.length === 0}>{t('Save')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setProductModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button onClick={handleAssignProducts} disabled={selectedProducts.length === 0}>
+                                {t('Save')}
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>

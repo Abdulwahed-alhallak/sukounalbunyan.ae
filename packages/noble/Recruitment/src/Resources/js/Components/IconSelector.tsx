@@ -3,7 +3,44 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Search, Check, FileText, Clock, Mail, Phone, User, Users, Calendar, CheckCircle, AlertCircle, Info, Star, Heart, Bookmark, Flag, Target, Award, Briefcase, Building, Home, Settings, Bell, Lock, Eye, Download, Upload, Edit, Trash2, Plus, Minus, X, ArrowRight, ArrowLeft, ArrowUp, ArrowDown } from 'lucide-react';
+import {
+    Search,
+    Check,
+    FileText,
+    Clock,
+    Mail,
+    Phone,
+    User,
+    Users,
+    Calendar,
+    CheckCircle,
+    AlertCircle,
+    Info,
+    Star,
+    Heart,
+    Bookmark,
+    Flag,
+    Target,
+    Award,
+    Briefcase,
+    Building,
+    Home,
+    Settings,
+    Bell,
+    Lock,
+    Eye,
+    Download,
+    Upload,
+    Edit,
+    Trash2,
+    Plus,
+    Minus,
+    X,
+    ArrowRight,
+    ArrowLeft,
+    ArrowUp,
+    ArrowDown,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface IconSelectorProps {
@@ -54,11 +91,9 @@ export default function IconSelector({ value, onChange, disabled = false, classN
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredIcons = availableIcons.filter(icon =>
-        icon.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredIcons = availableIcons.filter((icon) => icon.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const selectedIcon = availableIcons.find(icon => icon.name === value);
+    const selectedIcon = availableIcons.find((icon) => icon.name === value);
     const SelectedIconComponent = selectedIcon?.icon;
 
     const handleIconSelect = (iconName: string) => {
@@ -73,18 +108,18 @@ export default function IconSelector({ value, onChange, disabled = false, classN
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className={cn("w-full justify-between", className)}
+                    className={cn('w-full justify-between', className)}
                     disabled={disabled}
                 >
                     <div className="flex items-center gap-2">
                         {SelectedIconComponent && <SelectedIconComponent className="h-4 w-4" />}
-                        <span>{value || "Select icon..."}</span>
+                        <span>{value || 'Select icon...'}</span>
                     </div>
                     <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80 p-0">
-                <div className="p-3 border-b">
+                <div className="border-b p-3">
                     <Input
                         placeholder="Search icons..."
                         value={searchTerm}
@@ -97,23 +132,21 @@ export default function IconSelector({ value, onChange, disabled = false, classN
                         {filteredIcons?.map((icon) => {
                             const IconComponent = icon.icon;
                             const isSelected = value === icon.name;
-                            
+
                             return (
                                 <Button
                                     key={icon.name}
                                     variant="ghost"
                                     size="sm"
                                     className={cn(
-                                        "h-12 w-full flex flex-col items-center justify-center gap-1 relative",
-                                        isSelected && "bg-accent"
+                                        'relative flex h-12 w-full flex-col items-center justify-center gap-1',
+                                        isSelected && 'bg-accent'
                                     )}
                                     onClick={() => handleIconSelect(icon.name)}
                                 >
                                     <IconComponent className="h-4 w-4" />
-                                    <span className="text-xs truncate w-full">{icon.name}</span>
-                                    {isSelected && (
-                                        <Check className="absolute top-1 right-1 h-3 w-3" />
-                                    )}
+                                    <span className="w-full truncate text-xs">{icon.name}</span>
+                                    {isSelected && <Check className="absolute right-1 top-1 h-3 w-3" />}
                                 </Button>
                             );
                         })}

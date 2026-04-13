@@ -1,13 +1,13 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DatePicker } from "@/components/ui/date-picker";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
+import InputError from '@/components/ui/input-error';
 
 interface Employee {
     id: number;
@@ -57,7 +57,7 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
         post(route('performance.employee-goals.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -67,10 +67,16 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                 <DialogTitle>{t('Create Employee Goal')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                        <Select value={data.employee_id} onValueChange={(value) => setData('employee_id', value)} required>
+                        <Label htmlFor="employee_id" required>
+                            {t('Employee')}
+                        </Label>
+                        <Select
+                            value={data.employee_id}
+                            onValueChange={(value) => setData('employee_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select employee')} />
                             </SelectTrigger>
@@ -90,10 +96,16 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                         </Select>
                         <InputError message={errors.employee_id} />
                     </div>
-                    
+
                     <div>
-                        <Label htmlFor="goal_type_id" required>{t('Goal Type')}</Label>
-                        <Select value={data.goal_type_id} onValueChange={(value) => setData('goal_type_id', value)} required>
+                        <Label htmlFor="goal_type_id" required>
+                            {t('Goal Type')}
+                        </Label>
+                        <Select
+                            value={data.goal_type_id}
+                            onValueChange={(value) => setData('goal_type_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select goal type')} />
                             </SelectTrigger>
@@ -116,7 +128,9 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                 </div>
 
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         value={data.title}
@@ -128,7 +142,9 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                 </div>
 
                 <div>
-                    <Label htmlFor="description" required>{t('Description')}</Label>
+                    <Label htmlFor="description" required>
+                        {t('Description')}
+                    </Label>
                     <Textarea
                         id="description"
                         value={data.description}
@@ -140,7 +156,7 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                     <InputError message={errors.description} />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label required>{t('Start Date')}</Label>
                         <DatePicker
@@ -150,7 +166,7 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                         />
                         <InputError message={errors.start_date} />
                     </div>
-                    
+
                     <div>
                         <Label required>{t('End Date')}</Label>
                         <DatePicker
@@ -162,9 +178,11 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <Label htmlFor="target" required>{t('Target')}</Label>
+                        <Label htmlFor="target" required>
+                            {t('Target')}
+                        </Label>
                         <Input
                             id="target"
                             value={data.target}
@@ -174,7 +192,7 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                         />
                         <InputError message={errors.target} />
                     </div>
-                    
+
                     <div>
                         <Label htmlFor="progress">{t('Progress (%)')}</Label>
                         <Input
@@ -205,7 +223,7 @@ export default function Create({ onSuccess, employees, goalTypes }: CreateProps)
                         <InputError message={errors.status} />
                     </div>
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

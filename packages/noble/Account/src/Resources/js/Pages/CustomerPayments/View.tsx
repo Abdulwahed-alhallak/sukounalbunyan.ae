@@ -22,22 +22,26 @@ export default function View({ payment }: CustomerPaymentViewProps) {
     };
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
-                <DialogTitle>{t('Payment Details')} - {payment.payment_number || `#${payment.id}`}</DialogTitle>
+                <DialogTitle>
+                    {t('Payment Details')} - {payment.payment_number || `#${payment.id}`}
+                </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-6 mt-3">
+            <div className="mt-3 space-y-6">
                 {/* Payment Information */}
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">{t('Payment Information')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                             <div>
                                 <span className="font-semibold">{t('Payment Number')}</span>
-                                <p className="mt-1 text-muted-foreground">{payment.payment_number || `#${payment.id}`}</p>
+                                <p className="mt-1 text-muted-foreground">
+                                    {payment.payment_number || `#${payment.id}`}
+                                </p>
                             </div>
                             <div>
                                 <span className="font-semibold">{t('Payment Date')}</span>
@@ -51,21 +55,28 @@ export default function View({ payment }: CustomerPaymentViewProps) {
                                 <span className="font-semibold">{t('Bank Account')}</span>
                                 <p className="mt-1 text-muted-foreground">
                                     {payment.bank_account?.account_name || '-'}
-                                    {payment.bank_account?.account_number && ` (${payment.bank_account.account_number})`}
+                                    {payment.bank_account?.account_number &&
+                                        ` (${payment.bank_account.account_number})`}
                                 </p>
                             </div>
                             <div>
                                 <span className="font-semibold">{t('Payment Amount')}</span>
-                                <p className="mt-1 text-lg font-bold text-foreground">{formatCurrency(payment.payment_amount)}</p>
+                                <p className="mt-1 text-lg font-bold text-foreground">
+                                    {formatCurrency(payment.payment_amount)}
+                                </p>
                             </div>
                             <div>
                                 <span className="font-semibold">{t('Status')}</span>
                                 <div className="mt-1">
-                                    <span className={`px-2 py-1 rounded-full text-sm ${
-                                        payment.status === 'cleared' ? 'bg-muted text-foreground' :
-                                        payment.status === 'pending' ? 'bg-muted text-foreground' :
-                                        'bg-muted text-destructive'
-                                    }`}>
+                                    <span
+                                        className={`rounded-full px-2 py-1 text-sm ${
+                                            payment.status === 'cleared'
+                                                ? 'bg-muted text-foreground'
+                                                : payment.status === 'pending'
+                                                  ? 'bg-muted text-foreground'
+                                                  : 'bg-muted text-destructive'
+                                        }`}
+                                    >
                                         {t(payment.status)}
                                     </span>
                                 </div>
@@ -84,7 +95,7 @@ export default function View({ payment }: CustomerPaymentViewProps) {
                         {payment.notes && (
                             <div className="mt-4">
                                 <span className="text-muted-foreground">{t('Notes')}</span>
-                                <p className="mt-1 p-3 bg-muted/50 rounded text-sm">{payment.notes}</p>
+                                <p className="mt-1 rounded bg-muted/50 p-3 text-sm">{payment.notes}</p>
                             </div>
                         )}
                     </CardContent>
@@ -101,26 +112,36 @@ export default function View({ payment }: CustomerPaymentViewProps) {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="text-left py-2">{t('Invoice Number')}</th>
-                                            <th className="text-left py-2">{t('Invoice Date')}</th>
-                                            <th className="text-right py-2">{t('Invoice Total')}</th>
-                                            <th className="text-right py-2">{t('Allocated Amount')}</th>
+                                            <th className="py-2 text-left">{t('Invoice Number')}</th>
+                                            <th className="py-2 text-left">{t('Invoice Date')}</th>
+                                            <th className="py-2 text-right">{t('Invoice Total')}</th>
+                                            <th className="py-2 text-right">{t('Allocated Amount')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {payment.allocations?.map((allocation) => (
                                             <tr key={allocation.id} className="border-b">
-                                                <td className="py-2 font-medium">{allocation.invoice?.invoice_number}</td>
+                                                <td className="py-2 font-medium">
+                                                    {allocation.invoice?.invoice_number}
+                                                </td>
                                                 <td className="py-2">{formatDate(allocation.invoice?.invoice_date)}</td>
-                                                <td className="py-2 text-right">{formatCurrency(allocation.invoice?.total_amount)}</td>
-                                                <td className="py-2 text-right font-semibold">{formatCurrency(allocation.allocated_amount)}</td>
+                                                <td className="py-2 text-right">
+                                                    {formatCurrency(allocation.invoice?.total_amount)}
+                                                </td>
+                                                <td className="py-2 text-right font-semibold">
+                                                    {formatCurrency(allocation.allocated_amount)}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                     <tfoot>
                                         <tr className="border-t-2 font-semibold">
-                                            <td colSpan={3} className="py-2 text-right">{t('Total Payment:')}</td>
-                                            <td className="py-2 text-right text-lg">{formatCurrency(payment.payment_amount)}</td>
+                                            <td colSpan={3} className="py-2 text-right">
+                                                {t('Total Payment:')}
+                                            </td>
+                                            <td className="py-2 text-right text-lg">
+                                                {formatCurrency(payment.payment_amount)}
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -140,24 +161,37 @@ export default function View({ payment }: CustomerPaymentViewProps) {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="text-left py-2">{t('Credit Note Number')}</th>
-                                            <th className="text-left py-2">{t('Application Date')}</th>
-                                            <th className="text-right py-2">{t('Applied Amount')}</th>
+                                            <th className="py-2 text-left">{t('Credit Note Number')}</th>
+                                            <th className="py-2 text-left">{t('Application Date')}</th>
+                                            <th className="py-2 text-right">{t('Applied Amount')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {payment.credit_note_applications?.map((application) => (
                                             <tr key={application.id} className="border-b">
-                                                <td className="py-2 font-medium">{application.credit_note?.credit_note_number}</td>
+                                                <td className="py-2 font-medium">
+                                                    {application.credit_note?.credit_note_number}
+                                                </td>
                                                 <td className="py-2">{formatDate(application.application_date)}</td>
-                                                <td className="py-2 text-right font-semibold">{formatCurrency(application.applied_amount)}</td>
+                                                <td className="py-2 text-right font-semibold">
+                                                    {formatCurrency(application.applied_amount)}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                     <tfoot>
                                         <tr className="border-t-2 font-semibold">
-                                            <td colSpan={2} className="py-2 text-right">{t('Total Applied Credit Note:')}</td>
-                                            <td className="py-2 text-right text-lg">{formatCurrency(payment.credit_note_applications.reduce((sum, app) => sum + parseFloat(app.applied_amount), 0))}</td>
+                                            <td colSpan={2} className="py-2 text-right">
+                                                {t('Total Applied Credit Note:')}
+                                            </td>
+                                            <td className="py-2 text-right text-lg">
+                                                {formatCurrency(
+                                                    payment.credit_note_applications.reduce(
+                                                        (sum, app) => sum + parseFloat(app.applied_amount),
+                                                        0
+                                                    )
+                                                )}
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>

@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { MapPin } from 'lucide-react';
 import { JobLocation } from './types';
@@ -11,10 +11,10 @@ export default function View({ joblocation }: ViewProps) {
     const { t } = useTranslation();
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <MapPin className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -23,8 +23,8 @@ export default function View({ joblocation }: ViewProps) {
                 </div>
             </DialogHeader>
 
-            <div className="overflow-y-auto flex-1 p-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex-1 overflow-y-auto p-4">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-4">
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Name')}</label>
@@ -36,18 +36,24 @@ export default function View({ joblocation }: ViewProps) {
                         </div>
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Address')}</label>
-                            <p className={`mt-1 text-sm ${
-                                joblocation.remote_work ? 'text-foreground font-medium' : 'text-foreground'
-                            }`}>
-                                {joblocation.remote_work ? t('Remote Work') : (joblocation.address || '-')}
+                            <p
+                                className={`mt-1 text-sm ${
+                                    joblocation.remote_work ? 'font-medium text-foreground' : 'text-foreground'
+                                }`}
+                            >
+                                {joblocation.remote_work ? t('Remote Work') : joblocation.address || '-'}
                             </p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Type')}</label>
                             <div className="mt-1">
-                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                    joblocation.remote_work ? 'bg-muted text-foreground' : 'bg-muted text-foreground'
-                                }`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${
+                                        joblocation.remote_work
+                                            ? 'bg-muted text-foreground'
+                                            : 'bg-muted text-foreground'
+                                    }`}
+                                >
                                     {joblocation.remote_work ? t('Remote') : t('On-site')}
                                 </span>
                             </div>
@@ -69,9 +75,11 @@ export default function View({ joblocation }: ViewProps) {
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Status')}</label>
                             <div className="mt-1">
-                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                    joblocation.status ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
-                                }`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${
+                                        joblocation.status ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
+                                    }`}
+                                >
                                     {joblocation.status ? t('Active') : t('Inactive')}
                                 </span>
                             </div>

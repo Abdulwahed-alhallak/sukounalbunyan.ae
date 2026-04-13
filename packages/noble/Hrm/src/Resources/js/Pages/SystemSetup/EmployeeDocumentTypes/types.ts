@@ -16,10 +16,12 @@ export interface EmployeeDocumentTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateEmployeeDocumentTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateEmployeeDocumentTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditEmployeeDocumentTypeProps extends EditProps<EmployeeDocumentType>  {[key: string]: any;
+export interface EditEmployeeDocumentTypeProps extends EditProps<EmployeeDocumentType> {
+    [key: string]: any;
 }
 
 export type PaginatedEmployeeDocumentTypes = PaginatedData<EmployeeDocumentType>;

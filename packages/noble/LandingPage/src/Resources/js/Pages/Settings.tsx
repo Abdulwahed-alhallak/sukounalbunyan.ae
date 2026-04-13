@@ -1,6 +1,6 @@
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Save, Eye } from 'lucide-react';
@@ -24,7 +24,6 @@ import Colors from './components/settings/Colors';
 import Pricing from './components/settings/Pricing';
 import { LandingPreview } from './components/LandingPreview';
 
-
 interface LandingPageSetting {
     id?: number;
     company_name?: string;
@@ -47,7 +46,7 @@ interface SettingsProps {
 
 export default function Settings({ settings, customPages }: SettingsProps) {
     const { t } = useTranslation();
-    const { auth } = usePage<{auth: {user: any}}>().props;
+    const { auth } = usePage<{ auth: { user: any } }>().props;
 
     if (!auth.user?.permissions?.includes('manage-landing-page')) {
         return (
@@ -56,18 +55,33 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                 pageTitle={t('Landing Page Settings')}
             >
                 <Head title={t('Landing Page Settings')} />
-                <div className="text-center py-12">
+                <div className="py-12 text-center">
                     <p className="text-muted-foreground">{t('You do not have permission to access this page.')}</p>
                 </div>
             </AuthenticatedLayout>
         );
     }
-        
 
-    const [activeTab, setActiveTab] = useState<'setup' | 'layout' | 'content' | 'social' | 'engagement' | 'page'>('setup');
-    const [activeSection, setActiveSection] = useState<'general' | 'header' | 'hero' | 'stats' | 'features' | 'modules' | 'benefits' | 'gallery' | 'cta' | 'footer' | 'order' | 'colors' | 'pricing'>('general');
+    const [activeTab, setActiveTab] = useState<'setup' | 'layout' | 'content' | 'social' | 'engagement' | 'page'>(
+        'setup'
+    );
+    const [activeSection, setActiveSection] = useState<
+        | 'general'
+        | 'header'
+        | 'hero'
+        | 'stats'
+        | 'features'
+        | 'modules'
+        | 'benefits'
+        | 'gallery'
+        | 'cta'
+        | 'footer'
+        | 'order'
+        | 'colors'
+        | 'pricing'
+    >('general');
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const { data, setData, post, put, processing, reset } = useForm({
         company_name: settings.company_name || '',
         contact_email: settings.contact_email || '',
@@ -85,10 +99,10 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                 gallery: true,
                 cta: true,
                 footer: true,
-                pricing: true
+                pricing: true,
             },
-            section_order: ['header', 'hero', 'stats', 'features', 'modules', 'benefits', 'gallery', 'cta', 'footer']
-        }
+            section_order: ['header', 'hero', 'stats', 'features', 'modules', 'benefits', 'gallery', 'cta', 'footer'],
+        },
     });
 
     const getSectionData = (key: string) => {
@@ -98,17 +112,17 @@ export default function Settings({ settings, customPages }: SettingsProps) {
     const updateSectionData = (key: string, updates: any) => {
         const currentSections = { ...data.config_sections?.sections };
         currentSections[key] = { ...currentSections[key], ...updates };
-        
+
         setData('config_sections', {
             ...data.config_sections,
-            sections: currentSections
+            sections: currentSections,
         });
     };
 
     const updateSectionVisibility = (sectionKey: string, visible: boolean) => {
         setData('config_sections', {
             ...data.config_sections,
-            section_visibility: { ...data.config_sections?.section_visibility, [sectionKey]: visible }
+            section_visibility: { ...data.config_sections?.section_visibility, [sectionKey]: visible },
         });
     };
 
@@ -131,42 +145,48 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                 } else {
                     toast.error(t('Failed to save settings'));
                 }
-            }
+            },
         });
     };
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Landing Page Settings') }
-            ]}
+            breadcrumbs={[{ label: t('Landing Page Settings') }]}
             pageTitle={t('Landing Page Settings')}
             pageActions={
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={() => {
-                        try {
-                            // @ts-ignore
-                            const routeName = (typeof route !== 'undefined' && route().has('landing.page')) ? 'landing.page' : (typeof route !== 'undefined' && route().has('landing_page.index') ? 'landing_page.index' : null);
-                            if (routeName) {
-                                window.open(route(routeName), '_blank');
-                            } else {
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            try {
+                                // @ts-ignore
+                                const routeName =
+                                    typeof route !== 'undefined' && route().has('landing.page')
+                                        ? 'landing.page'
+                                        : typeof route !== 'undefined' && route().has('landing_page.index')
+                                          ? 'landing_page.index'
+                                          : null;
+                                if (routeName) {
+                                    window.open(route(routeName), '_blank');
+                                } else {
+                                    window.open('/', '_blank');
+                                }
+                            } catch (e) {
                                 window.open('/', '_blank');
                             }
-                        } catch (e) {
-                            window.open('/', '_blank');
-                        }
-                    }}>
-                        <Eye className="h-4 w-4 mr-2" />
+                        }}
+                    >
+                        <Eye className="mr-2 h-4 w-4" />
                         {t('View Landing Page')}
                     </Button>
                     {auth.user?.permissions?.includes('edit-landing-page') && (
-                        <Button 
-                            onClick={saveSettings} 
-                            disabled={isLoading} 
+                        <Button
+                            onClick={saveSettings}
+                            disabled={isLoading}
                             className="text-background"
                             style={{ backgroundColor: 'hsl(var(--primary))' }}
                         >
-                            <Save className="h-4 w-4 mr-2" />
+                            <Save className="mr-2 h-4 w-4" />
                             {isLoading ? t('Saving...') : t('Save Changes')}
                         </Button>
                     )}
@@ -174,36 +194,39 @@ export default function Settings({ settings, customPages }: SettingsProps) {
             }
         >
             <Head title={t('Landing Page Settings')} />
-            
-            <div className="space-y-6">
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    <div className="lg:col-span-3 space-y-6">
+            <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+                    <div className="space-y-6 lg:col-span-3">
                         {/* Tab Navigation */}
-                        <div className="flex border-b border-border mb-8">
+                        <div className="mb-8 flex border-b border-border">
                             {[
                                 { key: 'setup', label: t('Setup'), sections: ['general', 'order', 'colors'] },
                                 { key: 'layout', label: t('Layout'), sections: ['header', 'hero', 'footer'] },
                                 { key: 'content', label: t('Content'), sections: ['features', 'modules', 'benefits'] },
                                 { key: 'social', label: t('Social'), sections: ['stats', 'gallery'] },
                                 { key: 'engagement', label: t('Engagement'), sections: ['cta'] },
-                                { key: 'page', label: t('Page'), sections: ['pricing'] }
-                            ]?.map(tab => (
+                                { key: 'page', label: t('Page'), sections: ['pricing'] },
+                            ]?.map((tab) => (
                                 <button
                                     key={tab.key}
                                     onClick={() => {
                                         setActiveTab(tab.key as any);
                                         setActiveSection(tab.sections[0] as any);
                                     }}
-                                    className={`px-6 py-3 font-medium text-sm border-b-2 transition-colors ${
+                                    className={`border-b-2 px-6 py-3 text-sm font-medium transition-colors ${
                                         activeTab === tab.key
-                                            ? 'text-background rounded-t-lg'
-                                            : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                            ? 'rounded-t-lg text-background'
+                                            : 'border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                     }`}
-                                    style={activeTab === tab.key ? {
-                                        backgroundColor: 'hsl(var(--primary))',
-                                        borderColor: 'hsl(var(--primary))'
-                                    } : {}}
+                                    style={
+                                        activeTab === tab.key
+                                            ? {
+                                                  backgroundColor: 'hsl(var(--primary))',
+                                                  borderColor: 'hsl(var(--primary))',
+                                              }
+                                            : {}
+                                    }
                                 >
                                     {tab.label}
                                 </button>
@@ -211,27 +234,46 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         </div>
 
                         {/* Section Navigation within Tab */}
-                        <div className="flex flex-wrap gap-2 mb-8">
+                        <div className="mb-8 flex flex-wrap gap-2">
                             {(() => {
                                 const tabSections = {
-                                    setup: [{ key: 'general', label: t('General') }, { key: 'order', label: t('Order') }, { key: 'colors', label: t('Colors') }],
-                                    layout: [{ key: 'header', label: t('Header') }, { key: 'hero', label: t('Hero') }, { key: 'footer', label: t('Footer') }],
-                                    content: [{ key: 'features', label: t('Features') }, { key: 'modules', label: t('Modules') }, { key: 'benefits', label: t('Benefits') }],
-                                    social: [{ key: 'stats', label: t('Stats') }, { key: 'gallery', label: t('Gallery') }],
+                                    setup: [
+                                        { key: 'general', label: t('General') },
+                                        { key: 'order', label: t('Order') },
+                                        { key: 'colors', label: t('Colors') },
+                                    ],
+                                    layout: [
+                                        { key: 'header', label: t('Header') },
+                                        { key: 'hero', label: t('Hero') },
+                                        { key: 'footer', label: t('Footer') },
+                                    ],
+                                    content: [
+                                        { key: 'features', label: t('Features') },
+                                        { key: 'modules', label: t('Modules') },
+                                        { key: 'benefits', label: t('Benefits') },
+                                    ],
+                                    social: [
+                                        { key: 'stats', label: t('Stats') },
+                                        { key: 'gallery', label: t('Gallery') },
+                                    ],
                                     engagement: [{ key: 'cta', label: t('CTA') }],
-                                    page: [{ key: 'pricing', label: t('Pricing') }]
+                                    page: [{ key: 'pricing', label: t('Pricing') }],
                                 };
-                                return tabSections[activeTab]?.map(section => (
+                                return tabSections[activeTab]?.map((section) => (
                                     <Button
                                         key={section.key}
-                                        variant={activeSection === section.key ? "default" : "outline"}
+                                        variant={activeSection === section.key ? 'default' : 'outline'}
                                         size="sm"
                                         onClick={() => setActiveSection(section.key as any)}
-                                        style={activeSection === section.key ? {
-                                            backgroundColor: 'hsl(var(--primary))',
-                                            borderColor: 'hsl(var(--primary))',
-                                            color: 'white'
-                                        } : {}}
+                                        style={
+                                            activeSection === section.key
+                                                ? {
+                                                      backgroundColor: 'hsl(var(--primary))',
+                                                      borderColor: 'hsl(var(--primary))',
+                                                      color: 'white',
+                                                  }
+                                                : {}
+                                        }
                                     >
                                         {section.label}
                                     </Button>
@@ -241,15 +283,12 @@ export default function Settings({ settings, customPages }: SettingsProps) {
 
                         {/* Section Components */}
                         {activeSection === 'general' && (
-                            <General 
-                                data={data} 
-                                updateSectionData={(field, value) => setData(field as any, value)} 
-                            />
+                            <General data={data} updateSectionData={(field, value) => setData(field as any, value)} />
                         )}
 
                         {activeSection === 'hero' && (
-                            <Hero 
-                                data={data} 
+                            <Hero
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -257,8 +296,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'features' && (
-                            <Features 
-                                data={data} 
+                            <Features
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -266,8 +305,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'header' && (
-                            <Header 
-                                data={data} 
+                            <Header
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -276,8 +315,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'stats' && (
-                            <Stats 
-                                data={data} 
+                            <Stats
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -285,8 +324,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'modules' && (
-                            <Modules 
-                                data={data} 
+                            <Modules
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -294,8 +333,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'benefits' && (
-                            <Benefits 
-                                data={data} 
+                            <Benefits
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -303,8 +342,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'gallery' && (
-                            <Gallery 
-                                data={data} 
+                            <Gallery
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -312,8 +351,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'cta' && (
-                            <CTA 
-                                data={data} 
+                            <CTA
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -321,8 +360,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'footer' && (
-                            <Footer 
-                                data={data} 
+                            <Footer
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -331,16 +370,12 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'order' && (
-                            <Order 
-                                data={data} 
-                                setData={setData}
-                                updateSectionVisibility={updateSectionVisibility}
-                            />
+                            <Order data={data} setData={setData} updateSectionVisibility={updateSectionVisibility} />
                         )}
 
                         {activeSection === 'colors' && (
-                            <Colors 
-                                data={data} 
+                            <Colors
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}
@@ -349,8 +384,8 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         )}
 
                         {activeSection === 'pricing' && (
-                            <Pricing 
-                                data={data} 
+                            <Pricing
+                                data={data}
                                 getSectionData={getSectionData}
                                 updateSectionData={updateSectionData}
                                 updateSectionVisibility={updateSectionVisibility}

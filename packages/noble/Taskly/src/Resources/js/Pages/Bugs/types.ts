@@ -8,8 +8,8 @@ export interface ProjectBug {
     project?: {
         id: number;
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     bugStage?: {
         id: number;
         name: string;
@@ -36,15 +36,15 @@ export interface ProjectBugsIndexProps {
         total: number;
         from: number;
         to: number;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     project?: {
         id: number;
         name: string;
-        teamMembers: Array<{ id: number; name: string; avatar?: string; }>;
+        teamMembers: Array<{ id: number; name: string; avatar?: string }>;
     };
-    teamMembers: Array<{ id: number; name: string; avatar?: string; }>;
-    bugStages: Array<{ id: number; name: string; color?: string; order: number; }>;
+    teamMembers: Array<{ id: number; name: string; avatar?: string }>;
+    bugStages: Array<{ id: number; name: string; color?: string; order: number }>;
     auth: {
         user: {
             permissions: string[];

@@ -36,14 +36,20 @@ interface Props {
     planExpireDate?: string;
 }
 
-export default function Subscribe({ plan, activeModules, userActiveModules, bankTransferEnabled, bankTransferInstructions, planExpireDate }: Props) {
+export default function Subscribe({
+    plan,
+    activeModules,
+    userActiveModules,
+    bankTransferEnabled,
+    bankTransferInstructions,
+    planExpireDate,
+}: Props) {
     const { t } = useTranslation();
     const [pricingPeriod, setPricingPeriod] = useState<'monthly' | 'yearly'>('monthly');
-    
 
     const handleSubscribe = (subscriptionData: any) => {
         console.log('Processing subscription:', subscriptionData);
-        
+
         // Here you would make the API call to process the subscription
         router.post(route('subscriptions.store'), subscriptionData, {
             onSuccess: () => {
@@ -51,7 +57,7 @@ export default function Subscribe({ plan, activeModules, userActiveModules, bank
             },
             onError: (errors) => {
                 console.error('Subscription failed:', errors);
-            }
+            },
         });
     };
 
@@ -59,7 +65,7 @@ export default function Subscribe({ plan, activeModules, userActiveModules, bank
         <AuthenticatedLayout
             breadcrumbs={[
                 { label: t('Plans'), url: route('plans.index') },
-                { label: t('Subscribe to') + ' ' + plan.name }
+                { label: t('Subscribe to') + ' ' + plan.name },
             ]}
             pageTitle={t('Subscribe to Plan')}
         >
@@ -68,24 +74,24 @@ export default function Subscribe({ plan, activeModules, userActiveModules, bank
             <div className="space-y-6">
                 {/* Pricing Period Toggle */}
                 <div className="flex items-center justify-center">
-                    <div className="bg-muted dark:bg-card p-1 rounded-lg">
+                    <div className="rounded-lg bg-muted p-1 dark:bg-card">
                         <div className="flex items-center">
                             <button
                                 onClick={() => setPricingPeriod('monthly')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                                className={`rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 ${
                                     pricingPeriod === 'monthly'
-                                        ? 'bg-card dark:bg-muted text-foreground dark:text-foreground shadow-sm'
-                                        : 'text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-background'
+                                        ? 'bg-card text-foreground shadow-sm dark:bg-muted dark:text-foreground'
+                                        : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-background'
                                 }`}
                             >
                                 {t('Monthly')}
                             </button>
                             <button
                                 onClick={() => setPricingPeriod('yearly')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                                className={`rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 ${
                                     pricingPeriod === 'yearly'
-                                        ? 'bg-card dark:bg-muted text-foreground dark:text-foreground shadow-sm'
-                                        : 'text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-background'
+                                        ? 'bg-card text-foreground shadow-sm dark:bg-muted dark:text-foreground'
+                                        : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-background'
                                 }`}
                             >
                                 {t('Yearly')}

@@ -27,15 +27,35 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
     const [emailForm, setEmailForm] = useState({ to: '', subject: '', description: '' });
     const [discussionForm, setDiscussionForm] = useState({ message: '' });
 
-    const emailSubjectAI = useFormFields('aiField', emailForm, (field, value) => {
-        setEmailForm(prev => ({ ...prev, [field]: value }));
-    }, {}, 'create', 'subject', 'Subject', 'lead', 'deal_email');
+    const emailSubjectAI = useFormFields(
+        'aiField',
+        emailForm,
+        (field, value) => {
+            setEmailForm((prev) => ({ ...prev, [field]: value }));
+        },
+        {},
+        'create',
+        'subject',
+        'Subject',
+        'lead',
+        'deal_email'
+    );
 
     const [emailEditorKey, setEmailEditorKey] = useState(0);
-    const emailDescriptionAI = useFormFields('aiField', emailForm, (field, value) => {
-        setEmailForm(prev => ({ ...prev, [field]: value }));
-        setEmailEditorKey(prev => prev + 1);
-    }, {}, 'create', 'description', 'Description', 'lead', 'deal_email');
+    const emailDescriptionAI = useFormFields(
+        'aiField',
+        emailForm,
+        (field, value) => {
+            setEmailForm((prev) => ({ ...prev, [field]: value }));
+            setEmailEditorKey((prev) => prev + 1);
+        },
+        {},
+        'create',
+        'description',
+        'Description',
+        'lead',
+        'deal_email'
+    );
 
     const handleEmailSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,7 +63,7 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
             onSuccess: () => {
                 setEmailForm({ to: '', subject: '', description: '' });
                 setEmailModalOpen(false);
-            }
+            },
         });
     };
 
@@ -53,22 +73,26 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
             onSuccess: () => {
                 setDiscussionForm({ message: '' });
                 setDiscussionModalOpen(false);
-            }
+            },
         });
     };
 
     return (
         <div className="space-y-8">
             {/* Header Section */}
-            <div className="bg-gradient-to-r from-muted/50 to-muted/50 p-6 rounded-xl border border-border">
+            <div className="rounded-xl border border-border bg-gradient-to-r from-muted/50 to-muted/50 p-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <h1 className="text-3xl font-bold text-foreground">{deal.name}</h1>
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            deal.status === 'Won' ? 'bg-muted text-foreground' :
-                            deal.status === 'Loss' ? 'bg-muted text-destructive' :
-                            'bg-muted text-foreground'
-                        }`}>
+                        <span
+                            className={`rounded-full px-3 py-1 text-sm font-medium ${
+                                deal.status === 'Won'
+                                    ? 'bg-muted text-foreground'
+                                    : deal.status === 'Loss'
+                                      ? 'bg-muted text-destructive'
+                                      : 'bg-muted text-foreground'
+                            }`}
+                        >
                             {deal.status}
                         </span>
                     </div>
@@ -84,11 +108,7 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                         disabled={isChangingStatus}
                     >
                         <SelectTrigger className="w-36 bg-card shadow-sm">
-                            {isChangingStatus ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                                <SelectValue />
-                            )}
+                            {isChangingStatus ? <Loader2 className="h-4 w-4 animate-spin" /> : <SelectValue />}
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Won">{t('Won')}</SelectItem>
@@ -100,50 +120,63 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
-                    <div className="text-2xl font-bold text-foreground">{deal.price ? formatCurrency(deal.price) : formatCurrency(0)}</div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+                    <div className="text-2xl font-bold text-foreground">
+                        {deal.price ? formatCurrency(deal.price) : formatCurrency(0)}
+                    </div>
                     <div className="text-sm text-muted-foreground">{t('Deal Value')}</div>
                 </div>
-                <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
+                <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
                     <div className="text-2xl font-bold text-foreground">{deal.sources?.length || 0}</div>
                     <div className="text-sm text-muted-foreground">{t('Sources')}</div>
                 </div>
-                <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
+                <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
                     <div className="text-2xl font-bold text-foreground">{deal.products?.length || 0}</div>
                     <div className="text-sm text-muted-foreground">{t('Products')}</div>
                 </div>
-                <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
+                <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
                     <div className="text-2xl font-bold text-foreground">{deal.tasks?.length || 0}</div>
                     <div className="text-sm text-muted-foreground">{t('Tasks')}</div>
                 </div>
             </div>
 
             {/* Details Section */}
-            <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                <h3 className="text-lg font-semibold text-foreground mb-6">{t('Deal Information')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="mb-6 text-lg font-semibold text-foreground">{t('Deal Information')}</h3>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <div className="space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t('Pipeline')}</label>
+                        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t('Pipeline')}
+                        </label>
                         <p className="text-sm font-medium text-foreground">{deal.pipeline?.name || '-'}</p>
                     </div>
                     <div className="space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t('Stage')}</label>
+                        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t('Stage')}
+                        </label>
                         <p className="text-sm font-medium text-foreground">{deal.stage?.name || '-'}</p>
                     </div>
                     <div className="space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t('Creator')}</label>
+                        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t('Creator')}
+                        </label>
                         <p className="text-sm font-medium text-foreground">{deal.creator?.name || '-'}</p>
                     </div>
                     <div className="space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t('Created')}</label>
-                        <p className="text-sm font-medium text-foreground">{deal.created_at ? formatDateTime(deal.created_at) : '-'}</p>
+                        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t('Created')}
+                        </label>
+                        <p className="text-sm font-medium text-foreground">
+                            {deal.created_at ? formatDateTime(deal.created_at) : '-'}
+                        </p>
                     </div>
                     <div className="space-y-1">
-                        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t('Labels')}</label>
+                        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t('Labels')}
+                        </label>
                         <p className="text-sm font-medium text-foreground">
-                            <span className="inline-block bg-muted text-foreground text-xs px-2 py-1 rounded-full">
+                            <span className="inline-block rounded-full bg-muted px-2 py-1 text-xs text-foreground">
                                 {deal.labels ? deal.labels.split(',').length : 0} {t('Labels')}
                             </span>
                         </p>
@@ -152,14 +185,14 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
             </div>
 
             {/* Notes Section */}
-            <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                <h3 className="text-lg font-semibold text-foreground mb-4">{t('Notes')}</h3>
-                <div className="bg-muted/50 p-4 rounded-lg">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold text-foreground">{t('Notes')}</h3>
+                <div className="rounded-lg bg-muted/50 p-4">
                     <RichTextEditor
                         content={deal.notes || ''}
                         onChange={(content) => {
                             router.put(route('lead.deals.update', deal.id), {
-                                notes: content
+                                notes: content,
                             });
                         }}
                         placeholder={t('Add notes...')}
@@ -169,10 +202,10 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
             </div>
 
             {/* Emails and Discussions Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* Emails */}
-                <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                    <div className="mb-4 flex items-center justify-between">
                         <h3 className="text-lg font-semibold text-foreground">{t('Emails')}</h3>
                         <TooltipProvider>
                             <Tooltip delayDuration={0}>
@@ -187,7 +220,7 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                             </Tooltip>
                         </TooltipProvider>
                     </div>
-                    <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                    <div className="max-h-[400px] space-y-3 overflow-y-auto">
                         {deal.emails && deal.emails.length > 0 ? (
                             deal.emails?.map((email: any, index: number) => {
                                 const stripHtmlAndDecode = (html: string) => {
@@ -203,23 +236,37 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                                 };
                                 const cleanText = stripHtmlAndDecode(email.description);
                                 return (
-                                    <div key={index} className="bg-card border border-border rounded-lg p-4 shadow-sm">
-                                        <div className="flex items-center justify-between mb-3">
+                                    <div key={index} className="rounded-lg border border-border bg-card p-4 shadow-sm">
+                                        <div className="mb-3 flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                                                <div className="bg-muted p-1 rounded-full">
-                                                    <svg className="h-3 w-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                <div className="rounded-full bg-muted p-1">
+                                                    <svg
+                                                        className="h-3 w-3 text-muted-foreground"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                                        />
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-sm text-foreground">{email.to}</p>
-                                                    <p className="text-xs text-muted-foreground">{formatDateTime(email.created_at)}</p>
+                                                    <p className="text-sm font-medium text-foreground">{email.to}</p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {formatDateTime(email.created_at)}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="bg-card rounded-lg p-3 border border-border">
-                                            <h4 className="font-semibold text-foreground mb-2 text-sm">{email.subject}</h4>
-                                            <div className="text-xs text-foreground leading-relaxed whitespace-pre-wrap">
+                                        <div className="rounded-lg border border-border bg-card p-3">
+                                            <h4 className="mb-2 text-sm font-semibold text-foreground">
+                                                {email.subject}
+                                            </h4>
+                                            <div className="whitespace-pre-wrap text-xs leading-relaxed text-foreground">
                                                 {cleanText}
                                             </div>
                                         </div>
@@ -227,14 +274,14 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                                 );
                             })
                         ) : (
-                            <p className="text-muted-foreground text-sm text-center py-4">{t('No emails found')}</p>
+                            <p className="py-4 text-center text-sm text-muted-foreground">{t('No emails found')}</p>
                         )}
                     </div>
                 </div>
 
                 {/* Discussions */}
-                <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+                    <div className="mb-4 flex items-center justify-between">
                         <h3 className="text-lg font-semibold text-foreground">{t('Discussions')}</h3>
                         <TooltipProvider>
                             <Tooltip delayDuration={0}>
@@ -249,26 +296,40 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                             </Tooltip>
                         </TooltipProvider>
                     </div>
-                    <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                    <div className="max-h-[400px] space-y-3 overflow-y-auto">
                         {deal.discussions && deal.discussions.length > 0 ? (
                             deal.discussions?.map((discussion: any, index: number) => {
                                 return (
-                                    <div key={index} className="bg-card border border-border rounded-lg p-4 shadow-sm">
-                                        <div className="flex items-center justify-between mb-3">
+                                    <div key={index} className="rounded-lg border border-border bg-card p-4 shadow-sm">
+                                        <div className="mb-3 flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                                                <div className="bg-muted p-1 rounded-full">
-                                                    <svg className="h-3 w-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                                <div className="rounded-full bg-muted p-1">
+                                                    <svg
+                                                        className="h-3 w-3 text-muted-foreground"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                                        />
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-sm text-foreground">{discussion.creator?.name || 'Unknown User'}</p>
-                                                    <p className="text-xs text-muted-foreground">{formatDateTime(discussion.created_at)}</p>
+                                                    <p className="text-sm font-medium text-foreground">
+                                                        {discussion.creator?.name || 'Unknown User'}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {formatDateTime(discussion.created_at)}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="bg-card rounded-lg p-3 border border-border">
-                                            <div className="text-xs text-foreground leading-relaxed whitespace-pre-wrap">
+                                        <div className="rounded-lg border border-border bg-card p-3">
+                                            <div className="whitespace-pre-wrap text-xs leading-relaxed text-foreground">
                                                 {discussion.comment}
                                             </div>
                                         </div>
@@ -276,7 +337,9 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                                 );
                             })
                         ) : (
-                            <p className="text-muted-foreground text-sm text-center py-4">{t('No discussions found')}</p>
+                            <p className="py-4 text-center text-sm text-muted-foreground">
+                                {t('No discussions found')}
+                            </p>
                         )}
                     </div>
                 </div>
@@ -295,42 +358,48 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                                 id="to"
                                 type="email"
                                 value={emailForm.to}
-                                onChange={(e) => setEmailForm({...emailForm, to: e.target.value})}
+                                onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
                                 placeholder={t('Enter email address')}
                                 required
                             />
                         </div>
-                        <div className="flex gap-2 items-end">
+                        <div className="flex items-end gap-2">
                             <div className="flex-1">
                                 <Label htmlFor="subject">{t('Subject')}</Label>
                                 <Input
                                     id="subject"
                                     type="text"
                                     value={emailForm.subject}
-                                    onChange={(e) => setEmailForm({...emailForm, subject: e.target.value})}
+                                    onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
                                     placeholder={t('Enter subject')}
                                     required
                                 />
                             </div>
-                            {emailSubjectAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {emailSubjectAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                         <div>
-                            <div className="flex items-center justify-between mb-2">
+                            <div className="mb-2 flex items-center justify-between">
                                 <Label htmlFor="description">{t('Description')}</Label>
                                 <div className="flex gap-2">
-                                    {emailDescriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                                    {emailDescriptionAI?.map((field) => (
+                                        <div key={field.id}>{field.component}</div>
+                                    ))}
                                 </div>
                             </div>
                             <RichTextEditor
                                 key={`email-editor-${emailEditorKey}`}
                                 content={emailForm.description}
-                                onChange={(content) => setEmailForm({...emailForm, description: content})}
+                                onChange={(content) => setEmailForm({ ...emailForm, description: content })}
                                 placeholder={t('Enter email content')}
                                 className="mt-1"
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Send Email')}</Button>
                         </div>
                     </form>
@@ -349,14 +418,16 @@ export default function General({ deal, onStatusChange }: GeneralProps) {
                             <Textarea
                                 id="message"
                                 value={discussionForm.message}
-                                onChange={(e) => setDiscussionForm({...discussionForm, message: e.target.value})}
+                                onChange={(e) => setDiscussionForm({ ...discussionForm, message: e.target.value })}
                                 placeholder={t('Enter your message')}
                                 rows={4}
                                 required
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Save')}</Button>
                         </div>
                     </form>

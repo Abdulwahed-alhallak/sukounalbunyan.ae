@@ -1,9 +1,6 @@
 import { TrendingUp, Target, Users, MessageSquare, Award, BarChart3 } from 'lucide-react';
 
-
-
 export const performanceCompanyMenu = (t: (key: string) => string) => [
-   
     {
         title: t('Performance'),
         icon: TrendingUp,

@@ -5,16 +5,16 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { usePageButtons } from '@/hooks/usePageButtons';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, CheckCircle, Check, XCircle } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, Eye, CheckCircle, Check, XCircle } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { formatCurrency, formatDate } from '@/utils/helpers';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
@@ -50,8 +50,8 @@ interface PurchaseReturnIndexProps {
         links: any[];
         meta: any;
     };
-    vendors: Array<{id: number; name: string; email: string}>;
-    warehouses: Array<{id: number; name: string}>;
+    vendors: Array<{ id: number; name: string; email: string }>;
+    warehouses: Array<{ id: number; name: string }>;
     filters: PurchaseReturnFilters;
     auth: any;
     [key: string]: any;
@@ -67,21 +67,20 @@ export default function Index() {
         vendor_id: initialFilters?.vendor_id || urlParams.get('vendor_id') || '',
         status: initialFilters?.status || urlParams.get('status') || '',
         date_range: initialFilters?.date_range || urlParams.get('date_range') || '',
-        warehouse_id: initialFilters?.warehouse_id || urlParams.get('warehouse_id') || ''
+        warehouse_id: initialFilters?.warehouse_id || urlParams.get('warehouse_id') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
-
 
     const pageButtons = usePageButtons('purchaseReturnBtn', 'Purchase Return data');
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'purchase-returns.destroy',
-        defaultMessage: t('Are you sure you want to delete this purchase return?')
+        defaultMessage: t('Are you sure you want to delete this purchase return?'),
     });
 
     const getStatusBadgeClasses = (status: string) => {
@@ -89,31 +88,39 @@ export default function Index() {
             draft: 'bg-muted text-foreground',
             approved: 'bg-muted text-foreground',
             completed: 'bg-muted text-foreground',
-            cancelled: 'bg-muted text-destructive'
+            cancelled: 'bg-muted text-destructive',
         };
         return `px-2 py-1 rounded-full text-sm ${colors[status as keyof typeof colors]}`;
     };
 
     const handleFilter = () => {
-        router.get(route('purchase-returns.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('purchase-returns.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('purchase-returns.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('purchase-returns.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ search: '', vendor_id: '', status: '', date_range: '', warehouse_id: '' });
-        router.get(route('purchase-returns.index'), {per_page: perPage, view: viewMode});
+        router.get(route('purchase-returns.index'), { per_page: perPage, view: viewMode });
     };
 
     const tableColumns = [
@@ -123,32 +130,37 @@ export default function Index() {
             sortable: true,
             render: (value: string, returnItem: PurchaseReturn) =>
                 auth.user?.permissions?.includes('view-purchase-return-invoices') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('purchase-returns.show', returnItem.id))}>{value}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => router.get(route('purchase-returns.show', returnItem.id))}
+                    >
+                        {value}
+                    </span>
                 ) : (
                     value
-                )
+                ),
         },
         {
             key: 'vendor',
             header: t('Vendor'),
-            render: (value: any) => value?.name || '-'
+            render: (value: any) => value?.name || '-',
         },
         {
             key: 'warehouse',
             header: t('Warehouse'),
-            render: (value: any) => value?.name || '-'
+            render: (value: any) => value?.name || '-',
         },
         {
             key: 'return_date',
             header: t('Return Date'),
             sortable: true,
-            render: (value: string) => formatDate(value)
+            render: (value: string) => formatDate(value),
         },
         {
             key: 'total_amount',
             header: t('Total Amount'),
             sortable: true,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'items',
@@ -162,12 +174,12 @@ export default function Index() {
                         </div>
                     ))}
                     {returnItem.items && returnItem.items.length > 2 && (
-                        <div className="text-xs text-muted-foreground mt-1">
+                        <div className="mt-1 text-xs text-muted-foreground">
                             +{returnItem.items.length - 2} more items
                         </div>
                     )}
                 </div>
-            )
+            ),
         },
 
         {
@@ -178,100 +190,118 @@ export default function Index() {
                 <span className={getStatusBadgeClasses(value)}>
                     {t(value.charAt(0).toUpperCase() + value.slice(1))}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-purchase-return-invoices', 'delete-purchase-return-invoices', 'approve-purchase-returns-invoices'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, returnItem: PurchaseReturn) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {returnItem.status === 'draft' && (
-                            <>
-                            {auth.user?.permissions?.includes('approve-purchase-returns-invoices') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => router.post(route('purchase-returns.approve', returnItem.id))}
-                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                                        >
-                                            <CheckCircle className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Approve Return')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            </>
-                        )}
-                        {returnItem.status === 'approved' && auth.user?.permissions?.includes('complete-purchase-returns-invoices') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => router.post(route('purchase-returns.complete', returnItem.id))}
-                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                    >
-                                        <Check className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Complete Return')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-purchase-return-invoices') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => router.get(route('purchase-returns.show', returnItem.id))}
-                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                    >
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {returnItem.status === 'draft' && (
-                            <>
-                                {auth.user?.permissions?.includes('delete-purchase-return-invoices') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => openDeleteDialog(returnItem.id)}
-                                                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Delete')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                            </>
-                        )}
-
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            [
+                'view-purchase-return-invoices',
+                'delete-purchase-return-invoices',
+                'approve-purchase-returns-invoices',
+            ].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, returnItem: PurchaseReturn) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {returnItem.status === 'draft' && (
+                                      <>
+                                          {auth.user?.permissions?.includes('approve-purchase-returns-invoices') && (
+                                              <Tooltip delayDuration={0}>
+                                                  <TooltipTrigger asChild>
+                                                      <Button
+                                                          variant="ghost"
+                                                          size="sm"
+                                                          onClick={() =>
+                                                              router.post(
+                                                                  route('purchase-returns.approve', returnItem.id)
+                                                              )
+                                                          }
+                                                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                      >
+                                                          <CheckCircle className="h-4 w-4" />
+                                                      </Button>
+                                                  </TooltipTrigger>
+                                                  <TooltipContent>
+                                                      <p>{t('Approve Return')}</p>
+                                                  </TooltipContent>
+                                              </Tooltip>
+                                          )}
+                                      </>
+                                  )}
+                                  {returnItem.status === 'approved' &&
+                                      auth.user?.permissions?.includes('complete-purchase-returns-invoices') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() =>
+                                                          router.post(route('purchase-returns.complete', returnItem.id))
+                                                      }
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <Check className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Complete Return')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  {auth.user?.permissions?.includes('view-purchase-return-invoices') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() =>
+                                                      router.get(route('purchase-returns.show', returnItem.id))
+                                                  }
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {returnItem.status === 'draft' && (
+                                      <>
+                                          {auth.user?.permissions?.includes('delete-purchase-return-invoices') && (
+                                              <Tooltip delayDuration={0}>
+                                                  <TooltipTrigger asChild>
+                                                      <Button
+                                                          variant="ghost"
+                                                          size="sm"
+                                                          onClick={() => openDeleteDialog(returnItem.id)}
+                                                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                      >
+                                                          <Trash2 className="h-4 w-4" />
+                                                      </Button>
+                                                  </TooltipTrigger>
+                                                  <TooltipContent>
+                                                      <p>{t('Delete')}</p>
+                                                  </TooltipContent>
+                                              </Tooltip>
+                                          )}
+                                      </>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Purchase Returns')}]}
+            breadcrumbs={[{ label: t('Purchase Returns') }]}
             pageTitle={t('Manage Purchase Returns')}
             pageActions={
                 <div className="flex gap-2">
@@ -298,12 +328,12 @@ export default function Index() {
             <Head title={t('Purchase Returns')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.search || ''}
-                                onChange={(value) => setFilters({...filters, search: value})}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search by return number...')}
                             />
@@ -312,23 +342,27 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="purchase-returns.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="purchase-returns.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.vendor_id, filters.status, filters.date_range, filters.warehouse_id].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.vendor_id,
+                                        filters.status,
+                                        filters.date_range,
+                                        filters.warehouse_id,
+                                    ].filter(Boolean).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -337,12 +371,17 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
                             {auth.user?.permissions?.includes('manage-users') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Vendor')}</label>
-                                    <Select value={filters.vendor_id} onValueChange={(value) => setFilters({...filters, vendor_id: value})}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Vendor')}
+                                    </label>
+                                    <Select
+                                        value={filters.vendor_id}
+                                        onValueChange={(value) => setFilters({ ...filters, vendor_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by vendor')} />
                                         </SelectTrigger>
@@ -358,8 +397,13 @@ export default function Index() {
                             )}
                             {auth.user?.permissions?.includes('manage-warehouses') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Warehouse')}</label>
-                                    <Select value={filters.warehouse_id} onValueChange={(value) => setFilters({...filters, warehouse_id: value})}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Warehouse')}
+                                    </label>
+                                    <Select
+                                        value={filters.warehouse_id}
+                                        onValueChange={(value) => setFilters({ ...filters, warehouse_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by warehouse')} />
                                         </SelectTrigger>
@@ -374,8 +418,11 @@ export default function Index() {
                                 </div>
                             )}
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by status')} />
                                     </SelectTrigger>
@@ -387,16 +434,22 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DateRangePicker
                                     value={filters.date_range}
-                                    onChange={(value) => setFilters({...filters, date_range: value})}
+                                    onChange={(value) => setFilters({ ...filters, date_range: value })}
                                     placeholder={t('Select date range')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -404,7 +457,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={returns.data}
@@ -418,7 +471,15 @@ export default function Index() {
                                             icon={XCircle}
                                             title={t('No purchase returns found')}
                                             description={t('Get started by creating your first purchase return.')}
-                                            hasFilters={!!(filters.search || filters.vendor_id || filters.status || filters.warehouse_id || filters.date_range)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.search ||
+                                                    filters.vendor_id ||
+                                                    filters.status ||
+                                                    filters.warehouse_id ||
+                                                    filters.date_range
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-purchase-return-invoices"
                                             onCreateClick={() => router.visit(route('purchase-returns.create'))}
@@ -430,115 +491,215 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {returns.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {returns.data.map((returnItem) => (
-                                        <Card key={returnItem.id} className="border border-border flex flex-col">
-                                            <div className="p-4 flex-1">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    {auth.user?.permissions?.includes('view-purchase-return-invoices') ? (
-                                                        <h3 className="font-semibold text-base text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('purchase-returns.show', returnItem.id))}>{returnItem.return_number}</h3>
+                                        <Card key={returnItem.id} className="flex flex-col border border-border">
+                                            <div className="flex-1 p-4">
+                                                <div className="mb-3 flex items-center justify-between">
+                                                    {auth.user?.permissions?.includes(
+                                                        'view-purchase-return-invoices'
+                                                    ) ? (
+                                                        <h3
+                                                            className="cursor-pointer text-base font-semibold text-foreground hover:text-foreground"
+                                                            onClick={() =>
+                                                                router.get(
+                                                                    route('purchase-returns.show', returnItem.id)
+                                                                )
+                                                            }
+                                                        >
+                                                            {returnItem.return_number}
+                                                        </h3>
                                                     ) : (
-                                                        <h3 className="font-semibold text-base text-foreground">{returnItem.return_number}</h3>
+                                                        <h3 className="text-base font-semibold text-foreground">
+                                                            {returnItem.return_number}
+                                                        </h3>
                                                     )}
                                                     <span className={getStatusBadgeClasses(returnItem.status)}>
-                                                        {t(returnItem.status.charAt(0).toUpperCase() + returnItem.status.slice(1))}
+                                                        {t(
+                                                            returnItem.status.charAt(0).toUpperCase() +
+                                                                returnItem.status.slice(1)
+                                                        )}
                                                     </span>
                                                 </div>
 
-                                                <div className="space-y-2 mb-4">
+                                                <div className="mb-4 space-y-2">
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Vendor')}</p>
-                                                            <p className="text-sm text-foreground truncate font-medium">{returnItem.vendor?.name}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Vendor')}
+                                                            </p>
+                                                            <p className="truncate text-sm font-medium text-foreground">
+                                                                {returnItem.vendor?.name}
+                                                            </p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1 text-end">{t('Return Date')}</p>
-                                                            <p className="text-xs text-foreground text-end">{formatDate(returnItem.return_date)}</p>
+                                                            <p className="mb-1 text-end text-xs font-medium text-muted-foreground">
+                                                                {t('Return Date')}
+                                                            </p>
+                                                            <p className="text-end text-xs text-foreground">
+                                                                {formatDate(returnItem.return_date)}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     {returnItem.warehouse && (
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Warehouse')}</p>
-                                                            <p className="text-xs text-foreground">{returnItem.warehouse.name}</p>
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Warehouse')}
+                                                            </p>
+                                                            <p className="text-xs text-foreground">
+                                                                {returnItem.warehouse.name}
+                                                            </p>
                                                         </div>
                                                     )}
 
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Items')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Items')}
+                                                        </p>
                                                         <div className="text-xs text-foreground">
-                                                            {returnItem.items?.slice(0, 2).map((item: any, index: number) => (
-                                                                <div key={index} className="flex justify-between">
-                                                                    <span className="truncate">{item.product?.name}</span>
-                                                                    <span className="ml-2 text-muted-foreground">×{item.return_quantity}</span>
-                                                                </div>
-                                                            ))}
+                                                            {returnItem.items
+                                                                ?.slice(0, 2)
+                                                                .map((item: any, index: number) => (
+                                                                    <div key={index} className="flex justify-between">
+                                                                        <span className="truncate">
+                                                                            {item.product?.name}
+                                                                        </span>
+                                                                        <span className="ml-2 text-muted-foreground">
+                                                                            ×{item.return_quantity}
+                                                                        </span>
+                                                                    </div>
+                                                                ))}
                                                             {returnItem.items && returnItem.items.length > 2 && (
-                                                                <div className="text-xs text-muted-foreground mt-1">
+                                                                <div className="mt-1 text-xs text-muted-foreground">
                                                                     +{returnItem.items.length - 2} more items
                                                                 </div>
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div className="bg-muted/50 rounded-lg p-3">
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-sm font-semibold text-foreground">{t('Total Amount')}</span>
-                                                            <span className="text-lg font-bold text-foreground">{formatCurrency(returnItem.total_amount)}</span>
+                                                    <div className="rounded-lg bg-muted/50 p-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {t('Total Amount')}
+                                                            </span>
+                                                            <span className="text-lg font-bold text-foreground">
+                                                                {formatCurrency(returnItem.total_amount)}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div className="flex items-center justify-between p-3 border-t bg-muted/50/50">
+                                            <div className="bg-muted/50/50 flex items-center justify-between border-t p-3">
                                                 <div className="flex gap-1">
                                                     <TooltipProvider>
-                                                        {returnItem.status === 'draft' && auth.user?.permissions?.includes('approve-purchase-returns-invoices') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button variant="ghost" size="sm" onClick={() => router.post(route('purchase-returns.approve', returnItem.id))} className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-                                                                        <CheckCircle className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent><p>{t('Approve Return')}</p></TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {returnItem.status === 'approved' && auth.user?.permissions?.includes('complete-purchase-returns-invoices') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button variant="ghost" size="sm" onClick={() => router.post(route('purchase-returns.complete', returnItem.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                                                        <Check className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent><p>{t('Complete Return')}</p></TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-
+                                                        {returnItem.status === 'draft' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'approve-purchase-returns-invoices'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'purchase-returns.approve',
+                                                                                        returnItem.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                                                        >
+                                                                            <CheckCircle className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Approve Return')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {returnItem.status === 'approved' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'complete-purchase-returns-invoices'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'purchase-returns.complete',
+                                                                                        returnItem.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
+                                                                            <Check className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Complete Return')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
                                                     </TooltipProvider>
                                                 </div>
                                                 <div className="flex gap-1">
                                                     <TooltipProvider>
-                                                        {auth.user?.permissions?.includes('view-purchase-return-invoices') && (
+                                                        {auth.user?.permissions?.includes(
+                                                            'view-purchase-return-invoices'
+                                                        ) && (
                                                             <Tooltip delayDuration={0}>
                                                                 <TooltipTrigger asChild>
-                                                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('purchase-returns.show', returnItem.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        onClick={() =>
+                                                                            router.get(
+                                                                                route(
+                                                                                    'purchase-returns.show',
+                                                                                    returnItem.id
+                                                                                )
+                                                                            )
+                                                                        }
+                                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                    >
                                                                         <Eye className="h-4 w-4" />
                                                                     </Button>
                                                                 </TooltipTrigger>
-                                                                <TooltipContent><p>{t('View')}</p></TooltipContent>
+                                                                <TooltipContent>
+                                                                    <p>{t('View')}</p>
+                                                                </TooltipContent>
                                                             </Tooltip>
                                                         )}
 
-                                                         {returnItem.status === 'draft' && auth.user?.permissions?.includes('delete-purchase-return-invoices') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button variant="ghost" size="sm" onClick={() => openDeleteDialog(returnItem.id)} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
-                                                                        <Trash2 className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent><p>{t('Delete')}</p></TooltipContent>
-                                                            </Tooltip>
-                                                        )}
+                                                        {returnItem.status === 'draft' &&
+                                                            auth.user?.permissions?.includes(
+                                                                'delete-purchase-return-invoices'
+                                                            ) && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(returnItem.id)
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                                        >
+                                                                            <Trash2 className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Delete')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
                                                     </TooltipProvider>
                                                 </div>
                                             </div>
@@ -550,7 +711,15 @@ export default function Index() {
                                     icon={XCircle}
                                     title={t('No purchase returns found')}
                                     description={t('Get started by creating your first purchase return.')}
-                                    hasFilters={!!(filters.search || filters.vendor_id || filters.status || filters.warehouse_id || filters.date_range)}
+                                    hasFilters={
+                                        !!(
+                                            filters.search ||
+                                            filters.vendor_id ||
+                                            filters.status ||
+                                            filters.warehouse_id ||
+                                            filters.date_range
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-purchase-return-invoices"
                                     onCreateClick={() => router.visit(route('purchase-returns.create'))}
@@ -561,11 +730,11 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={{...returns, ...returns.meta}}
+                        data={{ ...returns, ...returns.meta }}
                         routeName="purchase-returns.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>

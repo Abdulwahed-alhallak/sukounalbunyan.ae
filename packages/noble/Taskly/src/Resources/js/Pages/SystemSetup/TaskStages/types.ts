@@ -14,10 +14,12 @@ export interface TaskStageFormData {
     [key: string]: any;
 }
 
-export interface CreateTaskStageProps extends CreateProps  {[key: string]: any;
+export interface CreateTaskStageProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditTaskStageProps extends EditProps<TaskStage>  {[key: string]: any;
+export interface EditTaskStageProps extends EditProps<TaskStage> {
+    [key: string]: any;
 }
 
 export type PaginatedTaskStages = PaginatedData<TaskStage>;

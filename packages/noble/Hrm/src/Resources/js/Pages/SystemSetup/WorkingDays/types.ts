@@ -3,7 +3,7 @@ export interface WorkingDaysIndexProps {
     auth: {
         user: {
             permissions: string[];
-    [key: string]: any;
-};
+            [key: string]: any;
+        };
     };
 }

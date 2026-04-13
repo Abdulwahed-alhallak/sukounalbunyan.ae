@@ -1,15 +1,15 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import InputError from '@/components/ui/input-error';
-import { Save } from "lucide-react";
+import { Save } from 'lucide-react';
 import { IconPicker } from '@/components/ui/icon-picker';
-import SystemSetupSidebar from "../SystemSetupSidebar";
+import SystemSetupSidebar from '../SystemSetupSidebar';
 
 interface DashboardWelcomeCardFormData {
     card_title: string;
@@ -26,9 +26,8 @@ export default function DashboardWelcomeCard() {
         card_title: dashboardWelcomeCard?.card_title || '',
         card_description: dashboardWelcomeCard?.card_description || '',
         button_text: dashboardWelcomeCard?.button_text || '',
-        button_icon: dashboardWelcomeCard?.button_icon || ''
+        button_icon: dashboardWelcomeCard?.button_icon || '',
     });
-
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,7 +39,7 @@ export default function DashboardWelcomeCard() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('Dashboard Welcome Card Settings') }
+                { label: t('Dashboard Welcome Card Settings') },
             ]}
             pageTitle={t('System Setup')}
         >
@@ -53,10 +52,12 @@ export default function DashboardWelcomeCard() {
                 <div className="flex-1">
                     <Card>
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <div>
                                     <h3 className="text-lg font-medium">{t('Dashboard Welcome Card Settings')}</h3>
-                                    <p className="text-sm text-muted-foreground mt-1">{t('Configure the title and description for the dashboard welcome card')}</p>
+                                    <p className="mt-1 text-sm text-muted-foreground">
+                                        {t('Configure the title and description for the dashboard welcome card')}
+                                    </p>
                                 </div>
                             </div>
 
@@ -86,7 +87,7 @@ export default function DashboardWelcomeCard() {
                                     <InputError message={errors.card_description} />
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="button_text">{t('Button Text')}</Label>
                                         <Input
@@ -100,7 +101,9 @@ export default function DashboardWelcomeCard() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="button_icon" required>{t('Button Icon')}</Label>
+                                        <Label htmlFor="button_icon" required>
+                                            {t('Button Icon')}
+                                        </Label>
                                         <IconPicker
                                             value={data.button_icon}
                                             onChange={(icon) => setData('button_icon', icon)}
@@ -112,7 +115,7 @@ export default function DashboardWelcomeCard() {
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={processing}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>

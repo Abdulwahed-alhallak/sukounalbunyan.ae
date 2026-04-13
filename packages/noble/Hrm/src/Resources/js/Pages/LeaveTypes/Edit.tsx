@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditLeaveType({ leavetype, onSuccess }: EditLeaveTypeProps) {
-    const { } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditLeaveTypeFormData>({
@@ -24,14 +24,12 @@ export default function EditLeaveType({ leavetype, onSuccess }: EditLeaveTypePro
         color: leavetype.color ?? '#FF6B6B',
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.leave-types.update', leavetype.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -55,7 +53,9 @@ export default function EditLeaveType({ leavetype, onSuccess }: EditLeaveTypePro
                 </div>
 
                 <div>
-                    <Label htmlFor="max_days_per_year" required>{t('Max Days Per Year')}</Label>
+                    <Label htmlFor="max_days_per_year" required>
+                        {t('Max Days Per Year')}
+                    </Label>
                     <Input
                         id="max_days_per_year"
                         type="number"
@@ -75,19 +75,23 @@ export default function EditLeaveType({ leavetype, onSuccess }: EditLeaveTypePro
                         checked={data.is_paid || false}
                         onCheckedChange={(checked) => setData('is_paid', !!checked)}
                     />
-                    <Label htmlFor="is_paid" className="cursor-pointer">{t('Is Paid')}</Label>
+                    <Label htmlFor="is_paid" className="cursor-pointer">
+                        {t('Is Paid')}
+                    </Label>
                     <InputError message={errors.is_paid} />
                 </div>
 
                 <div>
-                    <Label htmlFor="color" required>{t('Color')}</Label>
-                    <div className="flex gap-2 mt-1">
+                    <Label htmlFor="color" required>
+                        {t('Color')}
+                    </Label>
+                    <div className="mt-1 flex gap-2">
                         <Input
                             id="color"
                             type="color"
                             value={data.color}
                             onChange={(e) => setData('color', e.target.value)}
-                            className="w-16 h-10 p-1 border rounded"
+                            className="h-10 w-16 rounded border p-1"
                         />
                         <Input
                             type="text"
@@ -111,8 +115,6 @@ export default function EditLeaveType({ leavetype, onSuccess }: EditLeaveTypePro
                     />
                     <InputError message={errors.description} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

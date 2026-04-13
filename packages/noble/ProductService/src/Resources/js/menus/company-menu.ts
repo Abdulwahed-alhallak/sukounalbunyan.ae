@@ -1,7 +1,5 @@
 import { Layers } from 'lucide-react';
 
-
-
 export const productserviceCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Product & Service'),

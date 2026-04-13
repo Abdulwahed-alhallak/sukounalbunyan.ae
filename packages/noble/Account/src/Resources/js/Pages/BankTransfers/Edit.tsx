@@ -30,24 +30,32 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
         transfer_amount: banktransfer.transfer_amount.toString(),
         transfer_charges: banktransfer.transfer_charges.toString(),
         reference_number: banktransfer.reference_number || '',
-        description: banktransfer.description
+        description: banktransfer.description,
     });
 
     // AI hooks for description field
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'account', 'bank_transfer');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'account',
+        'bank_transfer'
+    );
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('account.bank-transfers.update', banktransfer.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
-    const availableToAccounts = bankaccounts.filter(account =>
-        account.id.toString() !== data.from_account_id
-    );
+    const availableToAccounts = bankaccounts.filter((account) => account.id.toString() !== data.from_account_id);
 
     return (
         <DialogContent className="max-w-md">
@@ -67,7 +75,9 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="from_account_id" required>{t('From Account')}</Label>
+                    <Label htmlFor="from_account_id" required>
+                        {t('From Account')}
+                    </Label>
                     <Select
                         value={data.from_account_id}
                         onValueChange={(value) => {
@@ -81,7 +91,7 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
                             <SelectValue placeholder={t('Select source account')} />
                         </SelectTrigger>
                         <SelectContent>
-                            {bankaccounts?.map(account => (
+                            {bankaccounts?.map((account) => (
                                 <SelectItem key={account.id} value={account.id.toString()}>
                                     {account.account_name} ({formatCurrency(account.current_balance)})
                                 </SelectItem>
@@ -92,16 +102,15 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="to_account_id" required>{t('To Account')}</Label>
-                    <Select
-                        value={data.to_account_id}
-                        onValueChange={(value) => setData('to_account_id', value)}
-                    >
+                    <Label htmlFor="to_account_id" required>
+                        {t('To Account')}
+                    </Label>
+                    <Select value={data.to_account_id} onValueChange={(value) => setData('to_account_id', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select destination account')} />
                         </SelectTrigger>
                         <SelectContent>
-                            {availableToAccounts?.map(account => (
+                            {availableToAccounts?.map((account) => (
                                 <SelectItem key={account.id} value={account.id.toString()}>
                                     {account.account_name}
                                 </SelectItem>
@@ -112,7 +121,9 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="transfer_amount" required>{t('Transfer Amount')}</Label>
+                    <Label htmlFor="transfer_amount" required>
+                        {t('Transfer Amount')}
+                    </Label>
                     <CurrencyInput
                         value={data.transfer_amount}
                         onChange={(value) => setData('transfer_amount', value)}
@@ -142,10 +153,12 @@ export default function Edit({ banktransfer, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea

@@ -1,13 +1,26 @@
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 import { BarChart3, TrendingUp, DollarSign } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    PieChart,
+    Pie,
+    Cell,
+    LineChart,
+    Line,
+} from 'recharts';
 
 interface SalesReportProps {
     salesData: {
@@ -31,20 +44,17 @@ export default function SalesReport({ salesData, dailySales, monthlySales, wareh
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('POS'), url: route('pos.index') },
-                { label: t('Sales Report') }
-            ]}
+            breadcrumbs={[{ label: t('POS'), url: route('pos.index') }, { label: t('Sales Report') }]}
             pageTitle={t('Sales Report')}
         >
             <Head title={t('Sales Report')} />
 
             <Tabs defaultValue="daily" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="daily">{t('Daily Sales')}</TabsTrigger>
-                        <TabsTrigger value="monthly">{t('Monthly Sales')}</TabsTrigger>
-                        <TabsTrigger value="warehouse">{t('Warehouse Sales')}</TabsTrigger>
-                    </TabsList>
+                <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="daily">{t('Daily Sales')}</TabsTrigger>
+                    <TabsTrigger value="monthly">{t('Monthly Sales')}</TabsTrigger>
+                    <TabsTrigger value="warehouse">{t('Warehouse Sales')}</TabsTrigger>
+                </TabsList>
 
                 <TabsContent value="daily" className="space-y-6">
                     <Card>

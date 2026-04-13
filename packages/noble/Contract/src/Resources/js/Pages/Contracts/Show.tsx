@@ -1,17 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router, Link, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { usePageButtons } from '@/hooks/usePageButtons';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
-import { FileText, Calendar, User, DollarSign, Edit, Paperclip, MessageSquare, StickyNote, RefreshCw, PenTool, Eye, CheckCircle, Save, X } from 'lucide-react';
+import {
+    FileText,
+    Calendar,
+    User,
+    DollarSign,
+    Edit,
+    Paperclip,
+    MessageSquare,
+    StickyNote,
+    RefreshCw,
+    PenTool,
+    Eye,
+    CheckCircle,
+    Save,
+    X,
+} from 'lucide-react';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Contract, ContractShowProps } from './types';
 import { formatCurrency, formatDate, formatDateTime } from '@/utils/helpers';
@@ -68,9 +88,13 @@ export default function Show() {
     const { t } = useTranslation();
     const { contract, auth } = usePage<ContractShowProps>().props;
 
-
     const [activeTab, setActiveTab] = useState('details');
-    const [deleteConfig, setDeleteConfig] = useState<{ type: string, id: number, route: string, message: string } | null>(null);
+    const [deleteConfig, setDeleteConfig] = useState<{
+        type: string;
+        id: number;
+        route: string;
+        message: string;
+    } | null>(null);
     const [showSignatureModal, setShowSignatureModal] = useState(false);
     const [isEditingDescription, setIsEditingDescription] = useState(false);
 
@@ -82,16 +106,20 @@ export default function Show() {
         start_date: contract.start_date || '',
         end_date: contract.end_date || '',
         description: contract.description || '',
-        status: contract.status || 'pending'
+        status: contract.status || 'pending',
     });
 
     const spreadsheetButtons = usePageButtons('spreadsheetBtn', { module: 'Contract', sub_module: contract.subject });
-    const businessProcessMappingButtons = usePageButtons('businessProcessMappingBtn', { module: 'Contract', submodule: 'Contract', id: contract.id });
+    const businessProcessMappingButtons = usePageButtons('businessProcessMappingBtn', {
+        module: 'Contract',
+        submodule: 'Contract',
+        id: contract.id,
+    });
 
     const handleDeleteConfirm = () => {
         if (deleteConfig) {
             router.delete(route(deleteConfig.route, deleteConfig.id), {
-                onSuccess: () => router.reload()
+                onSuccess: () => router.reload(),
             });
             setDeleteConfig(null);
         }
@@ -102,7 +130,7 @@ export default function Show() {
             onSuccess: () => {
                 setIsEditingDescription(false);
                 router.reload();
-            }
+            },
         });
     };
 
@@ -115,39 +143,45 @@ export default function Show() {
             start_date: contract.start_date || '',
             end_date: contract.end_date || '',
             description: contract.description || '',
-            status: contract.status || 'pending'
+            status: contract.status || 'pending',
         });
         setIsEditingDescription(false);
     };
 
     // Permission checks for tabs
-    const canViewAttachments = auth.user?.permissions?.includes('manage-any-contract-attachments') || auth.user?.permissions?.includes('manage-own-contract-attachments');
-    const canViewComments = auth.user?.permissions?.includes('manage-any-contract-comments') || auth.user?.permissions?.includes('manage-own-contract-comments');
-    const canViewNotes = auth.user?.permissions?.includes('manage-any-contract-notes') || auth.user?.permissions?.includes('manage-own-contract-notes');
-    const canViewRenewals = auth.user?.permissions?.includes('manage-any-contract-renewals') || auth.user?.permissions?.includes('manage-own-contract-renewals');
+    const canViewAttachments =
+        auth.user?.permissions?.includes('manage-any-contract-attachments') ||
+        auth.user?.permissions?.includes('manage-own-contract-attachments');
+    const canViewComments =
+        auth.user?.permissions?.includes('manage-any-contract-comments') ||
+        auth.user?.permissions?.includes('manage-own-contract-comments');
+    const canViewNotes =
+        auth.user?.permissions?.includes('manage-any-contract-notes') ||
+        auth.user?.permissions?.includes('manage-own-contract-notes');
+    const canViewRenewals =
+        auth.user?.permissions?.includes('manage-any-contract-renewals') ||
+        auth.user?.permissions?.includes('manage-own-contract-renewals');
 
     // Calculate visible tabs count for grid layout
-    const visibleTabsCount = 1 + (canViewAttachments ? 1 : 0) + (canViewComments ? 1 : 0) + (canViewNotes ? 1 : 0) + (canViewRenewals ? 1 : 0);
+    const visibleTabsCount =
+        1 +
+        (canViewAttachments ? 1 : 0) +
+        (canViewComments ? 1 : 0) +
+        (canViewNotes ? 1 : 0) +
+        (canViewRenewals ? 1 : 0);
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Contract'), url: route('contract.index') },
-                { label: contract.contract_number }
-            ]}
+            breadcrumbs={[{ label: t('Contract'), url: route('contract.index') }, { label: contract.contract_number }]}
             pageTitle={t('Details Contract')}
             pageActions={
                 <TooltipProvider>
                     <div className="flex gap-2">
                         {spreadsheetButtons?.map((button) => (
-                            <div key={button.id}>
-                                {button.component}
-                            </div>
+                            <div key={button.id}>{button.component}</div>
                         ))}
                         {businessProcessMappingButtons?.map((button) => (
-                            <div key={button.id}>
-                                {button.component}
-                            </div>
+                            <div key={button.id}>{button.component}</div>
                         ))}
 
                         {auth.user?.permissions?.includes('preview-contracts') && (
@@ -169,14 +203,10 @@ export default function Show() {
 
                         <ContractPDFExport contract={contract} />
 
-                        {!contract.signatures?.some(sig => sig.user.id === auth.user?.id) && (
+                        {!contract.signatures?.some((sig) => sig.user.id === auth.user?.id) && (
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => setShowSignatureModal(true)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => setShowSignatureModal(true)}>
                                         <PenTool className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
@@ -185,8 +215,6 @@ export default function Show() {
                                 </TooltipContent>
                             </Tooltip>
                         )}
-
-
                     </div>
                 </TooltipProvider>
             }
@@ -194,17 +222,17 @@ export default function Show() {
             <Head title={`${t('Details Contract')} - ${contract.subject}`} />
 
             <div className="space-y-6">
-                <Card className="border-0 shadow-lg bg-gradient-to-r from-white to-muted/50">
+                <Card className="border-0 bg-gradient-to-r from-white to-muted/50 shadow-lg">
                     <CardHeader className="pb-8">
-                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                             <div className="flex-1 space-y-4">
                                 <CardTitle className="flex items-center gap-4 text-2xl">
-                                    <div className="p-3 bg-foreground/15 rounded-xl shadow-sm">
+                                    <div className="rounded-xl bg-foreground/15 p-3 shadow-sm">
                                         <FileText className="h-6 w-6 text-foreground" />
                                     </div>
                                     <div className="flex flex-col">
                                         <span className="font-bold text-foreground">{contract.subject}</span>
-                                        <span className="text-sm font-normal text-muted-foreground mt-1">
+                                        <span className="mt-1 text-sm font-normal text-muted-foreground">
                                             {contract.contract_number}
                                         </span>
                                     </div>
@@ -214,51 +242,83 @@ export default function Show() {
                                     {auth.user?.permissions?.includes('edit-contracts') ? (
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <Button variant="outline" size="sm" className="flex items-center gap-2 text-sm font-medium hover:bg-muted/50 border-border">
-                                                    <div className={`w-2.5 h-2.5 rounded-full ${contract.status === 'pending' ? 'bg-muted/500' :
-                                                        contract.status === 'accepted' ? 'bg-muted/500' :
-                                                            contract.status === 'declined' ? 'bg-muted/500' :
-                                                                contract.status === 'closed' ? 'bg-muted-foreground' :
-                                                                    'bg-muted/500'
-                                                        }`} />
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="flex items-center gap-2 border-border text-sm font-medium hover:bg-muted/50"
+                                                >
+                                                    <div
+                                                        className={`h-2.5 w-2.5 rounded-full ${
+                                                            contract.status === 'pending'
+                                                                ? 'bg-muted/500'
+                                                                : contract.status === 'accepted'
+                                                                  ? 'bg-muted/500'
+                                                                  : contract.status === 'declined'
+                                                                    ? 'bg-muted/500'
+                                                                    : contract.status === 'closed'
+                                                                      ? 'bg-muted-foreground'
+                                                                      : 'bg-muted/500'
+                                                        }`}
+                                                    />
                                                     {getContractStatusText(contract.status, t)}
                                                     <ChevronDown className="h-3 w-3" />
                                                 </Button>
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="start" className="w-40 bg-card border shadow-lg">
+                                            <DropdownMenuContent
+                                                align="start"
+                                                className="w-40 border bg-card shadow-lg"
+                                            >
                                                 <DropdownMenuItem
-                                                    onClick={() => router.patch(route('contract.update-status', contract.id), { status: 'pending' })}
-                                                    className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 focus:bg-muted/50"
+                                                    onClick={() =>
+                                                        router.patch(route('contract.update-status', contract.id), {
+                                                            status: 'pending',
+                                                        })
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2 hover:bg-muted/50 focus:bg-muted/50"
                                                 >
-                                                    <div className="w-2 h-2 rounded-full bg-foreground" />
+                                                    <div className="h-2 w-2 rounded-full bg-foreground" />
                                                     {t('Pending')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                    onClick={() => router.patch(route('contract.update-status', contract.id), { status: 'accepted' })}
-                                                    className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 focus:bg-muted/50"
+                                                    onClick={() =>
+                                                        router.patch(route('contract.update-status', contract.id), {
+                                                            status: 'accepted',
+                                                        })
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2 hover:bg-muted/50 focus:bg-muted/50"
                                                 >
-                                                    <div className="w-2 h-2 rounded-full bg-foreground" />
+                                                    <div className="h-2 w-2 rounded-full bg-foreground" />
                                                     {t('Accepted')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                    onClick={() => router.patch(route('contract.update-status', contract.id), { status: 'declined' })}
-                                                    className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 focus:bg-muted/50"
+                                                    onClick={() =>
+                                                        router.patch(route('contract.update-status', contract.id), {
+                                                            status: 'declined',
+                                                        })
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2 hover:bg-muted/50 focus:bg-muted/50"
                                                 >
-                                                    <div className="w-2 h-2 rounded-full bg-destructive" />
+                                                    <div className="h-2 w-2 rounded-full bg-destructive" />
                                                     {t('Declined')}
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                    onClick={() => router.patch(route('contract.update-status', contract.id), { status: 'closed' })}
-                                                    className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 focus:bg-muted/50"
+                                                    onClick={() =>
+                                                        router.patch(route('contract.update-status', contract.id), {
+                                                            status: 'closed',
+                                                        })
+                                                    }
+                                                    className="flex cursor-pointer items-center gap-2 hover:bg-muted/50 focus:bg-muted/50"
                                                 >
-                                                    <div className="w-2 h-2 rounded-full bg-muted" />
+                                                    <div className="h-2 w-2 rounded-full bg-muted" />
                                                     {t('Closed')}
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     ) : (
                                         <div className="flex items-center gap-2 text-sm font-medium">
-                                            <div className={`w-2.5 h-2.5 rounded-full ${getContractStatusColor(contract.status)}`} />
+                                            <div
+                                                className={`h-2.5 w-2.5 rounded-full ${getContractStatusColor(contract.status)}`}
+                                            />
                                             {getContractStatusText(contract.status, t)}
                                         </div>
                                     )}
@@ -281,17 +341,23 @@ export default function Show() {
 
                             <div className="flex flex-col items-end space-y-3">
                                 <div className="text-right">
-                                    <p className="text-sm text-muted-foreground mb-1">{t('Contract Value')}</p>
+                                    <p className="mb-1 text-sm text-muted-foreground">{t('Contract Value')}</p>
                                     <p className="text-2xl font-bold text-foreground">
-                                        {contract.value ? formatCurrency(contract.value) : (
-                                            <span className="text-lg text-muted-foreground font-normal">{t('Not Set')}</span>
+                                        {contract.value ? (
+                                            formatCurrency(contract.value)
+                                        ) : (
+                                            <span className="text-lg font-normal text-muted-foreground">
+                                                {t('Not Set')}
+                                            </span>
                                         )}
                                     </p>
                                 </div>
 
                                 {contract.contract_type?.name && (
-                                    <div className="bg-foreground/10 px-3 py-1.5 rounded-full">
-                                        <span className="text-sm font-medium text-foreground">{contract.contract_type.name}</span>
+                                    <div className="rounded-full bg-foreground/10 px-3 py-1.5">
+                                        <span className="text-sm font-medium text-foreground">
+                                            {contract.contract_type.name}
+                                        </span>
                                     </div>
                                 )}
                             </div>
@@ -337,7 +403,7 @@ export default function Show() {
                                 <CardTitle>{t('Contract Information')}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             <FileText className="h-4 w-4" />
@@ -367,7 +433,9 @@ export default function Show() {
                                             <DollarSign className="h-4 w-4" />
                                             {t('Contract Value')}
                                         </div>
-                                        <p className="font-medium text-lg">{contract.value ? formatCurrency(contract.value) : t('Not Set')}</p>
+                                        <p className="text-lg font-medium">
+                                            {contract.value ? formatCurrency(contract.value) : t('Not Set')}
+                                        </p>
                                     </div>
 
                                     <div className="space-y-2">
@@ -375,7 +443,9 @@ export default function Show() {
                                             <Calendar className="h-4 w-4" />
                                             {t('Start Date')}
                                         </div>
-                                        <p className="font-medium">{contract.start_date ? formatDate(contract.start_date) : t('Not Set')}</p>
+                                        <p className="font-medium">
+                                            {contract.start_date ? formatDate(contract.start_date) : t('Not Set')}
+                                        </p>
                                     </div>
 
                                     <div className="space-y-2">
@@ -383,7 +453,9 @@ export default function Show() {
                                             <Calendar className="h-4 w-4" />
                                             {t('End Date')}
                                         </div>
-                                        <p className="font-medium">{contract.end_date ? formatDate(contract.end_date) : t('Not Set')}</p>
+                                        <p className="font-medium">
+                                            {contract.end_date ? formatDate(contract.end_date) : t('Not Set')}
+                                        </p>
                                     </div>
 
                                     <div className="space-y-2">
@@ -392,10 +464,9 @@ export default function Show() {
                                             {t('Duration')}
                                         </div>
                                         <p className="font-medium">
-                                            {contract.start_date && contract.end_date ?
-                                                `${Math.ceil((new Date(contract.end_date).getTime() - new Date(contract.start_date).getTime()) / (1000 * 60 * 60 * 24))} ${t('days')}`
-                                                : t('Not Calculated')
-                                            }
+                                            {contract.start_date && contract.end_date
+                                                ? `${Math.ceil((new Date(contract.end_date).getTime() - new Date(contract.start_date).getTime()) / (1000 * 60 * 60 * 24))} ${t('days')}`
+                                                : t('Not Calculated')}
                                         </p>
                                     </div>
 
@@ -404,21 +475,27 @@ export default function Show() {
                                             <Calendar className="h-4 w-4" />
                                             {t('Created Date')}
                                         </div>
-                                        <p className="font-medium">{contract.created_at ? formatDateTime(contract.created_at) : t('Not Available')}</p>
+                                        <p className="font-medium">
+                                            {contract.created_at
+                                                ? formatDateTime(contract.created_at)
+                                                : t('Not Available')}
+                                        </p>
                                     </div>
 
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             {t('Status')}
                                         </div>
-                                        <span className={`px-2 py-1 rounded-full text-sm ${getContractStatusColor(contract.status)}`}>
+                                        <span
+                                            className={`rounded-full px-2 py-1 text-sm ${getContractStatusColor(contract.status)}`}
+                                        >
                                             {getContractStatusText(contract.status, t)}
                                         </span>
                                     </div>
 
-                                    <div className="mt-6 pt-6 col-span-full">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                    <div className="col-span-full mt-6 pt-6">
+                                        <div className="mb-3 flex items-center justify-between">
+                                            <h3 className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                                                 <FileText className="h-4 w-4" />
                                                 {t('Description')}
                                             </h3>
@@ -428,7 +505,11 @@ export default function Show() {
                                                         <>
                                                             <Tooltip>
                                                                 <TooltipTrigger asChild>
-                                                                    <Button size="sm" onClick={handleSaveDescription} disabled={processing}>
+                                                                    <Button
+                                                                        size="sm"
+                                                                        onClick={handleSaveDescription}
+                                                                        disabled={processing}
+                                                                    >
                                                                         <Save className="h-4 w-4" />
                                                                     </Button>
                                                                 </TooltipTrigger>
@@ -438,7 +519,11 @@ export default function Show() {
                                                             </Tooltip>
                                                             <Tooltip>
                                                                 <TooltipTrigger asChild>
-                                                                    <Button size="sm" variant="outline" onClick={handleCancelEdit}>
+                                                                    <Button
+                                                                        size="sm"
+                                                                        variant="outline"
+                                                                        onClick={handleCancelEdit}
+                                                                    >
                                                                         <X className="h-4 w-4" />
                                                                     </Button>
                                                                 </TooltipTrigger>
@@ -450,7 +535,11 @@ export default function Show() {
                                                     ) : (
                                                         <Tooltip>
                                                             <TooltipTrigger asChild>
-                                                                <Button size="sm" variant="outline" onClick={() => setIsEditingDescription(true)}>
+                                                                <Button
+                                                                    size="sm"
+                                                                    variant="outline"
+                                                                    onClick={() => setIsEditingDescription(true)}
+                                                                >
                                                                     <Edit className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -470,43 +559,53 @@ export default function Show() {
                                                 placeholder={t('Enter description...')}
                                             />
                                         ) : (
-                                            <div className="bg-muted/50 rounded-lg p-4 min-h-[100px]">
+                                            <div className="min-h-[100px] rounded-lg bg-muted/50 p-4">
                                                 {contract.description ? (
-                                                    <div className="text-sm text-foreground prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: contract.description }} />
+                                                    <div
+                                                        className="prose prose-sm max-w-none text-sm text-foreground"
+                                                        dangerouslySetInnerHTML={{ __html: contract.description }}
+                                                    />
                                                 ) : (
-                                                    <p className="text-sm text-muted-foreground italic">{t('No description provided')}</p>
+                                                    <p className="text-sm italic text-muted-foreground">
+                                                        {t('No description provided')}
+                                                    </p>
                                                 )}
                                             </div>
                                         )}
                                     </div>
 
                                     {contract.signatures && contract.signatures.length > 0 && (
-                                        <div className="space-y-2 col-span-full">
+                                        <div className="col-span-full space-y-2">
                                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                                 <PenTool className="h-4 w-4" />
                                                 {t('Signatures')}
                                             </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                                 {contract.signatures?.map((signature, index) => (
-                                                    <div key={signature.id} className="border rounded-lg p-3 bg-muted/50">
+                                                    <div
+                                                        key={signature.id}
+                                                        className="rounded-lg border bg-muted/50 p-3"
+                                                    >
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+                                                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
                                                                 <PenTool className="h-5 w-5 text-foreground" />
                                                             </div>
                                                             <div className="flex-1">
-                                                                <p className="font-medium text-sm">{signature.user.name}</p>
+                                                                <p className="text-sm font-medium">
+                                                                    {signature.user.name}
+                                                                </p>
                                                                 <p className="text-xs text-muted-foreground">
-                                                                    {t('Signed on')} {formatDateTime(signature.signed_at)}
+                                                                    {t('Signed on')}{' '}
+                                                                    {formatDateTime(signature.signed_at)}
                                                                 </p>
                                                                 <div className="mt-1">
                                                                     <img
                                                                         src={signature.signature_data}
                                                                         alt="Signature"
-                                                                        className="max-h-12 max-w-full object-contain border-b-2 border-border"
+                                                                        className="max-h-12 max-w-full border-b-2 border-border object-contain"
                                                                     />
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 ))}
@@ -554,11 +653,7 @@ export default function Show() {
                 variant="destructive"
             />
 
-            <SignatureModal
-                open={showSignatureModal}
-                onOpenChange={setShowSignatureModal}
-                contractId={contract.id}
-            />
+            <SignatureModal open={showSignatureModal} onOpenChange={setShowSignatureModal} contractId={contract.id} />
         </AuthenticatedLayout>
     );
 }

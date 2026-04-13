@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from 'react-i18next';
@@ -26,22 +26,22 @@ interface LabelViewProps {
 export default function LabelView({ lead, onClose }: LabelViewProps) {
     const { t } = useTranslation();
     const { labels } = usePage().props as { labels: Label[] };
-    
+
     // Filter labels for current lead's pipeline only
-    const pipelineLabels = labels?.filter(label => label.pipeline_id === lead.pipeline_id) || [];
-    const [selectedLabels, setSelectedLabels] = useState<{[key: number]: boolean}>(() => {
-        const selected: {[key: number]: boolean} = {};
+    const pipelineLabels = labels?.filter((label) => label.pipeline_id === lead.pipeline_id) || [];
+    const [selectedLabels, setSelectedLabels] = useState<{ [key: number]: boolean }>(() => {
+        const selected: { [key: number]: boolean } = {};
         if (lead.labels) {
             const labelIds = lead.labels.split(',')?.map(Number).filter(Boolean);
-            labelIds.forEach(id => {
+            labelIds.forEach((id) => {
                 selected[id] = true;
             });
         }
         return selected;
     });
-    
+
     const { data, setData, patch, processing } = useForm({
-        labels: lead.labels || ''
+        labels: lead.labels || '',
     });
 
     const handleLabelChange = (labelId: number, checked: boolean) => {
@@ -52,8 +52,8 @@ export default function LabelView({ lead, onClose }: LabelViewProps) {
             delete newSelected[labelId];
         }
         setSelectedLabels(newSelected);
-        const labelIds = Object.keys(newSelected).filter(key => newSelected[parseInt(key)]);
-        
+        const labelIds = Object.keys(newSelected).filter((key) => newSelected[parseInt(key)]);
+
         setData('labels', labelIds.join(','));
     };
 
@@ -62,35 +62,39 @@ export default function LabelView({ lead, onClose }: LabelViewProps) {
         patch(route('lead.leads.update-labels', lead.id), {
             onSuccess: () => {
                 onClose();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-md bg-card dark:bg-foreground border-border dark:border-border p-0 overflow-hidden shadow-xl">
-            <DialogHeader className="p-6 border-b border-border dark:border-border bg-muted/50/50 dark:bg-foreground/50">
+        <DialogContent className="max-w-md overflow-hidden border-border bg-card p-0 shadow-xl dark:border-border dark:bg-foreground">
+            <DialogHeader className="bg-muted/50/50 border-b border-border p-6 dark:border-border dark:bg-foreground/50">
                 <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-foreground dark:bg-muted flex items-center justify-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-muted">
                         <Tag className="h-5 w-5 text-foreground dark:text-foreground" />
                     </div>
                     <div>
                         <DialogTitle className="text-lg font-semibold tracking-tight">{t('Manage Labels')}</DialogTitle>
-                        <p className="text-xs text-muted-foreground mt-0.5">{t('Categorize lead: {{name}}', { name: lead.name })}</p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                            {t('Categorize lead: {{name}}', { name: lead.name })}
+                        </p>
                     </div>
                 </div>
             </DialogHeader>
-            
+
             <div className="p-6">
                 {pipelineLabels.length > 0 ? (
                     <div className="space-y-4">
                         {pipelineLabels?.map((label) => (
-                            <div key={label.id} className="flex items-center justify-between p-3 rounded-lg border border-border dark:border-border hover:bg-muted/50 dark:hover:bg-foreground/50 transition-colors">
+                            <div
+                                key={label.id}
+                                className="flex items-center justify-between rounded-lg border border-border p-3 transition-colors hover:bg-muted/50 dark:border-border dark:hover:bg-foreground/50"
+                            >
                                 <div className="flex items-center gap-3">
-                                    <div 
-                                        className="h-3 w-3 rounded-full" 
-                                        style={{ backgroundColor: label.color }}
-                                    />
-                                    <span className="text-sm font-medium text-foreground dark:text-muted-foreground/60">{label.name}</span>
+                                    <div className="h-3 w-3 rounded-full" style={{ backgroundColor: label.color }} />
+                                    <span className="text-sm font-medium text-foreground dark:text-muted-foreground/60">
+                                        {label.name}
+                                    </span>
                                 </div>
                                 <Checkbox
                                     id={`label-${label.id}`}
@@ -102,21 +106,25 @@ export default function LabelView({ lead, onClose }: LabelViewProps) {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-12 border-2 border-dashed border-border dark:border-border rounded-xl">
-                        <Tag className="h-8 w-8 text-muted-foreground/60 dark:text-foreground mx-auto mb-3" />
+                    <div className="rounded-xl border-2 border-dashed border-border py-12 text-center dark:border-border">
+                        <Tag className="mx-auto mb-3 h-8 w-8 text-muted-foreground/60 dark:text-foreground" />
                         <p className="text-sm text-muted-foreground">{t('No labels available for this pipeline.')}</p>
                     </div>
                 )}
             </div>
 
-            <div className="p-6 border-t border-border dark:border-border flex justify-end gap-3 bg-muted/50/50 dark:bg-foreground/50">
-                <Button variant="ghost" onClick={onClose} className="text-muted-foreground hover:text-foreground dark:hover:text-foreground font-medium">
+            <div className="bg-muted/50/50 flex justify-end gap-3 border-t border-border p-6 dark:border-border dark:bg-foreground/50">
+                <Button
+                    variant="ghost"
+                    onClick={onClose}
+                    className="font-medium text-muted-foreground hover:text-foreground dark:hover:text-foreground"
+                >
                     {t('Cancel')}
                 </Button>
-                <Button 
-                    onClick={handleSave} 
+                <Button
+                    onClick={handleSave}
                     disabled={processing}
-                    className="bg-foreground dark:bg-muted text-foreground dark:text-foreground hover:opacity-90 px-8 font-medium"
+                    className="bg-foreground px-8 font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
                 >
                     {processing ? t('Saving...') : t('Save Changes')}
                 </Button>

@@ -1,4 +1,21 @@
-import { LayoutGrid, Users, Building2, Settings, Shield, Image, Package, CreditCard, FileText, Ticket, Mail, Bell, Headphones, ShieldCheck, BarChart3, Globe} from 'lucide-react';
+import {
+    LayoutGrid,
+    Users,
+    Building2,
+    Settings,
+    Shield,
+    Image,
+    Package,
+    CreditCard,
+    FileText,
+    Ticket,
+    Mail,
+    Bell,
+    Headphones,
+    ShieldCheck,
+    BarChart3,
+    Globe,
+} from 'lucide-react';
 import { NavItem } from '@/types';
 
 export const getSuperAdminMenu = (t: (key: string) => string): NavItem[] => [
@@ -50,7 +67,7 @@ export const getSuperAdminMenu = (t: (key: string) => string): NavItem[] => [
                 href: route('orders.index'),
                 permission: 'manage-orders',
             },
-        ]
+        ],
     },
 
     // ─── SUPPORT ───
@@ -70,8 +87,8 @@ export const getSuperAdminMenu = (t: (key: string) => string): NavItem[] => [
                 title: t('Categories'),
                 href: route('helpdesk-categories.index'),
                 permission: 'manage-helpdesk-categories',
-            }
-        ]
+            },
+        ],
     },
 
     // ─── COMMUNICATIONS ───
@@ -115,7 +132,7 @@ export const getSuperAdminMenu = (t: (key: string) => string): NavItem[] => [
                 title: t('Security Audit'),
                 href: route('audit-logs.security'),
             },
-        ]
+        ],
     },
 
     // ─── SYSTEM ───

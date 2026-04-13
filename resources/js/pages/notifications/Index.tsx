@@ -3,9 +3,21 @@ import { Head, router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import {
-    Bell, BellOff, Check, CheckCheck, Archive, Trash2,
-    FileText, Users, Briefcase, DollarSign, AlertCircle,
-    Shield, Inbox, Filter, ExternalLink,
+    Bell,
+    BellOff,
+    Check,
+    CheckCheck,
+    Archive,
+    Trash2,
+    FileText,
+    Users,
+    Briefcase,
+    DollarSign,
+    AlertCircle,
+    Shield,
+    Inbox,
+    Filter,
+    ExternalLink,
 } from 'lucide-react';
 
 interface NotificationItem {
@@ -60,10 +72,14 @@ export default function NotificationsIndex({ notifications, filters, types, unre
     const { t } = useTranslation();
 
     const handleFilter = (key: string, value: string) => {
-        router.get(route('notifications.index'), {
-            ...filters,
-            [key]: value || undefined,
-        }, { preserveState: true, preserveScroll: true });
+        router.get(
+            route('notifications.index'),
+            {
+                ...filters,
+                [key]: value || undefined,
+            },
+            { preserveState: true, preserveScroll: true }
+        );
     };
 
     const handleMarkAsRead = (id: number) => {
@@ -108,7 +124,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
                         <div className="relative">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/5 border border-border">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-foreground/5">
                                 <Bell className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                             </div>
                             {unreadCount > 0 && (
@@ -120,9 +136,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                         <div>
                             <h1 className="text-xl font-bold text-foreground">{t('Notification Center')}</h1>
                             <p className="text-sm text-muted-foreground">
-                                {unreadCount > 0
-                                    ? `${unreadCount} ${t('unread notifications')}`
-                                    : t('All caught up!')}
+                                {unreadCount > 0 ? `${unreadCount} ${t('unread notifications')}` : t('All caught up!')}
                             </p>
                         </div>
                     </div>
@@ -150,7 +164,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                 {/* Filters */}
                 <div className="flex flex-wrap items-center gap-2">
                     <Filter className="h-4 w-4 text-muted-foreground" />
-                    {['all', 'unread', 'read'].map(f => (
+                    {['all', 'unread', 'read'].map((f) => (
                         <button
                             key={f}
                             onClick={() => handleFilter('filter', f === 'all' ? '' : f)}
@@ -174,7 +188,7 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                     >
                         {t('All Types')}
                     </button>
-                    {types.map(type => {
+                    {types.map((type) => {
                         const conf = getTypeConfig(type);
                         return (
                             <button
@@ -196,14 +210,14 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                 <div className="space-y-2">
                     {notifications.data.length === 0 ? (
                         <div className="flex flex-col items-center py-16 text-center">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted mb-4">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
                                 <Inbox className="h-8 w-8 text-muted-foreground/50" />
                             </div>
                             <h3 className="text-lg font-semibold text-foreground">{t('No notifications')}</h3>
-                            <p className="text-sm text-muted-foreground">{t('You\'re all caught up!')}</p>
+                            <p className="text-sm text-muted-foreground">{t("You're all caught up!")}</p>
                         </div>
                     ) : (
-                        notifications.data.map(notification => {
+                        notifications.data.map((notification) => {
                             const config = getTypeConfig(notification.type);
                             const IconComponent = config.icon;
                             const isUnread = !notification.read_at;
@@ -211,14 +225,13 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                             return (
                                 <div
                                     key={notification.id}
-                                    className={`group relative overflow-hidden rounded-xl border border-l-4 transition hover:shadow-md
-                                        ${isUnread ? 'border-border bg-card' : 'border-border/50 bg-card/50'}
-                                        ${categoryColors[notification.category] || 'border-l-border'}
-                                    `}
+                                    className={`group relative overflow-hidden rounded-xl border border-l-4 transition hover:shadow-md ${isUnread ? 'border-border bg-card' : 'border-border/50 bg-card/50'} ${categoryColors[notification.category] || 'border-l-border'} `}
                                 >
                                     <div className="flex items-start gap-3 p-4">
                                         {/* Icon */}
-                                        <div className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${config.bg}`}>
+                                        <div
+                                            className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${config.bg}`}
+                                        >
                                             <IconComponent className={`h-4 w-4 ${config.color}`} />
                                         </div>
 
@@ -226,11 +239,13 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-start justify-between gap-2">
                                                 <div>
-                                                    <p className={`text-sm ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-muted-foreground'}`}>
+                                                    <p
+                                                        className={`text-sm ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-muted-foreground'}`}
+                                                    >
                                                         {notification.title}
                                                     </p>
                                                     {notification.message && (
-                                                        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                                                        <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                                                             {notification.message}
                                                         </p>
                                                     )}
@@ -249,7 +264,9 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                                                         {t('by')} {notification.triggered_by.name}
                                                     </span>
                                                 )}
-                                                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-medium ${config.bg} ${config.color}`}>
+                                                <span
+                                                    className={`rounded-full px-1.5 py-0.5 text-[9px] font-medium ${config.bg} ${config.color}`}
+                                                >
                                                     {notification.type}
                                                 </span>
                                             </div>
@@ -306,8 +323,8 @@ export default function NotificationsIndex({ notifications, filters, types, unre
                                         link.active
                                             ? 'bg-foreground text-background'
                                             : link.url
-                                            ? 'text-muted-foreground hover:bg-accent'
-                                            : 'cursor-not-allowed text-muted-foreground/50'
+                                              ? 'text-muted-foreground hover:bg-accent'
+                                              : 'cursor-not-allowed text-muted-foreground/50'
                                     }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />

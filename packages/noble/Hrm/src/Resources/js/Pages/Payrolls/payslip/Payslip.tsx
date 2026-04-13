@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import html2pdf from 'html2pdf.js';
-import { formatCurrency, formatDate, getCompanySetting , getImagePath} from '@/utils/helpers';
+import { formatCurrency, formatDate, getCompanySetting, getImagePath } from '@/utils/helpers';
 
 interface PayrollEntry {
     id: number;
@@ -76,11 +76,14 @@ export default function Payslip() {
                 filename: `payslip-${payrollEntry.employee?.user?.name || payrollEntry.employee?.name}-${formatDate(payrollEntry.payroll.pay_period_start)}.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -98,19 +101,19 @@ export default function Payslip() {
             <Head title={t('Payslip')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="payslip-container bg-card max-w-4xl mx-auto p-8">
+            <div className="payslip-container mx-auto max-w-4xl bg-card p-8">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-6">
+                <div className="mb-6 flex items-center justify-between">
                     <div>
                         <h1 className="text-xl font-bold">{payrollEntry.payroll.title}</h1>
                     </div>
@@ -124,7 +127,7 @@ export default function Payslip() {
                 <div className="border-2 border-black">
                     {/* Employee Details Grid */}
                     <div className="p-1 pl-1">
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-4">
+                        <div className="mb-4 grid grid-cols-2 gap-x-8 gap-y-2">
                             <div className="flex justify-between">
                                 <span className="font-medium">{t('Name')} :</span>
                                 <span>{employeeName}</span>
@@ -168,127 +171,176 @@ export default function Payslip() {
                         </div>
 
                         {/* Earnings and Deductions Table */}
-                        <div className="grid grid-cols-2 gap-0 border border-black mt-1">
+                        <div className="mt-1 grid grid-cols-2 gap-0 border border-black">
                             {/* Earnings Column */}
                             <div className="border-r border-black">
-                                <div className="bg-muted px-3 py-2 border-b border-black">
+                                <div className="border-b border-black bg-muted px-3 py-2">
                                     <h3 className="font-bold">{t('Earnings')}</h3>
                                 </div>
-                                <div className="p-3 space-y-1">
+                                <div className="space-y-1 p-3">
                                     <div className="flex justify-between">
                                         <span>{t('Basic Salary')}</span>
                                         <span>{formatCurrency(payrollEntry.basic_salary)}</span>
                                     </div>
-                                    
+
                                     {/* Allowances Section */}
                                     {Object.keys(payrollEntry.allowances_breakdown || {}).length > 0 && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground pt-1">{t('Allowances')}:</div>
-                                            {Object.entries(payrollEntry.allowances_breakdown || {})?.map(([name, amount]) => (
-                                                <div key={name} className="flex justify-between pl-2">
-                                                    <span className="text-sm">{name}</span>
-                                                    <span className="text-sm">{formatCurrency(Number(amount))}</span>
-                                                </div>
-                                            ))}
+                                            <div className="pt-1 text-xs font-semibold text-muted-foreground">
+                                                {t('Allowances')}:
+                                            </div>
+                                            {Object.entries(payrollEntry.allowances_breakdown || {})?.map(
+                                                ([name, amount]) => (
+                                                    <div key={name} className="flex justify-between pl-2">
+                                                        <span className="text-sm">{name}</span>
+                                                        <span className="text-sm">
+                                                            {formatCurrency(Number(amount))}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )}
                                         </>
                                     )}
-                                    
+
                                     {/* Manual Overtime Section */}
                                     {Object.keys(payrollEntry.manual_overtimes_breakdown || {}).length > 0 && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground pt-1">{t('Manual Overtime')}:</div>
-                                            {Object.entries(payrollEntry.manual_overtimes_breakdown || {})?.map(([name, amount]) => (
-                                                <div key={name} className="flex justify-between pl-2">
-                                                    <span className="text-sm">{name}</span>
-                                                    <span className="text-sm">{formatCurrency(Number(amount))}</span>
-                                                </div>
-                                            ))}
+                                            <div className="pt-1 text-xs font-semibold text-muted-foreground">
+                                                {t('Manual Overtime')}:
+                                            </div>
+                                            {Object.entries(payrollEntry.manual_overtimes_breakdown || {})?.map(
+                                                ([name, amount]) => (
+                                                    <div key={name} className="flex justify-between pl-2">
+                                                        <span className="text-sm">{name}</span>
+                                                        <span className="text-sm">
+                                                            {formatCurrency(Number(amount))}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )}
                                         </>
                                     )}
-                                    
+
                                     {/* Attendance Overtime Section */}
                                     {payrollEntry.attendance_overtime_amount > 0 && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground pt-1">{t('Attendance Overtime')}:</div>
+                                            <div className="pt-1 text-xs font-semibold text-muted-foreground">
+                                                {t('Attendance Overtime')}:
+                                            </div>
                                             <div className="flex justify-between pl-2">
-                                                <span className="text-sm">{t('OT Hours')} ({payrollEntry.attendance_overtime_hours}h)</span>
-                                                <span className="text-sm">{formatCurrency(payrollEntry.attendance_overtime_amount)}</span>
+                                                <span className="text-sm">
+                                                    {t('OT Hours')} ({payrollEntry.attendance_overtime_hours}h)
+                                                </span>
+                                                <span className="text-sm">
+                                                    {formatCurrency(payrollEntry.attendance_overtime_amount)}
+                                                </span>
                                             </div>
                                         </>
                                     )}
-                                    
                                 </div>
                             </div>
 
                             {/* Deductions Column */}
                             <div>
-                                <div className="bg-muted px-3 py-2 border-b border-black">
+                                <div className="border-b border-black bg-muted px-3 py-2">
                                     <h3 className="font-bold">{t('Deduction')}</h3>
                                 </div>
-                                <div className="p-3 space-y-1">
+                                <div className="space-y-1 p-3">
                                     {/* Leave Deductions Section */}
-                                    {(payrollEntry.unpaid_leave_deduction > 0 || payrollEntry.half_day_deduction > 0 || payrollEntry.absent_day_deduction > 0) && (
+                                    {(payrollEntry.unpaid_leave_deduction > 0 ||
+                                        payrollEntry.half_day_deduction > 0 ||
+                                        payrollEntry.absent_day_deduction > 0) && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground">{t('Leave Deductions')}:</div>
+                                            <div className="text-xs font-semibold text-muted-foreground">
+                                                {t('Leave Deductions')}:
+                                            </div>
                                             {payrollEntry.unpaid_leave_deduction > 0 && (
                                                 <div className="flex justify-between pl-2">
-                                                    <span className="text-sm">{t('Unpaid Leave')} ({payrollEntry.unpaid_leave_days}d)</span>
-                                                    <span className="text-sm">{formatCurrency(payrollEntry.unpaid_leave_deduction)}</span>
+                                                    <span className="text-sm">
+                                                        {t('Unpaid Leave')} ({payrollEntry.unpaid_leave_days}d)
+                                                    </span>
+                                                    <span className="text-sm">
+                                                        {formatCurrency(payrollEntry.unpaid_leave_deduction)}
+                                                    </span>
                                                 </div>
                                             )}
                                             {payrollEntry.half_day_deduction > 0 && (
                                                 <div className="flex justify-between pl-2">
-                                                    <span className="text-sm">{t('Half Days')} ({payrollEntry.half_days}d)</span>
-                                                    <span className="text-sm">{formatCurrency(payrollEntry.half_day_deduction)}</span>
+                                                    <span className="text-sm">
+                                                        {t('Half Days')} ({payrollEntry.half_days}d)
+                                                    </span>
+                                                    <span className="text-sm">
+                                                        {formatCurrency(payrollEntry.half_day_deduction)}
+                                                    </span>
                                                 </div>
                                             )}
                                             {payrollEntry.absent_day_deduction > 0 && (
                                                 <div className="flex justify-between pl-2">
-                                                    <span className="text-sm">{t('Absent Days')} ({payrollEntry.absent_days}d)</span>
-                                                    <span className="text-sm">{formatCurrency(payrollEntry.absent_day_deduction)}</span>
+                                                    <span className="text-sm">
+                                                        {t('Absent Days')} ({payrollEntry.absent_days}d)
+                                                    </span>
+                                                    <span className="text-sm">
+                                                        {formatCurrency(payrollEntry.absent_day_deduction)}
+                                                    </span>
                                                 </div>
                                             )}
                                         </>
                                     )}
-                                    
+
                                     {/* Other Deductions Section */}
                                     {Object.keys(payrollEntry.deductions_breakdown || {}).length > 0 && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground pt-1">{t('Other Deductions')}:</div>
-                                            {Object.entries(payrollEntry.deductions_breakdown || {})?.map(([name, amount]) => (
-                                                <div key={name} className="flex justify-between pl-2">
-                                                    <span className="text-sm">{name}</span>
-                                                    <span className="text-sm">{formatCurrency(Number(amount))}</span>
-                                                </div>
-                                            ))}
+                                            <div className="pt-1 text-xs font-semibold text-muted-foreground">
+                                                {t('Other Deductions')}:
+                                            </div>
+                                            {Object.entries(payrollEntry.deductions_breakdown || {})?.map(
+                                                ([name, amount]) => (
+                                                    <div key={name} className="flex justify-between pl-2">
+                                                        <span className="text-sm">{name}</span>
+                                                        <span className="text-sm">
+                                                            {formatCurrency(Number(amount))}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )}
                                         </>
                                     )}
-                                    
+
                                     {/* Loans Section */}
                                     {Object.keys(payrollEntry.loans_breakdown || {}).length > 0 && (
                                         <>
-                                            <div className="text-xs font-semibold text-muted-foreground pt-1">{t('Loans')}:</div>
-                                            {Object.entries(payrollEntry.loans_breakdown || {})?.map(([name, amount]) => (
-                                                <div key={name} className="flex justify-between pl-2">
-                                                    <span className="text-sm">{name}</span>
-                                                    <span className="text-sm">{formatCurrency(Number(amount))}</span>
-                                                </div>
-                                            ))}
+                                            <div className="pt-1 text-xs font-semibold text-muted-foreground">
+                                                {t('Loans')}:
+                                            </div>
+                                            {Object.entries(payrollEntry.loans_breakdown || {})?.map(
+                                                ([name, amount]) => (
+                                                    <div key={name} className="flex justify-between pl-2">
+                                                        <span className="text-sm">{name}</span>
+                                                        <span className="text-sm">
+                                                            {formatCurrency(Number(amount))}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )}
                                         </>
                                     )}
-                                    
                                 </div>
                             </div>
                         </div>
 
                         {/* Gross Pay and Net Pay Summary */}
                         <div className="mt-2 space-y-2">
-                            <div className="px-3 py-3 flex justify-between items-center">
-                                <span><span className="font-bold">{t('Gross Pay')}</span> (Basic + Allowances + Overtimes - Leave Deductions)</span>
+                            <div className="flex items-center justify-between px-3 py-3">
+                                <span>
+                                    <span className="font-bold">{t('Gross Pay')}</span> (Basic + Allowances + Overtimes
+                                    - Leave Deductions)
+                                </span>
                                 <span className="font-bold">{formatCurrency(payrollEntry.gross_pay)}</span>
                             </div>
-                            <div className="px-3 py-3 flex justify-between items-center">
-                                <span><span className="font-bold">{t('Net Pay')}</span> (Gross - Deductions)</span>
+                            <div className="flex items-center justify-between px-3 py-3">
+                                <span>
+                                    <span className="font-bold">{t('Net Pay')}</span> (Gross - Deductions)
+                                </span>
                                 <span className="font-bold">{formatCurrency(payrollEntry.net_pay)}</span>
                             </div>
                         </div>
@@ -297,7 +349,7 @@ export default function Payslip() {
 
                 {/* Net Salary Box */}
                 <div className="mt-4 w-48">
-                    <div className="bg-card border border-black rounded-lg p-3 flex items-center justify-center min-h-[4rem] text-center">
+                    <div className="flex min-h-[4rem] items-center justify-center rounded-lg border border-black bg-card p-3 text-center">
                         <div>
                             <div className="text-sm text-black">{t('Net Salary')}</div>
                             <div className="text-xl font-bold text-black">{formatCurrency(payrollEntry.net_pay)}</div>
@@ -306,20 +358,30 @@ export default function Payslip() {
                 </div>
 
                 {/* Footer with Company Details */}
-                <div className="mt-6 flex justify-between items-end">
-                    <div className="text-center flex-1">
-                        <p className="text-xs text-muted-foreground">{t('This is a computer generated payslip and does not require signature.')}</p>
+                <div className="mt-6 flex items-end justify-between">
+                    <div className="flex-1 text-center">
+                        <p className="text-xs text-muted-foreground">
+                            {t('This is a computer generated payslip and does not require signature.')}
+                        </p>
                     </div>
-                    <div className="text-right text-sm text-muted-foreground max-w-xs">
+                    <div className="max-w-xs text-right text-sm text-muted-foreground">
                         <div className="font-semibold">{getCompanySetting('company_name') || 'YOUR COMPANY'}</div>
                         {getCompanySetting('company_address') && <div>{getCompanySetting('company_address')}</div>}
-                        {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                        {(getCompanySetting('company_city') ||
+                            getCompanySetting('company_state') ||
+                            getCompanySetting('company_zipcode')) && (
                             <div>
-                                {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                {getCompanySetting('company_city')}
+                                {getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`}{' '}
+                                {getCompanySetting('company_zipcode')}
                             </div>
                         )}
                         {getCompanySetting('company_country') && <div>{getCompanySetting('company_country')}</div>}
-                        {getCompanySetting('company_telephone') && <div>{t('Ph')}: {getCompanySetting('company_telephone')}</div>}
+                        {getCompanySetting('company_telephone') && (
+                            <div>
+                                {t('Ph')}: {getCompanySetting('company_telephone')}
+                            </div>
+                        )}
                         {getCompanySetting('company_email') && <div>{getCompanySetting('company_email')}</div>}
                     </div>
                 </div>

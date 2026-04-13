@@ -60,8 +60,8 @@ export interface TrainingsIndexProps {
         data: Training[];
         links: any[];
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     trainingTypes: TrainingType[];
     trainers: Trainer[];
     branches: Branch[];

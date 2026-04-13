@@ -1,17 +1,16 @@
-import "./bootstrap";
-import "../css/app.css";
-import "../css/rtl.css";
-import "./i18n";
+import './bootstrap';
+import '../css/app.css';
+import '../css/rtl.css';
+import './i18n';
 
-import { createRoot } from "react-dom/client";
-import { createInertiaApp, router } from "@inertiajs/react";
-import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
-import { Suspense } from "react";
-import axios from "axios";
-import { NobleLoader } from "@/components/NobleLoader";
-
+import { createRoot } from 'react-dom/client';
+import { createInertiaApp, router } from '@inertiajs/react';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from 'sonner';
+import { Suspense } from 'react';
+import axios from 'axios';
+import { NobleLoader } from '@/components/NobleLoader';
 
 // Silent CSRF token refresh
 const refreshToken = async () => {
@@ -37,7 +36,7 @@ router.on('before', (event) => {
 
 router.on('error', async (event) => {
     const errors = event.detail.errors;
-    if (errors && (errors[419] || errors['419'] || Object.values(errors).some(e => String(e).includes('419')))) {
+    if (errors && (errors[419] || errors['419'] || Object.values(errors).some((e) => String(e).includes('419')))) {
         await refreshToken();
     }
 });
@@ -47,7 +46,7 @@ router.on('navigate', (event) => {
     const pageProps = event.detail.page.props as any;
     const lang = pageProps?.auth?.lang || 'en';
     const isRtl = ['ar', 'he', 'fa', 'ur'].includes(lang.substring(0, 2));
-    
+
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 });
@@ -56,7 +55,7 @@ router.on('navigate', (event) => {
 const originalFetch = window.fetch;
 window.fetch = async (...args) => {
     const [url, options] = args;
-    
+
     // Ensure fresh token before request
     if (options && options.method && options.method !== 'GET') {
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -69,9 +68,9 @@ window.fetch = async (...args) => {
             (options.headers as any)['X-CSRF-TOKEN'] = newToken;
         }
     }
-    
+
     const response = await originalFetch(...args);
-    
+
     // Fallback: retry on 419 error
     if (response.status === 419) {
         await refreshToken();
@@ -88,25 +87,23 @@ window.fetch = async (...args) => {
 
 createInertiaApp({
     title: (title) => {
-        const initialPage = JSON.parse(
-            document.getElementById("app")?.dataset.page || "{}"
-        );
+        const initialPage = JSON.parse(document.getElementById('app')?.dataset.page || '{}');
         const pageProps = initialPage?.props ?? {};
         let customTitle;
-        if (pageProps?.auth?.user?.type === "superadmin") {
+        if (pageProps?.auth?.user?.type === 'superadmin') {
             customTitle = pageProps?.adminAllSetting?.titleText;
         } else if (pageProps?.auth?.user?.type) {
             customTitle = pageProps?.companyAllSetting?.titleText;
         } else {
             customTitle = pageProps?.adminAllSetting?.titleText;
         }
-        const appName = customTitle || import.meta.env.VITE_APP_NAME || "Laravel";
+        const appName = customTitle || import.meta.env.VITE_APP_NAME || 'Laravel';
         return `${title} - ${appName}`;
     },
     resolve: (name) => {
         const allPages = {
             ...import.meta.glob('./pages/**/*.tsx'),
-            ...import.meta.glob('../../packages/noble/*/src/Resources/js/Pages/**/*.tsx')
+            ...import.meta.glob('../../packages/noble/*/src/Resources/js/Pages/**/*.tsx'),
         };
 
         // Try pages directory (lowercase p)
@@ -130,12 +127,7 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <ThemeProvider
-                attribute="class"
-                defaultTheme="light"
-                enableSystem
-                disableTransitionOnChange
-            >
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
                 <Suspense fallback={<NobleLoader />}>
                     <App {...props} />
                 </Suspense>
@@ -144,8 +136,6 @@ createInertiaApp({
         );
     },
     progress: {
-        color: "#4B5563",
+        color: '#4B5563',
     },
 });
-
-

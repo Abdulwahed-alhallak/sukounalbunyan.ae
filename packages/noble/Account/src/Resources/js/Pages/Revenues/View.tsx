@@ -1,4 +1,4 @@
-    import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -29,28 +29,32 @@ export default function Show({ revenue }: ShowRevenueProps) {
 
     const getStatusBadge = (status: string) => {
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${
-                status === 'posted' ? 'bg-muted text-foreground' :
-                status === 'approved' ? 'bg-muted text-foreground' :
-                'bg-muted text-foreground'
-            }`}>
-                {status === 'posted' ? t('Posted') :
-                 status === 'approved' ? t('Approved') :
-                 t('Draft')}
+            <span
+                className={`rounded-full px-2 py-1 text-sm ${
+                    status === 'posted'
+                        ? 'bg-muted text-foreground'
+                        : status === 'approved'
+                          ? 'bg-muted text-foreground'
+                          : 'bg-muted text-foreground'
+                }`}
+            >
+                {status === 'posted' ? t('Posted') : status === 'approved' ? t('Approved') : t('Draft')}
             </span>
         );
     };
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
-                <DialogTitle>{t('Revenue Details')} - {revenue.revenue_number}</DialogTitle>
+                <DialogTitle>
+                    {t('Revenue Details')} - {revenue.revenue_number}
+                </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-6 mt-3">
+            <div className="mt-3 space-y-6">
                 <Card>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-4">
+                        <div className="mt-4 grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                             <div>
                                 <span className="font-semibold">{t('Revenue Number')}</span>
                                 <p className="mt-1 text-muted-foreground">{revenue.revenue_number}</p>
@@ -65,17 +69,24 @@ export default function Show({ revenue }: ShowRevenueProps) {
                             </div>
                             <div>
                                 <span className="font-semibold">{t('Bank Account')}</span>
-                                <p className="mt-1 text-muted-foreground">{revenue.bank_account?.account_name || '-'}</p>
+                                <p className="mt-1 text-muted-foreground">
+                                    {revenue.bank_account?.account_name || '-'}
+                                </p>
                             </div>
                             {revenue.chart_of_account && (
                                 <div>
                                     <span className="font-semibold">{t('Chart of Account')}</span>
-                                    <p className="mt-1 text-muted-foreground">{revenue.chart_of_account.account_code} - {revenue.chart_of_account.account_name}</p>
+                                    <p className="mt-1 text-muted-foreground">
+                                        {revenue.chart_of_account.account_code} -{' '}
+                                        {revenue.chart_of_account.account_name}
+                                    </p>
                                 </div>
                             )}
                             <div>
                                 <span className="font-semibold">{t('Amount')}</span>
-                                <p className="mt-1 text-lg font-bold text-foreground">{formatCurrency(revenue.amount)}</p>
+                                <p className="mt-1 text-lg font-bold text-foreground">
+                                    {formatCurrency(revenue.amount)}
+                                </p>
                             </div>
                             <div>
                                 <span className="font-semibold">{t('Status')}</span>
@@ -95,9 +106,9 @@ export default function Show({ revenue }: ShowRevenueProps) {
                             )}
                         </div>
                         {revenue.description && (
-                            <div className=" text-sm mt-4">
+                            <div className="mt-4 text-sm">
                                 <span className="font-semibold">{t('Description')}</span>
-                                <p className="mt-1 p-3 bg-muted/50 rounded text-sm">{revenue.description}</p>
+                                <p className="mt-1 rounded bg-muted/50 p-3 text-sm">{revenue.description}</p>
                             </div>
                         )}
                     </CardContent>

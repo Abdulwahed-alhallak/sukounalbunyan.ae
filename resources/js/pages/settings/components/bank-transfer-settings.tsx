@@ -21,40 +21,44 @@ export default function BankTransferSettings({ userSettings = {}, auth }: BankTr
 
     const [bankSettings, setBankSettings] = useState({
         bankTransferEnabled: userSettings?.bankTransferEnabled === 'on',
-        instructions: userSettings?.instructions || ''
+        instructions: userSettings?.instructions || '',
     });
 
     useEffect(() => {
         setBankSettings({
             bankTransferEnabled: userSettings?.bankTransferEnabled === 'on',
-            instructions: userSettings?.instructions || ''
+            instructions: userSettings?.instructions || '',
         });
     }, [userSettings]);
 
     const handleSettingsChange = (field: string, value: string | boolean) => {
-        setBankSettings(prev => ({
+        setBankSettings((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
     };
 
     const saveBankSettings = () => {
         setIsLoading(true);
 
-        router.post(route('settings.bank-transfer.update'), {
-            settings: {
-                ...bankSettings,
-                bankTransferEnabled: bankSettings.bankTransferEnabled ? 'on' : 'off'
-            }
-        }, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setIsLoading(false);
+        router.post(
+            route('settings.bank-transfer.update'),
+            {
+                settings: {
+                    ...bankSettings,
+                    bankTransferEnabled: bankSettings.bankTransferEnabled ? 'on' : 'off',
+                },
             },
-            onError: () => {
-                setIsLoading(false);
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -65,13 +69,13 @@ export default function BankTransferSettings({ userSettings = {}, auth }: BankTr
                         <CreditCard className="h-5 w-5" />
                         {t('Bank Transfer Settings')}
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="mt-1 text-sm text-muted-foreground">
                         {t('Configure bank transfer payment method for your customers')}
                     </p>
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveBankSettings} disabled={isLoading} size="sm">
-                        <Save className="h-4 w-4 mr-2" />
+                        <Save className="mr-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -79,12 +83,12 @@ export default function BankTransferSettings({ userSettings = {}, auth }: BankTr
             <CardContent>
                 <div className="space-y-6">
                     {/* Enable/Disable Bank Transfer */}
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center justify-between rounded-lg border p-4">
                         <div>
                             <Label htmlFor="bankTransferEnabled" className="text-base font-medium">
                                 {t('Enable Bank Transfer')}
                             </Label>
-                            <p className="text-sm text-muted-foreground mt-1">
+                            <p className="mt-1 text-sm text-muted-foreground">
                                 {t('Allow customers to pay via bank transfer')}
                             </p>
                         </div>
@@ -110,21 +114,25 @@ export default function BankTransferSettings({ userSettings = {}, auth }: BankTr
                                     disabled={!canEdit}
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    {t('These instructions will be shown to customers. You can use <br/> tags for line breaks.')}
+                                    {t(
+                                        'These instructions will be shown to customers. You can use <br/> tags for line breaks.'
+                                    )}
                                 </p>
                             </div>
 
                             {/* Preview Section */}
-                            <div className="mt-6 p-4 bg-muted/30 rounded-lg border">
-                                <h4 className="font-medium mb-3">{t('Customer Preview')}</h4>
+                            <div className="mt-6 rounded-lg border bg-muted/30 p-4">
+                                <h4 className="mb-3 font-medium">{t('Customer Preview')}</h4>
                                 <div className="text-sm">
                                     {bankSettings.instructions ? (
-                                        <div 
+                                        <div
                                             className="whitespace-pre-wrap"
-                                            dangerouslySetInnerHTML={{ __html: bankSettings.instructions.replace(/<br\/>/g, '<br/>') }}
+                                            dangerouslySetInnerHTML={{
+                                                __html: bankSettings.instructions.replace(/<br\/>/g, '<br/>'),
+                                            }}
                                         />
                                     ) : (
-                                        <p className="text-muted-foreground italic">{t('No instructions provided')}</p>
+                                        <p className="italic text-muted-foreground">{t('No instructions provided')}</p>
                                     )}
                                 </div>
                             </div>

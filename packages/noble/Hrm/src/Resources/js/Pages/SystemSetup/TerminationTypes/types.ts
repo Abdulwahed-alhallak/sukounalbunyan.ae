@@ -12,10 +12,12 @@ export interface TerminationTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateTerminationTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateTerminationTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditTerminationTypeProps extends EditProps<TerminationType>  {[key: string]: any;
+export interface EditTerminationTypeProps extends EditProps<TerminationType> {
+    [key: string]: any;
 }
 
 export type PaginatedTerminationTypes = PaginatedData<TerminationType>;

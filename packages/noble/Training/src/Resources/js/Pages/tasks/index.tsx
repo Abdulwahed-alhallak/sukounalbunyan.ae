@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, CheckSquare, MessageSquare, Check } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, CheckSquare, MessageSquare, Check } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import CreateTask from './create';
 import EditTask from './edit';
 import NoRecordsFound from '@/components/no-records-found';
@@ -18,28 +18,27 @@ import { formatDate } from '@/utils/helpers';
 export default function Index() {
     const { t } = useTranslation();
     const { training, tasks, users = [], auth } = usePage().props;
-    
+
     // Sort tasks to show latest on top
     const sortedTasks = (tasks.data || tasks).sort((a, b) => b.id - a.id);
-    
+
     const [modalState, setModalState] = useState({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const [deleteState, setDeleteState] = useState({
         isOpen: false,
         id: null,
-        message: t('Are you sure you want to delete this task?')
+        message: t('Are you sure you want to delete this task?'),
     });
 
     const openDeleteDialog = (id) => {
         setDeleteState({
             isOpen: true,
             id,
-            message: t('Are you sure you want to delete this task?')
+            message: t('Are you sure you want to delete this task?'),
         });
     };
 
@@ -47,7 +46,7 @@ export default function Index() {
         setDeleteState({
             isOpen: false,
             id: null,
-            message: t('Are you sure you want to delete this task?')
+            message: t('Are you sure you want to delete this task?'),
         });
     };
 
@@ -62,7 +61,7 @@ export default function Index() {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -70,11 +69,9 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
-
-
 
     const markTaskComplete = (taskId) => {
         router.patch(route('training.trainings.tasks.complete', [training.id, taskId]));
@@ -83,17 +80,17 @@ export default function Index() {
     const tableColumns = [
         {
             key: 'title',
-            header: t('Title')
+            header: t('Title'),
         },
         {
             key: 'assigned_user',
             header: t('Assigned To'),
-            render: (value, task) => task.assigned_user?.name || '-'
+            render: (value, task) => task.assigned_user?.name || '-',
         },
         {
             key: 'due_date',
             header: t('Due Date'),
-            render: (value) => value ? formatDate(value) : '-'
+            render: (value) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'status',
@@ -101,14 +98,16 @@ export default function Index() {
             render: (value) => {
                 const statusColors = {
                     pending: 'bg-muted text-foreground',
-                    completed: 'bg-muted text-foreground'
+                    completed: 'bg-muted text-foreground',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${statusColors[value as keyof typeof statusColors]}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${statusColors[value as keyof typeof statusColors]}`}
+                    >
                         {t(value.charAt(0).toUpperCase() + value.slice(1).replace('_', ' '))}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'actions',
@@ -119,9 +118,9 @@ export default function Index() {
                         {task.status !== 'completed' && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button 
-                                        variant="ghost" 
-                                        size="sm" 
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
                                         onClick={() => markTaskComplete(task.id)}
                                         className="h-8 w-8 p-0 text-foreground hover:text-foreground"
                                     >
@@ -136,9 +135,9 @@ export default function Index() {
                         {auth.user?.permissions?.includes('edit-training-tasks') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button 
-                                        variant="ghost" 
-                                        size="sm" 
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
                                         onClick={() => openModal('edit', task)}
                                         className="h-8 w-8 p-0 text-foreground hover:text-foreground"
                                     >
@@ -152,9 +151,9 @@ export default function Index() {
                         )}
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     onClick={() => router.visit(route('training.tasks.feedbacks.index', task.id))}
                                     className="h-8 w-8 p-0 text-foreground hover:text-foreground"
                                 >
@@ -162,7 +161,9 @@ export default function Index() {
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>{t('Feedbacks')} ({task.feedbacks.length})</p>
+                                <p>
+                                    {t('Feedbacks')} ({task.feedbacks.length})
+                                </p>
                             </TooltipContent>
                         </Tooltip>
                         {auth.user?.permissions?.includes('delete-training-tasks') && (
@@ -184,17 +185,17 @@ export default function Index() {
                         )}
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Training')}, 
-                {label: t('Training List'), url: route('training.trainings.index')},
-                {label: training.title, url: route('training.trainings.index')},
-                {label: t('Tasks')}
+                { label: t('Training') },
+                { label: t('Training List'), url: route('training.trainings.index') },
+                { label: training.title, url: route('training.trainings.index') },
+                { label: t('Tasks') },
             ]}
             pageTitle={`${training.title} - ${t('Tasks')}`}
             pageActions={
@@ -220,7 +221,7 @@ export default function Index() {
 
             <Card className="shadow-sm">
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={sortedTasks}
@@ -244,20 +245,9 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <CreateTask 
-                        onSuccess={closeModal} 
-                        training={training}
-                        users={users}
-                    />
-                )}
+                {modalState.mode === 'add' && <CreateTask onSuccess={closeModal} training={training} users={users} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditTask 
-                        onSuccess={closeModal} 
-                        training={training}
-                        users={users}
-                        task={modalState.data}
-                    />
+                    <EditTask onSuccess={closeModal} training={training} users={users} task={modalState.data} />
                 )}
             </Dialog>
 

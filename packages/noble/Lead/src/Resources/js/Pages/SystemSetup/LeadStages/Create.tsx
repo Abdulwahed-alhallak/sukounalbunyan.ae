@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ export default function Create({ onSuccess, pipelines, defaultPipelineId }: Crea
         post(route('lead.lead-stages.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -43,11 +43,14 @@ export default function Create({ onSuccess, pipelines, defaultPipelineId }: Crea
                         required
                     />
                     <InputError message={errors.name} />
-                </div>                            
-                
+                </div>
+
                 <div>
                     <Label htmlFor="pipeline_id">{t('Pipeline')}</Label>
-                    <Select value={data.pipeline_id?.toString() || ''} onValueChange={(value) => setData('pipeline_id', value)}>
+                    <Select
+                        value={data.pipeline_id?.toString() || ''}
+                        onValueChange={(value) => setData('pipeline_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Pipeline')} />
                         </SelectTrigger>
@@ -60,7 +63,7 @@ export default function Create({ onSuccess, pipelines, defaultPipelineId }: Crea
                         </SelectContent>
                     </Select>
                     <InputError message={errors.pipeline_id} />
-                </div>               
+                </div>
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={() => onSuccess()}>

@@ -1,7 +1,5 @@
 import { PaginatedData, ModalState, AuthContext } from '@/types/common';
 
-
-
 export interface Promotion {
     id: number;
     employee_id: any;

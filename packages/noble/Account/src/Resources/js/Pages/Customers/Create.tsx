@@ -1,14 +1,14 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, router } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import InputError from "@/components/ui/input-error";
-import { PhoneInputComponent } from "@/components/ui/phone-input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import InputError from '@/components/ui/input-error';
+import { PhoneInputComponent } from '@/components/ui/phone-input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CustomerFormData, User } from './types';
 import { useFormFields } from '@/hooks/useFormFields';
 interface CreateCustomerProps {
@@ -38,7 +38,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
             city: '',
             state: '',
             country: '',
-            zip_code: ''
+            zip_code: '',
         },
         shipping_address: {
             name: '',
@@ -47,7 +47,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
             city: '',
             state: '',
             country: '',
-            zip_code: ''
+            zip_code: '',
         },
         same_as_billing: false,
         notes: '',
@@ -61,7 +61,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
         const actualUserId = userId === '0' ? undefined : parseInt(userId);
         setData('user_id', actualUserId);
         if (userId !== '0') {
-            const selectedUser = users.find(user => user.id.toString() === userId);
+            const selectedUser = users.find((user) => user.id.toString() === userId);
             if (selectedUser) {
                 setData({
                     ...data,
@@ -79,7 +79,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
         post(route('account.customers.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -90,7 +90,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="user_id" required>{t('User')}</Label>
+                    <Label htmlFor="user_id" required>
+                        {t('User')}
+                    </Label>
                     <Select value={data.user_id?.toString() || '0'} onValueChange={handleUserSelect}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select a user (optional)')} />
@@ -106,12 +108,20 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                     </Select>
                     <InputError message={errors.user_id} />
                     {users.length === 0 && auth?.user?.permissions?.includes('create-users') && (
-                        <p className="text-xs text-muted-foreground mt-1">
-                            {t('Create user here.')} <button onClick={() => router.get(route('users.index'))} className="text-foreground hover:underline">{t('Create user')}</button>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                            {t('Create user here.')}{' '}
+                            <button
+                                onClick={() => router.get(route('users.index'))}
+                                className="text-foreground hover:underline"
+                            >
+                                {t('Create user')}
+                            </button>
                         </p>
                     )}
-                    <p className="text-xs text-muted-foreground mt-1">
-                        {t('Note: Only users with client role who are not already assigned to other customers will appear in this list.')}
+                    <p className="mt-1 text-xs text-muted-foreground">
+                        {t(
+                            'Note: Only users with client role who are not already assigned to other customers will appear in this list.'
+                        )}
                     </p>
                 </div>
                 <div>
@@ -184,7 +194,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                     <Input
                         id="billing_name"
                         value={data.billing_address.name}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, name: e.target.value})}
+                        onChange={(e) => setData('billing_address', { ...data.billing_address, name: e.target.value })}
                         placeholder={t('Enter billing name')}
                         required
                     />
@@ -195,7 +205,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                     <Input
                         id="billing_address"
                         value={data.billing_address.address_line_1}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, address_line_1: e.target.value})}
+                        onChange={(e) =>
+                            setData('billing_address', { ...data.billing_address, address_line_1: e.target.value })
+                        }
                         placeholder={t('Enter address')}
                         required
                     />
@@ -206,7 +218,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                     <Input
                         id="billing_address_2"
                         value={data.billing_address.address_line_2}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, address_line_2: e.target.value})}
+                        onChange={(e) =>
+                            setData('billing_address', { ...data.billing_address, address_line_2: e.target.value })
+                        }
                         placeholder={t('Apartment, suite, etc. (optional)')}
                     />
                     <InputError message={errors['billing_address.address_line_2']} />
@@ -217,7 +231,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                         <Input
                             id="billing_city"
                             value={data.billing_address.city}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, city: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, city: e.target.value })
+                            }
                             placeholder={t('Enter city')}
                             required
                         />
@@ -228,7 +244,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                         <Input
                             id="billing_state"
                             value={data.billing_address.state}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, state: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, state: e.target.value })
+                            }
                             placeholder={t('Enter state')}
                             required
                         />
@@ -241,7 +259,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                         <Input
                             id="billing_country"
                             value={data.billing_address.country}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, country: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, country: e.target.value })
+                            }
                             placeholder={t('Enter country')}
                             required
                         />
@@ -252,17 +272,17 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                         <Input
                             id="billing_zip"
                             value={data.billing_address.zip_code}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, zip_code: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, zip_code: e.target.value })
+                            }
                             placeholder={t('Enter zip code')}
                             required
                         />
                         <InputError message={errors['billing_address.zip_code']} />
                     </div>
                     {formFields?.map((field) => (
-                    <div key={field.id}>
-                        {field.component}
-                    </div>
-                ))}
+                        <div key={field.id}>{field.component}</div>
+                    ))}
                 </div>
                 <div className="flex items-center space-x-2">
                     <Checkbox
@@ -271,7 +291,7 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                         onCheckedChange={(checked) => {
                             setData('same_as_billing', !!checked);
                             if (checked) {
-                                setData('shipping_address', {...data.billing_address});
+                                setData('shipping_address', { ...data.billing_address });
                             }
                         }}
                     />
@@ -286,7 +306,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                             <Input
                                 id="shipping_name"
                                 value={data.shipping_address.name}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, name: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', { ...data.shipping_address, name: e.target.value })
+                                }
                                 placeholder={t('Enter shipping name')}
                                 required
                             />
@@ -297,7 +319,12 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                             <Input
                                 id="shipping_address"
                                 value={data.shipping_address.address_line_1}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, address_line_1: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', {
+                                        ...data.shipping_address,
+                                        address_line_1: e.target.value,
+                                    })
+                                }
                                 placeholder={t('Enter shipping address')}
                                 required
                             />
@@ -308,7 +335,12 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                             <Input
                                 id="shipping_address_2"
                                 value={data.shipping_address.address_line_2}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, address_line_2: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', {
+                                        ...data.shipping_address,
+                                        address_line_2: e.target.value,
+                                    })
+                                }
                                 placeholder={t('Apartment, suite, etc. (optional)')}
                             />
                             <InputError message={errors['shipping_address.address_line_2']} />
@@ -319,7 +351,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                                 <Input
                                     id="shipping_city"
                                     value={data.shipping_address.city}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, city: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', { ...data.shipping_address, city: e.target.value })
+                                    }
                                     placeholder={t('Enter city')}
                                     required
                                 />
@@ -330,7 +364,9 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                                 <Input
                                     id="shipping_state"
                                     value={data.shipping_address.state}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, state: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', { ...data.shipping_address, state: e.target.value })
+                                    }
                                     placeholder={t('Enter state')}
                                     required
                                 />
@@ -343,7 +379,12 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                                 <Input
                                     id="shipping_country"
                                     value={data.shipping_address.country}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, country: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', {
+                                            ...data.shipping_address,
+                                            country: e.target.value,
+                                        })
+                                    }
                                     placeholder={t('Enter country')}
                                     required
                                 />
@@ -354,7 +395,12 @@ export default function Create({ onSuccess, users = [], auth }: CreateCustomerPr
                                 <Input
                                     id="shipping_zip"
                                     value={data.shipping_address.zip_code}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, zip_code: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', {
+                                            ...data.shipping_address,
+                                            zip_code: e.target.value,
+                                        })
+                                    }
                                     placeholder={t('Enter zip code')}
                                     required
                                 />

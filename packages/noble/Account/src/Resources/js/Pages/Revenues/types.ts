@@ -16,8 +16,8 @@ export interface Revenue {
     category?: {
         id: number;
         category_name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     bank_account?: {
         id: number;
         account_name: string;
@@ -94,5 +94,6 @@ export interface CreateRevenueFormData {
     [key: string]: any;
 }
 
-export interface UpdateRevenueFormData extends CreateRevenueFormData  {[key: string]: any;
+export interface UpdateRevenueFormData extends CreateRevenueFormData {
+    [key: string]: any;
 }

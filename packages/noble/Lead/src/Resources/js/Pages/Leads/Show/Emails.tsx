@@ -18,7 +18,6 @@ interface EmailsProps {
 }
 
 export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => setEmailModalOpen(true));
     }, [onRegisterAddHandler]);
@@ -44,13 +43,13 @@ export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
             onSuccess: () => {
                 setEmailForm({ to: '', subject: '', description: '' });
                 setEmailModalOpen(false);
-            }
+            },
         });
     };
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={lead.emails || []}
@@ -70,17 +69,20 @@ export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
                                     if (!value) return '-';
                                     const cleanText = stripHtmlAndDecode(value);
                                     return (
-                                        <span className="text-sm text-muted-foreground truncate max-w-xs" title={cleanText}>
+                                        <span
+                                            className="max-w-xs truncate text-sm text-muted-foreground"
+                                            title={cleanText}
+                                        >
                                             {cleanText.length > 30 ? `${cleanText.substring(0, 30)}...` : cleanText}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'created_at',
                                 header: t('Date'),
-                                render: (value: string) => formatDateTime(value)
-                            }
+                                render: (value: string) => formatDateTime(value),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -109,7 +111,7 @@ export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
                                 id="to"
                                 type="email"
                                 value={emailForm.to}
-                                onChange={(e) => setEmailForm({...emailForm, to: e.target.value})}
+                                onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
                                 placeholder={t('Enter email address')}
                                 required
                             />
@@ -120,7 +122,7 @@ export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
                                 id="subject"
                                 type="text"
                                 value={emailForm.subject}
-                                onChange={(e) => setEmailForm({...emailForm, subject: e.target.value})}
+                                onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
                                 placeholder={t('Enter subject')}
                                 required
                             />
@@ -129,13 +131,15 @@ export default function Emails({ lead, onRegisterAddHandler }: EmailsProps) {
                             <Label htmlFor="description">{t('Description')}</Label>
                             <RichTextEditor
                                 content={emailForm.description}
-                                onChange={(content) => setEmailForm({...emailForm, description: content})}
+                                onChange={(content) => setEmailForm({ ...emailForm, description: content })}
                                 placeholder={t('Enter email content')}
                                 className="mt-1"
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Send Email')}</Button>
                         </div>
                     </form>

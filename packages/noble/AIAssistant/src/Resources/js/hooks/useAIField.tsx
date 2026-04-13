@@ -26,17 +26,12 @@ export const useAIField = (
         <>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => setIsModalOpen(true)}
-                        type="button"
-                    >
+                    <Button size="icon" variant="outline" onClick={() => setIsModalOpen(true)} type="button">
                         <Sparkles className="h-4 w-4" />
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p className="text-center whitespace-pre-line break-words max-w-[85px]">
+                    <p className="max-w-[85px] whitespace-pre-line break-words text-center">
                         {t('Generate')} {fieldLabel} {t('with AI')}
                     </p>
                 </TooltipContent>

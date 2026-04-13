@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Textarea } from '@/components/ui/textarea';
@@ -22,28 +22,29 @@ interface StatusUpdateFormData {
 export default function StatusUpdate({ leaveapplication, onSuccess }: StatusUpdateProps) {
     const { t } = useTranslation();
     const { auth, isMultiTierEnabled } = usePage<LeaveApplicationsIndexProps>().props;
-    
+
     // Determine the permissions
     const canManageHRStatus = auth.user?.permissions?.includes('manage-leave-status');
     const isLineManager = leaveapplication.is_line_manager;
-    
+
     const showManagerUpdate = isMultiTierEnabled && isLineManager;
     const showHRUpdate = canManageHRStatus;
 
     const { data, setData, put, processing, errors } = useForm<StatusUpdateFormData>({
-        status: showHRUpdate ? (leaveapplication.status || 'pending') : undefined,
-        manager_status: showManagerUpdate ? (leaveapplication.manager_status || 'pending') : undefined,
-        approver_comment: (showManagerUpdate ? leaveapplication.manager_comment : leaveapplication.approver_comment) || '',
+        status: showHRUpdate ? leaveapplication.status || 'pending' : undefined,
+        manager_status: showManagerUpdate ? leaveapplication.manager_status || 'pending' : undefined,
+        approver_comment:
+            (showManagerUpdate ? leaveapplication.manager_comment : leaveapplication.approver_comment) || '',
     });
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         // Let backend decide based on presence of values and auth
         put(route('hrm.leave-applications.update-status', leaveapplication.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -52,10 +53,12 @@ export default function StatusUpdate({ leaveapplication, onSuccess }: StatusUpda
             <DialogHeader>
                 <DialogTitle>{t('Update Leave Authorization')}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={submit} className="space-y-6 mt-4">
+            <form onSubmit={submit} className="mt-4 space-y-6">
                 {showManagerUpdate && (
-                    <div className="space-y-2 p-4 bg-muted/30 rounded-lg border border-border">
-                        <Label htmlFor="manager_status" className="font-bold text-foreground text-xs uppercase">{t('Line Manager Authorization')}</Label>
+                    <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-4">
+                        <Label htmlFor="manager_status" className="text-xs font-bold uppercase text-foreground">
+                            {t('Line Manager Authorization')}
+                        </Label>
                         <Select value={data.manager_status} onValueChange={(value) => setData('manager_status', value)}>
                             <SelectTrigger className="bg-background">
                                 <SelectValue placeholder={t('Select Status')} />
@@ -71,8 +74,10 @@ export default function StatusUpdate({ leaveapplication, onSuccess }: StatusUpda
                 )}
 
                 {showHRUpdate && (
-                    <div className="space-y-2 p-4 bg-muted/30 rounded-lg border border-border">
-                        <Label htmlFor="status" className="font-bold text-foreground text-xs uppercase">{t('HR Final Authorization')}</Label>
+                    <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-4">
+                        <Label htmlFor="status" className="text-xs font-bold uppercase text-foreground">
+                            {t('HR Final Authorization')}
+                        </Label>
                         <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                             <SelectTrigger className="bg-background">
                                 <SelectValue placeholder={t('Select Status')} />
@@ -86,9 +91,11 @@ export default function StatusUpdate({ leaveapplication, onSuccess }: StatusUpda
                         <InputError message={errors.status} />
                     </div>
                 )}
-                
+
                 <div className="space-y-2">
-                    <Label htmlFor="approver_comment" className="font-bold text-xs uppercase">{t('Authorization Notes')}</Label>
+                    <Label htmlFor="approver_comment" className="text-xs font-bold uppercase">
+                        {t('Authorization Notes')}
+                    </Label>
                     <Textarea
                         id="approver_comment"
                         value={data.approver_comment}
@@ -99,12 +106,16 @@ export default function StatusUpdate({ leaveapplication, onSuccess }: StatusUpda
                     />
                     <InputError message={errors.approver_comment} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="ghost" onClick={onSuccess}>
                         {t('Cancel')}
                     </Button>
-                    <Button type="submit" disabled={processing} className="font-bold uppercase tracking-widest text-xs px-8">
+                    <Button
+                        type="submit"
+                        disabled={processing}
+                        className="px-8 text-xs font-bold uppercase tracking-widest"
+                    >
                         {processing ? t('Transmitting...') : t('Execute')}
                     </Button>
                 </div>

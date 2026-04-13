@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 
 interface CreateProps {
     onSuccess: () => void;
@@ -31,7 +31,7 @@ export default function Create({ onSuccess }: CreateProps) {
         post(route('performance.goal-types.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -52,7 +52,7 @@ export default function Create({ onSuccess }: CreateProps) {
                     />
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -77,7 +77,7 @@ export default function Create({ onSuccess }: CreateProps) {
                     </Select>
                     <InputError message={errors.status} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

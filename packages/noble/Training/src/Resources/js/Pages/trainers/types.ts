@@ -33,8 +33,8 @@ export interface TrainersIndexProps {
         data: Trainer[];
         links: any[];
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     branches: Branch[];
     departments: Department[];
     auth: {

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Create({ onSuccess }: CreateJobLocationProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateJobLocationFormData>({
@@ -33,7 +33,7 @@ export default function Create({ onSuccess }: CreateJobLocationProps) {
         post(route('recruitment.job-locations.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -62,7 +62,9 @@ export default function Create({ onSuccess }: CreateJobLocationProps) {
                         checked={data.remote_work || false}
                         onCheckedChange={(checked) => setData('remote_work', !!checked)}
                     />
-                    <Label htmlFor="remote_work" className="cursor-pointer">{t('Remote Work')}</Label>
+                    <Label htmlFor="remote_work" className="cursor-pointer">
+                        {t('Remote Work')}
+                    </Label>
                     <InputError message={errors.remote_work} />
                 </div>
 
@@ -136,7 +138,9 @@ export default function Create({ onSuccess }: CreateJobLocationProps) {
                         checked={data.status || false}
                         onCheckedChange={(checked) => setData('status', !!checked)}
                     />
-                    <Label htmlFor="status" className="cursor-pointer">{t('Status')}</Label>
+                    <Label htmlFor="status" className="cursor-pointer">
+                        {t('Status')}
+                    </Label>
                     <InputError message={errors.status} />
                 </div>
 

@@ -20,7 +20,6 @@ interface ClientsProps {
 }
 
 export default function Clients({ deal, availableClients, onRegisterAddHandler }: ClientsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => openClientModal());
     }, [onRegisterAddHandler]);
@@ -31,23 +30,29 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
     const [clientDeleteState, setClientDeleteState] = useState({ isOpen: false, clientId: null, message: '' });
 
     const formatAvailableClients = () => {
-        setAvailableClientsState(availableClients?.map((client: any) => ({
-            value: client.id.toString(),
-            label: client.name
-        })));
+        setAvailableClientsState(
+            availableClients?.map((client: any) => ({
+                value: client.id.toString(),
+                label: client.name,
+            }))
+        );
     };
 
     const handleAssignClients = () => {
         if (selectedClients.length === 0) return;
-        
-        router.post(route('lead.deals.assign-clients', deal.id), {
-            client_ids: selectedClients?.map(id => parseInt(id))
-        }, {
-            onSuccess: () => {
-                setClientModalOpen(false);
-                setSelectedClients([]);
+
+        router.post(
+            route('lead.deals.assign-clients', deal.id),
+            {
+                client_ids: selectedClients?.map((id) => parseInt(id)),
+            },
+            {
+                onSuccess: () => {
+                    setClientModalOpen(false);
+                    setSelectedClients([]);
+                },
             }
-        });
+        );
     };
 
     const openClientModal = () => {
@@ -59,7 +64,7 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
         setClientDeleteState({
             isOpen: true,
             clientId,
-            message: t('Are you sure you want to remove this client?')
+            message: t('Are you sure you want to remove this client?'),
         });
     };
 
@@ -69,15 +74,14 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
 
     const confirmClientDelete = () => {
         if (clientDeleteState.clientId) {
-            router.delete(route('lead.deals.remove-client', {deal: deal.id, client: clientDeleteState.clientId}));
+            router.delete(route('lead.deals.remove-client', { deal: deal.id, client: clientDeleteState.clientId }));
             closeClientDeleteDialog();
         }
     };
 
     return (
         <>
-
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={deal.client_deals ? (Array.isArray(deal.client_deals) ? deal.client_deals : []) : []}
@@ -88,26 +92,26 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
                                 render: (value: string, clientDeal: any) => {
                                     const client = clientDeal.client;
                                     return (
-                                        <div className="h-8 w-8 rounded-full border-2 border-background overflow-hidden">
+                                        <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-background">
                                             {client?.avatar ? (
-                                                <img 
-                                                    src={getImagePath(client.avatar)} 
+                                                <img
+                                                    src={getImagePath(client.avatar)}
                                                     alt={client.name}
                                                     className="h-full w-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="h-full w-full bg-foreground/10 flex items-center justify-center text-sm font-medium">
+                                                <div className="flex h-full w-full items-center justify-center bg-foreground/10 text-sm font-medium">
                                                     {client?.name?.charAt(0)?.toUpperCase() || 'C'}
                                                 </div>
                                             )}
                                         </div>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'client.name',
                                 header: t('Client Name'),
-                                render: (value: string, clientDeal: any) => clientDeal.client?.name || '-'
+                                render: (value: string, clientDeal: any) => clientDeal.client?.name || '-',
                             },
                             {
                                 key: 'actions',
@@ -117,9 +121,14 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => {
-                                                        openClientDeleteDialog(clientDeal.client?.id);
-                                                    }} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            openClientDeleteDialog(clientDeal.client?.id);
+                                                        }}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -129,8 +138,8 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -164,8 +173,12 @@ export default function Clients({ deal, availableClients, onRegisterAddHandler }
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setClientModalOpen(false)}>{t('Cancel')}</Button>
-                            <Button onClick={handleAssignClients} disabled={selectedClients.length === 0}>{t('Save')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setClientModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button onClick={handleAssignClients} disabled={selectedClients.length === 0}>
+                                {t('Save')}
+                            </Button>
                         </div>
                     </div>
                 </DialogContent>

@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
-import { PhoneInputComponent } from "@/components/ui/phone-input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
+import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { useFormFields } from '@/hooks/useFormFields';
 
 import { CreateWarehouseProps, CreateWarehouseFormData } from './types';
@@ -27,16 +27,24 @@ export default function Create({ onSuccess }: CreateWarehouseProps) {
     const formFields = useFormFields('warehouse', data, setData, errors);
 
     // AI hook for warehouse name field
-    const nameAI = useFormFields('aiField', data, setData, errors, 'create', 'name', 'Warehouse Name', 'general', 'warehouses');
-
-
+    const nameAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'name',
+        'Warehouse Name',
+        'general',
+        'warehouses'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('warehouses.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -46,7 +54,7 @@ export default function Create({ onSuccess }: CreateWarehouseProps) {
                 <DialogTitle>{t('Create Warehouse')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="flex gap-2 items-end">
+                <div className="flex items-end gap-2">
                     <div className="flex-1">
                         <Label htmlFor="name">{t('Name')}</Label>
                         <Input
@@ -58,7 +66,9 @@ export default function Create({ onSuccess }: CreateWarehouseProps) {
                         />
                         <InputError message={errors.name} />
                     </div>
-                    {nameAI.map(field => <div key={field.id}>{field.component}</div>)}
+                    {nameAI.map((field) => (
+                        <div key={field.id}>{field.component}</div>
+                    ))}
                 </div>
                 <div>
                     <Label htmlFor="address">{t('Address')}</Label>
@@ -119,7 +129,10 @@ export default function Create({ onSuccess }: CreateWarehouseProps) {
                 </div>
                 <div>
                     <Label htmlFor="is_active">{t('Status')}</Label>
-                    <Select value={data.is_active ? "1" : "0"} onValueChange={(value) => setData('is_active', value === "1")}>
+                    <Select
+                        value={data.is_active ? '1' : '0'}
+                        onValueChange={(value) => setData('is_active', value === '1')}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>

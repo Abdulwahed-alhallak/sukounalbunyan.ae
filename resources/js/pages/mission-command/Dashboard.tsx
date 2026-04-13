@@ -8,10 +8,10 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout>
             <Head title="Mission Command | Dion Creative" />
-            
+
             <div className="flex flex-col space-y-6">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-background mb-2 flex items-center gap-3">
+                    <h1 className="mb-2 flex items-center gap-3 text-3xl font-bold tracking-tight text-background">
                         <Shield className="h-8 w-8 text-foreground" />
                         Mission Command
                     </h1>
@@ -21,7 +21,7 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <Card className="bg-card/50 border-foreground/20 backdrop-blur-md">
+                    <Card className="border-foreground/20 bg-card/50 backdrop-blur-md">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">Active Students (Dion)</CardTitle>
                             <Users className="h-4 w-4 text-foreground" />
@@ -31,7 +31,7 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
                             <p className="text-xs text-muted-foreground">+12% from last month</p>
                         </CardContent>
                     </Card>
-                    <Card className="bg-card/50 border-foreground/20 backdrop-blur-md">
+                    <Card className="border-foreground/20 bg-card/50 backdrop-blur-md">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">System Health</CardTitle>
                             <Activity className="h-4 w-4 text-foreground" />
@@ -41,7 +41,7 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
                             <p className="text-xs text-muted-foreground">All nodes operational</p>
                         </CardContent>
                     </Card>
-                    <Card className="bg-card/50 border-foreground/20 backdrop-blur-md">
+                    <Card className="border-foreground/20 bg-card/50 backdrop-blur-md">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">Push Broadcasts</CardTitle>
                             <Radio className="h-4 w-4 text-foreground" />
@@ -55,28 +55,30 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
 
                 <div className="grid gap-6 md:grid-cols-2">
                     <Link href={route('mission-command.notifications.index')} className="group">
-                        <Card className="h-full transition-all hover:bg-muted/50 hover:border-foreground cursor-pointer border-transparent">
+                        <Card className="h-full cursor-pointer border-transparent transition-all hover:border-foreground hover:bg-muted/50">
                             <CardHeader>
-                                <div className="p-3 bg-foreground/10 w-fit rounded-lg mb-3 flex items-center justify-center group-hover:bg-foreground/20 transition-colors">
+                                <div className="mb-3 flex w-fit items-center justify-center rounded-lg bg-foreground/10 p-3 transition-colors group-hover:bg-foreground/20">
                                     <Radio className="h-6 w-6 text-foreground" />
                                 </div>
                                 <CardTitle>Firebase Push Hub</CardTitle>
                                 <CardDescription>
-                                    Broadcast real-time push notifications across all mobile and web devices instantly. Target specific user roles or departments.
+                                    Broadcast real-time push notifications across all mobile and web devices instantly.
+                                    Target specific user roles or departments.
                                 </CardDescription>
                             </CardHeader>
                         </Card>
                     </Link>
 
                     <Link href={route('mission-command.gamification.index')} className="group">
-                        <Card className="h-full transition-all hover:bg-muted/50 hover:border-foreground cursor-pointer border-transparent">
+                        <Card className="h-full cursor-pointer border-transparent transition-all hover:border-foreground hover:bg-muted/50">
                             <CardHeader>
-                                <div className="p-3 bg-muted w-fit rounded-lg mb-3 flex items-center justify-center group-hover:bg-foreground/20 transition-colors">
+                                <div className="mb-3 flex w-fit items-center justify-center rounded-lg bg-muted p-3 transition-colors group-hover:bg-foreground/20">
                                     <Trophy className="h-6 w-6 text-foreground" />
                                 </div>
                                 <CardTitle>Gamification Engine</CardTitle>
                                 <CardDescription>
-                                    Configure loyalty points, student tiers, and badge mechanics to incentivize ecosystem engagement.
+                                    Configure loyalty points, student tiers, and badge mechanics to incentivize
+                                    ecosystem engagement.
                                 </CardDescription>
                             </CardHeader>
                         </Card>

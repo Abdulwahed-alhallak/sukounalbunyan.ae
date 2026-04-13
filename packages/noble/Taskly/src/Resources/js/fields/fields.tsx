@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import InputError from "@/components/ui/input-error";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/ui/input-error';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +28,7 @@ export const createTasklyProjectTaskField = (data: any, setData: any, errors: an
             setTasks([]);
             return;
         }
-        
+
         setTasksLoading(true);
         try {
             const response = await axios.get(route('api.taskly.projects.tasks', projectId));
@@ -73,7 +73,10 @@ export const createTasklyProjectTaskField = (data: any, setData: any, errors: an
             component: (
                 <div key={`project-${data.project_id}-${projects.length}`}>
                     <Label htmlFor={projectFieldId}>{t('Project')}</Label>
-                    <Select value={data.project_id ? data.project_id.toString() : ''} onValueChange={handleProjectSelect}>
+                    <Select
+                        value={data.project_id ? data.project_id.toString() : ''}
+                        onValueChange={handleProjectSelect}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={loading ? t('Loading...') : t('Select a project')} />
                         </SelectTrigger>
@@ -87,26 +90,33 @@ export const createTasklyProjectTaskField = (data: any, setData: any, errors: an
                     </Select>
                     <InputError message={errors.project_id} />
                 </div>
-            )
+            ),
         },
         {
             id: 'taskly-task',
             order: 3,
             component: (
                 <div key={`task-${data.task_id}-${tasks.length}`}>
-                    <Label htmlFor={taskFieldId}>{t('Task')} <span className="text-muted-foreground text-sm">({t('Optional')})</span></Label>
-                    <Select 
-                        value={data.task_id ? data.task_id.toString() : ''} 
+                    <Label htmlFor={taskFieldId}>
+                        {t('Task')} <span className="text-sm text-muted-foreground">({t('Optional')})</span>
+                    </Label>
+                    <Select
+                        value={data.task_id ? data.task_id.toString() : ''}
                         onValueChange={handleTaskSelect}
                         disabled={!data.project_id || tasksLoading}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={
-                                !data.project_id ? t('Select a project first') :
-                                tasksLoading ? t('Loading tasks...') :
-                                tasks.length === 0 ? t('No tasks available') :
-                                t('Select a task')
-                            } />
+                            <SelectValue
+                                placeholder={
+                                    !data.project_id
+                                        ? t('Select a project first')
+                                        : tasksLoading
+                                          ? t('Loading tasks...')
+                                          : tasks.length === 0
+                                            ? t('No tasks available')
+                                            : t('Select a task')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {tasks?.map((task) => (
@@ -118,7 +128,7 @@ export const createTasklyProjectTaskField = (data: any, setData: any, errors: an
                     </Select>
                     <InputError message={errors.task_id} />
                 </div>
-            )
-        }
+            ),
+        },
     ];
 };

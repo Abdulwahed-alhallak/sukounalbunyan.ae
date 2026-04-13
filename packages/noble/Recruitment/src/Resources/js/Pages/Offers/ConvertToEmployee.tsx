@@ -1,7 +1,7 @@
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Button } from "@/components/ui/button";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -9,8 +9,8 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -65,13 +65,20 @@ interface Props {
     generatedEmployeeId: string;
 }
 
-export default function ConvertToEmployee({ offer, branches, departments, designations, shifts, documentTypes, generatedEmployeeId }: Props) {
+export default function ConvertToEmployee({
+    offer,
+    branches,
+    departments,
+    designations,
+    shifts,
+    documentTypes,
+    generatedEmployeeId,
+}: Props) {
     const [activeTab, setActiveTab] = useState('personal');
     const [filteredDepartments, setFilteredDepartments] = useState(departments || []);
     const [filteredDesignations, setFilteredDesignations] = useState(designations || []);
     const [isEditable, setIsEditable] = useState(false);
     const { t } = useTranslation();
-
 
     const { data, setData, post, processing, errors } = useForm({
         employee_id: generatedEmployeeId,
@@ -112,9 +119,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
 
     useEffect(() => {
         if (data.branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
                 setData('designation_id', '');
             }
@@ -127,9 +134,14 @@ export default function ConvertToEmployee({ offer, branches, departments, design
 
     useEffect(() => {
         if (data.department_id) {
-            const departmentDesignations = designations.filter(desig => desig.department_id.toString() === data.department_id);
+            const departmentDesignations = designations.filter(
+                (desig) => desig.department_id.toString() === data.department_id
+            );
             setFilteredDesignations(departmentDesignations);
-            if (data.designation_id && !departmentDesignations.find(desig => desig.id.toString() === data.designation_id)) {
+            if (
+                data.designation_id &&
+                !departmentDesignations.find((desig) => desig.id.toString() === data.designation_id)
+            ) {
                 setData('designation_id', '');
             }
         } else {
@@ -139,40 +151,48 @@ export default function ConvertToEmployee({ offer, branches, departments, design
     }, [data.department_id]);
 
     const validatePersonalTab = () => {
-        return data.candidate_name.trim() !== '' &&
+        return (
+            data.candidate_name.trim() !== '' &&
             data.candidate_email.trim() !== '' &&
             data.phone_number.trim() !== '' &&
             data.employee_id.trim() !== '' &&
             data.date_of_birth !== '' &&
             data.gender !== '' &&
-            data.password.trim() !== '';
+            data.password.trim() !== ''
+        );
     };
 
     const validateEmploymentTab = () => {
-        return data.employment_type !== '' &&
+        return (
+            data.employment_type !== '' &&
             data.shift_id !== '' &&
             data.branch_id !== '' &&
             data.department_id !== '' &&
-            data.designation_id !== '';
+            data.designation_id !== ''
+        );
     };
 
     const validateContactTab = () => {
-        return data.address_line_1.trim() !== '' &&
+        return (
+            data.address_line_1.trim() !== '' &&
             data.city.trim() !== '' &&
             data.state.trim() !== '' &&
             data.country.trim() !== '' &&
             data.postal_code.trim() !== '' &&
             data.emergency_contact_name.trim() !== '' &&
             data.emergency_contact_relationship.trim() !== '' &&
-            data.emergency_contact_number.trim() !== '';
+            data.emergency_contact_number.trim() !== ''
+        );
     };
 
     const validateBankingTab = () => {
-        return data.bank_name.trim() !== '' &&
+        return (
+            data.bank_name.trim() !== '' &&
             data.account_holder_name.trim() !== '' &&
             data.account_number.trim() !== '' &&
             data.bank_identifier_code.trim() !== '' &&
-            data.bank_branch.trim() !== '';
+            data.bank_branch.trim() !== ''
+        );
     };
 
     const addDocument = () => {
@@ -196,7 +216,7 @@ export default function ConvertToEmployee({ offer, branches, departments, design
         const formData = new FormData();
 
         // Add all form fields
-        Object.keys(data).forEach(key => {
+        Object.keys(data).forEach((key) => {
             if (key !== 'documents') {
                 formData.append(key, data[key]);
             }
@@ -223,7 +243,7 @@ export default function ConvertToEmployee({ offer, branches, departments, design
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('Offers'), url: route('recruitment.offers.index') },
-                { label: t('Convert to Employee') }
+                { label: t('Convert to Employee') },
             ]}
             pageTitle={t('Convert to Employee')}
         >
@@ -243,11 +263,12 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     <TabsTrigger value="documents">{t('Documents')}</TabsTrigger>
                                 </TabsList>
 
-                                <TabsContent value="personal" className="space-y-6 mt-6">
-
+                                <TabsContent value="personal" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
-                                            <Label htmlFor="candidate_name" required>{t('Candidate Name')}</Label>
+                                            <Label htmlFor="candidate_name" required>
+                                                {t('Candidate Name')}
+                                            </Label>
                                             <Input
                                                 id="candidate_name"
                                                 type="text"
@@ -260,7 +281,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="candidate_email" required>{t('Candidate Email')}</Label>
+                                            <Label htmlFor="candidate_email" required>
+                                                {t('Candidate Email')}
+                                            </Label>
                                             <Input
                                                 id="candidate_email"
                                                 type="email"
@@ -299,25 +322,37 @@ export default function ConvertToEmployee({ offer, branches, departments, design
 
                                         <div>
                                             <Label>{t('Gender')}</Label>
-                                            <RadioGroup value={data.gender?.toString() || '0'} onValueChange={(value) => setData('gender', value)} className="flex gap-6 mt-2">
+                                            <RadioGroup
+                                                value={data.gender?.toString() || '0'}
+                                                onValueChange={(value) => setData('gender', value)}
+                                                className="mt-2 flex gap-6"
+                                            >
                                                 <div className="flex items-center space-x-2">
                                                     <RadioGroupItem value="0" id="gender_0" />
-                                                    <Label htmlFor="gender_0" className="cursor-pointer">{t('Male')}</Label>
+                                                    <Label htmlFor="gender_0" className="cursor-pointer">
+                                                        {t('Male')}
+                                                    </Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <RadioGroupItem value="1" id="gender_1" />
-                                                    <Label htmlFor="gender_1" className="cursor-pointer">{t('Female')}</Label>
+                                                    <Label htmlFor="gender_1" className="cursor-pointer">
+                                                        {t('Female')}
+                                                    </Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <RadioGroupItem value="2" id="gender_2" />
-                                                    <Label htmlFor="gender_2" className="cursor-pointer">{t('Other')}</Label>
+                                                    <Label htmlFor="gender_2" className="cursor-pointer">
+                                                        {t('Other')}
+                                                    </Label>
                                                 </div>
                                             </RadioGroup>
                                             <InputError message={errors.gender} />
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="phone_number" required>{t('Phone Number')}</Label>
+                                            <Label htmlFor="phone_number" required>
+                                                {t('Phone Number')}
+                                            </Label>
                                             <PhoneInputComponent
                                                 label=""
                                                 value={data.phone_number}
@@ -328,7 +363,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="password" required>{t('Password')}</Label>
+                                            <Label htmlFor="password" required>
+                                                {t('Password')}
+                                            </Label>
                                             <Input
                                                 id="password"
                                                 type="text"
@@ -352,11 +389,17 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="employment" className="space-y-6 mt-6">
+                                <TabsContent value="employment" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
-                                            <Label htmlFor="shift_id" required>{t('Shift')}</Label>
-                                            <Select value={data.shift_id?.toString() || ''} onValueChange={(value) => setData('shift_id', value)} required>
+                                            <Label htmlFor="shift_id" required>
+                                                {t('Shift')}
+                                            </Label>
+                                            <Select
+                                                value={data.shift_id?.toString() || ''}
+                                                onValueChange={(value) => setData('shift_id', value)}
+                                                required
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={t('Select Shift')} />
                                                 </SelectTrigger>
@@ -383,8 +426,14 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="employment_type" required>{t('Employment Type')}</Label>
-                                            <Select value={data.employment_type || 'Full Time'} onValueChange={(value) => setData('employment_type', value)} required>
+                                            <Label htmlFor="employment_type" required>
+                                                {t('Employment Type')}
+                                            </Label>
+                                            <Select
+                                                value={data.employment_type || 'Full Time'}
+                                                onValueChange={(value) => setData('employment_type', value)}
+                                                required
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={t('Select Employment Type')} />
                                                 </SelectTrigger>
@@ -399,7 +448,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                                            <Label htmlFor="branch_id" required>
+                                                {t('Branch')}
+                                            </Label>
                                             <Select
                                                 value={data.branch_id?.toString() || ''}
                                                 onValueChange={(value) => setData('branch_id', value)}
@@ -420,7 +471,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="department_id" required>{t('Department')}</Label>
+                                            <Label htmlFor="department_id" required>
+                                                {t('Department')}
+                                            </Label>
                                             <Select
                                                 value={data.department_id?.toString() || ''}
                                                 onValueChange={(value) => setData('department_id', value)}
@@ -428,7 +481,13 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                                 required
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                                                    <SelectValue
+                                                        placeholder={
+                                                            data.branch_id
+                                                                ? t('Select Department')
+                                                                : t('Select Branch first')
+                                                        }
+                                                    />
                                                 </SelectTrigger>
                                                 <SelectContent searchable={true}>
                                                     {filteredDepartments?.map((item: any) => (
@@ -442,7 +501,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="designation_id" required>{t('Designation')}</Label>
+                                            <Label htmlFor="designation_id" required>
+                                                {t('Designation')}
+                                            </Label>
                                             <Select
                                                 value={data.designation_id?.toString() || ''}
                                                 onValueChange={(value) => setData('designation_id', value)}
@@ -450,7 +511,13 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                                 required
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder={data.department_id ? t('Select Designation') : t('Select Department first')} />
+                                                    <SelectValue
+                                                        placeholder={
+                                                            data.department_id
+                                                                ? t('Select Designation')
+                                                                : t('Select Department first')
+                                                        }
+                                                    />
                                                 </SelectTrigger>
                                                 <SelectContent searchable={true}>
                                                     {filteredDesignations?.map((item: any) => (
@@ -465,7 +532,11 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
 
                                     <div className="flex justify-between">
-                                        <Button type="button" variant="outline" onClick={() => setActiveTab('personal')}>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => setActiveTab('personal')}
+                                        >
                                             {t('Previous')}
                                         </Button>
                                         <Button
@@ -478,7 +549,7 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="contact" className="space-y-6 mt-6">
+                                <TabsContent value="contact" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
                                             <Label htmlFor="address_line_1">{t('Address Line 1')}</Label>
@@ -558,7 +629,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="emergency_contact_name">{t('Emergency Contact Name')}</Label>
+                                            <Label htmlFor="emergency_contact_name">
+                                                {t('Emergency Contact Name')}
+                                            </Label>
                                             <Input
                                                 id="emergency_contact_name"
                                                 type="text"
@@ -571,12 +644,16 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="emergency_contact_relationship">{t('Emergency Contact Relationship')}</Label>
+                                            <Label htmlFor="emergency_contact_relationship">
+                                                {t('Emergency Contact Relationship')}
+                                            </Label>
                                             <Input
                                                 id="emergency_contact_relationship"
                                                 type="text"
                                                 value={data.emergency_contact_relationship}
-                                                onChange={(e) => setData('emergency_contact_relationship', e.target.value)}
+                                                onChange={(e) =>
+                                                    setData('emergency_contact_relationship', e.target.value)
+                                                }
                                                 placeholder={t('Enter Emergency Contact Relationship')}
                                                 required
                                             />
@@ -595,7 +672,11 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
 
                                     <div className="flex justify-between">
-                                        <Button type="button" variant="outline" onClick={() => setActiveTab('employment')}>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => setActiveTab('employment')}
+                                        >
                                             {t('Previous')}
                                         </Button>
                                         <Button
@@ -608,7 +689,7 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="banking" className="space-y-6 mt-6">
+                                <TabsContent value="banking" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
                                             <Label htmlFor="bank_name">{t('Bank Name')}</Label>
@@ -702,10 +783,12 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="hours-rates" className="space-y-6 mt-6">
+                                <TabsContent value="hours-rates" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
                                         <div>
-                                            <Label htmlFor="basic_salary" required>{t('Basic Salary')}</Label>
+                                            <Label htmlFor="basic_salary" required>
+                                                {t('Basic Salary')}
+                                            </Label>
                                             <Input
                                                 id="basic_salary"
                                                 type="number"
@@ -718,7 +801,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="hours_per_day" required>{t('Hours Per Day')}</Label>
+                                            <Label htmlFor="hours_per_day" required>
+                                                {t('Hours Per Day')}
+                                            </Label>
                                             <Input
                                                 id="hours_per_day"
                                                 type="number"
@@ -731,7 +816,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="days_per_week" required>{t('Days Per Week')}</Label>
+                                            <Label htmlFor="days_per_week" required>
+                                                {t('Days Per Week')}
+                                            </Label>
                                             <Input
                                                 id="days_per_week"
                                                 type="number"
@@ -744,7 +831,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="rate_per_hour" required>{t('Rate Per Hour')}</Label>
+                                            <Label htmlFor="rate_per_hour" required>
+                                                {t('Rate Per Hour')}
+                                            </Label>
                                             <Input
                                                 id="rate_per_hour"
                                                 type="number"
@@ -761,17 +850,14 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                         <Button type="button" variant="outline" onClick={() => setActiveTab('banking')}>
                                             {t('Previous')}
                                         </Button>
-                                        <Button
-                                            type="button"
-                                            onClick={() => setActiveTab('documents')}
-                                        >
+                                        <Button type="button" onClick={() => setActiveTab('documents')}>
                                             {t('Next')}
                                         </Button>
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="documents" className="space-y-6 mt-6">
-                                    <div className="flex justify-between items-center">
+                                <TabsContent value="documents" className="mt-6 space-y-6">
+                                    <div className="flex items-center justify-between">
                                         <h3 className="text-lg font-medium">{t('Employee Documents')}</h3>
                                         <Button type="button" onClick={addDocument} variant="outline">
                                             {t('Add Document')}
@@ -785,7 +871,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                                     <Label required>{t('Document Type')}</Label>
                                                     <Select
                                                         value={document.document_type_id?.toString() || ''}
-                                                        onValueChange={(value) => updateDocument(index, 'document_type_id', value)}
+                                                        onValueChange={(value) =>
+                                                            updateDocument(index, 'document_type_id', value)
+                                                        }
                                                     >
                                                         <SelectTrigger>
                                                             <SelectValue placeholder={t('Select Document Type')} />
@@ -798,7 +886,9 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                                             ))}
                                                         </SelectContent>
                                                     </Select>
-                                                    <InputError message={errors[`documents.${index}.document_type_id`]} />
+                                                    <InputError
+                                                        message={errors[`documents.${index}.document_type_id`]}
+                                                    />
                                                 </div>
                                                 <div>
                                                     <Label required>{t('Document File')}</Label>
@@ -810,21 +900,21 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                                         }}
                                                     />
                                                     {document.file && (
-                                                        <p className="text-sm text-muted-foreground mt-1">
+                                                        <p className="mt-1 text-sm text-muted-foreground">
                                                             {document.file.name}
                                                         </p>
                                                     )}
                                                     <InputError message={errors[`documents.${index}.file`]} />
                                                 </div>
                                             </div>
-                                            <div className="flex justify-end mt-4">
+                                            <div className="mt-4 flex justify-end">
                                                 <Button
                                                     type="button"
                                                     variant="destructive"
                                                     size="sm"
                                                     onClick={() => removeDocument(index)}
                                                 >
-                                                    <Trash2 className="h-4 w-4 mr-2" />
+                                                    <Trash2 className="mr-2 h-4 w-4" />
                                                     {t('Remove')}
                                                 </Button>
                                             </div>
@@ -836,7 +926,11 @@ export default function ConvertToEmployee({ offer, branches, departments, design
                                             {t('Previous')}
                                         </Button>
                                         <div className="flex gap-2">
-                                            <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => window.history.back()}
+                                            >
                                                 {t('Cancel')}
                                             </Button>
                                             <Button type="submit" disabled={processing}>

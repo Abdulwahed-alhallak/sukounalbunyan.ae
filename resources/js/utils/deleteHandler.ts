@@ -13,12 +13,12 @@ export const handleDelete = ({
     id,
     message = 'Are you sure you want to delete this item?',
     onSuccess,
-    onError
+    onError,
 }: DeleteOptions) => {
     if (confirm(message)) {
         router.delete(route(routeName, id), {
             onSuccess,
-            onError
+            onError,
         });
     }
 };

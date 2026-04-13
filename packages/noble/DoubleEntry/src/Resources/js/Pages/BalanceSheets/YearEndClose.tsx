@@ -27,7 +27,7 @@ export default function YearEndClose({ open, onOpenChange }: YearEndCloseProps) 
             onSuccess: () => {
                 reset();
                 onOpenChange(false);
-            }
+            },
         });
     };
 
@@ -44,9 +44,7 @@ export default function YearEndClose({ open, onOpenChange }: YearEndCloseProps) 
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="financial_year">
-                            {t('Financial Year to Close')}
-                        </Label>
+                        <Label htmlFor="financial_year">{t('Financial Year to Close')}</Label>
                         <Input
                             id="financial_year"
                             type="text"
@@ -57,15 +55,11 @@ export default function YearEndClose({ open, onOpenChange }: YearEndCloseProps) 
                             maxLength={4}
                             required
                         />
-                        {errors.financial_year && (
-                            <p className="text-sm text-destructive">{errors.financial_year}</p>
-                        )}
+                        {errors.financial_year && <p className="text-sm text-destructive">{errors.financial_year}</p>}
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="closing_date">
-                            {t('Closing Date')}
-                        </Label>
+                        <Label htmlFor="closing_date">{t('Closing Date')}</Label>
                         <DatePicker
                             id="closing_date"
                             value={data.closing_date}
@@ -73,14 +67,12 @@ export default function YearEndClose({ open, onOpenChange }: YearEndCloseProps) 
                             className={errors.closing_date ? 'border-destructive' : ''}
                             required
                         />
-                        {errors.closing_date && (
-                            <p className="text-sm text-destructive">{errors.closing_date}</p>
-                        )}
+                        {errors.closing_date && <p className="text-sm text-destructive">{errors.closing_date}</p>}
                     </div>
 
-                    <div className="bg-muted/50 border border-border rounded-lg p-4">
-                        <h4 className="font-medium text-foreground mb-2">{t('Warning')}</h4>
-                        <ul className="text-sm text-foreground space-y-1">
+                    <div className="rounded-lg border border-border bg-muted/50 p-4">
+                        <h4 className="mb-2 font-medium text-foreground">{t('Warning')}</h4>
+                        <ul className="space-y-1 text-sm text-foreground">
                             <li>• {t('This will close all revenue and expense accounts')}</li>
                             <li>• {t('Net income will be transferred to retained earnings')}</li>
                             <li>• {t('Opening balances will be created for next year')}</li>

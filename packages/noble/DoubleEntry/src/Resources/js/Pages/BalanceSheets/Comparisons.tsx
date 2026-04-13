@@ -1,10 +1,10 @@
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { GitCompare, Eye, Calendar } from "lucide-react";
-import { Pagination } from "@/components/ui/pagination";
+import { GitCompare, Eye, Calendar } from 'lucide-react';
+import { Pagination } from '@/components/ui/pagination';
 import NoRecordsFound from '@/components/no-records-found';
 import { formatDate } from '@/utils/helpers';
 
@@ -36,29 +36,33 @@ export default function Comparisons() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Double Entry')},
-                {label: t('Balance Sheets'), url: route('double-entry.balance-sheets.index')},
-                {label: t('Comparisons')}
+                { label: t('Double Entry') },
+                { label: t('Balance Sheets'), url: route('double-entry.balance-sheets.index') },
+                { label: t('Comparisons') },
             ]}
             pageTitle={t('Balance Sheet Comparisons')}
         >
             <Head title={t('Balance Sheet Comparisons')} />
 
-            <Card className="shadow-sm pt-5">
+            <Card className="pt-5 shadow-sm">
                 <CardContent>
                     {comparisons.data.length > 0 ? (
                         <div className="space-y-4">
                             {comparisons.data?.map((comparison) => (
-                                <div key={comparison.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border">
+                                <div
+                                    key={comparison.id}
+                                    className="flex items-center justify-between rounded-lg border bg-muted/50 p-4"
+                                >
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 bg-muted/50 rounded-lg border flex items-center justify-center">
-                                            <GitCompare className="w-5 h-5 text-foreground" />
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-muted/50">
+                                            <GitCompare className="h-5 w-5 text-foreground" />
                                         </div>
                                         <div>
                                             <h3 className="font-medium">
-                                                {formatDate(comparison.current_period.balance_sheet_date)} vs {formatDate(comparison.previous_period.balance_sheet_date)}
+                                                {formatDate(comparison.current_period.balance_sheet_date)} vs{' '}
+                                                {formatDate(comparison.previous_period.balance_sheet_date)}
                                             </h3>
-                                            <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                            <p className="flex items-center gap-1 text-sm text-muted-foreground">
                                                 <Calendar className="h-3 w-3" />
                                                 {t('Compared on')} {formatDate(comparison.comparison_date)}
                                             </p>
@@ -67,9 +71,11 @@ export default function Comparisons() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => router.get(route('double-entry.balance-sheets.comparison', comparison.id))}
+                                        onClick={() =>
+                                            router.get(route('double-entry.balance-sheets.comparison', comparison.id))
+                                        }
                                     >
-                                        <Eye className="h-4 w-4 mr-1" />
+                                        <Eye className="mr-1 h-4 w-4" />
                                         {t('View')}
                                     </Button>
                                 </div>
@@ -86,11 +92,8 @@ export default function Comparisons() {
                 </CardContent>
 
                 {comparisons.data.length > 0 && (
-                    <CardContent className="px-4 py-2 border-t bg-muted/50/30">
-                        <Pagination
-                            data={comparisons}
-                            routeName="double-entry.balance-sheets.comparisons"
-                        />
+                    <CardContent className="bg-muted/50/30 border-t px-4 py-2">
+                        <Pagination data={comparisons} routeName="double-entry.balance-sheets.comparisons" />
                     </CardContent>
                 )}
             </Card>

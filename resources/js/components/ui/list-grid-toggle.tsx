@@ -10,23 +10,29 @@ interface ListGridToggleProps {
     onViewChange?: (view: 'list' | 'grid') => void;
 }
 
-export function ListGridToggle({ currentView, routeName, routeParams = [], filters = {}, onViewChange }: ListGridToggleProps) {
+export function ListGridToggle({
+    currentView,
+    routeName,
+    routeParams = [],
+    filters = {},
+    onViewChange,
+}: ListGridToggleProps) {
     const handleViewChange = (view: 'list' | 'grid') => {
         const urlParams = new URLSearchParams(window.location.search);
         const params = { ...filters, view, page: urlParams.get('page') || '1' };
-        
+
         if (onViewChange) {
             onViewChange(view);
         }
-        
+
         router.get(route(routeName, ...routeParams), params, {
             preserveState: false,
-            replace: true
+            replace: true,
         });
     };
 
     return (
-        <div className="flex flex-row items-center border rounded-md">
+        <div className="flex flex-row items-center rounded-md border">
             <Button
                 variant={currentView === 'list' ? 'default' : 'ghost'}
                 size="sm"

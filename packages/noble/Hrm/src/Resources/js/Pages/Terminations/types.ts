@@ -56,7 +56,7 @@ export interface TerminationFilters {
 }
 
 export type PaginatedTerminations = PaginatedData<Termination>;
-export type TerminationModalState = { isOpen: boolean; mode: string; data: Termination | null; };
+export type TerminationModalState = { isOpen: boolean; mode: string; data: Termination | null };
 
 export interface TerminationsIndexProps {
     terminations: PaginatedTerminations;

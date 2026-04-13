@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -32,16 +32,24 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
 
     // AI hooks for name and description fields
     const nameAI = useFormFields('aiField', data, setData, errors, 'edit', 'name', 'Name', 'hrm', 'holiday');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'hrm', 'holiday');
-
-
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'hrm',
+        'holiday'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.holidays.update', holiday.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -52,9 +60,11 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="name" required>{t('Name')}</Label>
+                            <Label htmlFor="name" required>
+                                {t('Name')}
+                            </Label>
                             <Input
                                 id="name"
                                 type="text"
@@ -65,10 +75,12 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
                             />
                             <InputError message={errors.name} />
                         </div>
-                        {nameAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {nameAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
                     <Label required>{t('Start Date')}</Label>
                     <DatePicker
@@ -79,7 +91,7 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
                     />
                     <InputError message={errors.start_date} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('End Date')}</Label>
                     <DatePicker
@@ -90,10 +102,16 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
                     />
                     <InputError message={errors.end_date} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="holiday_type_id" required>{t('Holiday Type')}</Label>
-                    <Select value={data.holiday_type_id?.toString() || ''} onValueChange={(value) => setData('holiday_type_id', value)} required>
+                    <Label htmlFor="holiday_type_id" required>
+                        {t('Holiday Type')}
+                    </Label>
+                    <Select
+                        value={data.holiday_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('holiday_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Holiday Type')} />
                         </SelectTrigger>
@@ -107,12 +125,16 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
                     </Select>
                     <InputError message={errors.holiday_type_id} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="description" required>{t('Description')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="description" required>
+                            {t('Description')}
+                        </Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -125,37 +147,43 @@ export default function EditHoliday({ holiday, onSuccess }: EditHolidayProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_paid"
                         checked={data.is_paid || false}
                         onCheckedChange={(checked) => setData('is_paid', !!checked)}
                     />
-                    <Label htmlFor="is_paid" className="cursor-pointer">{t('Is Paid')}</Label>
+                    <Label htmlFor="is_paid" className="cursor-pointer">
+                        {t('Is Paid')}
+                    </Label>
                     <InputError message={errors.is_paid} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_sync_google_calendar"
                         checked={data.is_sync_google_calendar || false}
                         onCheckedChange={(checked) => setData('is_sync_google_calendar', !!checked)}
                     />
-                    <Label htmlFor="is_sync_google_calendar" className="cursor-pointer">{t('Is Sync Google Calendar')}</Label>
+                    <Label htmlFor="is_sync_google_calendar" className="cursor-pointer">
+                        {t('Is Sync Google Calendar')}
+                    </Label>
                     <InputError message={errors.is_sync_google_calendar} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_sync_outlook_calendar"
                         checked={data.is_sync_outlook_calendar || false}
                         onCheckedChange={(checked) => setData('is_sync_outlook_calendar', !!checked)}
                     />
-                    <Label htmlFor="is_sync_outlook_calendar" className="cursor-pointer">{t('Is Sync Outlook Calendar')}</Label>
+                    <Label htmlFor="is_sync_outlook_calendar" className="cursor-pointer">
+                        {t('Is Sync Outlook Calendar')}
+                    </Label>
                     <InputError message={errors.is_sync_outlook_calendar} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

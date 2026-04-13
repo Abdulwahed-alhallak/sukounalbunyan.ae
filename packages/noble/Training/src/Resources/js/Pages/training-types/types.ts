@@ -6,8 +6,8 @@ export interface TrainingType {
     branch?: {
         id: number;
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     designations: string[];
     is_active: boolean;
     created_at: string;
@@ -39,8 +39,8 @@ export interface TrainingTypesIndexProps {
         data: TrainingType[];
         links: any[];
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     branches: Branch[];
     departments: Department[];
     designations: Designation[];

@@ -23,7 +23,7 @@ export default function Benefits({ data, getSectionData, updateSectionData, upda
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <CheckCircle className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -67,18 +67,30 @@ export default function Benefits({ data, getSectionData, updateSectionData, upda
                             placeholder={t('Why ChooseNobleArchitecture?')}
                         />
                     </div>
-                    
+
                     <div className="space-y-4">
                         <Label>{t('Benefits List')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'title', label: t('Benefit Title'), type: 'text', placeholder: t('Benefit title'), required: true },
-                                { name: 'description', label: t('Benefit Description'), type: 'textarea', placeholder: t('Benefit description'), required: true }
+                                {
+                                    name: 'title',
+                                    label: t('Benefit Title'),
+                                    type: 'text',
+                                    placeholder: t('Benefit title'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'description',
+                                    label: t('Benefit Description'),
+                                    type: 'textarea',
+                                    placeholder: t('Benefit description'),
+                                    required: true,
+                                },
                             ]}
                             value={(getSectionData('benefits').benefits || [])?.map((benefit: any, index: number) => ({
                                 id: `benefit-${index}`,
                                 title: benefit.title || '',
-                                description: benefit.description || ''
+                                description: benefit.description || '',
                             }))}
                             onChange={(items) => {
                                 const benefits = items?.map(({ id, ...item }) => item);
@@ -94,4 +106,3 @@ export default function Benefits({ data, getSectionData, updateSectionData, upda
         </div>
     );
 }
-

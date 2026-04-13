@@ -17,13 +17,13 @@ export interface LabelFormData {
     [key: string]: any;
 }
 
-export interface CreateLabelProps extends CreateProps  {
+export interface CreateLabelProps extends CreateProps {
     pipelines: any[];
     defaultPipelineId?: number;
     [key: string]: any;
 }
 
-export interface EditLabelProps extends EditProps<Label>  {
+export interface EditLabelProps extends EditProps<Label> {
     pipelines: any[];
     [key: string]: any;
 }

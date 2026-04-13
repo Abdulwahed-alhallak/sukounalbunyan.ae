@@ -29,7 +29,7 @@ export const AIGenerationModal = ({
     onGenerate,
     context = {},
     module,
-    submodule
+    submodule,
 }: AIGenerationModalProps) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export const AIGenerationModal = ({
         creativity: 'medium',
         resultCount: 1,
         maxLength: 100,
-        fieldContent: ''
+        fieldContent: '',
     });
 
     const handleGenerate = async () => {
@@ -52,15 +52,15 @@ export const AIGenerationModal = ({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 },
                 body: JSON.stringify({
                     fieldType,
                     settings,
                     context,
                     module,
-                    submodule
-                })
+                    submodule,
+                }),
             });
 
             const data = await response.json();
@@ -105,7 +105,7 @@ export const AIGenerationModal = ({
                         <Label>{t('Language')}</Label>
                         <Select
                             value={settings.language}
-                            onValueChange={(value) => setSettings(prev => ({ ...prev, language: value }))}
+                            onValueChange={(value) => setSettings((prev) => ({ ...prev, language: value }))}
                         >
                             <SelectTrigger>
                                 <SelectValue />
@@ -135,8 +135,8 @@ export const AIGenerationModal = ({
                         <Label>{t('AI Creativity')}</Label>
                         <RadioGroup
                             value={settings.creativity}
-                            onValueChange={(value) => setSettings(prev => ({ ...prev, creativity: value }))}
-                            className="flex gap-6 mt-2"
+                            onValueChange={(value) => setSettings((prev) => ({ ...prev, creativity: value }))}
+                            className="mt-2 flex gap-6"
                         >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="low" />
@@ -158,7 +158,9 @@ export const AIGenerationModal = ({
                         <Label>{t('Number of Results')}</Label>
                         <Select
                             value={settings.resultCount.toString()}
-                            onValueChange={(value) => setSettings(prev => ({ ...prev, resultCount: parseInt(value) }))}
+                            onValueChange={(value) =>
+                                setSettings((prev) => ({ ...prev, resultCount: parseInt(value) }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
@@ -174,10 +176,12 @@ export const AIGenerationModal = ({
 
                     {/* Maximum Length */}
                     <div>
-                        <Label>{t('Maximum Length')} ({settings.maxLength} {t('characters')})</Label>
+                        <Label>
+                            {t('Maximum Length')} ({settings.maxLength} {t('characters')})
+                        </Label>
                         <Slider
                             value={[settings.maxLength]}
-                            onValueChange={([value]) => setSettings(prev => ({ ...prev, maxLength: value }))}
+                            onValueChange={([value]) => setSettings((prev) => ({ ...prev, maxLength: value }))}
                             max={500}
                             min={50}
                             step={25}
@@ -187,31 +191,31 @@ export const AIGenerationModal = ({
 
                     {/* Field Content Input */}
                     <div>
-                        <Label>{t('Additional Context for')} {fieldLabel}</Label>
+                        <Label>
+                            {t('Additional Context for')} {fieldLabel}
+                        </Label>
                         <Textarea
                             placeholder={t('Provide additional context...')}
                             value={settings.fieldContent}
-                            onChange={(e) => setSettings(prev => ({ ...prev, fieldContent: e.target.value }))}
+                            onChange={(e) => setSettings((prev) => ({ ...prev, fieldContent: e.target.value }))}
                         />
                     </div>
 
                     {/* Generate Button */}
-                    <Button
-                        onClick={handleGenerate}
-                        disabled={loading}
-                        className="w-full"
-                    >
+                    <Button onClick={handleGenerate} disabled={loading} className="w-full">
                         {loading ? t('Generating...') : t('Generate Content')}
                     </Button>
 
                     {/* Results Display */}
                     {results.length > 0 && (
                         <div className="space-y-2">
-                            <Label>{t('Generated Results')} ({t('Click to select')}):</Label>
+                            <Label>
+                                {t('Generated Results')} ({t('Click to select')}):
+                            </Label>
                             {results?.map((result, index) => (
                                 <div
                                     key={index}
-                                    className="p-3 border rounded cursor-pointer hover:bg-muted/50"
+                                    className="cursor-pointer rounded border p-3 hover:bg-muted/50"
                                     onClick={() => handleSelectResult(result)}
                                 >
                                     <p className="text-sm">{result}</p>

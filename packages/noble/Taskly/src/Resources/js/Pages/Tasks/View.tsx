@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { usePage } from '@inertiajs/react';
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getImagePath } from '@/utils/helpers';
 import { User } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import ModuleAttachments from '@/components/ModuleAttachments';
-import { Checkbox } from "@/components/ui/checkbox";
-import { DatePicker } from "@/components/ui/date-picker";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Checkbox } from '@/components/ui/checkbox';
+import { DatePicker } from '@/components/ui/date-picker';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { ProjectTask, Project, Milestone, TaskStage } from './types';
 import axios from 'axios';
@@ -27,7 +27,7 @@ interface ViewTaskProps {
     task: { id: number } | ProjectTask;
     project?: Project;
     milestones: Milestone[];
-    teamMembers: Array<{ id: number; name: string; }>;
+    teamMembers: Array<{ id: number; name: string }>;
     taskStages: TaskStage[];
 }
 
@@ -39,7 +39,7 @@ export default function View({ task, project, milestones, teamMembers, taskStage
     const [activeTab, setActiveTab] = useState('comments');
 
     const refreshTask = () => {
-        axios.get(route('project.tasks.show', task.id)).then(res => setTaskData(res.data.task));
+        axios.get(route('project.tasks.show', task.id)).then((res) => setTaskData(res.data.task));
     };
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function View({ task, project, milestones, teamMembers, taskStage
 
     if (loading) {
         return (
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{t('Task Details')}</DialogTitle>
                 </DialogHeader>
@@ -73,15 +73,15 @@ export default function View({ task, project, milestones, teamMembers, taskStage
     if (!taskData) return null;
 
     // Find milestone
-    const milestone = milestones.find(m => m.id === taskData.milestone_id);
+    const milestone = milestones.find((m) => m.id === taskData.milestone_id);
 
     // Find stage
-    const stage = taskStages.find(s => s.id === taskData.stage_id);
+    const stage = taskStages.find((s) => s.id === taskData.stage_id);
 
     const assignedUsers = taskData.assignedUsers || [];
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Task Details')}</DialogTitle>
             </DialogHeader>
@@ -92,44 +92,57 @@ export default function View({ task, project, milestones, teamMembers, taskStage
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold text-foreground">{taskData.title}</h3>
                     </div>
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            taskData.priority === 'Low' ? 'bg-muted text-foreground' :
-                            taskData.priority === 'Medium' ? 'bg-muted text-foreground' :
-                            taskData.priority === 'High' ? 'bg-muted text-destructive' :
-                            'bg-muted text-destructive'
-                        }`}>
-                            {t(taskData.priority)}
+                    <span
+                        className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                            taskData.priority === 'Low'
+                                ? 'bg-muted text-foreground'
+                                : taskData.priority === 'Medium'
+                                  ? 'bg-muted text-foreground'
+                                  : taskData.priority === 'High'
+                                    ? 'bg-muted text-destructive'
+                                    : 'bg-muted text-destructive'
+                        }`}
+                    >
+                        {t(taskData.priority)}
                     </span>
                 </div>
 
                 {/* Description */}
                 {taskData.description && (
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Description')}</h4>
-                        <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">{taskData.description}</p>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Description')}</h4>
+                        <p className="rounded-md bg-muted/50 p-3 text-sm text-muted-foreground">
+                            {taskData.description}
+                        </p>
                     </div>
                 )}
 
                 {/* Details Grid */}
                 <div className="grid grid-cols-2 gap-6">
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Project')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Project')}</h4>
                         <p className="text-sm text-foreground">{taskData.project?.name || project?.name || '-'}</p>
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Milestone')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Milestone')}</h4>
                         <p className="text-sm text-foreground">{milestone?.title || '-'}</p>
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Stage')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Stage')}</h4>
                         {taskData.stage?.name ? (
-                            <span className="px-2 py-1 rounded-full text-sm" style={{ backgroundColor: `${taskData.stage?.color || '#e5e7eb'}30`, color: '#374151' }}>
+                            <span
+                                className="rounded-full px-2 py-1 text-sm"
+                                style={{ backgroundColor: `${taskData.stage?.color || '#e5e7eb'}30`, color: '#374151' }}
+                            >
                                 {t(taskData.stage.name)}
                             </span>
                         ) : stage?.name ? (
-                            <span className="px-2 py-1 rounded-full text-sm" style={{ backgroundColor: `${stage?.color || '#e5e7eb'}30`, color: '#374151' }}>
+                            <span
+                                className="rounded-full px-2 py-1 text-sm"
+                                style={{ backgroundColor: `${stage?.color || '#e5e7eb'}30`, color: '#374151' }}
+                            >
                                 {t(stage.name)}
                             </span>
                         ) : (
@@ -138,24 +151,23 @@ export default function View({ task, project, milestones, teamMembers, taskStage
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">{t('Duration')}</h4>
+                        <h4 className="mb-2 text-sm font-medium text-foreground">{t('Duration')}</h4>
                         <p className="text-sm text-foreground">
                             {taskData.start_date && taskData.end_date
                                 ? `${formatDate(taskData.start_date)} - ${formatDate(taskData.end_date)}`
-                                : taskData.duration || '-'
-                            }
+                                : taskData.duration || '-'}
                         </p>
                     </div>
                 </div>
 
                 {/* Assigned Users */}
                 <div>
-                    <h4 className="text-sm font-medium text-foreground mb-3">{t('Assigned To')}</h4>
+                    <h4 className="mb-3 text-sm font-medium text-foreground">{t('Assigned To')}</h4>
                     {assignedUsers.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                             {assignedUsers?.map((user, index) => (
-                                <div key={index} className="flex items-center gap-2 bg-muted/50 px-3 py-2 rounded-md">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                                <div key={index} className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
+                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-muted">
                                         {user.avatar ? (
                                             <img
                                                 src={getImagePath(user.avatar)}
@@ -176,13 +188,23 @@ export default function View({ task, project, milestones, teamMembers, taskStage
                 </div>
 
                 {/* Tabs Section */}
-                {(auth.user?.permissions?.includes('manage-project-task-comments') || auth.user?.permissions?.includes('manage-project-subtask')) && (
-                    <Tabs defaultValue={auth.user?.permissions?.includes('manage-project-task-comments') ? 'comments' : 'subtasks'} onValueChange={setActiveTab} className="w-full">
-                        <TabsList className={`grid w-full ${
-                            auth.user?.permissions?.includes('manage-project-task-comments') && auth.user?.permissions?.includes('manage-project-subtask')
-                                ? 'grid-cols-2'
-                                : 'grid-cols-1'
-                        }`}>
+                {(auth.user?.permissions?.includes('manage-project-task-comments') ||
+                    auth.user?.permissions?.includes('manage-project-subtask')) && (
+                    <Tabs
+                        defaultValue={
+                            auth.user?.permissions?.includes('manage-project-task-comments') ? 'comments' : 'subtasks'
+                        }
+                        onValueChange={setActiveTab}
+                        className="w-full"
+                    >
+                        <TabsList
+                            className={`grid w-full ${
+                                auth.user?.permissions?.includes('manage-project-task-comments') &&
+                                auth.user?.permissions?.includes('manage-project-subtask')
+                                    ? 'grid-cols-2'
+                                    : 'grid-cols-1'
+                            }`}
+                        >
                             {auth.user?.permissions?.includes('manage-project-task-comments') && (
                                 <TabsTrigger value="comments">{t('Comments')}</TabsTrigger>
                             )}
@@ -243,7 +265,7 @@ function CommentsTab({ taskId }: { taskId: number }) {
         setDeleteState({
             isOpen: true,
             commentId,
-            message: t('Are you sure you want to delete this comment?')
+            message: t('Are you sure you want to delete this comment?'),
         });
     };
 
@@ -300,8 +322,6 @@ function CommentsTab({ taskId }: { taskId: number }) {
         }
     };
 
-
-
     return (
         <div className="space-y-4">
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -321,16 +341,16 @@ function CommentsTab({ taskId }: { taskId: number }) {
             </form>
 
             {loadingComments ? (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('Loading comments...')}</p>
                 </div>
             ) : comments.length > 0 ? (
                 <div className="space-y-3">
                     {comments?.map((comment) => (
-                        <div key={comment.id} className="bg-muted/50 p-3 rounded-md">
+                        <div key={comment.id} className="rounded-md bg-muted/50 p-3">
                             <div className="flex items-start justify-between">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                                <div className="mb-2 flex items-center gap-2">
+                                    <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-muted">
                                         {comment.user.avatar ? (
                                             <img
                                                 src={getImagePath(comment.user.avatar)}
@@ -354,7 +374,7 @@ function CommentsTab({ taskId }: { taskId: number }) {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => openDeleteDialog(comment.id)}
-                                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive mt-1"
+                                                    className="mt-1 h-6 w-6 p-0 text-destructive hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-3 w-3" />
                                                 </Button>
@@ -371,7 +391,7 @@ function CommentsTab({ taskId }: { taskId: number }) {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('No comments yet')}</p>
                 </div>
             )}
@@ -421,7 +441,7 @@ function SubtasksTab({ taskId }: { taskId: number }) {
         try {
             const response = await axios.post(route('project.tasks.subtasks.store', taskId), {
                 name,
-                due_date: dueDate || null
+                due_date: dueDate || null,
             });
             setName('');
             setDueDate('');
@@ -473,19 +493,18 @@ function SubtasksTab({ taskId }: { taskId: number }) {
             </form>
 
             {loadingSubtasks ? (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('Loading subtasks...')}</p>
                 </div>
             ) : subtasks.length > 0 ? (
                 <div className="space-y-3">
                     {subtasks?.map((subtask) => (
-                        <div key={subtask.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-md">
-                            <Checkbox
-                                checked={subtask.is_completed}
-                                onCheckedChange={() => handleToggle(subtask.id)}
-                            />
+                        <div key={subtask.id} className="flex items-center gap-3 rounded-md bg-muted/50 p-3">
+                            <Checkbox checked={subtask.is_completed} onCheckedChange={() => handleToggle(subtask.id)} />
                             <div className="flex-1">
-                                <p className={`text-sm ${subtask.is_completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+                                <p
+                                    className={`text-sm ${subtask.is_completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}
+                                >
                                     {subtask.name}
                                 </p>
                                 {subtask.due_date && (
@@ -498,7 +517,7 @@ function SubtasksTab({ taskId }: { taskId: number }) {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('No subtasks yet')}</p>
                 </div>
             )}
@@ -519,7 +538,7 @@ export function TimersTab({ taskId }: { taskId: number }) {
             const response = await axios.get(route('project.tasks.timers.index', taskId));
             setTimers(response.data.timers);
             setTotalDuration(response.data.total_duration);
-            
+
             // Check if user has active timer
             const active = response.data.timers.find((ti: any) => ti.user?.id === auth.user?.id && !ti.end_time);
             setIsTimerRunning(!!active);
@@ -558,40 +577,52 @@ export function TimersTab({ taskId }: { taskId: number }) {
 
     return (
         <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border/50">
+            <div className="flex items-center justify-between rounded-lg border border-border/50 bg-muted/50 p-4">
                 <div>
                     <h4 className="font-semibold text-foreground">{t('Time Tracking')}</h4>
-                    <p className="text-sm text-muted-foreground">{t('Total time logged:')} <span className="font-bold text-primary">{formatSeconds(totalDuration)}</span></p>
+                    <p className="text-sm text-muted-foreground">
+                        {t('Total time logged:')}{' '}
+                        <span className="font-bold text-primary">{formatSeconds(totalDuration)}</span>
+                    </p>
                 </div>
-                <Button 
-                    onClick={toggleTimer} 
-                    variant={isTimerRunning ? "destructive" : "default"}
+                <Button
+                    onClick={toggleTimer}
+                    variant={isTimerRunning ? 'destructive' : 'default'}
                     className="gap-2 shadow-sm"
                 >
                     {isTimerRunning ? (
                         <>
                             <span className="relative flex h-3 w-3">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                                <span className="relative inline-flex h-3 w-3 rounded-full bg-white"></span>
                             </span>
                             {t('Stop Timer')}
                         </>
-                    ) : t('Start Timer')}
+                    ) : (
+                        t('Start Timer')
+                    )}
                 </Button>
             </div>
 
             {loadingTimers ? (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                     <p className="text-sm text-muted-foreground">{t('Loading timers...')}</p>
                 </div>
             ) : timers.length > 0 ? (
                 <div className="space-y-3">
                     {timers.map((timer) => (
-                        <div key={timer.id} className="flex items-center justify-between p-3 bg-card border rounded-md shadow-sm">
+                        <div
+                            key={timer.id}
+                            className="flex items-center justify-between rounded-md border bg-card p-3 shadow-sm"
+                        >
                             <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-full overflow-hidden bg-muted flex items-center justify-center border">
+                                <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border bg-muted">
                                     {timer.user?.avatar ? (
-                                        <img src={getImagePath(timer.user.avatar)} alt={timer.user.name} className="h-full w-full object-cover" />
+                                        <img
+                                            src={getImagePath(timer.user.avatar)}
+                                            alt={timer.user.name}
+                                            className="h-full w-full object-cover"
+                                        />
                                     ) : (
                                         <User className="h-4 w-4 text-muted-foreground" />
                                     )}
@@ -599,13 +630,18 @@ export function TimersTab({ taskId }: { taskId: number }) {
                                 <div>
                                     <p className="text-sm font-medium">{timer.user?.name}</p>
                                     <p className="text-xs text-muted-foreground">
-                                        {formatDate(timer.start_time)} 
-                                        {timer.end_time ? ` - ${formatDate(timer.end_time).split(' ')[1]}` : ' (' + t('Running') + ')'}
+                                        {formatDate(timer.start_time)}
+                                        {timer.end_time
+                                            ? ` - ${formatDate(timer.end_time).split(' ')[1]}`
+                                            : ' (' + t('Running') + ')'}
                                     </p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <Badge variant={timer.end_time ? "outline" : "default"} className={!timer.end_time ? "animate-pulse" : ""}>
+                                <Badge
+                                    variant={timer.end_time ? 'outline' : 'default'}
+                                    className={!timer.end_time ? 'animate-pulse' : ''}
+                                >
                                     {timer.end_time ? formatSeconds(timer.duration_seconds) : t('Running...')}
                                 </Badge>
                             </div>
@@ -613,9 +649,9 @@ export function TimersTab({ taskId }: { taskId: number }) {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-8 text-muted-foreground border border-dashed rounded-lg bg-muted/20">
+                <div className="rounded-lg border border-dashed bg-muted/20 py-8 text-center text-muted-foreground">
                     <p>{t('No time logged yet')}</p>
-                    <p className="text-xs mt-1">{t('Click Start Timer to begin tracking')}</p>
+                    <p className="mt-1 text-xs">{t('Click Start Timer to begin tracking')}</p>
                 </div>
             )}
         </div>

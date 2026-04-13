@@ -29,7 +29,7 @@ interface StatusUpdateProps {
 export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, isManager }: StatusUpdateProps) {
     const { t } = useTranslation();
     const [processing, setProcessing] = useState(false);
-    
+
     // Status can be either for manager or HR
     const [status, setStatus] = useState<string>('pending');
     const [comment, setComment] = useState('');
@@ -40,7 +40,7 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
     useEffect(() => {
         if (award) {
             setStatus(isManager ? award.manager_status : award.status);
-            setComment(isManager ? (award.manager_comment || '') : (award.approver_comment || ''));
+            setComment(isManager ? award.manager_comment || '' : award.approver_comment || '');
         }
     }, [award, isManager]);
 
@@ -49,9 +49,9 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
         if (!award) return;
 
         setProcessing(true);
-        
+
         const payload: Record<string, any> = {
-            approver_comment: comment
+            approver_comment: comment,
         };
 
         if (isManager) {
@@ -67,7 +67,7 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
             },
             onError: () => {
                 setProcessing(false);
-            }
+            },
         });
     };
 
@@ -87,8 +87,8 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {cannotApproveAsHr && (
-                        <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-md flex items-start gap-3">
-                            <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+                        <div className="flex items-start gap-3 rounded-md bg-destructive/10 px-4 py-3 text-destructive">
+                            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
                             <div className="text-sm">
                                 {t('This award must be evaluated by the Line Manager first before you can approve it.')}
                             </div>
@@ -103,24 +103,24 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
                             className="flex gap-4"
                             disabled={processing || (cannotApproveAsHr && status !== 'rejected')}
                         >
-                            <label className="flex items-center space-x-2 cursor-pointer">
+                            <label className="flex cursor-pointer items-center space-x-2">
                                 <RadioGroupItem value="pending" id="pending" />
-                                <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted text-sm font-medium">
-                                    <Clock className="w-4 h-4 text-warning" />
+                                <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                                    <Clock className="h-4 w-4 text-warning" />
                                     {t('Pending')}
                                 </span>
                             </label>
-                            <label className="flex items-center space-x-2 cursor-pointer">
+                            <label className="flex cursor-pointer items-center space-x-2">
                                 <RadioGroupItem value="approved" id="approved" disabled={cannotApproveAsHr} />
-                                <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted text-sm font-medium text-success">
-                                    <CheckCircle2 className="w-4 h-4" />
+                                <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium text-success">
+                                    <CheckCircle2 className="h-4 w-4" />
                                     {t('Approve')}
                                 </span>
                             </label>
-                            <label className="flex items-center space-x-2 cursor-pointer">
+                            <label className="flex cursor-pointer items-center space-x-2">
                                 <RadioGroupItem value="rejected" id="rejected" />
-                                <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted text-sm font-medium text-destructive">
-                                    <XCircle className="w-4 h-4" />
+                                <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium text-destructive">
+                                    <XCircle className="h-4 w-4" />
                                     {t('Reject')}
                                 </span>
                             </label>
@@ -139,8 +139,13 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
                         />
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t">
-                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={processing}>
+                    <div className="flex justify-end gap-3 border-t pt-4">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => onOpenChange(false)}
+                            disabled={processing}
+                        >
                             {t('Cancel')}
                         </Button>
                         <Button type="submit" disabled={processing || (cannotApproveAsHr && status === 'approved')}>

@@ -24,7 +24,7 @@ interface CashFlowProps {
     financialYear?: {
         year_start_date: string;
         year_end_date: string;
-    }
+    };
 }
 
 export default function CashFlow({ financialYear }: CashFlowProps) {
@@ -39,7 +39,7 @@ export default function CashFlow({ financialYear }: CashFlowProps) {
         setLoading(true);
         try {
             const response = await axios.get(route('double-entry.reports.cash-flow'), {
-                params: { from_date: fromDate, to_date: toDate }
+                params: { from_date: fromDate, to_date: toDate },
             });
             setData(response.data);
         } catch (error) {
@@ -54,8 +54,8 @@ export default function CashFlow({ financialYear }: CashFlowProps) {
     }, []);
 
     const handleDownloadPDF = () => {
-        const printUrl = route('double-entry.reports.cash-flow.print') +
-            `?from_date=${fromDate}&to_date=${toDate}&download=pdf`;
+        const printUrl =
+            route('double-entry.reports.cash-flow.print') + `?from_date=${fromDate}&to_date=${toDate}&download=pdf`;
         window.open(printUrl, '_blank');
     };
 
@@ -66,29 +66,23 @@ export default function CashFlow({ financialYear }: CashFlowProps) {
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
-                        <DatePicker
-                            value={fromDate}
-                            onChange={setFromDate}
-                            placeholder={t('Select from date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('From Date')}</label>
+                        <DatePicker value={fromDate} onChange={setFromDate} placeholder={t('Select from date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
-                        <DatePicker
-                            value={toDate}
-                            onChange={setToDate}
-                            placeholder={t('Select to date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
+                        <DatePicker value={toDate} onChange={setToDate} placeholder={t('Select to date')} />
                     </div>
                     <div className="flex items-end gap-2">
                         <Button onClick={fetchData} disabled={loading} size="sm">
                             {loading ? t('Loading...') : t('Generate')}
                         </Button>
-                        <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                        <Button variant="outline" onClick={clearFilters} size="sm">
+                            {t('Clear')}
+                        </Button>
                         {data && auth.user?.permissions?.includes('print-cash-flow') && (
                             <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="gap-2">
                                 <Printer className="h-4 w-4" />
@@ -102,54 +96,64 @@ export default function CashFlow({ financialYear }: CashFlowProps) {
             <CardContent className="p-0">
                 {data ? (
                     <>
-                        <div className="p-4 bg-muted/50 border-b">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="text-center p-4 bg-card rounded-lg border">
-                                    <p className="text-xs font-medium text-muted-foreground mb-1">{t('Beginning Cash')}</p>
+                        <div className="border-b bg-muted/50 p-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                                <div className="rounded-lg border bg-card p-4 text-center">
+                                    <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                        {t('Beginning Cash')}
+                                    </p>
                                     <p className="text-lg font-bold">{formatCurrency(data.beginning_cash)}</p>
                                 </div>
-                                <div className="text-center p-4 bg-card rounded-lg border">
-                                    <p className="text-xs font-medium text-muted-foreground mb-1">{t('Net Cash Flow')}</p>
+                                <div className="rounded-lg border bg-card p-4 text-center">
+                                    <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                        {t('Net Cash Flow')}
+                                    </p>
                                     <p className="text-lg font-bold">{formatCurrency(data.net_cash_flow)}</p>
                                 </div>
-                                <div className="text-center p-4 bg-card rounded-lg border">
-                                    <p className="text-xs font-medium text-muted-foreground mb-1">{t('Ending Cash')}</p>
+                                <div className="rounded-lg border bg-card p-4 text-center">
+                                    <p className="mb-1 text-xs font-medium text-muted-foreground">{t('Ending Cash')}</p>
                                     <p className="text-lg font-bold">{formatCurrency(data.ending_cash)}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="p-6">
                             <div className="space-y-6">
-                                <div className="bg-muted/50 p-4 rounded-lg">
-                                    <h4 className="font-bold mb-3 text-base">{t('Cash Flow from Operating Activities')}</h4>
+                                <div className="rounded-lg bg-muted/50 p-4">
+                                    <h4 className="mb-3 text-base font-bold">
+                                        {t('Cash Flow from Operating Activities')}
+                                    </h4>
                                     <div className="flex justify-between py-2">
                                         <p className="text-sm">{t('Net cash from operations')}</p>
                                         <p className="text-sm font-semibold">{formatCurrency(data.operating)}</p>
                                     </div>
                                 </div>
 
-                                <div className="bg-muted/50 p-4 rounded-lg">
-                                    <h4 className="font-bold mb-3 text-base">{t('Cash Flow from Investing Activities')}</h4>
+                                <div className="rounded-lg bg-muted/50 p-4">
+                                    <h4 className="mb-3 text-base font-bold">
+                                        {t('Cash Flow from Investing Activities')}
+                                    </h4>
                                     <div className="flex justify-between py-2">
                                         <p className="text-sm">{t('Net cash from investing')}</p>
                                         <p className="text-sm font-semibold">{formatCurrency(data.investing)}</p>
                                     </div>
                                 </div>
 
-                                <div className="bg-muted/50 p-4 rounded-lg">
-                                    <h4 className="font-bold mb-3 text-base">{t('Cash Flow from Financing Activities')}</h4>
+                                <div className="rounded-lg bg-muted/50 p-4">
+                                    <h4 className="mb-3 text-base font-bold">
+                                        {t('Cash Flow from Financing Activities')}
+                                    </h4>
                                     <div className="flex justify-between py-2">
                                         <p className="text-sm">{t('Net cash from financing')}</p>
                                         <p className="text-sm font-semibold">{formatCurrency(data.financing)}</p>
                                     </div>
                                 </div>
 
-                                <div className="flex justify-between py-4 border-t-2 border-border font-bold text-lg">
+                                <div className="flex justify-between border-t-2 border-border py-4 text-lg font-bold">
                                     <p>{t('Net Increase/Decrease in Cash')}</p>
                                     <p>{formatCurrency(data.net_cash_flow)}</p>
                                 </div>
 
-                                <div className="flex justify-between py-4 border-t-4 border-border font-bold text-xl">
+                                <div className="flex justify-between border-t-4 border-border py-4 text-xl font-bold">
                                     <p>{t('Ending Cash Balance')}</p>
                                     <p>{formatCurrency(data.ending_cash)}</p>
                                 </div>

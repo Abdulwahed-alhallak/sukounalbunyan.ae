@@ -5,7 +5,7 @@ export const getStatusBadgeClasses = (status: string) => {
         partial: 'bg-muted text-muted-foreground',
         paid: 'bg-foreground/10 text-foreground',
         overdue: 'bg-destructive/10 text-destructive',
-        cancelled: 'bg-destructive/10 text-destructive'
+        cancelled: 'bg-destructive/10 text-destructive',
     };
     return `px-2 py-1 rounded-full text-sm ${colors[status as keyof typeof colors]}`;
 };

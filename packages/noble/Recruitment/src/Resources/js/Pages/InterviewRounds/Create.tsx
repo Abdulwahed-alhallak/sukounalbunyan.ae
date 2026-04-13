@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -29,7 +29,7 @@ export default function Create({ onSuccess }: CreateInterviewRoundProps) {
         post(route('recruitment.interview-rounds.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -40,8 +40,14 @@ export default function Create({ onSuccess }: CreateInterviewRoundProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="job_id" required>{t('Job')}</Label>
-                    <Select value={data.job_id?.toString() || ''} onValueChange={(value) => setData('job_id', value)} required>
+                    <Label htmlFor="job_id" required>
+                        {t('Job')}
+                    </Label>
+                    <Select
+                        value={data.job_id?.toString() || ''}
+                        onValueChange={(value) => setData('job_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Job')} />
                         </SelectTrigger>
@@ -55,14 +61,15 @@ export default function Create({ onSuccess }: CreateInterviewRoundProps) {
                     </Select>
                     <InputError message={errors.job_id} />
                     {(!jobpostings || jobpostings.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create job posting here. ')}
                             <a
                                 href={route('recruitment.job-postings.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('job posting')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>

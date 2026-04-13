@@ -1,10 +1,10 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/ui/input-error';
 import { CreateBugStageProps, BugStageFormData } from './types';
 
 export default function Create({ onSuccess }: CreateBugStageProps) {
@@ -19,7 +19,7 @@ export default function Create({ onSuccess }: CreateBugStageProps) {
         post(route('project.bug-stages.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

@@ -4,7 +4,26 @@ import { useTranslation } from 'react-i18next';
 import { getSuperAdminMenu } from './menus/superadmin-menu';
 import { getCompanyMenu } from './menus/company-menu';
 import * as LucideIcons from 'lucide-react';
-import { LayoutGrid, Users, CreditCard, Headphones, Mail, Bell, BarChart3, ShieldCheck, Image, Package, Settings, UserCog, Briefcase, DollarSign, FolderKanban, MessagesSquare, FileBarChart, Wrench } from 'lucide-react';
+import {
+    LayoutGrid,
+    Users,
+    CreditCard,
+    Headphones,
+    Mail,
+    Bell,
+    BarChart3,
+    ShieldCheck,
+    Image,
+    Package,
+    Settings,
+    UserCog,
+    Briefcase,
+    DollarSign,
+    FolderKanban,
+    MessagesSquare,
+    FileBarChart,
+    Wrench,
+} from 'lucide-react';
 
 // Get role-based core menu items
 const getCoreMenuItems = (userRoles: string[], t: (key: string) => string): NavItem[] => {
@@ -15,24 +34,28 @@ const getCoreMenuItems = (userRoles: string[], t: (key: string) => string): NavI
 };
 
 // Auto-load package menus based on activated packages
-const getPackageMenuItems = (userRoles: string[], activatedPackages: string[], t: (key: string) => string): NavItem[] => {
+const getPackageMenuItems = (
+    userRoles: string[],
+    activatedPackages: string[],
+    t: (key: string) => string
+): NavItem[] => {
     const menuItems: NavItem[] = [];
     const isSuperAdmin = userRoles.includes('superadmin');
-    
+
     const allModules = import.meta.glob('../../../packages/noble/*/src/Resources/js/menus/*.ts', { eager: true });
 
     if (!Array.isArray(activatedPackages)) {
         return menuItems;
     }
 
-    activatedPackages.forEach(packageName => {
+    activatedPackages.forEach((packageName) => {
         let module = null;
-        
+
         if (isSuperAdmin) {
             // Try superadmin menu first
             const saPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/superadmin-menu.ts`;
             module = allModules[saPath];
-            
+
             // Fallback to company menu if superadmin menu is missing
             if (!module) {
                 const coPath = `../../../packages/noble/${packageName}/src/Resources/js/menus/company-menu.ts`;
@@ -64,7 +87,7 @@ const getPackageMenuItems = (userRoles: string[], activatedPackages: string[], t
 const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): NavItem[] => {
     const { auth } = usePage().props as any;
     const customMenus = auth?.customMenus || [];
-    
+
     return customMenus.map((menu: any) => {
         let iconComponent = null;
         if (menu.icon && typeof menu.icon === 'string') {
@@ -73,7 +96,7 @@ const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): Na
                 iconComponent = IconComponent;
             }
         }
-        
+
         return {
             ...menu,
             icon: iconComponent,
@@ -85,11 +108,9 @@ const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): Na
 const groupMenusByParent = (menuItems: NavItem[], packageMenuItems: NavItem[]): NavItem[] => {
     const groupedItems = [...menuItems];
 
-    packageMenuItems.forEach(packageItem => {
+    packageMenuItems.forEach((packageItem) => {
         if (packageItem.parent) {
-            const parentMenu = groupedItems.find(item =>
-                item.name === packageItem.parent
-            );
+            const parentMenu = groupedItems.find((item) => item.name === packageItem.parent);
 
             if (parentMenu) {
                 if (!parentMenu.children) {
@@ -97,7 +118,7 @@ const groupMenusByParent = (menuItems: NavItem[], packageMenuItems: NavItem[]): 
                 }
                 parentMenu.children.push({
                     ...packageItem,
-                    parent: undefined
+                    parent: undefined,
                 });
 
                 if (parentMenu.children) {
@@ -116,7 +137,7 @@ const groupMenusByParent = (menuItems: NavItem[], packageMenuItems: NavItem[]): 
 
 // Filter menu items based on permissions
 const filterByPermission = (items: NavItem[], userPermissions: string[]): NavItem[] => {
-    return items.filter(item => {
+    return items.filter((item) => {
         if (!item.permission) {
             if (item.children) {
                 item.children = filterByPermission(item.children, userPermissions);
@@ -152,47 +173,55 @@ const superAdminCategories = [
 
 const companyCategories = [
     { label: 'Dashboard', icon: LayoutGrid, isDirectLink: true, matches: ['dashboard'] },
-    { 
-        label: 'HRM', 
+    {
+        label: 'HRM',
         icon: UserCog,
         matches: ['user-management'],
-        titleMatches: ['User Management', 'Hrm', 'Recruitment', 'Performance', 'Training', 'Timesheet']
+        titleMatches: ['User Management', 'Hrm', 'Recruitment', 'Performance', 'Training', 'Timesheet'],
     },
-    { 
-        label: 'CRM & Sales', 
+    {
+        label: 'CRM & Sales',
         icon: Briefcase,
         matches: ['proposal'],
-        titleMatches: ['CRM', 'Proposal', 'Quotation', 'Support Ticket']
+        titleMatches: ['CRM', 'Proposal', 'Quotation', 'Support Ticket'],
     },
-    { 
-        label: 'Finance', 
+    {
+        label: 'Finance',
         icon: DollarSign,
         matches: ['sales-invoice', 'purchase'],
-        titleMatches: ['Accounting', 'Sales Invoice', 'Purchase', 'Double Entry', 'Budget Planner', 'Product & Service', 'POS']
+        titleMatches: [
+            'Accounting',
+            'Sales Invoice',
+            'Purchase',
+            'Double Entry',
+            'Budget Planner',
+            'Product & Service',
+            'POS',
+        ],
     },
-    { 
-        label: 'Projects', 
+    {
+        label: 'Projects',
         icon: FolderKanban,
         matches: [],
-        titleMatches: ['Project', 'Goal', 'Calendar', 'Form Builder']
+        titleMatches: ['Project', 'Goal', 'Calendar', 'Form Builder'],
     },
-    { 
-        label: 'Collaboration', 
+    {
+        label: 'Collaboration',
         icon: MessagesSquare,
         matches: ['messenger', 'helpdesk'],
-        titleMatches: ['Messenger', 'Helpdesk', 'Zoom Meetings', 'Contract']
+        titleMatches: ['Messenger', 'Helpdesk', 'Zoom Meetings', 'Contract'],
     },
-    { 
-        label: 'Reports', 
+    {
+        label: 'Reports',
         icon: FileBarChart,
         matches: ['report-center', 'workflows'],
-        titleMatches: ['Report Center', 'Workflow Automation']
+        titleMatches: ['Report Center', 'Workflow Automation'],
     },
-    { 
-        label: 'Settings', 
+    {
+        label: 'Settings',
         icon: Settings,
         matches: ['plan', 'audit-logs', 'media-library', 'settings'],
-        titleMatches: ['Plan', 'Audit Logs', 'Media Library', 'Settings']
+        titleMatches: ['Plan', 'Audit Logs', 'Media Library', 'Settings'],
     },
 ];
 
@@ -202,14 +231,14 @@ const itemMatchesCategory = (item: NavItem, category: any): boolean => {
         return true;
     }
     if (category.titleMatches) {
-        return category.titleMatches.some((match: string) =>
-            item.title?.toLowerCase() === match.toLowerCase()
-        );
+        return category.titleMatches.some((match: string) => item.title?.toLowerCase() === match.toLowerCase());
     }
-    return category.matches?.some((match: string) =>
-        item.title?.toLowerCase() === match.toLowerCase() ||
-        item.name?.toLowerCase() === match.toLowerCase()
-    ) || false;
+    return (
+        category.matches?.some(
+            (match: string) =>
+                item.title?.toLowerCase() === match.toLowerCase() || item.name?.toLowerCase() === match.toLowerCase()
+        ) || false
+    );
 };
 
 // Main hook to get filtered menu items
@@ -217,7 +246,7 @@ export const useAllMenuItems = (): NavItem[] => {
     const pageProps = usePage().props as any;
     const auth = pageProps?.auth;
     const { t } = useTranslation();
-    
+
     const userPermissions = auth?.user?.permissions || [];
     const userRoles = auth?.user?.roles || [];
     const activatedPackages = auth?.user?.activatedPackages || [];
@@ -226,10 +255,10 @@ export const useAllMenuItems = (): NavItem[] => {
     const coreMenuItems = getCoreMenuItems(userRoles, t);
     const packageMenuItems = getPackageMenuItems(userRoles, activatedPackages, t);
     const customMenuItems = getCustomMenuItems(userRoles, t);
-    
-    const customParentMenus = customMenuItems.filter(menu => !menu.parent);
-    const customChildMenus = customMenuItems.filter(menu => menu.parent);
-    
+
+    const customParentMenus = customMenuItems.filter((menu) => !menu.parent);
+    const customChildMenus = customMenuItems.filter((menu) => menu.parent);
+
     const coreWithCustomParents = [...coreMenuItems, ...customParentMenus];
     const allChildMenus = [...packageMenuItems, ...customChildMenus];
     const finalGroupedMenuItems = groupMenusByParent(coreWithCustomParents, allChildMenus);
@@ -242,8 +271,8 @@ export const useAllMenuItems = (): NavItem[] => {
     const finalStructuredMenu: NavItem[] = [];
     const placedItemNames = new Set<string>();
 
-    categoryDefinitions.forEach(category => {
-        const categoryItems = filteredMenuItems.filter(item => {
+    categoryDefinitions.forEach((category) => {
+        const categoryItems = filteredMenuItems.filter((item) => {
             if (item.isLabel) return false;
             return itemMatchesCategory(item, category);
         });
@@ -254,7 +283,7 @@ export const useAllMenuItems = (): NavItem[] => {
                 finalStructuredMenu.push(categoryItems[0]);
                 const itemKey = categoryItems[0].name || categoryItems[0].title;
                 placedItemNames.add(itemKey);
-            } 
+            }
             // For Dashboard with sub-dashboards (children exist)
             else if (category.isDirectLink && categoryItems.length === 1 && categoryItems[0].children?.length) {
                 finalStructuredMenu.push(categoryItems[0]);
@@ -265,7 +294,7 @@ export const useAllMenuItems = (): NavItem[] => {
             else {
                 // Flatten: collect all items and their direct sub-items into one group
                 const groupChildren: NavItem[] = [];
-                categoryItems.forEach(item => {
+                categoryItems.forEach((item) => {
                     const itemKey = item.name || item.title;
                     if (!placedItemNames.has(itemKey)) {
                         groupChildren.push(item);
@@ -286,7 +315,7 @@ export const useAllMenuItems = (): NavItem[] => {
     });
 
     // Add any remaining items to an "Others" section
-    const remainingItems = filteredMenuItems.filter(item => {
+    const remainingItems = filteredMenuItems.filter((item) => {
         if (item.isLabel) return false;
         const itemKey = item.name || item.title;
         return !placedItemNames.has(itemKey);
@@ -303,7 +332,3 @@ export const useAllMenuItems = (): NavItem[] => {
 
     return finalStructuredMenu;
 };
-
-
-
-

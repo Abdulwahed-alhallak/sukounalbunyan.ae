@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -26,14 +26,24 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
         status: contract.status?.toString() ?? 'pending',
     });
 
-    const subjectAI = useFormFields('aiField', data, setData, errors, 'edit', 'subject', 'Subject', 'contract', 'contract');
+    const subjectAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'subject',
+        'Subject',
+        'contract',
+        'contract'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('contract.update', contract.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -42,8 +52,8 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
             <DialogHeader>
                 <DialogTitle>{t('Edit Contract')}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={submit} className="space-y-4 mt-3">
-                <div className="flex gap-2 items-end">
+            <form onSubmit={submit} className="mt-3 space-y-4">
+                <div className="flex items-end gap-2">
                     <div className="flex-1">
                         <Label htmlFor="subject">{t('Subject')}</Label>
                         <Input
@@ -56,7 +66,9 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
                         />
                         <InputError message={errors.subject} />
                     </div>
-                    {subjectAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                    {subjectAI?.map((field) => (
+                        <div key={field.id}>{field.component}</div>
+                    ))}
                 </div>
 
                 <div>
@@ -94,8 +106,13 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
                 </div>
 
                 <div>
-                    <Label htmlFor="status" required>{t('Status')}</Label>
-                    <Select value={data.status?.toString() || 'pending'} onValueChange={(value) => setData('status', value)}>
+                    <Label htmlFor="status" required>
+                        {t('Status')}
+                    </Label>
+                    <Select
+                        value={data.status?.toString() || 'pending'}
+                        onValueChange={(value) => setData('status', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -110,7 +127,9 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
                 </div>
 
                 <div>
-                    <Label htmlFor="type_id" required>{t('Contract Type')}</Label>
+                    <Label htmlFor="type_id" required>
+                        {t('Contract Type')}
+                    </Label>
                     <Select value={data.type_id?.toString() || ''} onValueChange={(value) => setData('type_id', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Contract Type')} />
@@ -127,7 +146,9 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
                 </div>
 
                 <div>
-                    <Label htmlFor="user_id" required>{t('Users')}</Label>
+                    <Label htmlFor="user_id" required>
+                        {t('Users')}
+                    </Label>
                     <Select value={data.user_id?.toString() || ''} onValueChange={(value) => setData('user_id', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Users')} />
@@ -142,8 +163,6 @@ export default function EditContract({ contract, onSuccess }: EditContractProps)
                     </Select>
                     <InputError message={errors.user_id} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

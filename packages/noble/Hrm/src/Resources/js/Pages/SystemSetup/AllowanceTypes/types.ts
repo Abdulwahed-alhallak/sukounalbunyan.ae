@@ -14,10 +14,12 @@ export interface AllowanceTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateAllowanceTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateAllowanceTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditAllowanceTypeProps extends EditProps<AllowanceType>  {[key: string]: any;
+export interface EditAllowanceTypeProps extends EditProps<AllowanceType> {
+    [key: string]: any;
 }
 
 export type PaginatedAllowanceTypes = PaginatedData<AllowanceType>;

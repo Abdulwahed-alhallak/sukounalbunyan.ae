@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { RotateCcw } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
@@ -38,7 +38,7 @@ export default function Show({ reviewCycle }: ShowProps) {
             active: 'bg-muted text-foreground',
             inactive: 'bg-muted text-destructive',
             pending: 'bg-muted text-foreground',
-            completed: 'bg-muted text-foreground'
+            completed: 'bg-muted text-foreground',
         };
         return colors[status] || 'bg-muted text-foreground';
     };
@@ -48,16 +48,16 @@ export default function Show({ reviewCycle }: ShowProps) {
             active: t('Active'),
             inactive: t('Inactive'),
             pending: t('Pending'),
-            completed: t('Completed')
+            completed: t('Completed'),
         };
         return labels[status] || status;
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <RotateCcw className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -66,8 +66,8 @@ export default function Show({ reviewCycle }: ShowProps) {
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-4 space-y-6">
+
+            <div className="flex-1 space-y-6 overflow-y-auto p-4">
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -87,7 +87,9 @@ export default function Show({ reviewCycle }: ShowProps) {
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(reviewCycle.status)}`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${getStatusColor(reviewCycle.status)}`}
+                                >
                                     {getStatusLabel(reviewCycle.status)}
                                 </span>
                             </p>
@@ -109,11 +111,16 @@ export default function Show({ reviewCycle }: ShowProps) {
                         </label>
                         <div className="mt-2 space-y-2">
                             {reviewCycle.employee_reviews?.map((review) => (
-                                <div key={review.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                                <div
+                                    key={review.id}
+                                    className="flex items-center justify-between rounded-lg bg-muted/50 p-3"
+                                >
                                     <div className="flex-1">
                                         <div className="flex items-center gap-4">
                                             <div>
-                                                <span className="text-sm font-medium text-foreground">{review.user?.name}</span>
+                                                <span className="text-sm font-medium text-foreground">
+                                                    {review.user?.name}
+                                                </span>
                                                 <p className="text-xs text-muted-foreground">
                                                     {t('Reviewer')}: {review.reviewer?.name}
                                                 </p>
@@ -130,7 +137,7 @@ export default function Show({ reviewCycle }: ShowProps) {
                                             </div>
                                         </div>
                                     </div>
-                                    <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(review.status)}`}>
+                                    <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(review.status)}`}>
                                         {getStatusLabel(review.status)}
                                     </span>
                                 </div>

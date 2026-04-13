@@ -63,18 +63,15 @@ interface ViewProps {
     [key: string]: any;
 }
 
-
-
 function View() {
     const { t } = useTranslation();
     const { debitNote, auth } = usePage<ViewProps>().props;
 
-
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Debit Notes'), url: route('account.debit-notes.index')},
-                {label: t('Debit Note Details')}
+                { label: t('Debit Notes'), url: route('account.debit-notes.index') },
+                { label: t('Debit Note Details') },
             ]}
             pageTitle={`${t('Debit Note')} #${debitNote.debit_note_number}`}
         >
@@ -84,37 +81,44 @@ function View() {
                 {/* Debit Note Header */}
                 <Card>
                     <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                             <div>
                                 <p className="text-lg text-muted-foreground">#{debitNote.debit_note_number}</p>
                             </div>
                             <div className="flex items-center gap-4">
-                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                    debitNote.status === 'approved' ? 'bg-muted text-foreground' :
-                                    debitNote.status === 'partial' ? 'bg-muted text-foreground' :
-                                    debitNote.status === 'applied' ? 'bg-muted text-foreground' :
-                                    'bg-muted text-foreground'
-                                }`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${
+                                        debitNote.status === 'approved'
+                                            ? 'bg-muted text-foreground'
+                                            : debitNote.status === 'partial'
+                                              ? 'bg-muted text-foreground'
+                                              : debitNote.status === 'applied'
+                                                ? 'bg-muted text-foreground'
+                                                : 'bg-muted text-foreground'
+                                    }`}
+                                >
                                     {t(debitNote.status.charAt(0).toUpperCase() + debitNote.status.slice(1))}
                                 </span>
                                 <div className="text-right">
-                                    <div className="text-2xl font-bold">{formatCurrency(parseFloat(debitNote.total_amount.toString()))}</div>
+                                    <div className="text-2xl font-bold">
+                                        {formatCurrency(parseFloat(debitNote.total_amount.toString()))}
+                                    </div>
                                     <div className="text-sm text-muted-foreground">{t('Total Amount')}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                             <div>
-                                <h3 className="font-semibold mb-2">{t('VENDOR')}</h3>
-                                <div className="text-sm space-y-1">
+                                <h3 className="mb-2 font-semibold">{t('VENDOR')}</h3>
+                                <div className="space-y-1 text-sm">
                                     <div className="font-medium">{debitNote.vendor?.name}</div>
                                     <div className="text-muted-foreground">{debitNote.vendor?.email}</div>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 className="font-semibold mb-2">{t('DETAILS')}</h3>
+                                <h3 className="mb-2 font-semibold">{t('DETAILS')}</h3>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Date')}</span>
@@ -131,25 +135,34 @@ function View() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="mt-4 p-3 bg-muted/50 rounded">
-                                    <div className="flex justify-between items-center">
+                                <div className="mt-4 rounded bg-muted/50 p-3">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex gap-2">
-                                            {debitNote.status === 'draft' && auth.user?.permissions?.includes('approve-debit-notes') && (
-                                                <Button
-                                                    size="sm"
-                                                    onClick={() => router.post(route('account.debit-notes.approve', debitNote.id), {}, {
-                                                        onSuccess: () => {
-                                                            router.reload();
+                                            {debitNote.status === 'draft' &&
+                                                auth.user?.permissions?.includes('approve-debit-notes') && (
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            router.post(
+                                                                route('account.debit-notes.approve', debitNote.id),
+                                                                {},
+                                                                {
+                                                                    onSuccess: () => {
+                                                                        router.reload();
+                                                                    },
+                                                                }
+                                                            )
                                                         }
-                                                    })}
-                                                >
-                                                    <CheckCircle className="h-4 w-4 mr-2" />
-                                                    {t('Approve Debit Note')}
-                                                </Button>
-                                            )}
+                                                    >
+                                                        <CheckCircle className="mr-2 h-4 w-4" />
+                                                        {t('Approve Debit Note')}
+                                                    </Button>
+                                                )}
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xl font-bold text-foreground">{formatCurrency(parseFloat(debitNote.balance_amount.toString()))}</div>
+                                            <div className="text-xl font-bold text-foreground">
+                                                {formatCurrency(parseFloat(debitNote.balance_amount.toString()))}
+                                            </div>
                                             <div className="text-sm text-muted-foreground">{t('Balance Amount')}</div>
                                         </div>
                                     </div>
@@ -158,9 +171,9 @@ function View() {
                         </div>
 
                         {debitNote.notes && (
-                            <div className="mt-4 pt-4 border-t">
-                                <span className="font-medium text-sm">{t('Notes')}:</span>
-                                <span className="text-sm text-muted-foreground ml-2">{debitNote.notes}</span>
+                            <div className="mt-4 border-t pt-4">
+                                <span className="text-sm font-medium">{t('Notes')}:</span>
+                                <span className="ml-2 text-sm text-muted-foreground">{debitNote.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -169,9 +182,7 @@ function View() {
                 {/* Debit Note Items */}
                 <Card>
                     <CardHeader>
-                        <h3 className="text-lg font-semibold">
-                            {t('Debit Note Items')}
-                        </h3>
+                        <h3 className="text-lg font-semibold">{t('Debit Note Items')}</h3>
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
@@ -180,7 +191,9 @@ function View() {
                                     <tr className="border-b">
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Unit Price')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Unit Price')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Discount')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
@@ -192,29 +205,42 @@ function View() {
                                             <td className="px-4 py-4">
                                                 <div className="font-medium">{item.product?.name}</div>
                                                 {item.product?.sku && (
-                                                    <div className="text-sm text-muted-foreground">SKU: {item.product.sku}</div>
+                                                    <div className="text-sm text-muted-foreground">
+                                                        SKU: {item.product.sku}
+                                                    </div>
                                                 )}
                                                 {item.product?.description && (
-                                                    <div className="text-sm text-muted-foreground mt-1">{item.product.description}</div>
+                                                    <div className="mt-1 text-sm text-muted-foreground">
+                                                        {item.product.description}
+                                                    </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-4 text-right">{item.quantity}</td>
-                                            <td className="px-4 py-4 text-right">{formatCurrency(parseFloat(item.unit_price.toString()))}</td>
+                                            <td className="px-4 py-4 text-right">
+                                                {formatCurrency(parseFloat(item.unit_price.toString()))}
+                                            </td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.discount_percentage > 0 ? (
                                                     <div>
                                                         <div>{item.discount_percentage}%</div>
                                                         <div className="text-sm text-muted-foreground">
-                                                            -{formatCurrency(parseFloat(item.discount_amount.toString()))}
+                                                            -
+                                                            {formatCurrency(
+                                                                parseFloat(item.discount_amount.toString())
+                                                            )}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div>
                                                         {item.taxes?.map((tax, taxIndex) => (
-                                                            <div key={taxIndex} className="text-sm">{tax.tax_name} ({tax.tax_rate}%)</div>
+                                                            <div key={taxIndex} className="text-sm">
+                                                                {tax.tax_name} ({tax.tax_rate}%)
+                                                            </div>
                                                         ))}
                                                         <div className="text-sm text-muted-foreground">
                                                             {formatCurrency(parseFloat(item.tax_amount.toString()))}
@@ -227,7 +253,9 @@ function View() {
                                                             {formatCurrency(parseFloat(item.tax_amount.toString()))}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right font-semibold">
                                                 {formatCurrency(parseFloat(item.total_amount.toString()))}
@@ -243,34 +271,46 @@ function View() {
                             <div className="w-80 space-y-3">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">{t('Subtotal')}</span>
-                                    <span className="font-medium">{formatCurrency(parseFloat(debitNote.subtotal.toString()))}</span>
+                                    <span className="font-medium">
+                                        {formatCurrency(parseFloat(debitNote.subtotal.toString()))}
+                                    </span>
                                 </div>
                                 {debitNote.discount_amount > 0 && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t('Discount')}</span>
-                                        <span className="font-medium text-destructive">-{formatCurrency(parseFloat(debitNote.discount_amount.toString()))}</span>
+                                        <span className="font-medium text-destructive">
+                                            -{formatCurrency(parseFloat(debitNote.discount_amount.toString()))}
+                                        </span>
                                     </div>
                                 )}
                                 {debitNote.tax_amount > 0 && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t('Tax')}</span>
-                                        <span className="font-medium">{formatCurrency(parseFloat(debitNote.tax_amount.toString()))}</span>
+                                        <span className="font-medium">
+                                            {formatCurrency(parseFloat(debitNote.tax_amount.toString()))}
+                                        </span>
                                     </div>
                                 )}
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between">
                                         <span className="font-semibold">{t('Total Debit Amount')}</span>
-                                        <span className="font-bold text-lg">{formatCurrency(parseFloat(debitNote.total_amount.toString()))}</span>
+                                        <span className="text-lg font-bold">
+                                            {formatCurrency(parseFloat(debitNote.total_amount.toString()))}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">{t('Applied Amount')}</span>
-                                    <span className="font-medium">{formatCurrency(parseFloat(debitNote.applied_amount.toString()))}</span>
+                                    <span className="font-medium">
+                                        {formatCurrency(parseFloat(debitNote.applied_amount.toString()))}
+                                    </span>
                                 </div>
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between">
                                         <span className="font-semibold text-foreground">{t('Balance Amount')}</span>
-                                        <span className="font-bold text-lg text-foreground">{formatCurrency(parseFloat(debitNote.balance_amount.toString()))}</span>
+                                        <span className="text-lg font-bold text-foreground">
+                                            {formatCurrency(parseFloat(debitNote.balance_amount.toString()))}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -289,17 +329,27 @@ function View() {
                                 <table className="min-w-full">
                                     <thead>
                                         <tr className="border-b">
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Payment')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('Applied Amount')}</th>
+                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                {t('Payment')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                                {t('Applied Amount')}
+                                            </th>
                                             <th className="px-4 py-3 text-right text-sm font-semibold">{t('Date')}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y">
                                         {debitNote.applications?.map((application) => (
                                             <tr key={application.id}>
-                                                <td className="px-4 py-4 text-sm text-foreground">{application.payment.payment_number}</td>
-                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">{formatCurrency(parseFloat(application.applied_amount.toString()))}</td>
-                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">{formatDate(application.application_date)}</td>
+                                                <td className="px-4 py-4 text-sm text-foreground">
+                                                    {application.payment.payment_number}
+                                                </td>
+                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">
+                                                    {formatCurrency(parseFloat(application.applied_amount.toString()))}
+                                                </td>
+                                                <td className="px-4 py-4 text-right text-sm text-muted-foreground">
+                                                    {formatDate(application.application_date)}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>

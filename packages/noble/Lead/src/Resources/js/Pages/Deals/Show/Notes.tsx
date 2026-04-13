@@ -11,16 +11,16 @@ export default function Notes({ deal }: NotesProps) {
     const { t } = useTranslation();
 
     return (
-        <div className="bg-muted/50 p-6 rounded-lg">
+        <div className="rounded-lg bg-muted/50 p-6">
             <RichTextEditor
                 content={deal.notes || ''}
                 onChange={(content) => {
                     router.put(route('lead.deals.update', deal.id), {
-                        notes: content
+                        notes: content,
                     });
                 }}
                 placeholder={t('Add notes...')}
-                className="min-h-[300px] mt-1"
+                className="mt-1 min-h-[300px]"
             />
         </div>
     );

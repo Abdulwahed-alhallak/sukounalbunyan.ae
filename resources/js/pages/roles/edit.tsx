@@ -1,8 +1,8 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -19,9 +19,8 @@ export default function Edit() {
     const { data, setData, put, processing, errors } = useForm({
         name: role.name,
         label: role.label,
-        permissions: rolePermissions
+        permissions: rolePermissions,
     });
-
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,39 +31,42 @@ export default function Edit() {
         if (checked) {
             setData('permissions', [...data.permissions, permissionName]);
         } else {
-            setData('permissions', data.permissions.filter(p => p !== permissionName));
+            setData(
+                'permissions',
+                data.permissions.filter((p) => p !== permissionName)
+            );
         }
     };
 
     const handleModuleChange = (modulePermissions: any[], checked: boolean) => {
-        const modulePermissionNames = modulePermissions.map(p => p.name);
+        const modulePermissionNames = modulePermissions.map((p) => p.name);
         if (checked) {
             const newPermissions = [...new Set([...data.permissions, ...modulePermissionNames])];
             setData('permissions', newPermissions);
         } else {
-            setData('permissions', data.permissions.filter(p => !modulePermissionNames.includes(p)));
+            setData(
+                'permissions',
+                data.permissions.filter((p) => !modulePermissionNames.includes(p))
+            );
         }
     };
 
     const getModuleCheckState = (modulePermissions: any[]) => {
-        const modulePermissionNames = modulePermissions.map(p => p.name);
-        const checkedCount = modulePermissionNames.filter(name => data.permissions.includes(name)).length;
+        const modulePermissionNames = modulePermissions.map((p) => p.name);
+        const checkedCount = modulePermissionNames.filter((name) => data.permissions.includes(name)).length;
 
         if (checkedCount === 0) return { checked: false, indeterminate: false };
         if (checkedCount === modulePermissionNames.length) return { checked: true, indeterminate: false };
         return { checked: false, indeterminate: true };
     };
 
-    const filteredFeatures = Object.keys(permissions).filter(addOn =>
+    const filteredFeatures = Object.keys(permissions).filter((addOn) =>
         getPackageAlias(addOn)?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Roles'), url: route('roles.index')},
-                {label: t('Edit Role')}
-            ]}
+            breadcrumbs={[{ label: t('Roles'), url: route('roles.index') }, { label: t('Edit Role') }]}
             pageTitle={`${t('Edit Role')}: ${role.label}`}
             className="overflow-hidden"
         >
@@ -100,7 +102,7 @@ export default function Edit() {
                         </div>
 
                         <div>
-                            <div className="mt-2 mb-4">
+                            <div className="mb-4 mt-2">
                                 <Input
                                     placeholder={t('Search features...')}
                                     value={searchTerm}
@@ -109,60 +111,82 @@ export default function Edit() {
                                 />
                             </div>
                             <Tabs defaultValue={filteredFeatures[0] || 'default'} className="mt-2">
-                                <TabsList className="mb-3 w-full justify-start overflow-x-auto overflow-y-hidden h-auto p-1">
+                                <TabsList className="mb-3 h-auto w-full justify-start overflow-x-auto overflow-y-hidden p-1">
                                     {filteredFeatures.map((addOn) => (
-                                        <TabsTrigger key={addOn} value={addOn} className="capitalize whitespace-nowrap flex-shrink-0">
+                                        <TabsTrigger
+                                            key={addOn}
+                                            value={addOn}
+                                            className="flex-shrink-0 whitespace-nowrap capitalize"
+                                        >
                                             {getPackageAlias(addOn)}
                                         </TabsTrigger>
                                     ))}
-
                                 </TabsList>
                                 <Label>{t('Permissions')}</Label>
                                 {filteredFeatures.map((addOn) => {
                                     const modules = permissions[addOn];
                                     return (
-                                    <TabsContent key={addOn} value={addOn}>
-                                        <div className="space-y-4">
-                                            {Object.entries(modules).map(([module, modulePermissions]) => {
-                                                const moduleState = getModuleCheckState(modulePermissions as any);
-                                                return (
-                                                <div key={module} className="border p-4 rounded">
-                                                    <div className="flex items-center space-x-2 mb-3">
-                                                        <Checkbox
-                                                            id={`module-${module}`}
-                                                            checked={moduleState.checked}
-                                                            ref={(el) => {
-                                                                if (el) (el as any).indeterminate = moduleState.indeterminate;
-                                                            }}
-                                                            onCheckedChange={(checked) =>
-                                                                handleModuleChange(modulePermissions as any, checked as boolean)
-                                                            }
-                                                        />
-                                                        <Label htmlFor={`module-${module}`} className="font-medium capitalize">
-                                                            {module}
-                                                        </Label>
-                                                    </div>
-                                                    <div className="grid grid-cols-3 gap-2">
-                                                        {(modulePermissions as any).map((permission: any) => (
-                                                            <div key={permission.name} className="flex items-center space-x-2">
+                                        <TabsContent key={addOn} value={addOn}>
+                                            <div className="space-y-4">
+                                                {Object.entries(modules).map(([module, modulePermissions]) => {
+                                                    const moduleState = getModuleCheckState(modulePermissions as any);
+                                                    return (
+                                                        <div key={module} className="rounded border p-4">
+                                                            <div className="mb-3 flex items-center space-x-2">
                                                                 <Checkbox
-                                                                    id={permission.name}
-                                                                    checked={data.permissions.includes(permission.name)}
+                                                                    id={`module-${module}`}
+                                                                    checked={moduleState.checked}
+                                                                    ref={(el) => {
+                                                                        if (el)
+                                                                            (el as any).indeterminate =
+                                                                                moduleState.indeterminate;
+                                                                    }}
                                                                     onCheckedChange={(checked) =>
-                                                                        handlePermissionChange(permission.name, checked as boolean)
+                                                                        handleModuleChange(
+                                                                            modulePermissions as any,
+                                                                            checked as boolean
+                                                                        )
                                                                     }
                                                                 />
-                                                                <Label htmlFor={permission.name} className="text-sm">
-                                                                    {permission.label}
+                                                                <Label
+                                                                    htmlFor={`module-${module}`}
+                                                                    className="font-medium capitalize"
+                                                                >
+                                                                    {module}
                                                                 </Label>
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </TabsContent>
+                                                            <div className="grid grid-cols-3 gap-2">
+                                                                {(modulePermissions as any).map((permission: any) => (
+                                                                    <div
+                                                                        key={permission.name}
+                                                                        className="flex items-center space-x-2"
+                                                                    >
+                                                                        <Checkbox
+                                                                            id={permission.name}
+                                                                            checked={data.permissions.includes(
+                                                                                permission.name
+                                                                            )}
+                                                                            onCheckedChange={(checked) =>
+                                                                                handlePermissionChange(
+                                                                                    permission.name,
+                                                                                    checked as boolean
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                        <Label
+                                                                            htmlFor={permission.name}
+                                                                            className="text-sm"
+                                                                        >
+                                                                            {permission.label}
+                                                                        </Label>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </TabsContent>
                                     );
                                 })}
                             </Tabs>

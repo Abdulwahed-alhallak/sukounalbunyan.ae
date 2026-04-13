@@ -14,13 +14,13 @@ export interface ItemCategoryFormData {
     [key: string]: any;
 }
 
-export interface CreateItemCategoryProps extends CreateProps  {[key: string]: any;
+export interface CreateItemCategoryProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditItemCategoryProps extends EditProps<ItemCategory>  {[key: string]: any;
+export interface EditItemCategoryProps extends EditProps<ItemCategory> {
+    [key: string]: any;
 }
-
-
 
 export type PaginatedItemCategories = PaginatedData<ItemCategory>;
 export type ItemCategoryModalState = ModalState<ItemCategory>;

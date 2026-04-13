@@ -22,7 +22,7 @@ export default function Stats({ data, getSectionData, updateSectionData, updateS
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <SettingsIcon className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -62,8 +62,20 @@ export default function Stats({ data, getSectionData, updateSectionData, updateS
                         <Label>{t('Statistics')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'label', label: t('Label'), type: 'text', placeholder: t('Stat label'), required: true },
-                                { name: 'value', label: t('Value'), type: 'text', placeholder: t('Stat value'), required: true }
+                                {
+                                    name: 'label',
+                                    label: t('Label'),
+                                    type: 'text',
+                                    placeholder: t('Stat label'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'value',
+                                    label: t('Value'),
+                                    type: 'text',
+                                    placeholder: t('Stat value'),
+                                    required: true,
+                                },
                             ]}
                             value={(() => {
                                 const existingStats = getSectionData('stats');
@@ -71,14 +83,14 @@ export default function Stats({ data, getSectionData, updateSectionData, updateS
                                     return existingStats.stats?.map((stat: any, index: number) => ({
                                         id: `stat-${index}`,
                                         label: stat.label || '',
-                                        value: stat.value || ''
+                                        value: stat.value || '',
                                     }));
                                 }
                                 return [
                                     { id: 'stat-0', label: 'Businesses Trust Us', value: '20,000+' },
                                     { id: 'stat-1', label: 'Uptime Guarantee', value: '99.9%' },
                                     { id: 'stat-2', label: 'Customer Support', value: '24/7' },
-                                    { id: 'stat-3', label: 'Countries Worldwide', value: '70+' }
+                                    { id: 'stat-3', label: 'Countries Worldwide', value: '70+' },
                                 ];
                             })()}
                             onChange={(items) => {

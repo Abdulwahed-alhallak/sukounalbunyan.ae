@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { StickyNote, Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchInput } from '@/components/ui/search-input';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatDateTime, getImagePath } from '@/utils/helpers';
 
 interface NotesTabProps {
@@ -32,32 +32,44 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
 
     const handleNoteSubmit = () => {
         if (editNoteId) {
-            router.put(route('contract-notes.update', editNoteId), { note: noteText }, {
-                onSuccess: () => {
-                    setNoteDialogOpen(false);
-                    setNoteText('');
-                    setEditNoteId(null);
-                    router.reload();
+            router.put(
+                route('contract-notes.update', editNoteId),
+                { note: noteText },
+                {
+                    onSuccess: () => {
+                        setNoteDialogOpen(false);
+                        setNoteText('');
+                        setEditNoteId(null);
+                        router.reload();
+                    },
                 }
-            });
+            );
         } else {
-            router.post(route('contract-notes.store', contract.id), { note: noteText }, {
-                onSuccess: () => {
-                    setNoteDialogOpen(false);
-                    setNoteText('');
-                    router.reload();
+            router.post(
+                route('contract-notes.store', contract.id),
+                { note: noteText },
+                {
+                    onSuccess: () => {
+                        setNoteDialogOpen(false);
+                        setNoteText('');
+                        router.reload();
+                    },
                 }
-            });
+            );
         }
     };
 
     const handleCreateNoteSubmit = () => {
-        router.post(route('contract-notes.store', contract.id), { note: createNoteText }, {
-            onSuccess: () => {
-                setCreateNoteText('');
-                router.reload();
+        router.post(
+            route('contract-notes.store', contract.id),
+            { note: createNoteText },
+            {
+                onSuccess: () => {
+                    setCreateNoteText('');
+                    router.reload();
+                },
             }
-        });
+        );
     };
 
     const openEditNote = (note: any) => {
@@ -87,10 +99,13 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                             placeholder={t('Search notes...')}
                             className="w-64"
                         />
-                        <Select value={notePerPage.toString()} onValueChange={(value) => {
-                            setNotePerPage(Number(value));
-                            setNotePage(1);
-                        }}>
+                        <Select
+                            value={notePerPage.toString()}
+                            onValueChange={(value) => {
+                                setNotePerPage(Number(value));
+                                setNotePage(1);
+                            }}
+                        >
                             <SelectTrigger className="w-[120px]">
                                 <SelectValue />
                             </SelectTrigger>
@@ -105,25 +120,36 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                 </CardHeader>
                 <CardContent className="p-4">
                     {auth.user?.permissions?.includes('create-contract-notes') && (
-                        <div className="bg-muted/50 border border-border rounded-lg p-4 mb-4">
+                        <div className="mb-4 rounded-lg border border-border bg-muted/50 p-4">
                             <div className="flex items-start gap-3">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src={auth.user?.avatar ? getImagePath(auth.user.avatar, pageProps) : auth.user?.profile_photo_url} alt={auth.user?.name} />
-                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                    <AvatarImage
+                                        src={
+                                            auth.user?.avatar
+                                                ? getImagePath(auth.user.avatar, pageProps)
+                                                : auth.user?.profile_photo_url
+                                        }
+                                        alt={auth.user?.name}
+                                    />
+                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                         {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium mb-2 text-foreground">{auth.user?.name}</p>
+                                    <p className="mb-2 text-sm font-medium text-foreground">{auth.user?.name}</p>
                                     <Textarea
                                         value={createNoteText}
                                         onChange={(e) => setCreateNoteText(e.target.value)}
                                         placeholder={t('Write your note...')}
                                         rows={4}
-                                        className="resize-none mb-3 bg-card border-border focus:border-border"
+                                        className="mb-3 resize-none border-border bg-card focus:border-border"
                                     />
                                     <div className="flex justify-end">
-                                        <Button onClick={handleCreateNoteSubmit} disabled={!createNoteText.trim()} size="sm">
+                                        <Button
+                                            onClick={handleCreateNoteSubmit}
+                                            disabled={!createNoteText.trim()}
+                                            size="sm"
+                                        >
                                             {t('Send')}
                                         </Button>
                                     </div>
@@ -133,40 +159,63 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                     )}
 
                     {(() => {
-                        const filteredNotes = contract.notes ? contract.notes.filter((note: any) =>
-                            note.note.toLowerCase().includes(noteSearch.toLowerCase()) ||
-                            note.user?.name.toLowerCase().includes(noteSearch.toLowerCase())
-                        ) : [];
+                        const filteredNotes = contract.notes
+                            ? contract.notes.filter(
+                                  (note: any) =>
+                                      note.note.toLowerCase().includes(noteSearch.toLowerCase()) ||
+                                      note.user?.name.toLowerCase().includes(noteSearch.toLowerCase())
+                              )
+                            : [];
 
                         const paginatedNotes = {
                             data: filteredNotes.slice((notePage - 1) * notePerPage, notePage * notePerPage),
                             total: filteredNotes.length,
-                            last_page: Math.ceil(filteredNotes.length / notePerPage)
+                            last_page: Math.ceil(filteredNotes.length / notePerPage),
                         };
 
                         return paginatedNotes.data.length > 0 ? (
                             <>
                                 <div className="space-y-4">
                                     {paginatedNotes.data?.map((note: any) => (
-                                        <div key={note.id} className="border border-border rounded-lg p-4 hover:shadow-md transition-shadow group">
+                                        <div
+                                            key={note.id}
+                                            className="group rounded-lg border border-border p-4 transition-shadow hover:shadow-md"
+                                        >
                                             <div className="flex items-start gap-3">
                                                 <Avatar className="h-8 w-8">
-                                                    <AvatarImage src={note.user?.avatar ? getImagePath(note.user.avatar, pageProps) : note.user?.profile_photo_url} alt={note.user?.name} />
-                                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                                    <AvatarImage
+                                                        src={
+                                                            note.user?.avatar
+                                                                ? getImagePath(note.user.avatar, pageProps)
+                                                                : note.user?.profile_photo_url
+                                                        }
+                                                        alt={note.user?.name}
+                                                    />
+                                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                                         {note.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="flex-1">
-                                                    <div className="flex items-center gap-2 mb-1">
+                                                    <div className="mb-1 flex items-center gap-2">
                                                         <span className="text-sm font-medium">{note.user?.name}</span>
-                                                        <span className="text-xs text-muted-foreground">{formatDateTime(note.created_at)}</span>
-                                                        {(note.user_id === auth.user?.id || note.created_by === auth.user?.id) && (
+                                                        <span className="text-xs text-muted-foreground">
+                                                            {formatDateTime(note.created_at)}
+                                                        </span>
+                                                        {(note.user_id === auth.user?.id ||
+                                                            note.created_by === auth.user?.id) && (
                                                             <TooltipProvider>
                                                                 <div className="flex gap-1">
-                                                                    {auth.user?.permissions?.includes('edit-contract-notes') && (
-                                                                        <Tooltip >
+                                                                    {auth.user?.permissions?.includes(
+                                                                        'edit-contract-notes'
+                                                                    ) && (
+                                                                        <Tooltip>
                                                                             <TooltipTrigger asChild>
-                                                                                <Button variant="ghost" size="sm" onClick={() => openEditNote(note)} className="h-6 w-6 p-0 text-foreground hover:text-foreground">
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() => openEditNote(note)}
+                                                                                    className="h-6 w-6 p-0 text-foreground hover:text-foreground"
+                                                                                >
                                                                                     <Edit className="h-3 w-3" />
                                                                                 </Button>
                                                                             </TooltipTrigger>
@@ -175,15 +224,26 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                                                                             </TooltipContent>
                                                                         </Tooltip>
                                                                     )}
-                                                                    {auth.user?.permissions?.includes('delete-contract-notes') && (
-                                                                        <Tooltip >
+                                                                    {auth.user?.permissions?.includes(
+                                                                        'delete-contract-notes'
+                                                                    ) && (
+                                                                        <Tooltip>
                                                                             <TooltipTrigger asChild>
-                                                                                <Button variant="ghost" size="sm" onClick={() => setDeleteConfig({
-                                                                                    type: 'note',
-                                                                                    id: note.id,
-                                                                                    route: 'contract-notes.destroy',
-                                                                                    message: t('Are you sure you want to delete this note?')
-                                                                                })} className="h-6 w-6 p-0 text-destructive hover:text-destructive">
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() =>
+                                                                                        setDeleteConfig({
+                                                                                            type: 'note',
+                                                                                            id: note.id,
+                                                                                            route: 'contract-notes.destroy',
+                                                                                            message: t(
+                                                                                                'Are you sure you want to delete this note?'
+                                                                                            ),
+                                                                                        })
+                                                                                    }
+                                                                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive"
+                                                                                >
                                                                                     <Trash2 className="h-3 w-3" />
                                                                                 </Button>
                                                                             </TooltipTrigger>
@@ -196,7 +256,7 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                                                             </TooltipProvider>
                                                         )}
                                                     </div>
-                                                    <div className="mt-2 bg-muted/50 border border-border rounded-lg p-3">
+                                                    <div className="mt-2 rounded-lg border border-border bg-muted/50 p-3">
                                                         <p className="text-sm text-foreground">{note.note}</p>
                                                     </div>
                                                 </div>
@@ -206,16 +266,28 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                                 </div>
 
                                 {filteredNotes.length > notePerPage && (
-                                    <div className="px-4 py-3 border-t bg-muted/50/30 mt-4">
+                                    <div className="bg-muted/50/30 mt-4 border-t px-4 py-3">
                                         <div className="flex items-center justify-between">
                                             <div className="text-sm text-muted-foreground">
-                                                {t('Showing')} <span className="font-medium text-foreground">{((notePage - 1) * notePerPage) + 1}</span> {t('to')} <span className="font-medium text-foreground">{Math.min(notePage * notePerPage, filteredNotes.length)}</span> {t('of')} <span className="font-medium text-foreground">{filteredNotes.length}</span> {t('results')}
+                                                {t('Showing')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {(notePage - 1) * notePerPage + 1}
+                                                </span>{' '}
+                                                {t('to')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {Math.min(notePage * notePerPage, filteredNotes.length)}
+                                                </span>{' '}
+                                                {t('of')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {filteredNotes.length}
+                                                </span>{' '}
+                                                {t('results')}
                                             </div>
                                             <div className="flex items-center space-x-2">
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => setNotePage(p => Math.max(1, p - 1))}
+                                                    onClick={() => setNotePage((p) => Math.max(1, p - 1))}
                                                     disabled={notePage === 1}
                                                     className="h-8 px-3"
                                                 >
@@ -223,35 +295,42 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                                                     {t('Previous')}
                                                 </Button>
                                                 <div className="flex items-center space-x-1">
-                                                    {Array.from({ length: Math.min(5, paginatedNotes.last_page) }, (_, i) => {
-                                                        let pageNum;
-                                                        if (paginatedNotes.last_page <= 5) {
-                                                            pageNum = i + 1;
-                                                        } else if (notePage <= 3) {
-                                                            pageNum = i + 1;
-                                                        } else if (notePage >= paginatedNotes.last_page - 2) {
-                                                            pageNum = paginatedNotes.last_page - 4 + i;
-                                                        } else {
-                                                            pageNum = notePage - 2 + i;
-                                                        }
+                                                    {Array.from(
+                                                        { length: Math.min(5, paginatedNotes.last_page) },
+                                                        (_, i) => {
+                                                            let pageNum;
+                                                            if (paginatedNotes.last_page <= 5) {
+                                                                pageNum = i + 1;
+                                                            } else if (notePage <= 3) {
+                                                                pageNum = i + 1;
+                                                            } else if (notePage >= paginatedNotes.last_page - 2) {
+                                                                pageNum = paginatedNotes.last_page - 4 + i;
+                                                            } else {
+                                                                pageNum = notePage - 2 + i;
+                                                            }
 
-                                                        return (
-                                                            <Button
-                                                                key={pageNum}
-                                                                variant={notePage === pageNum ? "default" : "outline"}
-                                                                size="sm"
-                                                                onClick={() => setNotePage(pageNum)}
-                                                                className="h-8 w-8 p-0"
-                                                            >
-                                                                {pageNum}
-                                                            </Button>
-                                                        );
-                                                    })}
+                                                            return (
+                                                                <Button
+                                                                    key={pageNum}
+                                                                    variant={
+                                                                        notePage === pageNum ? 'default' : 'outline'
+                                                                    }
+                                                                    size="sm"
+                                                                    onClick={() => setNotePage(pageNum)}
+                                                                    className="h-8 w-8 p-0"
+                                                                >
+                                                                    {pageNum}
+                                                                </Button>
+                                                            );
+                                                        }
+                                                    )}
                                                 </div>
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => setNotePage(p => Math.min(paginatedNotes.last_page, p + 1))}
+                                                    onClick={() =>
+                                                        setNotePage((p) => Math.min(paginatedNotes.last_page, p + 1))
+                                                    }
                                                     disabled={notePage === paginatedNotes.last_page}
                                                     className="h-8 px-3"
                                                 >
@@ -264,10 +343,14 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                                 )}
                             </>
                         ) : (
-                            <div className="text-center py-12">
-                                <StickyNote className="h-12 w-12 text-muted-foreground/60 mx-auto mb-3" />
-                                <p className="text-muted-foreground text-sm">{noteSearch ? t('No notes found') : t('No notes yet')}</p>
-                                <p className="text-muted-foreground text-xs mt-1">{noteSearch ? t('Try adjusting your search') : t('Be the first to add a note')}</p>
+                            <div className="py-12 text-center">
+                                <StickyNote className="mx-auto mb-3 h-12 w-12 text-muted-foreground/60" />
+                                <p className="text-sm text-muted-foreground">
+                                    {noteSearch ? t('No notes found') : t('No notes yet')}
+                                </p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                    {noteSearch ? t('Try adjusting your search') : t('Be the first to add a note')}
+                                </p>
                             </div>
                         );
                     })()}
@@ -286,13 +369,20 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                         <div className="space-y-4">
                             <div className="flex gap-3">
                                 <Avatar className="h-8 w-8 flex-shrink-0">
-                                    <AvatarImage src={auth.user?.avatar ? getImagePath(auth.user.avatar, pageProps) : auth.user?.profile_photo_url} alt={auth.user?.name} />
-                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                    <AvatarImage
+                                        src={
+                                            auth.user?.avatar
+                                                ? getImagePath(auth.user.avatar, pageProps)
+                                                : auth.user?.profile_photo_url
+                                        }
+                                        alt={auth.user?.name}
+                                    />
+                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                         {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium text-foreground mb-2">{auth.user?.name}</p>
+                                    <p className="mb-2 text-sm font-medium text-foreground">{auth.user?.name}</p>
                                     <Textarea
                                         value={noteText}
                                         onChange={(e) => setNoteText(e.target.value)}
@@ -304,11 +394,14 @@ export default function NotesTab({ contract, setDeleteConfig }: NotesTabProps) {
                             </div>
                         </div>
                         <DialogFooter className="mt-6">
-                            <Button variant="outline" onClick={() => {
-                                setNoteDialogOpen(false);
-                                setNoteText('');
-                                setEditNoteId(null);
-                            }}>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    setNoteDialogOpen(false);
+                                    setNoteText('');
+                                    setEditNoteId(null);
+                                }}
+                            >
                                 {t('Cancel')}
                             </Button>
                             <Button onClick={handleNoteSubmit} disabled={!noteText.trim()}>

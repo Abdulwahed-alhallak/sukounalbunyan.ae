@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -31,7 +31,7 @@ function Create({ onSuccess }: CreateChecklistItemProps) {
         post(route('recruitment.checklist-items.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -43,7 +43,10 @@ function Create({ onSuccess }: CreateChecklistItemProps) {
             <form onSubmit={submit} className="space-y-4">
                 <div>
                     <Label htmlFor="checklist_id">{t('Checklist')}</Label>
-                    <Select value={data.checklist_id?.toString() || ''} onValueChange={(value) => setData('checklist_id', value)}>
+                    <Select
+                        value={data.checklist_id?.toString() || ''}
+                        onValueChange={(value) => setData('checklist_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Checklist')} />
                         </SelectTrigger>
@@ -57,14 +60,15 @@ function Create({ onSuccess }: CreateChecklistItemProps) {
                     </Select>
                     <InputError message={errors.checklist_id} />
                     {(!onboardingchecklists || onboardingchecklists.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create checklist here. ')}
                             <a
                                 href={route('recruitment.onboarding-checklists.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('checklist')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -144,13 +148,18 @@ function Create({ onSuccess }: CreateChecklistItemProps) {
                         checked={data.is_required || false}
                         onCheckedChange={(checked) => setData('is_required', !!checked)}
                     />
-                    <Label htmlFor="is_required" className="cursor-pointer">{t('Required Task')}</Label>
+                    <Label htmlFor="is_required" className="cursor-pointer">
+                        {t('Required Task')}
+                    </Label>
                     <InputError message={errors.is_required} />
                 </div>
 
                 <div>
                     <Label htmlFor="status">{t('Status')}</Label>
-                    <Select value={data.status?.toString()} onValueChange={(value) => setData('status', value === 'true')}>
+                    <Select
+                        value={data.status?.toString()}
+                        onValueChange={(value) => setData('status', value === 'true')}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Status')} />
                         </SelectTrigger>

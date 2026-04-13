@@ -2,21 +2,35 @@ import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Users as UsersIcon, Download, FileImage, ChevronDown } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Plus,
+    Edit as EditIcon,
+    Trash2,
+    Eye,
+    Users as UsersIcon,
+    Download,
+    FileImage,
+    ChevronDown,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Badge } from '@/components/ui/badge';
@@ -43,47 +57,58 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<CandidateModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'recruitment.candidates.destroy',
-        defaultMessage: t('Are you sure you want to delete this candidate?')
+        defaultMessage: t('Are you sure you want to delete this candidate?'),
     });
 
     const handleFilter = () => {
-        router.get(route('recruitment.candidates.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.candidates.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('recruitment.candidates.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.candidates.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const updateStatus = (candidateId: number, newStatus: string) => {
-        router.patch(route('recruitment.candidates.update-status', candidateId), {
-            status: newStatus
-        }, {
-            preserveScroll: true,
-            onSuccess: () => {
-                // Status updated successfully
+        router.patch(
+            route('recruitment.candidates.update-status', candidateId),
+            {
+                status: newStatus,
+            },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Status updated successfully
+                },
             }
-        });
+        );
     };
 
     const clearFilters = () => {
@@ -112,47 +137,66 @@ export default function Index() {
             sortable: true,
             render: (value: string, candidate: Candidate) =>
                 auth.user?.permissions?.includes('view-candidates') ? (
-                    <span className="text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('recruitment.candidates.show', candidate.id))}>{value || '-'}</span>
+                    <span
+                        className="cursor-pointer text-foreground hover:text-foreground"
+                        onClick={() => router.get(route('recruitment.candidates.show', candidate.id))}
+                    >
+                        {value || '-'}
+                    </span>
                 ) : (
                     value || '-'
-                )
+                ),
         },
         {
             key: 'name',
             header: t('Name'),
             sortable: true,
-            render: (value: any, row: any) => `${row.first_name || ''} ${row.last_name || ''}`.trim() || '-'
+            render: (value: any, row: any) => `${row.first_name || ''} ${row.last_name || ''}`.trim() || '-',
         },
         {
             key: 'email',
             header: t('Email'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'job_posting_title',
             header: t('Job'),
             sortable: false,
-            render: (value: any, row: any) => row.job_posting?.title || '-'
+            render: (value: any, row: any) => row.job_posting?.title || '-',
         },
         {
             key: 'candidate_source_name',
             header: t('Source'),
             sortable: false,
-            render: (value: any, row: any) => row.candidate_source?.name || '-'
+            render: (value: any, row: any) => row.candidate_source?.name || '-',
         },
         {
             key: 'application_date',
             header: t('Application Date'),
             sortable: true,
-            render: (value: any) => value ? formatDate(value) : '-'
+            render: (value: any) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'status',
             header: t('Status'),
             sortable: false,
             render: (value: any, row: any) => {
-                const statusOptions = { "0": "New", "1": "Screening", "2": "Interview", "3": "Offer", "4": "Hired", "5": "Rejected" };
-                const statusColors = { "0": "bg-muted text-foreground", "1": "bg-muted text-foreground", "2": "bg-muted text-foreground", "3": "bg-muted text-foreground", "4": "bg-muted text-foreground", "5": "bg-muted text-destructive" };
+                const statusOptions = {
+                    '0': 'New',
+                    '1': 'Screening',
+                    '2': 'Interview',
+                    '3': 'Offer',
+                    '4': 'Hired',
+                    '5': 'Rejected',
+                };
+                const statusColors = {
+                    '0': 'bg-muted text-foreground',
+                    '1': 'bg-muted text-foreground',
+                    '2': 'bg-muted text-foreground',
+                    '3': 'bg-muted text-foreground',
+                    '4': 'bg-muted text-foreground',
+                    '5': 'bg-muted text-destructive',
+                };
                 const displayValue = statusOptions[value] || value || '-';
                 const colorClass = statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground';
 
@@ -160,8 +204,11 @@ export default function Index() {
                     return (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className={`px-2 py-1 rounded-full text-sm h-auto ${colorClass}`}>
-                                    {t(displayValue)} <ChevronDown className="h-3 w-3 ml-1" />
+                                <Button
+                                    variant="ghost"
+                                    className={`h-auto rounded-full px-2 py-1 text-sm ${colorClass}`}
+                                >
+                                    {t(displayValue)} <ChevronDown className="ml-1 h-3 w-3" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
@@ -188,72 +235,83 @@ export default function Index() {
                     );
                 }
 
-                return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${colorClass}`}>
-                        {t(displayValue)}
-                    </span>
-                );
-            }
+                return <span className={`rounded-full px-2 py-1 text-sm ${colorClass}`}>{t(displayValue)}</span>;
+            },
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-candidates', 'edit-candidates', 'delete-candidates'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, candidate: Candidate) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-candidates') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.get(route('recruitment.candidates.show', candidate.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-candidates') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', candidate)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-candidates') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(candidate.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-candidates', 'edit-candidates', 'delete-candidates'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, candidate: Candidate) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-candidates') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() =>
+                                                      router.get(route('recruitment.candidates.show', candidate.id))
+                                                  }
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-candidates') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', candidate)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-candidates') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(candidate.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Recruitment'), url: route('recruitment.index') },
-                { label: t('Candidates') }
-            ]}
+            breadcrumbs={[{ label: t('Recruitment'), url: route('recruitment.index') }, { label: t('Candidates') }]}
             pageTitle={t('Manage Candidates')}
             pageActions={
                 <TooltipProvider>
@@ -275,11 +333,11 @@ export default function Index() {
             <Head title={t('Candidates')} />
 
             {/* Main Content Card */}
-            <Card className="shadow-sm border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden">
+            <Card className="overflow-hidden border-border/50 bg-card/50 shadow-sm backdrop-blur-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-4 md:p-6 border-b bg-muted/20">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                <CardContent className="border-b bg-muted/20 p-4 md:p-6">
+                    <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
                                 onChange={(value) => setFilters({ ...filters, name: value })}
@@ -298,16 +356,20 @@ export default function Index() {
                                 filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.job_id !== 'all' ? filters.job_id : '', filters.source_id !== 'all' ? filters.source_id : '', filters.status, filters.application_date].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.job_id !== 'all' ? filters.job_id : '',
+                                        filters.source_id !== 'all' ? filters.source_id : '',
+                                        filters.status,
+                                        filters.application_date,
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -317,11 +379,14 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-4 md:p-6 bg-foreground/5 border-b backdrop-blur-md">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <CardContent className="border-b bg-foreground/5 p-4 backdrop-blur-md md:p-6">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Job')}</label>
-                                <Select value={filters.job_id} onValueChange={(value) => setFilters({ ...filters, job_id: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Job')}</label>
+                                <Select
+                                    value={filters.job_id}
+                                    onValueChange={(value) => setFilters({ ...filters, job_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Job')} />
                                     </SelectTrigger>
@@ -336,8 +401,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Source')}</label>
-                                <Select value={filters.source_id} onValueChange={(value) => setFilters({ ...filters, source_id: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Source')}</label>
+                                <Select
+                                    value={filters.source_id}
+                                    onValueChange={(value) => setFilters({ ...filters, source_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Source')} />
                                     </SelectTrigger>
@@ -352,8 +420,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -368,7 +439,9 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Application Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Application Date')}
+                                </label>
                                 <DatePicker
                                     value={filters.application_date}
                                     onChange={(date) => setFilters({ ...filters, application_date: date })}
@@ -376,8 +449,12 @@ export default function Index() {
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -386,8 +463,8 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-                            <div className="min-w-full inline-block align-middle">
+                        <div className="scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent overflow-x-auto">
+                            <div className="inline-block min-w-full align-middle">
                                 <DataTable
                                     data={candidates?.data || []}
                                     columns={tableColumns}
@@ -400,7 +477,15 @@ export default function Index() {
                                             icon={UsersIcon}
                                             title={t('No Candidates found')}
                                             description={t('Get started by creating your first Candidate.')}
-                                            hasFilters={!!(filters.name || (filters.job_id !== 'all' && filters.job_id) || (filters.source_id !== 'all' && filters.source_id) || filters.status || filters.application_date)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.name ||
+                                                    (filters.job_id !== 'all' && filters.job_id) ||
+                                                    (filters.source_id !== 'all' && filters.source_id) ||
+                                                    filters.status ||
+                                                    filters.application_date
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-candidates"
                                             onCreateClick={() => openModal('add')}
@@ -412,51 +497,108 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {candidates?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {candidates?.data?.map((candidate) => {
-                                        const statusOptions: any = { "0": "New", "1": "Screening", "2": "Interview", "3": "Offer", "4": "Hired", "5": "Rejected" };
-                                        const statusColors: any = { "0": "bg-muted text-foreground", "1": "bg-muted text-foreground", "2": "bg-muted text-foreground", "3": "bg-muted text-foreground", "4": "bg-muted text-foreground", "5": "bg-muted text-destructive" };
-                                        const statusInfo = { label: statusOptions[candidate.status] || candidate.status || '-', class: statusColors[candidate.status as keyof typeof statusColors] || 'bg-muted text-foreground' };
+                                        const statusOptions: any = {
+                                            '0': 'New',
+                                            '1': 'Screening',
+                                            '2': 'Interview',
+                                            '3': 'Offer',
+                                            '4': 'Hired',
+                                            '5': 'Rejected',
+                                        };
+                                        const statusColors: any = {
+                                            '0': 'bg-muted text-foreground',
+                                            '1': 'bg-muted text-foreground',
+                                            '2': 'bg-muted text-foreground',
+                                            '3': 'bg-muted text-foreground',
+                                            '4': 'bg-muted text-foreground',
+                                            '5': 'bg-muted text-destructive',
+                                        };
+                                        const statusInfo = {
+                                            label: statusOptions[candidate.status] || candidate.status || '-',
+                                            class:
+                                                statusColors[candidate.status as keyof typeof statusColors] ||
+                                                'bg-muted text-foreground',
+                                        };
 
                                         return (
-                                            <Card key={candidate.id} className="flex flex-col h-full hover:shadow-md transition-shadow duration-200">
-                                                <div className="flex items-center gap-3 p-3 border-b bg-muted/50/50">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg flex-shrink-0">
+                                            <Card
+                                                key={candidate.id}
+                                                className="flex h-full flex-col transition-shadow duration-200 hover:shadow-md"
+                                            >
+                                                <div className="bg-muted/50/50 flex items-center gap-3 border-b p-3">
+                                                    <div className="flex-shrink-0 rounded-lg bg-foreground/10 p-2">
                                                         <UsersIcon className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="min-w-0 flex-1">
-                                                        <h3 className="font-semibold text-sm leading-tight">{`${candidate.first_name || ''} ${candidate.last_name || ''}`.trim() || '-'}</h3>
+                                                        <h3 className="text-sm font-semibold leading-tight">
+                                                            {`${candidate.first_name || ''} ${candidate.last_name || ''}`.trim() ||
+                                                                '-'}
+                                                        </h3>
                                                         {auth.user?.permissions?.includes('view-candidates') ? (
-                                                            <p className="text-xs text-foreground hover:text-foreground cursor-pointer" onClick={() => router.get(route('recruitment.candidates.show', candidate.id))}>#{candidate.tracking_id || candidate.id}</p>
+                                                            <p
+                                                                className="cursor-pointer text-xs text-foreground hover:text-foreground"
+                                                                onClick={() =>
+                                                                    router.get(
+                                                                        route(
+                                                                            'recruitment.candidates.show',
+                                                                            candidate.id
+                                                                        )
+                                                                    )
+                                                                }
+                                                            >
+                                                                #{candidate.tracking_id || candidate.id}
+                                                            </p>
                                                         ) : (
-                                                            <p className="text-xs text-muted-foreground">#{candidate.tracking_id || candidate.id}</p>
+                                                            <p className="text-xs text-muted-foreground">
+                                                                #{candidate.tracking_id || candidate.id}
+                                                            </p>
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div className="flex-1 p-3 space-y-3">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Email')}</p>
+                                                <div className="flex-1 space-y-3 p-3">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Email')}
+                                                        </p>
                                                         <p className="font-medium">{candidate.email || '-'}</p>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Job')}</p>
-                                                            <p className="font-medium">{candidate.job_posting?.title || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Job')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {candidate.job_posting?.title || '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Source')}</p>
-                                                            <p className="font-medium">{candidate.candidate_source?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Source')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {candidate.candidate_source?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Application Date')}</p>
-                                                        <p className="font-medium">{candidate.application_date ? formatDate(candidate.application_date) : '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Application Date')}
+                                                        </p>
+                                                        <p className="font-medium">
+                                                            {candidate.application_date
+                                                                ? formatDate(candidate.application_date)
+                                                                : '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between items-center p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${statusInfo.class}`}>
+                                                <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 items-center justify-between border-t p-3">
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-xs ${statusInfo.class}`}
+                                                    >
                                                         {t(statusInfo.label)}
                                                     </span>
                                                     <div className="flex gap-2">
@@ -464,7 +606,19 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('view-candidates') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.get(route('recruitment.candidates.show', candidate.id))} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.get(
+                                                                                    route(
+                                                                                        'recruitment.candidates.show',
+                                                                                        candidate.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -476,7 +630,12 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-candidates') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', candidate)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', candidate)}
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -491,8 +650,10 @@ export default function Index() {
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(candidate.id)}
-                                                                            className="h-9 w-9 p-0 text-destructive hover:text-destructive hover:bg-muted/50"
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(candidate.id)
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
                                                                         </Button>
@@ -514,7 +675,15 @@ export default function Index() {
                                     icon={UsersIcon}
                                     title={t('No Candidates found')}
                                     description={t('Get started by creating your first Candidate.')}
-                                    hasFilters={!!(filters.name || (filters.job_id !== 'all' && filters.job_id) || (filters.source_id !== 'all' && filters.source_id) || filters.status || filters.application_date)}
+                                    hasFilters={
+                                        !!(
+                                            filters.name ||
+                                            (filters.job_id !== 'all' && filters.job_id) ||
+                                            (filters.source_id !== 'all' && filters.source_id) ||
+                                            filters.status ||
+                                            filters.application_date
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-candidates"
                                     onCreateClick={() => openModal('add')}
@@ -526,7 +695,7 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={candidates || { data: [], links: [], meta: {} }}
                         routeName="recruitment.candidates.index"
@@ -536,18 +705,11 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditCandidate
-                        candidate={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditCandidate candidate={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
-
-
 
             <ConfirmationDialog
                 open={deleteState.isOpen}

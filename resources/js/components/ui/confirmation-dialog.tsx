@@ -1,4 +1,13 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { useTranslation } from 'react-i18next';
 
 interface ConfirmationDialogProps {
@@ -20,7 +29,7 @@ export function ConfirmationDialog({
     confirmText,
     cancelText,
     onConfirm,
-    variant = 'default'
+    variant = 'default',
 }: ConfirmationDialogProps) {
     const { t } = useTranslation();
     return (
@@ -34,7 +43,11 @@ export function ConfirmationDialog({
                     <AlertDialogCancel>{cancelText || t('Cancel')}</AlertDialogCancel>
                     <AlertDialogAction
                         onClick={onConfirm}
-                        className={variant === 'destructive' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90' : ''}
+                        className={
+                            variant === 'destructive'
+                                ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                                : ''
+                        }
                     >
                         {confirmText || t('Confirm')}
                     </AlertDialogAction>

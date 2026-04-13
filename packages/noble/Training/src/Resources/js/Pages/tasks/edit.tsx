@@ -36,7 +36,9 @@ export default function EditTask({ onSuccess, training, users, task }) {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         value={data.title}
@@ -45,7 +47,7 @@ export default function EditTask({ onSuccess, training, users, task }) {
                         required
                     />
                     <InputError message={errors.title} />
-                </div>                
+                </div>
                 <div>
                     <Label required>{t('Due Date')}</Label>
                     <DatePicker
@@ -58,7 +60,9 @@ export default function EditTask({ onSuccess, training, users, task }) {
                 </div>
 
                 <div>
-                    <Label htmlFor="assigned_to" required>{t('Assign To')}</Label>
+                    <Label htmlFor="assigned_to" required>
+                        {t('Assign To')}
+                    </Label>
                     <Select value={data.assigned_to} onValueChange={(value) => setData('assigned_to', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select user')} />

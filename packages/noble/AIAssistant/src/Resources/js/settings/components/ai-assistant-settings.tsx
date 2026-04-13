@@ -29,37 +29,37 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
     const [aiSettings, setAiSettings] = useState({
         ai_provider: userSettings?.ai_provider || '',
         ai_model: userSettings?.ai_model || '',
-        ai_api_key: userSettings?.ai_api_key || ''
+        ai_api_key: userSettings?.ai_api_key || '',
     });
 
     useEffect(() => {
         setAiSettings({
             ai_provider: userSettings?.ai_provider || '',
             ai_model: userSettings?.ai_model || '',
-            ai_api_key: userSettings?.ai_api_key || ''
+            ai_api_key: userSettings?.ai_api_key || '',
         });
     }, [userSettings]);
 
     useEffect(() => {
         fetch(route('ai-assistant.settings.index'))
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 setProviders(data.providers || {});
             })
-            .catch(error => console.error('Error fetching AI providers:', error));
+            .catch((error) => console.error('Error fetching AI providers:', error));
     }, []);
 
     const handleSettingsChange = (field: string, value: string) => {
-        setAiSettings(prev => ({
+        setAiSettings((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
 
         // Reset model when provider changes
         if (field === 'ai_provider') {
-            setAiSettings(prev => ({
+            setAiSettings((prev) => ({
                 ...prev,
-                ai_model: ''
+                ai_model: '',
             }));
         }
     };
@@ -67,27 +67,32 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
     const saveAISettings = () => {
         setIsLoading(true);
 
-        router.post(route('ai-assistant.settings.store'), {
-            settings: aiSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('ai-assistant.settings.store'),
+            {
+                settings: aiSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save AI Assistant settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save AI Assistant settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     const selectedProvider = providers[aiSettings.ai_provider];
@@ -100,13 +105,13 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
                         <Bot className="h-5 w-5" />
                         {t('AI Assistant Settings')}
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="mt-1 text-sm text-muted-foreground">
                         {t('Configure AI provider and model settings')}
                     </p>
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveAISettings} disabled={isLoading} size="sm">
-                        <Save className="h-4 w-4 mr-2" />
+                        <Save className="mr-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}

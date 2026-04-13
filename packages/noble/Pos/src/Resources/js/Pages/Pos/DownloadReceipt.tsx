@@ -37,20 +37,21 @@ export const downloadReceiptPDF = async (completedSale: any, globalSettings: any
             <div class="separator"></div>
             
             <div class="items-section">
-                ${completedSale.items?.map((item: any) => {
-                    const itemSubtotal = item.price * item.quantity;
-                    let itemTaxAmount = 0;
-                    let taxDisplay = '';
-                    if (item.taxes && item.taxes.length > 0) {
-                        const taxNames = item.taxes?.map((tax: any) => {
-                            itemTaxAmount += (itemSubtotal * tax.rate) / 100;
-                            return `${tax.name} (${tax.rate}%)`;
-                        });
-                        taxDisplay = taxNames.join(', ');
-                    } else {
-                        taxDisplay = 'No Tax';
-                    }
-                    return `
+                ${completedSale.items
+                    ?.map((item: any) => {
+                        const itemSubtotal = item.price * item.quantity;
+                        let itemTaxAmount = 0;
+                        let taxDisplay = '';
+                        if (item.taxes && item.taxes.length > 0) {
+                            const taxNames = item.taxes?.map((tax: any) => {
+                                itemTaxAmount += (itemSubtotal * tax.rate) / 100;
+                                return `${tax.name} (${tax.rate}%)`;
+                            });
+                            taxDisplay = taxNames.join(', ');
+                        } else {
+                            taxDisplay = 'No Tax';
+                        }
+                        return `
                         <div class="item">
                             <div class="item-name">${item.name}</div>
                             <div class="item-details">
@@ -69,7 +70,8 @@ export const downloadReceiptPDF = async (completedSale: any, globalSettings: any
                             </div>
                         </div>
                     `;
-                }).join('')}
+                    })
+                    .join('')}
             </div>
             
             <div class="separator"></div>
@@ -90,11 +92,15 @@ export const downloadReceiptPDF = async (completedSale: any, globalSettings: any
             <div class="footer">
                 <div style="font-weight: bold;">*** THANK YOU ***</div>
                 <div>Visit Again!</div>
-                ${completedSale.zatca_qr ? `
+                ${
+                    completedSale.zatca_qr
+                        ? `
                 <div style="margin-top: 15px; text-align: center;">
                     <img src="${completedSale.zatca_qr}" alt="ZATCA QR" style="width: 140px; height: 140px; display: inline-block; object-fit: contain;" />
                 </div>
-                ` : ''}
+                `
+                        : ''
+                }
             </div>
         </div>
         
@@ -113,19 +119,19 @@ export const downloadReceiptPDF = async (completedSale: any, globalSettings: any
             .footer { text-align: center; margin-top: 20px; font-size: 12px; }
         </style>
     `;
-    
+
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = receiptHTML;
     document.body.appendChild(tempDiv);
-    
+
     const opt = {
         margin: 0.1,
         filename: `receipt-${completedSale.pos_number}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: [80, 297], orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: [80, 297], orientation: 'portrait' },
     };
-    
+
     try {
         await html2pdf().set(opt).from(tempDiv).save();
     } catch (error) {

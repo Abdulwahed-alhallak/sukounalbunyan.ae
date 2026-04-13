@@ -32,8 +32,8 @@ interface JobListingsProps {
     userSlug?: string;
     jobs: Job[];
     jobCategories: string[];
-    jobLocations: { id: number; name: string; }[];
-    jobTypes: { id: number; name: string; }[];
+    jobLocations: { id: number; name: string }[];
+    jobTypes: { id: number; name: string }[];
     siteSettings: {
         logo?: string;
         favicon?: string;
@@ -42,7 +42,14 @@ interface JobListingsProps {
     };
 }
 
-export default function JobListings({ userSlug, jobs, jobCategories, jobLocations, jobTypes, siteSettings }: JobListingsProps) {
+export default function JobListings({
+    userSlug,
+    jobs,
+    jobCategories,
+    jobLocations,
+    jobTypes,
+    siteSettings,
+}: JobListingsProps) {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -74,8 +81,6 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
         return jobType === 'Full Time' ? 'bg-muted text-foreground' : 'bg-muted text-foreground';
     };
 
-
-
     const handleSearch = () => {
         setActiveSearchTerm(searchTerm);
     };
@@ -85,7 +90,7 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
         let updatedSavedJobs;
 
         if (savedJobs.includes(jobId)) {
-            updatedSavedJobs = savedJobs.filter(id => id !== jobId);
+            updatedSavedJobs = savedJobs.filter((id) => id !== jobId);
         } else {
             updatedSavedJobs = [...savedJobs, jobId];
         }
@@ -96,25 +101,31 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
     const filteredAndSortedJobs = (() => {
         // Filter jobs
-        const filtered = jobs.filter(job => {
+        const filtered = jobs.filter((job) => {
             const searchLower = activeSearchTerm.toLowerCase();
-            const matchesSearch = activeSearchTerm === '' ||
-                                job.title.toLowerCase().includes(searchLower) ||
-                                job.location?.toLowerCase().includes(searchLower) ||
-                                job.description?.toLowerCase().includes(searchLower) ||
-                                job.skills.some(skill => skill.toLowerCase().includes(searchLower));
+            const matchesSearch =
+                activeSearchTerm === '' ||
+                job.title.toLowerCase().includes(searchLower) ||
+                job.location?.toLowerCase().includes(searchLower) ||
+                job.description?.toLowerCase().includes(searchLower) ||
+                job.skills.some((skill) => skill.toLowerCase().includes(searchLower));
 
             // Find matching location by ID
-            const matchesLocation = selectedLocation === 'all' ||
-                                  jobLocations?.find(loc => loc.id.toString() === selectedLocation)?.name.toLowerCase() === job.location?.toLowerCase();
+            const matchesLocation =
+                selectedLocation === 'all' ||
+                jobLocations?.find((loc) => loc.id.toString() === selectedLocation)?.name.toLowerCase() ===
+                    job.location?.toLowerCase();
 
             // Find matching job type by ID
-            const matchesJobType = selectedJobType === 'all' ||
-                                 jobTypes?.find(type => type.id.toString() === selectedJobType)?.name.toLowerCase() === job.jobType?.toLowerCase();
+            const matchesJobType =
+                selectedJobType === 'all' ||
+                jobTypes?.find((type) => type.id.toString() === selectedJobType)?.name.toLowerCase() ===
+                    job.jobType?.toLowerCase();
 
-            const matchesCategory = selectedCategory === 'All' ||
-                                   (selectedCategory === 'Featured Job' && job.featured) ||
-                                   (selectedCategory === 'Saved Job' && savedJobs.includes(job.id));
+            const matchesCategory =
+                selectedCategory === 'All' ||
+                (selectedCategory === 'Featured Job' && job.featured) ||
+                (selectedCategory === 'Saved Job' && savedJobs.includes(job.id));
 
             return matchesSearch && matchesLocation && matchesJobType && matchesCategory;
         });
@@ -137,33 +148,29 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
     return (
         <FrontendLayout title="Jobs" userSlug={userSlug} brandSettings={siteSettings}>
-
-
-
             {/* Hero Section */}
             <div className="bg-card text-background">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <h2 className="text-4xl font-bold mb-4"> {t('Join Our Amazing Team')} </h2>
-                        <p className="text-xl mb-8 text-muted-foreground"> {t('Discover exciting career opportunities and grow with us')} </p>
+                        <h2 className="mb-4 text-4xl font-bold"> {t('Join Our Amazing Team')} </h2>
+                        <p className="mb-8 text-xl text-muted-foreground">
+                            {' '}
+                            {t('Discover exciting career opportunities and grow with us')}{' '}
+                        </p>
 
                         {/* Search Bar */}
-                        <div className="max-w-2xl mx-auto bg-card rounded-lg p-2 shadow-lg">
+                        <div className="mx-auto max-w-2xl rounded-lg bg-card p-2 shadow-lg">
                             <div className="flex items-center space-x-2">
-                                <div className="flex-1 relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                                <div className="relative flex-1">
+                                    <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         placeholder={t('Search jobs, skills, or keywords...')}
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 border-0 focus:ring-0 text-foreground"
+                                        className="border-0 pl-10 text-foreground focus:ring-0"
                                     />
                                 </div>
-                                <Button
-                                    className="bg-muted hover:bg-card"
-                                    onClick={handleSearch}
-                                    type="button"
-                                >
+                                <Button className="bg-muted hover:bg-card" onClick={handleSearch} type="button">
                                     {t('Search Jobs')}
                                 </Button>
                             </div>
@@ -172,20 +179,22 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="flex flex-col lg:flex-row gap-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                <div className="flex flex-col gap-8 lg:flex-row">
                     {/* Filters Sidebar */}
                     <div className="lg:w-1/4">
                         <Card className="sticky top-4">
                             <CardContent className="p-6">
-                                <h3 className="text-lg font-semibold mb-4">{t('Filter Jobs')}</h3>
+                                <h3 className="mb-4 text-lg font-semibold">{t('Filter Jobs')}</h3>
 
                                 {/* Job Categories */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Job Category')}</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Job Category')}
+                                    </label>
                                     <div className="flex flex-wrap gap-2">
                                         <Button
-                                            variant={selectedCategory === 'All' ? "default" : "outline"}
+                                            variant={selectedCategory === 'All' ? 'default' : 'outline'}
                                             size="sm"
                                             onClick={() => setSelectedCategory('All')}
                                             className="text-xs"
@@ -193,7 +202,7 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
                                             {t('All')}
                                         </Button>
                                         <Button
-                                            variant={selectedCategory === 'Featured Job' ? "default" : "outline"}
+                                            variant={selectedCategory === 'Featured Job' ? 'default' : 'outline'}
                                             size="sm"
                                             onClick={() => setSelectedCategory('Featured Job')}
                                             className="text-xs"
@@ -201,7 +210,7 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
                                             {t('Featured Job')}
                                         </Button>
                                         <Button
-                                            variant={selectedCategory === 'Saved Job' ? "default" : "outline"}
+                                            variant={selectedCategory === 'Saved Job' ? 'default' : 'outline'}
                                             size="sm"
                                             onClick={() => setSelectedCategory('Saved Job')}
                                             className="text-xs"
@@ -213,7 +222,9 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                                 {/* Location Filter */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Location')}</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Location')}
+                                    </label>
                                     <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="All Locations" />
@@ -231,7 +242,9 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                                 {/* Job Type Filter */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Job Type')}</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Job Type')}
+                                    </label>
                                     <Select value={selectedJobType} onValueChange={setSelectedJobType}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="All Types" />
@@ -249,7 +262,9 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                                 {/* Sort By */}
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Sort By')}</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Sort By')}
+                                    </label>
                                     <Select value={sortBy} onValueChange={setSortBy}>
                                         <SelectTrigger>
                                             <SelectValue />
@@ -268,63 +283,83 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                     {/* Job Listings */}
                     <div className="lg:w-3/4">
-                        <div className="flex items-center justify-between mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                             <h3 className="text-2xl font-bold text-foreground">{t('All Positions')}</h3>
-                            <span className="text-sm text-muted-foreground">{filteredAndSortedJobs.length} {t('jobs found')}</span>
+                            <span className="text-sm text-muted-foreground">
+                                {filteredAndSortedJobs.length} {t('jobs found')}
+                            </span>
                         </div>
 
                         <div className="space-y-6">
                             {filteredAndSortedJobs?.map((job) => (
                                 <Card key={job.id} className="border shadow-sm">
                                     <CardContent className="p-6">
-                                        <div className="flex justify-between items-start mb-4">
+                                        <div className="mb-4 flex items-start justify-between">
                                             <div className="flex-1">
-                                                <div className="flex items-start justify-between mb-4">
+                                                <div className="mb-4 flex items-start justify-between">
                                                     <div>
-                                                        <h4 className="text-xl font-bold text-foreground mb-2">{job.title}</h4>
-                                                        <div className="flex items-center text-muted-foreground mb-3">
-                                                            <MapPin className="h-5 w-5 mr-2 text-foreground" />
+                                                        <h4 className="mb-2 text-xl font-bold text-foreground">
+                                                            {job.title}
+                                                        </h4>
+                                                        <div className="mb-3 flex items-center text-muted-foreground">
+                                                            <MapPin className="mr-2 h-5 w-5 text-foreground" />
                                                             <span className="font-medium">{job.location}</span>
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-2">
                                                         {job.featured && (
-                                                            <Badge className="bg-muted text-foreground border-border hover:bg-muted">
-                                                                <Star className="h-3 w-3 mr-1" />
+                                                            <Badge className="border-border bg-muted text-foreground hover:bg-muted">
+                                                                <Star className="mr-1 h-3 w-3" />
                                                                 {t('Featured')}
                                                             </Badge>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                                    <div className="flex items-center bg-muted/50 rounded-lg p-3">
-                                                        <DollarSign className="h-5 w-5 mr-2 text-foreground" />
+                                                <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
+                                                    <div className="flex items-center rounded-lg bg-muted/50 p-3">
+                                                        <DollarSign className="mr-2 h-5 w-5 text-foreground" />
                                                         <div>
-                                                            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('Salary')}</p>
-                                                            <p className="font-semibold text-foreground">{formatSalary(job.salaryFrom, job.salaryTo)}</p>
+                                                            <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Salary')}
+                                                            </p>
+                                                            <p className="font-semibold text-foreground">
+                                                                {formatSalary(job.salaryFrom, job.salaryTo)}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center bg-muted/50 rounded-lg p-3">
-                                                        <Briefcase className="h-5 w-5 mr-2 text-foreground" />
+                                                    <div className="flex items-center rounded-lg bg-muted/50 p-3">
+                                                        <Briefcase className="mr-2 h-5 w-5 text-foreground" />
                                                         <div>
-                                                            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('Type')}</p>
-                                                            <p className="font-semibold text-foreground">{job.jobType}</p>
+                                                            <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Type')}
+                                                            </p>
+                                                            <p className="font-semibold text-foreground">
+                                                                {job.jobType}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center bg-muted/50 rounded-lg p-3">
-                                                        <Clock className="h-5 w-5 mr-2 text-foreground" />
+                                                    <div className="flex items-center rounded-lg bg-muted/50 p-3">
+                                                        <Clock className="mr-2 h-5 w-5 text-foreground" />
                                                         <div>
-                                                            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('Posted')}</p>
-                                                            <p className="font-semibold text-foreground">{formatDate(job.postedDate)}</p>
+                                                            <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Posted')}
+                                                            </p>
+                                                            <p className="font-semibold text-foreground">
+                                                                {formatDate(job.postedDate)}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     {job.deadlineDate && (
-                                                        <div className="flex items-center bg-muted/50 rounded-lg p-3">
-                                                            <Clock className="h-5 w-5 mr-2 text-destructive" />
+                                                        <div className="flex items-center rounded-lg bg-muted/50 p-3">
+                                                            <Clock className="mr-2 h-5 w-5 text-destructive" />
                                                             <div>
-                                                                <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('Deadline')}</p>
-                                                                <p className="font-semibold text-destructive">{formatDate(job.deadlineDate)}</p>
+                                                                <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                                                                    {t('Deadline')}
+                                                                </p>
+                                                                <p className="font-semibold text-destructive">
+                                                                    {formatDate(job.deadlineDate)}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     )}
@@ -332,10 +367,16 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                                                 {job.skills && job.skills.length > 0 && (
                                                     <div className="mb-4">
-                                                        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">{t('Required Skills')}</p>
+                                                        <p className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Required Skills')}
+                                                        </p>
                                                         <div className="flex flex-wrap gap-2">
                                                             {job.skills?.map((skill) => (
-                                                                <Badge key={skill} variant="outline" className="bg-muted/50 text-foreground border-border">
+                                                                <Badge
+                                                                    key={skill}
+                                                                    variant="outline"
+                                                                    className="border-border bg-muted/50 text-foreground"
+                                                                >
                                                                     {skill}
                                                                 </Badge>
                                                             ))}
@@ -345,15 +386,19 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-4 border-t border-border">
+                                        <div className="flex items-center justify-between border-t border-border pt-4">
                                             <div className="flex items-center space-x-4">
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
                                                     onClick={() => handleSaveJob(job.id)}
-                                                    className={savedJobs.includes(job.id) ? 'bg-muted/50 text-foreground border-border' : 'text-muted-foreground'}
+                                                    className={
+                                                        savedJobs.includes(job.id)
+                                                            ? 'border-border bg-muted/50 text-foreground'
+                                                            : 'text-muted-foreground'
+                                                    }
                                                 >
-                                                    <Briefcase className="h-4 w-4 mr-2" />
+                                                    <Briefcase className="mr-2 h-4 w-4" />
                                                     {savedJobs.includes(job.id) ? 'Saved' : 'Save Job'}
                                                 </Button>
                                             </div>
@@ -361,17 +406,26 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
                                                 <Button
                                                     variant="outline"
                                                     className="border-border text-foreground hover:bg-muted/50"
-                                                    onClick={() => userSlug && (window.location.href = route('recruitment.frontend.careers.jobs.show', { userSlug, id: job.encrypted_id }))}
+                                                    onClick={() =>
+                                                        userSlug &&
+                                                        (window.location.href = route(
+                                                            'recruitment.frontend.careers.jobs.show',
+                                                            { userSlug, id: job.encrypted_id }
+                                                        ))
+                                                    }
                                                 >
                                                     {t('View Details')}
                                                 </Button>
                                                 <Button
-                                                    className="bg-muted hover:bg-card text-background px-6"
+                                                    className="bg-muted px-6 text-background hover:bg-card"
                                                     onClick={() => {
                                                         if (job.job_application === 'custom' && job.application_url) {
                                                             window.open(job.application_url, '_blank');
                                                         } else if (userSlug) {
-                                                            window.location.href = route('recruitment.frontend.careers.jobs.apply', { userSlug, id: job.encrypted_id });
+                                                            window.location.href = route(
+                                                                'recruitment.frontend.careers.jobs.apply',
+                                                                { userSlug, id: job.encrypted_id }
+                                                            );
                                                         }
                                                     }}
                                                 >
@@ -386,10 +440,12 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
                         {/* No Results */}
                         {filteredAndSortedJobs.length === 0 && (
-                            <div className="text-center py-12">
-                                <Briefcase className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                                <h3 className="text-lg font-semibold text-foreground mb-2">{t('No jobs found')}</h3>
-                                <p className="text-muted-foreground">{t('Try adjusting your search criteria or filters')}</p>
+                            <div className="py-12 text-center">
+                                <Briefcase className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+                                <h3 className="mb-2 text-lg font-semibold text-foreground">{t('No jobs found')}</h3>
+                                <p className="text-muted-foreground">
+                                    {t('Try adjusting your search criteria or filters')}
+                                </p>
                             </div>
                         )}
                     </div>
@@ -398,9 +454,7 @@ export default function JobListings({ userSlug, jobs, jobCategories, jobLocation
 
             {/* Integration Widgets (Tawk.to, etc.) */}
             {integrationFields?.map((field) => (
-                <div key={field.id}>
-                    {field.component}
-                </div>
+                <div key={field.id}>{field.component}</div>
             ))}
         </FrontendLayout>
     );

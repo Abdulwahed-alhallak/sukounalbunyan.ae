@@ -1,12 +1,12 @@
-import { FormEventHandler, useEffect } from "react";
-import AuthLayout from "@/layouts/auth-layout";
-import { Head, Link, useForm, router } from "@inertiajs/react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import InputError from "@/components/ui/input-error";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Crown, Building2 } from "lucide-react";
+import { FormEventHandler, useEffect } from 'react';
+import AuthLayout from '@/layouts/auth-layout';
+import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import InputError from '@/components/ui/input-error';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Crown, Building2 } from 'lucide-react';
 
 import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
@@ -25,8 +25,8 @@ export default function Login({
 }) {
     const { t } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
         remember: false,
         recaptcha_token: null,
     });
@@ -46,13 +46,13 @@ export default function Login({
 
     useEffect(() => {
         return () => {
-            reset("password");
+            reset('password');
         };
     }, []);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route("login"));
+        post(route('login'));
     };
 
     const handleQuickLogin = (email: string, password: string) => {
@@ -61,7 +61,7 @@ export default function Login({
             email: email,
             password: password,
         }));
-        
+
         // Use router directly to ensure we post with the updated values immediately
         // while also showing the values in the input fields for a brief moment.
         router.post(route('login'), {
@@ -79,16 +79,14 @@ export default function Login({
         >
             <Head title={t('Log in')} />
 
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-foreground">
-                    {status}
-                </div>
-            )}
+            {status && <div className="mb-4 text-center text-sm font-medium text-foreground">{status}</div>}
 
             <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">{t('Email address')}</Label>
+                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Email address')}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
@@ -99,7 +97,7 @@ export default function Login({
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            placeholder={t("email@example.com")}
+                            placeholder={t('email@example.com')}
                             className="mt-1 w-full"
                         />
                         <InputError message={errors.email} />
@@ -107,7 +105,12 @@ export default function Login({
 
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">{t('Password')}</Label>
+                            <Label
+                                htmlFor="password"
+                                className="text-sm font-medium text-foreground dark:text-foreground"
+                            >
+                                {t('Password')}
+                            </Label>
                             {canResetPassword && (
                                 <Link
                                     href={route('password.request')}
@@ -133,27 +136,30 @@ export default function Login({
                         <InputError message={errors.password} />
                     </div>
 
-                    <div className="flex items-center gap-3 mt-4 mb-5">
+                    <div className="mb-5 mt-4 flex items-center gap-3">
                         <Checkbox
                             id="remember"
                             name="remember"
                             checked={data.remember}
                             onCheckedChange={(checked) => setData('remember', !!checked)}
                             tabIndex={3}
-                            className="w-[14px] h-[14px] border-border dark:border-white/20 rounded data-[state=checked]:bg-foreground data-[state=checked]:text-background transition-colors"
+                            className="h-[14px] w-[14px] rounded border-border transition-colors data-[state=checked]:bg-foreground data-[state=checked]:text-background dark:border-white/20"
                         />
-                        <Label htmlFor="remember" className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer">{t('Remember me')}</Label>
+                        <Label
+                            htmlFor="remember"
+                            className="cursor-pointer text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                            {t('Remember me')}
+                        </Label>
                     </div>
 
                     {formFields.map((field) => (
-                        <div key={field.id}>
-                            {field.component}
-                        </div>
+                        <div key={field.id}>{field.component}</div>
                     ))}
 
                     <Button
                         type="submit"
-                        className="w-full bg-foreground text-background py-6 text-sm font-bold tracking-tight transition-all duration-300 rounded-lg shadow-sm hover:shadow-xl hover:translate-y-[-1px] active:translate-y-[1px] mt-4"
+                        className="mt-4 w-full rounded-lg bg-foreground py-6 text-sm font-bold tracking-tight text-background shadow-sm transition-all duration-300 hover:translate-y-[-1px] hover:shadow-xl active:translate-y-[1px]"
                         tabIndex={4}
                         disabled={processing}
                         data-test="login-button"
@@ -166,25 +172,25 @@ export default function Login({
                             {/* Divider */}
                             <div className="my-5">
                                 <div className="flex items-center">
-                                    <div className="flex-1 h-px bg-muted dark:bg-muted"></div>
-                                    <div className="w-2 h-2 rotate-45 mx-4 bg-foreground"></div>
-                                    <div className="flex-1 h-px bg-muted dark:bg-muted"></div>
+                                    <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
+                                    <div className="mx-4 h-2 w-2 rotate-45 bg-foreground"></div>
+                                    <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
                                 </div>
                             </div>
-                            
+
                             <div className="space-y-2">
                                 <div className="relative">
                                     <div className="absolute inset-0 flex items-center">
                                         <span className="w-full border-t dark:border-border" />
                                     </div>
                                     <div className="relative flex justify-center text-xs uppercase">
-                                        <span className="bg-card dark:bg-card px-2 text-muted-foreground dark:text-muted-foreground">{t('Or continue with')}</span>
+                                        <span className="bg-card px-2 text-muted-foreground dark:bg-card dark:text-muted-foreground">
+                                            {t('Or continue with')}
+                                        </span>
                                     </div>
                                 </div>
                                 {loginButtons.map((button) => (
-                                    <div key={button.id}>
-                                        {button.component}
-                                    </div>
+                                    <div key={button.id}>{button.component}</div>
                                 ))}
                             </div>
                         </>
@@ -192,10 +198,14 @@ export default function Login({
                 </div>
 
                 {enableRegistration && (
-                    <div className="text-center mt-5">
+                    <div className="mt-5 text-center">
                         <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                             {t("Don't have an account?")}{' '}
-                            <Link href={route('register')} tabIndex={6} className="text-foreground font-medium hover:underline">
+                            <Link
+                                href={route('register')}
+                                tabIndex={6}
+                                className="font-medium text-foreground hover:underline"
+                            >
                                 {t('Create one')}
                             </Link>
                         </p>
@@ -205,26 +215,28 @@ export default function Login({
                 {true && (
                     <div className="mt-5">
                         <div className="flex items-center">
-                            <div className="flex-1 h-px bg-muted dark:bg-muted"></div>
-                            <div className="w-2 h-2 rotate-45 mx-4 bg-foreground"></div>
-                            <div className="flex-1 h-px bg-muted dark:bg-muted"></div>
+                            <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
+                            <div className="mx-4 h-2 w-2 rotate-45 bg-foreground"></div>
+                            <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
                         </div>
                     </div>
                 )}
 
                 {true && (
                     <div>
-                        <h3 className="text-sm font-medium text-foreground dark:text-muted-foreground/60 tracking-wider mb-4 text-center">{t('Quick Access')}</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <h3 className="mb-4 text-center text-sm font-medium tracking-wider text-foreground dark:text-muted-foreground/60">
+                            {t('Quick Access')}
+                        </h3>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <Button
                                 type="button"
                                 onClick={() => handleQuickLogin('superadmin@noble.sy', '12345678')}
                                 disabled={processing}
-                                className="sm:col-span-2 group h-auto relative py-3 px-4 border border-border hover:border-foreground/30 bg-background text-[13px] font-bold text-foreground transition-all duration-300 rounded-xl shadow-sm hover:shadow-md overflow-hidden disabled:opacity-50"
+                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50 sm:col-span-2"
                             >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Crown className="w-4 h-4" />
+                                    <Crown className="h-4 w-4" />
                                     {t('Login as Super Admin')}
                                 </span>
                             </Button>
@@ -232,11 +244,11 @@ export default function Login({
                                 type="button"
                                 onClick={() => handleQuickLogin('company@example.com', '12345678')}
                                 disabled={processing}
-                                className="group h-auto relative py-3 px-4 border border-border hover:border-foreground/30 bg-background text-[13px] font-bold text-foreground transition-all duration-300 rounded-xl shadow-sm hover:shadow-md overflow-hidden disabled:opacity-50"
+                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
                             >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="w-4 h-4" />
+                                    <Building2 className="h-4 w-4" />
                                     {t('Login as Noble Company')}
                                 </span>
                             </Button>
@@ -244,11 +256,11 @@ export default function Login({
                                 type="button"
                                 onClick={() => handleQuickLogin('samad34557788@gmail.com', '12345678')}
                                 disabled={processing}
-                                className="group h-auto relative py-3 px-4 border border-border hover:border-foreground/30 bg-background text-[13px] font-bold text-foreground transition-all duration-300 rounded-xl shadow-sm hover:shadow-md overflow-hidden disabled:opacity-50"
+                                className="group relative h-auto overflow-hidden rounded-xl border border-border bg-background px-4 py-3 text-[13px] font-bold text-foreground shadow-sm transition-all duration-300 hover:border-foreground/30 hover:shadow-md disabled:opacity-50"
                             >
-                                <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity group-hover:opacity-100" />
                                 <span className="relative flex items-center justify-center gap-2">
-                                    <Building2 className="w-4 h-4 opacity-50" />
+                                    <Building2 className="h-4 w-4 opacity-50" />
                                     {t('Login as Noble Employee')}
                                 </span>
                             </Button>
@@ -259,4 +271,3 @@ export default function Login({
         </AuthLayout>
     );
 }
-

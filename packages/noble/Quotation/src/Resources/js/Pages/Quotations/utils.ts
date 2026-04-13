@@ -4,7 +4,7 @@ export const getStatusBadgeClasses = (status: string) => {
         sent: 'bg-muted text-foreground',
         accepted: 'bg-foreground/10 text-foreground',
         rejected: 'bg-destructive/10 text-destructive',
-        expired: 'bg-muted text-muted-foreground'
+        expired: 'bg-muted text-muted-foreground',
     };
     return `px-2 py-1 rounded-full text-xs ${colors[status as keyof typeof colors]}`;
 };

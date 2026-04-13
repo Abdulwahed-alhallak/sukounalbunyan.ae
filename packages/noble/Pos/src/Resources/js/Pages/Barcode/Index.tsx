@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Download, QrCode, Package, Search } from 'lucide-react';
 import { formatCurrency } from '@/utils/helpers';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from '@/components/ui/data-table';
 import NoRecordsFound from '@/components/no-records-found';
 import JsBarcode from 'jsbarcode';
 
@@ -51,32 +51,32 @@ export default function Index() {
     useEffect(() => {
         if (selectedWarehouse) {
             fetch(`${route('pos.products')}?warehouse_id=${selectedWarehouse}`)
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                     setProducts(data);
                     setTimeout(() => generateBarcodes(data), 100);
                 })
-                .catch(error => console.error('Error:', error));
+                .catch((error) => console.error('Error:', error));
         }
     }, [selectedWarehouse]);
 
     const generateBarcodes = useCallback((productList: Product[]) => {
         const newBarcodeUrls: { [key: number]: string } = {};
 
-        productList.forEach(product => {
+        productList.forEach((product) => {
             try {
                 if (product.sku) {
                     const canvas = document.createElement('canvas');
                     canvas.width = 400;
                     canvas.height = 150;
                     JsBarcode(canvas, product.sku, {
-                        format: "CODE128",
+                        format: 'CODE128',
                         width: 4,
                         height: 80,
                         displayValue: false,
                         margin: 10,
-                        background: "#ffffff",
-                        lineColor: "#000000"
+                        background: '#ffffff',
+                        lineColor: '#000000',
                     });
                     newBarcodeUrls[product.id] = canvas.toDataURL('image/png', 1.0);
                 }
@@ -99,7 +99,7 @@ export default function Index() {
             setSelectedProducts([...selectedProducts, productId]);
             setProductCopies({ ...productCopies, [productId]: 1 });
         } else {
-            setSelectedProducts(selectedProducts.filter(id => id !== productId));
+            setSelectedProducts(selectedProducts.filter((id) => id !== productId));
             const newCopies = { ...productCopies };
             delete newCopies[productId];
             setProductCopies(newCopies);
@@ -108,10 +108,10 @@ export default function Index() {
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
-            const productIds = filteredProducts?.map(p => p.id);
+            const productIds = filteredProducts?.map((p) => p.id);
             setSelectedProducts(productIds);
             const newCopies: { [key: number]: number } = {};
-            productIds.forEach(id => newCopies[id] = 1);
+            productIds.forEach((id) => (newCopies[id] = 1));
             setProductCopies(newCopies);
         } else {
             setSelectedProducts([]);
@@ -119,25 +119,24 @@ export default function Index() {
         }
     };
 
-
-
     const handleDownloadBarcodes = () => {
         if (selectedProducts.length === 0) return;
 
-        const selectedProductsData = products.filter(p => selectedProducts.includes(p.id));
+        const selectedProductsData = products.filter((p) => selectedProducts.includes(p.id));
         const params = new URLSearchParams({
             products: JSON.stringify(selectedProductsData),
             copies: JSON.stringify(productCopies),
-            field: barcodeField
+            field: barcodeField,
         });
 
         const printUrl = route('pos.barcode.print', 'bulk') + '?' + params.toString() + '&download=pdf';
         window.open(printUrl, '_blank');
     };
 
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredProducts = products.filter(
+        (product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.sku.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     useEffect(() => {
@@ -148,10 +147,7 @@ export default function Index() {
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('POS'), url: route('pos.index') },
-                { label: t('Product Barcod') }
-            ]}
+            breadcrumbs={[{ label: t('POS'), url: route('pos.index') }, { label: t('Product Barcod') }]}
             pageTitle={t('Manage Product Barcode')}
             pageActions={null}
         >
@@ -159,25 +155,27 @@ export default function Index() {
 
             <div className="space-y-6">
                 {/* Header Section */}
-                <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+                <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                     <CardHeader className="pb-4">
                         <CardTitle className="flex items-center gap-3 text-xl">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <QrCode className="h-6 w-6 text-muted-foreground" />
                             </div>
                             {t('Product Barcode Generator')}
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
                             <div>
-                                <Label className="text-sm font-medium text-foreground mb-2 block">{t('Warehouse')}</Label>
+                                <Label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Warehouse')}
+                                </Label>
                                 <Select value={selectedWarehouse} onValueChange={setSelectedWarehouse}>
-                                    <SelectTrigger className="bg-card border-border">
+                                    <SelectTrigger className="border-border bg-card">
                                         <SelectValue placeholder={t('Select Warehouse')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {warehouses?.map(warehouse => (
+                                        {warehouses?.map((warehouse) => (
                                             <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
                                                 {warehouse.name}
                                             </SelectItem>
@@ -186,14 +184,16 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <Label className="text-sm font-medium text-foreground mb-2 block">{t('Search Products')}</Label>
+                                <Label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Search Products')}
+                                </Label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         placeholder={t('Search by name or SKU...')}
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 bg-card border-border"
+                                        className="border-border bg-card pl-10"
                                     />
                                 </div>
                             </div>
@@ -203,9 +203,9 @@ export default function Index() {
                                         onClick={handleDownloadBarcodes}
                                         variant="outline"
                                         size="sm"
-                                        className="bg-card border-border text-muted-foreground hover:bg-muted/50 hover:border-border"
+                                        className="border-border bg-card text-muted-foreground hover:border-border hover:bg-muted/50"
                                     >
-                                        <Download className="h-4 w-4 mr-2" />
+                                        <Download className="mr-2 h-4 w-4" />
                                         {t('Download PDF')} ({selectedProducts.length})
                                     </Button>
                                 )}
@@ -221,7 +221,9 @@ export default function Index() {
                             <CardTitle className="flex items-center gap-2">
                                 <Package className="h-5 w-5 text-muted-foreground" />
                                 {t('Available Products')}
-                                <Badge variant="secondary" className="ml-2">{filteredProducts.length}</Badge>
+                                <Badge variant="secondary" className="ml-2">
+                                    {filteredProducts.length}
+                                </Badge>
                             </CardTitle>
                             {selectedProducts.length > 0 && (
                                 <Badge variant="default" className="bg-foreground">
@@ -231,9 +233,8 @@ export default function Index() {
                         </div>
                     </CardHeader>
                     <CardContent className="p-0">
-
                         {selectedWarehouse ? (
-                            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                                 <div className="min-w-[800px]">
                                     {filteredProducts.length > 0 ? (
                                         <DataTable
@@ -244,7 +245,10 @@ export default function Index() {
                                                     header: (
                                                         <input
                                                             type="checkbox"
-                                                            checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
+                                                            checked={
+                                                                selectedProducts.length === filteredProducts.length &&
+                                                                filteredProducts.length > 0
+                                                            }
                                                             onChange={(e) => handleSelectAll(e.target.checked)}
                                                             className="rounded border-border text-foreground focus:ring-foreground"
                                                         />
@@ -253,18 +257,23 @@ export default function Index() {
                                                         <input
                                                             type="checkbox"
                                                             checked={selectedProducts.includes(product.id)}
-                                                            onChange={() => handleProductSelect(product.id, !selectedProducts.includes(product.id))}
+                                                            onChange={() =>
+                                                                handleProductSelect(
+                                                                    product.id,
+                                                                    !selectedProducts.includes(product.id)
+                                                                )
+                                                            }
                                                             className="rounded border-border text-foreground focus:ring-foreground"
                                                         />
-                                                    )
+                                                    ),
                                                 },
                                                 {
                                                     key: 'name',
-                                                    header: t('Product Name')
+                                                    header: t('Product Name'),
                                                 },
                                                 {
                                                     key: 'sku',
-                                                    header: t('SKU')
+                                                    header: t('SKU'),
                                                 },
                                                 {
                                                     key: 'price',
@@ -273,12 +282,12 @@ export default function Index() {
                                                         <span className="font-semibold text-foreground">
                                                             {formatCurrency(value || 0)}
                                                         </span>
-                                                    )
+                                                    ),
                                                 },
                                                 {
                                                     key: 'barcode',
                                                     header: t('Barcode'),
-                                                    render: (_: any, product: Product) => (
+                                                    render: (_: any, product: Product) =>
                                                         barcodeDataUrls[product.id] ? (
                                                             <img
                                                                 src={barcodeDataUrls[product.id]}
@@ -287,11 +296,10 @@ export default function Index() {
                                                                 style={{ imageRendering: 'crisp-edges' }}
                                                             />
                                                         ) : (
-                                                            <div className="h-16 w-32 flex items-center justify-center bg-muted text-muted-foreground text-xs">
+                                                            <div className="flex h-16 w-32 items-center justify-center bg-muted text-xs text-muted-foreground">
                                                                 {t('Generating...')}
                                                             </div>
-                                                        )
-                                                    )
+                                                        ),
                                                 },
                                                 {
                                                     key: 'copies',
@@ -305,23 +313,28 @@ export default function Index() {
                                                                     max="50"
                                                                     value={productCopies[product.id] || 1}
                                                                     onChange={(e) => {
-                                                                        setProductCopies({ ...productCopies, [product.id]: Number(e.target.value) || 1 });
+                                                                        setProductCopies({
+                                                                            ...productCopies,
+                                                                            [product.id]: Number(e.target.value) || 1,
+                                                                        });
                                                                     }}
-                                                                    className="w-16 h-8 text-center"
+                                                                    className="h-8 w-16 text-center"
                                                                 />
                                                             ) : (
                                                                 <span className="text-muted-foreground">-</span>
                                                             )}
                                                         </div>
-                                                    )
-                                                }
+                                                    ),
+                                                },
                                             ]}
                                             className="rounded-none"
                                             emptyState={
                                                 <NoRecordsFound
                                                     icon={Package}
                                                     title={t('No products found')}
-                                                    description={t('Try adjusting your search terms or add products to this warehouse.')}
+                                                    description={t(
+                                                        'Try adjusting your search terms or add products to this warehouse.'
+                                                    )}
                                                     hasFilters={!!searchTerm}
                                                     onClearFilters={() => setSearchTerm('')}
                                                     className="h-auto py-8"
@@ -332,7 +345,11 @@ export default function Index() {
                                         <NoRecordsFound
                                             icon={Package}
                                             title={searchTerm ? t('No products found') : t('No products available')}
-                                            description={searchTerm ? t('Try adjusting your search terms') : t('Add products to this warehouse to generate barcodes')}
+                                            description={
+                                                searchTerm
+                                                    ? t('Try adjusting your search terms')
+                                                    : t('Add products to this warehouse to generate barcodes')
+                                            }
                                             hasFilters={!!searchTerm}
                                             onClearFilters={() => setSearchTerm('')}
                                             className="h-auto py-8"
@@ -341,13 +358,15 @@ export default function Index() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="text-center py-16">
-                                <div className="bg-muted rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                            <div className="py-16 text-center">
+                                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
                                     <QrCode className="h-10 w-10 text-foreground" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-foreground mb-2">{t('Select Warehouse')}</h3>
-                                <p className="text-muted-foreground max-w-md mx-auto">
-                                    {t('Choose a warehouse from the dropdown above to view available products and generate barcodes')}
+                                <h3 className="mb-2 text-xl font-semibold text-foreground">{t('Select Warehouse')}</h3>
+                                <p className="mx-auto max-w-md text-muted-foreground">
+                                    {t(
+                                        'Choose a warehouse from the dropdown above to view available products and generate barcodes'
+                                    )}
                                 </p>
                             </div>
                         )}

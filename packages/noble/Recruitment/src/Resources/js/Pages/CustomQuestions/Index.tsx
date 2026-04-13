@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, HelpCircle, Download, FileImage } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, Eye, HelpCircle, Download, FileImage } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -39,39 +39,44 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<CustomQuestionModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [viewingItem, setViewingItem] = useState<CustomQuestion | null>(null);
 
     const [showFilters, setShowFilters] = useState(false);
 
-
-
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'recruitment.custom-questions.destroy',
-        defaultMessage: t('Are you sure you want to delete this custom question?')
+        defaultMessage: t('Are you sure you want to delete this custom question?'),
     });
 
     const handleFilter = () => {
-        router.get(route('recruitment.custom-questions.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.custom-questions.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('recruitment.custom-questions.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.custom-questions.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -96,110 +101,142 @@ export default function Index() {
         {
             key: 'question',
             header: t('Question'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'type',
             header: t('Type'),
             sortable: false,
             render: (value: string) => {
-                const options: any = { "0": "Text", "1": "Textarea", "2": "Select", "3": "Radio", "4": "Checkbox", "5": "File" };
+                const options: any = {
+                    '0': 'Text',
+                    '1': 'Textarea',
+                    '2': 'Select',
+                    '3': 'Radio',
+                    '4': 'Checkbox',
+                    '5': 'File',
+                };
                 const displayValue = options[value] || value || '-';
-                const capitalizedValue = displayValue === '-' ? displayValue : displayValue.charAt(0).toUpperCase() + displayValue.slice(1).toLowerCase();
+                const capitalizedValue =
+                    displayValue === '-'
+                        ? displayValue
+                        : displayValue.charAt(0).toUpperCase() + displayValue.slice(1).toLowerCase();
 
                 return (
-                    <span className="px-2 py-1 rounded-full text-sm bg-muted text-foreground">
+                    <span className="rounded-full bg-muted px-2 py-1 text-sm text-foreground">
                         {t(capitalizedValue)}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'is_required',
             header: t('Is Required'),
             sortable: false,
             render: (value: boolean) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${value ? 'bg-muted text-destructive' : 'bg-muted text-foreground'
-                    }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value ? 'bg-muted text-destructive' : 'bg-muted text-foreground'
+                    }`}
+                >
                     {value ? t('Required') : t('Optional')}
                 </span>
-            )
+            ),
         },
         {
             key: 'is_active',
             header: t('Is Active'),
             sortable: false,
             render: (value: boolean) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${value ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
-                    }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
+                    }`}
+                >
                     {value ? t('Active') : t('Inactive')}
                 </span>
-            )
+            ),
         },
         {
             key: 'sort_order',
             header: t('Sort Order'),
             sortable: true,
-            render: (value: number) => value || '-'
+            render: (value: number) => value || '-',
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-custom-questions', 'edit-custom-questions', 'delete-custom-questions'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, customquestion: CustomQuestion) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-custom-questions') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => setViewingItem(customquestion)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-custom-questions') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', customquestion)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-custom-questions') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(customquestion.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-custom-questions', 'edit-custom-questions', 'delete-custom-questions'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, customquestion: CustomQuestion) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-custom-questions') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => setViewingItem(customquestion)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-custom-questions') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', customquestion)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-custom-questions') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(customquestion.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
-                { label: t('Custom Questions') }
+                { label: t('Custom Questions') },
             ]}
             pageTitle={t('Manage Custom Questions')}
             pageActions={
@@ -224,9 +261,9 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.question}
                                 onChange={(value) => setFilters({ ...filters, question: value })}
@@ -240,16 +277,17 @@ export default function Index() {
                                 filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.type, filters.is_active, filters.is_required].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.type, filters.is_active, filters.is_required].filter(
+                                        (f) => f !== '' && f !== null && f !== undefined
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -259,11 +297,14 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Type')}</label>
-                                <Select value={filters.type} onValueChange={(value) => setFilters({ ...filters, type: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Type')}</label>
+                                <Select
+                                    value={filters.type}
+                                    onValueChange={(value) => setFilters({ ...filters, type: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Type')} />
                                     </SelectTrigger>
@@ -279,8 +320,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Is Active')}</label>
-                                <Select value={filters.is_active} onValueChange={(value) => setFilters({ ...filters, is_active: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Is Active')}
+                                </label>
+                                <Select
+                                    value={filters.is_active}
+                                    onValueChange={(value) => setFilters({ ...filters, is_active: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -291,8 +337,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Is Required')}</label>
-                                <Select value={filters.is_required} onValueChange={(value) => setFilters({ ...filters, is_required: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Is Required')}
+                                </label>
+                                <Select
+                                    value={filters.is_required}
+                                    onValueChange={(value) => setFilters({ ...filters, is_required: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Required')} />
                                     </SelectTrigger>
@@ -303,8 +354,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -312,7 +367,7 @@ export default function Index() {
 
                 {/* Table Content */}
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={customquestions?.data || []}
@@ -326,7 +381,14 @@ export default function Index() {
                                         icon={HelpCircle}
                                         title={t('No Custom Questions found')}
                                         description={t('Get started by creating your first Custom Question.')}
-                                        hasFilters={!!(filters.question || filters.type || filters.is_active || filters.is_required)}
+                                        hasFilters={
+                                            !!(
+                                                filters.question ||
+                                                filters.type ||
+                                                filters.is_active ||
+                                                filters.is_required
+                                            )
+                                        }
                                         onClearFilters={clearFilters}
                                         createPermission="create-custom-questions"
                                         onCreateClick={() => openModal('add')}
@@ -340,7 +402,7 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={customquestions || { data: [], links: [], meta: {} }}
                         routeName="recruitment.custom-questions.index"
@@ -350,14 +412,9 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditCustomQuestion
-                        customquestion={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditCustomQuestion customquestion={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

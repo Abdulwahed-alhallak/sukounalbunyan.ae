@@ -1,6 +1,22 @@
-import {  Package, Building, Building2, Users, FileText, Tag, UserX, AlertOctagon, MessageSquareWarning, ArrowRightLeft, Calendar, FileCheck, Megaphone, Clock , Calculator, UserCheck, UserCog } from 'lucide-react';
-
-
+import {
+    Package,
+    Building,
+    Building2,
+    Users,
+    FileText,
+    Tag,
+    UserX,
+    AlertOctagon,
+    MessageSquareWarning,
+    ArrowRightLeft,
+    Calendar,
+    FileCheck,
+    Megaphone,
+    Clock,
+    Calculator,
+    UserCheck,
+    UserCog,
+} from 'lucide-react';
 
 export const hrmCompanyMenu = (t: (key: string) => string) => [
     {
@@ -199,7 +215,6 @@ export const hrmCompanyMenu = (t: (key: string) => string) => [
                 href: route('hrm.branches.index'),
                 permission: 'manage-hrm',
             },
-
         ],
     },
-];
+];

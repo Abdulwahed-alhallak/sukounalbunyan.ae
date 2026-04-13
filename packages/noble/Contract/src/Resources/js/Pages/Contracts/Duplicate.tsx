@@ -25,7 +25,7 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
         start_date: '',
         end_date: '',
         description: contract.description || '',
-        status: 'pending'
+        status: 'pending',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -34,17 +34,17 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
             onSuccess: () => {
                 reset();
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Duplicate Contract')}</DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-6 my-6">
+            <div className="my-6 space-y-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="subject">{t('Subject')}</Label>
@@ -59,7 +59,7 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
                         {errors.subject && <p className="text-sm text-destructive">{errors.subject}</p>}
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="value">{t('Contract Value')}</Label>
                             <Input
@@ -76,7 +76,9 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="type_id" required>{t('Contract Type')}</Label>
+                            <Label htmlFor="type_id" required>
+                                {t('Contract Type')}
+                            </Label>
                             <Select value={data.type_id} onValueChange={(value) => setData('type_id', value)}>
                                 <SelectTrigger className={errors.type_id ? 'border-destructive' : ''}>
                                     <SelectValue placeholder={t('Select Contract Type')} />
@@ -115,7 +117,9 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="status" required>{t('Status')}</Label>
+                            <Label htmlFor="status" required>
+                                {t('Status')}
+                            </Label>
                             <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                                 <SelectTrigger className={errors.status ? 'border-destructive' : ''}>
                                     <SelectValue placeholder={t('Select Status')} />
@@ -131,7 +135,9 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="user_id" required>{t('Assign User')}</Label>
+                            <Label htmlFor="user_id" required>
+                                {t('Assign User')}
+                            </Label>
                             <Select value={data.user_id} onValueChange={(value) => setData('user_id', value)}>
                                 <SelectTrigger className={errors.user_id ? 'border-destructive' : ''}>
                                     <SelectValue placeholder={t('Select User')} />
@@ -147,8 +153,6 @@ export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
                             {errors.user_id && <p className="text-sm text-destructive">{errors.user_id}</p>}
                         </div>
                     </div>
-
-
 
                     <div className="flex justify-end gap-3">
                         <Button type="button" variant="outline" onClick={onSuccess}>

@@ -77,14 +77,14 @@ export type HelpdeskTicketModalState = ModalState<HelpdeskTicket>;
 export interface HelpdeskTicketsIndexProps {
     tickets: PaginatedHelpdeskTickets;
     categories: HelpdeskCategory[];
-    companies: { id: number; name: string; }[];
+    companies: { id: number; name: string }[];
     auth: AuthContext;
     [key: string]: unknown;
 }
 
 export interface CreateHelpdeskTicketProps {
     categories: HelpdeskCategory[];
-    companies: { id: number; name: string; }[];
+    companies: { id: number; name: string }[];
     auth: AuthContext;
     [key: string]: unknown;
 }

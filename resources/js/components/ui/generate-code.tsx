@@ -12,20 +12,20 @@ interface GenerateCodeProps {
     includeLetters?: boolean;
 }
 
-export function GenerateCode({ 
-    onGenerate, 
-    disabled = false, 
-    length = 8, 
+export function GenerateCode({
+    onGenerate,
+    disabled = false,
+    length = 8,
     prefix = '',
     includeNumbers = true,
-    includeLetters = true
+    includeLetters = true,
 }: GenerateCodeProps) {
     const { t } = useTranslation();
     const [isGenerating, setIsGenerating] = useState(false);
 
     const generateRandomCode = () => {
         setIsGenerating(true);
-        
+
         // Build character set based on options
         let characters = '';
         if (includeLetters) {
@@ -34,18 +34,18 @@ export function GenerateCode({
         if (includeNumbers) {
             characters += '23456789'; // Excluding 0, 1 for clarity
         }
-        
+
         // Fallback to alphanumeric if no options selected
         if (!characters) {
             characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
         }
-        
+
         let result = prefix;
-        
+
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
-        
+
         // Add a small delay for better UX
         setTimeout(() => {
             onGenerate(result);
@@ -62,7 +62,7 @@ export function GenerateCode({
             disabled={disabled || isGenerating}
             className="shrink-0"
         >
-            <Shuffle className={`h-4 w-4 mr-1 ${isGenerating ? 'animate-spin' : ''}`} />
+            <Shuffle className={`mr-1 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
             {isGenerating ? t('Generating...') : t('Generate')}
         </Button>
     );

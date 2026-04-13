@@ -3,21 +3,21 @@ import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useFlashMessages } from '@/hooks/useFlashMessages';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, Tag } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
+import { Plus, Edit, Trash2, Tag } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Badge } from '@/components/ui/badge';
 
 import Create from './Create';
 import EditLabel from './Edit';
 import NoRecordsFound from '@/components/no-records-found';
 import { Label, LabelsIndexProps, LabelModalState } from './types';
-import SystemSetupSidebar from "../SystemSetupSidebar";
+import SystemSetupSidebar from '../SystemSetupSidebar';
 import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } from '@/utils/helpers';
 
 export default function Index() {
@@ -25,7 +25,7 @@ export default function Index() {
     const { labels, auth, pipelines } = usePage<LabelsIndexProps>().props;
 
     // Filter pipelines that have labels
-    const pipelinesWithLabels = pipelines.filter((pipeline: any) => 
+    const pipelinesWithLabels = pipelines.filter((pipeline: any) =>
         labels.some((label: Label) => label.pipeline_id === pipeline.id)
     );
 
@@ -33,14 +33,14 @@ export default function Index() {
     const [modalState, setModalState] = useState<LabelModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     useFlashMessages();
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'lead.labels.destroy',
-        defaultMessage: t('Are you sure you want to delete this Label?')
+        defaultMessage: t('Are you sure you want to delete this Label?'),
     });
 
     const openModal = (mode: 'add' | 'edit', data: Label | null = null) => {
@@ -61,77 +61,86 @@ export default function Index() {
             sortable: true,
             render: (value: string, label: Label) => (
                 <div className="inline-flex items-center">
-                    <div 
-                        className="px-3 py-1 rounded text-background text-sm font-medium" 
+                    <div
+                        className="rounded px-3 py-1 text-sm font-medium text-background"
                         style={{ backgroundColor: label.color || '#FF6B6B' }}
                     >
                         {label.name}
                     </div>
                 </div>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-labels', 'delete-labels'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Action'),
-            render: (_: any, label: Label) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('edit-labels') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', label)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-labels') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(label.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) => ['edit-labels', 'delete-labels'].includes(p))
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Action'),
+                      render: (_: any, label: Label) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('edit-labels') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', label)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Edit className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-labels') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(label.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <TooltipProvider>
             <AuthenticatedLayout
                 breadcrumbs={[
-                    {label: t('CRM'), url: route('lead.leads.index')},
-                    {label: t('System Setup')},
-                    {label: t('Labels')}
+                    { label: t('CRM'), url: route('lead.leads.index') },
+                    { label: t('System Setup') },
+                    { label: t('Labels') },
                 ]}
                 pageTitle={t('System Setup')}
             >
                 <Head title={t('Labels')} />
 
-                <div className="flex flex-col md:flex-row gap-8">
-                    <div className="md:w-64 flex-shrink-0">
+                <div className="flex flex-col gap-8 md:flex-row">
+                    <div className="flex-shrink-0 md:w-64">
                         <SystemSetupSidebar activeItem="labels" />
                     </div>
 
                     <div className="flex-1">
                         <Card className="shadow-sm">
                             <CardContent className="p-6">
-                                <div className="flex justify-between items-center mb-6">
+                                <div className="mb-6 flex items-center justify-between">
                                     <h3 className="text-lg font-medium">{t('Labels')}</h3>
                                     {auth.user?.permissions?.includes('create-labels') && (
                                         <Tooltip delayDuration={0}>
@@ -149,38 +158,42 @@ export default function Index() {
 
                                 {/* Pipeline Tabs - Only show pipelines with labels */}
                                 {pipelinesWithLabels.length > 0 && (
-                                    <div className="flex border-b border-border mb-6">
+                                    <div className="mb-6 flex border-b border-border">
                                         {pipelinesWithLabels?.map((pipeline: any) => (
                                             <button
                                                 key={pipeline.id}
                                                 onClick={() => setActivePipeline(pipeline.id)}
-                                                className={`px-6 py-3 font-medium text-sm border-b-2 transition-colors ${
+                                                className={`border-b-2 px-6 py-3 text-sm font-medium transition-colors ${
                                                     activePipeline === pipeline.id
-                                                        ? 'text-background rounded-t-lg'
-                                                        : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                                        ? 'rounded-t-lg text-background'
+                                                        : 'border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                                 }`}
-                                                style={activePipeline === pipeline.id ? {
-                                                    backgroundColor: 'hsl(var(--primary))',
-                                                    borderColor: 'hsl(var(--primary))'
-                                                } : {}}
+                                                style={
+                                                    activePipeline === pipeline.id
+                                                        ? {
+                                                              backgroundColor: 'hsl(var(--primary))',
+                                                              borderColor: 'hsl(var(--primary))',
+                                                          }
+                                                        : {}
+                                                }
                                             >
                                                 {pipeline.name}
                                             </button>
                                         ))}
                                     </div>
                                 )}
-                                <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+                                <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                                     {filteredLabels.length > 0 ? (
                                         <div className="space-y-3">
                                             {filteredLabels?.map((label: Label) => (
                                                 <div
                                                     key={label.id}
-                                                    className="flex items-center gap-3 p-4 border rounded-lg bg-card border-border hover:shadow-md transition-all"
+                                                    className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:shadow-md"
                                                 >
-                                                    <div className="flex-1 flex items-center justify-between">
+                                                    <div className="flex flex-1 items-center justify-between">
                                                         <div className="flex items-center gap-3">
-                                                            <div 
-                                                                className="px-3 py-1 rounded text-background text-sm font-medium" 
+                                                            <div
+                                                                className="rounded px-3 py-1 text-sm font-medium text-background"
                                                                 style={{ backgroundColor: label.color || '#FF6B6B' }}
                                                             >
                                                                 {label.name}
@@ -191,7 +204,12 @@ export default function Index() {
                                                                 {auth.user?.permissions?.includes('edit-labels') && (
                                                                     <Tooltip delayDuration={0}>
                                                                         <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => openModal('edit', label)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => openModal('edit', label)}
+                                                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                            >
                                                                                 <Edit className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -206,7 +224,9 @@ export default function Index() {
                                                                             <Button
                                                                                 variant="ghost"
                                                                                 size="sm"
-                                                                                onClick={() => openDeleteDialog(label.id)}
+                                                                                onClick={() =>
+                                                                                    openDeleteDialog(label.id)
+                                                                                }
                                                                                 className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                                                             >
                                                                                 <Trash2 className="h-4 w-4" />
@@ -245,10 +265,7 @@ export default function Index() {
                         <Create onSuccess={closeModal} pipelines={pipelines} defaultPipelineId={activePipeline} />
                     )}
                     {modalState.mode === 'edit' && modalState.data && (
-                        <EditLabel
-                            label={modalState.data}
-                            onSuccess={closeModal} pipelines={pipelines}
-                        />
+                        <EditLabel label={modalState.data} onSuccess={closeModal} pipelines={pipelines} />
                     )}
                 </Dialog>
 

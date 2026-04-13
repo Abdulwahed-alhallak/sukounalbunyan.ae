@@ -55,11 +55,14 @@ export default function Print() {
                 filename: `journal-entry-report.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -74,89 +77,116 @@ export default function Print() {
             <Head title={t('Journal Entry Report')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="report-container bg-card max-w-6xl mx-auto p-8">
-                <div className="border-b-2 border-border pb-6 mb-8">
-                    <div className="flex justify-between items-start">
+            <div className="report-container mx-auto max-w-6xl bg-card p-8">
+                <div className="mb-8 border-b-2 border-border pb-6">
+                    <div className="flex items-start justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                            <div className="text-sm text-muted-foreground space-y-0.5">
+                            <h1 className="mb-2 text-3xl font-bold text-foreground">
+                                {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                            </h1>
+                            <div className="space-y-0.5 text-sm text-muted-foreground">
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
-                                {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                                {(getCompanySetting('company_city') ||
+                                    getCompanySetting('company_state') ||
+                                    getCompanySetting('company_zipcode')) && (
                                     <p>
-                                        {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                        {getCompanySetting('company_city')}
+                                        {getCompanySetting('company_state') &&
+                                            `, ${getCompanySetting('company_state')}`}{' '}
+                                        {getCompanySetting('company_zipcode')}
                                     </p>
                                 )}
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
                         <div className="text-right">
-                            <h2 className="text-2xl font-bold text-foreground mb-3">{t('JOURNAL ENTRY REPORT')}</h2>
+                            <h2 className="mb-3 text-2xl font-bold text-foreground">{t('JOURNAL ENTRY REPORT')}</h2>
                             {filters.from_date && filters.to_date && (
-                                <p className="text-sm text-muted-foreground">{formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    {formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}
+                                </p>
                             )}
                         </div>
                     </div>
                 </div>
 
                 {data?.map((entry) => (
-                    <div key={entry.id} className="mb-6 border border-border p-4 page-break-inside-avoid">
-                        <div className="flex justify-between mb-3 pb-2 border-b border-border">
+                    <div key={entry.id} className="page-break-inside-avoid mb-6 border border-border p-4">
+                        <div className="mb-3 flex justify-between border-b border-border pb-2">
                             <div>
-                                <p className="font-bold text-base">{entry.journal_number}</p>
-                                <p className="text-sm text-muted-foreground">{formatDate(entry.date)} | {entry.reference_type}</p>
+                                <p className="text-base font-bold">{entry.journal_number}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    {formatDate(entry.date)} | {entry.reference_type}
+                                </p>
                                 <p className="text-sm text-foreground">{entry.description}</p>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm font-semibold">{entry.status === 'posted' ? t('Posted') : t('Draft')}</p>
-                                {!entry.is_balanced && <p className="text-sm text-destructive font-semibold">{t('Unbalanced')}</p>}
+                                <p className="text-sm font-semibold">
+                                    {entry.status === 'posted' ? t('Posted') : t('Draft')}
+                                </p>
+                                {!entry.is_balanced && (
+                                    <p className="text-sm font-semibold text-destructive">{t('Unbalanced')}</p>
+                                )}
                             </div>
                         </div>
                         <table className="w-full border-collapse">
                             <thead>
                                 <tr className="border-b-2 border-black">
-                                    <th className="text-left py-2 px-2 text-sm font-semibold w-24">{t('Account Code')}</th>
-                                    <th className="text-left py-2 px-2 text-sm font-semibold w-48">{t('Account Name')}</th>
-                                    <th className="text-left py-2 px-2 text-sm font-semibold">{t('Description')}</th>
-                                    <th className="text-right py-2 px-2 text-sm font-semibold w-28">{t('Debit')}</th>
-                                    <th className="text-right py-2 px-2 text-sm font-semibold w-28">{t('Credit')}</th>
+                                    <th className="w-24 px-2 py-2 text-left text-sm font-semibold">
+                                        {t('Account Code')}
+                                    </th>
+                                    <th className="w-48 px-2 py-2 text-left text-sm font-semibold">
+                                        {t('Account Name')}
+                                    </th>
+                                    <th className="px-2 py-2 text-left text-sm font-semibold">{t('Description')}</th>
+                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Debit')}</th>
+                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Credit')}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {entry.items?.map((item, idx) => (
                                     <tr key={idx} className="border-b border-border">
-                                        <td className="py-2 px-2 text-sm">{item.account_code}</td>
-                                        <td className="py-2 px-2 text-sm">{item.account_name}</td>
-                                        <td className="py-2 px-2 text-sm break-words">{item.description}</td>
-                                        <td className="py-2 px-2 text-sm text-right tabular-nums">
+                                        <td className="px-2 py-2 text-sm">{item.account_code}</td>
+                                        <td className="px-2 py-2 text-sm">{item.account_name}</td>
+                                        <td className="break-words px-2 py-2 text-sm">{item.description}</td>
+                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
                                             {item.debit > 0 ? formatCurrency(item.debit) : '-'}
                                         </td>
-                                        <td className="py-2 px-2 text-sm text-right tabular-nums">
+                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
                                             {item.credit > 0 ? formatCurrency(item.credit) : '-'}
                                         </td>
                                     </tr>
                                 ))}
                                 <tr className="border-t-2 border-black">
-                                    <td colSpan={3} className="py-2 px-2 text-sm font-bold">{t('Total')}</td>
-                                    <td className="py-2 px-2 text-sm text-right font-bold tabular-nums">{formatCurrency(entry.total_debit)}</td>
-                                    <td className="py-2 px-2 text-sm text-right font-bold tabular-nums">{formatCurrency(entry.total_credit)}</td>
+                                    <td colSpan={3} className="px-2 py-2 text-sm font-bold">
+                                        {t('Total')}
+                                    </td>
+                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                        {formatCurrency(entry.total_debit)}
+                                    </td>
+                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                        {formatCurrency(entry.total_credit)}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 ))}
 
-                <div className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
-                    <p>{t('Generated on')} {formatDate(new Date().toISOString())}</p>
+                <div className="mt-8 border-t pt-4 text-center text-xs text-muted-foreground">
+                    <p>
+                        {t('Generated on')} {formatDate(new Date().toISOString())}
+                    </p>
                 </div>
             </div>
 

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -28,16 +28,24 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
     });
 
     // AI hooks for description field
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'hrm', 'resignation');
-
-
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'hrm',
+        'resignation'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.resignations.update', resignation.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -48,8 +56,14 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                    <Select value={data.employee_id.toString()} onValueChange={(value) => setData('employee_id', value)} required>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
+                    <Select
+                        value={data.employee_id.toString()}
+                        onValueChange={(value) => setData('employee_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -63,9 +77,11 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="last_working_date" required>{t('Last Working Date')}</Label>
+                    <Label htmlFor="last_working_date" required>
+                        {t('Last Working Date')}
+                    </Label>
                     <DatePicker
                         value={data.last_working_date}
                         onChange={(date) => setData('last_working_date', date)}
@@ -74,7 +90,7 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
                     />
                     <InputError message={errors.last_working_date} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="reason">{t('Reason')}</Label>
                     <Input
@@ -87,12 +103,14 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
                     />
                     <InputError message={errors.reason} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -104,7 +122,7 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="document">{t('Document')}</Label>
                     <MediaPicker
@@ -114,7 +132,7 @@ export default function EditResignation({ resignation, onSuccess }: EditResignat
                     />
                     <InputError message={errors.document} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

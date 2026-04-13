@@ -18,7 +18,7 @@ export default function Compare({ open, onOpenChange, balanceSheetId, otherBalan
 
     const { data, setData, post, processing, errors, reset } = useForm({
         current_period_id: balanceSheetId,
-        previous_period_id: ''
+        previous_period_id: '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -33,7 +33,7 @@ export default function Compare({ open, onOpenChange, balanceSheetId, otherBalan
             },
             onError: (errors) => {
                 console.error('Comparison error:', errors);
-            }
+            },
         });
     };
 
@@ -51,7 +51,10 @@ export default function Compare({ open, onOpenChange, balanceSheetId, otherBalan
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <Label htmlFor="previous_period">{t('Compare with')}</Label>
-                        <Select value={data.previous_period_id} onValueChange={(value) => setData('previous_period_id', value)}>
+                        <Select
+                            value={data.previous_period_id}
+                            onValueChange={(value) => setData('previous_period_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select balance sheet to compare')} />
                             </SelectTrigger>
@@ -63,7 +66,9 @@ export default function Compare({ open, onOpenChange, balanceSheetId, otherBalan
                                 ))}
                             </SelectContent>
                         </Select>
-                        {errors.previous_period_id && <p className="text-destructive text-sm">{errors.previous_period_id}</p>}
+                        {errors.previous_period_id && (
+                            <p className="text-sm text-destructive">{errors.previous_period_id}</p>
+                        )}
                     </div>
                     <div className="flex justify-end gap-2 pt-4">
                         <Button type="button" variant="outline" onClick={handleClose}>

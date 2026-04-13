@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { SearchInput } from "@/components/ui/search-input";
-import { Pagination } from "@/components/ui/pagination";
+import { SearchInput } from '@/components/ui/search-input';
+import { Pagination } from '@/components/ui/pagination';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import NoRecordsFound from '@/components/no-records-found';
 import { Download, Trash2, Mail } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatDate } from '@/utils/helpers';
 
 interface NewsletterSubscriber {
@@ -48,42 +48,49 @@ interface IndexProps {
 
 export default function Index({ subscribers }: IndexProps) {
     const { t } = useTranslation();
-    const { auth } = usePage<{auth: {user: any}}>().props;
+    const { auth } = usePage<{ auth: { user: any } }>().props;
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     const [filters, setFilters] = useState({
-        email: urlParams.get('email') || ''
+        email: urlParams.get('email') || '',
     });
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'newsletter-subscribers.destroy',
-        defaultMessage: t('Are you sure you want to delete this subscriber?')
+        defaultMessage: t('Are you sure you want to delete this subscriber?'),
     });
 
     const handleFilter = () => {
-        router.get(route('newsletter-subscribers.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('newsletter-subscribers.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('newsletter-subscribers.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('newsletter-subscribers.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ email: '' });
-        router.get(route('newsletter-subscribers.index'), {per_page: perPage});
+        router.get(route('newsletter-subscribers.index'), { per_page: perPage });
     };
 
     const handleExport = () => {
@@ -100,74 +107,70 @@ export default function Index({ subscribers }: IndexProps) {
                     <Mail className="h-4 w-4 text-muted-foreground" />
                     <span className="font-medium">{value}</span>
                 </div>
-            )
+            ),
         },
         {
             key: 'ip_address',
             header: t('IP Address'),
             sortable: true,
-            render: (value: string) => (
-                <span className="text-sm text-muted-foreground font-mono">
-                    {value || '-'}
-                </span>
-            )
+            render: (value: string) => <span className="font-mono text-sm text-muted-foreground">{value || '-'}</span>,
         },
         {
             key: 'details',
             header: t('Location & Device'),
             render: (_: any, subscriber: NewsletterSubscriber) => (
-                <div className="text-sm space-y-1">
+                <div className="space-y-1 text-sm">
                     <div>{subscriber.city ? `${subscriber.city}, ${subscriber.country}` : 'Unknown'}</div>
-                    <div className="text-muted-foreground">{subscriber.browser} on {subscriber.os}</div>
-                    <div className="text-muted-foreground capitalize">{subscriber.device}</div>
+                    <div className="text-muted-foreground">
+                        {subscriber.browser} on {subscriber.os}
+                    </div>
+                    <div className="capitalize text-muted-foreground">{subscriber.device}</div>
                     {subscriber.isp && <div className="text-muted-foreground">ISP: {subscriber.isp}</div>}
                     {subscriber.org && <div className="text-muted-foreground">Org: {subscriber.org}</div>}
                     {subscriber.timezone && <div className="text-muted-foreground">TZ: {subscriber.timezone}</div>}
                 </div>
-            )
+            ),
         },
         {
             key: 'subscribed_at',
             header: t('Subscribed At'),
             sortable: true,
-            render: (value: string) => (
-                <span className="text-sm text-muted-foreground">
-                    {formatDate(value)}
-                </span>
-            )
+            render: (value: string) => <span className="text-sm text-muted-foreground">{formatDate(value)}</span>,
         },
-        ...(auth.user?.permissions?.includes('delete-newsletter-subscribers') ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, subscriber: NewsletterSubscriber) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => openDeleteDialog(subscriber.id)}
-                                    className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{t('Delete')}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.includes('delete-newsletter-subscribers')
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, subscriber: NewsletterSubscriber) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              onClick={() => openDeleteDialog(subscriber.id)}
+                                              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                          >
+                                              <Trash2 className="h-4 w-4" />
+                                          </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('Delete')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Newsletter Subscribers') }
-            ]}
+            breadcrumbs={[{ label: t('Newsletter Subscribers') }]}
             pageTitle={t('Manage Newsletter Subscribers')}
             pageActions={
                 <div className="flex gap-2">
@@ -175,10 +178,7 @@ export default function Index({ subscribers }: IndexProps) {
                         <TooltipProvider>
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        size="sm"
-                                        onClick={handleExport}
-                                    >
+                                    <Button size="sm" onClick={handleExport}>
                                         <Download className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
@@ -196,28 +196,25 @@ export default function Index({ subscribers }: IndexProps) {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.email}
-                                onChange={(value) => setFilters({...filters, email: value})}
+                                onChange={(value) => setFilters({ ...filters, email: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search subscribers...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="newsletter-subscribers.index"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="newsletter-subscribers.index" filters={filters} />
                         </div>
                     </div>
                 </CardContent>
 
                 {/* Table Content */}
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[1000px]">
                             <DataTable
                                 data={subscribers.data}
@@ -242,11 +239,11 @@ export default function Index({ subscribers }: IndexProps) {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={subscribers}
                         routeName="newsletter-subscribers.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

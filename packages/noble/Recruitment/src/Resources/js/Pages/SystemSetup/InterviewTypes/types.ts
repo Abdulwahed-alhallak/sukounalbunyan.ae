@@ -16,10 +16,12 @@ export interface InterviewTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateInterviewTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateInterviewTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditInterviewTypeProps extends EditProps<InterviewType>  {[key: string]: any;
+export interface EditInterviewTypeProps extends EditProps<InterviewType> {
+    [key: string]: any;
 }
 
 export type PaginatedInterviewTypes = PaginatedData<InterviewType>;

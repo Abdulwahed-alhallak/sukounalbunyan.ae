@@ -44,12 +44,22 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
     });
 
     const updateData = (key: string, value: any) => {
-        setData(prev => ({ ...prev, [key]: value }));
+        setData((prev) => ({ ...prev, [key]: value }));
     };
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, updateData, {}, 'edit', 'title', 'Title', 'taskly', 'task');
-    const descriptionAI = useFormFields('aiField', data, updateData, {}, 'edit', 'description', 'Description', 'taskly', 'task');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        updateData,
+        {},
+        'edit',
+        'description',
+        'Description',
+        'taskly',
+        'task'
+    );
 
     useEffect(() => {
         const fetchTaskData = async () => {
@@ -104,7 +114,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
             onSuccess();
         } catch (error: any) {
             if (error.response?.data?.errors) {
-                Object.keys(error.response.data.errors).forEach(key => {
+                Object.keys(error.response.data.errors).forEach((key) => {
                     toast.error(error.response.data.errors[key][0]);
                 });
             } else {
@@ -133,7 +143,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 </div>
 
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="title">{t('Title')}</Label>
                             <Input
@@ -144,7 +154,9 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                                 required
                             />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
 
@@ -164,7 +176,10 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
 
                 <div>
                     <Label htmlFor="stage_id">{t('Stage')}</Label>
-                    <Select value={data.stage_id?.toString() || ''} onValueChange={(value) => updateData('stage_id', value ? parseInt(value) : undefined)}>
+                    <Select
+                        value={data.stage_id?.toString() || ''}
+                        onValueChange={(value) => updateData('stage_id', value ? parseInt(value) : undefined)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select stage')} />
                         </SelectTrigger>
@@ -181,9 +196,9 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 <div>
                     <Label required>{t('Assign To')}</Label>
                     <MultiSelectEnhanced
-                        options={teamMembers?.map(member => ({
+                        options={teamMembers?.map((member) => ({
                             value: member.id.toString(),
-                            label: member.name
+                            label: member.name,
                         }))}
                         value={data.assigned_to || []}
                         onValueChange={(values) => updateData('assigned_to', values)}
@@ -202,10 +217,12 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -219,12 +236,12 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 </div>
 
                 <div>
-                   <Label>{t('Mission Documentation / Tactical Payload')}</Label>
-                   <MediaPicker 
-                       value={data.media_paths || []} 
-                       onChange={(v) => updateData('media_paths', v)} 
-                       multiple={true}
-                   />
+                    <Label>{t('Mission Documentation / Tactical Payload')}</Label>
+                    <MediaPicker
+                        value={data.media_paths || []}
+                        onChange={(v) => updateData('media_paths', v)}
+                        multiple={true}
+                    />
                 </div>
 
                 <div className="flex justify-end gap-2">

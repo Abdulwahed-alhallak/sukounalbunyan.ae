@@ -20,9 +20,9 @@ interface Props {
 export function useTaxCalculator(items: Props['items']): TaxCalculation {
     return React.useMemo(() => {
         const subtotal = items.reduce((sum, item) => {
-            return sum + (item.quantity * item.unit_price);
+            return sum + item.quantity * item.unit_price;
         }, 0);
-        
+
         const discountAmount = items.reduce((sum, item) => sum + (item.discount_amount || 0), 0);
         const taxAmount = items.reduce((sum, item) => sum + (item.tax_amount || 0), 0);
         const total = items.reduce((sum, item) => sum + (item.total_amount || 0), 0);
@@ -31,7 +31,7 @@ export function useTaxCalculator(items: Props['items']): TaxCalculation {
             subtotal,
             taxAmount,
             discountAmount,
-            total
+            total,
         };
     }, [items]);
 }
@@ -51,6 +51,6 @@ export function calculateLineItemAmounts(
     return {
         discountAmount,
         taxAmount,
-        totalAmount
+        totalAmount,
     };
 }

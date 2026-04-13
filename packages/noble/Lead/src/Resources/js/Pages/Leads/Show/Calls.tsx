@@ -23,7 +23,6 @@ interface CallsProps {
 }
 
 export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => setCallModalOpen(true));
     }, [onRegisterAddHandler]);
@@ -36,7 +35,7 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
         duration: '',
         assignee: '',
         description: '',
-        call_result: ''
+        call_result: '',
     });
     const [callDeleteState, setCallDeleteState] = useState({ isOpen: false, callId: null, message: '' });
 
@@ -45,21 +44,39 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
         if (editingCall) {
             router.put(route('lead.calls.update', editingCall.id), callForm, {
                 onSuccess: () => {
-                    setCallForm({ subject: '', call_type: 'Outbound', duration: '', assignee: '', description: '', call_result: '' });
+                    setCallForm({
+                        subject: '',
+                        call_type: 'Outbound',
+                        duration: '',
+                        assignee: '',
+                        description: '',
+                        call_result: '',
+                    });
                     setCallModalOpen(false);
                     setEditingCall(null);
-                }
+                },
             });
         } else {
-            router.post(route('lead.calls.store'), {
-                lead_id: lead.id,
-                ...callForm
-            }, {
-                onSuccess: () => {
-                    setCallForm({ subject: '', call_type: 'Outbound', duration: '', assignee: '', description: '', call_result: '' });
-                    setCallModalOpen(false);
+            router.post(
+                route('lead.calls.store'),
+                {
+                    lead_id: lead.id,
+                    ...callForm,
+                },
+                {
+                    onSuccess: () => {
+                        setCallForm({
+                            subject: '',
+                            call_type: 'Outbound',
+                            duration: '',
+                            assignee: '',
+                            description: '',
+                            call_result: '',
+                        });
+                        setCallModalOpen(false);
+                    },
                 }
-            });
+            );
         }
     };
 
@@ -71,7 +88,7 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
             duration: call.duration || '',
             assignee: call.user_id?.toString() || '',
             description: call.description || '',
-            call_result: call.call_result || ''
+            call_result: call.call_result || '',
         });
         setCallModalOpen(true);
     };
@@ -80,7 +97,7 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
         setCallDeleteState({
             isOpen: true,
             callId,
-            message: t('Are you sure you want to delete this call?')
+            message: t('Are you sure you want to delete this call?'),
         });
     };
 
@@ -97,27 +114,26 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
 
     return (
         <>
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] rounded-none w-full">
+            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[75vh] w-full overflow-y-auto rounded-none">
                 <div className="min-w-[600px]">
                     <DataTable
                         data={lead.calls || []}
                         columns={[
                             {
                                 key: 'subject',
-                                header: t('Subject'),                               },
+                                header: t('Subject'),
+                            },
                             {
                                 key: 'call_type',
-                                header: t('Call Type'), 
+                                header: t('Call Type'),
                                 render: (value: string) => (
-                                    <Badge variant={value === 'Inbound' ? 'default' : 'secondary'}>
-                                        {t(value)}
-                                    </Badge>
-                                )
+                                    <Badge variant={value === 'Inbound' ? 'default' : 'secondary'}>{t(value)}</Badge>
+                                ),
                             },
                             {
                                 key: 'duration',
-                                header: t('Duration'),  
-                                render: (value: string) => value ? formatTime(value) : '-'
+                                header: t('Duration'),
+                                render: (value: string) => (value ? formatTime(value) : '-'),
                             },
                             {
                                 key: 'description',
@@ -125,11 +141,11 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                 render: (value: string) => {
                                     if (!value) return '-';
                                     return (
-                                        <span className="text-sm text-muted-foreground truncate max-w-xs" title={value}>
+                                        <span className="max-w-xs truncate text-sm text-muted-foreground" title={value}>
                                             {value.length > 30 ? `${value.substring(0, 30)}...` : value}
                                         </span>
                                     );
-                                }
+                                },
                             },
                             {
                                 key: 'actions',
@@ -139,7 +155,12 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                         <TooltipProvider>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => handleEditCall(call)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleEditCall(call)}
+                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                    >
                                                         <Edit className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -149,7 +170,12 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                             </Tooltip>
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
-                                                    <Button variant="ghost" size="sm" onClick={() => openCallDeleteDialog(call.id)} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => openCallDeleteDialog(call.id)}
+                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                    >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </TooltipTrigger>
@@ -159,8 +185,8 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                             </Tooltip>
                                         </TooltipProvider>
                                     </div>
-                                )
-                            }
+                                ),
+                            },
                         ]}
                         className="rounded-none"
                         emptyState={
@@ -177,13 +203,23 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                 </div>
             </div>
 
-            <Dialog open={callModalOpen} onOpenChange={(open) => {
-                setCallModalOpen(open);
-                if (!open) {
-                    setEditingCall(null);
-                    setCallForm({ subject: '', call_type: 'Outbound', duration: '', assignee: '', description: '', call_result: '' });
-                }
-            }}>
+            <Dialog
+                open={callModalOpen}
+                onOpenChange={(open) => {
+                    setCallModalOpen(open);
+                    if (!open) {
+                        setEditingCall(null);
+                        setCallForm({
+                            subject: '',
+                            call_type: 'Outbound',
+                            duration: '',
+                            assignee: '',
+                            description: '',
+                            call_result: '',
+                        });
+                    }
+                }}
+            >
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
                         <DialogTitle>{editingCall ? t('Edit Call') : t('Create Call')}</DialogTitle>
@@ -195,7 +231,7 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                 id="subject"
                                 type="text"
                                 value={callForm.subject}
-                                onChange={(e) => setCallForm({...callForm, subject: e.target.value})}
+                                onChange={(e) => setCallForm({ ...callForm, subject: e.target.value })}
                                 placeholder={t('Enter call subject')}
                                 required
                             />
@@ -203,7 +239,10 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <Label htmlFor="call_type">{t('Call Type')}</Label>
-                                <Select value={callForm.call_type} onValueChange={(value) => setCallForm({...callForm, call_type: value})}>
+                                <Select
+                                    value={callForm.call_type}
+                                    onValueChange={(value) => setCallForm({ ...callForm, call_type: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Select call type')} />
                                     </SelectTrigger>
@@ -220,13 +259,16 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                                     required
                                     type="time"
                                     value={callForm.duration}
-                                    onChange={(e) => setCallForm({...callForm, duration: e.target.value})}
+                                    onChange={(e) => setCallForm({ ...callForm, duration: e.target.value })}
                                 />
                             </div>
                         </div>
                         <div>
                             <Label htmlFor="assignee">{t('Assignee')}</Label>
-                            <Select value={callForm.assignee} onValueChange={(value) => setCallForm({...callForm, assignee: value})}>
+                            <Select
+                                value={callForm.assignee}
+                                onValueChange={(value) => setCallForm({ ...callForm, assignee: value })}
+                            >
                                 <SelectTrigger>
                                     <SelectValue placeholder={t('Select assignee')} />
                                 </SelectTrigger>
@@ -244,7 +286,7 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                             <Textarea
                                 id="description"
                                 value={callForm.description}
-                                onChange={(e) => setCallForm({...callForm, description: e.target.value})}
+                                onChange={(e) => setCallForm({ ...callForm, description: e.target.value })}
                                 placeholder={t('Enter call description')}
                                 rows={4}
                             />
@@ -253,13 +295,15 @@ export default function Calls({ lead, onRegisterAddHandler }: CallsProps) {
                             <Label htmlFor="call_result">{t('Call Result')}</Label>
                             <RichTextEditor
                                 content={callForm.call_result}
-                                onChange={(content) => setCallForm({...callForm, call_result: content})}
+                                onChange={(content) => setCallForm({ ...callForm, call_result: content })}
                                 placeholder={t('Enter call result')}
                                 className="mt-1"
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setCallModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setCallModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{editingCall ? t('Update') : t('Create')}</Button>
                         </div>
                     </form>

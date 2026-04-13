@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,7 +27,6 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
         effective_date: promotion.effective_date ?? '',
         reason: promotion.reason ?? '',
         document: promotion.document ?? '',
-
     });
 
     // AI hooks for reason field
@@ -35,9 +34,14 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
 
     useEffect(() => {
         if (data.current_branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.current_branch_id);
+            const branchDepartments = departments.filter(
+                (dept) => dept.branch_id.toString() === data.current_branch_id
+            );
             setFilteredDepartments(branchDepartments);
-            if (data.current_department_id && !branchDepartments.find(dept => dept.id.toString() === data.current_department_id)) {
+            if (
+                data.current_department_id &&
+                !branchDepartments.find((dept) => dept.id.toString() === data.current_department_id)
+            ) {
                 setData('current_department_id', '');
                 setData('current_designation_id', '');
             }
@@ -50,9 +54,14 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
 
     useEffect(() => {
         if (data.current_department_id) {
-            const departmentDesignations = designations.filter(desig => desig.department_id.toString() === data.current_department_id);
+            const departmentDesignations = designations.filter(
+                (desig) => desig.department_id.toString() === data.current_department_id
+            );
             setFilteredDesignations(departmentDesignations);
-            if (data.current_designation_id && !departmentDesignations.find(desig => desig.id.toString() === data.current_designation_id)) {
+            if (
+                data.current_designation_id &&
+                !departmentDesignations.find((desig) => desig.id.toString() === data.current_designation_id)
+            ) {
                 setData('current_designation_id', '');
             }
         } else {
@@ -61,14 +70,12 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
         }
     }, [data.current_department_id]);
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.promotions.update', promotion.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -79,7 +86,9 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
                     <Select value={data.employee_id} onValueChange={(value) => setData('employee_id', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
@@ -94,10 +103,16 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="current_branch_id" required>{t('Current Branch')}</Label>
-                    <Select value={data.current_branch_id} onValueChange={(value) => setData('current_branch_id', value)} required>
+                    <Label htmlFor="current_branch_id" required>
+                        {t('Current Branch')}
+                    </Label>
+                    <Select
+                        value={data.current_branch_id}
+                        onValueChange={(value) => setData('current_branch_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Current Branch')} />
                         </SelectTrigger>
@@ -111,12 +126,23 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     </Select>
                     <InputError message={errors.current_branch_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="current_department_id" required>{t('Current Department')}</Label>
-                    <Select value={data.current_department_id} onValueChange={(value) => setData('current_department_id', value)} disabled={!data.current_branch_id} required>
+                    <Label htmlFor="current_department_id" required>
+                        {t('Current Department')}
+                    </Label>
+                    <Select
+                        value={data.current_department_id}
+                        onValueChange={(value) => setData('current_department_id', value)}
+                        disabled={!data.current_branch_id}
+                        required
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.current_branch_id ? t('Select Current Department') : t('Select Branch first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.current_branch_id ? t('Select Current Department') : t('Select Branch first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredDepartments?.map((department: any) => (
@@ -128,12 +154,25 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     </Select>
                     <InputError message={errors.current_department_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="current_designation_id" required>{t('Current Designation')}</Label>
-                    <Select value={data.current_designation_id} onValueChange={(value) => setData('current_designation_id', value)} disabled={!data.current_department_id} required>
+                    <Label htmlFor="current_designation_id" required>
+                        {t('Current Designation')}
+                    </Label>
+                    <Select
+                        value={data.current_designation_id}
+                        onValueChange={(value) => setData('current_designation_id', value)}
+                        disabled={!data.current_department_id}
+                        required
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.current_department_id ? t('Select Current Designation') : t('Select Department first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.current_department_id
+                                        ? t('Select Current Designation')
+                                        : t('Select Department first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredDesignations?.map((designation: any) => (
@@ -145,9 +184,11 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     </Select>
                     <InputError message={errors.current_designation_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="effective_date" required>{t('Effective Date')}</Label>
+                    <Label htmlFor="effective_date" required>
+                        {t('Effective Date')}
+                    </Label>
                     <DatePicker
                         value={data.effective_date}
                         onChange={(date) => setData('effective_date', date)}
@@ -156,12 +197,14 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     />
                     <InputError message={errors.effective_date} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="reason">{t('Reason')}</Label>
                         <div className="flex gap-2">
-                            {reasonAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {reasonAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -173,7 +216,7 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     />
                     <InputError message={errors.reason} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         id="document"
@@ -185,9 +228,7 @@ export default function EditPromotion({ promotion, onSuccess }: EditPromotionPro
                     />
                     <InputError message={errors.document} />
                 </div>
-                
 
-                
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

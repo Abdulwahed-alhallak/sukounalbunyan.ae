@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { router } from '@inertiajs/react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -31,7 +31,7 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
         teamMembers: true,
         clients: true,
         milestones: true,
-        projectFiles: false
+        projectFiles: false,
     });
     const [processing, setProcessing] = useState(false);
 
@@ -53,10 +53,10 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                     teamMembers: true,
                     clients: true,
                     milestones: true,
-                    projectFiles: false
+                    projectFiles: false,
                 });
             },
-            onFinish: () => setProcessing(false)
+            onFinish: () => setProcessing(false),
         });
     };
 
@@ -65,11 +65,13 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
     return (
         <DialogContent className="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle>{t('Duplicate Project')}: {project.name}</DialogTitle>
+                <DialogTitle>
+                    {t('Duplicate Project')}: {project.name}
+                </DialogTitle>
             </DialogHeader>
 
             <div className="space-y-4">
-                <div className="space-y-3 mt-3">
+                <div className="mt-3 space-y-3">
                     <div className="flex items-center space-x-3">
                         <Checkbox
                             id="all"
@@ -87,11 +89,11 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                                     teamMembers: isChecked,
                                     clients: isChecked,
                                     milestones: isChecked,
-                                    projectFiles: isChecked
+                                    projectFiles: isChecked,
                                 });
                             }}
                         />
-                        <Label htmlFor="all" className="flex items-center gap-2 cursor-pointer font-semibold">
+                        <Label htmlFor="all" className="flex cursor-pointer items-center gap-2 font-semibold">
                             <CheckSquare className="h-4 w-4 text-foreground" />
                             {t('All')}
                         </Label>
@@ -102,9 +104,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="tasks"
                             checked={options.tasks}
-                            onCheckedChange={(checked) => setOptions({...options, tasks: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, tasks: !!checked })}
                         />
-                        <Label htmlFor="tasks" className="flex items-center gap-2 cursor-pointer font-medium">
+                        <Label htmlFor="tasks" className="flex cursor-pointer items-center gap-2 font-medium">
                             <CheckSquare className="h-4 w-4 text-foreground" />
                             {t('Tasks')}
                         </Label>
@@ -116,9 +118,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                             <Checkbox
                                 id="taskSubtasks"
                                 checked={options.taskSubtasks}
-                                onCheckedChange={(checked) => setOptions({...options, taskSubtasks: !!checked})}
+                                onCheckedChange={(checked) => setOptions({ ...options, taskSubtasks: !!checked })}
                             />
-                            <Label htmlFor="taskSubtasks" className="flex items-center gap-2 cursor-pointer text-sm">
+                            <Label htmlFor="taskSubtasks" className="flex cursor-pointer items-center gap-2 text-sm">
                                 <CheckSquare className="h-3 w-3 text-foreground" />
                                 {t('Task Subtasks')}
                             </Label>
@@ -128,9 +130,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                             <Checkbox
                                 id="taskComments"
                                 checked={options.taskComments}
-                                onCheckedChange={(checked) => setOptions({...options, taskComments: !!checked})}
+                                onCheckedChange={(checked) => setOptions({ ...options, taskComments: !!checked })}
                             />
-                            <Label htmlFor="taskComments" className="flex items-center gap-2 cursor-pointer text-sm">
+                            <Label htmlFor="taskComments" className="flex cursor-pointer items-center gap-2 text-sm">
                                 <MessageSquare className="h-3 w-3 text-muted-foreground" />
                                 {t('Task Comments')}
                             </Label>
@@ -142,9 +144,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="bugs"
                             checked={options.bugs}
-                            onCheckedChange={(checked) => setOptions({...options, bugs: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, bugs: !!checked })}
                         />
-                        <Label htmlFor="bugs" className="flex items-center gap-2 cursor-pointer font-medium">
+                        <Label htmlFor="bugs" className="flex cursor-pointer items-center gap-2 font-medium">
                             <Bug className="h-4 w-4 text-destructive" />
                             {t('Bugs')}
                         </Label>
@@ -156,9 +158,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                             <Checkbox
                                 id="bugComments"
                                 checked={options.bugComments}
-                                onCheckedChange={(checked) => setOptions({...options, bugComments: !!checked})}
+                                onCheckedChange={(checked) => setOptions({ ...options, bugComments: !!checked })}
                             />
-                            <Label htmlFor="bugComments" className="flex items-center gap-2 cursor-pointer text-sm">
+                            <Label htmlFor="bugComments" className="flex cursor-pointer items-center gap-2 text-sm">
                                 <MessageSquare className="h-3 w-3 text-destructive" />
                                 {t('Bug Comments')}
                             </Label>
@@ -169,9 +171,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="activity"
                             checked={options.activity}
-                            onCheckedChange={(checked) => setOptions({...options, activity: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, activity: !!checked })}
                         />
-                        <Label htmlFor="activity" className="flex items-center gap-2 cursor-pointer">
+                        <Label htmlFor="activity" className="flex cursor-pointer items-center gap-2">
                             <Activity className="h-4 w-4 text-foreground" />
                             {t('Activity')}
                         </Label>
@@ -181,9 +183,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="teamMembers"
                             checked={options.teamMembers}
-                            onCheckedChange={(checked) => setOptions({...options, teamMembers: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, teamMembers: !!checked })}
                         />
-                        <Label htmlFor="teamMembers" className="flex items-center gap-2 cursor-pointer">
+                        <Label htmlFor="teamMembers" className="flex cursor-pointer items-center gap-2">
                             <Users className="h-4 w-4 text-foreground" />
                             {t('Team Members')}
                         </Label>
@@ -193,9 +195,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="clients"
                             checked={options.clients}
-                            onCheckedChange={(checked) => setOptions({...options, clients: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, clients: !!checked })}
                         />
-                        <Label htmlFor="clients" className="flex items-center gap-2 cursor-pointer">
+                        <Label htmlFor="clients" className="flex cursor-pointer items-center gap-2">
                             <UserCheck className="h-4 w-4 text-foreground" />
                             {t('Clients')}
                         </Label>
@@ -205,9 +207,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="milestones"
                             checked={options.milestones}
-                            onCheckedChange={(checked) => setOptions({...options, milestones: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, milestones: !!checked })}
                         />
-                        <Label htmlFor="milestones" className="flex items-center gap-2 cursor-pointer">
+                        <Label htmlFor="milestones" className="flex cursor-pointer items-center gap-2">
                             <Milestone className="h-4 w-4 text-foreground" />
                             {t('Milestones')}
                         </Label>
@@ -217,9 +219,9 @@ export default function DuplicateModal({ isOpen, project, onClose }: DuplicateMo
                         <Checkbox
                             id="projectFiles"
                             checked={options.projectFiles}
-                            onCheckedChange={(checked) => setOptions({...options, projectFiles: !!checked})}
+                            onCheckedChange={(checked) => setOptions({ ...options, projectFiles: !!checked })}
                         />
-                        <Label htmlFor="projectFiles" className="flex items-center gap-2 cursor-pointer">
+                        <Label htmlFor="projectFiles" className="flex cursor-pointer items-center gap-2">
                             <FileText className="h-4 w-4 text-foreground" />
                             {t('Project Files')}
                         </Label>

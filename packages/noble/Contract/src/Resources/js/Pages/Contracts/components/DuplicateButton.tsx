@@ -16,12 +16,12 @@ interface DuplicateButtonProps {
     className?: string;
 }
 
-export default function DuplicateButton({ 
-    contract, 
-    variant = 'ghost', 
-    size = 'sm', 
+export default function DuplicateButton({
+    contract,
+    variant = 'ghost',
+    size = 'sm',
     showTooltip = true,
-    className = ''
+    className = '',
 }: DuplicateButtonProps) {
     const { t } = useTranslation();
     const { auth } = usePage<any>().props;
@@ -47,10 +47,8 @@ export default function DuplicateButton({
         <>
             {showTooltip ? (
                 <TooltipProvider>
-                    <Tooltip >
-                        <TooltipTrigger asChild>
-                            {button}
-                        </TooltipTrigger>
+                    <Tooltip>
+                        <TooltipTrigger asChild>{button}</TooltipTrigger>
                         <TooltipContent>
                             <p>{t('Duplicate')}</p>
                         </TooltipContent>
@@ -61,10 +59,7 @@ export default function DuplicateButton({
             )}
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <Duplicate
-                    contract={contract}
-                    onSuccess={() => setIsOpen(false)}
-                />
+                <Duplicate contract={contract} onSuccess={() => setIsOpen(false)} />
             </Dialog>
         </>
     );

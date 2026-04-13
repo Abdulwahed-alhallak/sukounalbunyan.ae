@@ -1,24 +1,24 @@
 {
-    "name": "workdo/$PACKAGE_KEBAB$",
+    "name": "noble/$PACKAGE_KEBAB$",
     "description": "Description for $PACKAGE_KEBAB$ package",
     "type": "library",
     "license": "MIT",
     "require": {},
     "autoload": {
         "psr-4": {
-            "Workdo\\$PACKAGE_NAME$\\": "src/"
+            "noble\\$PACKAGE_NAME$\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "WorkDo",
-            "email": "support@workdo.io"
+            "name": "noble",
+            "email": "support@noble.io"
         }
     ],
     "extra": {
         "laravel": {
             "providers": [
-                "Workdo\\$PACKAGE_NAME$\\Providers\\$PACKAGE_NAME$ServiceProvider"
+                "noble\\$PACKAGE_NAME$\\Providers\\$PACKAGE_NAME$ServiceProvider"
             ]
         }
     }

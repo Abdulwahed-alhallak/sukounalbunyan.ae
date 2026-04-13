@@ -1,11 +1,11 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { EditItemCategoryProps, ItemCategoryFormData } from './types';
 
 export default function Edit({ category, onSuccess }: EditItemCategoryProps) {
@@ -20,7 +20,7 @@ export default function Edit({ category, onSuccess }: EditItemCategoryProps) {
         put(route('product-service.item-categories.update', category.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -41,8 +41,6 @@ export default function Edit({ category, onSuccess }: EditItemCategoryProps) {
                     />
                     <InputError message={errors.name} />
                 </div>
-
-
 
                 <div>
                     <Label htmlFor="edit_color">{t('Color')}</Label>

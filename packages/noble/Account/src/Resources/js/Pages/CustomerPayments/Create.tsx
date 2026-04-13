@@ -19,8 +19,8 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
     const { t } = useTranslation();
     const [outstandingInvoices, setOutstandingInvoices] = useState<SalesInvoice[]>([]);
     const [availableCreditNotes, setAvailableCreditNotes] = useState<CreditNote[]>([]);
-    const [selectedAllocations, setSelectedAllocations] = useState<{invoice_id: number; amount: number}[]>([]);
-    const [selectedCreditNotes, setSelectedCreditNotes] = useState<{credit_note_id: number; amount: number}[]>([]);
+    const [selectedAllocations, setSelectedAllocations] = useState<{ invoice_id: number; amount: number }[]>([]);
+    const [selectedCreditNotes, setSelectedCreditNotes] = useState<{ credit_note_id: number; amount: number }[]>([]);
 
     const { data, setData, post, processing, errors } = useForm<CreateCustomerPaymentFormData>({
         payment_date: new Date().toISOString().split('T')[0],
@@ -30,7 +30,7 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
         payment_amount: '',
         notes: '',
         allocations: [],
-        credit_notes: []
+        credit_notes: [],
     });
 
     // Update form data when selections change
@@ -75,12 +75,12 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
     }, [data.customer_id]);
 
     const addAllocation = (invoice: SalesInvoice) => {
-        const existing = selectedAllocations.find(a => a.invoice_id === invoice.id);
+        const existing = selectedAllocations.find((a) => a.invoice_id === invoice.id);
         if (existing) return;
 
         const newAllocation = {
             invoice_id: invoice.id,
-            amount: invoice.balance_amount
+            amount: invoice.balance_amount,
         };
 
         const newAllocations = [...selectedAllocations, newAllocation];
@@ -89,20 +89,23 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
     };
 
     const removeAllocation = (invoiceId: number) => {
-        const newAllocations = selectedAllocations.filter(a => a.invoice_id !== invoiceId);
+        const newAllocations = selectedAllocations.filter((a) => a.invoice_id !== invoiceId);
         setSelectedAllocations(newAllocations);
         updateTotalAmount(newAllocations, selectedCreditNotes);
     };
 
     const updateAllocationAmount = (invoiceId: number, amount: number) => {
-        const newAllocations = selectedAllocations?.map(a =>
+        const newAllocations = selectedAllocations?.map((a) =>
             a.invoice_id === invoiceId ? { ...a, amount: Number(amount || 0) } : a
         );
         setSelectedAllocations(newAllocations);
         updateTotalAmount(newAllocations, selectedCreditNotes);
     };
 
-    const updateTotalAmount = (allocations: {invoice_id: number; amount: number}[], creditNotes = selectedCreditNotes) => {
+    const updateTotalAmount = (
+        allocations: { invoice_id: number; amount: number }[],
+        creditNotes = selectedCreditNotes
+    ) => {
         const allocationsTotal = allocations.reduce((sum, allocation) => sum + Number(allocation.amount || 0), 0);
         const creditNotesTotal = creditNotes.reduce((sum, creditNote) => sum + Number(creditNote.amount || 0), 0);
         const total = allocationsTotal - creditNotesTotal; // Credit notes reduce payment amount
@@ -115,11 +118,11 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
         post(route('account.customer-payments.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
-    const getInvoiceById = (id: number) => outstandingInvoices.find(inv => inv.id === id);
+    const getInvoiceById = (id: number) => outstandingInvoices.find((inv) => inv.id === id);
 
     return (
         <DialogContent className="max-w-4xl">
@@ -127,9 +130,11 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                 <DialogTitle>{t('Create Customer Payment')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="payment_date" required>{t('Payment Date')}</Label>
+                        <Label htmlFor="payment_date" required>
+                            {t('Payment Date')}
+                        </Label>
                         <DatePicker
                             id="payment_date"
                             value={data.payment_date}
@@ -144,10 +149,15 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                     </div>
 
                     <div>
-                        <Label htmlFor="customer_id" required>{t('Customer')}</Label>
-                        <Select value={data.customer_id} onValueChange={(value) => {
-                            setData('customer_id', value);
-                        }}>
+                        <Label htmlFor="customer_id" required>
+                            {t('Customer')}
+                        </Label>
+                        <Select
+                            value={data.customer_id}
+                            onValueChange={(value) => {
+                                setData('customer_id', value);
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Customer')} />
                             </SelectTrigger>
@@ -163,8 +173,13 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                     </div>
 
                     <div>
-                        <Label htmlFor="bank_account_id" required>{t('Bank Account')}</Label>
-                        <Select value={data.bank_account_id} onValueChange={(value) => setData('bank_account_id', value)}>
+                        <Label htmlFor="bank_account_id" required>
+                            {t('Bank Account')}
+                        </Label>
+                        <Select
+                            value={data.bank_account_id}
+                            onValueChange={(value) => setData('bank_account_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Bank Account')} />
                             </SelectTrigger>
@@ -192,19 +207,22 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                 </div>
 
                 {data.customer_id && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-sm">{t('Outstanding Invoices')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {outstandingInvoices.length > 0 ? (
-                                    <div className="space-y-2 max-h-40 overflow-y-auto">
+                                    <div className="max-h-40 space-y-2 overflow-y-auto">
                                         {outstandingInvoices?.map((invoice) => (
-                                            <div key={invoice.id} className="flex items-center justify-between p-2 border rounded">
+                                            <div
+                                                key={invoice.id}
+                                                className="flex items-center justify-between rounded border p-2"
+                                            >
                                                 <div>
                                                     <span className="font-medium">{invoice.invoice_number}</span>
-                                                    <span className="text-sm text-muted-foreground ml-2">
+                                                    <span className="ml-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(invoice.balance_amount)}
                                                     </span>
                                                 </div>
@@ -212,7 +230,9 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                                     type="button"
                                                     size="sm"
                                                     onClick={() => addAllocation(invoice)}
-                                                    disabled={selectedAllocations.some(a => a.invoice_id === invoice.id)}
+                                                    disabled={selectedAllocations.some(
+                                                        (a) => a.invoice_id === invoice.id
+                                                    )}
                                                 >
                                                     {t('Add')}
                                                 </Button>
@@ -220,7 +240,7 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-4 text-muted-foreground">
+                                    <div className="py-4 text-center text-muted-foreground">
                                         {t('No outstanding invoices found for this customer')}
                                     </div>
                                 )}
@@ -233,12 +253,15 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                             </CardHeader>
                             <CardContent>
                                 {availableCreditNotes.length > 0 ? (
-                                    <div className="space-y-2 max-h-40 overflow-y-auto">
+                                    <div className="max-h-40 space-y-2 overflow-y-auto">
                                         {availableCreditNotes?.map((creditNote) => (
-                                            <div key={creditNote.id} className="flex items-center justify-between p-2 border rounded">
+                                            <div
+                                                key={creditNote.id}
+                                                className="flex items-center justify-between rounded border p-2"
+                                            >
                                                 <div>
                                                     <span className="font-medium">{creditNote.credit_note_number}</span>
-                                                    <span className="text-sm text-muted-foreground ml-2">
+                                                    <span className="ml-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(creditNote.balance_amount)}
                                                     </span>
                                                 </div>
@@ -247,19 +270,32 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                                     size="sm"
                                                     variant="outline"
                                                     onClick={() => {
-                                                        const totalInvoiceAmount = selectedAllocations.reduce((sum, a) => sum + a.amount, 0);
-                                                        const currentCreditNotesSum = selectedCreditNotes.reduce((sum, c) => sum + c.amount, 0);
-                                                        const remainingAmount = totalInvoiceAmount - currentCreditNotesSum;
-                                                        const maxAmount = Math.min(creditNote.balance_amount, remainingAmount);
+                                                        const totalInvoiceAmount = selectedAllocations.reduce(
+                                                            (sum, a) => sum + a.amount,
+                                                            0
+                                                        );
+                                                        const currentCreditNotesSum = selectedCreditNotes.reduce(
+                                                            (sum, c) => sum + c.amount,
+                                                            0
+                                                        );
+                                                        const remainingAmount =
+                                                            totalInvoiceAmount - currentCreditNotesSum;
+                                                        const maxAmount = Math.min(
+                                                            creditNote.balance_amount,
+                                                            remainingAmount
+                                                        );
                                                         const newCreditNote = {
                                                             credit_note_id: creditNote.id,
-                                                            amount: maxAmount > 0 ? maxAmount : creditNote.balance_amount
+                                                            amount:
+                                                                maxAmount > 0 ? maxAmount : creditNote.balance_amount,
                                                         };
                                                         const newCreditNotes = [...selectedCreditNotes, newCreditNote];
                                                         setSelectedCreditNotes(newCreditNotes);
                                                         updateTotalAmount(selectedAllocations, newCreditNotes);
                                                     }}
-                                                    disabled={selectedCreditNotes.some(c => c.credit_note_id === creditNote.id)}
+                                                    disabled={selectedCreditNotes.some(
+                                                        (c) => c.credit_note_id === creditNote.id
+                                                    )}
                                                 >
                                                     {t('Apply')}
                                                 </Button>
@@ -267,7 +303,7 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-4 text-muted-foreground">
+                                    <div className="py-4 text-center text-muted-foreground">
                                         {t('No credit notes available for this customer')}
                                     </div>
                                 )}
@@ -286,7 +322,10 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                 {selectedAllocations?.map((allocation) => {
                                     const invoice = getInvoiceById(allocation.invoice_id);
                                     return (
-                                        <div key={allocation.invoice_id} className="flex items-center gap-3 p-3 border rounded">
+                                        <div
+                                            key={allocation.invoice_id}
+                                            className="flex items-center gap-3 rounded border p-3"
+                                        >
                                             <div className="flex-1">
                                                 <div className="font-medium">{invoice?.invoice_number}</div>
                                                 <div className="text-sm text-muted-foreground">
@@ -298,7 +337,12 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                                     type="number"
                                                     step="0.01"
                                                     value={allocation.amount}
-                                                    onChange={(e) => updateAllocationAmount(allocation.invoice_id, Number(e.target.value) || 0)}
+                                                    onChange={(e) =>
+                                                        updateAllocationAmount(
+                                                            allocation.invoice_id,
+                                                            Number(e.target.value) || 0
+                                                        )
+                                                    }
                                                     max={invoice?.balance_amount}
                                                 />
                                             </div>
@@ -314,11 +358,16 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                     );
                                 })}
                                 {selectedCreditNotes?.map((creditNote, index) => {
-                                    const note = availableCreditNotes.find(c => c.id === creditNote.credit_note_id);
+                                    const note = availableCreditNotes.find((c) => c.id === creditNote.credit_note_id);
                                     return (
-                                        <div key={`credit-${index}`} className="flex items-center gap-3 p-3 border rounded bg-muted/50">
+                                        <div
+                                            key={`credit-${index}`}
+                                            className="flex items-center gap-3 rounded border bg-muted/50 p-3"
+                                        >
                                             <div className="flex-1">
-                                                <div className="font-medium text-foreground">{note?.credit_note_number}</div>
+                                                <div className="font-medium text-foreground">
+                                                    {note?.credit_note_number}
+                                                </div>
                                                 <div className="text-sm text-muted-foreground">
                                                     {t('Credit applied to payment')}
                                                 </div>
@@ -331,22 +380,35 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                                     onChange={(e) => {
                                                         const newAmount = Number(e.target.value);
                                                         if (isNaN(newAmount)) return;
-                                                        const note = availableCreditNotes.find(c => c.id === creditNote.credit_note_id);
-                                                        const totalInvoiceAmount = selectedAllocations.reduce((sum, a) => sum + Number(a.amount || 0), 0);
-                                                        const otherCreditNotesSum = selectedCreditNotes.reduce((sum, c, i) => 
-                                                            i !== index ? sum + Number(c.amount || 0) : sum, 0
+                                                        const note = availableCreditNotes.find(
+                                                            (c) => c.id === creditNote.credit_note_id
                                                         );
-                                                        const maxAllowedForThis = totalInvoiceAmount - otherCreditNotesSum;
-                                                        const maxAmount = Math.min(note?.balance_amount || 0, maxAllowedForThis);
+                                                        const totalInvoiceAmount = selectedAllocations.reduce(
+                                                            (sum, a) => sum + Number(a.amount || 0),
+                                                            0
+                                                        );
+                                                        const otherCreditNotesSum = selectedCreditNotes.reduce(
+                                                            (sum, c, i) =>
+                                                                i !== index ? sum + Number(c.amount || 0) : sum,
+                                                            0
+                                                        );
+                                                        const maxAllowedForThis =
+                                                            totalInvoiceAmount - otherCreditNotesSum;
+                                                        const maxAmount = Math.min(
+                                                            note?.balance_amount || 0,
+                                                            maxAllowedForThis
+                                                        );
                                                         const validAmount = Math.max(0, Math.min(newAmount, maxAmount));
-                                                        const newCreditNotes = selectedCreditNotes?.map((c, i) => 
+                                                        const newCreditNotes = selectedCreditNotes?.map((c, i) =>
                                                             i === index ? { ...c, amount: validAmount } : c
                                                         );
                                                         setSelectedCreditNotes(newCreditNotes);
                                                         updateTotalAmount(selectedAllocations, newCreditNotes);
                                                     }}
                                                     max={Math.min(
-                                                        availableCreditNotes.find(c => c.id === creditNote.credit_note_id)?.balance_amount || 0,
+                                                        availableCreditNotes.find(
+                                                            (c) => c.id === creditNote.credit_note_id
+                                                        )?.balance_amount || 0,
                                                         selectedAllocations.reduce((sum, a) => sum + a.amount, 0)
                                                     )}
                                                     className="text-right"
@@ -357,7 +419,9 @@ export default function Create({ customers, bankAccounts, onSuccess }: CreateCus
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => {
-                                                    const newCreditNotes = selectedCreditNotes.filter((_, i) => i !== index);
+                                                    const newCreditNotes = selectedCreditNotes.filter(
+                                                        (_, i) => i !== index
+                                                    );
                                                     setSelectedCreditNotes(newCreditNotes);
                                                     updateTotalAmount(selectedAllocations, newCreditNotes);
                                                 }}

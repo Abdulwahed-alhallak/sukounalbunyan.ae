@@ -17,8 +17,8 @@ export interface Complaint {
     employee?: {
         id: number;
         name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     againstEmployee?: {
         id: number;
         name: string;
@@ -47,8 +47,8 @@ export interface ComplaintsIndexProps {
         to: number;
         links: any[];
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     employees: Array<{
         id: number;
         name: string;

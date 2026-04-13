@@ -12,10 +12,12 @@ export interface ComplaintTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateComplaintTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateComplaintTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditComplaintTypeProps extends EditProps<ComplaintType>  {[key: string]: any;
+export interface EditComplaintTypeProps extends EditProps<ComplaintType> {
+    [key: string]: any;
 }
 
 export type PaginatedComplaintTypes = PaginatedData<ComplaintType>;

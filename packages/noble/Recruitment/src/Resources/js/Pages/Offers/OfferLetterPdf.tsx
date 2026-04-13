@@ -81,12 +81,16 @@ export default function OfferLetterPdf() {
             filename: filename,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-            setIsDownloading(false);
-        });
+        html2pdf()
+            .set(opt)
+            .from(element)
+            .save()
+            .then(() => {
+                setIsDownloading(false);
+            });
     };
 
     useEffect(() => {
@@ -100,40 +104,39 @@ export default function OfferLetterPdf() {
         <div className="min-h-screen bg-muted py-8">
             <Head title={t('Offer Letter')} />
 
-            <div className="max-w-4xl mx-auto px-4">
-                <div className="text-center mb-6">
+            <div className="mx-auto max-w-4xl px-4">
+                <div className="mb-6 text-center">
                     <Button
                         onClick={downloadPDF}
                         disabled={isDownloading}
                         className="bg-foreground hover:bg-foreground/80"
                     >
-                        <Download className="w-4 h-4 mr-2" />
+                        <Download className="mr-2 h-4 w-4" />
                         {isDownloading ? t('Downloading...') : t('Download PDF')}
                     </Button>
                 </div>
 
-                <div ref={printRef} className="bg-card rounded-lg shadow-lg overflow-hidden">
+                <div ref={printRef} className="overflow-hidden rounded-lg bg-card shadow-lg">
                     <div className="p-8">
                         {/* Company Header */}
-                        <div className="flex items-center mb-8">
+                        <div className="mb-8 flex items-center">
                             {companySettings.logo_dark && (
                                 <img
                                     src={getImagePath(companySettings.logo_dark)}
                                     alt={companyName}
-                                    className="h-12 mr-4"
+                                    className="mr-4 h-12"
                                 />
                             )}
                         </div>
 
                         {/* Offer Letter Content */}
-                        <div
-                            className="prose max-w-none"
-                            dangerouslySetInnerHTML={{ __html: templateContent }}
-                        />
+                        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: templateContent }} />
 
                         {/* Footer */}
-                        <div className="mt-8 pt-6 border-t border-border text-center text-sm text-muted-foreground">
-                            <p>{t('Generated on')} {new Date().toLocaleDateString()}</p>
+                        <div className="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
+                            <p>
+                                {t('Generated on')} {new Date().toLocaleDateString()}
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage, router } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
-import { PhoneInputComponent } from "@/components/ui/phone-input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
+import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { CreateUserProps, CreateUserFormData } from './types';
 
 export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
@@ -29,7 +29,7 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
         post(route('users.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -114,8 +114,14 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                                 </SelectContent>
                             </Select>
                             {Object.keys(roles).length === 0 && auth.user?.permissions?.includes('create-roles') && (
-                                <p className="text-xs text-muted-foreground mb-1">
-                                    {t('Create role here.')} <button onClick={() => router.get(route('roles.create'))} className="text-foreground hover:underline">{t('Create role')}</button>
+                                <p className="mb-1 text-xs text-muted-foreground">
+                                    {t('Create role here.')}{' '}
+                                    <button
+                                        onClick={() => router.get(route('roles.create'))}
+                                        className="text-foreground hover:underline"
+                                    >
+                                        {t('Create role')}
+                                    </button>
                                 </p>
                             )}
                             <InputError message={errors.type} />
@@ -123,7 +129,10 @@ export default function Create({ onSuccess, roles = {} }: CreateUserProps) {
                     )}
                     <div>
                         <Label htmlFor="is_enable_login">{t('Login Status')}</Label>
-                        <Select value={data.is_enable_login ? "1" : "0"} onValueChange={(value) => setData('is_enable_login', value === "1")}>
+                        <Select
+                            value={data.is_enable_login ? '1' : '0'}
+                            onValueChange={(value) => setData('is_enable_login', value === '1')}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>

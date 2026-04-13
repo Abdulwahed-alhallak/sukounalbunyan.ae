@@ -39,7 +39,7 @@ interface GeneralLedgerProps {
     financialYear?: {
         year_start_date: string;
         year_end_date: string;
-    }
+    };
 }
 
 export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
@@ -59,7 +59,7 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
         setLoading(true);
         try {
             const response = await axios.get(route('double-entry.reports.general-ledger'), {
-                params: { account_id: accountId, from_date: fromDate, to_date: toDate }
+                params: { account_id: accountId, from_date: fromDate, to_date: toDate },
             });
             setData(response.data.data);
             setAccounts(response.data.accounts);
@@ -91,7 +91,8 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
     }, []);
 
     const handleDownloadPDF = () => {
-        const printUrl = route('double-entry.reports.general-ledger.print') +
+        const printUrl =
+            route('double-entry.reports.general-ledger.print') +
             `?account_id=${accountId}&from_date=${fromDate}&to_date=${toDate}&download=pdf`;
         window.open(printUrl, '_blank');
     };
@@ -106,16 +107,16 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('Account')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('Account')}</label>
                         <Select value={accountId} onValueChange={setAccountId}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Account')} />
                             </SelectTrigger>
                             <SelectContent searchable>
-                                {accounts?.map(account => (
+                                {accounts?.map((account) => (
                                     <SelectItem key={account.id} value={account.id.toString()}>
                                         {account.account_code} - {account.account_name}
                                     </SelectItem>
@@ -124,26 +125,20 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                         </Select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
-                        <DatePicker
-                            value={fromDate}
-                            onChange={setFromDate}
-                            placeholder={t('Select from date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('From Date')}</label>
+                        <DatePicker value={fromDate} onChange={setFromDate} placeholder={t('Select from date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
-                        <DatePicker
-                            value={toDate}
-                            onChange={setToDate}
-                            placeholder={t('Select to date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
+                        <DatePicker value={toDate} onChange={setToDate} placeholder={t('Select to date')} />
                     </div>
                     <div className="flex items-end gap-2">
                         <Button onClick={fetchData} disabled={!accountId || loading} size="sm">
                             {loading ? t('Loading...') : t('Generate')}
                         </Button>
-                        <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                        <Button variant="outline" onClick={clearFilters} size="sm">
+                            {t('Clear')}
+                        </Button>
                         {data && auth.user?.permissions?.includes('print-general-ledger') && (
                             <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="gap-2">
                                 <Printer className="h-4 w-4" />
@@ -157,8 +152,8 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
             {data ? (
                 <CardContent className="p-0">
                     {selectedAccount && (
-                        <div className="p-4 bg-muted/50 border-b">
-                            <h3 className="font-semibold text-lg">
+                        <div className="border-b bg-muted/50 p-4">
+                            <h3 className="text-lg font-semibold">
                                 {selectedAccount.account_code} - {selectedAccount.account_name}
                             </h3>
                             {fromDate && toDate && (
@@ -169,13 +164,15 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                         </div>
                     )}
 
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[60vh] w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[60vh] w-full overflow-y-auto">
                         <div className="min-w-[900px]">
                             <table className="w-full">
-                                <thead className="bg-muted sticky top-0">
+                                <thead className="sticky top-0 bg-muted">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Date')}</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">{t('Description')}</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">
+                                            {t('Description')}
+                                        </th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Reference')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Debit')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Credit')}</th>
@@ -188,7 +185,7 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                             <td className="px-4 py-3 text-sm font-semibold" colSpan={5}>
                                                 {t('Opening Balance')}
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-right font-semibold">
+                                            <td className="px-4 py-3 text-right text-sm font-semibold">
                                                 {formatCurrency(data.opening_balance)}
                                             </td>
                                         </tr>
@@ -199,13 +196,13 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                                 <td className="px-4 py-3 text-sm">{formatDate(transaction.date)}</td>
                                                 <td className="px-4 py-3 text-sm">{transaction.description}</td>
                                                 <td className="px-4 py-3 text-sm">{transaction.reference_type}</td>
-                                                <td className="px-4 py-3 text-sm text-right">
+                                                <td className="px-4 py-3 text-right text-sm">
                                                     {transaction.debit > 0 ? formatCurrency(transaction.debit) : '-'}
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-right">
+                                                <td className="px-4 py-3 text-right text-sm">
                                                     {transaction.credit > 0 ? formatCurrency(transaction.credit) : '-'}
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-right font-medium">
+                                                <td className="px-4 py-3 text-right text-sm font-medium">
                                                     {formatCurrency(transaction.balance)}
                                                 </td>
                                             </tr>
@@ -216,18 +213,20 @@ export default function GeneralLedger({ financialYear }: GeneralLedgerProps) {
                                                 <NoRecordsFound
                                                     icon={FileText}
                                                     title={t('No transactions found')}
-                                                    description={t('No transactions found for the selected account and date range.')}
+                                                    description={t(
+                                                        'No transactions found for the selected account and date range.'
+                                                    )}
                                                     className="h-auto"
                                                 />
                                             </td>
                                         </tr>
                                     )}
                                     {data.transactions.length > 0 && (
-                                        <tr className="bg-muted font-semibold sticky bottom-0">
+                                        <tr className="sticky bottom-0 bg-muted font-semibold">
                                             <td className="px-4 py-3 text-sm" colSpan={5}>
                                                 {t('Closing Balance')}
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-right">
+                                            <td className="px-4 py-3 text-right text-sm">
                                                 {formatCurrency(data.closing_balance)}
                                             </td>
                                         </tr>

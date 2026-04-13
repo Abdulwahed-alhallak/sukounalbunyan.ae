@@ -29,17 +29,15 @@ export default function AddonCard({ addon, priceType = 'monthly', onViewDetails 
     const priceLabel = priceType === 'yearly' ? '/yr' : '/mo';
 
     return (
-        <div className="group relative flex flex-col p-6 rounded-2xl border border-neutral-800 bg-neutral-900/40 hover:bg-neutral-900/60 hover:border-neutral-700 transition-all duration-300">
+        <div className="group relative flex flex-col rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 transition-all duration-300 hover:border-neutral-700 hover:bg-neutral-900/60">
             <div className="mb-6">
-                <div className="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center mb-4 group-hover:bg-white group-hover:text-black transition-colors">
-                    <Package className="w-6 h-6" />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-800 transition-colors group-hover:bg-white group-hover:text-black">
+                    <Package className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2 tracking-tight group-hover:text-white transition-colors">
+                <h3 className="mb-2 text-lg font-bold tracking-tight text-white transition-colors group-hover:text-white">
                     {addon.name}
                 </h3>
-                <p className="text-neutral-400 text-sm line-clamp-2 leading-relaxed">
-                    {addon.description}
-                </p>
+                <p className="line-clamp-2 text-sm leading-relaxed text-neutral-400">{addon.description}</p>
             </div>
 
             <div className="mt-auto">
@@ -47,16 +45,16 @@ export default function AddonCard({ addon, priceType = 'monthly', onViewDetails 
                     {displayPrice ? (
                         <div className="flex items-baseline">
                             <span className="text-2xl font-black text-white">{formatAdminCurrency(displayPrice)}</span>
-                            <span className="text-neutral-500 text-sm ml-1 font-medium">{priceLabel}</span>
+                            <span className="ml-1 text-sm font-medium text-neutral-500">{priceLabel}</span>
                         </div>
                     ) : (
-                        <span className="text-lg font-bold text-white tracking-tight">{t('Free')}</span>
+                        <span className="text-lg font-bold tracking-tight text-white">{t('Free')}</span>
                     )}
                 </div>
 
-                <Button 
+                <Button
                     onClick={onViewDetails}
-                    className="w-full bg-white text-black hover:bg-neutral-200 font-bold rounded-xl transition-all h-11"
+                    className="h-11 w-full rounded-xl bg-white font-bold text-black transition-all hover:bg-neutral-200"
                 >
                     {t('View Details')}
                 </Button>

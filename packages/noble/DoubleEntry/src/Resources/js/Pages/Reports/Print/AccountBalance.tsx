@@ -58,11 +58,14 @@ export default function Print() {
                 filename: `account-balance-summary.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -77,72 +80,93 @@ export default function Print() {
             <Head title={t('Account Balance Summary')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="report-container bg-card max-w-5xl mx-auto p-8">
-                <div className="border-b-2 border-border pb-6 mb-8">
-                    <div className="flex justify-between items-start">
+            <div className="report-container mx-auto max-w-5xl bg-card p-8">
+                <div className="mb-8 border-b-2 border-border pb-6">
+                    <div className="flex items-start justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                            <div className="text-sm text-muted-foreground space-y-0.5">
+                            <h1 className="mb-2 text-3xl font-bold text-foreground">
+                                {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                            </h1>
+                            <div className="space-y-0.5 text-sm text-muted-foreground">
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
-                                {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                                {(getCompanySetting('company_city') ||
+                                    getCompanySetting('company_state') ||
+                                    getCompanySetting('company_zipcode')) && (
                                     <p>
-                                        {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                        {getCompanySetting('company_city')}
+                                        {getCompanySetting('company_state') &&
+                                            `, ${getCompanySetting('company_state')}`}{' '}
+                                        {getCompanySetting('company_zipcode')}
                                     </p>
                                 )}
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
                         <div className="text-right">
-                            <h2 className="text-2xl font-bold text-foreground mb-3">{t('ACCOUNT BALANCE SUMMARY')}</h2>
-                            <p className="text-sm text-muted-foreground">{t('As of')}: {formatDate(filters.as_of_date)}</p>
+                            <h2 className="mb-3 text-2xl font-bold text-foreground">{t('ACCOUNT BALANCE SUMMARY')}</h2>
+                            <p className="text-sm text-muted-foreground">
+                                {t('As of')}: {formatDate(filters.as_of_date)}
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 {Object.entries(data.grouped)?.map(([type, group]) => (
-                    <div key={type} className="mb-6 page-break-inside-avoid">
-                        <h3 className="text-base font-bold border-b-2 border-border pb-1 mb-2">{t(type)}</h3>
-                        <table className="w-full border-collapse mb-4 page-break-inside-avoid">
+                    <div key={type} className="page-break-inside-avoid mb-6">
+                        <h3 className="mb-2 border-b-2 border-border pb-1 text-base font-bold">{t(type)}</h3>
+                        <table className="page-break-inside-avoid mb-4 w-full border-collapse">
                             <thead>
                                 <tr className="border-b-2 border-black">
-                                    <th className="text-left py-2 px-2 text-sm font-semibold w-24">{t('Account Code')}</th>
-                                    <th className="text-left py-2 px-2 text-sm font-semibold">{t('Account Name')}</th>
-                                    <th className="text-right py-2 px-2 text-sm font-semibold w-28">{t('Debit')}</th>
-                                    <th className="text-right py-2 px-2 text-sm font-semibold w-28">{t('Credit')}</th>
-                                    <th className="text-right py-2 px-2 text-sm font-semibold w-32">{t('Net Balance')}</th>
+                                    <th className="w-24 px-2 py-2 text-left text-sm font-semibold">
+                                        {t('Account Code')}
+                                    </th>
+                                    <th className="px-2 py-2 text-left text-sm font-semibold">{t('Account Name')}</th>
+                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Debit')}</th>
+                                    <th className="w-28 px-2 py-2 text-right text-sm font-semibold">{t('Credit')}</th>
+                                    <th className="w-32 px-2 py-2 text-right text-sm font-semibold">
+                                        {t('Net Balance')}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {group.accounts?.map((account, idx) => (
                                     <tr key={idx} className="border-b border-border">
-                                        <td className="py-2 px-2 text-sm">{account.account_code}</td>
-                                        <td className="py-2 px-2 text-sm break-words">{account.account_name}</td>
-                                        <td className="py-2 px-2 text-sm text-right tabular-nums">
+                                        <td className="px-2 py-2 text-sm">{account.account_code}</td>
+                                        <td className="break-words px-2 py-2 text-sm">{account.account_name}</td>
+                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
                                             {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                         </td>
-                                        <td className="py-2 px-2 text-sm text-right tabular-nums">
+                                        <td className="px-2 py-2 text-right text-sm tabular-nums">
                                             {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                         </td>
-                                        <td className="py-2 px-2 text-sm text-right font-medium tabular-nums">
+                                        <td className="px-2 py-2 text-right text-sm font-medium tabular-nums">
                                             {formatCurrency(account.net_balance)}
                                         </td>
                                     </tr>
                                 ))}
                                 <tr className="border-t-2 border-border">
-                                    <td colSpan={2} className="py-2 px-2 text-sm font-bold">{t('Subtotal')} - {t(type)}</td>
-                                    <td className="py-2 px-2 text-sm text-right font-bold tabular-nums">{formatCurrency(group.subtotal_debit)}</td>
-                                    <td className="py-2 px-2 text-sm text-right font-bold tabular-nums">{formatCurrency(group.subtotal_credit)}</td>
-                                    <td className="py-2 px-2 text-sm text-right font-bold tabular-nums">{formatCurrency(group.subtotal_net)}</td>
+                                    <td colSpan={2} className="px-2 py-2 text-sm font-bold">
+                                        {t('Subtotal')} - {t(type)}
+                                    </td>
+                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                        {formatCurrency(group.subtotal_debit)}
+                                    </td>
+                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                        {formatCurrency(group.subtotal_credit)}
+                                    </td>
+                                    <td className="px-2 py-2 text-right text-sm font-bold tabular-nums">
+                                        {formatCurrency(group.subtotal_net)}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -152,16 +176,26 @@ export default function Print() {
                 <table className="w-full border-collapse border-t-4 border-black">
                     <tbody>
                         <tr className="font-bold">
-                            <td colSpan={2} className="py-3 px-2 text-sm">{t('GRAND TOTAL')}</td>
-                            <td className="py-3 px-2 text-sm text-right tabular-nums w-28">{formatCurrency(data.totals.debit)}</td>
-                            <td className="py-3 px-2 text-sm text-right tabular-nums w-28">{formatCurrency(data.totals.credit)}</td>
-                            <td className="py-3 px-2 text-sm text-right tabular-nums w-32">{formatCurrency(data.totals.net)}</td>
+                            <td colSpan={2} className="px-2 py-3 text-sm">
+                                {t('GRAND TOTAL')}
+                            </td>
+                            <td className="w-28 px-2 py-3 text-right text-sm tabular-nums">
+                                {formatCurrency(data.totals.debit)}
+                            </td>
+                            <td className="w-28 px-2 py-3 text-right text-sm tabular-nums">
+                                {formatCurrency(data.totals.credit)}
+                            </td>
+                            <td className="w-32 px-2 py-3 text-right text-sm tabular-nums">
+                                {formatCurrency(data.totals.net)}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
-                    <p>{t('Generated on')} {formatDate(new Date().toISOString())}</p>
+                <div className="mt-8 border-t pt-4 text-center text-xs text-muted-foreground">
+                    <p>
+                        {t('Generated on')} {formatDate(new Date().toISOString())}
+                    </p>
                 </div>
             </div>
 

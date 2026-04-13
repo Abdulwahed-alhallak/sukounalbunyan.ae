@@ -1,17 +1,28 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    PieChart,
+    Pie,
+    Cell,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+} from 'recharts';
 import { Calendar } from 'lucide-react';
 import { formatDate } from '@/utils/helpers';
-import { DatePicker } from "@/components/ui/date-picker";
+import { DatePicker } from '@/components/ui/date-picker';
 
 interface DealReportsProps {
     weeklyDealConversions: any[];
@@ -24,8 +35,9 @@ interface DealReportsProps {
 
 export default function DealReports() {
     const { t } = useTranslation();
-    const { weeklyDealConversions, dealSourcesConversion, monthlyDeals, staffDeals, clientDeals, pipelineDeals } = usePage<DealReportsProps>().props;
-    
+    const { weeklyDealConversions, dealSourcesConversion, monthlyDeals, staffDeals, clientDeals, pipelineDeals } =
+        usePage<DealReportsProps>().props;
+
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [fromDate, setFromDate] = useState(new URLSearchParams(window.location.search).get('from_date') || '');
     const [toDate, setToDate] = useState(new URLSearchParams(window.location.search).get('to_date') || '');
@@ -51,15 +63,15 @@ export default function DealReports() {
         { value: 9, label: t('September') },
         { value: 10, label: t('October') },
         { value: 11, label: t('November') },
-        { value: 12, label: t('December') }
+        { value: 12, label: t('December') },
     ];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('CRM'), url: route('lead.index')},
-                {label: t('Reports')},
-                {label: t('Deal Reports')}
+                { label: t('CRM'), url: route('lead.index') },
+                { label: t('Reports') },
+                { label: t('Deal Reports') },
             ]}
             pageTitle={t('Deal Reports')}
         >
@@ -74,7 +86,7 @@ export default function DealReports() {
                 </TabsList>
 
                 <TabsContent value="general" className="space-y-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle>{t('This Week Deal Status')}</CardTitle>
@@ -87,7 +99,7 @@ export default function DealReports() {
                                             cx="50%"
                                             cy="50%"
                                             labelLine={false}
-                                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                                             outerRadius={80}
                                             fill="#8884d8"
                                             dataKey="value"
@@ -139,11 +151,23 @@ export default function DealReports() {
                         </CardHeader>
                         <CardContent>
                             <ResponsiveContainer width="100%" height={400}>
-                                <BarChart data={selectedMonth === 'all' ? monthlyDeals : 
-                                    [{
-                                        name: months.find(m => m.value.toString() === selectedMonth)?.label + ' 2024',
-                                        deals: monthlyDeals?.find(item => item.month === parseInt(selectedMonth))?.deals || 0
-                                    }]}>
+                                <BarChart
+                                    data={
+                                        selectedMonth === 'all'
+                                            ? monthlyDeals
+                                            : [
+                                                  {
+                                                      name:
+                                                          months.find((m) => m.value.toString() === selectedMonth)
+                                                              ?.label + ' 2024',
+                                                      deals:
+                                                          monthlyDeals?.find(
+                                                              (item) => item.month === parseInt(selectedMonth)
+                                                          )?.deals || 0,
+                                                  },
+                                              ]
+                                    }
+                                >
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="name" />
                                     <YAxis />
@@ -159,43 +183,51 @@ export default function DealReports() {
                     <Card>
                         <CardHeader>
                             <div className="flex flex-wrap items-end gap-4">
-                                <div className="flex-1 min-w-[200px]">
-                                    <Label htmlFor="from-date" className="text-sm font-medium">{t('From Date')}</Label>
+                                <div className="min-w-[200px] flex-1">
+                                    <Label htmlFor="from-date" className="text-sm font-medium">
+                                        {t('From Date')}
+                                    </Label>
                                     <DatePicker
                                         value={fromDate}
                                         onChange={(value) => setFromDate(value)}
                                         placeholder={t('Select from date')}
                                     />
                                 </div>
-                                <div className="flex-1 min-w-[200px]">
-                                    <Label htmlFor="to-date" className="text-sm font-medium">{t('To Date')}</Label>
+                                <div className="min-w-[200px] flex-1">
+                                    <Label htmlFor="to-date" className="text-sm font-medium">
+                                        {t('To Date')}
+                                    </Label>
                                     <DatePicker
                                         value={toDate}
                                         onChange={(value) => setToDate(value)}
                                         placeholder={t('Select to date')}
                                     />
                                 </div>
-                                <Button 
+                                <Button
                                     onClick={() => {
                                         if (fromDate && toDate) {
-                                            router.get(route('lead.reports.deals'), {
-                                                from_date: fromDate,
-                                                to_date: toDate
-                                            }, {
-                                                preserveState: true,
-                                                preserveScroll: true,
-                                                only: ['staffDeals'],
-                                                onSuccess: (page) => {
-                                                    setFilteredStaffDeals(page.props.staffDeals);
+                                            router.get(
+                                                route('lead.reports.deals'),
+                                                {
+                                                    from_date: fromDate,
+                                                    to_date: toDate,
+                                                },
+                                                {
+                                                    preserveState: true,
+                                                    preserveScroll: true,
+                                                    only: ['staffDeals'],
+                                                    onSuccess: (page) => {
+                                                        setFilteredStaffDeals(page.props.staffDeals);
+                                                    },
                                                 }
-                                            });
+                                            );
                                         } else {
                                             alert('Please select both from and to dates');
                                         }
                                     }}
                                     className="px-6"
                                 >
-                                    <Calendar className="h-4 w-4 mr-2" />
+                                    <Calendar className="mr-2 h-4 w-4" />
                                     {t('Generate')}
                                 </Button>
                             </div>
@@ -216,7 +248,7 @@ export default function DealReports() {
 
                 <TabsContent value="client" className="space-y-6">
                     <Card>
-                    <CardHeader>
+                        <CardHeader>
                             <CardTitle>{t('Clients')}</CardTitle>
                         </CardHeader>
                         <CardContent>

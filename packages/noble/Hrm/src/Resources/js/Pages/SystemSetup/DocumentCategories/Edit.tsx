@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,7 @@ export default function Edit({ documentcategory, onSuccess }: EditDocumentCatego
         put(route('hrm.document-categories.update', documentcategory.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -43,14 +43,16 @@ export default function Edit({ documentcategory, onSuccess }: EditDocumentCatego
                     />
                     <InputError message={errors.document_type} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="status"
                         checked={data.status || false}
                         onCheckedChange={(checked) => setData('status', !!checked)}
                     />
-                    <Label htmlFor="status" className="cursor-pointer">{t('Enable/Disable')}</Label>
+                    <Label htmlFor="status" className="cursor-pointer">
+                        {t('Enable/Disable')}
+                    </Label>
                     <InputError message={errors.status} />
                 </div>
 

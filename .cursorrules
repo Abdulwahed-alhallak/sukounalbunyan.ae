@@ -22,10 +22,11 @@ You are expected to write code at an elite Full-Stack architecture level. Predic
 
 ## 3. High-End UI/UX & Theming (Dark Mode Mastery)
 The UI must radiate a **premium, futuristic, and highly polished aesthetic** suitable for high-end Creative Agencies (Dion Creative) and prestigious clients (Noble Architecture).
-- **Dark Mode Default Strategy:** Approach all component designs with `dark:` classes first, or utilize CSS variables. It must feel like a "Mission Command" center (Glassmorphism, deep Slate/Zinc backgrounds, glowing Amber/Cyan accents for critical actions).
-- **Micro-interactions:** Integrate Lucide-React icons seamlessly. Use `framer-motion` or Tailwind `animate-` utilities extensively for smooth transitions (Drawers, Modals, Dropdowns).
-- **Responsive Architecture:** Never output fixed widths. Everything must scale perfectly to mobile viewing.
-- **Visual Validation:** If the design looks "functional but boring," you have failed. Add subtle borders, glowing active states, gradient texts for headers, and sophisticated blur-backdrops.
+- **CRITICAL LAW**: You MUST read `NOBLE_BRAND_GUIDELINES.md` and strictly adhere to its commandments before writing any UI or React component.
+- **Color Discipline**: NEVER use raw Tailwind colors (`text-red-500`, `bg-blue-600`). Exclusively use predefined CSS variables (`text-destructive`, `bg-primary`).
+- **Dark Mode Default Strategy**: Approach all component designs with `dark:` classes first, or utilize CSS variables. It must feel like a "Mission Command" center.
+- **RTL Enforcement**: Never use physical margin/padding (like `ml-4`). You must exclusively use logical properties (`ms-4`, `pe-2`).
+- **Visual Validation**: If the design looks "functional but boring," you have failed. Utilize `.vercel-card` and `.premium-card` structures.
 
 ## 4. Multi-Tenancy & Authorization Rules
 - **SuperAdmin (`superadmin@dion.sy`)**: Has absolute God-mode over the application and exclusive viewing rights to the `Mission Command` UI.

@@ -47,11 +47,14 @@ export default function Print() {
                 filename: `trial-balance-${formatDate(trialBalance.from_date)}-to-${formatDate(trialBalance.to_date)}.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -66,37 +69,54 @@ export default function Print() {
             <Head title={t('Trial Balance')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="trial-balance-container bg-card max-w-4xl mx-auto p-12">
+            <div className="trial-balance-container mx-auto max-w-4xl bg-card p-12">
                 {/* Header */}
-                <div className="flex justify-between items-start mb-12">
+                <div className="mb-12 flex items-start justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold mb-4">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                        <div className="text-sm space-y-1">
+                        <h1 className="mb-4 text-2xl font-bold">
+                            {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                        </h1>
+                        <div className="space-y-1 text-sm">
                             {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
-                            {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                            {(getCompanySetting('company_city') ||
+                                getCompanySetting('company_state') ||
+                                getCompanySetting('company_zipcode')) && (
                                 <p>
-                                    {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                    {getCompanySetting('company_city')}
+                                    {getCompanySetting('company_state') &&
+                                        `, ${getCompanySetting('company_state')}`}{' '}
+                                    {getCompanySetting('company_zipcode')}
                                 </p>
                             )}
                             {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
-                            {getCompanySetting('company_telephone') && <p>{t('Phone')}: {getCompanySetting('company_telephone')}</p>}
-                            {getCompanySetting('company_email') && <p>{t('Email')}: {getCompanySetting('company_email')}</p>}
+                            {getCompanySetting('company_telephone') && (
+                                <p>
+                                    {t('Phone')}: {getCompanySetting('company_telephone')}
+                                </p>
+                            )}
+                            {getCompanySetting('company_email') && (
+                                <p>
+                                    {t('Email')}: {getCompanySetting('company_email')}
+                                </p>
+                            )}
                         </div>
                     </div>
                     <div className="text-right">
-                        <h2 className="text-2xl font-bold mb-2">{t('TRIAL BALANCE')}</h2>
-                        <div className="text-sm space-y-1">
-                            <p>{t('Period')}: {formatDate(trialBalance.from_date)} - {formatDate(trialBalance.to_date)}</p>
+                        <h2 className="mb-2 text-2xl font-bold">{t('TRIAL BALANCE')}</h2>
+                        <div className="space-y-1 text-sm">
+                            <p>
+                                {t('Period')}: {formatDate(trialBalance.from_date)} - {formatDate(trialBalance.to_date)}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -106,10 +126,10 @@ export default function Print() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b-2 border-border">
-                                <th className="text-left py-2 text-sm font-bold">{t('Account Code')}</th>
-                                <th className="text-left py-2 text-sm font-bold">{t('Account Name')}</th>
-                                <th className="text-right py-2 text-sm font-bold">{t('Debit')}</th>
-                                <th className="text-right py-2 text-sm font-bold">{t('Credit')}</th>
+                                <th className="py-2 text-left text-sm font-bold">{t('Account Code')}</th>
+                                <th className="py-2 text-left text-sm font-bold">{t('Account Name')}</th>
+                                <th className="py-2 text-right text-sm font-bold">{t('Debit')}</th>
+                                <th className="py-2 text-right text-sm font-bold">{t('Credit')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,10 +137,10 @@ export default function Print() {
                                 <tr key={account.id} className="border-b border-border">
                                     <td className="py-1.5 text-sm">{account.account_code}</td>
                                     <td className="py-1.5 text-sm">{account.account_name}</td>
-                                    <td className="py-1.5 text-sm text-right tabular-nums">
+                                    <td className="py-1.5 text-right text-sm tabular-nums">
                                         {account.debit > 0 ? formatCurrency(account.debit) : '-'}
                                     </td>
-                                    <td className="py-1.5 text-sm text-right tabular-nums">
+                                    <td className="py-1.5 text-right text-sm tabular-nums">
                                         {account.credit > 0 ? formatCurrency(account.credit) : '-'}
                                     </td>
                                 </tr>
@@ -128,17 +148,25 @@ export default function Print() {
                         </tbody>
                         <tfoot>
                             <tr className="border-t-2 border-border">
-                                <td colSpan={2} className="py-2 text-sm font-bold">{t('TOTAL')}</td>
-                                <td className="py-2 text-sm text-right font-bold tabular-nums">{formatCurrency(trialBalance.total_debit)}</td>
-                                <td className="py-2 text-sm text-right font-bold tabular-nums">{formatCurrency(trialBalance.total_credit)}</td>
+                                <td colSpan={2} className="py-2 text-sm font-bold">
+                                    {t('TOTAL')}
+                                </td>
+                                <td className="py-2 text-right text-sm font-bold tabular-nums">
+                                    {formatCurrency(trialBalance.total_debit)}
+                                </td>
+                                <td className="py-2 text-right text-sm font-bold tabular-nums">
+                                    {formatCurrency(trialBalance.total_credit)}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
 
                 {/* Footer */}
-                <div className="mt-12 pt-6 border-t text-center text-sm text-muted-foreground">
-                    <p>{t('Generated on')} {formatDate(new Date().toISOString())}</p>
+                <div className="mt-12 border-t pt-6 text-center text-sm text-muted-foreground">
+                    <p>
+                        {t('Generated on')} {formatDate(new Date().toISOString())}
+                    </p>
                 </div>
             </div>
 

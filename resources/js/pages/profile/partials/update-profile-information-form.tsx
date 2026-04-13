@@ -1,20 +1,20 @@
-import { Link, useForm, usePage } from "@inertiajs/react";
-import { Transition } from "@headlessui/react";
-import { FormEventHandler } from "react";
-import { PageProps } from "@/types";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { InputError } from "@/components/ui/input-error";
-import { Button } from "@/components/ui/button";
-import MediaPicker from "@/components/MediaPicker";
-import { useTranslation } from "react-i18next";
-import { getImagePath } from "@/utils/helpers";
-import { PhoneInputComponent } from "@/components/ui/phone-input";
+import { Link, useForm, usePage } from '@inertiajs/react';
+import { Transition } from '@headlessui/react';
+import { FormEventHandler } from 'react';
+import { PageProps } from '@/types';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { InputError } from '@/components/ui/input-error';
+import { Button } from '@/components/ui/button';
+import MediaPicker from '@/components/MediaPicker';
+import { useTranslation } from 'react-i18next';
+import { getImagePath } from '@/utils/helpers';
+import { PhoneInputComponent } from '@/components/ui/phone-input';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
-    className = "",
+    className = '',
 }: {
     mustVerifyEmail: boolean;
     status?: string;
@@ -24,19 +24,18 @@ export default function UpdateProfileInformation({
     const user = auth.user;
 
     const { t } = useTranslation();
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            name: user.name,
-            email: user.email,
-            mobile_no: (user as any).mobile_no || '',
-            avatar: (user as any).avatar || '',
-            slug: (user as any).slug || '',
-        });
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        name: user.name,
+        email: user.email,
+        mobile_no: (user as any).mobile_no || '',
+        avatar: (user as any).avatar || '',
+        slug: (user as any).slug || '',
+    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        patch(route('profile.update'));
     };
 
     return (
@@ -44,18 +43,22 @@ export default function UpdateProfileInformation({
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
                     <Label>{t('Avatar')}</Label>
-                    <div className="flex gap-6 items-center mt-3">
-                        <div className="w-24 h-24 rounded-lg border-2 border-border overflow-hidden bg-muted/50 flex items-center justify-center">
+                    <div className="mt-3 flex items-center gap-6">
+                        <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-lg border-2 border-border bg-muted/50">
                             {data.avatar ? (
                                 <img
                                     src={getImagePath(data.avatar)}
                                     alt="Avatar Preview"
-                                    className="w-full h-full object-cover"
+                                    className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <div className="text-muted-foreground text-center">
-                                    <svg className="w-8 h-8 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                <div className="text-center text-muted-foreground">
+                                    <svg className="mx-auto mb-1 h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clipRule="evenodd"
+                                        />
                                     </svg>
                                     <span className="text-xs">{t('No Image')}</span>
                                 </div>
@@ -68,7 +71,9 @@ export default function UpdateProfileInformation({
                                 placeholder={t('Select avatar image...')}
                                 showPreview={false}
                             />
-                            <p className="text-sm text-muted-foreground mt-1">{t('Upload a profile picture. Recommended size: 200x200px')}</p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                {t('Upload a profile picture. Recommended size: 200x200px')}
+                            </p>
                         </div>
                     </div>
                     <InputError className="mt-2" message={errors.avatar} />
@@ -81,7 +86,7 @@ export default function UpdateProfileInformation({
                         id="name"
                         className="mt-1 block w-full"
                         value={data.name}
-                        onChange={(e) => setData("name", e.target.value)}
+                        onChange={(e) => setData('name', e.target.value)}
                         placeholder={t('Enter your full name')}
                         required
                         autoComplete="name"
@@ -98,7 +103,7 @@ export default function UpdateProfileInformation({
                         type="email"
                         className="mt-1 block w-full"
                         value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
+                        onChange={(e) => setData('email', e.target.value)}
                         placeholder={t('Enter your email address')}
                         required
                         autoComplete="username"
@@ -118,38 +123,38 @@ export default function UpdateProfileInformation({
                 </div>
 
                 {user?.type === 'company' && (
-                <div>
-                    <Label htmlFor="slug">{t('URL Slug')}</Label>
+                    <div>
+                        <Label htmlFor="slug">{t('URL Slug')}</Label>
 
-                    <Input
-                        id="slug"
-                        className="mt-1 block w-full"
-                        value={data.slug}
-                        onChange={(e) => setData("slug", e.target.value)}
-                        placeholder={t('Enter custom URL slug (e.g., my-business)')}
-                        autoComplete="off"
-                    />
+                        <Input
+                            id="slug"
+                            className="mt-1 block w-full"
+                            value={data.slug}
+                            onChange={(e) => setData('slug', e.target.value)}
+                            placeholder={t('Enter custom URL slug (e.g., my-business)')}
+                            autoComplete="off"
+                        />
 
-                    <InputError className="mt-2" message={errors.slug} />
-                </div>
+                        <InputError className="mt-2" message={errors.slug} />
+                    </div>
                 )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
-                        <p className="text-sm mt-2 text-foreground">
+                        <p className="mt-2 text-sm text-foreground">
                             {t('Your email address is unverified.')}
                             <Link
-                                href={route("verification.send")}
+                                href={route('verification.send')}
                                 method="post"
                                 as="button"
-                                className="underline text-sm text-muted-foreground hover:text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+                                className="rounded-md text-sm text-muted-foreground underline hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             >
                                 {t('Click here to re-send the verification email.')}
                             </Link>
                         </p>
 
-                        {status === "verification-link-sent" && (
-                            <div className="mt-2 font-medium text-sm text-foreground">
+                        {status === 'verification-link-sent' && (
+                            <div className="mt-2 text-sm font-medium text-foreground">
                                 {t('A new verification link has been sent to your email address.')}
                             </div>
                         )}

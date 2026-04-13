@@ -10,15 +10,15 @@ const getCountryFlag = (countryCode: string): string => {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
-        .map(char => 127397 + char.charCodeAt(0));
+        .map((char) => 127397 + char.charCodeAt(0));
     return String.fromCodePoint(...codePoints);
 };
 
 const languages = languagesData
-    .filter(lang => lang.enabled !== false)
-    .map(lang => ({
+    .filter((lang) => lang.enabled !== false)
+    .map((lang) => ({
         ...lang,
-        flag: getCountryFlag(lang.countryCode)
+        flag: getCountryFlag(lang.countryCode),
     }));
 
 export function LanguageSwitcher() {
@@ -28,9 +28,7 @@ export function LanguageSwitcher() {
     const [showCreateModal, setShowCreateModal] = useState(false);
 
     // Check if user is superadmin
-    const isSuperAdmin = auth?.user?.roles?.some((role: any) =>
-        role.name === 'superadmin' || role === 'superadmin'
-    );
+    const isSuperAdmin = auth?.user?.roles?.some((role: any) => role.name === 'superadmin' || role === 'superadmin');
 
     useEffect(() => {
         const lang = i18n.language || 'en';
@@ -55,12 +53,12 @@ export function LanguageSwitcher() {
         i18n.changeLanguage(languageCode);
     };
 
-    const currentLang = languages.find(lang => lang.code === currentLanguage) || languages[0];
+    const currentLang = languages.find((lang) => lang.code === currentLanguage) || languages[0];
 
     return (
         <>
             <Select value={currentLanguage} onValueChange={handleLanguageChange}>
-                <SelectTrigger className="w-auto border dark:border-border shadow-sm bg-card dark:bg-card hover:bg-muted/50 [&>svg]:hidden">
+                <SelectTrigger className="w-auto border bg-card shadow-sm hover:bg-muted/50 dark:border-border dark:bg-card [&>svg]:hidden">
                     <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4" />
                         <span className="text-sm">{currentLang.name}</span>
@@ -78,7 +76,7 @@ export function LanguageSwitcher() {
                     ))}
                     {isSuperAdmin && (
                         <>
-                            <div className="border-t my-1" />
+                            <div className="my-1 border-t" />
                             <SelectItem value="create_language">
                                 <div className="flex items-center gap-2">
                                     <Plus className="h-4 w-4" />

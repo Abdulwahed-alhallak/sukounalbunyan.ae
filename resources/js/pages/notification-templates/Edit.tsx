@@ -40,23 +40,24 @@ const getCountryFlag = (countryCode: string): string => {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
-        .map(char => 127397 + char.charCodeAt(0));
+        .map((char) => 127397 + char.charCodeAt(0));
     return String.fromCodePoint(...codePoints);
 };
 
 const availableLanguages = languagesData
-    .filter(lang => lang.enabled !== false)
-    .map(lang => ({
+    .filter((lang) => lang.enabled !== false)
+    .map((lang) => ({
         ...lang,
-        flag: getCountryFlag(lang.countryCode)
+        flag: getCountryFlag(lang.countryCode),
     }));
 
 export default function Edit() {
     const { notificationTemplate, templateLangs, currNotificationTempLang, variables } = usePage<Props>().props;
     const { t } = useTranslation();
     const urlParams = new URLSearchParams(window.location.search);
-    const [activeLanguage, setActiveLanguage] = useState(urlParams.get('lang') || currNotificationTempLang?.lang || 'en');
-
+    const [activeLanguage, setActiveLanguage] = useState(
+        urlParams.get('lang') || currNotificationTempLang?.lang || 'en'
+    );
 
     const templateForm = useForm({
         status: notificationTemplate.status || 'active',
@@ -77,15 +78,15 @@ export default function Edit() {
         contentForm.put(route('notification-templates.update', notificationTemplate.id), {
             onSuccess: () => {
                 router.get(route('notification-templates.edit', notificationTemplate.id), { lang: activeLanguage });
-            }
+            },
         });
     };
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Notification Templates'), url: route('notification-templates.index')},
-                {label: t('Edit Notification Template')}
+                { label: t('Notification Templates'), url: route('notification-templates.index') },
+                { label: t('Edit Notification Template') },
             ]}
             pageTitle={`${t('Edit Notification Template')} : ${notificationTemplate.action}`}
         >
@@ -101,22 +102,24 @@ export default function Edit() {
                             <div className="grid grid-cols-1 gap-3 text-sm">
                                 {Object.entries(variables || {}).map(([key, value]) => (
                                     <div key={key}>
-                                        <p>{key}: <span className="text-foreground font-mono">{`{${value}}`}</span></p>
+                                        <p>
+                                            {key}: <span className="font-mono text-foreground">{`{${value}}`}</span>
+                                        </p>
                                     </div>
                                 ))}
                             </div>
                         </CardContent>
                     </Card>
-
-
                 </div>
 
                 <div className="col-span-8 space-y-6">
                     <Card>
-                        <CardHeader className="p-3 flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg flex items-center gap-2">
-                                <span className="text-lg">{availableLanguages.find(l => l.code === activeLanguage)?.flag}</span>
-                                {t('Content for')} {availableLanguages.find(l => l.code === activeLanguage)?.name}
+                        <CardHeader className="flex flex-row items-center justify-between p-3">
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                                <span className="text-lg">
+                                    {availableLanguages.find((l) => l.code === activeLanguage)?.flag}
+                                </span>
+                                {t('Content for')} {availableLanguages.find((l) => l.code === activeLanguage)?.name}
                             </CardTitle>
                             <div className="flex items-center gap-2">
                                 <Select value={activeLanguage} onValueChange={handleLanguageChange}>
@@ -136,15 +139,16 @@ export default function Edit() {
                                 </Select>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-0">
-                        </CardContent>
+                        <CardContent className="p-0"></CardContent>
                     </Card>
 
                     <Card>
                         <CardContent className="space-y-6 p-3">
                             <form onSubmit={handleContentSubmit} className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="subject" className="text-sm font-medium">{t('Subject')}</Label>
+                                    <Label htmlFor="subject" className="text-sm font-medium">
+                                        {t('Subject')}
+                                    </Label>
                                     <Input
                                         id="subject"
                                         value={contentForm.data.subject}
@@ -155,7 +159,9 @@ export default function Edit() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="content" className="text-sm font-medium">{t('Notification Message')}</Label>
+                                    <Label htmlFor="content" className="text-sm font-medium">
+                                        {t('Notification Message')}
+                                    </Label>
                                     <Textarea
                                         id="content"
                                         value={contentForm.data.content || ''}
@@ -167,7 +173,7 @@ export default function Edit() {
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={contentForm.processing} className="min-w-24">
-                                         <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {contentForm.processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>

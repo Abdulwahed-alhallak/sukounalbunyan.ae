@@ -19,270 +19,282 @@ import ImportDialog from './ImportDialog';
 import { formatDateTime } from '@/utils/helpers';
 
 interface FAQ {
-  id: number;
-  title: string;
-  description: string;
-  created_at: string;
+    id: number;
+    title: string;
+    description: string;
+    created_at: string;
 }
 
 interface Props {
-  faqs: {
-    data: FAQ[];
-    links: any;
-    meta: any;
-  };
+    faqs: {
+        data: FAQ[];
+        links: any;
+        meta: any;
+    };
 }
 
 export default function Index({ faqs }: Props) {
-  const { t } = useTranslation();
-  const urlParams = new URLSearchParams(window.location.search);
-  
-  const [filters, setFilters] = useState({
-    search: urlParams.get('search') || '',
-  });
-  
-  const [perPage, setPerPage] = useState(urlParams.get('per_page') || '15');
-  const [sortField, setSortField] = useState(urlParams.get('sort') || '');
-  const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-  
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
+    const { t } = useTranslation();
+    const urlParams = new URLSearchParams(window.location.search);
 
-
-  const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
-    routeName: 'support-ticket-faq.destroy',
-    defaultMessage: t('Are you sure you want to delete this FAQ?')
-  });
-
-  const handleCreateSuccess = () => {
-    setShowCreateModal(false);
-    router.reload();
-  };
-
-  const handleEditSuccess = () => {
-    setShowEditModal(false);
-    setEditingFaq(null);
-    router.reload();
-  };
-
-  const handleFilter = () => {
-    router.get(route('support-ticket-faq.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-      preserveState: true,
-      replace: true
+    const [filters, setFilters] = useState({
+        search: urlParams.get('search') || '',
     });
-  };
 
-  const handlePerPageChange = (newPerPage: string) => {
-    setPerPage(newPerPage);
-    router.get(route('support-ticket-faq.index'), {...filters, per_page: newPerPage, sort: sortField, direction: sortDirection}, {
-      preserveState: true,
-      replace: true
+    const [perPage, setPerPage] = useState(urlParams.get('per_page') || '15');
+    const [sortField, setSortField] = useState(urlParams.get('sort') || '');
+    const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
+
+    const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
+        routeName: 'support-ticket-faq.destroy',
+        defaultMessage: t('Are you sure you want to delete this FAQ?'),
     });
-  };
 
-  const handleSort = (field: string) => {
-    const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
-    setSortField(field);
-    setSortDirection(direction);
-    router.get(route('support-ticket-faq.index'), {...filters, per_page: perPage, sort: field, direction}, {
-      preserveState: true,
-      replace: true
-    });
-  };
+    const handleCreateSuccess = () => {
+        setShowCreateModal(false);
+        router.reload();
+    };
 
-  const openEditModal = (faq: FAQ) => {
-    setEditingFaq(faq);
-    setShowEditModal(true);
-  };
+    const handleEditSuccess = () => {
+        setShowEditModal(false);
+        setEditingFaq(null);
+        router.reload();
+    };
 
-  const tableColumns = [
-    {
-      key: 'title',
-      header: t('Title'),
-      sortable: true
-    },
-    {
-      key: 'description',
-      header: t('Description'),
-      render: (value: string) => {
-        const text = value?.replace(/<[^>]*>/g, '') || '';
-        return text.length > 100 ? text.substring(0, 100) + '...' : text;
-      }
-    },
-    {
-      key: 'created_at',
-      header: t('Created'),
-      sortable: true,
-      render: (value: string) => formatDateTime(value)
-    },
+    const handleFilter = () => {
+        router.get(
+            route('support-ticket-faq.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
 
-    {
-      key: 'actions',
-      header: t('Actions'),
-      render: (_: any, faq: FAQ) => (
-        <div className="flex gap-1">
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => openEditModal(faq)}
-                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('Edit')}</p>
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                  onClick={() => openDeleteDialog(faq.id)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('Delete')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )
-    }
-  ];
+    const handlePerPageChange = (newPerPage: string) => {
+        setPerPage(newPerPage);
+        router.get(
+            route('support-ticket-faq.index'),
+            { ...filters, per_page: newPerPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
 
-  return (
-    <AuthenticatedLayout
-      breadcrumbs={[
-        {label: t('Support Tickets'), url: route('dashboard.support-tickets')},
-        {label: t('FAQ')}
-      ]}
-      pageTitle={t('Manage FAQ')}
-      pageActions={
-        <div className="flex gap-2">
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" onClick={() => setShowImportModal(true)}>
-                  <Upload className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('Import')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button size="sm" onClick={() => setShowCreateModal(true)}>
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('Create')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      }
-    >
-      <Head title={t('FAQ')} />
-      
-      <Card className="shadow-sm">
-        <CardContent className="p-6 border-b bg-muted/50/50">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex-1 max-w-md">
-              <SearchInput
-                value={filters.search}
-                onChange={(value) => setFilters({...filters, search: value})}
-                onSearch={handleFilter}
-                placeholder={t('Search FAQ...')}
-              />
-            </div>
-            <div className="flex items-center gap-3">
-              <PerPageSelector
-                routeName="support-ticket-faq.index"
-                filters={filters}
-                currentPerPage={perPage}
-                onPerPageChange={handlePerPageChange}
-              />
-            </div>
-          </div>
-        </CardContent>
+    const handleSort = (field: string) => {
+        const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
+        setSortField(field);
+        setSortDirection(direction);
+        router.get(
+            route('support-ticket-faq.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
 
-        <CardContent className="p-0">
-          <div className="min-w-[800px]">
-            <DataTable
-                data={faqs.data}
-                columns={tableColumns}
-                onSort={handleSort}
-                sortKey={sortField}
-                sortDirection={sortDirection as 'asc' | 'desc'}
-                className="rounded-none"
-                emptyState={
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <div className="text-center">
-                      <h3 className="text-lg font-medium text-foreground mb-2">{t('No FAQ found')}</h3>
-                      <p className="text-muted-foreground mb-4">{t('Get started by creating your first FAQ.')}</p>
-                      <Button onClick={() => setShowCreateModal(true)}>
-                        <Plus className="h-4 w-4 mr-2" />
-                        {t('Create FAQ')}
-                      </Button>
+    const openEditModal = (faq: FAQ) => {
+        setEditingFaq(faq);
+        setShowEditModal(true);
+    };
+
+    const tableColumns = [
+        {
+            key: 'title',
+            header: t('Title'),
+            sortable: true,
+        },
+        {
+            key: 'description',
+            header: t('Description'),
+            render: (value: string) => {
+                const text = value?.replace(/<[^>]*>/g, '') || '';
+                return text.length > 100 ? text.substring(0, 100) + '...' : text;
+            },
+        },
+        {
+            key: 'created_at',
+            header: t('Created'),
+            sortable: true,
+            render: (value: string) => formatDateTime(value),
+        },
+
+        {
+            key: 'actions',
+            header: t('Actions'),
+            render: (_: any, faq: FAQ) => (
+                <div className="flex gap-1">
+                    <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => openEditModal(faq)}
+                                    className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                >
+                                    <Edit className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{t('Edit')}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                    onClick={() => openDeleteDialog(faq.id)}
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{t('Delete')}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </div>
+            ),
+        },
+    ];
+
+    return (
+        <AuthenticatedLayout
+            breadcrumbs={[
+                { label: t('Support Tickets'), url: route('dashboard.support-tickets') },
+                { label: t('FAQ') },
+            ]}
+            pageTitle={t('Manage FAQ')}
+            pageActions={
+                <div className="flex gap-2">
+                    <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <Button variant="outline" size="sm" onClick={() => setShowImportModal(true)}>
+                                    <Upload className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{t('Import')}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <Button size="sm" onClick={() => setShowCreateModal(true)}>
+                                    <Plus className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{t('Create')}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </div>
+            }
+        >
+            <Head title={t('FAQ')} />
+
+            <Card className="shadow-sm">
+                <CardContent className="bg-muted/50/50 border-b p-6">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="max-w-md flex-1">
+                            <SearchInput
+                                value={filters.search}
+                                onChange={(value) => setFilters({ ...filters, search: value })}
+                                onSearch={handleFilter}
+                                placeholder={t('Search FAQ...')}
+                            />
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <PerPageSelector
+                                routeName="support-ticket-faq.index"
+                                filters={filters}
+                                currentPerPage={perPage}
+                                onPerPageChange={handlePerPageChange}
+                            />
+                        </div>
                     </div>
-                  </div>
-                }
-              />
-          </div>
-        </CardContent>
+                </CardContent>
 
-        <CardContent className="px-4 py-2 border-t bg-muted/50/30">
-          <Pagination
-            data={faqs || { data: [], links: [], meta: {} }}
-            routeName="support-ticket-faq.index"
-            filters={{...filters, per_page: perPage}}
-          />
-        </CardContent>
-      </Card>
-      
-      <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
-        <Create onSuccess={handleCreateSuccess} />
-      </Dialog>
-      
-      <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
-        {editingFaq && (
-          <EditFAQ 
-            faq={editingFaq} 
-            onSuccess={handleEditSuccess} 
-          />
-        )}
-      </Dialog>
+                <CardContent className="p-0">
+                    <div className="min-w-[800px]">
+                        <DataTable
+                            data={faqs.data}
+                            columns={tableColumns}
+                            onSort={handleSort}
+                            sortKey={sortField}
+                            sortDirection={sortDirection as 'asc' | 'desc'}
+                            className="rounded-none"
+                            emptyState={
+                                <div className="flex flex-col items-center justify-center py-12">
+                                    <div className="text-center">
+                                        <h3 className="mb-2 text-lg font-medium text-foreground">
+                                            {t('No FAQ found')}
+                                        </h3>
+                                        <p className="mb-4 text-muted-foreground">
+                                            {t('Get started by creating your first FAQ.')}
+                                        </p>
+                                        <Button onClick={() => setShowCreateModal(true)}>
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            {t('Create FAQ')}
+                                        </Button>
+                                    </div>
+                                </div>
+                            }
+                        />
+                    </div>
+                </CardContent>
 
-      <Dialog open={showImportModal} onOpenChange={setShowImportModal}>
-        <ImportDialog onSuccess={() => {
-          setShowImportModal(false);
-          router.reload();
-        }} />
-      </Dialog>
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
+                    <Pagination
+                        data={faqs || { data: [], links: [], meta: {} }}
+                        routeName="support-ticket-faq.index"
+                        filters={{ ...filters, per_page: perPage }}
+                    />
+                </CardContent>
+            </Card>
 
-      <ConfirmationDialog
-        open={deleteState.isOpen}
-        onOpenChange={closeDeleteDialog}
-        title={t('Delete FAQ')}
-        message={deleteState.message}
-        confirmText={t('Delete')}
-        onConfirm={confirmDelete}
-        variant="destructive"
-      />
-    </AuthenticatedLayout>
-  );
+            <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+                <Create onSuccess={handleCreateSuccess} />
+            </Dialog>
+
+            <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
+                {editingFaq && <EditFAQ faq={editingFaq} onSuccess={handleEditSuccess} />}
+            </Dialog>
+
+            <Dialog open={showImportModal} onOpenChange={setShowImportModal}>
+                <ImportDialog
+                    onSuccess={() => {
+                        setShowImportModal(false);
+                        router.reload();
+                    }}
+                />
+            </Dialog>
+
+            <ConfirmationDialog
+                open={deleteState.isOpen}
+                onOpenChange={closeDeleteDialog}
+                title={t('Delete FAQ')}
+                message={deleteState.message}
+                confirmText={t('Delete')}
+                onConfirm={confirmDelete}
+                variant="destructive"
+            />
+        </AuthenticatedLayout>
+    );
 }

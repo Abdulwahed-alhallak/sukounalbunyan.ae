@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -37,8 +37,9 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
 
     useEffect(() => {
         if (data.candidate_id) {
-            axios.get(route('recruitment.candidates.interview-rounds', data.candidate_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.candidates.interview-rounds', data.candidate_id))
+                .then((response) => {
                     setFilteredRounds(response.data);
                 })
                 .catch(() => {
@@ -46,8 +47,9 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                 });
 
             // Check if candidate's job is remote work
-            axios.get(route('recruitment.candidates.job-location', data.candidate_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.candidates.job-location', data.candidate_id))
+                .then((response) => {
                     const isRemote = response.data.remote_work;
                     setIsRemoteWork(isRemote);
                     if (isRemote) {
@@ -69,7 +71,7 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
         put(route('recruitment.interviews.update', interview.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -80,8 +82,14 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="candidate_id" required>{t('Candidate')} </Label>
-                    <Select value={data.candidate_id?.toString() || ''} onValueChange={(value) => setData('candidate_id', value)} required>
+                    <Label htmlFor="candidate_id" required>
+                        {t('Candidate')}{' '}
+                    </Label>
+                    <Select
+                        value={data.candidate_id?.toString() || ''}
+                        onValueChange={(value) => setData('candidate_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Candidate')} />
                         </SelectTrigger>
@@ -95,20 +103,23 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                     </Select>
                     <InputError message={errors.candidate_id} />
                     {(!candidates || candidates.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create candidate here. ')}
                             <a
                                 href={route('recruitment.candidates.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('candidate')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <Label htmlFor="round_id" required>{t('Interview Round')} </Label>
+                    <Label htmlFor="round_id" required>
+                        {t('Interview Round')}{' '}
+                    </Label>
                     <Select
                         value={data.round_id?.toString() || ''}
                         onValueChange={(value) => setData('round_id', value)}
@@ -116,7 +127,11 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                         required
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.candidate_id ? t('Select Interview Round') : t('Select Candidate first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.candidate_id ? t('Select Interview Round') : t('Select Candidate first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {filteredRounds?.map((item: any) => (
@@ -128,21 +143,28 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                     </Select>
                     <InputError message={errors.round_id} />
                     {(!filteredRounds || filteredRounds.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create interview round here. ')}
                             <a
                                 href={route('recruitment.interview-rounds.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('interview round')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <Label htmlFor="interview_type_id" required>{t('Interview Type')} </Label>
-                    <Select value={data.interview_type_id?.toString() || ''} onValueChange={(value) => setData('interview_type_id', value)} required>
+                    <Label htmlFor="interview_type_id" required>
+                        {t('Interview Type')}{' '}
+                    </Label>
+                    <Select
+                        value={data.interview_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('interview_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Interview Type')} />
                         </SelectTrigger>
@@ -156,14 +178,15 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                     </Select>
                     <InputError message={errors.interview_type_id} />
                     {(!interviewtypes || interviewtypes.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create interview type here. ')}
                             <a
                                 href={route('recruitment.interview-types.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('interview type')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -229,7 +252,6 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                         value={data.meeting_link}
                         onChange={(e) => setData('meeting_link', e.target.value)}
                         placeholder={t('Enter Meeting Link')}
-
                     />
                     <InputError message={errors.meeting_link} />
                 </div>
@@ -237,10 +259,12 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                 <div>
                     <Label>{t('Interviewers')}</Label>
                     <MultiSelectEnhanced
-                        options={employees?.map((emp: any) => ({
-                            value: emp.id.toString(),
-                            label: emp.name
-                        })) || []}
+                        options={
+                            employees?.map((emp: any) => ({
+                                value: emp.id.toString(),
+                                label: emp.name,
+                            })) || []
+                        }
                         value={data.interviewer_ids}
                         onValueChange={(value) => setData('interviewer_ids', value)}
                         placeholder={t('Select Interviewers...')}
@@ -248,14 +272,15 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                     />
                     <InputError message={errors.interviewer_ids} />
                     {(!employees || employees.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Interviewers are users with staff role. Create user here. ')}
                             <a
                                 href={route('users.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('Create User')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -275,8 +300,6 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
                     </Select>
                     <InputError message={errors.status} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

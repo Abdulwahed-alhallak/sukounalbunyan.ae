@@ -31,7 +31,7 @@ export default function IncomeStatement({ financialYear }: any) {
         setLoading(true);
         try {
             const response = await axios.get(route('account.reports.income-statement'), {
-                params: { from_date: fromDate, to_date: toDate }
+                params: { from_date: fromDate, to_date: toDate },
             });
             setData(response.data);
         } catch (error) {
@@ -46,19 +46,22 @@ export default function IncomeStatement({ financialYear }: any) {
     }, []);
 
     const handleDownloadPDF = () => {
-        window.open(route('account.reports.income-statement.print') + `?from_date=${fromDate}&to_date=${toDate}&download=pdf`, '_blank');
+        window.open(
+            route('account.reports.income-statement.print') + `?from_date=${fromDate}&to_date=${toDate}&download=pdf`,
+            '_blank'
+        );
     };
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('From Date')}</label>
                         <DatePicker value={fromDate} onChange={setFromDate} placeholder={t('Select from date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
                         <DatePicker value={toDate} onChange={setToDate} placeholder={t('Select to date')} />
                     </div>
                     <div className="flex items-end gap-2">
@@ -78,14 +81,14 @@ export default function IncomeStatement({ financialYear }: any) {
             <CardContent className="p-0">
                 {data ? (
                     <>
-                        <div className="p-4 bg-muted/50 border-b">
-                            <h3 className="font-semibold text-lg">{t('Income Statement')}</h3>
+                        <div className="border-b bg-muted/50 p-4">
+                            <h3 className="text-lg font-semibold">{t('Income Statement')}</h3>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(data.from_date)} {t('to')} {formatDate(data.to_date)}
                             </p>
                         </div>
 
-                        <div className="overflow-y-auto max-h-[60vh]">
+                        <div className="max-h-[60vh] overflow-y-auto">
                             <table className="w-full">
                                 <tbody>
                                     <tr className="bg-muted/50">
@@ -98,7 +101,7 @@ export default function IncomeStatement({ financialYear }: any) {
                                             <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-muted font-semibold border-t-2">
+                                    <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Revenue')}</td>
                                         <td className="px-4 py-3 text-right">{formatCurrency(data.total_revenue)}</td>
                                     </tr>
@@ -113,14 +116,18 @@ export default function IncomeStatement({ financialYear }: any) {
                                             <td className="px-4 py-2 text-right">{formatCurrency(item.amount)}</td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-muted font-semibold border-t-2">
+                                    <tr className="border-t-2 bg-muted font-semibold">
                                         <td className="px-4 py-3">{t('Total Expenses')}</td>
                                         <td className="px-4 py-3 text-right">{formatCurrency(data.total_expenses)}</td>
                                     </tr>
 
-                                    <tr className={`font-bold border-t-4 ${data.net_income >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}>
+                                    <tr
+                                        className={`border-t-4 font-bold ${data.net_income >= 0 ? 'bg-muted/50' : 'bg-muted/50'}`}
+                                    >
                                         <td className="px-4 py-4 text-lg">{t('Net Income')}</td>
-                                        <td className="px-4 py-4 text-lg text-right">{formatCurrency(data.net_income)}</td>
+                                        <td className="px-4 py-4 text-right text-lg">
+                                            {formatCurrency(data.net_income)}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

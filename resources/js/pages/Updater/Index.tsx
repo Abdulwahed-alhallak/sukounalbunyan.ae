@@ -41,7 +41,7 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
     return (
         <>
             <Head title={t('System Updater')} />
-            <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="flex min-h-screen flex-col justify-center bg-background py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
                     <Card>
                         <CardHeader>
@@ -49,22 +49,24 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                         </CardHeader>
                         <CardContent>
                             {error && (
-                                <div className="mb-4 p-4 bg-muted border border-border rounded-md">
+                                <div className="mb-4 rounded-md border border-border bg-muted p-4">
                                     <p className="text-destructive">{error}</p>
                                 </div>
                             )}
 
                             {completed && (
-                                <div className="mb-4 p-4 bg-muted border border-border rounded-md">
+                                <div className="mb-4 rounded-md border border-border bg-muted p-4">
                                     <p className="text-foreground">{t('System updated successfully!')}</p>
-                                    <p className="text-sm text-muted-foreground mt-1">{t('Redirecting to dashboard...')}</p>
+                                    <p className="mt-1 text-sm text-muted-foreground">
+                                        {t('Redirecting to dashboard...')}
+                                    </p>
                                 </div>
                             )}
 
                             {!hasUpdates && !completed ? (
-                                <div className="text-center py-8">
-                                    <div className="text-foreground text-6xl mb-4">✓</div>
-                                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                                <div className="py-8 text-center">
+                                    <div className="mb-4 text-6xl text-foreground">✓</div>
+                                    <h3 className="mb-2 text-lg font-semibold text-foreground">
                                         {t('System is up to date')}
                                     </h3>
                                     <p className="text-muted-foreground">
@@ -74,20 +76,22 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                             ) : !completed ? (
                                 <>
                                     <div className="mb-6">
-                                        <h3 className="text-lg font-semibold text-foreground mb-3">
+                                        <h3 className="mb-3 text-lg font-semibold text-foreground">
                                             {t('Pending Updates')}
                                         </h3>
-                                        <p className="text-muted-foreground mb-4">
-                                            {t('The following database migrations are pending and need to be executed:')}
+                                        <p className="mb-4 text-muted-foreground">
+                                            {t(
+                                                'The following database migrations are pending and need to be executed:'
+                                            )}
                                         </p>
 
-                                        <div className="bg-muted border border-border rounded-md p-4">
-                                            <h4 className="font-medium text-foreground mb-2">
+                                        <div className="rounded-md border border-border bg-muted p-4">
+                                            <h4 className="mb-2 font-medium text-foreground">
                                                 {t('Migrations to run')} ({pendingMigrations.length}):
                                             </h4>
                                             <div className="max-h-40 overflow-y-auto">
                                                 {pendingMigrations.map((migration, index) => (
-                                                    <div key={index} className="text-sm text-muted-foreground py-1">
+                                                    <div key={index} className="py-1 text-sm text-muted-foreground">
                                                         • {migration}
                                                     </div>
                                                 ))}
@@ -95,11 +99,9 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                                         </div>
                                     </div>
 
-                                    <div className="bg-muted border border-border rounded-md p-4 mb-6">
-                                        <h4 className="font-semibold text-foreground mb-2">
-                                            {t('Important Notice')}:
-                                        </h4>
-                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                    <div className="mb-6 rounded-md border border-border bg-muted p-4">
+                                        <h4 className="mb-2 font-semibold text-foreground">{t('Important Notice')}:</h4>
+                                        <ul className="space-y-1 text-sm text-muted-foreground">
                                             <li>• {t('Please backup your database before proceeding')}</li>
                                             <li>• {t('The update process may take a few minutes')}</li>
                                             <li>• {t('Do not close this page during the update')}</li>
@@ -109,7 +111,6 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                             ) : null}
 
                             <div className="flex justify-between">
-
                                 {hasUpdates && !completed && (
                                     <Button
                                         onClick={runUpdate}
@@ -118,7 +119,7 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                                     >
                                         {updating ? (
                                             <>
-                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
                                                 {t('Updating...')}
                                             </>
                                         ) : (
@@ -130,7 +131,7 @@ export default function UpdaterIndex({ hasUpdates, pendingMigrations }: Props) {
                                 {completed && (
                                     <Link
                                         href={route('dashboard')}
-                                        className="py-2 px-4 border border-border rounded-md shadow-sm text-sm font-medium text-foreground bg-card hover:bg-accent"
+                                        className="rounded-md border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm hover:bg-accent"
                                     >
                                         {t('Continue to Dashboard')}
                                     </Link>

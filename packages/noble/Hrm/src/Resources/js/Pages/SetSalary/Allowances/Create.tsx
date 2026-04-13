@@ -1,13 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { useState } from 'react';
-
 
 interface AllowanceType {
     id: number;
@@ -27,10 +26,8 @@ export default function Create({ employeeId, allowanceTypes, onSuccess }: Create
         employee_id: employeeId,
         allowance_type_id: '',
         type: '',
-        amount: ''
+        amount: '',
     });
-
-
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,14 +38,15 @@ export default function Create({ employeeId, allowanceTypes, onSuccess }: Create
             },
             onError: () => {
                 // Keep modal open on validation errors
-            }
+            },
         });
     };
 
-    const allowanceTypeOptions = allowanceTypes?.map(type => ({
-        value: type.id.toString(),
-        label: type.name
-    })) || [];
+    const allowanceTypeOptions =
+        allowanceTypes?.map((type) => ({
+            value: type.id.toString(),
+            label: type.name,
+        })) || [];
 
     return (
         <DialogContent>
@@ -57,13 +55,19 @@ export default function Create({ employeeId, allowanceTypes, onSuccess }: Create
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="allowance_type_id" required>{t('Allowance Type')}</Label>
-                    <Select value={data.allowance_type_id} onValueChange={(value) => setData('allowance_type_id', value)} required>
+                    <Label htmlFor="allowance_type_id" required>
+                        {t('Allowance Type')}
+                    </Label>
+                    <Select
+                        value={data.allowance_type_id}
+                        onValueChange={(value) => setData('allowance_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select allowance type')} />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
-                            {allowanceTypeOptions?.map(option => (
+                            {allowanceTypeOptions?.map((option) => (
                                 <SelectItem key={option.value} value={option.value}>
                                     {option.label}
                                 </SelectItem>
@@ -74,7 +78,9 @@ export default function Create({ employeeId, allowanceTypes, onSuccess }: Create
                 </div>
 
                 <div>
-                    <Label htmlFor="type" required>{t('Type')}</Label>
+                    <Label htmlFor="type" required>
+                        {t('Type')}
+                    </Label>
                     <Select value={data.type} onValueChange={(value) => setData('type', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select type')} />
@@ -88,7 +94,9 @@ export default function Create({ employeeId, allowanceTypes, onSuccess }: Create
                 </div>
 
                 <div>
-                    <Label htmlFor="amount" required>{t('Amount')}</Label>
+                    <Label htmlFor="amount" required>
+                        {t('Amount')}
+                    </Label>
                     <Input
                         id="amount"
                         type="number"

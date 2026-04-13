@@ -34,33 +34,35 @@ export default function JobTerms({ job, userSlug, brandSettings }: JobTermsProps
         <FrontendLayout userSlug={userSlug} brandSettings={brandSettings}>
             <Head title={`Terms & Conditions - ${job.title}`} />
 
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-foreground mb-2">{t('Terms & Conditions')}</h1>
-                    <p className="text-muted-foreground">{t('For position')} : {job.title}</p>
+                    <h1 className="mb-2 text-3xl font-bold text-foreground">{t('Terms & Conditions')}</h1>
+                    <p className="text-muted-foreground">
+                        {t('For position')} : {job.title}
+                    </p>
                 </div>
 
                 <Card className="shadow-sm">
                     <CardContent className="p-8">
                         {job.terms_condition ? (
                             <div
-                                className="prose prose-lg max-w-none text-foreground leading-relaxed"
+                                className="prose prose-lg max-w-none leading-relaxed text-foreground"
                                 dangerouslySetInnerHTML={{ __html: job.terms_condition }}
                             />
                         ) : (
-                            <div className="text-center py-12">
-                                <p className="text-muted-foreground text-lg">{t('No terms and conditions specified for this position.')}</p>
+                            <div className="py-12 text-center">
+                                <p className="text-lg text-muted-foreground">
+                                    {t('No terms and conditions specified for this position.')}
+                                </p>
                             </div>
                         )}
                     </CardContent>
                 </Card>
             </div>
-            
+
             {/* Integration Widgets (Tawk.to, etc.) */}
             {integrationFields?.map((field) => (
-                <div key={field.id}>
-                    {field.component}
-                </div>
+                <div key={field.id}>{field.component}</div>
             ))}
         </FrontendLayout>
     );

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -29,14 +29,24 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, setData, errors, 'edit', 'title', 'Title', 'hrm', 'announcement');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'hrm', 'announcement');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'hrm',
+        'announcement'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.announcements.update', announcement.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -47,7 +57,7 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="title">{t('Title')}</Label>
                             <Input
@@ -60,13 +70,20 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                             />
                             <InputError message={errors.title} />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="announcement_category_id" required>{t('Announcement Category')}</Label>
-                    <Select value={data.announcement_category_id?.toString() || ''} onValueChange={(value) => setData('announcement_category_id', value)}>
+                    <Label htmlFor="announcement_category_id" required>
+                        {t('Announcement Category')}
+                    </Label>
+                    <Select
+                        value={data.announcement_category_id?.toString() || ''}
+                        onValueChange={(value) => setData('announcement_category_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Announcement Category')} />
                         </SelectTrigger>
@@ -80,11 +97,13 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     </Select>
                     <InputError message={errors.announcement_category_id} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Department')}</Label>
                     <MultiSelectEnhanced
-                        options={departments?.map((dept: any) => ({ value: dept.id.toString(), label: dept.name })) || []}
+                        options={
+                            departments?.map((dept: any) => ({ value: dept.id.toString(), label: dept.name })) || []
+                        }
                         value={data.departments}
                         onValueChange={(value) => setData('departments', value)}
                         placeholder={t('Select Departments')}
@@ -92,7 +111,7 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     />
                     <InputError message={errors.departments} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Priority')}</Label>
                     <Select value={data.priority} onValueChange={(value) => setData('priority', value)}>
@@ -108,9 +127,7 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     </Select>
                     <InputError message={errors.priority} />
                 </div>
-                
 
-                
                 <div>
                     <Label required>{t('Start Date')}</Label>
                     <DatePicker
@@ -120,7 +137,7 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     />
                     <InputError message={errors.start_date} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('End Date')}</Label>
                     <DatePicker
@@ -130,12 +147,14 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     />
                     <InputError message={errors.end_date} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -147,7 +166,7 @@ export default function EditAnnouncement({ announcement, onSuccess }: EditAnnoun
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

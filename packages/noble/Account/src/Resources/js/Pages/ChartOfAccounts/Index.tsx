@@ -3,17 +3,17 @@ import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { usePageButtons } from '@/hooks/usePageButtons';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Calculator as CalculatorIcon, Download, FileImage } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, Eye, Calculator as CalculatorIcon, Download, FileImage } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -45,38 +45,42 @@ export default function Index() {
     const [modalState, setModalState] = useState<ChartOfAccountModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const [showFilters, setShowFilters] = useState(false);
 
-
-
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'account.chart-of-accounts.destroy',
-        defaultMessage: t('Are you sure you want to delete this chartofaccount?')
+        defaultMessage: t('Are you sure you want to delete this chartofaccount?'),
     });
 
     const quickBooksPageBtn = usePageButtons('quickBooksPageBtn');
     const xeroAccountBtn = usePageButtons('xeroAccountBtn');
 
     const handleFilter = () => {
-        router.get(route('account.chart-of-accounts.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.chart-of-accounts.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('account.chart-of-accounts.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.chart-of-accounts.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -87,7 +91,7 @@ export default function Index() {
             normal_balance: 'all',
             is_active: 'all',
         });
-        router.get(route('account.chart-of-accounts.index'), {per_page: perPage});
+        router.get(route('account.chart-of-accounts.index'), { per_page: perPage });
     };
 
     const openModal = (mode: 'add' | 'edit', data: ChartOfAccount | null = null) => {
@@ -102,121 +106,143 @@ export default function Index() {
         {
             key: 'account_code',
             header: t('Account Code'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'account_name',
             header: t('Account Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'account_type.name',
             header: t('Account Type Name'),
             sortable: false,
-            render: (value: any, row: any) => row.account_type?.name || '-'
+            render: (value: any, row: any) => row.account_type?.name || '-',
         },
         {
             key: 'parent_account.account_name',
             header: t('Parent Account'),
             sortable: false,
-            render: (value: any, row: any) => row.parent_account?.account_name || '-'
+            render: (value: any, row: any) => row.parent_account?.account_name || '-',
         },
         {
             key: 'normal_balance',
             header: t('Normal Balance'),
             sortable: true,
             render: (value: any) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value === 'debit' ? 'bg-muted text-destructive' : 'bg-muted text-foreground'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value === 'debit' ? 'bg-muted text-destructive' : 'bg-muted text-foreground'
+                    }`}
+                >
                     {t(value.charAt(0).toUpperCase() + value.slice(1))}
                 </span>
-            )
+            ),
         },
         {
             key: 'opening_balance',
             header: t('Opening Balance'),
             sortable: false,
-            render: (value: number) => value ? formatCurrency(value) : '-'
+            render: (value: number) => (value ? formatCurrency(value) : '-'),
         },
         {
             key: 'current_balance',
             header: t('Current Balance'),
             sortable: true,
-            render: (value: number) => value ? formatCurrency(value) : '-'
+            render: (value: number) => (value ? formatCurrency(value) : '-'),
         },
         {
             key: 'is_active',
             header: t('Status'),
             sortable: false,
             render: (value: boolean) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${
-                    value ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
-                }`}>
+                <span
+                    className={`rounded-full px-2 py-1 text-sm ${
+                        value ? 'bg-muted text-foreground' : 'bg-muted text-destructive'
+                    }`}
+                >
                     {value ? t('Active') : t('Inactive')}
                 </span>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-chart-of-accounts', 'delete-chart-of-accounts'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, chartofaccount: ChartOfAccount) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-chart-of-accounts') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.visit(route('account.chart-of-accounts.show', chartofaccount.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-chart-of-accounts') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', chartofaccount)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['edit-chart-of-accounts', 'delete-chart-of-accounts'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, chartofaccount: ChartOfAccount) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-chart-of-accounts') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() =>
+                                                      router.visit(
+                                                          route('account.chart-of-accounts.show', chartofaccount.id)
+                                                      )
+                                                  }
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-chart-of-accounts') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', chartofaccount)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
 
-                        {auth.user?.permissions?.includes('delete-chart-of-accounts') && chartofaccount.is_system_account == 0 && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(chartofaccount.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+                                  {auth.user?.permissions?.includes('delete-chart-of-accounts') &&
+                                      chartofaccount.is_system_account == 0 && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openDeleteDialog(chartofaccount.id)}
+                                                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                  >
+                                                      <Trash2 className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Delete')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Accounting'), url:route('account.index')},
-                {label: t('Chart Of Accounts')}
-            ]}
+            breadcrumbs={[{ label: t('Accounting'), url: route('account.index') }, { label: t('Chart Of Accounts') }]}
             pageTitle={t('Manage Chart Of Accounts')}
             pageActions={
                 <div className="flex gap-2">
@@ -248,37 +274,32 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.account_code}
-                                onChange={(value) => setFilters({...filters, account_code: value})}
+                                onChange={(value) => setFilters({ ...filters, account_code: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Chart Of Accounts...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-
-                            <PerPageSelector
-                                routeName="account.chart-of-accounts.index"
-                                filters={{...filters}}
-                            />
+                            <PerPageSelector routeName="account.chart-of-accounts.index" filters={{ ...filters }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [
                                         filters.account_type_id !== 'all' ? filters.account_type_id : '',
                                         filters.normal_balance !== 'all' ? filters.normal_balance : '',
-                                        filters.is_active !== 'all' ? filters.is_active : ''
-                                    ].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                        filters.is_active !== 'all' ? filters.is_active : '',
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -288,11 +309,16 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Account Type')}</label>
-                                <Select value={filters.account_type_id} onValueChange={(value) => setFilters({...filters, account_type_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Account Type')}
+                                </label>
+                                <Select
+                                    value={filters.account_type_id}
+                                    onValueChange={(value) => setFilters({ ...filters, account_type_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Account Types')} />
                                     </SelectTrigger>
@@ -307,8 +333,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Normal Balance')}</label>
-                                <Select value={filters.normal_balance} onValueChange={(value) => setFilters({...filters, normal_balance: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Normal Balance')}
+                                </label>
+                                <Select
+                                    value={filters.normal_balance}
+                                    onValueChange={(value) => setFilters({ ...filters, normal_balance: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Normal Balance')} />
                                     </SelectTrigger>
@@ -320,8 +351,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.is_active} onValueChange={(value) => setFilters({...filters, is_active: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.is_active}
+                                    onValueChange={(value) => setFilters({ ...filters, is_active: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Status')} />
                                     </SelectTrigger>
@@ -333,8 +367,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -342,56 +380,57 @@ export default function Index() {
 
                 {/* Table Content */}
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
-                        <DataTable
-                            data={chartofaccounts?.data || []}
-                            columns={tableColumns}
-                            onSort={handleSort}
-                            sortKey={sortField}
-                            sortDirection={sortDirection as 'asc' | 'desc'}
-                            className="rounded-none"
-                            emptyState={
-                                <NoRecordsFound
-                                    icon={CalculatorIcon}
-                                    title={t('No Chart Of Accounts found')}
-                                    description={t('Get started by creating your first Chart Of Account.')}
-                                    hasFilters={!!(filters.account_code || filters.account_name || (filters.account_type_id !== 'all' && filters.account_type_id) || filters.normal_balance || filters.is_active)}
-                                    onClearFilters={clearFilters}
-                                    createPermission="create-chart-of-accounts"
-                                    onCreateClick={() => openModal('add')}
-                                    createButtonText={t('Create ChartOfAccount')}
-                                    className="h-auto"
-                                />
-                            }
-                        />
+                            <DataTable
+                                data={chartofaccounts?.data || []}
+                                columns={tableColumns}
+                                onSort={handleSort}
+                                sortKey={sortField}
+                                sortDirection={sortDirection as 'asc' | 'desc'}
+                                className="rounded-none"
+                                emptyState={
+                                    <NoRecordsFound
+                                        icon={CalculatorIcon}
+                                        title={t('No Chart Of Accounts found')}
+                                        description={t('Get started by creating your first Chart Of Account.')}
+                                        hasFilters={
+                                            !!(
+                                                filters.account_code ||
+                                                filters.account_name ||
+                                                (filters.account_type_id !== 'all' && filters.account_type_id) ||
+                                                filters.normal_balance ||
+                                                filters.is_active
+                                            )
+                                        }
+                                        onClearFilters={clearFilters}
+                                        createPermission="create-chart-of-accounts"
+                                        onCreateClick={() => openModal('add')}
+                                        createButtonText={t('Create ChartOfAccount')}
+                                        className="h-auto"
+                                    />
+                                }
+                            />
                         </div>
                     </div>
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={chartofaccounts || { data: [], links: [], meta: {} }}
                         routeName="account.chart-of-accounts.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditChartOfAccount
-                        chartofaccount={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditChartOfAccount chartofaccount={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
-
-
 
             <ConfirmationDialog
                 open={deleteState.isOpen}

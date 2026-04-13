@@ -1,15 +1,27 @@
 import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import MediaPicker from '@/components/MediaPicker';
-import { Upload, Download, Trash2, Eye, Paperclip, Grid, List, File, Image, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Upload,
+    Download,
+    Trash2,
+    Eye,
+    Paperclip,
+    Grid,
+    List,
+    File,
+    Image,
+    ChevronLeft,
+    ChevronRight,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getImagePath, downloadFile, formatDate } from '@/utils/helpers';
 
 interface AttachmentsTabProps {
@@ -42,23 +54,32 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
         return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(extension || '');
     };
 
-    const paginatedAttachments = contract.attachments ? {
-        data: contract.attachments.slice((attachmentPage - 1) * attachmentsPerPage, attachmentPage * attachmentsPerPage),
-        total: contract.attachments.length,
-        last_page: Math.ceil(contract.attachments.length / attachmentsPerPage)
-    } : { data: [], total: 0, last_page: 1 };
+    const paginatedAttachments = contract.attachments
+        ? {
+              data: contract.attachments.slice(
+                  (attachmentPage - 1) * attachmentsPerPage,
+                  attachmentPage * attachmentsPerPage
+              ),
+              total: contract.attachments.length,
+              last_page: Math.ceil(contract.attachments.length / attachmentsPerPage),
+          }
+        : { data: [], total: 0, last_page: 1 };
 
     const handleAttachmentUpload = () => {
         if (selectedMedia.length > 0) {
-            router.post(route('contract-attachments.store', contract.id), {
-                media_paths: selectedMedia
-            }, {
-                onSuccess: () => {
-                    setAttachmentDialogOpen(false);
-                    setSelectedMedia([]);
-                    router.reload();
+            router.post(
+                route('contract-attachments.store', contract.id),
+                {
+                    media_paths: selectedMedia,
+                },
+                {
+                    onSuccess: () => {
+                        setAttachmentDialogOpen(false);
+                        setSelectedMedia([]);
+                        router.reload();
+                    },
                 }
-            });
+            );
         }
     };
 
@@ -68,12 +89,12 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                 <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>{t('Attachments')}</CardTitle>
                     <div className="flex items-center gap-2">
-                        <div className="flex border rounded-md">
+                        <div className="flex rounded-md border">
                             <Button
                                 size="sm"
                                 variant={attachmentView === 'list' ? 'default' : 'ghost'}
                                 onClick={() => setAttachmentView('list')}
-                                className="rounded-r-none px-2 h-9"
+                                className="h-9 rounded-r-none px-2"
                             >
                                 <List className="h-3 w-3" />
                             </Button>
@@ -81,16 +102,19 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                 size="sm"
                                 variant={attachmentView === 'grid' ? 'default' : 'ghost'}
                                 onClick={() => setAttachmentView('grid')}
-                                className="rounded-l-none px-2 h-9"
+                                className="h-9 rounded-l-none px-2"
                             >
                                 <Grid className="h-3 w-3" />
                             </Button>
                         </div>
-                        <Select value={attachmentsPerPage.toString()} onValueChange={(value) => {
-                            setAttachmentsPerPage(Number(value));
-                            setAttachmentPage(1);
-                        }}>
-                            <SelectTrigger className="w-[120px] h-9">
+                        <Select
+                            value={attachmentsPerPage.toString()}
+                            onValueChange={(value) => {
+                                setAttachmentsPerPage(Number(value));
+                                setAttachmentPage(1);
+                            }}
+                        >
+                            <SelectTrigger className="h-9 w-[120px]">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -102,10 +126,10 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                         </Select>
                         {auth.user?.permissions?.includes('create-contract-attachments') && (
                             <TooltipProvider>
-                                <Tooltip >
+                                <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Button size="sm" onClick={() => setAttachmentDialogOpen(true)} className="h-9">
-                                            <Upload className="h-4 w-4 " />
+                                            <Upload className="h-4 w-4" />
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
@@ -139,15 +163,15 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                             <img
                                                                 src={getImagePath(attachment.file_path, pageProps)}
                                                                 alt={attachment.file_name}
-                                                                className="w-10 h-10 object-cover rounded border"
+                                                                className="h-10 w-10 rounded border object-cover"
                                                             />
                                                         ) : (
-                                                            <div className="w-10 h-10 bg-muted rounded border flex items-center justify-center">
+                                                            <div className="flex h-10 w-10 items-center justify-center rounded border bg-muted">
                                                                 {getFileIcon(attachment.file_name)}
                                                             </div>
                                                         )
                                                     ) : (
-                                                        <div className="w-10 h-10 bg-muted rounded border flex items-center justify-center">
+                                                        <div className="flex h-10 w-10 items-center justify-center rounded border bg-muted">
                                                             {getFileIcon(attachment.file_name)}
                                                         </div>
                                                     )}
@@ -159,9 +183,22 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                     <TooltipProvider>
                                                         <div className="flex gap-1">
                                                             {auth.user?.permissions?.includes('view-contracts') && (
-                                                                <Tooltip >
+                                                                <Tooltip>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => window.open(getImagePath(attachment.file_path, pageProps), '_blank')} className="text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            onClick={() =>
+                                                                                window.open(
+                                                                                    getImagePath(
+                                                                                        attachment.file_path,
+                                                                                        pageProps
+                                                                                    ),
+                                                                                    '_blank'
+                                                                                )
+                                                                            }
+                                                                            className="text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -171,9 +208,21 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                                 </Tooltip>
                                                             )}
                                                             {auth.user?.permissions?.includes('view-contracts') && (
-                                                                <Tooltip >
+                                                                <Tooltip>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => downloadFile(getImagePath(attachment.file_path, pageProps))} className="text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            onClick={() =>
+                                                                                downloadFile(
+                                                                                    getImagePath(
+                                                                                        attachment.file_path,
+                                                                                        pageProps
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Download className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -182,23 +231,36 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-contract-attachments') && (attachment.uploaded_by === auth.user?.id || attachment.created_by === auth.user?.id) && (
-                                                                <Tooltip >
-                                                                    <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => setDeleteConfig({
-                                                                            type: 'attachment',
-                                                                            id: attachment.id,
-                                                                            route: 'contract-attachments.destroy',
-                                                                            message: t('Are you sure you want to delete this attachment?')
-                                                                        })} className="text-destructive hover:text-destructive">
-                                                                            <Trash2 className="h-4 w-4" />
-                                                                        </Button>
-                                                                    </TooltipTrigger>
-                                                                    <TooltipContent>
-                                                                        <p>{t('Delete')}</p>
-                                                                    </TooltipContent>
-                                                                </Tooltip>
-                                                            )}
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-contract-attachments'
+                                                            ) &&
+                                                                (attachment.uploaded_by === auth.user?.id ||
+                                                                    attachment.created_by === auth.user?.id) && (
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger asChild>
+                                                                            <Button
+                                                                                size="sm"
+                                                                                variant="ghost"
+                                                                                onClick={() =>
+                                                                                    setDeleteConfig({
+                                                                                        type: 'attachment',
+                                                                                        id: attachment.id,
+                                                                                        route: 'contract-attachments.destroy',
+                                                                                        message: t(
+                                                                                            'Are you sure you want to delete this attachment?'
+                                                                                        ),
+                                                                                    })
+                                                                                }
+                                                                                className="text-destructive hover:text-destructive"
+                                                                            >
+                                                                                <Trash2 className="h-4 w-4" />
+                                                                            </Button>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>
+                                                                            <p>{t('Delete')}</p>
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+                                                                )}
                                                         </div>
                                                     </TooltipProvider>
                                                 </TableCell>
@@ -209,14 +271,17 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                             ) : (
                                 <div className="grid grid-cols-6 gap-4 p-4">
                                     {paginatedAttachments.data?.map((attachment: any) => (
-                                        <div key={attachment.id} className="group relative bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200">
-                                            <div className="aspect-square bg-muted/50 flex items-center justify-center overflow-hidden">
+                                        <div
+                                            key={attachment.id}
+                                            className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-200 hover:shadow-lg"
+                                        >
+                                            <div className="flex aspect-square items-center justify-center overflow-hidden bg-muted/50">
                                                 {auth.user?.permissions?.includes('view-contracts') ? (
                                                     isImageFile(attachment.file_name) ? (
                                                         <img
                                                             src={getImagePath(attachment.file_path, pageProps)}
                                                             alt={attachment.file_name}
-                                                            className="w-full h-full object-cover"
+                                                            className="h-full w-full object-cover"
                                                         />
                                                     ) : (
                                                         <div className="text-muted-foreground">
@@ -229,23 +294,49 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="p-3 border-t bg-card">
+                                            <div className="border-t bg-card p-3">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-2">
                                                         <Avatar className="h-6 w-6">
-                                                            <AvatarImage src={attachment.uploader?.avatar ? getImagePath(attachment.uploader.avatar, pageProps) : attachment.uploader?.profile_photo_url} alt={attachment.uploader?.name} />
-                                                            <AvatarFallback className="text-xs bg-muted text-foreground">
-                                                                {attachment.uploader?.name?.charAt(0)?.toUpperCase() || 'U'}
+                                                            <AvatarImage
+                                                                src={
+                                                                    attachment.uploader?.avatar
+                                                                        ? getImagePath(
+                                                                              attachment.uploader.avatar,
+                                                                              pageProps
+                                                                          )
+                                                                        : attachment.uploader?.profile_photo_url
+                                                                }
+                                                                alt={attachment.uploader?.name}
+                                                            />
+                                                            <AvatarFallback className="bg-muted text-xs text-foreground">
+                                                                {attachment.uploader?.name?.charAt(0)?.toUpperCase() ||
+                                                                    'U'}
                                                             </AvatarFallback>
                                                         </Avatar>
-                                                        <span className="text-xs text-foreground font-medium">{attachment.uploader?.name || t('Unknown')}</span>
+                                                        <span className="text-xs font-medium text-foreground">
+                                                            {attachment.uploader?.name || t('Unknown')}
+                                                        </span>
                                                     </div>
                                                     <TooltipProvider>
                                                         <div className="flex gap-1">
                                                             {auth.user?.permissions?.includes('view-contracts') && (
-                                                                <Tooltip >
+                                                                <Tooltip>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => window.open(getImagePath(attachment.file_path, pageProps), '_blank')} className="h-6 w-6 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            onClick={() =>
+                                                                                window.open(
+                                                                                    getImagePath(
+                                                                                        attachment.file_path,
+                                                                                        pageProps
+                                                                                    ),
+                                                                                    '_blank'
+                                                                                )
+                                                                            }
+                                                                            className="h-6 w-6 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-3 w-3" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -255,9 +346,21 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                                 </Tooltip>
                                                             )}
                                                             {auth.user?.permissions?.includes('view-contracts') && (
-                                                                <Tooltip >
+                                                                <Tooltip>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => downloadFile(getImagePath(attachment.file_path, pageProps))} className="h-6 w-6 p-0 text-foreground hover:text-foreground">
+                                                                        <Button
+                                                                            size="sm"
+                                                                            variant="ghost"
+                                                                            onClick={() =>
+                                                                                downloadFile(
+                                                                                    getImagePath(
+                                                                                        attachment.file_path,
+                                                                                        pageProps
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-6 w-6 p-0 text-foreground hover:text-foreground"
+                                                                        >
                                                                             <Download className="h-3 w-3" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -266,23 +369,36 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-contract-attachments') && (attachment.uploaded_by === auth.user?.id || attachment.created_by === auth.user?.id) && (
-                                                                <Tooltip >
-                                                                    <TooltipTrigger asChild>
-                                                                        <Button size="sm" variant="ghost" onClick={() => setDeleteConfig({
-                                                                            type: 'attachment',
-                                                                            id: attachment.id,
-                                                                            route: 'contract-attachments.destroy',
-                                                                            message: t('Are you sure you want to delete this attachment?')
-                                                                        })} className="h-6 w-6 p-0 text-destructive hover:text-destructive">
-                                                                            <Trash2 className="h-3 w-3" />
-                                                                        </Button>
-                                                                    </TooltipTrigger>
-                                                                    <TooltipContent>
-                                                                        <p>{t('Delete')}</p>
-                                                                    </TooltipContent>
-                                                                </Tooltip>
-                                                            )}
+                                                            {auth.user?.permissions?.includes(
+                                                                'delete-contract-attachments'
+                                                            ) &&
+                                                                (attachment.uploaded_by === auth.user?.id ||
+                                                                    attachment.created_by === auth.user?.id) && (
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger asChild>
+                                                                            <Button
+                                                                                size="sm"
+                                                                                variant="ghost"
+                                                                                onClick={() =>
+                                                                                    setDeleteConfig({
+                                                                                        type: 'attachment',
+                                                                                        id: attachment.id,
+                                                                                        route: 'contract-attachments.destroy',
+                                                                                        message: t(
+                                                                                            'Are you sure you want to delete this attachment?'
+                                                                                        ),
+                                                                                    })
+                                                                                }
+                                                                                className="h-6 w-6 p-0 text-destructive hover:text-destructive"
+                                                                            >
+                                                                                <Trash2 className="h-3 w-3" />
+                                                                            </Button>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>
+                                                                            <p>{t('Delete')}</p>
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+                                                                )}
                                                         </div>
                                                     </TooltipProvider>
                                                 </div>
@@ -293,16 +409,31 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                             )}
 
                             {contract.attachments && contract.attachments.length > attachmentsPerPage && (
-                                <div className="px-4 py-3 border-t bg-muted/50/30">
+                                <div className="bg-muted/50/30 border-t px-4 py-3">
                                     <div className="flex items-center justify-between">
                                         <div className="text-sm text-muted-foreground">
-                                            {t('Showing')} <span className="font-medium text-foreground">{((attachmentPage - 1) * attachmentsPerPage) + 1}</span> {t('to')} <span className="font-medium text-foreground">{Math.min(attachmentPage * attachmentsPerPage, contract.attachments.length)}</span> {t('of')} <span className="font-medium text-foreground">{contract.attachments.length}</span> {t('results')}
+                                            {t('Showing')}{' '}
+                                            <span className="font-medium text-foreground">
+                                                {(attachmentPage - 1) * attachmentsPerPage + 1}
+                                            </span>{' '}
+                                            {t('to')}{' '}
+                                            <span className="font-medium text-foreground">
+                                                {Math.min(
+                                                    attachmentPage * attachmentsPerPage,
+                                                    contract.attachments.length
+                                                )}
+                                            </span>{' '}
+                                            {t('of')}{' '}
+                                            <span className="font-medium text-foreground">
+                                                {contract.attachments.length}
+                                            </span>{' '}
+                                            {t('results')}
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => setAttachmentPage(p => Math.max(1, p - 1))}
+                                                onClick={() => setAttachmentPage((p) => Math.max(1, p - 1))}
                                                 disabled={attachmentPage === 1}
                                                 className="h-8 px-3"
                                             >
@@ -310,35 +441,47 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                                                 {t('Previous')}
                                             </Button>
                                             <div className="flex items-center space-x-1">
-                                                {Array.from({ length: Math.min(5, paginatedAttachments.last_page) }, (_, i) => {
-                                                    let pageNum;
-                                                    if (paginatedAttachments.last_page <= 5) {
-                                                        pageNum = i + 1;
-                                                    } else if (attachmentPage <= 3) {
-                                                        pageNum = i + 1;
-                                                    } else if (attachmentPage >= paginatedAttachments.last_page - 2) {
-                                                        pageNum = paginatedAttachments.last_page - 4 + i;
-                                                    } else {
-                                                        pageNum = attachmentPage - 2 + i;
-                                                    }
+                                                {Array.from(
+                                                    { length: Math.min(5, paginatedAttachments.last_page) },
+                                                    (_, i) => {
+                                                        let pageNum;
+                                                        if (paginatedAttachments.last_page <= 5) {
+                                                            pageNum = i + 1;
+                                                        } else if (attachmentPage <= 3) {
+                                                            pageNum = i + 1;
+                                                        } else if (
+                                                            attachmentPage >=
+                                                            paginatedAttachments.last_page - 2
+                                                        ) {
+                                                            pageNum = paginatedAttachments.last_page - 4 + i;
+                                                        } else {
+                                                            pageNum = attachmentPage - 2 + i;
+                                                        }
 
-                                                    return (
-                                                        <Button
-                                                            key={pageNum}
-                                                            variant={attachmentPage === pageNum ? "default" : "outline"}
-                                                            size="sm"
-                                                            onClick={() => setAttachmentPage(pageNum)}
-                                                            className="h-8 w-8 p-0"
-                                                        >
-                                                            {pageNum}
-                                                        </Button>
-                                                    );
-                                                })}
+                                                        return (
+                                                            <Button
+                                                                key={pageNum}
+                                                                variant={
+                                                                    attachmentPage === pageNum ? 'default' : 'outline'
+                                                                }
+                                                                size="sm"
+                                                                onClick={() => setAttachmentPage(pageNum)}
+                                                                className="h-8 w-8 p-0"
+                                                            >
+                                                                {pageNum}
+                                                            </Button>
+                                                        );
+                                                    }
+                                                )}
                                             </div>
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => setAttachmentPage(p => Math.min(paginatedAttachments.last_page, p + 1))}
+                                                onClick={() =>
+                                                    setAttachmentPage((p) =>
+                                                        Math.min(paginatedAttachments.last_page, p + 1)
+                                                    )
+                                                }
                                                 disabled={attachmentPage === paginatedAttachments.last_page}
                                                 className="h-8 px-3"
                                             >
@@ -351,9 +494,9 @@ export default function AttachmentsTab({ contract, setDeleteConfig }: Attachment
                             )}
                         </>
                     ) : (
-                        <div className="text-center py-12">
-                            <Paperclip className="h-12 w-12 text-muted-foreground/60 mx-auto mb-3" />
-                            <p className="text-muted-foreground text-sm">{t('No attachments found')}</p>
+                        <div className="py-12 text-center">
+                            <Paperclip className="mx-auto mb-3 h-12 w-12 text-muted-foreground/60" />
+                            <p className="text-sm text-muted-foreground">{t('No attachments found')}</p>
                         </div>
                     )}
                 </CardContent>

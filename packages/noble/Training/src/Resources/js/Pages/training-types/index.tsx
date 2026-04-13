@@ -5,17 +5,17 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, GraduationCap } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, GraduationCap } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import Create from './create';
 import EditTrainingType from './edit';
 import NoRecordsFound from '@/components/no-records-found';
@@ -29,7 +29,7 @@ export default function Index() {
     const [filters, setFilters] = useState<TrainingTypeFilters>({
         name: urlParams.get('name') || '',
         branch_id: urlParams.get('branch_id') || '',
-        department_id: urlParams.get('department_id') || ''
+        department_id: urlParams.get('department_id') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
@@ -39,48 +39,55 @@ export default function Index() {
     const [modalState, setModalState] = useState<TrainingTypeModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [showFilters, setShowFilters] = useState(false);
 
     // Filter departments based on selected branch
-    const filteredDepartments = filters.branch_id 
-        ? departments.filter(dept => dept.branch_id.toString() === filters.branch_id)
+    const filteredDepartments = filters.branch_id
+        ? departments.filter((dept) => dept.branch_id.toString() === filters.branch_id)
         : departments;
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'training.training-types.destroy',
-        defaultMessage: t('Are you sure you want to delete this training type?')
+        defaultMessage: t('Are you sure you want to delete this training type?'),
     });
 
     const handleFilter = () => {
-        router.get(route('training.training-types.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('training.training-types.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('training.training-types.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('training.training-types.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ name: '', branch_id: '', department_id: '' });
-        router.get(route('training.training-types.index'), {per_page: perPage});
+        router.get(route('training.training-types.index'), { per_page: perPage });
     };
 
     const openModal = (mode: 'add' | 'edit', data: TrainingType | null = null) => {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -88,7 +95,7 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
 
@@ -96,17 +103,17 @@ export default function Index() {
         {
             key: 'name',
             header: t('Name'),
-            sortable: true
-        },       
+            sortable: true,
+        },
         {
             key: 'branch',
             header: t('Branch'),
-            render: (value: any, trainingType: TrainingType) => trainingType.branch?.branch_name || '-'
+            render: (value: any, trainingType: TrainingType) => trainingType.branch?.branch_name || '-',
         },
         {
             key: 'department',
             header: t('Department'),
-            render: (value: any, trainingType: TrainingType) => trainingType.department?.department_name || '-'
+            render: (value: any, trainingType: TrainingType) => trainingType.department?.department_name || '-',
         },
         {
             key: 'description',
@@ -114,56 +121,65 @@ export default function Index() {
             render: (value: string) => {
                 if (!value) return '-';
                 return (
-                    <span className="text-sm text-muted-foreground truncate max-w-40" title={value}>
+                    <span className="max-w-40 truncate text-sm text-muted-foreground" title={value}>
                         {value.length > 50 ? `${value.substring(0, 50)}...` : value}
                     </span>
                 );
-            }
+            },
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-training-types', 'delete-training-types'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, trainingType: TrainingType) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('edit-training-types') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', trainingType)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-training-types') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(trainingType.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) => ['edit-training-types', 'delete-training-types'].includes(p))
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, trainingType: TrainingType) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('edit-training-types') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', trainingType)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Edit className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-training-types') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(trainingType.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Training')}, {label: t('Training Types')}]}
+            breadcrumbs={[{ label: t('Training') }, { label: t('Training Types') }]}
             pageTitle={t('Manage Training Types')}
             pageActions={
                 <div className="flex gap-2">
@@ -187,32 +203,30 @@ export default function Index() {
             <Head title={t('Training Types')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
+                                onChange={(value) => setFilters({ ...filters, name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search training types...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="training.training-types.index"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="training.training-types.index" filters={filters} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.branch_id, filters.department_id].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.branch_id, filters.department_id].filter(
+                                        Boolean
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -221,50 +235,69 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Branch')}</label>
-                                <Select value={filters.branch_id} onValueChange={(value) => setFilters({...filters, branch_id: value, department_id: ''})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Branch')}</label>
+                                <Select
+                                    value={filters.branch_id}
+                                    onValueChange={(value) =>
+                                        setFilters({ ...filters, branch_id: value, department_id: '' })
+                                    }
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by branch')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {branches?.map((branch) => (
-                                            <SelectItem key={branch.id} value={branch.id.toString()}>{branch.branch_name}</SelectItem>
+                                            <SelectItem key={branch.id} value={branch.id.toString()}>
+                                                {branch.branch_name}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Department')}</label>
-                                <Select 
-                                    value={filters.department_id} 
-                                    onValueChange={(value) => setFilters({...filters, department_id: value})}
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Department')}
+                                </label>
+                                <Select
+                                    value={filters.department_id}
+                                    onValueChange={(value) => setFilters({ ...filters, department_id: value })}
                                     disabled={!filters.branch_id}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder={filters.branch_id ? t('Filter by department') : t('Select branch first')} />
+                                        <SelectValue
+                                            placeholder={
+                                                filters.branch_id ? t('Filter by department') : t('Select branch first')
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {filteredDepartments?.map((department) => (
-                                            <SelectItem key={department.id} value={department.id.toString()}>{department.department_name}</SelectItem>
+                                            <SelectItem key={department.id} value={department.id.toString()}>
+                                                {department.department_name}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={trainingTypes.data}
@@ -291,18 +324,18 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={trainingTypes}
                         routeName="training.training-types.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
                 {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} branches={branches} departments={departments}  />
+                    <Create onSuccess={closeModal} branches={branches} departments={departments} />
                 )}
                 {modalState.mode === 'edit' && modalState.data && (
                     <EditTrainingType

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -25,7 +25,7 @@ export default function Edit({ onboardingchecklist, onSuccess }: EditOnboardingC
         put(route('recruitment.onboarding-checklists.update', onboardingchecklist.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -47,7 +47,7 @@ export default function Edit({ onboardingchecklist, onSuccess }: EditOnboardingC
                     />
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -59,20 +59,22 @@ export default function Edit({ onboardingchecklist, onSuccess }: EditOnboardingC
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_default"
                         checked={data.is_default || false}
                         onCheckedChange={(checked) => setData('is_default', !!checked)}
                     />
-                    <Label htmlFor="is_default" className="cursor-pointer">{t('Is Default')}</Label>
+                    <Label htmlFor="is_default" className="cursor-pointer">
+                        {t('Is Default')}
+                    </Label>
                     <InputError message={errors.is_default} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="status">{t('Status')}</Label>
-                    <Select value={data.status ? "1" : "0"} onValueChange={(value) => setData('status', value === "1")}>
+                    <Select value={data.status ? '1' : '0'} onValueChange={(value) => setData('status', value === '1')}>
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -83,8 +85,6 @@ export default function Edit({ onboardingchecklist, onSuccess }: EditOnboardingC
                     </Select>
                     <InputError message={errors.status} />
                 </div>
-                
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={() => onSuccess()}>

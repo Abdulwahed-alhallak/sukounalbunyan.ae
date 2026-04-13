@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocationProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditJobLocationFormData>({
@@ -28,14 +28,12 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
         status: joblocation.status ?? false,
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('recruitment.job-locations.update', joblocation.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -57,17 +55,19 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Checkbox
                         id="remote_work"
                         checked={data.remote_work || false}
                         onCheckedChange={(checked) => setData('remote_work', !!checked)}
                     />
-                    <Label htmlFor="remote_work" className="cursor-pointer">{t('Remote Work')}</Label>
+                    <Label htmlFor="remote_work" className="cursor-pointer">
+                        {t('Remote Work')}
+                    </Label>
                     <InputError message={errors.remote_work} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="address">{t('Address')}</Label>
                     <Textarea
@@ -79,7 +79,7 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.address} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="city">{t('City')}</Label>
                     <Input
@@ -92,7 +92,7 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.city} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="state">{t('State')}</Label>
                     <Input
@@ -105,7 +105,7 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.state} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="country">{t('Country')}</Label>
                     <Input
@@ -118,7 +118,7 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.country} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="postal_code">{t('Postal Code')}</Label>
                     <Input
@@ -131,17 +131,19 @@ export default function EditJobLocation({ joblocation, onSuccess }: EditJobLocat
                     />
                     <InputError message={errors.postal_code} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="status"
                         checked={data.status || false}
                         onCheckedChange={(checked) => setData('status', !!checked)}
                     />
-                    <Label htmlFor="status" className="cursor-pointer">{t('Status')}</Label>
+                    <Label htmlFor="status" className="cursor-pointer">
+                        {t('Status')}
+                    </Label>
                     <InputError message={errors.status} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

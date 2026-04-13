@@ -4,7 +4,6 @@ module.exports = {
   content: [
       "./resources/views/**/*.blade.php",
       "./resources/js/**/*.tsx",
-      "./packages/workdo/*/src/Resources/js/**/*.tsx",
       "./packages/noble/*/src/Resources/js/**/*.tsx",
   ],
   prefix: "",

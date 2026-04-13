@@ -17,8 +17,8 @@ export interface Goal {
         id: number;
         category_name: string;
         color_code: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     account?: {
         id: number;
         name: string;
@@ -74,8 +74,8 @@ export interface GoalsIndexProps {
         id: number;
         category_name: string;
         color_code: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     chartOfAccounts: Array<{
         id: number;
         name: string;

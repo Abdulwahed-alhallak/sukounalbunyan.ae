@@ -26,7 +26,7 @@ interface ExpenseReportProps {
     financialYear?: {
         year_start_date: string;
         year_end_date: string;
-    }
+    };
 }
 
 export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
@@ -41,7 +41,7 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
         setLoading(true);
         try {
             const response = await axios.get(route('double-entry.reports.expense-report'), {
-                params: { from_date: fromDate, to_date: toDate }
+                params: { from_date: fromDate, to_date: toDate },
             });
             setData(response.data);
         } catch (error) {
@@ -56,7 +56,8 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
     }, []);
 
     const handleDownloadPDF = () => {
-        const printUrl = route('double-entry.reports.expense-report.print') +
+        const printUrl =
+            route('double-entry.reports.expense-report.print') +
             `?from_date=${fromDate}&to_date=${toDate}&download=pdf`;
         window.open(printUrl, '_blank');
     };
@@ -73,31 +74,25 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('From Date')}</label>
-                        <DatePicker
-                            value={fromDate}
-                            onChange={setFromDate}
-                            placeholder={t('Select from date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('From Date')}</label>
+                        <DatePicker value={fromDate} onChange={setFromDate} placeholder={t('Select from date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('To Date')}</label>
-                        <DatePicker
-                            value={toDate}
-                            onChange={setToDate}
-                            placeholder={t('Select to date')}
-                        />
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('To Date')}</label>
+                        <DatePicker value={toDate} onChange={setToDate} placeholder={t('Select to date')} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">&nbsp;</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">&nbsp;</label>
                         <div className="flex items-end gap-2">
                             <Button onClick={fetchData} disabled={loading} size="sm">
                                 {loading ? t('Loading...') : t('Generate')}
                             </Button>
-                            <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                            <Button variant="outline" onClick={clearFilters} size="sm">
+                                {t('Clear')}
+                            </Button>
                             {data && auth.user?.permissions?.includes('print-expense-report') && (
                                 <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="gap-2">
                                     <Printer className="h-4 w-4" />
@@ -112,46 +107,61 @@ export default function ExpenseReport({ financialYear }: ExpenseReportProps) {
             <CardContent className="p-0">
                 {data && data.expenses.length > 0 ? (
                     <>
-                        <div className="p-4 bg-muted/50 border-b">
-                            <h3 className="font-semibold text-lg">{t('Expense Report by Category')}</h3>
+                        <div className="border-b bg-muted/50 p-4">
+                            <h3 className="text-lg font-semibold">{t('Expense Report by Category')}</h3>
                             <p className="text-sm text-muted-foreground">
                                 {formatDate(data.from_date)} {t('to')} {formatDate(data.to_date)}
                             </p>
-                            <p className="text-sm font-semibold mt-2">
+                            <p className="mt-2 text-sm font-semibold">
                                 {t('Total Expenses')}: {formatCurrency(data.total_expenses)}
                             </p>
                         </div>
 
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[60vh] w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[60vh] w-full overflow-y-auto">
                             <div className="min-w-[700px]">
                                 <table className="w-full">
-                                    <thead className="bg-muted sticky top-0">
+                                    <thead className="sticky top-0 bg-muted">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-sm font-semibold">{t('Rank')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Account Code')}</th>
-                                            <th className="px-4 py-3 text-left text-sm font-semibold">{t('Expense Category')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('Amount')}</th>
-                                            <th className="px-4 py-3 text-right text-sm font-semibold">{t('% of Total')}</th>
+                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                {t('Account Code')}
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                {t('Expense Category')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                                {t('Amount')}
+                                            </th>
+                                            <th className="px-4 py-3 text-right text-sm font-semibold">
+                                                {t('% of Total')}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {data.expenses?.map((expense, idx) => (
-                                            <tr key={idx} className={`border-t hover:bg-muted/50 ${idx < 5 ? 'bg-muted/50/30' : ''}`}>
+                                            <tr
+                                                key={idx}
+                                                className={`border-t hover:bg-muted/50 ${idx < 5 ? 'bg-muted/50/30' : ''}`}
+                                            >
                                                 <td className="px-4 py-3 text-sm font-medium">{idx + 1}</td>
                                                 <td className="px-4 py-3 text-sm">{expense.account_code}</td>
                                                 <td className="px-4 py-3 text-sm">{expense.account_name}</td>
-                                                <td className="px-4 py-3 text-sm text-right font-semibold">
+                                                <td className="px-4 py-3 text-right text-sm font-semibold">
                                                     {formatCurrency(expense.amount)}
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-right">
+                                                <td className="px-4 py-3 text-right text-sm">
                                                     {getPercentage(expense.amount)}%
                                                 </td>
                                             </tr>
                                         ))}
-                                        <tr className="bg-muted font-bold border-t-4 border-border sticky bottom-0">
-                                            <td colSpan={3} className="px-4 py-4 text-base">{t('Total Expenses')}</td>
-                                            <td className="px-4 py-4 text-base text-right">{formatCurrency(data.total_expenses)}</td>
-                                            <td className="px-4 py-4 text-base text-right">100%</td>
+                                        <tr className="sticky bottom-0 border-t-4 border-border bg-muted font-bold">
+                                            <td colSpan={3} className="px-4 py-4 text-base">
+                                                {t('Total Expenses')}
+                                            </td>
+                                            <td className="px-4 py-4 text-right text-base">
+                                                {formatCurrency(data.total_expenses)}
+                                            </td>
+                                            <td className="px-4 py-4 text-right text-base">100%</td>
                                         </tr>
                                     </tbody>
                                 </table>

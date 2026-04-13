@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import InputError from '@/components/ui/input-error';
 
-
 interface QuickLink {
     id: number;
     title: string;
@@ -26,7 +25,7 @@ export default function EditModal({ quickLink, onSuccess }: EditModalProps) {
     const { data, setData, put, processing, errors } = useForm({
         title: quickLink.title,
         icon: quickLink.icon,
-        link: quickLink.link
+        link: quickLink.link,
     });
 
     const iconOptions = [
@@ -39,7 +38,7 @@ export default function EditModal({ quickLink, onSuccess }: EditModalProps) {
         { value: 'HelpCircle', label: 'HelpCircle' },
         { value: 'Settings', label: 'Settings' },
         { value: 'Download', label: 'Download' },
-        { value: 'ExternalLink', label: 'ExternalLink' }
+        { value: 'ExternalLink', label: 'ExternalLink' },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -47,7 +46,7 @@ export default function EditModal({ quickLink, onSuccess }: EditModalProps) {
         put(route('support-ticket.quick-links.update', quickLink.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

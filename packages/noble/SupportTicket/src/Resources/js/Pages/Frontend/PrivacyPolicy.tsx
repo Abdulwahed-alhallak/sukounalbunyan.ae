@@ -1,5 +1,5 @@
 import SupportTicketLayout from './Layouts/SupportTicketLayout';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 
 interface PrivacyPolicyProps {
@@ -37,15 +37,12 @@ export default function PrivacyPolicy({ settings, privacyPolicy, brandSettings, 
 
     return (
         <SupportTicketLayout title={t('Privacy Policy')} settings={settings} brandSettings={brandSettings}>
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto max-w-4xl">
                 <Card className="shadow-md">
                     <CardContent className="p-8">
-                        <h1 className="text-3xl font-bold mb-6 text-foreground">{t('Privacy Policy')}</h1>
-                        
-                        <div 
-                            className="prose max-w-none space-y-6"
-                            dangerouslySetInnerHTML={{ __html: content }}
-                        />
+                        <h1 className="mb-6 text-3xl font-bold text-foreground">{t('Privacy Policy')}</h1>
+
+                        <div className="prose max-w-none space-y-6" dangerouslySetInnerHTML={{ __html: content }} />
                     </CardContent>
                 </Card>
             </div>

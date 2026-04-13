@@ -70,8 +70,8 @@ export interface CreateVendorPaymentFormData {
     allocations: {
         invoice_id: number;
         amount: number;
-    [key: string]: any;
-}[];
+        [key: string]: any;
+    }[];
     debit_notes: {
         debit_note_id: number;
         amount: number;

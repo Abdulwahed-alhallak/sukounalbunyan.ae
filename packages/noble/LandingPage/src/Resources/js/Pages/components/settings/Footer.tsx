@@ -23,36 +23,47 @@ interface FooterProps {
     customPages: CustomPage[];
 }
 
-export default function Footer({ data, getSectionData, updateSectionData, updateSectionVisibility, customPages = [] }: FooterProps) {
+export default function Footer({
+    data,
+    getSectionData,
+    updateSectionData,
+    updateSectionVisibility,
+    customPages = [],
+}: FooterProps) {
     const { t } = useTranslation();
-    
+
     const navigationSections = getSectionData('footer').navigation_sections || [];
-    
+
     const addSection = () => {
         const newSections = [...navigationSections, { title: '', links: [] }];
         updateSectionData('footer', { navigation_sections: newSections });
     };
-    
+
     const updateSection = (sectionIndex: number, field: string, value: any) => {
         const newSections = [...navigationSections];
         newSections[sectionIndex] = { ...newSections[sectionIndex], [field]: value };
         updateSectionData('footer', { navigation_sections: newSections });
     };
-    
+
     const removeSection = (sectionIndex: number) => {
         const newSections = navigationSections.filter((_: any, i: number) => i !== sectionIndex);
         updateSectionData('footer', { navigation_sections: newSections });
     };
-    
+
     const addLink = (sectionIndex: number) => {
         const newSections = [...navigationSections];
-        newSections[sectionIndex].links = [...(newSections[sectionIndex].links || []), { text: '', href: '', type: 'link' }];
+        newSections[sectionIndex].links = [
+            ...(newSections[sectionIndex].links || []),
+            { text: '', href: '', type: 'link' },
+        ];
         updateSectionData('footer', { navigation_sections: newSections });
     };
-    
+
     const removeLink = (sectionIndex: number, linkIndex: number) => {
         const newSections = [...navigationSections];
-        newSections[sectionIndex].links = newSections[sectionIndex].links.filter((_: any, i: number) => i !== linkIndex);
+        newSections[sectionIndex].links = newSections[sectionIndex].links.filter(
+            (_: any, i: number) => i !== linkIndex
+        );
         updateSectionData('footer', { navigation_sections: newSections });
     };
 
@@ -62,7 +73,7 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <Layout className="h-5 w-5 text-muted-foreground" />
                             </div>
                             <div>
@@ -121,8 +132,12 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                             <Label>{t('Newsletter Description')}</Label>
                             <Textarea
                                 value={getSectionData('footer').newsletter_description || ''}
-                                onChange={(e) => updateSectionData('footer', { newsletter_description: e.target.value })}
-                                placeholder={t('We build modern web tools to help you jump-start your daily business work.')}
+                                onChange={(e) =>
+                                    updateSectionData('footer', { newsletter_description: e.target.value })
+                                }
+                                placeholder={t(
+                                    'We build modern web tools to help you jump-start your daily business work.'
+                                )}
                                 rows={2}
                             />
                         </div>
@@ -130,7 +145,9 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                             <Label>{t('Newsletter Button Text')}</Label>
                             <Input
                                 value={getSectionData('footer').newsletter_button_text || ''}
-                                onChange={(e) => updateSectionData('footer', { newsletter_button_text: e.target.value })}
+                                onChange={(e) =>
+                                    updateSectionData('footer', { newsletter_button_text: e.target.value })
+                                }
                                 placeholder={t('Subscribe')}
                             />
                         </div>
@@ -143,21 +160,27 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                             />
                         </div>
                     </div>
-                    
+
                     <div className="space-y-6">
                         <Label>{t('Navigation Sections')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'title', label: t('Section Title'), type: 'text', placeholder: t('Section Title'), required: true }
+                                {
+                                    name: 'title',
+                                    label: t('Section Title'),
+                                    type: 'text',
+                                    placeholder: t('Section Title'),
+                                    required: true,
+                                },
                             ]}
                             value={navigationSections?.map((section: any, index: number) => ({
                                 id: `section-${index}`,
-                                title: section.title || ''
+                                title: section.title || '',
                             }))}
                             onChange={(items) => {
                                 const navigation_sections = items?.map(({ id, ...item }, index) => ({
                                     ...item,
-                                    links: navigationSections[index]?.links || []
+                                    links: navigationSections[index]?.links || [],
                                 }));
                                 updateSectionData('footer', { navigation_sections });
                             }}
@@ -165,49 +188,65 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                             deleteTooltipText={t('Delete Navigation Section')}
                             minItems={0}
                             renderCustomField={(item, index, updateItem) => (
-                                <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                                <div className="mt-4 rounded-lg bg-muted/50 p-4">
                                     <Label className="text-sm font-medium">{t('Section Links')}</Label>
                                     <div className="mt-2">
                                         <Repeater
                                             fields={[
-                                                { name: 'text', label: t('Link Text'), type: 'text', placeholder: t('Link Text'), required: true },
-                                                { 
-                                                    name: 'type', 
-                                                    label: t('Type'), 
-                                                    type: 'select', 
+                                                {
+                                                    name: 'text',
+                                                    label: t('Link Text'),
+                                                    type: 'text',
+                                                    placeholder: t('Link Text'),
+                                                    required: true,
+                                                },
+                                                {
+                                                    name: 'type',
+                                                    label: t('Type'),
+                                                    type: 'select',
                                                     options: [
                                                         { value: 'link', label: t('Link') },
-                                                        { value: 'page', label: t('Page') }
+                                                        { value: 'page', label: t('Page') },
                                                     ],
-                                                    required: true
+                                                    required: true,
                                                 },
-                                                { 
-                                                    name: 'href', 
-                                                    label: t('URL/Page'), 
+                                                {
+                                                    name: 'href',
+                                                    label: t('URL/Page'),
                                                     type: 'conditional',
                                                     dependsOn: 'type',
                                                     conditions: {
-                                                        link: { type: 'text', placeholder: t('Enter URL (e.g., #features, https://example.com)') },
-                                                        page: { 
-                                                            type: 'select', 
+                                                        link: {
+                                                            type: 'text',
+                                                            placeholder: t(
+                                                                'Enter URL (e.g., #features, https://example.com)'
+                                                            ),
+                                                        },
+                                                        page: {
+                                                            type: 'select',
                                                             placeholder: t('Select Page'),
-                                                            options: customPages?.map(page => ({ value: `/page/${page.slug}`, label: page.title }))
-                                                        }
-                                                    }
+                                                            options: customPages?.map((page) => ({
+                                                                value: `/page/${page.slug}`,
+                                                                label: page.title,
+                                                            })),
+                                                        },
+                                                    },
                                                 },
-                                                { 
-                                                    name: 'target', 
-                                                    label: t('Open in New Tab'), 
-                                                    type: 'checkbox'
-                                                }
+                                                {
+                                                    name: 'target',
+                                                    label: t('Open in New Tab'),
+                                                    type: 'checkbox',
+                                                },
                                             ]}
-                                            value={(navigationSections[index]?.links || [])?.map((link: any, linkIndex: number) => ({
-                                                id: `footer-link-${index}-${linkIndex}`,
-                                                text: link.text || '',
-                                                type: link.type || 'link',
-                                                href: link.href || '',
-                                                target: link.target === '_blank' || link.target === true
-                                            }))}
+                                            value={(navigationSections[index]?.links || [])?.map(
+                                                (link: any, linkIndex: number) => ({
+                                                    id: `footer-link-${index}-${linkIndex}`,
+                                                    text: link.text || '',
+                                                    type: link.type || 'link',
+                                                    href: link.href || '',
+                                                    target: link.target === '_blank' || link.target === true,
+                                                })
+                                            )}
                                             onChange={(linkItems) => {
                                                 const newSections = [...navigationSections];
                                                 newSections[index] = {
@@ -216,8 +255,8 @@ export default function Footer({ data, getSectionData, updateSectionData, update
                                                         text: linkItem.text,
                                                         type: linkItem.type,
                                                         href: linkItem.href,
-                                                        target: linkItem.target ? '_blank' : '_self'
-                                                    }))
+                                                        target: linkItem.target ? '_blank' : '_self',
+                                                    })),
                                                 };
                                                 updateSectionData('footer', { navigation_sections: newSections });
                                             }}

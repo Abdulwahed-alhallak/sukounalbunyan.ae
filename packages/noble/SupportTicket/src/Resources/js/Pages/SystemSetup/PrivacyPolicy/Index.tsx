@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,30 +25,30 @@ export default function PrivacyPolicy() {
 
     const [formSettings, setFormSettings] = useState({
         content: settings?.content || '',
-        enabled: settings?.enabled || false
+        enabled: settings?.enabled || false,
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
             setFormSettings({
                 content: settings?.content || '',
-                enabled: settings?.enabled || false
+                enabled: settings?.enabled || false,
             });
         }
     }, [settings]);
 
     const handleContentChange = (value: string) => {
-        setFormSettings(prev => ({ ...prev, content: value }));
+        setFormSettings((prev) => ({ ...prev, content: value }));
     };
 
     const handleEnabledChange = (checked: boolean) => {
-        setFormSettings(prev => ({ ...prev, enabled: checked }));
+        setFormSettings((prev) => ({ ...prev, enabled: checked }));
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         if (!formSettings.content.trim()) {
             newErrors.content = t('Privacy policy content is required');
@@ -65,27 +65,32 @@ export default function PrivacyPolicy() {
 
         setIsLoading(true);
 
-        router.post(route('support-ticket.settings.privacy.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('support-ticket.settings.privacy.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -93,24 +98,24 @@ export default function PrivacyPolicy() {
             breadcrumbs={[
                 { label: t('Support Tickets'), url: route('dashboard.support-tickets') },
                 { label: t('System Setup') },
-                { label: t('Privacy Policy') }
+                { label: t('Privacy Policy') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Privacy Policy')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="privacy-policy" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Privacy Policy')}</h3>
                                 <Button onClick={saveSettings} disabled={isLoading}>
-                                    <Save className="h-4 w-4 mr-2" />
+                                    <Save className="mr-2 h-4 w-4" />
                                     {isLoading ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>
@@ -126,8 +131,10 @@ export default function PrivacyPolicy() {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <Label htmlFor="content">{t('Privacy Policy Content')} <span className="text-destructive">*</span></Label>
-                                    <div className={errors.content ? 'border border-destructive rounded-md' : ''}>
+                                    <Label htmlFor="content">
+                                        {t('Privacy Policy Content')} <span className="text-destructive">*</span>
+                                    </Label>
+                                    <div className={errors.content ? 'rounded-md border border-destructive' : ''}>
                                         <RichTextEditor
                                             content={formSettings.content}
                                             onChange={handleContentChange}

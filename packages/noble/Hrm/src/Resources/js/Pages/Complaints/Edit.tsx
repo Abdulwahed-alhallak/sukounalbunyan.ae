@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -28,18 +28,26 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
 
     // AI hooks for subject and description fields
     const subjectAI = useFormFields('aiField', data, setData, errors, 'edit', 'subject', 'Subject', 'hrm', 'complaint');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'hrm', 'complaint');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'hrm',
+        'complaint'
+    );
 
-    const filteredAgainstEmployees = allEmployees?.filter((emp: any) => 
-        emp.id.toString() !== data.employee_id
-    ) || [];
+    const filteredAgainstEmployees = allEmployees?.filter((emp: any) => emp.id.toString() !== data.employee_id) || [];
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.complaints.update', complaint.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -50,8 +58,10 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                    <Select value={data.employee_id} onValueChange={(value) => setData('employee_id', value) } required>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
+                    <Select value={data.employee_id} onValueChange={(value) => setData('employee_id', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -65,10 +75,16 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="against_employee_id" required>{t('Against Employee')}</Label>
-                    <Select value={data.against_employee_id} onValueChange={(value) => setData('against_employee_id', value)} required>
+                    <Label htmlFor="against_employee_id" required>
+                        {t('Against Employee')}
+                    </Label>
+                    <Select
+                        value={data.against_employee_id}
+                        onValueChange={(value) => setData('against_employee_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Against Employee')} />
                         </SelectTrigger>
@@ -82,10 +98,16 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     </Select>
                     <InputError message={errors.against_employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="complaint_type_id" required>{t('Complaint Type')}</Label>
-                    <Select value={data.complaint_type_id} onValueChange={(value) => setData('complaint_type_id', value)} required>
+                    <Label htmlFor="complaint_type_id" required>
+                        {t('Complaint Type')}
+                    </Label>
+                    <Select
+                        value={data.complaint_type_id}
+                        onValueChange={(value) => setData('complaint_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Complaint Type')} />
                         </SelectTrigger>
@@ -99,11 +121,13 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     </Select>
                     <InputError message={errors.complaint_type_id} />
                 </div>
-                
+
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="subject" required>{t('Subject')}</Label>
+                            <Label htmlFor="subject" required>
+                                {t('Subject')}
+                            </Label>
                             <Input
                                 id="subject"
                                 type="text"
@@ -114,15 +138,21 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                             />
                             <InputError message={errors.subject} />
                         </div>
-                        {subjectAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {subjectAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="description" required>{t('Description')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="description" required>
+                            {t('Description')}
+                        </Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -135,7 +165,7 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Complaint Date')}</Label>
                     <DatePicker
@@ -146,7 +176,7 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     />
                     <InputError message={errors.complaint_date} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         label={t('Document')}
@@ -158,7 +188,7 @@ export default function EditComplaint({ complaint, onSuccess }: EditComplaintPro
                     />
                     <InputError message={errors.document} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

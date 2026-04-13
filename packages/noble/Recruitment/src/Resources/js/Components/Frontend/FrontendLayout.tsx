@@ -18,9 +18,16 @@ interface FrontendLayoutProps {
     currentPage?: string;
 }
 
-export default function FrontendLayout({ children, title, description = 'Find your dream job with us', userSlug, brandSettings, currentPage }: FrontendLayoutProps) {
+export default function FrontendLayout({
+    children,
+    title,
+    description = 'Find your dream job with us',
+    userSlug,
+    brandSettings,
+    currentPage,
+}: FrontendLayoutProps) {
     return (
-        <div className="min-h-screen bg-card flex flex-col">
+        <div className="flex min-h-screen flex-col bg-card">
             <Head title={`${brandSettings.titleText || 'Careers'} - ${title}`}>
                 <meta name="description" content={description} />
                 {brandSettings.favicon && <link rel="icon" href={getImagePath(brandSettings.favicon)} />}
@@ -28,9 +35,7 @@ export default function FrontendLayout({ children, title, description = 'Find yo
 
             <FrontendHeader userSlug={userSlug} brandSettings={brandSettings} currentPage={currentPage} />
 
-            <main className="flex-1">
-                {children}
-            </main>
+            <main className="flex-1">{children}</main>
 
             <FrontendFooter userSlug={userSlug} brandSettings={brandSettings} />
         </div>

@@ -1,7 +1,7 @@
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Button } from "@/components/ui/button";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -9,21 +9,25 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trash2 } from 'lucide-react';
-import MediaPicker from "@/components/MediaPicker";
+import MediaPicker from '@/components/MediaPicker';
 import { CreateEmployeeFormData } from './types';
 import { useEffect, useState } from 'react';
 import { useFormFields } from '@/hooks/useFormFields';
-import { 
-    User, Briefcase, Phone, Fingerprint, 
-    CreditCard, ShieldCheck, GraduationCap, 
-    FileUp 
-} from 'lucide-react';
+import { User, Briefcase, Phone, Fingerprint, CreditCard, ShieldCheck, GraduationCap, FileUp } from 'lucide-react';
 
 export default function Create() {
-    const { users = [], branches = [], departments = [], designations = [], shifts, documentTypes, generatedEmployeeId } = usePage<any>().props;
+    const {
+        users = [],
+        branches = [],
+        departments = [],
+        designations = [],
+        shifts,
+        documentTypes,
+        generatedEmployeeId,
+    } = usePage<any>().props;
     const [activeTab, setActiveTab] = useState('personal');
     const [filteredBranches, setFilteredBranches] = useState(branches || []);
     const [filteredDepartments, setFilteredDepartments] = useState(departments || []);
@@ -137,9 +141,9 @@ export default function Create() {
 
     useEffect(() => {
         if (data.branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
                 setData('designation_id', '');
             }
@@ -152,9 +156,14 @@ export default function Create() {
 
     useEffect(() => {
         if (data.department_id) {
-            const departmentDesignations = designations.filter(desig => desig.department_id.toString() === data.department_id);
+            const departmentDesignations = designations.filter(
+                (desig) => desig.department_id.toString() === data.department_id
+            );
             setFilteredDesignations(departmentDesignations);
-            if (data.designation_id && !departmentDesignations.find(desig => desig.id.toString() === data.designation_id)) {
+            if (
+                data.designation_id &&
+                !departmentDesignations.find((desig) => desig.id.toString() === data.designation_id)
+            ) {
                 setData('designation_id', '');
             }
         } else {
@@ -164,44 +173,50 @@ export default function Create() {
     }, [data.department_id]);
 
     const validatePersonalTab = () => {
-        return data.employee_id.trim() !== '' &&
-            data.date_of_birth !== '' &&
-            data.gender !== '';
+        return data.employee_id.trim() !== '' && data.date_of_birth !== '' && data.gender !== '';
     };
 
     const validateEmploymentTab = () => {
-        return data.user_id !== '' &&
+        return (
+            data.user_id !== '' &&
             data.employment_type !== '' &&
             data.shift_id !== '' &&
             data.branch_id !== '' &&
             data.department_id !== '' &&
-            data.designation_id !== '';
+            data.designation_id !== ''
+        );
     };
 
     const validateContactTab = () => {
-        return data.address_line_1.trim() !== '' &&
+        return (
+            data.address_line_1.trim() !== '' &&
             data.city.trim() !== '' &&
             data.state.trim() !== '' &&
             data.country.trim() !== '' &&
             data.postal_code.trim() !== '' &&
             data.emergency_contact_name.trim() !== '' &&
             data.emergency_contact_relationship.trim() !== '' &&
-            data.emergency_contact_number.trim() !== '';
+            data.emergency_contact_number.trim() !== ''
+        );
     };
 
     const validateBankingTab = () => {
-        return data.bank_name.trim() !== '' &&
+        return (
+            data.bank_name.trim() !== '' &&
             data.account_holder_name.trim() !== '' &&
             data.account_number.trim() !== '' &&
             data.bank_identifier_code.trim() !== '' &&
-            data.bank_branch.trim() !== '';
+            data.bank_branch.trim() !== ''
+        );
     };
 
     const validateHoursTab = () => {
-        return data.basic_salary?.trim() !== '' &&
+        return (
+            data.basic_salary?.trim() !== '' &&
             data.hours_per_day?.trim() !== '' &&
             data.days_per_week?.trim() !== '' &&
-            data.rate_per_hour?.trim() !== '';
+            data.rate_per_hour?.trim() !== ''
+        );
     };
 
     const biometricFields = useFormFields('biometricEmployeeIdFields', data, setData, errors, 'create');
@@ -215,7 +230,7 @@ export default function Create() {
             breadcrumbs={[
                 { label: t('Hrm'), url: route('hrm.index') },
                 { label: t('Employees'), url: route('hrm.employees.index') },
-                { label: t('Create') }
+                { label: t('Create') },
             ]}
             pageTitle={t('Create Employee')}
         >
@@ -236,7 +251,7 @@ export default function Create() {
                                 <TabsTrigger value="documents">{t('Attachments')}</TabsTrigger>
                             </TabsList>
 
-                            <TabsContent value="personal" className="space-y-6 mt-6">
+                            <TabsContent value="personal" className="mt-6 space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="employee_id">{t('Employee Id')}</Label>
@@ -277,32 +292,56 @@ export default function Create() {
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label>{t('Gender')}</Label>
-                                        <RadioGroup value={data.gender || 'Male'} onValueChange={(value) => setData('gender', value)} className="flex gap-6 mt-2">
+                                        <RadioGroup
+                                            value={data.gender || 'Male'}
+                                            onValueChange={(value) => setData('gender', value)}
+                                            className="mt-2 flex gap-6"
+                                        >
                                             <div className="flex items-center space-x-2">
                                                 <RadioGroupItem value="Male" id="gender_male" />
-                                                <Label htmlFor="gender_male" className="cursor-pointer">{t('Male')}</Label>
+                                                <Label htmlFor="gender_male" className="cursor-pointer">
+                                                    {t('Male')}
+                                                </Label>
                                             </div>
                                             <div className="flex items-center space-x-2">
                                                 <RadioGroupItem value="Female" id="gender_female" />
-                                                <Label htmlFor="gender_female" className="cursor-pointer">{t('Female')}</Label>
+                                                <Label htmlFor="gender_female" className="cursor-pointer">
+                                                    {t('Female')}
+                                                </Label>
                                             </div>
                                         </RadioGroup>
                                         <InputError message={errors.gender} />
                                     </div>
                                     <div>
                                         <Label htmlFor="name_ar">{t('Arabic Name')}</Label>
-                                        <Input id="name_ar" value={data.name_ar} onChange={(e) => setData('name_ar', e.target.value)} placeholder={t('الاسم بالعربي')} dir="rtl" />
+                                        <Input
+                                            id="name_ar"
+                                            value={data.name_ar}
+                                            onChange={(e) => setData('name_ar', e.target.value)}
+                                            placeholder={t('الاسم بالعربي')}
+                                            dir="rtl"
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="nationality">{t('Nationality')}</Label>
-                                        <Input id="nationality" value={data.nationality} onChange={(e) => setData('nationality', e.target.value)} placeholder={t('e.g., Saudi')} />
+                                        <Input
+                                            id="nationality"
+                                            value={data.nationality}
+                                            onChange={(e) => setData('nationality', e.target.value)}
+                                            placeholder={t('e.g., Saudi')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="marital_status">{t('Marital Status')}</Label>
-                                        <Select value={data.marital_status} onValueChange={(v) => setData('marital_status', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.marital_status}
+                                            onValueChange={(v) => setData('marital_status', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Single">{t('Single')}</SelectItem>
                                                 <SelectItem value="Married">{t('Married')}</SelectItem>
@@ -312,28 +351,55 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="marital_status2">{t('Marital Status 2')}</Label>
-                                        <Input id="marital_status2" value={data.marital_status2} onChange={(e) => setData('marital_status2', e.target.value)} placeholder={t('Enter Marital Status 2')} />
+                                        <Input
+                                            id="marital_status2"
+                                            value={data.marital_status2}
+                                            onChange={(e) => setData('marital_status2', e.target.value)}
+                                            placeholder={t('Enter Marital Status 2')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="place_of_birth">{t('Place of Birth')}</Label>
-                                        <Input id="place_of_birth" value={data.place_of_birth} onChange={(e) => setData('place_of_birth', e.target.value)} placeholder={t('Enter Place of Birth')} />
+                                        <Input
+                                            id="place_of_birth"
+                                            value={data.place_of_birth}
+                                            onChange={(e) => setData('place_of_birth', e.target.value)}
+                                            placeholder={t('Enter Place of Birth')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="religion">{t('Religion')}</Label>
-                                        <Input id="religion" value={data.religion} onChange={(e) => setData('religion', e.target.value)} placeholder={t('Enter Religion')} />
+                                        <Input
+                                            id="religion"
+                                            value={data.religion}
+                                            onChange={(e) => setData('religion', e.target.value)}
+                                            placeholder={t('Enter Religion')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="no_of_dependents">{t('No. of Dependents')}</Label>
-                                        <Input id="no_of_dependents" type="number" min="0" value={data.no_of_dependents} onChange={(e) => setData('no_of_dependents', e.target.value)} />
+                                        <Input
+                                            id="no_of_dependents"
+                                            type="number"
+                                            min="0"
+                                            value={data.no_of_dependents}
+                                            onChange={(e) => setData('no_of_dependents', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="blood_type">{t('Blood Type')}</Label>
                                         <Select value={data.blood_type} onValueChange={(v) => setData('blood_type', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
-                                                {['A+','A-','B+','B-','AB+','AB-','O+','O-']?.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
+                                                {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']?.map((b) => (
+                                                    <SelectItem key={b} value={b}>
+                                                        {b}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -352,11 +418,17 @@ export default function Create() {
                                 </div>
                             </TabsContent>
 
-                            <TabsContent value="employment" className="space-y-6 mt-6">
+                            <TabsContent value="employment" className="mt-6 space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
-                                        <Label htmlFor="user_id" required>{t('User')}</Label>
-                                        <Select value={data.user_id?.toString() || ''} onValueChange={(value) => setData('user_id', value)} required>
+                                        <Label htmlFor="user_id" required>
+                                            {t('User')}
+                                        </Label>
+                                        <Select
+                                            value={data.user_id?.toString() || ''}
+                                            onValueChange={(value) => setData('user_id', value)}
+                                            required
+                                        >
                                             <SelectTrigger>
                                                 <SelectValue placeholder={t('Select User')} />
                                             </SelectTrigger>
@@ -368,14 +440,21 @@ export default function Create() {
                                                 ))}
                                             </SelectContent>
                                         </Select>
-                                        <p className="text-sm text-muted-foreground mt-1">{t('Note: Company users will be applicable for create employee.')}</p>
+                                        <p className="mt-1 text-sm text-muted-foreground">
+                                            {t('Note: Company users will be applicable for create employee.')}
+                                        </p>
                                         <InputError message={errors.user_id} />
                                     </div>
 
-
                                     <div>
-                                        <Label htmlFor="shift_id" required>{t('Shift')}</Label>
-                                        <Select value={data.shift_id?.toString() || ''} onValueChange={(value) => setData('shift_id', value)} required>
+                                        <Label htmlFor="shift_id" required>
+                                            {t('Shift')}
+                                        </Label>
+                                        <Select
+                                            value={data.shift_id?.toString() || ''}
+                                            onValueChange={(value) => setData('shift_id', value)}
+                                            required
+                                        >
                                             <SelectTrigger>
                                                 <SelectValue placeholder={t('Select Shift')} />
                                             </SelectTrigger>
@@ -390,8 +469,6 @@ export default function Create() {
                                         <InputError message={errors.shift_id} />
                                     </div>
 
-
-
                                     <div>
                                         <Label>{t('Date Of Joining')}</Label>
                                         <DatePicker
@@ -404,8 +481,14 @@ export default function Create() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="employment_type" required>{t('Employment Type')}</Label>
-                                        <Select value={data.employment_type || 'Full Time'} onValueChange={(value) => setData('employment_type', value)} required>
+                                        <Label htmlFor="employment_type" required>
+                                            {t('Employment Type')}
+                                        </Label>
+                                        <Select
+                                            value={data.employment_type || 'Full Time'}
+                                            onValueChange={(value) => setData('employment_type', value)}
+                                            required
+                                        >
                                             <SelectTrigger>
                                                 <SelectValue placeholder={t('Select Employment Type')} />
                                             </SelectTrigger>
@@ -419,9 +502,10 @@ export default function Create() {
                                         <InputError message={errors.employment_type} />
                                     </div>
 
-
                                     <div>
-                                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                                        <Label htmlFor="branch_id" required>
+                                            {t('Branch')}
+                                        </Label>
                                         <Select
                                             value={data.branch_id?.toString() || ''}
                                             onValueChange={(value) => setData('branch_id', value)}
@@ -429,7 +513,11 @@ export default function Create() {
                                             required
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder={data.user_id ? t('Select Branch') : t('Select User first')} />
+                                                <SelectValue
+                                                    placeholder={
+                                                        data.user_id ? t('Select Branch') : t('Select User first')
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent searchable={true}>
                                                 {filteredBranches?.map((item: any) => (
@@ -443,7 +531,9 @@ export default function Create() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="department_id" required>{t('Department')}</Label>
+                                        <Label htmlFor="department_id" required>
+                                            {t('Department')}
+                                        </Label>
                                         <Select
                                             value={data.department_id?.toString() || ''}
                                             onValueChange={(value) => setData('department_id', value)}
@@ -451,7 +541,13 @@ export default function Create() {
                                             required
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                                                <SelectValue
+                                                    placeholder={
+                                                        data.branch_id
+                                                            ? t('Select Department')
+                                                            : t('Select Branch first')
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent searchable={true}>
                                                 {filteredDepartments?.map((item: any) => (
@@ -465,7 +561,9 @@ export default function Create() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="designation_id" required>{t('Designation')}</Label>
+                                        <Label htmlFor="designation_id" required>
+                                            {t('Designation')}
+                                        </Label>
                                         <Select
                                             value={data.designation_id?.toString() || ''}
                                             onValueChange={(value) => setData('designation_id', value)}
@@ -473,7 +571,13 @@ export default function Create() {
                                             required
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder={data.department_id ? t('Select Designation') : t('Select Department first')} />
+                                                <SelectValue
+                                                    placeholder={
+                                                        data.department_id
+                                                            ? t('Select Designation')
+                                                            : t('Select Department first')
+                                                    }
+                                                />
                                             </SelectTrigger>
                                             <SelectContent searchable={true}>
                                                 {filteredDesignations?.map((item: any) => (
@@ -491,36 +595,70 @@ export default function Create() {
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="job_title">{t('Job Title')}</Label>
-                                        <Input id="job_title" value={data.job_title} onChange={(e) => setData('job_title', e.target.value)} />
+                                        <Input
+                                            id="job_title"
+                                            value={data.job_title}
+                                            onChange={(e) => setData('job_title', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="job_title_ar">{t('المسمى الوظيفي بالعربي')}</Label>
-                                        <Input id="job_title_ar" value={data.job_title_ar} onChange={(e) => setData('job_title_ar', e.target.value)} dir="rtl" />
+                                        <Input
+                                            id="job_title_ar"
+                                            value={data.job_title_ar}
+                                            onChange={(e) => setData('job_title_ar', e.target.value)}
+                                            dir="rtl"
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="occupation">{t('Occupation')}</Label>
-                                        <Input id="occupation" value={data.occupation} onChange={(e) => setData('occupation', e.target.value)} />
+                                        <Input
+                                            id="occupation"
+                                            value={data.occupation}
+                                            onChange={(e) => setData('occupation', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="allocated_area">{t('Allocated Area')}</Label>
-                                        <Input id="allocated_area" value={data.allocated_area} onChange={(e) => setData('allocated_area', e.target.value)} />
+                                        <Input
+                                            id="allocated_area"
+                                            value={data.allocated_area}
+                                            onChange={(e) => setData('allocated_area', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="line_manager">{t('Line Manager')}</Label>
-                                        <Input id="line_manager" value={data.line_manager} onChange={(e) => setData('line_manager', e.target.value)} />
+                                        <Input
+                                            id="line_manager"
+                                            value={data.line_manager}
+                                            onChange={(e) => setData('line_manager', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="employer_number">{t('Employer Number')}</Label>
-                                        <Input id="employer_number" value={data.employer_number} onChange={(e) => setData('employer_number', e.target.value)} />
+                                        <Input
+                                            id="employer_number"
+                                            value={data.employer_number}
+                                            onChange={(e) => setData('employer_number', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label>{t('GOSI Joining Date')}</Label>
-                                        <DatePicker value={data.gosi_joining_date} onChange={(date) => setData('gosi_joining_date', date)} placeholder={t('Select Date')} />
+                                        <DatePicker
+                                            value={data.gosi_joining_date}
+                                            onChange={(date) => setData('gosi_joining_date', date)}
+                                            placeholder={t('Select Date')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="employee_status">{t('Employee Status')}</Label>
-                                        <Select value={data.employee_status} onValueChange={(v) => setData('employee_status', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.employee_status}
+                                            onValueChange={(v) => setData('employee_status', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Active">{t('Active')}</SelectItem>
                                                 <SelectItem value="Inactive">{t('Inactive')}</SelectItem>
@@ -532,13 +670,22 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="list_type">{t('List Type')}</Label>
-                                        <Input id="list_type" value={data.list_type} onChange={(e) => setData('list_type', e.target.value)} />
+                                        <Input
+                                            id="list_type"
+                                            value={data.list_type}
+                                            onChange={(e) => setData('list_type', e.target.value)}
+                                        />
                                     </div>
                                 </div>
 
                                 <div>
                                     <Label htmlFor="notes">{t('Notes')}</Label>
-                                    <Input id="notes" value={data.notes} onChange={(e) => setData('notes', e.target.value)} placeholder={t('Additional notes...')} />
+                                    <Input
+                                        id="notes"
+                                        value={data.notes}
+                                        onChange={(e) => setData('notes', e.target.value)}
+                                        placeholder={t('Additional notes...')}
+                                    />
                                 </div>
 
                                 <div className="flex justify-between">
@@ -555,31 +702,58 @@ export default function Create() {
                                 </div>
                             </TabsContent>
 
-                            <TabsContent value="contact" className="space-y-6 mt-6">
+                            <TabsContent value="contact" className="mt-6 space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="mobile_no">{t('Mobile Number')}</Label>
-                                        <Input id="mobile_no" value={data.mobile_no} onChange={(e) => setData('mobile_no', e.target.value)} placeholder={t('+966...')} />
+                                        <Input
+                                            id="mobile_no"
+                                            value={data.mobile_no}
+                                            onChange={(e) => setData('mobile_no', e.target.value)}
+                                            placeholder={t('+966...')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="alternate_mobile_no">{t('Alternate Mobile')}</Label>
-                                        <Input id="alternate_mobile_no" value={data.alternate_mobile_no} onChange={(e) => setData('alternate_mobile_no', e.target.value)} />
+                                        <Input
+                                            id="alternate_mobile_no"
+                                            value={data.alternate_mobile_no}
+                                            onChange={(e) => setData('alternate_mobile_no', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="email_address">{t('Email Address')}</Label>
-                                        <Input id="email_address" type="email" value={data.email_address} onChange={(e) => setData('email_address', e.target.value)} />
+                                        <Input
+                                            id="email_address"
+                                            type="email"
+                                            value={data.email_address}
+                                            onChange={(e) => setData('email_address', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="work_email">{t('Work Email')}</Label>
-                                        <Input id="work_email" type="email" value={data.work_email} onChange={(e) => setData('work_email', e.target.value)} />
+                                        <Input
+                                            id="work_email"
+                                            type="email"
+                                            value={data.work_email}
+                                            onChange={(e) => setData('work_email', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="place_of_residence">{t('Place of Residence')}</Label>
-                                        <Input id="place_of_residence" value={data.place_of_residence} onChange={(e) => setData('place_of_residence', e.target.value)} />
+                                        <Input
+                                            id="place_of_residence"
+                                            value={data.place_of_residence}
+                                            onChange={(e) => setData('place_of_residence', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="resident_type">{t('Resident Type')}</Label>
-                                        <Input id="resident_type" value={data.resident_type} onChange={(e) => setData('resident_type', e.target.value)} />
+                                        <Input
+                                            id="resident_type"
+                                            value={data.resident_type}
+                                            onChange={(e) => setData('resident_type', e.target.value)}
+                                        />
                                     </div>
                                 </div>
 
@@ -676,7 +850,9 @@ export default function Create() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="emergency_contact_relationship">{t('Emergency Contact Relationship')}</Label>
+                                        <Label htmlFor="emergency_contact_relationship">
+                                            {t('Emergency Contact Relationship')}
+                                        </Label>
                                         <Input
                                             id="emergency_contact_relationship"
                                             type="text"
@@ -703,61 +879,97 @@ export default function Create() {
                                     <Button type="button" variant="outline" onClick={() => setActiveTab('employment')}>
                                         {t('Previous')}
                                     </Button>
-                                    <Button
-                                        type="button"
-                                        onClick={() => setActiveTab('identity')}
-                                    >
+                                    <Button type="button" onClick={() => setActiveTab('identity')}>
                                         {t('Next')}
                                     </Button>
                                 </div>
                             </TabsContent>
 
                             {/* Identity Tab */}
-                            <TabsContent value="identity" className="space-y-6 mt-6">
+                            <TabsContent value="identity" className="mt-6 space-y-6">
                                 <h3 className="text-lg font-semibold">{t('Residency / Iqama')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="iqama_no">{t('Iqama Number')}</Label>
-                                        <Input id="iqama_no" value={data.iqama_no} onChange={(e) => setData('iqama_no', e.target.value)} placeholder={t('Enter Iqama Number')} />
+                                        <Input
+                                            id="iqama_no"
+                                            value={data.iqama_no}
+                                            onChange={(e) => setData('iqama_no', e.target.value)}
+                                            placeholder={t('Enter Iqama Number')}
+                                        />
                                     </div>
                                     <div>
                                         <Label>{t('Iqama Issue Date')}</Label>
-                                        <DatePicker value={data.iqama_issue_date} onChange={(date) => setData('iqama_issue_date', date)} placeholder={t('Select Date')} />
+                                        <DatePicker
+                                            value={data.iqama_issue_date}
+                                            onChange={(date) => setData('iqama_issue_date', date)}
+                                            placeholder={t('Select Date')}
+                                        />
                                     </div>
                                     <div>
                                         <Label>{t('Iqama Expiry Date')}</Label>
-                                        <DatePicker value={data.iqama_expiry_date} onChange={(date) => setData('iqama_expiry_date', date)} placeholder={t('Select Date')} />
+                                        <DatePicker
+                                            value={data.iqama_expiry_date}
+                                            onChange={(date) => setData('iqama_expiry_date', date)}
+                                            placeholder={t('Select Date')}
+                                        />
                                     </div>
                                 </div>
                                 <h3 className="text-lg font-semibold">{t('Passport')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="passport_no">{t('Passport Number')}</Label>
-                                        <Input id="passport_no" value={data.passport_no} onChange={(e) => setData('passport_no', e.target.value)} placeholder={t('Enter Passport Number')} />
+                                        <Input
+                                            id="passport_no"
+                                            value={data.passport_no}
+                                            onChange={(e) => setData('passport_no', e.target.value)}
+                                            placeholder={t('Enter Passport Number')}
+                                        />
                                     </div>
                                     <div>
                                         <Label>{t('Passport Expiry Date')}</Label>
-                                        <DatePicker value={data.passport_expiry_date} onChange={(date) => setData('passport_expiry_date', date)} placeholder={t('Select Date')} />
+                                        <DatePicker
+                                            value={data.passport_expiry_date}
+                                            onChange={(date) => setData('passport_expiry_date', date)}
+                                            placeholder={t('Select Date')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
-                                    <Button type="button" variant="outline" onClick={() => setActiveTab('contact')}>{t('Previous')}</Button>
-                                    <Button type="button" onClick={() => setActiveTab('banking')}>{t('Next')}</Button>
+                                    <Button type="button" variant="outline" onClick={() => setActiveTab('contact')}>
+                                        {t('Previous')}
+                                    </Button>
+                                    <Button type="button" onClick={() => setActiveTab('banking')}>
+                                        {t('Next')}
+                                    </Button>
                                 </div>
                             </TabsContent>
 
                             {/* Banking Tab (merged with salary/hours) */}
-                            <TabsContent value="banking" className="space-y-6 mt-6">
+                            <TabsContent value="banking" className="mt-6 space-y-6">
                                 <h3 className="text-lg font-semibold">{t('Salary & Payment')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                                     <div>
                                         <Label htmlFor="basic_salary">{t('Basic Salary')}</Label>
-                                        <Input id="basic_salary" type="number" step="0.01" min="0" value={data.basic_salary} onChange={(e) => setData('basic_salary', e.target.value)} placeholder={t('SAR')} />
+                                        <Input
+                                            id="basic_salary"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            value={data.basic_salary}
+                                            onChange={(e) => setData('basic_salary', e.target.value)}
+                                            placeholder={t('SAR')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="payment_method">{t('Payment Method')}</Label>
-                                        <Select value={data.payment_method} onValueChange={(v) => setData('payment_method', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.payment_method}
+                                            onValueChange={(v) => setData('payment_method', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="BANK TRANSFER">{t('Bank Transfer')}</SelectItem>
                                                 <SelectItem value="CASH">{t('Cash')}</SelectItem>
@@ -767,53 +979,105 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="hours_per_day">{t('Hours Per Day')}</Label>
-                                        <Input id="hours_per_day" type="number" step="0.5" min="0" max="24" value={data.hours_per_day} onChange={(e) => setData('hours_per_day', e.target.value)} />
+                                        <Input
+                                            id="hours_per_day"
+                                            type="number"
+                                            step="0.5"
+                                            min="0"
+                                            max="24"
+                                            value={data.hours_per_day}
+                                            onChange={(e) => setData('hours_per_day', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="days_per_week">{t('Days Per Week')}</Label>
-                                        <Input id="days_per_week" type="number" min="0" max="7" value={data.days_per_week} onChange={(e) => setData('days_per_week', e.target.value)} />
+                                        <Input
+                                            id="days_per_week"
+                                            type="number"
+                                            min="0"
+                                            max="7"
+                                            value={data.days_per_week}
+                                            onChange={(e) => setData('days_per_week', e.target.value)}
+                                        />
                                     </div>
                                 </div>
                                 <h3 className="text-lg font-semibold">{t('Bank Details')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="bank_name">{t('Bank Name')}</Label>
-                                        <Input id="bank_name" value={data.bank_name} onChange={(e) => setData('bank_name', e.target.value)} placeholder={t('Enter Bank Name')} />
+                                        <Input
+                                            id="bank_name"
+                                            value={data.bank_name}
+                                            onChange={(e) => setData('bank_name', e.target.value)}
+                                            placeholder={t('Enter Bank Name')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="bank_iban">{t('Bank IBAN')}</Label>
-                                        <Input id="bank_iban" value={data.bank_iban} onChange={(e) => setData('bank_iban', e.target.value)} placeholder={t('SA...')} />
+                                        <Input
+                                            id="bank_iban"
+                                            value={data.bank_iban}
+                                            onChange={(e) => setData('bank_iban', e.target.value)}
+                                            placeholder={t('SA...')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="account_holder_name">{t('Account Holder Name')}</Label>
-                                        <Input id="account_holder_name" value={data.account_holder_name} onChange={(e) => setData('account_holder_name', e.target.value)} placeholder={t('Enter Name')} />
+                                        <Input
+                                            id="account_holder_name"
+                                            value={data.account_holder_name}
+                                            onChange={(e) => setData('account_holder_name', e.target.value)}
+                                            placeholder={t('Enter Name')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="swift_code">{t('SWIFT Code')}</Label>
-                                        <Input id="swift_code" value={data.swift_code} onChange={(e) => setData('swift_code', e.target.value)} placeholder={t('Enter SWIFT Code')} />
+                                        <Input
+                                            id="swift_code"
+                                            value={data.swift_code}
+                                            onChange={(e) => setData('swift_code', e.target.value)}
+                                            placeholder={t('Enter SWIFT Code')}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="account_number">{t('Account Number')}</Label>
-                                        <Input id="account_number" value={data.account_number} onChange={(e) => setData('account_number', e.target.value)} />
+                                        <Input
+                                            id="account_number"
+                                            value={data.account_number}
+                                            onChange={(e) => setData('account_number', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="tax_payer_id">{t('Tax Payer Id')}</Label>
-                                        <Input id="tax_payer_id" value={data.tax_payer_id} onChange={(e) => setData('tax_payer_id', e.target.value)} />
+                                        <Input
+                                            id="tax_payer_id"
+                                            value={data.tax_payer_id}
+                                            onChange={(e) => setData('tax_payer_id', e.target.value)}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
-                                    <Button type="button" variant="outline" onClick={() => setActiveTab('identity')}>{t('Previous')}</Button>
-                                    <Button type="button" onClick={() => setActiveTab('insurance')}>{t('Next')}</Button>
+                                    <Button type="button" variant="outline" onClick={() => setActiveTab('identity')}>
+                                        {t('Previous')}
+                                    </Button>
+                                    <Button type="button" onClick={() => setActiveTab('insurance')}>
+                                        {t('Next')}
+                                    </Button>
                                 </div>
                             </TabsContent>
 
                             {/* Insurance Tab */}
-                            <TabsContent value="insurance" className="space-y-6 mt-6">
+                            <TabsContent value="insurance" className="mt-6 space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="insurance_status">{t('Insurance Status')}</Label>
-                                        <Select value={data.insurance_status} onValueChange={(v) => setData('insurance_status', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.insurance_status}
+                                            onValueChange={(v) => setData('insurance_status', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Active">{t('Active')}</SelectItem>
                                                 <SelectItem value="Inactive">{t('Inactive')}</SelectItem>
@@ -823,8 +1087,13 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="insurance_class">{t('Insurance Class')}</Label>
-                                        <Select value={data.insurance_class} onValueChange={(v) => setData('insurance_class', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.insurance_class}
+                                            onValueChange={(v) => setData('insurance_class', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="A">A</SelectItem>
                                                 <SelectItem value="B">B</SelectItem>
@@ -836,23 +1105,37 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="sponsor_id">{t('Sponsor ID')}</Label>
-                                        <Input id="sponsor_id" value={data.sponsor_id} onChange={(e) => setData('sponsor_id', e.target.value)} placeholder={t('Enter Sponsor ID')} />
+                                        <Input
+                                            id="sponsor_id"
+                                            value={data.sponsor_id}
+                                            onChange={(e) => setData('sponsor_id', e.target.value)}
+                                            placeholder={t('Enter Sponsor ID')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
-                                    <Button type="button" variant="outline" onClick={() => setActiveTab('banking')}>{t('Previous')}</Button>
-                                    <Button type="button" onClick={() => setActiveTab('education')}>{t('Next')}</Button>
+                                    <Button type="button" variant="outline" onClick={() => setActiveTab('banking')}>
+                                        {t('Previous')}
+                                    </Button>
+                                    <Button type="button" onClick={() => setActiveTab('education')}>
+                                        {t('Next')}
+                                    </Button>
                                 </div>
                             </TabsContent>
 
                             {/* Education Tab */}
-                            <TabsContent value="education" className="space-y-6 mt-6">
+                            <TabsContent value="education" className="mt-6 space-y-6">
                                 <h3 className="text-lg font-semibold">{t('Education')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="education_level">{t('Education Level')}</Label>
-                                        <Select value={data.education_level} onValueChange={(v) => setData('education_level', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.education_level}
+                                            onValueChange={(v) => setData('education_level', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="High School">{t('High School')}</SelectItem>
                                                 <SelectItem value="Diploma">{t('Diploma')}</SelectItem>
@@ -864,33 +1147,61 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="university">{t('University')}</Label>
-                                        <Input id="university" value={data.university} onChange={(e) => setData('university', e.target.value)} />
+                                        <Input
+                                            id="university"
+                                            value={data.university}
+                                            onChange={(e) => setData('university', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="major_field">{t('Major / Field')}</Label>
-                                        <Input id="major_field" value={data.major_field} onChange={(e) => setData('major_field', e.target.value)} />
+                                        <Input
+                                            id="major_field"
+                                            value={data.major_field}
+                                            onChange={(e) => setData('major_field', e.target.value)}
+                                        />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="graduation_year">{t('Graduation Year')}</Label>
-                                        <Input id="graduation_year" value={data.graduation_year} onChange={(e) => setData('graduation_year', e.target.value)} placeholder="2020" />
+                                        <Input
+                                            id="graduation_year"
+                                            value={data.graduation_year}
+                                            onChange={(e) => setData('graduation_year', e.target.value)}
+                                            placeholder="2020"
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="total_experience_years">{t('Total Experience (Years)')}</Label>
-                                        <Input id="total_experience_years" type="number" min="0" value={data.total_experience_years} onChange={(e) => setData('total_experience_years', e.target.value)} />
+                                        <Input
+                                            id="total_experience_years"
+                                            type="number"
+                                            min="0"
+                                            value={data.total_experience_years}
+                                            onChange={(e) => setData('total_experience_years', e.target.value)}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="computer_skills">{t('Computer Skills')}</Label>
-                                        <Input id="computer_skills" value={data.computer_skills} onChange={(e) => setData('computer_skills', e.target.value)} />
+                                        <Input
+                                            id="computer_skills"
+                                            value={data.computer_skills}
+                                            onChange={(e) => setData('computer_skills', e.target.value)}
+                                        />
                                     </div>
                                 </div>
                                 <h3 className="text-lg font-semibold">{t('Languages')}</h3>
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="english_level">{t('English Level')}</Label>
-                                        <Select value={data.english_level} onValueChange={(v) => setData('english_level', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.english_level}
+                                            onValueChange={(v) => setData('english_level', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="None">{t('None')}</SelectItem>
                                                 <SelectItem value="Basic">{t('Basic')}</SelectItem>
@@ -902,8 +1213,13 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="arabic_level">{t('Arabic Level')}</Label>
-                                        <Select value={data.arabic_level} onValueChange={(v) => setData('arabic_level', v)}>
-                                            <SelectTrigger><SelectValue placeholder={t('Select')} /></SelectTrigger>
+                                        <Select
+                                            value={data.arabic_level}
+                                            onValueChange={(v) => setData('arabic_level', v)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={t('Select')} />
+                                            </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="None">{t('None')}</SelectItem>
                                                 <SelectItem value="Basic">{t('Basic')}</SelectItem>
@@ -915,17 +1231,26 @@ export default function Create() {
                                     </div>
                                     <div>
                                         <Label htmlFor="other_languages">{t('Other Languages')}</Label>
-                                        <Input id="other_languages" value={data.other_languages} onChange={(e) => setData('other_languages', e.target.value)} placeholder={t('e.g., Urdu, Hindi')} />
+                                        <Input
+                                            id="other_languages"
+                                            value={data.other_languages}
+                                            onChange={(e) => setData('other_languages', e.target.value)}
+                                            placeholder={t('e.g., Urdu, Hindi')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
-                                    <Button type="button" variant="outline" onClick={() => setActiveTab('insurance')}>{t('Previous')}</Button>
-                                    <Button type="button" onClick={() => setActiveTab('documents')}>{t('Next')}</Button>
+                                    <Button type="button" variant="outline" onClick={() => setActiveTab('insurance')}>
+                                        {t('Previous')}
+                                    </Button>
+                                    <Button type="button" onClick={() => setActiveTab('documents')}>
+                                        {t('Next')}
+                                    </Button>
                                 </div>
                             </TabsContent>
 
                             {/* Documents Tab */}
-                            <TabsContent value="documents" className="space-y-6 mt-6">
+                            <TabsContent value="documents" className="mt-6 space-y-6">
                                 <div className="space-y-4">
                                     <Label>{t('Employee Mission Payload (Attachments)')}</Label>
                                     <MediaPicker

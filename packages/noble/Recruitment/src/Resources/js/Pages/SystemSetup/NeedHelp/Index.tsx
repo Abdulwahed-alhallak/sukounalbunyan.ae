@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,27 +29,27 @@ export default function NeedHelp() {
     const [formSettings, setFormSettings] = useState({
         description: settings?.description || '',
         email: settings?.email || '',
-        phone: settings?.phone || ''
+        phone: settings?.phone || '',
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
             setFormSettings({
                 description: settings?.description || '',
                 email: settings?.email || '',
-                phone: settings?.phone || ''
+                phone: settings?.phone || '',
             });
         }
     }, [settings]);
 
     const handleInputChange = (field: string, value: string) => {
-        setFormSettings(prev => ({ ...prev, [field]: value }));
+        setFormSettings((prev) => ({ ...prev, [field]: value }));
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         if (!formSettings.description.trim()) {
             newErrors.description = t('Description is required');
@@ -74,27 +74,32 @@ export default function NeedHelp() {
 
         setIsLoading(true);
 
-        router.post(route('recruitment.need-help.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('recruitment.need-help.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -102,25 +107,25 @@ export default function NeedHelp() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('Need Help Section') }
+                { label: t('Need Help Section') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Need Help Section')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="need-help" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Need Help Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -129,7 +134,7 @@ export default function NeedHelp() {
                             <div className="space-y-6">
                                 <div className="space-y-3">
                                     <Label htmlFor="description" required>
-                                        {t('Description')} 
+                                        {t('Description')}
                                     </Label>
                                     <Textarea
                                         id="description"
@@ -141,16 +146,18 @@ export default function NeedHelp() {
                                         maxLength={100}
                                         rows={4}
                                     />
-                                    <div className="flex justify-between items-center text-xs">
+                                    <div className="flex items-center justify-between text-xs">
                                         <span className="text-destructive">{errors.description || ''}</span>
-                                        <span className="text-muted-foreground">{formSettings.description.length}/100</span>
+                                        <span className="text-muted-foreground">
+                                            {formSettings.description.length}/100
+                                        </span>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-3">
                                         <Label htmlFor="email" required>
-                                            {t('Email')} 
+                                            {t('Email')}
                                         </Label>
                                         <Input
                                             id="email"
@@ -162,15 +169,17 @@ export default function NeedHelp() {
                                             className={errors.email ? 'border-destructive' : ''}
                                             maxLength={50}
                                         />
-                                        <div className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center justify-between text-xs">
                                             <span className="text-destructive">{errors.email || ''}</span>
-                                            <span className="text-muted-foreground">{formSettings.email.length}/50</span>
+                                            <span className="text-muted-foreground">
+                                                {formSettings.email.length}/50
+                                            </span>
                                         </div>
                                     </div>
 
                                     <div className="space-y-3">
                                         <Label htmlFor="phone" required>
-                                            {t('Phone')} 
+                                            {t('Phone')}
                                         </Label>
                                         <Input
                                             id="phone"
@@ -182,9 +191,11 @@ export default function NeedHelp() {
                                             className={errors.phone ? 'border-destructive' : ''}
                                             maxLength={20}
                                         />
-                                        <div className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center justify-between text-xs">
                                             <span className="text-destructive">{errors.phone || ''}</span>
-                                            <span className="text-muted-foreground">{formSettings.phone.length}/20</span>
+                                            <span className="text-muted-foreground">
+                                                {formSettings.phone.length}/20
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

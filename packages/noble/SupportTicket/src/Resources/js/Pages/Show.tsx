@@ -66,17 +66,17 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
     const { t } = useTranslation();
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-    
+
     const { data, setData, processing, errors, reset } = useForm({
-        reply_description: ''
+        reply_description: '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('description', data.reply_description);
-        
+
         if (selectedFiles && selectedFiles.length > 0) {
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append('files[]', selectedFiles[i]);
@@ -85,34 +85,30 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
 
         // Check if this is admin view or public view
         const isAdminView = window.location.pathname.includes('/support-tickets/');
-        
+
         // Get encrypted ticket ID from URL
         const urlParts = window.location.pathname.split('/');
         const encryptedTicketId = urlParts[urlParts.length - 1];
 
-        
-      router.post(route('support-ticket.send-conversion.store', { 
-            slug: slug, 
-            ticketId: encryptedTicketId 
-        }),
-        formData,
-        {
-            onSuccess: () => {
-                reset();
-                setSelectedFiles(null);
-                setImagePreviews([]);
-            },
-            onError: (errors) => {
+        router.post(
+            route('support-ticket.send-conversion.store', {
+                slug: slug,
+                ticketId: encryptedTicketId,
+            }),
+            formData,
+            {
+                onSuccess: () => {
+                    reset();
+                    setSelectedFiles(null);
+                    setImagePreviews([]);
+                },
+                onError: (errors) => {},
             }
-        });
+        );
     };
 
     const toggleToolbar = (tool: string) => {
-        setActiveToolbar(prev => 
-            prev.includes(tool) 
-                ? prev.filter(t => t !== tool)
-                : [...prev, tool]
-        );
+        setActiveToolbar((prev) => (prev.includes(tool) ? prev.filter((t) => t !== tool) : [...prev, tool]));
     };
 
     const formatDate = (dateString: string) => {
@@ -120,60 +116,58 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
     };
 
     const getStatusColor = (status: string) => {
-         const colors = {
-            'open': 'bg-muted text-foreground',
-            'Open': 'bg-muted text-foreground',
+        const colors = {
+            open: 'bg-muted text-foreground',
+            Open: 'bg-muted text-foreground',
             'In Progress': 'bg-muted text-foreground',
-            'closed': 'bg-muted text-destructive',
-            'Closed': 'bg-muted text-destructive',
-            'On Hold': 'bg-muted text-foreground'
+            closed: 'bg-muted text-destructive',
+            Closed: 'bg-muted text-destructive',
+            'On Hold': 'bg-muted text-foreground',
         };
         return colors[status as keyof typeof colors] || 'bg-muted text-foreground';
     };
 
-
-
     return (
-        <SupportTicketLayout 
-            title={`Ticket - ${ticket.ticket_id}`}
-            settings={settings}
-            brandSettings={brandSettings}
-        >
+        <SupportTicketLayout title={`Ticket - ${ticket.ticket_id}`} settings={settings} brandSettings={brandSettings}>
             {/* Ticket ID Header */}
-            <div className="flex justify-center mb-8">
-                <div className="inline-block bg-foreground text-background px-6 py-3 rounded-full shadow-lg">
+            <div className="mb-8 flex justify-center">
+                <div className="inline-block rounded-full bg-foreground px-6 py-3 text-background shadow-lg">
                     <div className="flex items-center space-x-2">
                         <Ticket className="h-5 w-5" />
-                        <span className="font-semibold">{t('Ticket')} - {ticket.ticket_id}</span>
+                        <span className="font-semibold">
+                            {t('Ticket')} - {ticket.ticket_id}
+                        </span>
                     </div>
                 </div>
             </div>
 
             {/* Ticket Info and Conversation */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 {/* Main Conversation */}
                 <div className="lg:col-span-2">
                     {/* Ticket Subject */}
-                    <Card className="shadow-md mb-6">
+                    <Card className="mb-6 shadow-md">
                         <CardContent className="p-4 md:p-6">
-                            <div className="flex flex-col md:flex-row justify-between md:items-center gap-y-2">
-                                <h2 className="md:text-2xl text-xl font-bold text-foreground">{ticket.subject}</h2>
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(ticket.status)}`}>
+                            <div className="flex flex-col justify-between gap-y-2 md:flex-row md:items-center">
+                                <h2 className="text-xl font-bold text-foreground md:text-2xl">{ticket.subject}</h2>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(ticket.status)}`}
+                                >
                                     {ticket.status}
                                 </span>
                             </div>
 
-                            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div className="mt-4 grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
                                 <div>
-                                    <span className="text-muted-foreground block">Created:</span>
+                                    <span className="block text-muted-foreground">Created:</span>
                                     <span className="font-medium">{formatDateTime(ticket.created_at)}</span>
                                 </div>
                                 <div>
-                                    <span className="text-muted-foreground block">Customer:</span>
+                                    <span className="block text-muted-foreground">Customer:</span>
                                     <span className="font-medium">{ticket.name}</span>
                                 </div>
                                 <div>
-                                    <span className="text-muted-foreground block">Email:</span>
+                                    <span className="block text-muted-foreground">Email:</span>
                                     <span className="font-medium">{ticket.email}</span>
                                 </div>
                             </div>
@@ -181,92 +175,38 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                     </Card>
 
                     {/* Original Message */}
-                    <div className="space-y-6 mb-6">
+                    <div className="mb-6 space-y-6">
                         <div className="flex gap-4">
                             <div className="flex-shrink-0">
-                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-foreground/60 flex items-center justify-center text-background font-semibold">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground/60 font-semibold text-background md:h-10 md:w-10">
                                     {ticket.name ? ticket.name.charAt(0).toUpperCase() : 'U'}
                                 </div>
                             </div>
                             <div className="flex-grow">
-                                <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                                <div className="mb-2 flex flex-col justify-between md:flex-row md:items-center">
                                     <div>
                                         <span className="font-medium text-foreground">{ticket.name}</span>
-                                        <span className="text-muted-foreground text-sm ml-2">({formatDate(ticket.created_at)})</span>
+                                        <span className="ml-2 text-sm text-muted-foreground">
+                                            ({formatDate(ticket.created_at)})
+                                        </span>
                                     </div>
                                 </div>
-                                <div className="bg-muted/50 border-l-4 border-foreground rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                                <div className="rounded-xl border-l-4 border-foreground bg-muted/50 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                                     <div dangerouslySetInnerHTML={{ __html: ticket.description }} />
-                                    
-                                    {/* Attachments */}
-                                    {ticket.attachments && Array.isArray(ticket.attachments) && ticket.attachments.length > 0 && (
-                                        <div className="mt-4 bg-card/50 rounded-lg p-3 border border-border">
-                                            <b className="flex items-center gap-2 mb-2">
-                                                <Paperclip className="h-4 w-4" />
-                                                Attachments:
-                                            </b>
-                                            {ticket.attachments?.map((attachment, index) => (
-                                                <div key={index} className="flex items-center justify-between">
-                                                    <span>{attachment.name}</span>
-                                                    <button 
-                                                        onClick={async () => {
-                                                            const url = `/storage/${attachment.path}`;
-                                                            const response = await fetch(url);
-                                                            const blob = await response.blob();
-                                                            const link = document.createElement('a');
-                                                            link.href = URL.createObjectURL(blob);
-                                                            link.download = attachment.name;
-                                                            link.click();
-                                                            URL.revokeObjectURL(link.href);
-                                                        }}
-                                                        className="text-foreground hover:text-foreground"
-                                                    >
-                                                        <Download className="h-4 w-4" />
-                                                    </button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Conversations */}
-                        {ticket.conversions && ticket.conversions?.map((conversion) => (
-                            <div key={conversion.id} className="flex gap-4">
-                                <div className="flex-shrink-0">
-                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-foreground/60 flex items-center justify-center text-background font-semibold">
-                                        {conversion.sender === 'admin' ? 'A' : 'U'}
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                                        <div>
-                                            <span className="font-medium text-foreground">
-                                                {conversion.sender === 'admin' 
-                                                    ? (conversion.replyBy?.name || 'Admin') 
-                                                    : ticket.name
-                                                }
-                                            </span>
-                                            <span className="text-muted-foreground text-sm ml-2">({formatDate(conversion.created_at)})</span>
-                                        </div>
-                                    </div>
-                                    <div className={`rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                                        conversion.sender === 'admin' ? 'bg-muted/50 border-l-4 border-foreground' : 'bg-muted/50 border-l-4 border-foreground'
-                                    }`}>
-                                        <div dangerouslySetInnerHTML={{ __html: conversion.description || 'No description' }} />
-                                        
-                                        {/* Conversion Attachments */}
-                                        {conversion.attachments && Array.isArray(conversion.attachments) && conversion.attachments.length > 0 && (
-                                            <div className="mt-4 bg-card/50 rounded-lg p-3 border border-border">
-                                                <b className="flex items-center gap-2 mb-2">
+                                    {/* Attachments */}
+                                    {ticket.attachments &&
+                                        Array.isArray(ticket.attachments) &&
+                                        ticket.attachments.length > 0 && (
+                                            <div className="mt-4 rounded-lg border border-border bg-card/50 p-3">
+                                                <b className="mb-2 flex items-center gap-2">
                                                     <Paperclip className="h-4 w-4" />
                                                     Attachments:
                                                 </b>
-                                                {conversion.attachments?.map((attachment, index) => (
+                                                {ticket.attachments?.map((attachment, index) => (
                                                     <div key={index} className="flex items-center justify-between">
                                                         <span>{attachment.name}</span>
-                                                        <button 
+                                                        <button
                                                             onClick={async () => {
                                                                 const url = `/storage/${attachment.path}`;
                                                                 const response = await fetch(url);
@@ -285,17 +225,88 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                                 ))}
                                             </div>
                                         )}
-                                    </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Conversations */}
+                        {ticket.conversions &&
+                            ticket.conversions?.map((conversion) => (
+                                <div key={conversion.id} className="flex gap-4">
+                                    <div className="flex-shrink-0">
+                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground/60 font-semibold text-background md:h-10 md:w-10">
+                                            {conversion.sender === 'admin' ? 'A' : 'U'}
+                                        </div>
+                                    </div>
+                                    <div className="flex-grow">
+                                        <div className="mb-2 flex flex-col justify-between md:flex-row md:items-center">
+                                            <div>
+                                                <span className="font-medium text-foreground">
+                                                    {conversion.sender === 'admin'
+                                                        ? conversion.replyBy?.name || 'Admin'
+                                                        : ticket.name}
+                                                </span>
+                                                <span className="ml-2 text-sm text-muted-foreground">
+                                                    ({formatDate(conversion.created_at)})
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={`rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                                                conversion.sender === 'admin'
+                                                    ? 'border-l-4 border-foreground bg-muted/50'
+                                                    : 'border-l-4 border-foreground bg-muted/50'
+                                            }`}
+                                        >
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: conversion.description || 'No description',
+                                                }}
+                                            />
+
+                                            {/* Conversion Attachments */}
+                                            {conversion.attachments &&
+                                                Array.isArray(conversion.attachments) &&
+                                                conversion.attachments.length > 0 && (
+                                                    <div className="mt-4 rounded-lg border border-border bg-card/50 p-3">
+                                                        <b className="mb-2 flex items-center gap-2">
+                                                            <Paperclip className="h-4 w-4" />
+                                                            Attachments:
+                                                        </b>
+                                                        {conversion.attachments?.map((attachment, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex items-center justify-between"
+                                                            >
+                                                                <span>{attachment.name}</span>
+                                                                <button
+                                                                    onClick={async () => {
+                                                                        const url = `/storage/${attachment.path}`;
+                                                                        const response = await fetch(url);
+                                                                        const blob = await response.blob();
+                                                                        const link = document.createElement('a');
+                                                                        link.href = URL.createObjectURL(blob);
+                                                                        link.download = attachment.name;
+                                                                        link.click();
+                                                                        URL.revokeObjectURL(link.href);
+                                                                    }}
+                                                                    className="text-foreground hover:text-foreground"
+                                                                >
+                                                                    <Download className="h-4 w-4" />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                     </div>
 
                     {/* Reply Form */}
                     {ticket.status !== 'Closed' ? (
-                        <Card className="shadow-md overflow-hidden">
-
-
+                        <Card className="overflow-hidden shadow-md">
                             <CardContent className="p-4">
                                 <form onSubmit={handleSubmit}>
                                     <RichTextEditor
@@ -304,9 +315,9 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                         placeholder="Write your reply here..."
                                         className="mb-4"
                                     />
-                                    
+
                                     <div className="mb-4">
-                                        <label className="block text-sm font-medium text-foreground mb-2">
+                                        <label className="mb-2 block text-sm font-medium text-foreground">
                                             {t('Attachments')}
                                         </label>
                                         <input
@@ -332,7 +343,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                                     setImagePreviews([]);
                                                 }
                                             }}
-                                            className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-muted/50 file:text-foreground hover:file:bg-muted"
+                                            className="block w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-muted/50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-foreground hover:file:bg-muted"
                                         />
                                         {imagePreviews.length > 0 && (
                                             <div className="mt-3 grid grid-cols-3 gap-2">
@@ -341,7 +352,7 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                                         key={index}
                                                         src={preview}
                                                         alt={`Preview ${index + 1}`}
-                                                        className="w-full h-20 object-cover rounded border"
+                                                        className="h-20 w-full rounded border object-cover"
                                                     />
                                                 ))}
                                             </div>
@@ -349,12 +360,12 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
                                     </div>
 
                                     <div className="flex justify-end">
-                                        <Button 
-                                            type="submit" 
+                                        <Button
+                                            type="submit"
                                             disabled={processing || !data.reply_description.trim()}
                                             className="bg-foreground hover:bg-foreground"
                                         >
-                                            <Send className="h-4 w-4 mr-2" />
+                                            <Send className="mr-2 h-4 w-4" />
                                             {processing ? t('Sending...') : t('Send Reply')}
                                         </Button>
                                     </div>
@@ -372,20 +383,20 @@ export default function Show({ ticket, workspace, settings, brandSettings, slug 
 
                 {/* Ticket Sidebar */}
                 <div className="space-y-6">
-                    <Card className="shadow-md overflow-hidden">
-                        <div className="bg-foreground text-background py-3 px-4">
-                            <h3 className="font-medium flex items-center">
-                                <Ticket className="h-4 w-4 mr-2" />
+                    <Card className="overflow-hidden shadow-md">
+                        <div className="bg-foreground px-4 py-3 text-background">
+                            <h3 className="flex items-center font-medium">
+                                <Ticket className="mr-2 h-4 w-4" />
                                 {t('Ticket Information')}
                             </h3>
                         </div>
-                        <CardContent className="p-4 space-y-4">
+                        <CardContent className="space-y-4 p-4">
                             {[
                                 { label: t('Status'), value: ticket.status },
                                 { label: t('Ticket ID'), value: `#${ticket.ticket_id}` },
                                 { label: t('Created'), value: formatDateTime(ticket.created_at) },
                                 { label: t('Customer'), value: ticket.name },
-                                { label: t('Email'), value: ticket.email }
+                                { label: t('Email'), value: ticket.email },
                             ]?.map((item, index) => (
                                 <div key={index} className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">{item.label}:</span>

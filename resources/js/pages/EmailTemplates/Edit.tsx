@@ -39,15 +39,15 @@ const getCountryFlag = (countryCode: string): string => {
     const codePoints = countryCode
         .toUpperCase()
         .split('')
-        .map(char => 127397 + char.charCodeAt(0));
+        .map((char) => 127397 + char.charCodeAt(0));
     return String.fromCodePoint(...codePoints);
 };
 
 const availableLanguages = languagesData
-    .filter(lang => lang.enabled !== false)
-    .map(lang => ({
+    .filter((lang) => lang.enabled !== false)
+    .map((lang) => ({
         ...lang,
-        flag: getCountryFlag(lang.countryCode)
+        flag: getCountryFlag(lang.countryCode),
     }));
 
 export default function Edit() {
@@ -56,7 +56,6 @@ export default function Edit() {
     const urlParams = new URLSearchParams(window.location.search);
     const [activeLanguage, setActiveLanguage] = useState(urlParams.get('lang') || currEmailTempLang?.lang || 'en');
     const [editorKey, setEditorKey] = useState(0);
-
 
     const templateForm = useForm({
         from: emailTemplate.from || 'Noble Architecture',
@@ -82,21 +81,18 @@ export default function Edit() {
         contentForm.put(route('email-templates.update', emailTemplate.id), {
             onSuccess: () => {
                 router.get(route('email-templates.edit', emailTemplate.id), { lang: activeLanguage });
-            }
+            },
         });
     };
 
     return (
-
         <AuthenticatedLayout
-                    breadcrumbs={[
-                        {label: t('Email Templates'), url: route('email-templates.index')},
-                        {label: t('Edit Email Template')}
-                    ]}
-                    pageTitle={`${t('Edit Email Template')} : ${emailTemplate.name}`}
-
-                >
-
+            breadcrumbs={[
+                { label: t('Email Templates'), url: route('email-templates.index') },
+                { label: t('Edit Email Template') },
+            ]}
+            pageTitle={`${t('Edit Email Template')} : ${emailTemplate.name}`}
+        >
             <Head title={t('Edit Email Template')} />
 
             <div className="grid grid-cols-12 gap-6">
@@ -109,7 +105,9 @@ export default function Edit() {
                             <div className="grid grid-cols-1 gap-3 text-sm">
                                 {Object.entries(variables || {}).map(([key, value]) => (
                                     <div key={key}>
-                                        <p>{key}: <span className="text-foreground font-mono">{`{${value}}`}</span></p>
+                                        <p>
+                                            {key}: <span className="font-mono text-foreground">{`{${value}}`}</span>
+                                        </p>
                                     </div>
                                 ))}
                             </div>
@@ -135,13 +133,13 @@ export default function Edit() {
                                     />
                                 </div>
                                 <div className="flex justify-end">
-                                    <Button type="submit" disabled={templateForm.processing} className='min-w-24'>
-                                        <Save className="h-4 w-4 mr-2" />
+                                    <Button type="submit" disabled={templateForm.processing} className="min-w-24">
+                                        <Save className="mr-2 h-4 w-4" />
                                         {templateForm.processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>
                                 {templateForm.errors.from && (
-                                    <p className="text-destructive text-sm mt-1">{templateForm.errors.from}</p>
+                                    <p className="mt-1 text-sm text-destructive">{templateForm.errors.from}</p>
                                 )}
                             </form>
                         </CardContent>
@@ -150,10 +148,12 @@ export default function Edit() {
 
                 <div className="col-span-8 space-y-6">
                     <Card>
-                        <CardHeader className="p-3 flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg flex items-center gap-2">
-                                <span className="text-lg">{availableLanguages.find(l => l.code === activeLanguage)?.flag}</span>
-                                {t('Content for')} {availableLanguages.find(l => l.code === activeLanguage)?.name}
+                        <CardHeader className="flex flex-row items-center justify-between p-3">
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                                <span className="text-lg">
+                                    {availableLanguages.find((l) => l.code === activeLanguage)?.flag}
+                                </span>
+                                {t('Content for')} {availableLanguages.find((l) => l.code === activeLanguage)?.name}
                             </CardTitle>
                             <div className="flex items-center gap-2">
                                 <Select value={activeLanguage} onValueChange={handleLanguageChange}>
@@ -173,16 +173,16 @@ export default function Edit() {
                                 </Select>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-0">
-                        </CardContent>
+                        <CardContent className="p-0"></CardContent>
                     </Card>
 
                     <Card>
-
                         <CardContent className="space-y-6 p-3">
                             <form onSubmit={handleContentSubmit} className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="subject" className="text-sm font-medium">{t('Subject')}</Label>
+                                    <Label htmlFor="subject" className="text-sm font-medium">
+                                        {t('Subject')}
+                                    </Label>
                                     <Input
                                         id="subject"
                                         value={contentForm.data.subject}
@@ -192,7 +192,9 @@ export default function Edit() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="content" className="text-sm font-medium">{t('Email Message')}</Label>
+                                    <Label htmlFor="content" className="text-sm font-medium">
+                                        {t('Email Message')}
+                                    </Label>
                                     <RichTextEditor
                                         key={editorKey}
                                         content={contentForm.data.content}
@@ -202,7 +204,7 @@ export default function Edit() {
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={contentForm.processing} className="min-w-24">
-                                         <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {contentForm.processing ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 </div>
@@ -214,4 +216,3 @@ export default function Edit() {
         </AuthenticatedLayout>
     );
 }
-

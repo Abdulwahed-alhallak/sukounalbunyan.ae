@@ -24,12 +24,14 @@ export default function Hero({ data, getSectionData, updateSectionData, updateSe
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <Layout className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
                                 <CardTitle>{t('Hero Content')}</CardTitle>
-                                <p className="text-sm text-muted-foreground">{t('Main headline and supporting text')}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    {t('Main headline and supporting text')}
+                                </p>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -100,7 +102,9 @@ export default function Hero({ data, getSectionData, updateSectionData, updateSe
                                 <Label>{t('Secondary Button Text')}</Label>
                                 <Input
                                     value={getSectionData('hero').secondary_button_text || ''}
-                                    onChange={(e) => updateSectionData('hero', { secondary_button_text: e.target.value })}
+                                    onChange={(e) =>
+                                        updateSectionData('hero', { secondary_button_text: e.target.value })
+                                    }
                                     placeholder={t('Login')}
                                 />
                             </div>
@@ -108,7 +112,9 @@ export default function Hero({ data, getSectionData, updateSectionData, updateSe
                                 <Label>{t('Secondary Button Link')}</Label>
                                 <Input
                                     value={getSectionData('hero').secondary_button_link || ''}
-                                    onChange={(e) => updateSectionData('hero', { secondary_button_link: e.target.value })}
+                                    onChange={(e) =>
+                                        updateSectionData('hero', { secondary_button_link: e.target.value })
+                                    }
                                     placeholder={t('Enter button link URL')}
                                 />
                             </div>

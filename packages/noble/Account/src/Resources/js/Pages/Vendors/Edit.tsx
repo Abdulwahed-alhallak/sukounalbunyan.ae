@@ -1,14 +1,14 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import InputError from "@/components/ui/input-error";
-import { PhoneInputComponent } from "@/components/ui/phone-input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import InputError from '@/components/ui/input-error';
+import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { EditVendorProps, CreateVendorFormData } from './types';
 
 export default function Edit({ vendor, onSuccess }: EditVendorProps) {
@@ -20,7 +20,7 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
         put(route('account.vendors.update', vendor.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -100,7 +100,7 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                     <Input
                         id="billing_name"
                         value={data.billing_address.name}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, name: e.target.value})}
+                        onChange={(e) => setData('billing_address', { ...data.billing_address, name: e.target.value })}
                         placeholder={t('Enter billing name')}
                         required
                     />
@@ -111,7 +111,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                     <Input
                         id="billing_address"
                         value={data.billing_address.address_line_1}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, address_line_1: e.target.value})}
+                        onChange={(e) =>
+                            setData('billing_address', { ...data.billing_address, address_line_1: e.target.value })
+                        }
                         placeholder={t('Enter address')}
                         required
                     />
@@ -122,7 +124,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                     <Input
                         id="billing_address_2"
                         value={data.billing_address.address_line_2}
-                        onChange={(e) => setData('billing_address', {...data.billing_address, address_line_2: e.target.value})}
+                        onChange={(e) =>
+                            setData('billing_address', { ...data.billing_address, address_line_2: e.target.value })
+                        }
                         placeholder={t('Apartment, suite, etc. (optional)')}
                     />
                     <InputError message={errors['billing_address.address_line_2']} />
@@ -133,7 +137,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                         <Input
                             id="billing_city"
                             value={data.billing_address.city}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, city: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, city: e.target.value })
+                            }
                             placeholder={t('Enter city')}
                             required
                         />
@@ -144,7 +150,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                         <Input
                             id="billing_state"
                             value={data.billing_address.state}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, state: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, state: e.target.value })
+                            }
                             placeholder={t('Enter state')}
                             required
                         />
@@ -158,7 +166,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                         <Input
                             id="billing_country"
                             value={data.billing_address.country}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, country: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, country: e.target.value })
+                            }
                             placeholder={t('Enter country')}
                             required
                         />
@@ -169,7 +179,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                         <Input
                             id="billing_zip"
                             value={data.billing_address.zip_code}
-                            onChange={(e) => setData('billing_address', {...data.billing_address, zip_code: e.target.value})}
+                            onChange={(e) =>
+                                setData('billing_address', { ...data.billing_address, zip_code: e.target.value })
+                            }
                             placeholder={t('Enter zip code')}
                             required
                         />
@@ -183,7 +195,7 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                         onCheckedChange={(checked) => {
                             setData('same_as_billing', !!checked);
                             if (checked) {
-                                setData('shipping_address', {...data.billing_address});
+                                setData('shipping_address', { ...data.billing_address });
                             }
                         }}
                     />
@@ -198,7 +210,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                             <Input
                                 id="shipping_name"
                                 value={data.shipping_address.name}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, name: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', { ...data.shipping_address, name: e.target.value })
+                                }
                                 placeholder={t('Enter shipping name')}
                                 required
                             />
@@ -209,7 +223,12 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                             <Input
                                 id="shipping_address"
                                 value={data.shipping_address.address_line_1}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, address_line_1: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', {
+                                        ...data.shipping_address,
+                                        address_line_1: e.target.value,
+                                    })
+                                }
                                 placeholder={t('Enter shipping address')}
                                 required
                             />
@@ -220,7 +239,12 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                             <Input
                                 id="shipping_address_2"
                                 value={data.shipping_address.address_line_2}
-                                onChange={(e) => setData('shipping_address', {...data.shipping_address, address_line_2: e.target.value})}
+                                onChange={(e) =>
+                                    setData('shipping_address', {
+                                        ...data.shipping_address,
+                                        address_line_2: e.target.value,
+                                    })
+                                }
                                 placeholder={t('Apartment, suite, etc. (optional)')}
                             />
                             <InputError message={errors['shipping_address.address_line_2']} />
@@ -231,7 +255,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                                 <Input
                                     id="shipping_city"
                                     value={data.shipping_address.city}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, city: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', { ...data.shipping_address, city: e.target.value })
+                                    }
                                     placeholder={t('Enter city')}
                                     required
                                 />
@@ -242,7 +268,9 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                                 <Input
                                     id="shipping_state"
                                     value={data.shipping_address.state}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, state: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', { ...data.shipping_address, state: e.target.value })
+                                    }
                                     placeholder={t('Enter state')}
                                     required
                                 />
@@ -255,7 +283,12 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                                 <Input
                                     id="shipping_country"
                                     value={data.shipping_address.country}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, country: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', {
+                                            ...data.shipping_address,
+                                            country: e.target.value,
+                                        })
+                                    }
                                     placeholder={t('Enter country')}
                                     required
                                 />
@@ -266,7 +299,12 @@ export default function Edit({ vendor, onSuccess }: EditVendorProps) {
                                 <Input
                                     id="shipping_zip"
                                     value={data.shipping_address.zip_code}
-                                    onChange={(e) => setData('shipping_address', {...data.shipping_address, zip_code: e.target.value})}
+                                    onChange={(e) =>
+                                        setData('shipping_address', {
+                                            ...data.shipping_address,
+                                            zip_code: e.target.value,
+                                        })
+                                    }
                                     placeholder={t('Enter zip code')}
                                     required
                                 />

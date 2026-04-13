@@ -1,6 +1,6 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
-import { Star, FileText } from "lucide-react";
+import { Star, FileText } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
 import { formatDate } from '@/utils/helpers';
 
@@ -40,7 +40,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
             pending: 'bg-muted text-foreground',
             in_progress: 'bg-muted text-foreground',
             completed: 'bg-muted text-foreground',
-            cancelled: 'bg-muted text-destructive'
+            cancelled: 'bg-muted text-destructive',
         };
         return colors[status] || 'bg-muted text-foreground';
     };
@@ -50,7 +50,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
             pending: t('Pending'),
             in_progress: t('In Progress'),
             completed: t('Completed'),
-            cancelled: t('Cancelled')
+            cancelled: t('Cancelled'),
         };
         return labels[status] || status;
     };
@@ -62,9 +62,7 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                     <Star
                         key={star}
                         className={`h-4 w-4 ${
-                            star <= rating
-                                ? 'fill-foreground text-muted-foreground'
-                                : 'text-muted-foreground/60'
+                            star <= rating ? 'fill-foreground text-muted-foreground' : 'text-muted-foreground/60'
                         }`}
                     />
                 ))}
@@ -73,10 +71,10 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <FileText className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -85,41 +83,54 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-4 space-y-6">
+
+            <div className="flex-1 space-y-6 overflow-y-auto p-4">
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Employee')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                {users?.find((user: any) => user.id.toString() === employeeReview.user?.id?.toString())?.name || employeeReview.user?.name || '-'}
+                                {users?.find((user: any) => user.id.toString() === employeeReview.user?.id?.toString())
+                                    ?.name ||
+                                    employeeReview.user?.name ||
+                                    '-'}
                             </p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Reviewer')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                {users?.find((user: any) => user.id.toString() === employeeReview.reviewer?.id?.toString())?.name || employeeReview.reviewer?.name || '-'}
+                                {users?.find(
+                                    (user: any) => user.id.toString() === employeeReview.reviewer?.id?.toString()
+                                )?.name ||
+                                    employeeReview.reviewer?.name ||
+                                    '-'}
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Review Cycle')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                {review_cycles?.find((cycle: any) => cycle.id.toString() === employeeReview.review_cycle?.id?.toString())?.name || employeeReview.review_cycle?.name || '-'}
+                                {review_cycles?.find(
+                                    (cycle: any) => cycle.id.toString() === employeeReview.review_cycle?.id?.toString()
+                                )?.name ||
+                                    employeeReview.review_cycle?.name ||
+                                    '-'}
                             </p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(employeeReview.status)}`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-sm ${getStatusColor(employeeReview.status)}`}
+                                >
                                     {getStatusLabel(employeeReview.status)}
                                 </span>
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Review Date')}</label>
@@ -127,12 +138,16 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                         </div>
                         {employeeReview.completion_date && (
                             <div>
-                                <label className="text-sm font-medium text-muted-foreground">{t('Completion Date')}</label>
-                                <p className="mt-1 text-sm text-foreground">{formatDate(employeeReview.completion_date)}</p>
+                                <label className="text-sm font-medium text-muted-foreground">
+                                    {t('Completion Date')}
+                                </label>
+                                <p className="mt-1 text-sm text-foreground">
+                                    {formatDate(employeeReview.completion_date)}
+                                </p>
                             </div>
                         )}
                     </div>
-                    
+
                     {averageRating && (
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Average Rating')}</label>
@@ -150,16 +165,21 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                         <div className="mt-2 space-y-3">
                             {Object.entries(performanceIndicators)?.map(([categoryName, indicators]) => (
                                 <div key={categoryName}>
-                                    <h3 className="text-sm font-medium text-foreground mb-2">
+                                    <h3 className="mb-2 text-sm font-medium text-foreground">
                                         {categoryName || t('Uncategorized')}
                                     </h3>
                                     <div className="space-y-2">
                                         {indicators?.map((indicator) => (
-                                            <div key={indicator.id} className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                                            <div
+                                                key={indicator.id}
+                                                className="flex items-center justify-between rounded bg-muted/50 p-2"
+                                            >
                                                 <span className="text-sm text-foreground">{indicator.name}</span>
                                                 <div className="flex items-center gap-1">
                                                     {renderStars(indicator.user_rating)}
-                                                    <span className="text-xs text-muted-foreground ml-1">{indicator.user_rating}/5</span>
+                                                    <span className="ml-1 text-xs text-muted-foreground">
+                                                        {indicator.user_rating}/5
+                                                    </span>
                                                 </div>
                                             </div>
                                         ))}
@@ -173,8 +193,11 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                 {employeeReview.pros && (
                     <div>
                         <label className="text-sm font-medium text-muted-foreground">{t('Pros')}</label>
-                        <div className="mt-1 p-3 bg-muted/50 rounded border-l-2 border-foreground">
-                            <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: employeeReview.pros }} />
+                        <div className="mt-1 rounded border-l-2 border-foreground bg-muted/50 p-3">
+                            <div
+                                className="text-sm text-foreground"
+                                dangerouslySetInnerHTML={{ __html: employeeReview.pros }}
+                            />
                         </div>
                     </div>
                 )}
@@ -182,8 +205,11 @@ export default function Show({ employeeReview, performanceIndicators, averageRat
                 {employeeReview.cons && (
                     <div>
                         <label className="text-sm font-medium text-muted-foreground">{t('Cons')}</label>
-                        <div className="mt-1 p-3 bg-muted/50 rounded border-l-2 border-destructive">
-                            <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: employeeReview.cons }} />
+                        <div className="mt-1 rounded border-l-2 border-destructive bg-muted/50 p-3">
+                            <div
+                                className="text-sm text-foreground"
+                                dangerouslySetInnerHTML={{ __html: employeeReview.cons }}
+                            />
                         </div>
                     </div>
                 )}

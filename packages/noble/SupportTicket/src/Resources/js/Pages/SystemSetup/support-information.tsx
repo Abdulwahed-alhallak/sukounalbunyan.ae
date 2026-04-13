@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import InputError from '@/components/ui/input-error';
-import { Save } from "lucide-react";
+import { Save } from 'lucide-react';
 import MediaPicker from '@/components/MediaPicker';
-import SystemSetupSidebar from "./SystemSetupSidebar";
+import SystemSetupSidebar from './SystemSetupSidebar';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { formatTime } from '@/utils/helpers';
 
@@ -43,15 +43,14 @@ export default function SupportInformation({ supportInformation }: SupportInform
             { day: 'Thursday', is_open: true },
             { day: 'Friday', is_open: true },
             { day: 'Saturday', is_open: false },
-            { day: 'Sunday', is_open: false }
+            { day: 'Sunday', is_open: false },
         ]
     );
 
     const { data, setData, post, processing, errors } = useForm<SupportInformationData>({
         ...supportInformation,
-        business_hours: businessHours
+        business_hours: businessHours,
     });
-
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,24 +62,24 @@ export default function SupportInformation({ supportInformation }: SupportInform
             breadcrumbs={[
                 { label: t('Support Ticket'), url: route('support-tickets.index') },
                 { label: t('System Setup'), url: route('support-ticket.settings.brand') },
-                { label: t('Support Information') }
+                { label: t('Support Information') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Support Information')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="support-information" />
                 </div>
 
                 <div className="flex-1">
                     <Card>
                         <CardHeader>
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 <CardTitle>{t('Support Information')}</CardTitle>
                                 <Button type="submit" disabled={processing} form="support-information-form">
-                                    <Save className="h-4 w-4 mr-2" />
+                                    <Save className="mr-2 h-4 w-4" />
                                     {processing ? t('Saving...') : t('Save Changes')}
                                 </Button>
                             </div>
@@ -100,7 +99,7 @@ export default function SupportInformation({ supportInformation }: SupportInform
                                     <InputError message={errors.response_time} />
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="opening-hours">{t('Opening Hours')}</Label>
                                         <Input
@@ -110,7 +109,7 @@ export default function SupportInformation({ supportInformation }: SupportInform
                                             onChange={(e) => setData('opening_hours', e.target.value)}
                                             required
                                         />
-                                        <p className="text-xs text-muted-foreground mt-1">
+                                        <p className="mt-1 text-xs text-muted-foreground">
                                             {data.opening_hours && t('Preview: ') + formatTime(data.opening_hours)}
                                         </p>
                                         <InputError message={errors.opening_hours} />
@@ -124,7 +123,7 @@ export default function SupportInformation({ supportInformation }: SupportInform
                                             onChange={(e) => setData('closing_hours', e.target.value)}
                                             required
                                         />
-                                        <p className="text-xs text-muted-foreground mt-1">
+                                        <p className="mt-1 text-xs text-muted-foreground">
                                             {data.closing_hours && t('Preview: ') + formatTime(data.closing_hours)}
                                         </p>
                                         <InputError message={errors.closing_hours} />
@@ -132,16 +131,27 @@ export default function SupportInformation({ supportInformation }: SupportInform
                                 </div>
 
                                 <div>
-                                    <Label className="text-base font-medium mb-4 block">{t('Business Hours')}</Label>
+                                    <Label className="mb-4 block text-base font-medium">{t('Business Hours')}</Label>
                                     <div className="space-y-2">
-                                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']?.map((day) => (
-                                            <div key={day} className="flex items-center justify-between py-2 px-3 bg-muted/50 rounded-lg">
+                                        {[
+                                            'Monday',
+                                            'Tuesday',
+                                            'Wednesday',
+                                            'Thursday',
+                                            'Friday',
+                                            'Saturday',
+                                            'Sunday',
+                                        ]?.map((day) => (
+                                            <div
+                                                key={day}
+                                                className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2"
+                                            >
                                                 <Label className="font-medium">{t(day)}</Label>
                                                 <Switch
-                                                    checked={businessHours.find(h => h.day === day)?.is_open ?? true}
+                                                    checked={businessHours.find((h) => h.day === day)?.is_open ?? true}
                                                     onCheckedChange={(checked) => {
                                                         const newHours = [...businessHours];
-                                                        const existingIndex = newHours.findIndex(h => h.day === day);
+                                                        const existingIndex = newHours.findIndex((h) => h.day === day);
                                                         if (existingIndex >= 0) {
                                                             newHours[existingIndex].is_open = checked;
                                                         } else {

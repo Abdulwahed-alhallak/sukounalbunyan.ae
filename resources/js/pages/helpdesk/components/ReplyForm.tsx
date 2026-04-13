@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePage } from '@inertiajs/react';
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Send } from 'lucide-react';
-import MediaPicker from "@/components/MediaPicker";
+import MediaPicker from '@/components/MediaPicker';
 import { ReplyFormProps } from './types';
 
 export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFormProps) {
@@ -22,12 +22,12 @@ export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFor
         if (!message.trim() || isSubmitting) return;
 
         setIsSubmitting(true);
-        
+
         try {
             const payload = {
                 message,
                 is_internal: isInternal,
-                attachments: attachments || null
+                attachments: attachments || null,
             };
 
             const response = await fetch(route('helpdesk-replies.store', ticketId), {
@@ -36,16 +36,16 @@ export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFor
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
 
             const data = await response.json();
-            
+
             if (data.success) {
                 setMessage('');
                 setAttachments([]);
                 setIsInternal(false);
-                setEditorKey(prev => prev + 1); // Force re-render to clear editor
+                setEditorKey((prev) => prev + 1); // Force re-render to clear editor
                 onReplyAdded(data.reply);
             } else {
                 console.error('Failed to send reply');
@@ -57,10 +57,8 @@ export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFor
         }
     };
 
-
-
     return (
-        <div className="border-t bg-muted/50/50 p-3">
+        <div className="bg-muted/50/50 border-t p-3">
             <div className="space-y-2">
                 <div className="relative">
                     <RichTextEditor
@@ -75,21 +73,23 @@ export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFor
                         }}
                     />
                 </div>
-                
+
                 <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 flex-1">
+                    <div className="flex flex-1 items-center gap-3">
                         <div className="flex items-center gap-1">
                             <MediaPicker
                                 label=""
                                 value={attachments}
-                                onChange={(value) => setAttachments(Array.isArray(value) ? value : [value].filter(Boolean))}
+                                onChange={(value) =>
+                                    setAttachments(Array.isArray(value) ? value : [value].filter(Boolean))
+                                }
                                 multiple={true}
                                 placeholder={t('Attach')}
                                 showPreview={false}
                                 disabled={disabled || isSubmitting}
                             />
                         </div>
-                        
+
                         {auth.user?.type === 'superadmin' && (
                             <div className="flex items-center gap-1.5">
                                 <Checkbox
@@ -99,24 +99,25 @@ export default function ReplyForm({ ticketId, onReplyAdded, disabled }: ReplyFor
                                     disabled={disabled || isSubmitting}
                                     className="h-4 w-4"
                                 />
-                                <label htmlFor="is_internal" className="text-xs text-muted-foreground cursor-pointer whitespace-nowrap">
+                                <label
+                                    htmlFor="is_internal"
+                                    className="cursor-pointer whitespace-nowrap text-xs text-muted-foreground"
+                                >
                                     {t('Internal')}
                                 </label>
                             </div>
                         )}
                     </div>
-                    
+
                     <Button
                         type="button"
                         onClick={handleSubmit}
                         disabled={!message.trim() || disabled || isSubmitting}
                         size="sm"
-                        className="flex items-center gap-1.5 px-4 py-2 h-8"
+                        className="flex h-8 items-center gap-1.5 px-4 py-2"
                     >
                         <Send className="h-3.5 w-3.5" />
-                        <span className="text-xs font-medium">
-                            {isSubmitting ? t('Sending...') : t('Send')}
-                        </span>
+                        <span className="text-xs font-medium">{isSubmitting ? t('Sending...') : t('Send')}</span>
                     </Button>
                 </div>
             </div>

@@ -12,10 +12,12 @@ export interface HolidayTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateHolidayTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateHolidayTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditHolidayTypeProps extends EditProps<HolidayType>  {[key: string]: any;
+export interface EditHolidayTypeProps extends EditProps<HolidayType> {
+    [key: string]: any;
 }
 
 export type PaginatedHolidayTypes = PaginatedData<HolidayType>;

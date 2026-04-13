@@ -11,8 +11,8 @@ export interface Project {
     team_members?: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     created_at: string;
 }
 
@@ -27,20 +27,20 @@ export interface ProjectFormData {
     [key: string]: any;
 }
 
-export interface CreateProjectProps extends CreateProps  {
+export interface CreateProjectProps extends CreateProps {
     users: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
 }
 
-export interface EditProjectProps extends EditProps<Project>  {
+export interface EditProjectProps extends EditProps<Project> {
     users: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
 }
 
 export interface ProjectFilters {
@@ -57,8 +57,8 @@ export interface ProjectsIndexProps {
     users: Array<{
         id: number;
         name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     auth: AuthContext;
     [key: string]: any;
 }

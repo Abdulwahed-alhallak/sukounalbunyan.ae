@@ -70,8 +70,8 @@ export interface CreateCustomerPaymentFormData {
     allocations: {
         invoice_id: number;
         amount: number;
-    [key: string]: any;
-}[];
+        [key: string]: any;
+    }[];
     credit_notes: {
         credit_note_id: number;
         amount: number;

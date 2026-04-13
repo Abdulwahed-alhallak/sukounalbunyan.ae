@@ -92,7 +92,7 @@ export interface EmployeeTransferFilters {
 }
 
 export type PaginatedEmployeeTransfers = PaginatedData<EmployeeTransfer>;
-export type EmployeeTransferModalState = { isOpen: boolean; mode: string; data: EmployeeTransfer | null; };
+export type EmployeeTransferModalState = { isOpen: boolean; mode: string; data: EmployeeTransfer | null };
 
 export interface EmployeeTransfersIndexProps {
     employeetransfers: PaginatedEmployeeTransfers;

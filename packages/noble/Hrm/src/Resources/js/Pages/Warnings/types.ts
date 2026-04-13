@@ -60,7 +60,7 @@ export interface WarningFilters {
 }
 
 export type PaginatedWarnings = PaginatedData<Warning>;
-export type WarningModalState = { isOpen: boolean; mode: string; data: Warning | null; };
+export type WarningModalState = { isOpen: boolean; mode: string; data: Warning | null };
 
 export interface WarningsIndexProps {
     warnings: PaginatedWarnings;

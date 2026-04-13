@@ -5,16 +5,16 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { usePageButtons } from '@/hooks/usePageButtons';
 import { Input } from '@/components/ui/input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, Shield } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, Shield } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import NoRecordsFound from '@/components/no-records-found';
 import { RolesIndexProps, RoleFilters, Role } from './types';
@@ -25,66 +25,72 @@ export default function Index() {
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<RoleFilters>({
-        name: urlParams.get('name') || ''
+        name: urlParams.get('name') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
 
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
 
     // Add hook here
-    const pageButtons = usePageButtons('roleBtn','Test data');
+    const pageButtons = usePageButtons('roleBtn', 'Test data');
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'roles.destroy',
-        defaultMessage: t('Are you sure you want to delete this role?')
+        defaultMessage: t('Are you sure you want to delete this role?'),
     });
 
     const handleFilter = () => {
-        router.get(route('roles.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('roles.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('roles.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('roles.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ name: '' });
-        router.get(route('roles.index'), {per_page: perPage, view: viewMode});
+        router.get(route('roles.index'), { per_page: perPage, view: viewMode });
     };
-
-
 
     const tableColumns = [
         {
             key: 'name',
             header: t('Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'label',
             header: t('Label'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'permissions_count',
             header: t('Permissions'),
             render: (_: any, role: Role) => (
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-muted text-foreground">
+                <span className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs text-foreground">
                     {role.permissions_count || 0}
                 </span>
-            )
+            ),
         },
         {
             key: 'users',
@@ -92,60 +98,72 @@ export default function Index() {
             render: (_: any, role: Role) => (
                 <div className="flex flex-wrap gap-1">
                     {role.users?.slice(0, 5).map((user: any) => (
-                        <span key={user.id} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-muted text-foreground">
+                        <span
+                            key={user.id}
+                            className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs text-foreground"
+                        >
                             {user.name}
                         </span>
                     ))}
                     {role.users && role.users.length === 0 && (
-                        <span className="text-muted-foreground text-sm">{t('No users')}</span>
+                        <span className="text-sm text-muted-foreground">{t('No users')}</span>
                     )}
                 </div>
-            )
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-roles', 'delete-roles'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, role: Role) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('edit-roles') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => router.visit(route('roles.edit', role.id))} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Edit className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-roles') && role.editable == true && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(role.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) => ['edit-roles', 'delete-roles'].includes(p))
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, role: Role) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('edit-roles') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => router.visit(route('roles.edit', role.id))}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Edit className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-roles') && role.editable == true && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(role.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Roles')}]}
+            breadcrumbs={[{ label: t('Roles') }]}
             pageTitle={t('Manage Roles')}
             pageActions={
                 <div className="flex gap-2">
@@ -174,12 +192,12 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
+                                onChange={(value) => setFilters({ ...filters, name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search roles...')}
                             />
@@ -188,12 +206,9 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="roles.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="roles.index"
-                                filters={{...filters, view: viewMode}}
-                            />
+                            <PerPageSelector routeName="roles.index" filters={{ ...filters, view: viewMode }} />
                         </div>
                     </div>
                 </CardContent>
@@ -201,45 +216,47 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={roles.data}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={Shield}
-                                        title={t('No roles found')}
-                                        description={t('Get started by creating your first role.')}
-                                        hasFilters={!!filters.name}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-roles"
-                                        onCreateClick={() => router.visit(route('roles.create'))}
-                                        createButtonText={t('Create Role')}
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={roles.data}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={Shield}
+                                            title={t('No roles found')}
+                                            description={t('Get started by creating your first role.')}
+                                            hasFilters={!!filters.name}
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-roles"
+                                            onCreateClick={() => router.visit(route('roles.create'))}
+                                            createButtonText={t('Create Role')}
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {roles.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {roles.data.map((role) => (
                                         <Card key={role.id} className="border border-border">
                                             <div className="p-4">
-                                                <div className="flex items-center justify-between mb-3">
+                                                <div className="mb-3 flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="p-2 bg-foreground/10 rounded-lg">
+                                                        <div className="rounded-lg bg-foreground/10 p-2">
                                                             <Shield className="h-5 w-5 text-foreground" />
                                                         </div>
                                                         <div>
-                                                            <h3 className="font-semibold text-base text-foreground">{role.label}</h3>
+                                                            <h3 className="text-base font-semibold text-foreground">
+                                                                {role.label}
+                                                            </h3>
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-1">
@@ -247,7 +264,16 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-roles') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => router.visit(route('roles.edit', role.id))} className="h-8 w-8 p-0 text-foreground">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.visit(
+                                                                                    route('roles.edit', role.id)
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground"
+                                                                        >
                                                                             <Edit className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -256,50 +282,62 @@ export default function Index() {
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             )}
-                                                            {auth.user?.permissions?.includes('delete-roles') && role.editable == true && (
-                                                                <Tooltip delayDuration={300}>
-                                                                    <TooltipTrigger asChild>
-                                                                        <Button
-                                                                            variant="ghost"
-                                                                            size="sm"
-                                                                            onClick={() => openDeleteDialog(role.id)}
-                                                                            className="h-8 w-8 p-0 text-destructive"
-                                                                        >
-                                                                            <Trash2 className="h-4 w-4" />
-                                                                        </Button>
-                                                                    </TooltipTrigger>
-                                                                    <TooltipContent>
-                                                                        <p>{t('Delete')}</p>
-                                                                    </TooltipContent>
-                                                                </Tooltip>
-                                                            )}
+                                                            {auth.user?.permissions?.includes('delete-roles') &&
+                                                                role.editable == true && (
+                                                                    <Tooltip delayDuration={300}>
+                                                                        <TooltipTrigger asChild>
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() =>
+                                                                                    openDeleteDialog(role.id)
+                                                                                }
+                                                                                className="h-8 w-8 p-0 text-destructive"
+                                                                            >
+                                                                                <Trash2 className="h-4 w-4" />
+                                                                            </Button>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>
+                                                                            <p>{t('Delete')}</p>
+                                                                        </TooltipContent>
+                                                                    </Tooltip>
+                                                                )}
                                                         </TooltipProvider>
                                                     </div>
                                                 </div>
 
                                                 <div className="space-y-3">
                                                     <div className="flex items-center justify-between">
-                                                        <span className="text-xs font-medium text-muted-foreground">{t('Permissions')}</span>
-                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-muted text-foreground">
+                                                        <span className="text-xs font-medium text-muted-foreground">
+                                                            {t('Permissions')}
+                                                        </span>
+                                                        <span className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-semibold text-foreground">
                                                             {role.permissions_count || 0}
                                                         </span>
                                                     </div>
 
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-2">{t('Users')}</p>
+                                                        <p className="mb-2 text-xs font-medium text-muted-foreground">
+                                                            {t('Users')}
+                                                        </p>
                                                         <div className="flex flex-wrap gap-1">
                                                             {role.users?.slice(0, 2).map((user: any) => (
-                                                                <span key={user.id} className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-muted text-foreground">
+                                                                <span
+                                                                    key={user.id}
+                                                                    className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs text-foreground"
+                                                                >
                                                                     {user.name}
                                                                 </span>
                                                             ))}
                                                             {role.users && role.users.length > 2 && (
-                                                                <span className="inline-flex items-center px-2 py-1 rounded text-xs bg-muted text-foreground">
+                                                                <span className="inline-flex items-center rounded bg-muted px-2 py-1 text-xs text-foreground">
                                                                     +{role.users.length - 2}
                                                                 </span>
                                                             )}
                                                             {role.users && role.users.length === 0 && (
-                                                                <span className="text-xs text-muted-foreground">{t('No users')}</span>
+                                                                <span className="text-xs text-muted-foreground">
+                                                                    {t('No users')}
+                                                                </span>
                                                             )}
                                                         </div>
                                                     </div>
@@ -325,11 +363,11 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={roles as any}
                         routeName="roles.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>

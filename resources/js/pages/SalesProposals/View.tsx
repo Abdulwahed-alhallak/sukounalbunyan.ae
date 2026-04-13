@@ -58,23 +58,28 @@ export default function View() {
     const { t } = useTranslation();
     const { proposal, auth } = usePage<ViewProps>().props;
 
-
     const getProposalStatusColor = (status: string) => {
         switch (status?.toLowerCase()) {
-            case 'draft': return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
-            case 'sent': return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
-            case 'accepted': return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
-            case 'rejected': return 'bg-muted text-destructive px-2 py-1 rounded-full text-sm';
-            case 'expired': return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
-            default: return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
+            case 'draft':
+                return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
+            case 'sent':
+                return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
+            case 'accepted':
+                return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
+            case 'rejected':
+                return 'bg-muted text-destructive px-2 py-1 rounded-full text-sm';
+            case 'expired':
+                return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
+            default:
+                return 'bg-muted text-foreground px-2 py-1 rounded-full text-sm';
         }
     };
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Sales Proposal'), url: route('sales-proposals.index')},
-                {label: t('Sales Proposal Details')}
+                { label: t('Sales Proposal'), url: route('sales-proposals.index') },
+                { label: t('Sales Proposal Details') },
             ]}
             pageTitle={`${t('Sales Proposal')} #${proposal.proposal_number}`}
         >
@@ -83,7 +88,7 @@ export default function View() {
             <div className="space-y-6">
                 <Card>
                     <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                             <div>
                                 <p className="text-lg text-muted-foreground">#{proposal.proposal_number}</p>
                             </div>
@@ -100,15 +105,15 @@ export default function View() {
 
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                             <div>
-                                <h3 className="font-semibold mb-2">{t('CUSTOMER')}</h3>
-                                <div className="text-sm space-y-1">
+                                <h3 className="mb-2 font-semibold">{t('CUSTOMER')}</h3>
+                                <div className="space-y-1 text-sm">
                                     <div className="font-medium">{proposal.customer?.name}</div>
                                     <div className="text-muted-foreground">{proposal.customer?.email}</div>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 className="font-semibold mb-2">{t('DETAILS')}</h3>
+                                <h3 className="mb-2 font-semibold">{t('DETAILS')}</h3>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Proposal Date')}</span>
@@ -116,7 +121,11 @@ export default function View() {
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Due Date')}</span>
-                                        <span className={new Date(proposal.due_date) < new Date() ? 'text-destructive' : ''}>
+                                        <span
+                                            className={
+                                                new Date(proposal.due_date) < new Date() ? 'text-destructive' : ''
+                                            }
+                                        >
                                             {formatDate(proposal.due_date)}
                                         </span>
                                     </div>
@@ -131,44 +140,63 @@ export default function View() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="mt-4 p-3 bg-muted rounded">
-                                    <div className="flex justify-between items-center">
+                                <div className="mt-4 rounded bg-muted p-3">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex gap-2">
                                             {auth.user?.permissions?.includes('print-sales-proposals') && (
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => window.open(route('sales-proposals.print', proposal.id) + '?download=pdf', '_blank')}
+                                                    onClick={() =>
+                                                        window.open(
+                                                            route('sales-proposals.print', proposal.id) +
+                                                                '?download=pdf',
+                                                            '_blank'
+                                                        )
+                                                    }
                                                 >
-                                                    <Download className="h-4 w-4 mr-2" />
+                                                    <Download className="mr-2 h-4 w-4" />
                                                     {t('Download PDF')}
                                                 </Button>
                                             )}
-                                            {auth.user?.permissions?.includes('convert-sales-proposals') && proposal.status === 'accepted' && !proposal.converted_to_invoice && (
-                                                <TooltipProvider>
-                                                    <Tooltip delayDuration={0}>
-                                                        <TooltipTrigger asChild>
-                                                            <Button
-                                                                size="sm"
-                                                                onClick={() => router.post(route('sales-proposals.convert-to-invoice', proposal.id), {}, {
-                                                                    onSuccess: () => {
-                                                                        router.reload();
+                                            {auth.user?.permissions?.includes('convert-sales-proposals') &&
+                                                proposal.status === 'accepted' &&
+                                                !proposal.converted_to_invoice && (
+                                                    <TooltipProvider>
+                                                        <Tooltip delayDuration={0}>
+                                                            <TooltipTrigger asChild>
+                                                                <Button
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        router.post(
+                                                                            route(
+                                                                                'sales-proposals.convert-to-invoice',
+                                                                                proposal.id
+                                                                            ),
+                                                                            {},
+                                                                            {
+                                                                                onSuccess: () => {
+                                                                                    router.reload();
+                                                                                },
+                                                                            }
+                                                                        )
                                                                     }
-                                                                })}
-                                                            >
-                                                                <RefreshCw className="h-4 w-4 mr-2" />
-                                                                {t('Convert to Invoice')}
-                                                            </Button>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>{t('Convert this proposal to an invoice')}</p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
+                                                                >
+                                                                    <RefreshCw className="mr-2 h-4 w-4" />
+                                                                    {t('Convert to Invoice')}
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                <p>{t('Convert this proposal to an invoice')}</p>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xl font-bold text-foreground">{formatCurrency(proposal.total_amount)}</div>
+                                            <div className="text-xl font-bold text-foreground">
+                                                {formatCurrency(proposal.total_amount)}
+                                            </div>
                                             <div className="text-sm text-muted-foreground">{t('Proposal Amount')}</div>
                                         </div>
                                     </div>
@@ -177,9 +205,9 @@ export default function View() {
                         </div>
 
                         {proposal.notes && (
-                            <div className="mt-4 pt-4 border-t">
-                                <span className="font-medium text-sm">{t('Notes')}:</span>
-                                <span className="text-sm text-muted-foreground ml-2">{proposal.notes}</span>
+                            <div className="mt-4 border-t pt-4">
+                                <span className="text-sm font-medium">{t('Notes')}:</span>
+                                <span className="ml-2 text-sm text-muted-foreground">{proposal.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -187,9 +215,7 @@ export default function View() {
 
                 <Card>
                     <CardHeader>
-                        <h3 className="text-lg font-semibold">
-                            {t('Proposal Items')}
-                        </h3>
+                        <h3 className="text-lg font-semibold">{t('Proposal Items')}</h3>
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
@@ -198,7 +224,9 @@ export default function View() {
                                     <tr className="border-b">
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Unit Price')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Unit Price')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Discount')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
@@ -210,10 +238,14 @@ export default function View() {
                                             <td className="px-4 py-4">
                                                 <div className="font-medium">{item.product?.name}</div>
                                                 {item.product?.sku && (
-                                                    <div className="text-sm text-muted-foreground">SKU: {item.product.sku}</div>
+                                                    <div className="text-sm text-muted-foreground">
+                                                        SKU: {item.product.sku}
+                                                    </div>
                                                 )}
                                                 {item.product?.description && (
-                                                    <div className="text-sm text-muted-foreground mt-1">{item.product.description}</div>
+                                                    <div className="mt-1 text-sm text-muted-foreground">
+                                                        {item.product.description}
+                                                    </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-4 text-right">{item.quantity}</td>
@@ -226,13 +258,17 @@ export default function View() {
                                                             -{formatCurrency(item.discount_amount)}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div>
                                                         {item.taxes.map((tax, taxIndex) => (
-                                                            <div key={taxIndex} className="text-sm">{tax.tax_name} ({tax.tax_rate}%)</div>
+                                                            <div key={taxIndex} className="text-sm">
+                                                                {tax.tax_name} ({tax.tax_rate}%)
+                                                            </div>
                                                         ))}
                                                         <div className="text-sm text-muted-foreground">
                                                             {formatCurrency(item.tax_amount)}
@@ -245,7 +281,9 @@ export default function View() {
                                                             {formatCurrency(item.tax_amount)}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right font-semibold">
                                                 {formatCurrency(item.total_amount)}
@@ -265,7 +303,9 @@ export default function View() {
                                 {proposal.discount_amount > 0 && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t('Discount')}</span>
-                                        <span className="font-medium text-destructive">-{formatCurrency(proposal.discount_amount)}</span>
+                                        <span className="font-medium text-destructive">
+                                            -{formatCurrency(proposal.discount_amount)}
+                                        </span>
                                     </div>
                                 )}
                                 {proposal.tax_amount > 0 && (
@@ -277,7 +317,9 @@ export default function View() {
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between">
                                         <span className="font-semibold">{t('Total Amount')}</span>
-                                        <span className="font-bold text-lg">{formatCurrency(proposal.total_amount)}</span>
+                                        <span className="text-lg font-bold">
+                                            {formatCurrency(proposal.total_amount)}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useFormFields } from '@/hooks/useFormFields';
 
 export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditPayrollFormData>({
         title: payroll.title ?? '',
@@ -35,16 +35,15 @@ export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
         bank_account_id: payroll.bank_account_id?.toString() ?? '',
     });
 
-        // Bank Account Field
-        const bankAccountField = useFormFields('bankAccountField', data, setData, errors, 'edit');
-
+    // Bank Account Field
+    const bankAccountField = useFormFields('bankAccountField', data, setData, errors, 'edit');
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('hrm.payrolls.update', payroll.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -55,7 +54,9 @@ export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         type="text"
@@ -69,7 +70,11 @@ export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
 
                 <div>
                     <Label required>{t('Payroll Frequency')}</Label>
-                    <Select value={data.payroll_frequency || 'weekly'} onValueChange={(value) => setData('payroll_frequency', value)} required>
+                    <Select
+                        value={data.payroll_frequency || 'weekly'}
+                        onValueChange={(value) => setData('payroll_frequency', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Payroll Frequency')} />
                         </SelectTrigger>
@@ -129,8 +134,6 @@ export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
                     <InputError message={errors.notes} />
                 </div>
 
-
-
                 <div>
                     <Label>{t('Status')}</Label>
                     <Select value={data.status || 'draft'} onValueChange={(value) => setData('status', value)}>
@@ -149,7 +152,10 @@ export default function EditPayroll({ payroll, onSuccess }: EditPayrollProps) {
 
                 <div>
                     <Label>{t('Payment Status')}</Label>
-                    <Select value={data.is_payroll_paid || 'unpaid'} onValueChange={(value) => setData('is_payroll_paid', value)}>
+                    <Select
+                        value={data.is_payroll_paid || 'unpaid'}
+                        onValueChange={(value) => setData('is_payroll_paid', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Payment Status')} />
                         </SelectTrigger>

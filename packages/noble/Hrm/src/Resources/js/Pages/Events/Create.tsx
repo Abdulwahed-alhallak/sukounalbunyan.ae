@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -12,8 +12,6 @@ import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
 import { useFormFields } from '@/hooks/useFormFields';
 import { CreateEventProps, CreateEventFormData } from './types';
 import { usePage } from '@inertiajs/react';
-
-
 
 export default function Create({ onSuccess }: CreateEventProps) {
     const { eventtypes, users = [], departments = [] } = usePage<any>().props;
@@ -34,7 +32,17 @@ export default function Create({ onSuccess }: CreateEventProps) {
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, setData, errors, 'create', 'title', 'Title', 'hrm', 'event');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'hrm', 'event');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'hrm',
+        'event'
+    );
 
     const calendarFields = useFormFields('createCalendarSyncField', data, setData, errors, 'create', t, 'Hrm');
 
@@ -43,7 +51,7 @@ export default function Create({ onSuccess }: CreateEventProps) {
         post(route('hrm.events.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -54,9 +62,11 @@ export default function Create({ onSuccess }: CreateEventProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="title" required>{t('Title')}</Label>
+                            <Label htmlFor="title" required>
+                                {t('Title')}
+                            </Label>
                             <Input
                                 id="title"
                                 type="text"
@@ -67,13 +77,21 @@ export default function Create({ onSuccess }: CreateEventProps) {
                             />
                             <InputError message={errors.title} />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
 
                 <div>
-                    <Label htmlFor="event_type_id" required>{t('Event Type')}</Label>
-                    <Select value={data.event_type_id?.toString() || ''} onValueChange={(value) => setData('event_type_id', value)} required>
+                    <Label htmlFor="event_type_id" required>
+                        {t('Event Type')}
+                    </Label>
+                    <Select
+                        value={data.event_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('event_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Event Type')} />
                         </SelectTrigger>
@@ -91,10 +109,12 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 <div>
                     <Label required>{t('Departments')}</Label>
                     <MultiSelectEnhanced
-                        options={departments?.map((dept: any) => ({
-                            value: dept.id.toString(),
-                            label: `${dept.department_name} (${dept.branch?.branch_name || 'No Branch'})`
-                        })) || []}
+                        options={
+                            departments?.map((dept: any) => ({
+                                value: dept.id.toString(),
+                                label: `${dept.department_name} (${dept.branch?.branch_name || 'No Branch'})`,
+                            })) || []
+                        }
                         value={data.departments}
                         onValueChange={(value) => setData('departments', value)}
                         placeholder={t('Select Departments')}
@@ -126,7 +146,9 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="start_time" required>{t('Start Time')}</Label>
+                    <Label htmlFor="start_time" required>
+                        {t('Start Time')}
+                    </Label>
                     <Input
                         id="start_time"
                         type="time"
@@ -138,7 +160,9 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="end_time" required>{t('End Time')}</Label>
+                    <Label htmlFor="end_time" required>
+                        {t('End Time')}
+                    </Label>
                     <Input
                         id="end_time"
                         type="time"
@@ -150,7 +174,9 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="location" required>{t('Location')}</Label>
+                    <Label htmlFor="location" required>
+                        {t('Location')}
+                    </Label>
                     <Input
                         id="location"
                         type="text"
@@ -162,14 +188,16 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="color" required>{t('Color')}</Label>
-                    <div className="flex gap-2 mt-1">
+                    <Label htmlFor="color" required>
+                        {t('Color')}
+                    </Label>
+                    <div className="mt-1 flex gap-2">
                         <Input
                             id="color"
                             type="color"
                             value={data.color}
                             onChange={(e) => setData('color', e.target.value)}
-                            className="w-16 h-10 p-1 border rounded"
+                            className="h-10 w-16 rounded border p-1"
                         />
                         <Input
                             type="text"
@@ -183,10 +211,12 @@ export default function Create({ onSuccess }: CreateEventProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -201,12 +231,8 @@ export default function Create({ onSuccess }: CreateEventProps) {
 
                 {/* Calendar Sync Field */}
                 {calendarFields?.map((field) => (
-                    <div key={field.id}>
-                        {field.component}
-                    </div>
+                    <div key={field.id}>{field.component}</div>
                 ))}
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

@@ -17,13 +17,13 @@ export interface DealStageFormData {
     [key: string]: any;
 }
 
-export interface CreateDealStageProps extends CreateProps  {
+export interface CreateDealStageProps extends CreateProps {
     pipelines: any[];
     defaultPipelineId?: number;
     [key: string]: any;
 }
 
-export interface EditDealStageProps extends EditProps<DealStage>  {
+export interface EditDealStageProps extends EditProps<DealStage> {
     pipelines: any[];
     [key: string]: any;
 }

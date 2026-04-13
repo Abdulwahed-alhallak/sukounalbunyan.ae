@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { TaxEditProps, TaxFormData } from './types';
 
 export default function Edit({ tax, onSuccess }: TaxEditProps) {
@@ -19,7 +19,7 @@ export default function Edit({ tax, onSuccess }: TaxEditProps) {
         put(route('product-service.taxes.update', tax.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

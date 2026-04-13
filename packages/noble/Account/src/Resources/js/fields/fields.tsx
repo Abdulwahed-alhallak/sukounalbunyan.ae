@@ -25,29 +25,33 @@ export const bankAccountField = (data: any, setData: any, errors: any, mode: str
         fetchBankAccounts();
     }, []);
 
-    return [{
-        id: 'bank-account-field',
-        order: 10,
-        component: (
-            <div>
-                <Label htmlFor={fieldId} required>{t('Bank Account')}</Label>
-                <Select
-                    value={data.bank_account_id?.toString() || ''}
-                    onValueChange={(value) => setData('bank_account_id', value)}
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder={loading ? t('Loading...') : t('Select Bank Account')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {bankAccounts?.map((account) => (
-                            <SelectItem key={account.id} value={account.id.toString()}>
-                                {account.account_name} ({account.account_number})
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <InputError message={errors.bank_account_id} />
-            </div>
-        )
-    }];
+    return [
+        {
+            id: 'bank-account-field',
+            order: 10,
+            component: (
+                <div>
+                    <Label htmlFor={fieldId} required>
+                        {t('Bank Account')}
+                    </Label>
+                    <Select
+                        value={data.bank_account_id?.toString() || ''}
+                        onValueChange={(value) => setData('bank_account_id', value)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder={loading ? t('Loading...') : t('Select Bank Account')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {bankAccounts?.map((account) => (
+                                <SelectItem key={account.id} value={account.id.toString()}>
+                                    {account.account_name} ({account.account_number})
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <InputError message={errors.bank_account_id} />
+                </div>
+            ),
+        },
+    ];
 };

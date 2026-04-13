@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -46,15 +46,24 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
 
     const dealNameAI = useFormFields('aiField', data, setData, errors, 'edit', 'name', 'Deal Name', 'lead', 'deal');
     const [notesEditorKey, setNotesEditorKey] = useState(0);
-    const dealNotesAI = useFormFields('aiField', data, (field, value) => {
-        setData('notes', value);
-        setNotesEditorKey(prev => prev + 1);
-    }, errors, 'edit', 'notes', 'Notes', 'lead', 'deal');
-
+    const dealNotesAI = useFormFields(
+        'aiField',
+        data,
+        (field, value) => {
+            setData('notes', value);
+            setNotesEditorKey((prev) => prev + 1);
+        },
+        errors,
+        'edit',
+        'notes',
+        'Notes',
+        'lead',
+        'deal'
+    );
 
     useEffect(() => {
         if (data.pipeline_id) {
-            const pipelineStages = stages?.filter(stage => stage.pipeline_id?.toString() === data.pipeline_id) || [];
+            const pipelineStages = stages?.filter((stage) => stage.pipeline_id?.toString() === data.pipeline_id) || [];
             setFilteredStages(pipelineStages);
         } else {
             setFilteredStages(stages || []);
@@ -67,18 +76,18 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
         put(route('lead.deals.update', deal.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Deal')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex gap-2 items-end">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="name">{t('Deal Name')}</Label>
                             <Input
@@ -90,7 +99,9 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                             />
                             <InputError message={errors.name} />
                         </div>
-                        {dealNameAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {dealNameAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
 
                     <div>
@@ -108,7 +119,7 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label htmlFor="pipeline_id">{t('Pipeline')}</Label>
                         <Select value={data.pipeline_id} onValueChange={(value) => setData('pipeline_id', value)}>
@@ -134,7 +145,9 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                             disabled={!data.pipeline_id}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder={data.pipeline_id ? t('Select Stage') : t('Select Pipeline first')} />
+                                <SelectValue
+                                    placeholder={data.pipeline_id ? t('Select Stage') : t('Select Pipeline first')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredStages?.map((stage: any) => (
@@ -151,10 +164,12 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                 <div>
                     <Label>{t('Sources')}</Label>
                     <MultiSelectEnhanced
-                        options={sources?.map((source: any) => ({
-                            value: source.id.toString(),
-                            label: source.name
-                        })) || []}
+                        options={
+                            sources?.map((source: any) => ({
+                                value: source.id.toString(),
+                                label: source.name,
+                            })) || []
+                        }
                         value={data.sources}
                         onValueChange={(value) => setData('sources', value)}
                         placeholder={t('Select Sources...')}
@@ -166,10 +181,12 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                 <div>
                     <Label>{t('Products')}</Label>
                     <MultiSelectEnhanced
-                        options={products?.map((product: any) => ({
-                            value: product.id.toString(),
-                            label: product.name
-                        })) || []}
+                        options={
+                            products?.map((product: any) => ({
+                                value: product.id.toString(),
+                                label: product.name,
+                            })) || []
+                        }
                         value={data.products}
                         onValueChange={(value) => setData('products', value)}
                         placeholder={t('Select Products...')}
@@ -189,10 +206,12 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="notes">{t('Notes')}</Label>
                         <div className="flex gap-2">
-                            {dealNotesAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {dealNotesAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <RichTextEditor

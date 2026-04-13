@@ -12,10 +12,12 @@ export interface WarningTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateWarningTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateWarningTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditWarningTypeProps extends EditProps<WarningType>  {[key: string]: any;
+export interface EditWarningTypeProps extends EditProps<WarningType> {
+    [key: string]: any;
 }
 
 export type PaginatedWarningTypes = PaginatedData<WarningType>;

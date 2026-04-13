@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -19,13 +19,15 @@ import axios from 'axios';
 import { FileText, Image } from 'lucide-react';
 import MediaPicker from '@/components/MediaPicker';
 
-
 export default function EditCandidate({ candidate, onSuccess }: EditCandidateProps) {
     const { jobpostings, candidatesources } = usePage<any>().props;
     const { t } = useTranslation();
     const [customQuestions, setCustomQuestions] = useState([]);
-    const [jobPostingSettings, setJobPostingSettings] = useState<{applicant: string[], visibility: string[]}>({applicant: [], visibility: []});
-    const [customErrors, setCustomErrors] = useState<{[key: string]: string}>({});
+    const [jobPostingSettings, setJobPostingSettings] = useState<{ applicant: string[]; visibility: string[] }>({
+        applicant: [],
+        visibility: [],
+    });
+    const [customErrors, setCustomErrors] = useState<{ [key: string]: string }>({});
     const [profilePreview, setProfilePreview] = useState<string | null>(null);
     const [resumePreview, setResumePreview] = useState<string | null>(null);
     const [coverLetterPreview, setCoverLetterPreview] = useState<string | null>(null);
@@ -81,19 +83,19 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
             '2': 'Interview',
             '3': 'Offer',
             '4': 'Hired',
-            '5': 'Rejected'
+            '5': 'Rejected',
         };
         return statusMap[status] || 'New';
     };
 
     const getStatusNumber = (statusString: string) => {
         const statusMap = {
-            'New': '0',
-            'Screening': '1',
-            'Interview': '2',
-            'Offer': '3',
-            'Hired': '4',
-            'Rejected': '5'
+            New: '0',
+            Screening: '1',
+            Interview: '2',
+            Offer: '3',
+            Hired: '4',
+            Rejected: '5',
         };
         return statusMap[statusString] || '0';
     };
@@ -108,10 +110,11 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
             email: candidate.email ?? '',
             phone: candidate.phone ?? '',
             gender: candidate.gender ?? '',
-            dob: candidate.dob ?
-                (typeof candidate.dob === 'string' ?
-                 candidate.dob.split('T')[0] :
-                 new Date(candidate.dob).toISOString().split('T')[0]) : '',
+            dob: candidate.dob
+                ? typeof candidate.dob === 'string'
+                    ? candidate.dob.split('T')[0]
+                    : new Date(candidate.dob).toISOString().split('T')[0]
+                : '',
             country: candidate.country ?? '',
             state: candidate.state ?? '',
             city: candidate.city ?? '',
@@ -129,10 +132,11 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
             resume: null,
             cover_letter: null,
             status: candidate.status?.toString() || '0',
-            application_date: candidate.application_date ?
-                (typeof candidate.application_date === 'string' ?
-                 candidate.application_date.split('T')[0] :
-                 new Date(candidate.application_date).toISOString().split('T')[0]) : '',
+            application_date: candidate.application_date
+                ? typeof candidate.application_date === 'string'
+                    ? candidate.application_date.split('T')[0]
+                    : new Date(candidate.application_date).toISOString().split('T')[0]
+                : '',
             custom_question: candidate.custom_question ?? '',
         };
 
@@ -140,11 +144,10 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
         if (candidate.custom_question) {
             try {
                 const existingAnswers = JSON.parse(candidate.custom_question);
-                Object.keys(existingAnswers).forEach(key => {
+                Object.keys(existingAnswers).forEach((key) => {
                     baseData[key] = existingAnswers[key];
                 });
-            } catch (e) {
-            }
+            } catch (e) {}
         }
 
         return baseData;
@@ -155,24 +158,26 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
     // Load custom questions on mount
     useEffect(() => {
         if (candidate.job_id) {
-            axios.get(route('recruitment.job-postings.custom-questions', candidate.job_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.job-postings.custom-questions', candidate.job_id))
+                .then((response) => {
                     setCustomQuestions(response.data);
                 })
                 .catch(() => {
                     setCustomQuestions([]);
                 });
-            
+
             // Get job posting settings for applicant and visibility
-            axios.get(route('recruitment.job-postings.settings', candidate.job_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.job-postings.settings', candidate.job_id))
+                .then((response) => {
                     setJobPostingSettings({
                         applicant: response.data.applicant || [],
-                        visibility: response.data.visibility || []
+                        visibility: response.data.visibility || [],
                     });
                 })
                 .catch(() => {
-                    setJobPostingSettings({applicant: [], visibility: []});
+                    setJobPostingSettings({ applicant: [], visibility: [] });
                 });
         }
     }, []);
@@ -180,12 +185,13 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
     // Handle job change
     useEffect(() => {
         if (data.job_id && data.job_id !== candidate.job_id?.toString()) {
-            axios.get(route('recruitment.job-postings.custom-questions', data.job_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.job-postings.custom-questions', data.job_id))
+                .then((response) => {
                     setCustomQuestions(response.data);
                     // Clear existing custom question answers when job changes
                     const newData = { ...data };
-                    Object.keys(newData).forEach(key => {
+                    Object.keys(newData).forEach((key) => {
                         if (key.startsWith('custom_question_')) {
                             delete newData[key];
                         }
@@ -195,17 +201,18 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                 .catch(() => {
                     setCustomQuestions([]);
                 });
-            
+
             // Get job posting settings for applicant and visibility
-            axios.get(route('recruitment.job-postings.settings', data.job_id))
-                .then(response => {
+            axios
+                .get(route('recruitment.job-postings.settings', data.job_id))
+                .then((response) => {
                     setJobPostingSettings({
                         applicant: response.data.applicant || [],
-                        visibility: response.data.visibility || []
+                        visibility: response.data.visibility || [],
                     });
                 })
                 .catch(() => {
-                    setJobPostingSettings({applicant: [], visibility: []});
+                    setJobPostingSettings({ applicant: [], visibility: [] });
                 });
         }
     }, [data.job_id]);
@@ -215,7 +222,7 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
 
         // Validate required custom questions
         const requiredQuestions = customQuestions.filter((q: any) => q.is_required);
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         requiredQuestions.forEach((q: any) => {
             const answer = data[`custom_question_${q.id}`];
@@ -233,7 +240,7 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
         put(route('recruitment.candidates.update', candidate.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -245,8 +252,14 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
             <form onSubmit={submit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="job_id" required>{t('Job')} </Label>
-                        <Select value={data.job_id?.toString() || ''} onValueChange={(value) => setData('job_id', value)} required>
+                        <Label htmlFor="job_id" required>
+                            {t('Job')}{' '}
+                        </Label>
+                        <Select
+                            value={data.job_id?.toString() || ''}
+                            onValueChange={(value) => setData('job_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Job')} />
                             </SelectTrigger>
@@ -260,20 +273,23 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                         </Select>
                         <InputError message={errors.job_id} />
                         {(!jobpostings || jobpostings.length === 0) && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {t('Create job posting here. ')}
                                 <a
                                     href={route('recruitment.job-postings.index')}
-                                    className="text-foreground hover:text-foreground cursor-pointer"
+                                    className="cursor-pointer text-foreground hover:text-foreground"
                                 >
                                     {t('job posting')}
-                                </a>.
+                                </a>
+                                .
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <Label htmlFor="source_id" required>{t('Source')} </Label>
+                        <Label htmlFor="source_id" required>
+                            {t('Source')}{' '}
+                        </Label>
                         <Select
                             value={data.source_id?.toString() || ''}
                             onValueChange={(value) => setData('source_id', value)}
@@ -292,14 +308,15 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                         </Select>
                         <InputError message={errors.source_id} />
                         {(!candidatesources || candidatesources.length === 0) && (
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="mt-1 text-xs text-muted-foreground">
                                 {t('Create candidate source here. ')}
                                 <a
                                     href={route('recruitment.candidate-sources.index')}
-                                    className="text-foreground hover:text-foreground cursor-pointer"
+                                    className="cursor-pointer text-foreground hover:text-foreground"
                                 >
                                     {t('candidate source')}
-                                </a>.
+                                </a>
+                                .
                             </p>
                         )}
                     </div>
@@ -420,7 +437,7 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                     )}
                 </div>
 
-                {(jobPostingSettings.applicant.includes('country')) && (
+                {jobPostingSettings.applicant.includes('country') && (
                     <div className="grid grid-cols-2 gap-4">
                         {jobPostingSettings.applicant.includes('country') && (
                             <div>
@@ -572,7 +589,6 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                         value={data.portfolio_url}
                         onChange={(e) => setData('portfolio_url', e.target.value)}
                         placeholder={t('Enter Portfolio Url')}
-
                     />
                     <InputError message={errors.portfolio_url} />
                 </div>
@@ -589,7 +605,8 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                     <InputError message={errors.linkedin_url} />
                 </div>
 
-                {(jobPostingSettings.visibility.includes('resume') || jobPostingSettings.visibility.includes('cover_letter')) && (
+                {(jobPostingSettings.visibility.includes('resume') ||
+                    jobPostingSettings.visibility.includes('cover_letter')) && (
                     <div className="grid grid-cols-2 gap-4">
                         {jobPostingSettings.visibility.includes('resume') && (
                             <div>
@@ -601,22 +618,28 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                                 />
                                 <InputError message={errors.resume} />
                                 {data.resume && (
-                                    <div className="mt-2 p-2 border rounded-lg bg-muted/50">
+                                    <div className="mt-2 rounded-lg border bg-muted/50 p-2">
                                         <div className="flex items-center space-x-2">
                                             {resumePreview ? (
-                                                <img src={resumePreview} alt="Resume preview" className="h-12 w-12 object-cover rounded" />
+                                                <img
+                                                    src={resumePreview}
+                                                    alt="Resume preview"
+                                                    className="h-12 w-12 rounded object-cover"
+                                                />
                                             ) : (
                                                 getFileIcon(data.resume.name)
                                             )}
-                                            <span className="text-sm text-foreground truncate">{data.resume.name}</span>
+                                            <span className="truncate text-sm text-foreground">{data.resume.name}</span>
                                         </div>
                                     </div>
                                 )}
                                 {candidate.resume_path && !data.resume && (
-                                    <div className="mt-2 p-2 border rounded-lg bg-muted/50">
+                                    <div className="mt-2 rounded-lg border bg-muted/50 p-2">
                                         <div className="flex items-center space-x-2">
                                             <FileText className="h-8 w-8 text-foreground" />
-                                            <span className="text-sm text-foreground">{t('Current resume uploaded')}</span>
+                                            <span className="text-sm text-foreground">
+                                                {t('Current resume uploaded')}
+                                            </span>
                                         </div>
                                     </div>
                                 )}
@@ -633,22 +656,30 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                                 />
                                 <InputError message={errors.cover_letter} />
                                 {data.cover_letter && (
-                                    <div className="mt-2 p-2 border rounded-lg bg-muted/50">
+                                    <div className="mt-2 rounded-lg border bg-muted/50 p-2">
                                         <div className="flex items-center space-x-2">
                                             {coverLetterPreview ? (
-                                                <img src={coverLetterPreview} alt="Cover letter preview" className="h-12 w-12 object-cover rounded" />
+                                                <img
+                                                    src={coverLetterPreview}
+                                                    alt="Cover letter preview"
+                                                    className="h-12 w-12 rounded object-cover"
+                                                />
                                             ) : (
                                                 getFileIcon(data.cover_letter.name)
                                             )}
-                                            <span className="text-sm text-foreground truncate">{data.cover_letter.name}</span>
+                                            <span className="truncate text-sm text-foreground">
+                                                {data.cover_letter.name}
+                                            </span>
                                         </div>
                                     </div>
                                 )}
                                 {candidate.cover_letter_path && !data.cover_letter && (
-                                    <div className="mt-2 p-2 border rounded-lg bg-muted/50">
+                                    <div className="mt-2 rounded-lg border bg-muted/50 p-2">
                                         <div className="flex items-center space-x-2">
                                             <FileText className="h-8 w-8 text-foreground" />
-                                            <span className="text-sm text-foreground">{t('Current cover letter uploaded')}</span>
+                                            <span className="text-sm text-foreground">
+                                                {t('Current cover letter uploaded')}
+                                            </span>
                                         </div>
                                     </div>
                                 )}
@@ -664,7 +695,7 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                             <div key={question.id}>
                                 <Label htmlFor={`custom_question_${question.id}`}>
                                     {question.question}
-                                    {question.is_required && <span className="text-destructive ml-1">*</span>}
+                                    {question.is_required && <span className="ml-1 text-destructive">*</span>}
                                 </Label>
                                 {question.type === 'text' && (
                                     <Input
@@ -693,11 +724,12 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                                             <SelectValue placeholder={t('Select an option')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {question.options && JSON.parse(question.options)?.map((option: string, index: number) => (
-                                                <SelectItem key={index} value={option}>
-                                                    {option}
-                                                </SelectItem>
-                                            ))}
+                                            {question.options &&
+                                                JSON.parse(question.options)?.map((option: string, index: number) => (
+                                                    <SelectItem key={index} value={option}>
+                                                        {option}
+                                                    </SelectItem>
+                                                ))}
                                         </SelectContent>
                                     </Select>
                                 )}
@@ -706,37 +738,60 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                                         value={data[`custom_question_${question.id}`] || ''}
                                         onValueChange={(value) => setData(`custom_question_${question.id}`, value)}
                                     >
-                                        {question.options && JSON.parse(question.options)?.map((option: string, index: number) => (
-                                            <div key={index} className="flex items-center space-x-2">
-                                                <RadioGroupItem value={option} id={`custom_question_${question.id}_${index}`} />
-                                                <Label htmlFor={`custom_question_${question.id}_${index}`} className="text-sm">
-                                                    {option}
-                                                </Label>
-                                            </div>
-                                        ))}
+                                        {question.options &&
+                                            JSON.parse(question.options)?.map((option: string, index: number) => (
+                                                <div key={index} className="flex items-center space-x-2">
+                                                    <RadioGroupItem
+                                                        value={option}
+                                                        id={`custom_question_${question.id}_${index}`}
+                                                    />
+                                                    <Label
+                                                        htmlFor={`custom_question_${question.id}_${index}`}
+                                                        className="text-sm"
+                                                    >
+                                                        {option}
+                                                    </Label>
+                                                </div>
+                                            ))}
                                     </RadioGroup>
                                 )}
                                 {question.type === 'checkbox' && (
                                     <div className="space-y-2">
-                                        {question.options && JSON.parse(question.options)?.map((option: string, index: number) => (
-                                            <div key={index} className="flex items-center space-x-2">
-                                                <Checkbox
-                                                    id={`custom_question_${question.id}_${index}`}
-                                                    checked={(data[`custom_question_${question.id}`] || '').split(',').includes(option)}
-                                                    onCheckedChange={(checked) => {
-                                                        const currentValues = (data[`custom_question_${question.id}`] || '').split(',').filter(v => v);
-                                                        if (checked) {
-                                                            setData(`custom_question_${question.id}`, [...currentValues, option].join(','));
-                                                        } else {
-                                                            setData(`custom_question_${question.id}`, currentValues.filter(v => v !== option).join(','));
-                                                        }
-                                                    }}
-                                                />
-                                                <Label htmlFor={`custom_question_${question.id}_${index}`} className="text-sm">
-                                                    {option}
-                                                </Label>
-                                            </div>
-                                        ))}
+                                        {question.options &&
+                                            JSON.parse(question.options)?.map((option: string, index: number) => (
+                                                <div key={index} className="flex items-center space-x-2">
+                                                    <Checkbox
+                                                        id={`custom_question_${question.id}_${index}`}
+                                                        checked={(data[`custom_question_${question.id}`] || '')
+                                                            .split(',')
+                                                            .includes(option)}
+                                                        onCheckedChange={(checked) => {
+                                                            const currentValues = (
+                                                                data[`custom_question_${question.id}`] || ''
+                                                            )
+                                                                .split(',')
+                                                                .filter((v) => v);
+                                                            if (checked) {
+                                                                setData(
+                                                                    `custom_question_${question.id}`,
+                                                                    [...currentValues, option].join(',')
+                                                                );
+                                                            } else {
+                                                                setData(
+                                                                    `custom_question_${question.id}`,
+                                                                    currentValues.filter((v) => v !== option).join(',')
+                                                                );
+                                                            }
+                                                        }}
+                                                    />
+                                                    <Label
+                                                        htmlFor={`custom_question_${question.id}_${index}`}
+                                                        className="text-sm"
+                                                    >
+                                                        {option}
+                                                    </Label>
+                                                </div>
+                                            ))}
                                     </div>
                                 )}
                                 {question.type === 'date' && (
@@ -756,7 +811,12 @@ export default function EditCandidate({ candidate, onSuccess }: EditCandidatePro
                                         placeholder={t('Enter a number')}
                                     />
                                 )}
-                                <InputError message={errors[`custom_question_${question.id}`] || customErrors[`custom_question_${question.id}`]} />
+                                <InputError
+                                    message={
+                                        errors[`custom_question_${question.id}`] ||
+                                        customErrors[`custom_question_${question.id}`]
+                                    }
+                                />
                             </div>
                         ))}
                     </div>

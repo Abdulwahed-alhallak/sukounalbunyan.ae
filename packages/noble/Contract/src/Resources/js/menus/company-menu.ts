@@ -1,7 +1,5 @@
 import { FileSignature, Tag } from 'lucide-react';
 
-
-
 export const contractCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Contract'),

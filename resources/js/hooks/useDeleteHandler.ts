@@ -12,7 +12,7 @@ export const useDeleteHandler = ({
     routeName,
     defaultMessage = 'Are you sure you want to delete this item?',
     onSuccess,
-    onError
+    onError,
 }: UseDeleteHandlerOptions) => {
     const [deleteState, setDeleteState] = useState<{
         isOpen: boolean;
@@ -21,14 +21,14 @@ export const useDeleteHandler = ({
     }>({
         isOpen: false,
         id: null,
-        message: defaultMessage
+        message: defaultMessage,
     });
 
     const openDeleteDialog = (id: number | string, message?: string) => {
         setDeleteState({
             isOpen: true,
             id,
-            message: message || defaultMessage
+            message: message || defaultMessage,
         });
     };
 
@@ -36,7 +36,7 @@ export const useDeleteHandler = ({
         setDeleteState({
             isOpen: false,
             id: null,
-            message: defaultMessage
+            message: defaultMessage,
         });
     };
 
@@ -47,7 +47,7 @@ export const useDeleteHandler = ({
                     closeDeleteDialog();
                     onSuccess?.(response);
                 },
-                onError
+                onError,
             });
         }
     };
@@ -56,6 +56,6 @@ export const useDeleteHandler = ({
         deleteState,
         openDeleteDialog,
         closeDeleteDialog,
-        confirmDelete
+        confirmDelete,
     };
 };

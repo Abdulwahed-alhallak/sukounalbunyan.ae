@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,7 +29,7 @@ export default function BrandSettings() {
 
     const defaultImages = {
         logo_dark: getImagePath('/packages/noble/SupportTicket/src/Resources/assets/images/logo.png'),
-        favicon: getImagePath('/packages/noble/SupportTicket/src/Resources/assets/images/favicon.png')
+        favicon: getImagePath('/packages/noble/SupportTicket/src/Resources/assets/images/favicon.png'),
     };
 
     const [formSettings, setFormSettings] = useState({
@@ -39,7 +39,7 @@ export default function BrandSettings() {
         footerText: settings?.footerText || '',
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
@@ -54,16 +54,16 @@ export default function BrandSettings() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormSettings(prev => ({ ...prev, [name]: value }));
+        setFormSettings((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleMediaSelect = (name: string, url: string | string[]) => {
         const urlString = Array.isArray(url) ? url[0] || '' : url;
-        setFormSettings(prev => ({ ...prev, [name]: urlString }));
+        setFormSettings((prev) => ({ ...prev, [name]: urlString }));
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         if (!formSettings.titleText.trim()) {
             newErrors.titleText = t('Title text is required');
@@ -83,30 +83,35 @@ export default function BrandSettings() {
 
         setIsLoading(true);
 
-        router.post(route('support-ticket.settings.brand.update'), {
-            logo_dark: formSettings.logo_dark,
-            favicon: formSettings.favicon,
-            titleText: formSettings.titleText,
-            footerText: formSettings.footerText
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('support-ticket.settings.brand.update'),
+            {
+                logo_dark: formSettings.logo_dark,
+                favicon: formSettings.favicon,
+                titleText: formSettings.titleText,
+                footerText: formSettings.footerText,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -114,96 +119,112 @@ export default function BrandSettings() {
             breadcrumbs={[
                 { label: t('Support Tickets'), url: route('dashboard.support-tickets') },
                 { label: t('System Setup') },
-                { label: t('Brand Settings') }
+                { label: t('Brand Settings') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Brand Settings')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="brand-settings" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
-                <CardContent className="p-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-medium">{t('Brand Settings')}</h3>
-                        <Button onClick={saveSettings} disabled={isLoading}>
-                            <Save className="h-4 w-4 mr-2" />
-                            {isLoading ? t('Saving...') : t('Save Changes')}
-                        </Button>
-                    </div>
+                        <CardContent className="p-6">
+                            <div className="mb-6 flex items-center justify-between">
+                                <h3 className="text-lg font-medium">{t('Brand Settings')}</h3>
+                                <Button onClick={saveSettings} disabled={isLoading}>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    {isLoading ? t('Saving...') : t('Save Changes')}
+                                </Button>
+                            </div>
 
-                    <div className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-3">
-                                <Label>{t('Logo')}</Label>
-                                <div className="border rounded-md p-4 flex items-center justify-center bg-muted/30 h-32">
-                                     <img
-                                        src={formSettings.logo_dark ? getImagePath(formSettings.logo_dark) : defaultImages.logo_dark}
-                                        alt={t('Logo')}
-                                        className="max-h-full max-w-full object-contain"
-                                    />
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-3">
+                                        <Label>{t('Logo')}</Label>
+                                        <div className="flex h-32 items-center justify-center rounded-md border bg-muted/30 p-4">
+                                            <img
+                                                src={
+                                                    formSettings.logo_dark
+                                                        ? getImagePath(formSettings.logo_dark)
+                                                        : defaultImages.logo_dark
+                                                }
+                                                alt={t('Logo')}
+                                                className="max-h-full max-w-full object-contain"
+                                            />
+                                        </div>
+                                        <MediaPicker
+                                            value={formSettings.logo_dark || 'logo.png'}
+                                            onChange={(url) => handleMediaSelect('logo_dark', url)}
+                                            placeholder={t('Browse')}
+                                            showPreview={false}
+                                        />
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <Label>{t('Favicon')}</Label>
+                                        <div className="flex h-32 items-center justify-center rounded-md border bg-muted/30 p-4">
+                                            <img
+                                                src={
+                                                    formSettings.favicon
+                                                        ? getImagePath(formSettings.favicon)
+                                                        : defaultImages.favicon
+                                                }
+                                                alt={t('Default Favicon')}
+                                                className="max-h-full max-w-full object-contain"
+                                            />
+                                        </div>
+                                        <MediaPicker
+                                            value={formSettings.favicon || 'favicon.png'}
+                                            onChange={(url) => handleMediaSelect('favicon', url)}
+                                            placeholder={t('Browse')}
+                                            showPreview={false}
+                                        />
+                                    </div>
                                 </div>
-                                <MediaPicker
-                                    value={formSettings.logo_dark || 'logo.png'}
-                                    onChange={(url) => handleMediaSelect('logo_dark', url)}
-                                    placeholder={t('Browse')}
-                                    showPreview={false}
-                                />
-                            </div>
 
-                            <div className="space-y-3">
-                                <Label>{t('Favicon')}</Label>
-                                <div className="border rounded-md p-4 flex items-center justify-center bg-muted/30 h-32">
-                                    <img
-                                        src={formSettings.favicon ? getImagePath(formSettings.favicon) : defaultImages.favicon}
-                                        alt={t('Default Favicon')}
-                                        className="max-h-full max-w-full object-contain"
-                                    />
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-3">
+                                        <Label htmlFor="titleText">
+                                            {t('Title Text')} <span className="text-destructive">*</span>
+                                        </Label>
+                                        <Input
+                                            id="titleText"
+                                            name="titleText"
+                                            value={formSettings.titleText}
+                                            onChange={handleInputChange}
+                                            placeholder={t('Enter title text')}
+                                            className={errors.titleText ? 'border-destructive' : ''}
+                                        />
+                                        {errors.titleText && (
+                                            <p className="text-sm text-destructive">{errors.titleText}</p>
+                                        )}
+                                    </div>
+                                    <div className="space-y-3">
+                                        <Label htmlFor="footerText">
+                                            {t('Footer Text')} <span className="text-destructive">*</span>
+                                        </Label>
+                                        <Input
+                                            id="footerText"
+                                            name="footerText"
+                                            value={formSettings.footerText}
+                                            onChange={handleInputChange}
+                                            placeholder={t('Enter footer text')}
+                                            className={errors.footerText ? 'border-destructive' : ''}
+                                        />
+                                        {errors.footerText && (
+                                            <p className="text-sm text-destructive">{errors.footerText}</p>
+                                        )}
+                                    </div>
                                 </div>
-                                <MediaPicker
-                                    value={formSettings.favicon || 'favicon.png'}
-                                    onChange={(url) => handleMediaSelect('favicon', url)}
-                                    placeholder={t('Browse')}
-                                    showPreview={false}
-                                />
                             </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-3">
-                                <Label htmlFor="titleText">{t('Title Text')} <span className="text-destructive">*</span></Label>
-                                <Input
-                                    id="titleText"
-                                    name="titleText"
-                                    value={formSettings.titleText}
-                                    onChange={handleInputChange}
-                                    placeholder={t('Enter title text')}
-                                    className={errors.titleText ? 'border-destructive' : ''}
-                                />
-                                {errors.titleText && <p className="text-sm text-destructive">{errors.titleText}</p>}
-                            </div>
-                            <div className="space-y-3">
-                                <Label htmlFor="footerText">{t('Footer Text')} <span className="text-destructive">*</span></Label>
-                                <Input
-                                    id="footerText"
-                                    name="footerText"
-                                    value={formSettings.footerText}
-                                    onChange={handleInputChange}
-                                    placeholder={t('Enter footer text')}
-                                    className={errors.footerText ? 'border-destructive' : ''}
-                                />
-                                {errors.footerText && <p className="text-sm text-destructive">{errors.footerText}</p>}
-                            </div>
-                        </div>
-                    </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
-        </div>
         </AuthenticatedLayout>
     );
 }

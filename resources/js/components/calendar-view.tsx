@@ -1,93 +1,92 @@
-import { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 interface CalendarEvent {
-  id: number
-  title: string
-  startDate: string
-  endDate: string
-  time: string
-  color: string
-  [key: string]: any
+    id: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+    time: string;
+    color: string;
+    [key: string]: any;
 }
 
 interface CalendarViewProps {
-  events: CalendarEvent[]
-  onEventClick?: (event: CalendarEvent) => void
-  onDateClick?: (date: Date) => void
-  onMonthChange?: (month: string) => void
+    events: CalendarEvent[];
+    onEventClick?: (event: CalendarEvent) => void;
+    onDateClick?: (date: Date) => void;
+    onMonthChange?: (month: string) => void;
 }
 
 export default function CalendarView({ events, onEventClick, onDateClick, onMonthChange }: CalendarViewProps) {
-  const { t } = useTranslation()
-  const [isInitialized, setIsInitialized] = useState(false)
+    const { t } = useTranslation();
+    const [isInitialized, setIsInitialized] = useState(false);
 
+    const calendarEvents = useMemo(() => {
+        return events.map((event) => {
+            const startDate = new Date(event.startDate);
+            const endDate = new Date(event.endDate);
 
+            // For FullCalendar, end date should be the day after the last day for proper spanning
+            const calendarEndDate =
+                event.startDate !== event.endDate
+                    ? new Date(endDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                    : undefined;
 
-  const calendarEvents = useMemo(() => {
-    return events.map(event => {
-      const startDate = new Date(event.startDate);
-      const endDate = new Date(event.endDate);
-      
-      // For FullCalendar, end date should be the day after the last day for proper spanning
-      const calendarEndDate = event.startDate !== event.endDate ? 
-        new Date(endDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0] : 
-        undefined;
-      
-      return {
-        id: event.id.toString(),
-        title: event.title,
-        start: event.startDate,
-        end: calendarEndDate,
-        allDay: true,
-        backgroundColor: event.color,
-        borderColor: event.color,
-        extendedProps: event
-      };
-    })
-  }, [events])
+            return {
+                id: event.id.toString(),
+                title: event.title,
+                start: event.startDate,
+                end: calendarEndDate,
+                allDay: true,
+                backgroundColor: event.color,
+                borderColor: event.color,
+                extendedProps: event,
+            };
+        });
+    }, [events]);
 
-  const handleEventClick = (info: any) => {
-    onEventClick?.(info.event.extendedProps)
-  }
+    const handleEventClick = (info: any) => {
+        onEventClick?.(info.event.extendedProps);
+    };
 
-  const handleDateClick = (info: any) => {
-    onDateClick?.(new Date(info.dateStr))
-  }
+    const handleDateClick = (info: any) => {
+        onDateClick?.(new Date(info.dateStr));
+    };
 
-  return (
-    <div className="fullcalendar-container" style={{ overflow: 'visible' }}>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        events={calendarEvents}
-        height="auto"
-        eventClick={handleEventClick}
-        dateClick={handleDateClick}
-        datesSet={(info) => {
-          if (isInitialized) {
-            const month = info.start.toISOString().slice(0, 7);
-            onMonthChange?.(month);
-          } else {
-            setIsInitialized(true);
-          }
-        }}
-        dayMaxEventRows={3}
-        moreLinkText={t('more')}
-        allDayText={t('All day')}
-        eventMaxStack={3}
-      />
-      
-      <style>{`
+    return (
+        <div className="fullcalendar-container" style={{ overflow: 'visible' }}>
+            <FullCalendar
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                }}
+                events={calendarEvents}
+                height="auto"
+                eventClick={handleEventClick}
+                dateClick={handleDateClick}
+                datesSet={(info) => {
+                    if (isInitialized) {
+                        const month = info.start.toISOString().slice(0, 7);
+                        onMonthChange?.(month);
+                    } else {
+                        setIsInitialized(true);
+                    }
+                }}
+                dayMaxEventRows={3}
+                moreLinkText={t('more')}
+                allDayText={t('All day')}
+                eventMaxStack={3}
+            />
+
+            <style>{`
         .fullcalendar-container {
           overflow: visible !important;
         }
@@ -318,6 +317,6 @@ export default function CalendarView({ events, onEventClick, onDateClick, onMont
         }
       
       `}</style>
-    </div>
-  )
+        </div>
+    );
 }

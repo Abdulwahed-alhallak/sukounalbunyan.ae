@@ -1,12 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { CreateHelpdeskCategoryProps, CreateHelpdeskCategoryFormData } from './types';
 
 export default function Create({ onSuccess }: CreateHelpdeskCategoryProps) {
@@ -23,7 +23,7 @@ export default function Create({ onSuccess }: CreateHelpdeskCategoryProps) {
         post(route('helpdesk-categories.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -70,7 +70,10 @@ export default function Create({ onSuccess }: CreateHelpdeskCategoryProps) {
                     </div>
                     <div>
                         <Label htmlFor="is_active">{t('Status')}</Label>
-                        <Select value={data.is_active ? "1" : "0"} onValueChange={(value) => setData('is_active', value === "1")}>
+                        <Select
+                            value={data.is_active ? '1' : '0'}
+                            onValueChange={(value) => setData('is_active', value === '1')}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>

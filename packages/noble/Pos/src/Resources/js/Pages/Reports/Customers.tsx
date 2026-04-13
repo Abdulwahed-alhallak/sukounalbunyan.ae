@@ -1,16 +1,38 @@
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 import { Users, TrendingUp, DollarSign, ShoppingCart } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
-import { DataTable } from "@/components/ui/data-table";
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    PieChart as RechartsPieChart,
+    Cell,
+    Pie,
+} from 'recharts';
+import { DataTable } from '@/components/ui/data-table';
 import NoRecordsFound from '@/components/no-records-found';
 import { BarChart as BarChartComponent } from '@/components/charts/BarChart';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C', '#8DD1E1', '#D084D0'];
+const COLORS = [
+    '#0088FE',
+    '#00C49F',
+    '#FFBB28',
+    '#FF8042',
+    '#8884D8',
+    '#82CA9D',
+    '#FFC658',
+    '#FF7C7C',
+    '#8DD1E1',
+    '#D084D0',
+];
 
 interface CustomersReportProps {
     customerData: Array<{
@@ -28,10 +50,7 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-            { label: t('POS'), url: route('pos.index') },
-            { label: t('Customer Report') }
-            ]}
+            breadcrumbs={[{ label: t('POS'), url: route('pos.index') }, { label: t('Customer Report') }]}
             pageTitle={t('Customer Report')}
         >
             <Head title={t('Customer Report')} />
@@ -39,64 +58,71 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
             <div className="space-y-6">
                 {/* Summary Cards */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <Card className="relative overflow-hidden bg-gradient-to-r from-muted/50 to-muted border-border">
-                        <div className="absolute top-2 right-2">
+                    <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <div className="absolute right-2 top-2">
                             <Users className="h-5 w-5 text-foreground opacity-80" />
                         </div>
-                        <CardHeader className="text-center space-y-0 pb-1 pt-3">
+                        <CardHeader className="space-y-0 pb-1 pt-3 text-center">
                             <div className="text-2xl font-bold text-foreground">{customerData?.length || 0}</div>
                         </CardHeader>
-                        <CardContent className="text-center pt-1 pb-3">
-                            <CardTitle className="text-sm font-medium text-foreground">{t('Total Customers')}</CardTitle>
+                        <CardContent className="pb-3 pt-1 text-center">
+                            <CardTitle className="text-sm font-medium text-foreground">
+                                {t('Total Customers')}
+                            </CardTitle>
                         </CardContent>
                     </Card>
-                    <Card className="relative overflow-hidden bg-gradient-to-r from-muted/50 to-muted border-border">
-                        <div className="absolute top-2 right-2">
+                    <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <div className="absolute right-2 top-2">
                             <DollarSign className="h-5 w-5 text-foreground opacity-80" />
                         </div>
-                        <CardHeader className="text-center space-y-0 pb-1 pt-3">
+                        <CardHeader className="space-y-0 pb-1 pt-3 text-center">
                             <div className="text-2xl font-bold text-foreground">
-                                {formatCurrency(customerData?.reduce((sum, c) => sum + (Number(c.total_spent) || 0), 0) || 0)}
+                                {formatCurrency(
+                                    customerData?.reduce((sum, c) => sum + (Number(c.total_spent) || 0), 0) || 0
+                                )}
                             </div>
                         </CardHeader>
-                        <CardContent className="text-center pt-1 pb-3">
+                        <CardContent className="pb-3 pt-1 text-center">
                             <CardTitle className="text-sm font-medium text-foreground">{t('Total Revenue')}</CardTitle>
                         </CardContent>
                     </Card>
-                    <Card className="relative overflow-hidden bg-gradient-to-r from-muted/50 to-muted border-border">
-                        <div className="absolute top-2 right-2">
+                    <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <div className="absolute right-2 top-2">
                             <ShoppingCart className="h-5 w-5 text-foreground opacity-80" />
                         </div>
-                        <CardHeader className="text-center space-y-0 pb-1 pt-3">
+                        <CardHeader className="space-y-0 pb-1 pt-3 text-center">
                             <div className="text-2xl font-bold text-foreground">
                                 {customerData?.reduce((sum, c) => sum + (Number(c.total_orders) || 0), 0) || 0}
                             </div>
                         </CardHeader>
-                        <CardContent className="text-center pt-1 pb-3">
+                        <CardContent className="pb-3 pt-1 text-center">
                             <CardTitle className="text-sm font-medium text-foreground">{t('Total Orders')}</CardTitle>
                         </CardContent>
                     </Card>
-                    <Card className="relative overflow-hidden bg-gradient-to-r from-muted/50 to-muted border-border">
-                        <div className="absolute top-2 right-2">
+                    <Card className="relative overflow-hidden border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <div className="absolute right-2 top-2">
                             <TrendingUp className="h-5 w-5 text-foreground opacity-80" />
                         </div>
-                        <CardHeader className="text-center space-y-0 pb-1 pt-3">
+                        <CardHeader className="space-y-0 pb-1 pt-3 text-center">
                             <div className="text-2xl font-bold text-foreground">
                                 {formatCurrency(
-                                    customerData?.length > 0 
-                                        ? customerData.reduce((sum, c) => sum + (Number(c.avg_order_value) || 0), 0) / customerData.length 
+                                    customerData?.length > 0
+                                        ? customerData.reduce((sum, c) => sum + (Number(c.avg_order_value) || 0), 0) /
+                                              customerData.length
                                         : 0
                                 )}
                             </div>
                         </CardHeader>
-                        <CardContent className="text-center pt-1 pb-3">
-                            <CardTitle className="text-sm font-medium text-foreground">{t('Avg Order Value')}</CardTitle>
+                        <CardContent className="pb-3 pt-1 text-center">
+                            <CardTitle className="text-sm font-medium text-foreground">
+                                {t('Avg Order Value')}
+                            </CardTitle>
                         </CardContent>
                     </Card>
                 </div>
 
                 {/* Charts Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Top Customers Bar Chart */}
                     <Card className="shadow-sm">
                         <CardHeader className="pb-3">
@@ -105,19 +131,28 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
                                 {t('Top 10 Customers by Spending')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 pb-0 flex justify-center">
+                        <CardContent className="flex justify-center pb-0 pt-0">
                             {customerData?.length > 0 ? (
                                 <div className="w-full">
                                     <ResponsiveContainer width="100%" height={400}>
-                                        <BarChart data={customerData?.slice(0, 10)?.map(customer => ({ 
-                                            name: (customer.name || customer.customer?.name || 'Walk-in').substring(0, 10), 
-                                            value: Number(customer.total_spent) || 0
-                                        })) || []} margin={{ bottom: 60 }}>
+                                        <BarChart
+                                            data={
+                                                customerData?.slice(0, 10)?.map((customer) => ({
+                                                    name: (
+                                                        customer.name ||
+                                                        customer.customer?.name ||
+                                                        'Walk-in'
+                                                    ).substring(0, 10),
+                                                    value: Number(customer.total_spent) || 0,
+                                                })) || []
+                                            }
+                                            margin={{ bottom: 60 }}
+                                        >
                                             <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis 
-                                                dataKey="name" 
-                                                angle={-45} 
-                                                textAnchor="end" 
+                                            <XAxis
+                                                dataKey="name"
+                                                angle={-45}
+                                                textAnchor="end"
                                                 height={60}
                                                 interval={0}
                                             />
@@ -128,9 +163,9 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
                                     </ResponsiveContainer>
                                 </div>
                             ) : (
-                                <div className="flex items-center justify-center h-48 text-muted-foreground">
+                                <div className="flex h-48 items-center justify-center text-muted-foreground">
                                     <div className="text-center">
-                                        <DollarSign className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                        <DollarSign className="mx-auto mb-2 h-8 w-8 opacity-50" />
                                         <p className="text-sm">{t('No spending data available')}</p>
                                     </div>
                                 </div>
@@ -146,14 +181,12 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
                                 {t('Order Distribution')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 pb-3">
+                        <CardContent className="pb-3 pt-0">
                             {customerData?.length > 0 ? (
                                 <div className="w-full">
                                     <ResponsiveContainer width="100%" height={320}>
                                         <RechartsPieChart>
-                                            <Tooltip 
-                                                formatter={(value) => [value, t('Orders')]}
-                                            />
+                                            <Tooltip formatter={(value) => [value, t('Orders')]} />
                                             <Pie
                                                 data={customerData?.slice(0, 10) || []}
                                                 cx="50%"
@@ -172,9 +205,9 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
                                     </ResponsiveContainer>
                                 </div>
                             ) : (
-                                <div className="flex items-center justify-center h-48 text-muted-foreground">
+                                <div className="flex h-48 items-center justify-center text-muted-foreground">
                                     <div className="text-center">
-                                        <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                        <Users className="mx-auto mb-2 h-8 w-8 opacity-50" />
                                         <p className="text-sm">{t('No order data available')}</p>
                                     </div>
                                 </div>
@@ -185,14 +218,14 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
 
                 {/* Data Table */}
                 <Card className="shadow-sm">
-                    <CardHeader className="p-6 border-b bg-muted/50/50">
-                        <CardTitle className="text-lg flex items-center gap-2">
+                    <CardHeader className="bg-muted/50/50 border-b p-6">
+                        <CardTitle className="flex items-center gap-2 text-lg">
                             <Users className="h-5 w-5 text-foreground" />
                             {t('Customer Performance Report')}
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-96 rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-96 w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={customerData || []}
@@ -204,27 +237,27 @@ export default function CustomersReport({ customerData }: CustomersReportProps) 
                                                 <Badge variant="secondary" className="text-xs">
                                                     {customer.customer?.name || t('Walk-in')}
                                                 </Badge>
-                                            )
+                                            ),
                                         },
                                         {
                                             key: 'total_orders',
-                                            header: t('Total Orders')
+                                            header: t('Total Orders'),
                                         },
                                         {
                                             key: 'total_spent',
                                             header: t('Total Spent'),
-                                            render: (value: number) => formatCurrency(value)
+                                            render: (value: number) => formatCurrency(value),
                                         },
                                         {
                                             key: 'avg_order_value',
                                             header: t('Avg Order Value'),
-                                            render: (value: number) => formatCurrency(value)
+                                            render: (value: number) => formatCurrency(value),
                                         },
                                         {
                                             key: 'last_order_date',
                                             header: t('Last Order'),
-                                            render: (value: string) => formatDate(value)
-                                        }
+                                            render: (value: string) => formatDate(value),
+                                        },
                                     ]}
                                     className="rounded-none"
                                     emptyState={

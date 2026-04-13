@@ -1,4 +1,4 @@
-    import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -26,7 +26,6 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
     const { t } = useTranslation();
     const [filteredDepartments, setFilteredDepartments] = useState(departments || []);
 
-
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         description: '',
@@ -45,7 +44,17 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
     });
 
     // AI hooks for description field
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'training', 'training');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'training',
+        'training'
+    );
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,20 +67,16 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
 
     useEffect(() => {
         if (data.branch_id && departments) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
             }
         } else {
             setFilteredDepartments([]);
             setData('department_id', '');
         }
-
-
     }, [data.branch_id, departments, users]);
-
-
 
     return (
         <DialogContent className="sm:max-w-4xl">
@@ -82,7 +87,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="title" required>{t('Title')}</Label>
+                        <Label htmlFor="title" required>
+                            {t('Title')}
+                        </Label>
                         <Input
                             id="title"
                             value={data.title}
@@ -94,8 +101,13 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="training_type_id" required>{t('Training Type')}</Label>
-                        <Select value={data.training_type_id} onValueChange={(value) => setData('training_type_id', value)}>
+                        <Label htmlFor="training_type_id" required>
+                            {t('Training Type')}
+                        </Label>
+                        <Select
+                            value={data.training_type_id}
+                            onValueChange={(value) => setData('training_type_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select training type')} />
                             </SelectTrigger>
@@ -111,7 +123,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="trainer_id" required>{t('Trainer')}</Label>
+                        <Label htmlFor="trainer_id" required>
+                            {t('Trainer')}
+                        </Label>
                         <Select value={data.trainer_id} onValueChange={(value) => setData('trainer_id', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select trainer')} />
@@ -128,7 +142,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="status" required>{t('Status')}</Label>
+                        <Label htmlFor="status" required>
+                            {t('Status')}
+                        </Label>
                         <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select status')} />
@@ -144,7 +160,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                        <Label htmlFor="branch_id" required>
+                            {t('Branch')}
+                        </Label>
                         <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select branch')} />
@@ -161,14 +179,18 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="department_id" required>{t('Department')}</Label>
+                        <Label htmlFor="department_id" required>
+                            {t('Department')}
+                        </Label>
                         <Select
                             value={data.department_id}
                             onValueChange={(value) => setData('department_id', value)}
                             disabled={!data.branch_id}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                                <SelectValue
+                                    placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredDepartments?.map((department) => (
@@ -180,8 +202,6 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                         </Select>
                         <InputError message={errors.department_id} />
                     </div>
-
-                    
 
                     <div>
                         <Label required>{t('Start Date')}</Label>
@@ -204,7 +224,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="start_time" required>{t('Start Time')}</Label>
+                        <Label htmlFor="start_time" required>
+                            {t('Start Time')}
+                        </Label>
                         <Input
                             id="start_time"
                             type="time"
@@ -216,7 +238,9 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     </div>
 
                     <div>
-                        <Label htmlFor="end_time" required>{t('End Time')}</Label>
+                        <Label htmlFor="end_time" required>
+                            {t('End Time')}
+                        </Label>
                         <Input
                             id="end_time"
                             type="time"
@@ -250,27 +274,28 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                         />
                         <InputError message={errors.location} />
                     </div>
-
                 </div>
-                    <div>
-                        <Label htmlFor="cost">{t('Cost')}</Label>
-                        <Input
-                            id="cost"
-                            type="number"
-                            step="0.01"
-                            value={data.cost}
-                            onChange={(e) => setData('cost', e.target.value)}
-                            placeholder={t('Enter training cost')}
-                            min="0"
-                        />
-                        <InputError message={errors.cost} />
-                    </div>
+                <div>
+                    <Label htmlFor="cost">{t('Cost')}</Label>
+                    <Input
+                        id="cost"
+                        type="number"
+                        step="0.01"
+                        value={data.cost}
+                        onChange={(e) => setData('cost', e.target.value)}
+                        placeholder={t('Enter training cost')}
+                        min="0"
+                    />
+                    <InputError message={errors.cost} />
+                </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -282,8 +307,6 @@ export default function Create({ onSuccess, trainingTypes, trainers, branches, d
                     />
                     <InputError message={errors.description} />
                 </div>
-
-                
 
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>

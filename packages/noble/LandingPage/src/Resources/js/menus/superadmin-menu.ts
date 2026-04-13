@@ -1,7 +1,5 @@
 import { Shield, Image, Settings, Layout, Package, FileText } from 'lucide-react';
 
-
-
 export const cmsSuperAdminMenu = (t: (key: string) => string) => ({
     title: t('CMS'),
     href: route('landing-page.index'),
@@ -14,25 +12,25 @@ export const cmsSuperAdminMenu = (t: (key: string) => string) => ({
             title: t('Landing Page'),
             href: route('landing-page.index'),
             permission: 'manage-landing-page',
-            order: 1
+            order: 1,
         },
         {
             title: t('Marketplace'),
             href: route('marketplace.settings'),
             permission: 'manage-marketplace-settings',
-            order: 2
+            order: 2,
         },
         {
             title: t('Custom Pages'),
             href: route('custom-pages.index'),
             permission: 'manage-custom-pages',
-            order: 3
+            order: 3,
         },
         {
             title: t('Newsletter Subscribers'),
             href: route('newsletter-subscribers.index'),
             permission: 'manage-newsletter-subscribers',
-            order: 4
-        }
-    ]
+            order: 4,
+        },
+    ],
 });

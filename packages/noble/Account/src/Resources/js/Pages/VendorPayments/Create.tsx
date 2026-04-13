@@ -19,8 +19,8 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
     const { t } = useTranslation();
     const [outstandingInvoices, setOutstandingInvoices] = useState<PurchaseInvoice[]>([]);
     const [availableDebitNotes, setAvailableDebitNotes] = useState<DebitNote[]>([]);
-    const [selectedAllocations, setSelectedAllocations] = useState<{invoice_id: number; amount: number}[]>([]);
-    const [selectedDebitNotes, setSelectedDebitNotes] = useState<{debit_note_id: number; amount: number}[]>([]);
+    const [selectedAllocations, setSelectedAllocations] = useState<{ invoice_id: number; amount: number }[]>([]);
+    const [selectedDebitNotes, setSelectedDebitNotes] = useState<{ debit_note_id: number; amount: number }[]>([]);
 
     const { data, setData, post, processing, errors } = useForm<CreateVendorPaymentFormData>({
         payment_date: new Date().toISOString().split('T')[0],
@@ -30,7 +30,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
         payment_amount: '',
         notes: '',
         allocations: [],
-        debit_notes: []
+        debit_notes: [],
     });
 
     // Update form data when selections change
@@ -75,12 +75,12 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
     }, [data.vendor_id]);
 
     const addAllocation = (invoice: PurchaseInvoice) => {
-        const existing = selectedAllocations.find(a => a.invoice_id === invoice.id);
+        const existing = selectedAllocations.find((a) => a.invoice_id === invoice.id);
         if (existing) return;
 
         const newAllocation = {
             invoice_id: invoice.id,
-            amount: invoice.balance_amount
+            amount: invoice.balance_amount,
         };
 
         const newAllocations = [...selectedAllocations, newAllocation];
@@ -89,20 +89,23 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
     };
 
     const removeAllocation = (invoiceId: number) => {
-        const newAllocations = selectedAllocations.filter(a => a.invoice_id !== invoiceId);
+        const newAllocations = selectedAllocations.filter((a) => a.invoice_id !== invoiceId);
         setSelectedAllocations(newAllocations);
         updateTotalAmount(newAllocations, selectedDebitNotes);
     };
 
     const updateAllocationAmount = (invoiceId: number, amount: number) => {
-        const newAllocations = selectedAllocations?.map(a =>
+        const newAllocations = selectedAllocations?.map((a) =>
             a.invoice_id === invoiceId ? { ...a, amount: Number(amount || 0) } : a
         );
         setSelectedAllocations(newAllocations);
         updateTotalAmount(newAllocations, selectedDebitNotes);
     };
 
-    const updateTotalAmount = (allocations: {invoice_id: number; amount: number}[], debitNotes = selectedDebitNotes) => {
+    const updateTotalAmount = (
+        allocations: { invoice_id: number; amount: number }[],
+        debitNotes = selectedDebitNotes
+    ) => {
         const allocationsTotal = allocations.reduce((sum, allocation) => sum + Number(allocation.amount || 0), 0);
         const debitNotesTotal = debitNotes.reduce((sum, debitNote) => sum + Number(debitNote.amount || 0), 0);
         const total = allocationsTotal - debitNotesTotal; // Debit notes reduce payment amount
@@ -112,18 +115,14 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
 
-
-
-
-
         post(route('account.vendor-payments.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
-    const getInvoiceById = (id: number) => outstandingInvoices.find(inv => inv.id === id);
+    const getInvoiceById = (id: number) => outstandingInvoices.find((inv) => inv.id === id);
 
     return (
         <DialogContent className="max-w-4xl">
@@ -131,9 +130,11 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                 <DialogTitle>{t('Create Vendor Payment')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="payment_date" required>{t('Payment Date')}</Label>
+                        <Label htmlFor="payment_date" required>
+                            {t('Payment Date')}
+                        </Label>
                         <DatePicker
                             id="payment_date"
                             value={data.payment_date}
@@ -149,10 +150,15 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                     </div>
 
                     <div>
-                        <Label htmlFor="vendor_id" required>{t('Vendor')}</Label>
-                        <Select value={data.vendor_id} onValueChange={(value) => {
-                            setData('vendor_id', value);
-                        }}>
+                        <Label htmlFor="vendor_id" required>
+                            {t('Vendor')}
+                        </Label>
+                        <Select
+                            value={data.vendor_id}
+                            onValueChange={(value) => {
+                                setData('vendor_id', value);
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Vendor')} />
                             </SelectTrigger>
@@ -168,8 +174,13 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                     </div>
 
                     <div>
-                        <Label htmlFor="bank_account_id" required>{t('Bank Account')}</Label>
-                        <Select value={data.bank_account_id} onValueChange={(value) => setData('bank_account_id', value)}>
+                        <Label htmlFor="bank_account_id" required>
+                            {t('Bank Account')}
+                        </Label>
+                        <Select
+                            value={data.bank_account_id}
+                            onValueChange={(value) => setData('bank_account_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Bank Account')} />
                             </SelectTrigger>
@@ -197,19 +208,22 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                 </div>
 
                 {data.vendor_id && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-sm">{t('Outstanding Invoices')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {outstandingInvoices.length > 0 ? (
-                                    <div className="space-y-2 max-h-40 overflow-y-auto">
+                                    <div className="max-h-40 space-y-2 overflow-y-auto">
                                         {outstandingInvoices?.map((invoice) => (
-                                            <div key={invoice.id} className="flex items-center justify-between p-2 border rounded">
+                                            <div
+                                                key={invoice.id}
+                                                className="flex items-center justify-between rounded border p-2"
+                                            >
                                                 <div>
                                                     <span className="font-medium">{invoice.invoice_number}</span>
-                                                    <span className="text-sm text-muted-foreground ml-2">
+                                                    <span className="ml-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(invoice.balance_amount)}
                                                     </span>
                                                 </div>
@@ -217,7 +231,9 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                     type="button"
                                                     size="sm"
                                                     onClick={() => addAllocation(invoice)}
-                                                    disabled={selectedAllocations.some(a => a.invoice_id === invoice.id)}
+                                                    disabled={selectedAllocations.some(
+                                                        (a) => a.invoice_id === invoice.id
+                                                    )}
                                                 >
                                                     {t('Add')}
                                                 </Button>
@@ -225,7 +241,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-4 text-muted-foreground">
+                                    <div className="py-4 text-center text-muted-foreground">
                                         {t('No outstanding invoices found for this vendor')}
                                     </div>
                                 )}
@@ -238,12 +254,15 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                             </CardHeader>
                             <CardContent>
                                 {availableDebitNotes.length > 0 ? (
-                                    <div className="space-y-2 max-h-40 overflow-y-auto">
+                                    <div className="max-h-40 space-y-2 overflow-y-auto">
                                         {availableDebitNotes?.map((debitNote) => (
-                                            <div key={debitNote.id} className="flex items-center justify-between p-2 border rounded">
+                                            <div
+                                                key={debitNote.id}
+                                                className="flex items-center justify-between rounded border p-2"
+                                            >
                                                 <div>
                                                     <span className="font-medium">{debitNote.debit_note_number}</span>
-                                                    <span className="text-sm text-muted-foreground ml-2">
+                                                    <span className="ml-2 text-sm text-muted-foreground">
                                                         Balance: {formatCurrency(debitNote.balance_amount)}
                                                     </span>
                                                 </div>
@@ -252,19 +271,32 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                     size="sm"
                                                     variant="outline"
                                                     onClick={() => {
-                                                        const totalInvoiceAmount = selectedAllocations.reduce((sum, a) => sum + a.amount, 0);
-                                                        const currentDebitNotesSum = selectedDebitNotes.reduce((sum, d) => sum + d.amount, 0);
-                                                        const remainingAmount = totalInvoiceAmount - currentDebitNotesSum;
-                                                        const maxAmount = Math.min(debitNote.balance_amount, remainingAmount);
+                                                        const totalInvoiceAmount = selectedAllocations.reduce(
+                                                            (sum, a) => sum + a.amount,
+                                                            0
+                                                        );
+                                                        const currentDebitNotesSum = selectedDebitNotes.reduce(
+                                                            (sum, d) => sum + d.amount,
+                                                            0
+                                                        );
+                                                        const remainingAmount =
+                                                            totalInvoiceAmount - currentDebitNotesSum;
+                                                        const maxAmount = Math.min(
+                                                            debitNote.balance_amount,
+                                                            remainingAmount
+                                                        );
                                                         const newDebitNote = {
                                                             debit_note_id: debitNote.id,
-                                                            amount: maxAmount > 0 ? maxAmount : debitNote.balance_amount
+                                                            amount:
+                                                                maxAmount > 0 ? maxAmount : debitNote.balance_amount,
                                                         };
                                                         const newDebitNotes = [...selectedDebitNotes, newDebitNote];
                                                         setSelectedDebitNotes(newDebitNotes);
                                                         updateTotalAmount(selectedAllocations, newDebitNotes);
                                                     }}
-                                                    disabled={selectedDebitNotes.some(d => d.debit_note_id === debitNote.id)}
+                                                    disabled={selectedDebitNotes.some(
+                                                        (d) => d.debit_note_id === debitNote.id
+                                                    )}
                                                 >
                                                     {t('Apply')}
                                                 </Button>
@@ -272,7 +304,7 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-4 text-muted-foreground">
+                                    <div className="py-4 text-center text-muted-foreground">
                                         {t('No debit notes available for this vendor')}
                                     </div>
                                 )}
@@ -291,7 +323,10 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                 {selectedAllocations?.map((allocation) => {
                                     const invoice = getInvoiceById(allocation.invoice_id);
                                     return (
-                                        <div key={allocation.invoice_id} className="flex items-center gap-3 p-3 border rounded">
+                                        <div
+                                            key={allocation.invoice_id}
+                                            className="flex items-center gap-3 rounded border p-3"
+                                        >
                                             <div className="flex-1">
                                                 <div className="font-medium">{invoice?.invoice_number}</div>
                                                 <div className="text-sm text-muted-foreground">
@@ -303,7 +338,12 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                     type="number"
                                                     step="0.01"
                                                     value={allocation.amount}
-                                                    onChange={(e) => updateAllocationAmount(allocation.invoice_id, Number(e.target.value) || 0)}
+                                                    onChange={(e) =>
+                                                        updateAllocationAmount(
+                                                            allocation.invoice_id,
+                                                            Number(e.target.value) || 0
+                                                        )
+                                                    }
                                                     max={invoice?.balance_amount}
                                                 />
                                             </div>
@@ -319,11 +359,16 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                     );
                                 })}
                                 {selectedDebitNotes?.map((debitNote, index) => {
-                                    const note = availableDebitNotes.find(d => d.id === debitNote.debit_note_id);
+                                    const note = availableDebitNotes.find((d) => d.id === debitNote.debit_note_id);
                                     return (
-                                        <div key={`debit-${index}`} className="flex items-center gap-3 p-3 border rounded bg-muted/50">
+                                        <div
+                                            key={`debit-${index}`}
+                                            className="flex items-center gap-3 rounded border bg-muted/50 p-3"
+                                        >
                                             <div className="flex-1">
-                                                <div className="font-medium text-foreground">{note?.debit_note_number}</div>
+                                                <div className="font-medium text-foreground">
+                                                    {note?.debit_note_number}
+                                                </div>
                                                 <div className="text-sm text-muted-foreground">
                                                     {t('Credit applied to payment')}
                                                 </div>
@@ -336,22 +381,35 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                     onChange={(e) => {
                                                         const newAmount = Number(e.target.value);
                                                         if (isNaN(newAmount)) return;
-                                                        const note = availableDebitNotes.find(d => d.id === debitNote.debit_note_id);
-                                                        const totalInvoiceAmount = selectedAllocations.reduce((sum, a) => sum + Number(a.amount || 0), 0);
-                                                        const otherDebitNotesSum = selectedDebitNotes.reduce((sum, d, i) => 
-                                                            i !== index ? sum + Number(d.amount || 0) : sum, 0
+                                                        const note = availableDebitNotes.find(
+                                                            (d) => d.id === debitNote.debit_note_id
                                                         );
-                                                        const maxAllowedForThis = totalInvoiceAmount - otherDebitNotesSum;
-                                                        const maxAmount = Math.min(note?.balance_amount || 0, maxAllowedForThis);
+                                                        const totalInvoiceAmount = selectedAllocations.reduce(
+                                                            (sum, a) => sum + Number(a.amount || 0),
+                                                            0
+                                                        );
+                                                        const otherDebitNotesSum = selectedDebitNotes.reduce(
+                                                            (sum, d, i) =>
+                                                                i !== index ? sum + Number(d.amount || 0) : sum,
+                                                            0
+                                                        );
+                                                        const maxAllowedForThis =
+                                                            totalInvoiceAmount - otherDebitNotesSum;
+                                                        const maxAmount = Math.min(
+                                                            note?.balance_amount || 0,
+                                                            maxAllowedForThis
+                                                        );
                                                         const validAmount = Math.max(0, Math.min(newAmount, maxAmount));
-                                                        const newDebitNotes = selectedDebitNotes?.map((d, i) => 
+                                                        const newDebitNotes = selectedDebitNotes?.map((d, i) =>
                                                             i === index ? { ...d, amount: validAmount } : d
                                                         );
                                                         setSelectedDebitNotes(newDebitNotes);
                                                         updateTotalAmount(selectedAllocations, newDebitNotes);
                                                     }}
                                                     max={Math.min(
-                                                        availableDebitNotes.find(d => d.id === debitNote.debit_note_id)?.balance_amount || 0,
+                                                        availableDebitNotes.find(
+                                                            (d) => d.id === debitNote.debit_note_id
+                                                        )?.balance_amount || 0,
                                                         selectedAllocations.reduce((sum, a) => sum + a.amount, 0)
                                                     )}
                                                     className="text-right"
@@ -362,7 +420,9 @@ export default function Create({ vendors, bankAccounts, onSuccess }: CreateVendo
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => {
-                                                    const newDebitNotes = selectedDebitNotes.filter((_, i) => i !== index);
+                                                    const newDebitNotes = selectedDebitNotes.filter(
+                                                        (_, i) => i !== index
+                                                    );
                                                     setSelectedDebitNotes(newDebitNotes);
                                                     updateTotalAmount(selectedAllocations, newDebitNotes);
                                                 }}

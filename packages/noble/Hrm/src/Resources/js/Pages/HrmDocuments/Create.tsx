@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -25,16 +25,24 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
 
     // AI hooks for title and description fields
     const titleAI = useFormFields('aiField', data, setData, errors, 'create', 'title', 'Title', 'hrm', 'document');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'hrm', 'document');
-
-
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'hrm',
+        'document'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('hrm.documents.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -45,7 +53,7 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="title">{t('Title')}</Label>
                             <Input
@@ -58,13 +66,21 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
                             />
                             <InputError message={errors.title} />
                         </div>
-                        {titleAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {titleAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="document_category_id" required>{t('Document Category')}</Label>
-                    <Select value={data.document_category_id?.toString() || ''} onValueChange={(value) => setData('document_category_id', value)} required>
+                    <Label htmlFor="document_category_id" required>
+                        {t('Document Category')}
+                    </Label>
+                    <Select
+                        value={data.document_category_id?.toString() || ''}
+                        onValueChange={(value) => setData('document_category_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Document Category')} />
                         </SelectTrigger>
@@ -78,12 +94,16 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
                     </Select>
                     <InputError message={errors.document_category_id} />
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="description" required>{t('Description')}</Label>
+                    <div className="mb-2 flex items-center justify-between">
+                        <Label htmlFor="description" required>
+                            {t('Description')}
+                        </Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -96,7 +116,7 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         label={t('Document')}
@@ -108,7 +128,6 @@ export default function Create({ onSuccess }: CreateDocumentProps) {
                     />
                     <InputError message={errors.document} />
                 </div>
-                
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

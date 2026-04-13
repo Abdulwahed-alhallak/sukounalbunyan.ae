@@ -27,9 +27,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
             )}
 
             {(errors as any).email && (
-                <div className="mb-4 text-center text-sm font-medium text-destructive">
-                    {(errors as any).email}
-                </div>
+                <div className="mb-4 text-center text-sm font-medium text-destructive">{(errors as any).email}</div>
             )}
 
             <div className="space-y-6 text-center">
@@ -37,7 +35,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
                     <Button
                         type="submit"
                         disabled={processing}
-                        className="w-full bg-foreground text-background py-2.5 text-sm font-medium tracking-wide transition-all duration-200 rounded-md shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                        className="w-full transform rounded-md bg-foreground py-2.5 text-sm font-medium tracking-wide text-background shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
                     >
                         {processing ? 'Loading...' : t('RESEND VERIFICATION EMAIL')}
                     </Button>
@@ -46,8 +44,8 @@ export default function VerifyEmail({ status }: { status?: string }) {
                 <Link
                     href={route('logout')}
                     method="post"
-                    as={"button"}
-                    className="text-sm text-foreground font-medium hover:underline"
+                    as={'button'}
+                    className="text-sm font-medium text-foreground hover:underline"
                 >
                     {t('Log out')}
                 </Link>

@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, DollarSign, CheckCircle, Play, X } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, DollarSign, CheckCircle, Play, X } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,8 +27,8 @@ interface Budget {
     budget_type: string;
     total_budget_amount: number;
     status: string;
-    budget_period?: { period_name: string; };
-    approved_by?: { name: string; };
+    budget_period?: { period_name: string };
+    approved_by?: { name: string };
 }
 
 export default function Index() {
@@ -46,35 +46,42 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
     const [modalState, setModalState] = useState({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'budget-planner.budgets.destroy',
-        defaultMessage: t('Are you sure you want to delete this budget?')
+        defaultMessage: t('Are you sure you want to delete this budget?'),
     });
 
     const handleFilter = () => {
-        router.get(route('budget-planner.budgets.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('budget-planner.budgets.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('budget-planner.budgets.index'), {...filters, per_page: perPage, sort: field, direction, view: viewMode}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('budget-planner.budgets.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -84,7 +91,7 @@ export default function Index() {
             status: '',
             period_id: '',
         });
-        router.get(route('budget-planner.budgets.index'), {per_page: perPage, view: viewMode});
+        router.get(route('budget-planner.budgets.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: Budget | null = null) => {
@@ -99,13 +106,13 @@ export default function Index() {
         {
             key: 'budget_name',
             header: t('Budget Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'budget_period',
             header: t('Period'),
             sortable: false,
-            render: (value: any, row: Budget) => row.budget_period?.period_name || '-'
+            render: (value: any, row: Budget) => row.budget_period?.period_name || '-',
         },
         {
             key: 'budget_type',
@@ -113,25 +120,29 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const getTypeColor = (type: string) => {
-                    switch(type) {
-                        case 'operational': return 'bg-muted text-foreground';
-                        case 'capital': return 'bg-muted text-foreground';
-                        case 'cash_flow': return 'bg-muted text-foreground';
-                        default: return 'bg-muted text-foreground';
+                    switch (type) {
+                        case 'operational':
+                            return 'bg-muted text-foreground';
+                        case 'capital':
+                            return 'bg-muted text-foreground';
+                        case 'cash_flow':
+                            return 'bg-muted text-foreground';
+                        default:
+                            return 'bg-muted text-foreground';
                     }
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${getTypeColor(value)} capitalize`}>
+                    <span className={`rounded-full px-2 py-1 text-sm ${getTypeColor(value)} capitalize`}>
                         {value === 'cash_flow' ? 'Cash Flow' : value}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'total_budget_amount',
             header: t('Amount'),
             sortable: false,
-            render: (value: number) => formatCurrency(value)
+            render: (value: number) => formatCurrency(value),
         },
         {
             key: 'status',
@@ -139,145 +150,171 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const getStatusColor = (status: string) => {
-                    switch(status) {
-                        case 'draft': return 'bg-muted text-foreground';
-                        case 'approved': return 'bg-muted text-foreground';
-                        case 'active': return 'bg-muted text-foreground';
-                        case 'closed': return 'bg-muted text-destructive';
-                        default: return 'bg-muted text-foreground';
+                    switch (status) {
+                        case 'draft':
+                            return 'bg-muted text-foreground';
+                        case 'approved':
+                            return 'bg-muted text-foreground';
+                        case 'active':
+                            return 'bg-muted text-foreground';
+                        case 'closed':
+                            return 'bg-muted text-destructive';
+                        default:
+                            return 'bg-muted text-foreground';
                     }
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(value)}`}>
+                    <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(value)}`}>
                         {value ? value.charAt(0).toUpperCase() + value.slice(1) : '-'}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'approved_by',
             header: t('Approved By'),
             sortable: false,
-            render: (value: any, row: Budget) => row.approved_by?.name || '-'
+            render: (value: any, row: Budget) => row.approved_by?.name || '-',
         },
         ...(() => {
             const hasAnyActionPermission = (budget: Budget) => {
                 const permissions = auth.user?.permissions || [];
                 return (
-                    (budget.status === 'draft' && (permissions.includes('approve-budgets') || permissions.includes('edit-budgets') || permissions.includes('delete-budgets'))) ||
+                    (budget.status === 'draft' &&
+                        (permissions.includes('approve-budgets') ||
+                            permissions.includes('edit-budgets') ||
+                            permissions.includes('delete-budgets'))) ||
                     (budget.status === 'approved' && permissions.includes('active-budgets')) ||
                     (budget.status === 'active' && permissions.includes('close-budgets'))
                 );
             };
 
-            return budgets?.data?.some(hasAnyActionPermission) ? [{
-                key: 'actions',
-                header: t('Actions'),
-                render: (_: any, budget: Budget) => {
-                    if (!hasAnyActionPermission(budget)) return null;
+            return budgets?.data?.some(hasAnyActionPermission)
+                ? [
+                      {
+                          key: 'actions',
+                          header: t('Actions'),
+                          render: (_: any, budget: Budget) => {
+                              if (!hasAnyActionPermission(budget)) return null;
 
-                    return (
-                        <div className="flex gap-1">
-                            <TooltipProvider>
-                                {budget.status === 'draft' && auth.user?.permissions?.includes('approve-budgets') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => router.post(route('budget-planner.budgets.approve', budget.id))}
-                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                            >
-                                                <CheckCircle className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Approve')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                                {budget.status === 'approved' && auth.user?.permissions?.includes('active-budgets') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => router.post(route('budget-planner.budgets.active', budget.id))}
-                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                            >
-                                                <Play className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Active')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                                {budget.status === 'active' && auth.user?.permissions?.includes('close-budgets') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => router.post(route('budget-planner.budgets.close', budget.id))}
-                                                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                            >
-                                                <X className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Close')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                                {budget.status === 'draft' && auth.user?.permissions?.includes('edit-budgets') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => openModal('edit', budget)}
-                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                            >
-                                                <EditIcon className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Edit')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                                {budget.status === 'draft' && auth.user?.permissions?.includes('delete-budgets') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => openDeleteDialog(budget.id)}
-                                                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{t('Delete')}</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                            </TooltipProvider>
-                        </div>
-                    );
-                }
-            }] : [];
-        })()
+                              return (
+                                  <div className="flex gap-1">
+                                      <TooltipProvider>
+                                          {budget.status === 'draft' &&
+                                              auth.user?.permissions?.includes('approve-budgets') && (
+                                                  <Tooltip delayDuration={0}>
+                                                      <TooltipTrigger asChild>
+                                                          <Button
+                                                              variant="ghost"
+                                                              size="sm"
+                                                              onClick={() =>
+                                                                  router.post(
+                                                                      route('budget-planner.budgets.approve', budget.id)
+                                                                  )
+                                                              }
+                                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                          >
+                                                              <CheckCircle className="h-4 w-4" />
+                                                          </Button>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent>
+                                                          <p>{t('Approve')}</p>
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              )}
+                                          {budget.status === 'approved' &&
+                                              auth.user?.permissions?.includes('active-budgets') && (
+                                                  <Tooltip delayDuration={0}>
+                                                      <TooltipTrigger asChild>
+                                                          <Button
+                                                              variant="ghost"
+                                                              size="sm"
+                                                              onClick={() =>
+                                                                  router.post(
+                                                                      route('budget-planner.budgets.active', budget.id)
+                                                                  )
+                                                              }
+                                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                          >
+                                                              <Play className="h-4 w-4" />
+                                                          </Button>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent>
+                                                          <p>{t('Active')}</p>
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              )}
+                                          {budget.status === 'active' &&
+                                              auth.user?.permissions?.includes('close-budgets') && (
+                                                  <Tooltip delayDuration={0}>
+                                                      <TooltipTrigger asChild>
+                                                          <Button
+                                                              variant="ghost"
+                                                              size="sm"
+                                                              onClick={() =>
+                                                                  router.post(
+                                                                      route('budget-planner.budgets.close', budget.id)
+                                                                  )
+                                                              }
+                                                              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                          >
+                                                              <X className="h-4 w-4" />
+                                                          </Button>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent>
+                                                          <p>{t('Close')}</p>
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              )}
+                                          {budget.status === 'draft' &&
+                                              auth.user?.permissions?.includes('edit-budgets') && (
+                                                  <Tooltip delayDuration={0}>
+                                                      <TooltipTrigger asChild>
+                                                          <Button
+                                                              variant="ghost"
+                                                              size="sm"
+                                                              onClick={() => openModal('edit', budget)}
+                                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                          >
+                                                              <EditIcon className="h-4 w-4" />
+                                                          </Button>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent>
+                                                          <p>{t('Edit')}</p>
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              )}
+                                          {budget.status === 'draft' &&
+                                              auth.user?.permissions?.includes('delete-budgets') && (
+                                                  <Tooltip delayDuration={0}>
+                                                      <TooltipTrigger asChild>
+                                                          <Button
+                                                              variant="ghost"
+                                                              size="sm"
+                                                              onClick={() => openDeleteDialog(budget.id)}
+                                                              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                          >
+                                                              <Trash2 className="h-4 w-4" />
+                                                          </Button>
+                                                      </TooltipTrigger>
+                                                      <TooltipContent>
+                                                          <p>{t('Delete')}</p>
+                                                      </TooltipContent>
+                                                  </Tooltip>
+                                              )}
+                                      </TooltipProvider>
+                                  </div>
+                              );
+                          },
+                      },
+                  ]
+                : [];
+        })(),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Budget Planner')},
-                {label: t('Budget')}
-            ]}
+            breadcrumbs={[{ label: t('Budget Planner') }, { label: t('Budget') }]}
             pageTitle={t('Manage Budget')}
             pageActions={
                 <TooltipProvider>
@@ -299,12 +336,12 @@ export default function Index() {
             <Head title={t('Budgets')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.budget_name}
-                                onChange={(value) => setFilters({...filters, budget_name: value})}
+                                onChange={(value) => setFilters({ ...filters, budget_name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search Budgets...')}
                             />
@@ -313,41 +350,48 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="budget-planner.budgets.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="budget-planner.budgets.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
-                            <FilterButton
-                                showFilters={showFilters}
-                                onToggle={() => setShowFilters(!showFilters)}
-                            />
+                            <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                         </div>
                     </div>
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Budget Period')}</label>
-                                <Select value={filters.period_id} onValueChange={(value) => setFilters({...filters, period_id: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Budget Period')}
+                                </label>
+                                <Select
+                                    value={filters.period_id}
+                                    onValueChange={(value) => setFilters({ ...filters, period_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Period')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {budgetPeriods?.filter((period: any) => period.status === 'active')?.map((period: any) => (
-                                            <SelectItem key={period.id} value={period.id.toString()}>
-                                                {period.period_name} ({period.financial_year})
-                                            </SelectItem>
-                                        ))}
+                                        {budgetPeriods
+                                            ?.filter((period: any) => period.status === 'active')
+                                            ?.map((period: any) => (
+                                                <SelectItem key={period.id} value={period.id.toString()}>
+                                                    {period.period_name} ({period.financial_year})
+                                                </SelectItem>
+                                            ))}
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Type')}</label>
-                                <Select value={filters.budget_type} onValueChange={(value) => setFilters({...filters, budget_type: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Type')}</label>
+                                <Select
+                                    value={filters.budget_type}
+                                    onValueChange={(value) => setFilters({ ...filters, budget_type: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Type')} />
                                     </SelectTrigger>
@@ -359,8 +403,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -373,8 +420,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -382,7 +433,7 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={budgets?.data || []}
@@ -396,7 +447,14 @@ export default function Index() {
                                             icon={DollarSign}
                                             title={t('No Budgets found')}
                                             description={t('Get started by creating your first Budget.')}
-                                            hasFilters={!!(filters.budget_name || filters.budget_type || filters.status || filters.period_id)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.budget_name ||
+                                                    filters.budget_type ||
+                                                    filters.status ||
+                                                    filters.period_id
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-budgets"
                                             onCreateClick={() => openModal('add')}
@@ -408,142 +466,203 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-4">
+                        <div className="max-h-[70vh] overflow-auto p-4">
                             {budgets?.data && budgets.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {budgets.data?.map((budget) => (
-                                        <Card key={budget.id} className="border border-border hover:shadow-md transition-shadow">
+                                        <Card
+                                            key={budget.id}
+                                            className="border border-border transition-shadow hover:shadow-md"
+                                        >
                                             <div className="p-4">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <h3 className="font-semibold text-base text-foreground">{budget.budget_name}</h3>
-                                                    <span className={`px-2 py-1 rounded-full text-sm ${
-                                                        budget.status === 'draft' ? 'bg-muted text-foreground' :
-                                                        budget.status === 'approved' ? 'bg-muted text-foreground' :
-                                                        budget.status === 'active' ? 'bg-muted text-foreground' :
-                                                        budget.status === 'closed' ? 'bg-muted text-destructive' :
-                                                        'bg-muted text-foreground'
-                                                    }`}>
-                                                        {budget.status ? budget.status.charAt(0).toUpperCase() + budget.status.slice(1) : '-'}
+                                                <div className="mb-3 flex items-center justify-between">
+                                                    <h3 className="text-base font-semibold text-foreground">
+                                                        {budget.budget_name}
+                                                    </h3>
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-sm ${
+                                                            budget.status === 'draft'
+                                                                ? 'bg-muted text-foreground'
+                                                                : budget.status === 'approved'
+                                                                  ? 'bg-muted text-foreground'
+                                                                  : budget.status === 'active'
+                                                                    ? 'bg-muted text-foreground'
+                                                                    : budget.status === 'closed'
+                                                                      ? 'bg-muted text-destructive'
+                                                                      : 'bg-muted text-foreground'
+                                                        }`}
+                                                    >
+                                                        {budget.status
+                                                            ? budget.status.charAt(0).toUpperCase() +
+                                                              budget.status.slice(1)
+                                                            : '-'}
                                                     </span>
                                                 </div>
 
-                                                <div className="space-y-3 mb-4">
+                                                <div className="mb-4 space-y-3">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Period')}</p>
-                                                        <p className="text-sm text-foreground truncate font-medium">{budget.budget_period?.period_name || '-'}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Period')}
+                                                        </p>
+                                                        <p className="truncate text-sm font-medium text-foreground">
+                                                            {budget.budget_period?.period_name || '-'}
+                                                        </p>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t('Type')}</p>
-                                                            <span className={`px-2 py-1 rounded-full text-xs capitalize ${
-                                                                budget.budget_type === 'operational' ? 'bg-muted text-foreground' :
-                                                                budget.budget_type === 'capital' ? 'bg-muted text-foreground' :
-                                                                budget.budget_type === 'cash_flow' ? 'bg-muted text-foreground' :
-                                                                'bg-muted text-foreground'
-                                                            }`}>
-                                                                {budget.budget_type === 'cash_flow' ? 'Cash Flow' : budget.budget_type}
+                                                            <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                                {t('Type')}
+                                                            </p>
+                                                            <span
+                                                                className={`rounded-full px-2 py-1 text-xs capitalize ${
+                                                                    budget.budget_type === 'operational'
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : budget.budget_type === 'capital'
+                                                                          ? 'bg-muted text-foreground'
+                                                                          : budget.budget_type === 'cash_flow'
+                                                                            ? 'bg-muted text-foreground'
+                                                                            : 'bg-muted text-foreground'
+                                                                }`}
+                                                            >
+                                                                {budget.budget_type === 'cash_flow'
+                                                                    ? 'Cash Flow'
+                                                                    : budget.budget_type}
                                                             </span>
                                                         </div>
                                                         <div>
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1 text-end">{t('Approved By')}</p>
-                                                            <p className="text-xs text-foreground text-end">{budget.approved_by?.name || '-'}</p>
+                                                            <p className="mb-1 text-end text-xs font-medium text-muted-foreground">
+                                                                {t('Approved By')}
+                                                            </p>
+                                                            <p className="text-end text-xs text-foreground">
+                                                                {budget.approved_by?.name || '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div className="bg-muted/50 rounded-lg p-3">
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-sm font-semibold text-foreground">{t('Amount')}</span>
-                                                            <span className="text-lg font-bold text-foreground">{formatCurrency(budget.total_budget_amount)}</span>
+                                                    <div className="rounded-lg bg-muted/50 p-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm font-semibold text-foreground">
+                                                                {t('Amount')}
+                                                            </span>
+                                                            <span className="text-lg font-bold text-foreground">
+                                                                {formatCurrency(budget.total_budget_amount)}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex justify-end gap-1 pt-3 border-t">
+                                                <div className="flex justify-end gap-1 border-t pt-3">
                                                     <TooltipProvider>
-                                                        {budget.status === 'draft' && auth.user?.permissions?.includes('approve-budgets') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => router.post(route('budget-planner.budgets.approve', budget.id))}
-                                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                                                    >
-                                                                        <CheckCircle className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Approve')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {budget.status === 'approved' && auth.user?.permissions?.includes('active-budgets') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => router.post(route('budget-planner.budgets.active', budget.id))}
-                                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                                                    >
-                                                                        <Play className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Active')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {budget.status === 'active' && auth.user?.permissions?.includes('close-budgets') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => router.post(route('budget-planner.budgets.close', budget.id))}
-                                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                                                    >
-                                                                        <X className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Close')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {budget.status === 'draft' && auth.user?.permissions?.includes('edit-budgets') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => openModal('edit', budget)}
-                                                                        className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                                                    >
-                                                                        <EditIcon className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Edit')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
-                                                        {budget.status === 'draft' && auth.user?.permissions?.includes('delete-budgets') && (
-                                                            <Tooltip delayDuration={0}>
-                                                                <TooltipTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => openDeleteDialog(budget.id)}
-                                                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                                                    >
-                                                                        <Trash2 className="h-4 w-4" />
-                                                                    </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>{t('Delete')}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        )}
+                                                        {budget.status === 'draft' &&
+                                                            auth.user?.permissions?.includes('approve-budgets') && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'budget-planner.budgets.approve',
+                                                                                        budget.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
+                                                                            <CheckCircle className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Approve')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {budget.status === 'approved' &&
+                                                            auth.user?.permissions?.includes('active-budgets') && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'budget-planner.budgets.active',
+                                                                                        budget.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
+                                                                            <Play className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Active')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {budget.status === 'active' &&
+                                                            auth.user?.permissions?.includes('close-budgets') && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() =>
+                                                                                router.post(
+                                                                                    route(
+                                                                                        'budget-planner.budgets.close',
+                                                                                        budget.id
+                                                                                    )
+                                                                                )
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                                        >
+                                                                            <X className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Close')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {budget.status === 'draft' &&
+                                                            auth.user?.permissions?.includes('edit-budgets') && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', budget)}
+                                                                            className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                        >
+                                                                            <EditIcon className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Edit')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
+                                                        {budget.status === 'draft' &&
+                                                            auth.user?.permissions?.includes('delete-budgets') && (
+                                                                <Tooltip delayDuration={0}>
+                                                                    <TooltipTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openDeleteDialog(budget.id)}
+                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                                        >
+                                                                            <Trash2 className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p>{t('Delete')}</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            )}
                                                     </TooltipProvider>
                                                 </div>
                                             </div>
@@ -555,7 +674,14 @@ export default function Index() {
                                     icon={DollarSign}
                                     title={t('No Budgets found')}
                                     description={t('Get started by creating your first Budget.')}
-                                    hasFilters={!!(filters.budget_name || filters.budget_type || filters.status || filters.period_id)}
+                                    hasFilters={
+                                        !!(
+                                            filters.budget_name ||
+                                            filters.budget_type ||
+                                            filters.status ||
+                                            filters.period_id
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-budgets"
                                     onCreateClick={() => openModal('add')}
@@ -566,24 +692,19 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={budgets || { data: [], links: [], meta: {} }}
                         routeName="budget-planner.budgets.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <Edit
-                        budget={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <Edit budget={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

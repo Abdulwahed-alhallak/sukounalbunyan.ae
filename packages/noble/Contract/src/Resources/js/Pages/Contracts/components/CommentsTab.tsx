@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Edit, Trash2, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchInput } from '@/components/ui/search-input';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatDateTime, getImagePath } from '@/utils/helpers';
 
 interface CommentsTabProps {
@@ -32,32 +32,44 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
 
     const handleCommentSubmit = () => {
         if (editCommentId) {
-            router.put(route('contract-comments.update', editCommentId), { comment: commentText }, {
-                onSuccess: () => {
-                    setCommentDialogOpen(false);
-                    setCommentText('');
-                    setEditCommentId(null);
-                    router.reload();
+            router.put(
+                route('contract-comments.update', editCommentId),
+                { comment: commentText },
+                {
+                    onSuccess: () => {
+                        setCommentDialogOpen(false);
+                        setCommentText('');
+                        setEditCommentId(null);
+                        router.reload();
+                    },
                 }
-            });
+            );
         } else {
-            router.post(route('contract-comments.store', contract.id), { comment: commentText }, {
-                onSuccess: () => {
-                    setCommentDialogOpen(false);
-                    setCommentText('');
-                    router.reload();
+            router.post(
+                route('contract-comments.store', contract.id),
+                { comment: commentText },
+                {
+                    onSuccess: () => {
+                        setCommentDialogOpen(false);
+                        setCommentText('');
+                        router.reload();
+                    },
                 }
-            });
+            );
         }
     };
 
     const handleCreateCommentSubmit = () => {
-        router.post(route('contract-comments.store', contract.id), { comment: createCommentText }, {
-            onSuccess: () => {
-                setCreateCommentText('');
-                router.reload();
+        router.post(
+            route('contract-comments.store', contract.id),
+            { comment: createCommentText },
+            {
+                onSuccess: () => {
+                    setCreateCommentText('');
+                    router.reload();
+                },
             }
-        });
+        );
     };
 
     const openEditComment = (comment: any) => {
@@ -87,10 +99,13 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                             placeholder={t('Search comments...')}
                             className="w-64"
                         />
-                        <Select value={commentPerPage.toString()} onValueChange={(value) => {
-                            setCommentPerPage(Number(value));
-                            setCommentPage(1);
-                        }}>
+                        <Select
+                            value={commentPerPage.toString()}
+                            onValueChange={(value) => {
+                                setCommentPerPage(Number(value));
+                                setCommentPage(1);
+                            }}
+                        >
                             <SelectTrigger className="w-[120px]">
                                 <SelectValue />
                             </SelectTrigger>
@@ -105,25 +120,36 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                 </CardHeader>
                 <CardContent className="p-4">
                     {auth.user?.permissions?.includes('create-contract-comments') && (
-                        <div className="bg-muted/50 border border-border rounded-lg p-4 mb-4">
+                        <div className="mb-4 rounded-lg border border-border bg-muted/50 p-4">
                             <div className="flex items-start gap-3">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src={auth.user?.avatar ? getImagePath(auth.user.avatar, pageProps) : auth.user?.profile_photo_url} alt={auth.user?.name} />
-                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                    <AvatarImage
+                                        src={
+                                            auth.user?.avatar
+                                                ? getImagePath(auth.user.avatar, pageProps)
+                                                : auth.user?.profile_photo_url
+                                        }
+                                        alt={auth.user?.name}
+                                    />
+                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                         {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium mb-2 text-foreground">{auth.user?.name}</p>
+                                    <p className="mb-2 text-sm font-medium text-foreground">{auth.user?.name}</p>
                                     <Textarea
                                         value={createCommentText}
                                         onChange={(e) => setCreateCommentText(e.target.value)}
                                         placeholder={t('Write your comment...')}
                                         rows={3}
-                                        className="resize-none mb-3 bg-card border-border focus:border-border"
+                                        className="mb-3 resize-none border-border bg-card focus:border-border"
                                     />
                                     <div className="flex justify-end">
-                                        <Button onClick={handleCreateCommentSubmit} disabled={!createCommentText.trim()} size="sm">
+                                        <Button
+                                            onClick={handleCreateCommentSubmit}
+                                            disabled={!createCommentText.trim()}
+                                            size="sm"
+                                        >
                                             {t('Send')}
                                         </Button>
                                     </div>
@@ -133,40 +159,70 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                     )}
 
                     {(() => {
-                        const filteredComments = contract.comments ? contract.comments.filter((comment: any) =>
-                            comment.comment.toLowerCase().includes(commentSearch.toLowerCase()) ||
-                            comment.user?.name.toLowerCase().includes(commentSearch.toLowerCase())
-                        ) : [];
+                        const filteredComments = contract.comments
+                            ? contract.comments.filter(
+                                  (comment: any) =>
+                                      comment.comment.toLowerCase().includes(commentSearch.toLowerCase()) ||
+                                      comment.user?.name.toLowerCase().includes(commentSearch.toLowerCase())
+                              )
+                            : [];
 
                         const paginatedComments = {
-                            data: filteredComments.slice((commentPage - 1) * commentPerPage, commentPage * commentPerPage),
+                            data: filteredComments.slice(
+                                (commentPage - 1) * commentPerPage,
+                                commentPage * commentPerPage
+                            ),
                             total: filteredComments.length,
-                            last_page: Math.ceil(filteredComments.length / commentPerPage)
+                            last_page: Math.ceil(filteredComments.length / commentPerPage),
                         };
 
                         return paginatedComments.data.length > 0 ? (
                             <>
                                 <div className="space-y-4">
                                     {paginatedComments.data?.map((comment: any) => (
-                                        <div key={comment.id} className="border border-border rounded-lg p-4 hover:shadow-md transition-shadow group max-w-fit">
+                                        <div
+                                            key={comment.id}
+                                            className="group max-w-fit rounded-lg border border-border p-4 transition-shadow hover:shadow-md"
+                                        >
                                             <div className="flex items-start gap-3">
                                                 <Avatar className="h-8 w-8">
-                                                    <AvatarImage src={comment.user?.avatar ? getImagePath(comment.user.avatar, pageProps) : comment.user?.profile_photo_url} alt={comment.user?.name} />
-                                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                                    <AvatarImage
+                                                        src={
+                                                            comment.user?.avatar
+                                                                ? getImagePath(comment.user.avatar, pageProps)
+                                                                : comment.user?.profile_photo_url
+                                                        }
+                                                        alt={comment.user?.name}
+                                                    />
+                                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                                         {comment.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-sm font-medium">{comment.user?.name}</span>
-                                                        <span className="text-xs text-muted-foreground">{formatDateTime(comment.created_at)}</span>
-                                                        {(comment.user_id === auth.user?.id || comment.created_by === auth.user?.id) && (
+                                                    <div className="mb-1 flex items-center gap-2">
+                                                        <span className="text-sm font-medium">
+                                                            {comment.user?.name}
+                                                        </span>
+                                                        <span className="text-xs text-muted-foreground">
+                                                            {formatDateTime(comment.created_at)}
+                                                        </span>
+                                                        {(comment.user_id === auth.user?.id ||
+                                                            comment.created_by === auth.user?.id) && (
                                                             <TooltipProvider>
                                                                 <div className="flex gap-1">
-                                                                    {auth.user?.permissions?.includes('edit-contract-comments') && (
-                                                                        <Tooltip >
+                                                                    {auth.user?.permissions?.includes(
+                                                                        'edit-contract-comments'
+                                                                    ) && (
+                                                                        <Tooltip>
                                                                             <TooltipTrigger asChild>
-                                                                                <Button variant="ghost" size="sm" onClick={() => openEditComment(comment)} className="h-6 w-6 p-0 text-foreground hover:text-foreground">
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() =>
+                                                                                        openEditComment(comment)
+                                                                                    }
+                                                                                    className="h-6 w-6 p-0 text-foreground hover:text-foreground"
+                                                                                >
                                                                                     <Edit className="h-3 w-3" />
                                                                                 </Button>
                                                                             </TooltipTrigger>
@@ -175,15 +231,26 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                                                                             </TooltipContent>
                                                                         </Tooltip>
                                                                     )}
-                                                                    {auth.user?.permissions?.includes('delete-contract-comments') && (
-                                                                        <Tooltip >
+                                                                    {auth.user?.permissions?.includes(
+                                                                        'delete-contract-comments'
+                                                                    ) && (
+                                                                        <Tooltip>
                                                                             <TooltipTrigger asChild>
-                                                                                <Button variant="ghost" size="sm" onClick={() => setDeleteConfig({
-                                                                                    type: 'comment',
-                                                                                    id: comment.id,
-                                                                                    route: 'contract-comments.destroy',
-                                                                                    message: t('Are you sure you want to delete this comment?')
-                                                                                })} className="h-6 w-6 p-0 text-destructive hover:text-destructive">
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    onClick={() =>
+                                                                                        setDeleteConfig({
+                                                                                            type: 'comment',
+                                                                                            id: comment.id,
+                                                                                            route: 'contract-comments.destroy',
+                                                                                            message: t(
+                                                                                                'Are you sure you want to delete this comment?'
+                                                                                            ),
+                                                                                        })
+                                                                                    }
+                                                                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive"
+                                                                                >
                                                                                     <Trash2 className="h-3 w-3" />
                                                                                 </Button>
                                                                             </TooltipTrigger>
@@ -196,7 +263,7 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                                                             </TooltipProvider>
                                                         )}
                                                     </div>
-                                                    <div className="mt-2 bg-muted/50 border border-border rounded-lg p-3">
+                                                    <div className="mt-2 rounded-lg border border-border bg-muted/50 p-3">
                                                         <p className="text-sm text-foreground">{comment.comment}</p>
                                                     </div>
                                                 </div>
@@ -206,16 +273,28 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                                 </div>
 
                                 {filteredComments.length > commentPerPage && (
-                                    <div className="px-4 py-3 border-t bg-muted/50/30 mt-4">
+                                    <div className="bg-muted/50/30 mt-4 border-t px-4 py-3">
                                         <div className="flex items-center justify-between">
                                             <div className="text-sm text-muted-foreground">
-                                                {t('Showing')} <span className="font-medium text-foreground">{((commentPage - 1) * commentPerPage) + 1}</span> {t('to')} <span className="font-medium text-foreground">{Math.min(commentPage * commentPerPage, filteredComments.length)}</span> {t('of')} <span className="font-medium text-foreground">{filteredComments.length}</span> {t('results')}
+                                                {t('Showing')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {(commentPage - 1) * commentPerPage + 1}
+                                                </span>{' '}
+                                                {t('to')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {Math.min(commentPage * commentPerPage, filteredComments.length)}
+                                                </span>{' '}
+                                                {t('of')}{' '}
+                                                <span className="font-medium text-foreground">
+                                                    {filteredComments.length}
+                                                </span>{' '}
+                                                {t('results')}
                                             </div>
                                             <div className="flex items-center space-x-2">
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => setCommentPage(p => Math.max(1, p - 1))}
+                                                    onClick={() => setCommentPage((p) => Math.max(1, p - 1))}
                                                     disabled={commentPage === 1}
                                                     className="h-8 px-3"
                                                 >
@@ -223,35 +302,44 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                                                     {t('Previous')}
                                                 </Button>
                                                 <div className="flex items-center space-x-1">
-                                                    {Array.from({ length: Math.min(5, paginatedComments.last_page) }, (_, i) => {
-                                                        let pageNum;
-                                                        if (paginatedComments.last_page <= 5) {
-                                                            pageNum = i + 1;
-                                                        } else if (commentPage <= 3) {
-                                                            pageNum = i + 1;
-                                                        } else if (commentPage >= paginatedComments.last_page - 2) {
-                                                            pageNum = paginatedComments.last_page - 4 + i;
-                                                        } else {
-                                                            pageNum = commentPage - 2 + i;
-                                                        }
+                                                    {Array.from(
+                                                        { length: Math.min(5, paginatedComments.last_page) },
+                                                        (_, i) => {
+                                                            let pageNum;
+                                                            if (paginatedComments.last_page <= 5) {
+                                                                pageNum = i + 1;
+                                                            } else if (commentPage <= 3) {
+                                                                pageNum = i + 1;
+                                                            } else if (commentPage >= paginatedComments.last_page - 2) {
+                                                                pageNum = paginatedComments.last_page - 4 + i;
+                                                            } else {
+                                                                pageNum = commentPage - 2 + i;
+                                                            }
 
-                                                        return (
-                                                            <Button
-                                                                key={pageNum}
-                                                                variant={commentPage === pageNum ? "default" : "outline"}
-                                                                size="sm"
-                                                                onClick={() => setCommentPage(pageNum)}
-                                                                className="h-8 w-8 p-0"
-                                                            >
-                                                                {pageNum}
-                                                            </Button>
-                                                        );
-                                                    })}
+                                                            return (
+                                                                <Button
+                                                                    key={pageNum}
+                                                                    variant={
+                                                                        commentPage === pageNum ? 'default' : 'outline'
+                                                                    }
+                                                                    size="sm"
+                                                                    onClick={() => setCommentPage(pageNum)}
+                                                                    className="h-8 w-8 p-0"
+                                                                >
+                                                                    {pageNum}
+                                                                </Button>
+                                                            );
+                                                        }
+                                                    )}
                                                 </div>
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => setCommentPage(p => Math.min(paginatedComments.last_page, p + 1))}
+                                                    onClick={() =>
+                                                        setCommentPage((p) =>
+                                                            Math.min(paginatedComments.last_page, p + 1)
+                                                        )
+                                                    }
                                                     disabled={commentPage === paginatedComments.last_page}
                                                     className="h-8 px-3"
                                                 >
@@ -264,14 +352,19 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                                 )}
                             </>
                         ) : (
-                            <div className="text-center py-12">
-                                <MessageSquare className="h-12 w-12 text-muted-foreground/60 mx-auto mb-3" />
-                                <p className="text-muted-foreground text-sm">{commentSearch ? t('No comments found') : t('No comments yet')}</p>
-                                <p className="text-muted-foreground text-xs mt-1">{commentSearch ? t('Try adjusting your search') : t('Be the first to add a comment')}</p>
+                            <div className="py-12 text-center">
+                                <MessageSquare className="mx-auto mb-3 h-12 w-12 text-muted-foreground/60" />
+                                <p className="text-sm text-muted-foreground">
+                                    {commentSearch ? t('No comments found') : t('No comments yet')}
+                                </p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                    {commentSearch
+                                        ? t('Try adjusting your search')
+                                        : t('Be the first to add a comment')}
+                                </p>
                             </div>
                         );
                     })()}
-
                 </CardContent>
             </Card>
 
@@ -287,13 +380,20 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                         <div className="space-y-4">
                             <div className="flex gap-3">
                                 <Avatar className="h-8 w-8 flex-shrink-0">
-                                    <AvatarImage src={auth.user?.avatar ? getImagePath(auth.user.avatar, pageProps) : auth.user?.profile_photo_url} alt={auth.user?.name} />
-                                    <AvatarFallback className="text-xs bg-muted text-foreground">
+                                    <AvatarImage
+                                        src={
+                                            auth.user?.avatar
+                                                ? getImagePath(auth.user.avatar, pageProps)
+                                                : auth.user?.profile_photo_url
+                                        }
+                                        alt={auth.user?.name}
+                                    />
+                                    <AvatarFallback className="bg-muted text-xs text-foreground">
                                         {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium text-foreground mb-2">{auth.user?.name}</p>
+                                    <p className="mb-2 text-sm font-medium text-foreground">{auth.user?.name}</p>
                                     <Textarea
                                         value={commentText}
                                         onChange={(e) => setCommentText(e.target.value)}
@@ -305,11 +405,14 @@ export default function CommentsTab({ contract, setDeleteConfig }: CommentsTabPr
                             </div>
                         </div>
                         <DialogFooter className="mt-6">
-                            <Button variant="outline" onClick={() => {
-                                setCommentDialogOpen(false);
-                                setCommentText('');
-                                setEditCommentId(null);
-                            }}>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    setCommentDialogOpen(false);
+                                    setCommentText('');
+                                    setEditCommentId(null);
+                                }}
+                            >
                                 {t('Cancel')}
                             </Button>
                             <Button onClick={handleCommentSubmit} disabled={!commentText.trim()}>

@@ -21,12 +21,12 @@ export interface ExpenseCategoriesFormData {
     [key: string]: any;
 }
 
-export interface CreateExpenseCategoriesProps extends CreateProps  {
+export interface CreateExpenseCategoriesProps extends CreateProps {
     chartofaccounts: any[];
     [key: string]: any;
 }
 
-export interface EditExpenseCategoriesProps extends EditProps<ExpenseCategories>  {
+export interface EditExpenseCategoriesProps extends EditProps<ExpenseCategories> {
     chartofaccounts: any[];
     [key: string]: any;
 }

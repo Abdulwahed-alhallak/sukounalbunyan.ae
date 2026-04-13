@@ -2,10 +2,7 @@ import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import {
-    ArrowLeft, Download, Printer, Calendar, RefreshCw,
-    TrendingUp, TrendingDown, BarChart3,
-} from 'lucide-react';
+import { ArrowLeft, Download, Printer, Calendar, RefreshCw, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AreaChart } from '@/components/charts/AreaChart';
 import { BarChart } from '@/components/charts/BarChart';
@@ -48,18 +45,26 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
     const [localDateTo, setLocalDateTo] = useState(dateTo);
 
     const handleRefresh = () => {
-        router.get(route('reports.generate', reportType), {
-            date_from: localDateFrom,
-            date_to: localDateTo,
-            ...filters,
-        }, { preserveState: true });
+        router.get(
+            route('reports.generate', reportType),
+            {
+                date_from: localDateFrom,
+                date_to: localDateTo,
+                ...filters,
+            },
+            { preserveState: true }
+        );
     };
 
     const formatValue = (value: any, type: string) => {
         if (value === null || value === undefined) return '—';
         switch (type) {
             case 'currency':
-                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'SAR', minimumFractionDigits: 0 }).format(Number(value));
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'SAR',
+                    minimumFractionDigits: 0,
+                }).format(Number(value));
             case 'percentage':
                 return `${value}%`;
             case 'number':
@@ -87,7 +92,7 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
     const renderChart = () => {
         if (!report.chartData || report.chartData.length === 0) return null;
 
-        const dataKeys = Object.keys(report.chartData[0]).filter(k => k !== 'name' && k !== 'month' && k !== 'date');
+        const dataKeys = Object.keys(report.chartData[0]).filter((k) => k !== 'name' && k !== 'month' && k !== 'date');
         const xKey = report.chartData[0].month ? 'month' : report.chartData[0].date ? 'date' : 'name';
         const colors = ['#10b981', '#6366f1', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6'];
 
@@ -133,7 +138,9 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
     };
 
     return (
-        <AuthenticatedLayout breadcrumbs={[{ label: t('Report Center'), url: route('reports.index') }, { label: t(report.title) }]}>
+        <AuthenticatedLayout
+            breadcrumbs={[{ label: t('Report Center'), url: route('reports.index') }, { label: t(report.title) }]}
+        >
             <Head title={t(report.title)} />
 
             <div className="space-y-6">
@@ -174,14 +181,14 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                     <input
                         type="date"
                         value={localDateFrom}
-                        onChange={e => setLocalDateFrom(e.target.value)}
+                        onChange={(e) => setLocalDateFrom(e.target.value)}
                         className="rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground"
                     />
                     <span className="text-sm text-muted-foreground">{t('to')}</span>
                     <input
                         type="date"
                         value={localDateTo}
-                        onChange={e => setLocalDateTo(e.target.value)}
+                        onChange={(e) => setLocalDateTo(e.target.value)}
                         className="rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground"
                     />
                     <button
@@ -199,7 +206,9 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                             <Card key={i} className={item.highlight ? 'border-foreground/30 bg-foreground/5' : ''}>
                                 <CardContent className="p-4">
                                     <p className="text-xs text-muted-foreground">{t(item.label)}</p>
-                                    <p className={`mt-1 text-xl font-bold ${item.highlight ? 'text-foreground' : 'text-foreground'}`}>
+                                    <p
+                                        className={`mt-1 text-xl font-bold ${item.highlight ? 'text-foreground' : 'text-foreground'}`}
+                                    >
                                         {formatValue(item.value, item.type)}
                                     </p>
                                 </CardContent>
@@ -214,9 +223,7 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                         <CardHeader className="pb-2">
                             <CardTitle className="text-base">{t('Visualization')}</CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            {renderChart()}
-                        </CardContent>
+                        <CardContent>{renderChart()}</CardContent>
                     </Card>
                 )}
 
@@ -227,8 +234,11 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-border bg-muted/50">
-                                        {report.columns.map(col => (
-                                            <th key={col.key} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {report.columns.map((col) => (
+                                            <th
+                                                key={col.key}
+                                                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                                            >
                                                 {t(col.label)}
                                             </th>
                                         ))}
@@ -237,7 +247,10 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                                 <tbody className="divide-y divide-border">
                                     {report.rows.length === 0 ? (
                                         <tr>
-                                            <td colSpan={report.columns.length} className="px-4 py-12 text-center text-muted-foreground">
+                                            <td
+                                                colSpan={report.columns.length}
+                                                className="px-4 py-12 text-center text-muted-foreground"
+                                            >
                                                 <BarChart3 className="mx-auto mb-2 h-8 w-8 opacity-30" />
                                                 {t('No data available for this period')}
                                             </td>
@@ -245,26 +258,36 @@ export default function ReportView({ report, reportType, dateFrom, dateTo, filte
                                     ) : (
                                         report.rows.map((row, ri) => (
                                             <tr key={ri} className="transition hover:bg-muted/20">
-                                                {report.columns.map(col => (
+                                                {report.columns.map((col) => (
                                                     <td key={col.key} className="px-4 py-3 text-sm">
                                                         {col.type === 'badge' ? (
-                                                            <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${badgeColor(row[col.key])}`}>
+                                                            <span
+                                                                className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${badgeColor(row[col.key])}`}
+                                                            >
                                                                 {row[col.key]}
                                                             </span>
                                                         ) : col.type === 'currency' ? (
-                                                            <span className="font-mono text-foreground">{formatValue(row[col.key], 'currency')}</span>
+                                                            <span className="font-mono text-foreground">
+                                                                {formatValue(row[col.key], 'currency')}
+                                                            </span>
                                                         ) : col.type === 'percentage' ? (
                                                             <div className="flex items-center gap-2">
                                                                 <div className="h-1.5 w-16 rounded-full bg-muted">
                                                                     <div
                                                                         className="h-full rounded-full bg-foreground"
-                                                                        style={{ width: `${Math.min(100, Number(row[col.key]) || 0)}%` }}
+                                                                        style={{
+                                                                            width: `${Math.min(100, Number(row[col.key]) || 0)}%`,
+                                                                        }}
                                                                     />
                                                                 </div>
-                                                                <span className="text-xs text-muted-foreground">{row[col.key]}%</span>
+                                                                <span className="text-xs text-muted-foreground">
+                                                                    {row[col.key]}%
+                                                                </span>
                                                             </div>
                                                         ) : (
-                                                            <span className="text-foreground">{formatValue(row[col.key], col.type)}</span>
+                                                            <span className="text-foreground">
+                                                                {formatValue(row[col.key], col.type)}
+                                                            </span>
                                                         )}
                                                     </td>
                                                 ))}

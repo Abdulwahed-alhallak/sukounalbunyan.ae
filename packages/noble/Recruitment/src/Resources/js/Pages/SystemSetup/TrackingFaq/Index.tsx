@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,15 +31,15 @@ export default function TrackingFaq() {
     const canEdit = auth?.user?.permissions?.includes('manage-tracking-faq');
 
     const [formSettings, setFormSettings] = useState({
-        faqs: settings?.faqs || [{ question: '', answer: '' }]
+        faqs: settings?.faqs || [{ question: '', answer: '' }],
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
             setFormSettings({
-                faqs: settings?.faqs || [{ question: '', answer: '' }]
+                faqs: settings?.faqs || [{ question: '', answer: '' }],
             });
         }
     }, [settings]);
@@ -47,25 +47,25 @@ export default function TrackingFaq() {
     const handleFaqChange = (index: number, field: keyof Faq, value: string) => {
         const newFaqs = [...formSettings.faqs];
         newFaqs[index][field] = value;
-        setFormSettings(prev => ({ ...prev, faqs: newFaqs }));
+        setFormSettings((prev) => ({ ...prev, faqs: newFaqs }));
     };
 
     const addFaq = () => {
-        setFormSettings(prev => ({
+        setFormSettings((prev) => ({
             ...prev,
-            faqs: [...prev.faqs, { question: '', answer: '' }]
+            faqs: [...prev.faqs, { question: '', answer: '' }],
         }));
     };
 
     const removeFaq = (index: number) => {
         if (formSettings.faqs.length > 1) {
             const newFaqs = formSettings.faqs.filter((_, i) => i !== index);
-            setFormSettings(prev => ({ ...prev, faqs: newFaqs }));
+            setFormSettings((prev) => ({ ...prev, faqs: newFaqs }));
         }
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         formSettings.faqs.forEach((faq, index) => {
             if (!faq.question.trim()) {
@@ -87,27 +87,32 @@ export default function TrackingFaq() {
 
         setIsLoading(true);
 
-        router.post(route('recruitment.tracking-faq.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('recruitment.tracking-faq.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -115,25 +120,25 @@ export default function TrackingFaq() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('Tracking FAQ') }
+                { label: t('Tracking FAQ') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Tracking FAQ')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="tracking-faq" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Tracking FAQ')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -141,9 +146,11 @@ export default function TrackingFaq() {
 
                             <div className="space-y-6">
                                 {formSettings.faqs?.map((faq, index) => (
-                                    <div key={index} className="border rounded-lg p-4 space-y-4">
-                                        <div className="flex justify-between items-center">
-                                            <h4 className="font-medium">{t('Question')} {index + 1}</h4>
+                                    <div key={index} className="space-y-4 rounded-lg border p-4">
+                                        <div className="flex items-center justify-between">
+                                            <h4 className="font-medium">
+                                                {t('Question')} {index + 1}
+                                            </h4>
                                             {canEdit && formSettings.faqs.length > 1 && (
                                                 <TooltipProvider>
                                                     <Tooltip delayDuration={0}>
@@ -165,7 +172,7 @@ export default function TrackingFaq() {
                                             )}
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor={`question_${index}`} required>
                                                     {t('Question')}
@@ -179,9 +186,13 @@ export default function TrackingFaq() {
                                                     className={errors[`question_${index}`] ? 'border-destructive' : ''}
                                                     maxLength={100}
                                                 />
-                                                <div className="flex justify-between items-center text-xs">
-                                                    <span className="text-destructive">{errors[`question_${index}`] || ''}</span>
-                                                    <span className="text-muted-foreground">{faq.question.length}/ {t('100')}</span>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="text-destructive">
+                                                        {errors[`question_${index}`] || ''}
+                                                    </span>
+                                                    <span className="text-muted-foreground">
+                                                        {faq.question.length}/ {t('100')}
+                                                    </span>
                                                 </div>
                                             </div>
 
@@ -199,9 +210,13 @@ export default function TrackingFaq() {
                                                     maxLength={300}
                                                     rows={3}
                                                 />
-                                                <div className="flex justify-between items-center text-xs">
-                                                    <span className="text-destructive">{errors[`answer_${index}`] || ''}</span>
-                                                    <span className="text-muted-foreground">{faq.answer.length}/ {t('300')}</span>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="text-destructive">
+                                                        {errors[`answer_${index}`] || ''}
+                                                    </span>
+                                                    <span className="text-muted-foreground">
+                                                        {faq.answer.length}/ {t('300')}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,13 +224,8 @@ export default function TrackingFaq() {
                                 ))}
 
                                 {canEdit && (
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={addFaq}
-                                        className="w-full"
-                                    >
-                                        <Plus className="h-4 w-4 mr-2" />
+                                    <Button type="button" variant="outline" onClick={addFaq} className="w-full">
+                                        <Plus className="mr-2 h-4 w-4" />
                                         {t('Add FAQ')}
                                     </Button>
                                 )}

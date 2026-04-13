@@ -1,12 +1,12 @@
 import { Head, usePage, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, CreditCard, TrendingUp, TrendingDown, Calendar, FileText, Hash, Building2 } from "lucide-react";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, CreditCard, TrendingUp, TrendingDown, Calendar, FileText, Hash, Building2 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/utils/helpers';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
 interface ChartOfAccount {
     id: number;
@@ -62,77 +62,98 @@ export default function Show() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Accounting'), url:route('account.index')},
-                {label: t('Chart Of Accounts'), url: route('account.chart-of-accounts.index')},
-                {label: t('View')}
+                { label: t('Accounting'), url: route('account.index') },
+                { label: t('Chart Of Accounts'), url: route('account.chart-of-accounts.index') },
+                { label: t('View') },
             ]}
             pageTitle={t('View Chart Of Account')}
         >
             <Head title={t('View Chart Of Account')} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 {/* Account Summary Cards */}
                 <div className="lg:col-span-2">
                     <Card>
                         <CardHeader className="pb-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
-                                    <div className="p-2 bg-muted rounded-lg">
+                                    <div className="rounded-lg bg-muted p-2">
                                         <CreditCard className="h-6 w-6 text-foreground" />
                                     </div>
                                     <div>
-                                        <CardTitle className="text-lg font-medium">{chartofaccount.account_name}</CardTitle>
-                                        <p className="text-sm text-muted-foreground flex items-center mt-1">
-                                            <Hash className="h-4 w-4 mr-1" />
+                                        <CardTitle className="text-lg font-medium">
+                                            {chartofaccount.account_name}
+                                        </CardTitle>
+                                        <p className="mt-1 flex items-center text-sm text-muted-foreground">
+                                            <Hash className="mr-1 h-4 w-4" />
                                             {chartofaccount.account_code}
                                         </p>
                                     </div>
                                 </div>
-                                <Badge variant={chartofaccount.is_active ? 'outline' : 'outline'} className={chartofaccount.is_active ? 'bg-muted text-foreground border-border' : 'bg-muted text-destructive border-border'}>
+                                <Badge
+                                    variant={chartofaccount.is_active ? 'outline' : 'outline'}
+                                    className={
+                                        chartofaccount.is_active
+                                            ? 'border-border bg-muted text-foreground'
+                                            : 'border-border bg-muted text-destructive'
+                                    }
+                                >
                                     {chartofaccount.is_active ? t('Active') : t('Inactive')}
                                 </Badge>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div className="flex items-center space-x-3 rounded-lg bg-muted/50 p-3">
                                     <Building2 className="h-5 w-5 text-muted-foreground" />
                                     <div>
                                         <p className="font-semibold">{t('Account Type')}</p>
-                                        <p className="text-sm font-medium text-muted-foreground">{chartofaccount.account_type?.name || '-'}</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            {chartofaccount.account_type?.name || '-'}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
+                                <div className="flex items-center space-x-3 rounded-lg bg-muted/50 p-3">
                                     <FileText className="h-5 w-5 text-muted-foreground" />
                                     <div>
                                         <p className="font-semibold">{t('Parent Account')}</p>
-                                        <p className="text-sm font-medium text-muted-foreground">{chartofaccount.parent_account?.account_name || t('None')}</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            {chartofaccount.parent_account?.account_name || t('None')}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
-                                    <div className={`h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                                        chartofaccount.normal_balance === 'debit' ? 'bg-muted text-destructive' : 'bg-muted text-foreground'
-                                    }`}>
+                                <div className="flex items-center space-x-3 rounded-lg bg-muted/50 p-3">
+                                    <div
+                                        className={`flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ${
+                                            chartofaccount.normal_balance === 'debit'
+                                                ? 'bg-muted text-destructive'
+                                                : 'bg-muted text-foreground'
+                                        }`}
+                                    >
                                         {chartofaccount.normal_balance === 'debit' ? 'DR' : 'CR'}
                                     </div>
                                     <div>
                                         <p className="font-semibold">{t('Normal Balance')}</p>
-                                        <p className="text-sm font-medium text-muted-foreground">{chartofaccount.normal_balance === 'debit' ? t('Debit') : t('Credit')}</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            {chartofaccount.normal_balance === 'debit' ? t('Debit') : t('Credit')}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
-                                    <div className="h-5 w-5 bg-muted text-foreground rounded-full flex items-center justify-center text-xs font-bold">
+                                <div className="flex items-center space-x-3 rounded-lg bg-muted/50 p-3">
+                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted text-xs font-bold text-foreground">
                                         {chartofaccount.level}
                                     </div>
                                     <div>
                                         <p className="font-semibold">{t('Level')}</p>
-                                        <p className="text-sm font-medium text-muted-foreground">{t('Level')} {chartofaccount.level}</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            {t('Level')} {chartofaccount.level}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             {chartofaccount.description && (
-                                <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                                    <p className="font-semibold text-foreground mb-1">{t('Description')}</p>
+                                <div className="mt-4 rounded-lg bg-muted/50 p-3">
+                                    <p className="mb-1 font-semibold text-foreground">{t('Description')}</p>
                                     <p className="text-sm text-foreground">{chartofaccount.description}</p>
                                 </div>
                             )}
@@ -148,10 +169,12 @@ export default function Show() {
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">{t('Opening Balance')}</p>
                                     <p className="text-2xl font-bold text-foreground">
-                                        {chartofaccount.opening_balance ? formatCurrency(chartofaccount.opening_balance) : formatCurrency(0)}
+                                        {chartofaccount.opening_balance
+                                            ? formatCurrency(chartofaccount.opening_balance)
+                                            : formatCurrency(0)}
                                     </p>
                                 </div>
-                                <div className="p-3 bg-muted rounded-full">
+                                <div className="rounded-full bg-muted p-3">
                                     <TrendingUp className="h-6 w-6 text-foreground" />
                                 </div>
                             </div>
@@ -162,20 +185,25 @@ export default function Show() {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">{t('Current Balance')}</p>
-                                    <p className={`text-2xl font-bold ${
-                                        chartofaccount.current_balance >= 0 ? 'text-foreground' : 'text-destructive'
-                                    }`}>
+                                    <p
+                                        className={`text-2xl font-bold ${
+                                            chartofaccount.current_balance >= 0 ? 'text-foreground' : 'text-destructive'
+                                        }`}
+                                    >
                                         {formatCurrency(chartofaccount.current_balance || 0)}
                                     </p>
                                     <p className="text-xs text-muted-foreground">{t('Stored')}</p>
                                 </div>
-                                <div className={`p-3 rounded-full ${
-                                    chartofaccount.current_balance >= 0 ? 'bg-muted' : 'bg-muted'
-                                }`}>
-                                    {chartofaccount.current_balance >= 0 ?
-                                        <TrendingUp className="h-6 w-6 text-foreground" /> :
+                                <div
+                                    className={`rounded-full p-3 ${
+                                        chartofaccount.current_balance >= 0 ? 'bg-muted' : 'bg-muted'
+                                    }`}
+                                >
+                                    {chartofaccount.current_balance >= 0 ? (
+                                        <TrendingUp className="h-6 w-6 text-foreground" />
+                                    ) : (
                                         <TrendingDown className="h-6 w-6 text-destructive" />
-                                    }
+                                    )}
                                 </div>
                             </div>
                         </CardContent>
@@ -184,23 +212,26 @@ export default function Show() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">{t('Calculated Balance')}</p>
-                                    <p className={`text-2xl font-bold ${
-                                        calculatedBalance >= 0 ? 'text-foreground' : 'text-foreground'
-                                    }`}>
+                                    <p className="text-sm font-medium text-muted-foreground">
+                                        {t('Calculated Balance')}
+                                    </p>
+                                    <p
+                                        className={`text-2xl font-bold ${
+                                            calculatedBalance >= 0 ? 'text-foreground' : 'text-foreground'
+                                        }`}
+                                    >
                                         {formatCurrency(calculatedBalance || 0)}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
                                         DR: {formatCurrency(totalDebits)} | CR: {formatCurrency(totalCredits)}
                                     </p>
                                 </div>
-                                <div className={`p-3 rounded-full ${
-                                    calculatedBalance >= 0 ? 'bg-muted' : 'bg-muted'
-                                }`}>
-                                    {calculatedBalance >= 0 ?
-                                        <TrendingUp className="h-6 w-6 text-foreground" /> :
+                                <div className={`rounded-full p-3 ${calculatedBalance >= 0 ? 'bg-muted' : 'bg-muted'}`}>
+                                    {calculatedBalance >= 0 ? (
+                                        <TrendingUp className="h-6 w-6 text-foreground" />
+                                    ) : (
                                         <TrendingDown className="h-6 w-6 text-foreground" />
-                                    }
+                                    )}
                                 </div>
                             </div>
                         </CardContent>
@@ -232,19 +263,29 @@ export default function Show() {
                                     {history.data?.map((item) => (
                                         <TableRow key={item.id} className="hover:bg-muted/50">
                                             <TableCell>
-                                                <span className="font-mono text-sm text-foreground">{item.journal_entry.journal_number}</span>
+                                                <span className="font-mono text-sm text-foreground">
+                                                    {item.journal_entry.journal_number}
+                                                </span>
                                             </TableCell>
                                             <TableCell>{formatDate(item.journal_entry.journal_date)}</TableCell>
                                             <TableCell className="max-w-xs truncate">{item.description}</TableCell>
                                             <TableCell className="text-right">
                                                 {item.debit_amount > 0 ? (
-                                                    <span className="text-destructive">{formatCurrency(item.debit_amount)}</span>
-                                                ) : '-'}
+                                                    <span className="text-destructive">
+                                                        {formatCurrency(item.debit_amount)}
+                                                    </span>
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 {item.credit_amount > 0 ? (
-                                                    <span className="text-foreground">{formatCurrency(item.credit_amount)}</span>
-                                                ) : '-'}
+                                                    <span className="text-foreground">
+                                                        {formatCurrency(item.credit_amount)}
+                                                    </span>
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -252,10 +293,12 @@ export default function Show() {
                             </Table>
                         </div>
                     ) : (
-                        <div className="text-center py-12">
-                            <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                            <p className="text-muted-foreground text-lg">{t('No transaction history found')}</p>
-                            <p className="text-muted-foreground text-sm mt-1">{t('Transactions will appear here once journal entries are posted')}</p>
+                        <div className="py-12 text-center">
+                            <Calendar className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                            <p className="text-lg text-muted-foreground">{t('No transaction history found')}</p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                {t('Transactions will appear here once journal entries are posted')}
+                            </p>
                         </div>
                     )}
                 </CardContent>

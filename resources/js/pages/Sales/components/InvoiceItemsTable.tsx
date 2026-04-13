@@ -13,12 +13,26 @@ interface Props {
     items: SalesInvoiceItem[];
     onChange: (items: SalesInvoiceItem[]) => void;
     errors: any;
-    products?: Array<{id: number; name: string; sale_price: number; unit?: string; stock_quantity?: number; taxes?: Array<{id: number; tax_name: string; rate: number}>}>;
+    products?: Array<{
+        id: number;
+        name: string;
+        sale_price: number;
+        unit?: string;
+        stock_quantity?: number;
+        taxes?: Array<{ id: number; tax_name: string; rate: number }>;
+    }>;
     showAddButton?: boolean;
     invoiceType?: string;
 }
 
-export default function InvoiceItemsTable({ items, onChange, errors, products = [], showAddButton = true, invoiceType = 'product' }: Props) {
+export default function InvoiceItemsTable({
+    items,
+    onChange,
+    errors,
+    products = [],
+    showAddButton = true,
+    invoiceType = 'product',
+}: Props) {
     const { t } = useTranslation();
 
     const addItem = () => {
@@ -31,7 +45,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
             tax_percentage: 0,
             tax_amount: 0,
             total_amount: 0,
-            taxes: []
+            taxes: [],
         };
         onChange([...items, newItem]);
     };
@@ -48,7 +62,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
         const item = newItems[index];
 
         if (item.tax_percentage === 0 && item.product_id > 0) {
-            const product = products.find(p => p.id === item.product_id);
+            const product = products.find((p) => p.id === item.product_id);
             if (product?.taxes?.length) {
                 item.tax_percentage = product.taxes.reduce((sum, tax) => sum + tax.rate, 0);
             }
@@ -71,17 +85,18 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
     const handleProductSelect = (index: number, productId: number, product?: any) => {
         const newItems = [...items];
         const totalTaxRate = product?.taxes?.reduce((sum: number, tax: any) => sum + Number(tax.rate), 0) || 0;
-        const taxes = product?.taxes?.map((tax: any) => ({
-            tax_name: tax.tax_name,
-            tax_rate: tax.rate
-        })) || [];
+        const taxes =
+            product?.taxes?.map((tax: any) => ({
+                tax_name: tax.tax_name,
+                tax_rate: tax.rate,
+            })) || [];
 
         newItems[index] = {
             ...newItems[index],
             product_id: productId,
             unit_price: Number(product?.sale_price) || 0,
             tax_percentage: Number(totalTaxRate) || 0,
-            taxes: taxes
+            taxes: taxes,
         };
 
         const item = newItems[index];
@@ -122,12 +137,8 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                             <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
                                 {t('Discount')} %
                             </th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
-                                {t('Tax')}
-                            </th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">
-                                {t('Total')}
-                            </th>
+                            <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Tax')}</th>
+                            <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">{t('Total')}</th>
                             <th className="px-4 py-3 text-center text-sm font-semibold text-foreground">
                                 {t('Action')}
                             </th>
@@ -140,21 +151,25 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                     <ProductSelector
                                         products={products}
                                         value={item.product_id}
-                                        onChange={(productId, product) => handleProductSelect(index, productId, product)}
+                                        onChange={(productId, product) =>
+                                            handleProductSelect(index, productId, product)
+                                        }
                                     />
                                     <InputError message={errors[`items.${index}.product_id`]} />
                                 </td>
                                 {invoiceType === 'product' && (
                                     <td className="px-4 py-4">
                                         {(() => {
-                                            const product = products.find(p => p.id === item.product_id);
+                                            const product = products.find((p) => p.id === item.product_id);
                                             const maxQty = product?.stock_quantity || 999999;
                                             return (
                                                 <div>
                                                     <Input
                                                         type="number"
                                                         value={item.quantity}
-                                                        onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 0)}
+                                                        onChange={(e) =>
+                                                            updateItem(index, 'quantity', parseInt(e.target.value) || 0)
+                                                        }
                                                         className="w-20 text-sm"
                                                         min="1"
                                                         max={maxQty}
@@ -162,7 +177,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                                         required
                                                     />
                                                     {product && (
-                                                        <div className="text-xs text-muted-foreground mt-1">
+                                                        <div className="mt-1 text-xs text-muted-foreground">
                                                             {t('Stock')}: {product.stock_quantity || 0}
                                                         </div>
                                                     )}
@@ -176,7 +191,9 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                     <Input
                                         type="number"
                                         value={item.unit_price}
-                                        onChange={(e) => updateItem(index, 'unit_price', parseFloat(e.target.value) || 0)}
+                                        onChange={(e) =>
+                                            updateItem(index, 'unit_price', parseFloat(e.target.value) || 0)
+                                        }
                                         className="w-24 text-sm"
                                         min="0"
                                         step="0.01"
@@ -188,7 +205,9 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                     <Input
                                         type="number"
                                         value={item.discount_percentage}
-                                        onChange={(e) => updateItem(index, 'discount_percentage', parseFloat(e.target.value) || 0)}
+                                        onChange={(e) =>
+                                            updateItem(index, 'discount_percentage', parseFloat(e.target.value) || 0)
+                                        }
                                         className="w-20 text-sm"
                                         min="0"
                                         max="100"
@@ -199,7 +218,10 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                     {item.taxes && item.taxes.length > 0 ? (
                                         <div className="flex flex-wrap gap-1">
                                             {item.taxes.map((tax, taxIndex) => (
-                                                <span key={taxIndex} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-foreground">
+                                                <span
+                                                    key={taxIndex}
+                                                    className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-medium text-foreground"
+                                                >
                                                     {tax.tax_name} ({tax.tax_rate}%)
                                                 </span>
                                             ))}
@@ -211,9 +233,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                     )}
                                 </td>
                                 <td className="px-4 py-4">
-                                    <span className="text-sm font-medium">
-                                        {formatCurrency(item.total_amount)}
-                                    </span>
+                                    <span className="text-sm font-medium">{formatCurrency(item.total_amount)}</span>
                                 </td>
                                 <td className="px-4 py-4 text-center">
                                     <Button
@@ -221,7 +241,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
                                         variant="ghost"
                                         size="sm"
                                         onClick={() => removeItem(index)}
-                                        className="text-destructive hover:text-destructive h-8 w-8 p-0"
+                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                     >
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
@@ -234,12 +254,7 @@ export default function InvoiceItemsTable({ items, onChange, errors, products = 
 
             {showAddButton && (
                 <div className="flex justify-start">
-                    <Button
-                        type="button"
-                        onClick={addItem}
-                        variant="default"
-                        size="sm"
-                    >
+                    <Button type="button" onClick={addItem} variant="default" size="sm">
                         + {t('Add Item')}
                     </Button>
                 </div>

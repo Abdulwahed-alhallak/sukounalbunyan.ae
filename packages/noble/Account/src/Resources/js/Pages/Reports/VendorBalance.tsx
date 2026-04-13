@@ -22,7 +22,7 @@ export default function VendorBalance({ financialYear }: any) {
         setLoading(true);
         try {
             const response = await axios.get(route('account.reports.vendor-balance'), {
-                params: { as_of_date: asOfDate, show_zero_balances: showZeroBalances }
+                params: { as_of_date: asOfDate, show_zero_balances: showZeroBalances },
             });
             setData(response.data);
         } catch (error) {
@@ -38,14 +38,14 @@ export default function VendorBalance({ financialYear }: any) {
 
     return (
         <Card className="shadow-sm">
-            <CardContent className="p-6 border-b bg-muted/50/50">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <CardContent className="bg-muted/50/50 border-b p-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('As Of Date')}</label>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('As Of Date')}</label>
                         <DatePicker value={asOfDate} onChange={setAsOfDate} placeholder={t('Select date')} />
                     </div>
                     <div className="flex items-end">
-                        <label className="flex items-center gap-2 cursor-pointer mb-2">
+                        <label className="mb-2 flex cursor-pointer items-center gap-2">
                             <Checkbox checked={showZeroBalances} onCheckedChange={setShowZeroBalances} />
                             <span className="text-sm">{t('Show Zero Balances')}</span>
                         </label>
@@ -55,7 +55,18 @@ export default function VendorBalance({ financialYear }: any) {
                             {loading ? t('Loading...') : t('Generate')}
                         </Button>
                         {data && auth.user?.permissions?.includes('print-vendor-balance') && (
-                            <Button variant="outline" size="sm" onClick={() => window.open(route('account.reports.vendor-balance.print') + `?as_of_date=${asOfDate}&show_zero_balances=${showZeroBalances}&download=pdf`, '_blank')} className="gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    window.open(
+                                        route('account.reports.vendor-balance.print') +
+                                            `?as_of_date=${asOfDate}&show_zero_balances=${showZeroBalances}&download=pdf`,
+                                        '_blank'
+                                    )
+                                }
+                                className="gap-2"
+                            >
                                 <Printer className="h-4 w-4" />
                                 {t('Download PDF')}
                             </Button>
@@ -67,21 +78,31 @@ export default function VendorBalance({ financialYear }: any) {
             <CardContent className="p-0">
                 {data && data.vendors.length > 0 ? (
                     <>
-                        <div className="p-4 bg-muted/50 border-b">
-                            <h3 className="font-semibold text-lg">{t('Vendor Balance Summary')}</h3>
-                            <p className="text-sm text-muted-foreground">{t('As of')} {formatDate(data.as_of_date)}</p>
-                            <p className="text-sm font-semibold mt-2">{t('Total Outstanding')}: {formatCurrency(data.total_balance)}</p>
+                        <div className="border-b bg-muted/50 p-4">
+                            <h3 className="text-lg font-semibold">{t('Vendor Balance Summary')}</h3>
+                            <p className="text-sm text-muted-foreground">
+                                {t('As of')} {formatDate(data.as_of_date)}
+                            </p>
+                            <p className="mt-2 text-sm font-semibold">
+                                {t('Total Outstanding')}: {formatCurrency(data.total_balance)}
+                            </p>
                         </div>
 
-                        <div className="overflow-y-auto max-h-[60vh]">
+                        <div className="max-h-[60vh] overflow-y-auto">
                             <table className="w-full">
-                                <thead className="bg-muted sticky top-0">
+                                <thead className="sticky top-0 bg-muted">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Vendor')}</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Email')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total Billed')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total Returns & Debit Notes')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total Paid')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Total Billed')}
+                                        </th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Total Returns & Debit Notes')}
+                                        </th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Total Paid')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Balance')}</th>
                                     </tr>
                                 </thead>
@@ -90,25 +111,52 @@ export default function VendorBalance({ financialYear }: any) {
                                         <tr key={idx} className="border-t hover:bg-muted/50">
                                             <td className="px-4 py-3">
                                                 {auth.user?.permissions?.includes('view-vendor-detail-report') ? (
-                                                    <Link href={route('account.reports.vendor-detail', vendor.vendor_id)} className="text-foreground hover:text-foreground">
+                                                    <Link
+                                                        href={route('account.reports.vendor-detail', vendor.vendor_id)}
+                                                        className="text-foreground hover:text-foreground"
+                                                    >
                                                         {vendor.vendor_name}
                                                     </Link>
                                                 ) : (
                                                     vendor.vendor_name
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-muted-foreground">{vendor.vendor_email}</td>
-                                            <td className="px-4 py-3 text-right">{formatCurrency(vendor.total_billed)}</td>
-                                            <td className="px-4 py-3 text-right text-destructive">{formatCurrency(vendor.total_returns)}</td>
-                                            <td className="px-4 py-3 text-right">{formatCurrency(vendor.total_paid)}</td>
-                                            <td className="px-4 py-3 text-right font-semibold">{formatCurrency(vendor.balance)}</td>
+                                            <td className="px-4 py-3 text-sm text-muted-foreground">
+                                                {vendor.vendor_email}
+                                            </td>
+                                            <td className="px-4 py-3 text-right">
+                                                {formatCurrency(vendor.total_billed)}
+                                            </td>
+                                            <td className="px-4 py-3 text-right text-destructive">
+                                                {formatCurrency(vendor.total_returns)}
+                                            </td>
+                                            <td className="px-4 py-3 text-right">
+                                                {formatCurrency(vendor.total_paid)}
+                                            </td>
+                                            <td className="px-4 py-3 text-right font-semibold">
+                                                {formatCurrency(vendor.balance)}
+                                            </td>
                                         </tr>
                                     ))}
-                                    <tr className="bg-muted font-bold border-t-4">
-                                        <td colSpan={2} className="px-4 py-4">{t('Total')}</td>
-                                        <td className="px-4 py-4 text-right">{formatCurrency(data.vendors.reduce((sum: number, v: any) => sum + v.total_billed, 0))}</td>
-                                        <td className="px-4 py-4 text-right text-destructive">{formatCurrency(data.vendors.reduce((sum: number, v: any) => sum + v.total_returns, 0))}</td>
-                                        <td className="px-4 py-4 text-right">{formatCurrency(data.vendors.reduce((sum: number, v: any) => sum + v.total_paid, 0))}</td>
+                                    <tr className="border-t-4 bg-muted font-bold">
+                                        <td colSpan={2} className="px-4 py-4">
+                                            {t('Total')}
+                                        </td>
+                                        <td className="px-4 py-4 text-right">
+                                            {formatCurrency(
+                                                data.vendors.reduce((sum: number, v: any) => sum + v.total_billed, 0)
+                                            )}
+                                        </td>
+                                        <td className="px-4 py-4 text-right text-destructive">
+                                            {formatCurrency(
+                                                data.vendors.reduce((sum: number, v: any) => sum + v.total_returns, 0)
+                                            )}
+                                        </td>
+                                        <td className="px-4 py-4 text-right">
+                                            {formatCurrency(
+                                                data.vendors.reduce((sum: number, v: any) => sum + v.total_paid, 0)
+                                            )}
+                                        </td>
                                         <td className="px-4 py-4 text-right">{formatCurrency(data.total_balance)}</td>
                                     </tr>
                                 </tbody>

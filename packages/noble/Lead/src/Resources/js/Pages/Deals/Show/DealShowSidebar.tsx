@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Info, CheckSquare, Users, Package, Database, FileText, File, Phone, Activity } from "lucide-react";
+import { Info, CheckSquare, Users, Package, Database, FileText, File, Phone, Activity } from 'lucide-react';
 
 interface SidebarItem {
     key: string;
@@ -45,7 +45,6 @@ export default function DealShowSidebar({ activeItem, onSectionChange }: DealSho
             icon: Database,
         },
 
-
         {
             key: 'files',
             label: t('Files'),
@@ -71,7 +70,7 @@ export default function DealShowSidebar({ activeItem, onSectionChange }: DealSho
     return (
         <div className="sticky top-4">
             <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="pr-4 space-y-1">
+                <div className="space-y-1 pr-4">
                     {sidebarItems?.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeItem === item.key;
@@ -87,7 +86,7 @@ export default function DealShowSidebar({ activeItem, onSectionChange }: DealSho
                                     onSectionChange?.(item.key);
                                 }}
                             >
-                                <Icon className="h-4 w-4 mr-2" />
+                                <Icon className="mr-2 h-4 w-4" />
                                 {item.label}
                             </Button>
                         );

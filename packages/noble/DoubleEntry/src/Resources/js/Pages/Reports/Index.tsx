@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileText } from "lucide-react";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FileText } from 'lucide-react';
 import GeneralLedger from './GeneralLedger';
 import AccountStatement from './AccountStatement';
 import JournalEntry from './JournalEntry';
@@ -16,12 +16,12 @@ interface ReportsIndexProps {
     auth: {
         user?: {
             permissions?: string[];
-        }
-    }
+        };
+    };
     financialYear?: {
         year_start_date: string;
         year_end_date: string;
-    }
+    };
 }
 
 export default function Index() {
@@ -36,14 +36,11 @@ export default function Index() {
         { id: 'account-balance', label: t('Account Balance'), permission: 'view-account-balance' },
         { id: 'cash-flow', label: t('Cash Flow'), permission: 'view-cash-flow' },
         { id: 'expense-report', label: t('Expense Report'), permission: 'view-expense-report' },
-    ].filter(tab => auth.user?.permissions?.includes(tab.permission));
+    ].filter((tab) => auth.user?.permissions?.includes(tab.permission));
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Double Entry') },
-                { label: t('Reports') }
-            ]}
+            breadcrumbs={[{ label: t('Double Entry') }, { label: t('Reports') }]}
             pageTitle={t('Reports')}
         >
             <Head title={t('Reports')} />
@@ -51,9 +48,9 @@ export default function Index() {
             <Card className="shadow-sm">
                 <CardContent className="p-6">
                     <Tabs value={activeTab} onValueChange={setActiveTab}>
-                        <TabsList className="w-full justify-start overflow-x-auto overflow-y-hidden h-auto p-1">
-                            {tabs?.map(tab => (
-                                <TabsTrigger key={tab.id} value={tab.id} className="whitespace-nowrap flex-shrink-0">
+                        <TabsList className="h-auto w-full justify-start overflow-x-auto overflow-y-hidden p-1">
+                            {tabs?.map((tab) => (
+                                <TabsTrigger key={tab.id} value={tab.id} className="flex-shrink-0 whitespace-nowrap">
                                     {tab.label}
                                 </TabsTrigger>
                             ))}
@@ -83,19 +80,27 @@ export default function Index() {
                             <ExpenseReport financialYear={financialYear} />
                         </TabsContent>
 
-                        {tabs.filter(tab => !['general-ledger', 'account-statement', 'journal-entry', 'account-balance', 'cash-flow', 'expense-report'].includes(tab.id))?.map(tab => (
-                            <TabsContent key={tab.id} value={tab.id} className="mt-4">
-                                <div className="flex flex-col items-center justify-center py-12 text-center">
-                                    <FileText className="h-16 w-16 text-muted-foreground mb-4" />
-                                    <h3 className="text-lg font-semibold text-foreground mb-2">
-                                        {tab.label}
-                                    </h3>
-                                    <p className="text-sm text-muted-foreground">
-                                        {t('Coming soon...')}
-                                    </p>
-                                </div>
-                            </TabsContent>
-                        ))}
+                        {tabs
+                            .filter(
+                                (tab) =>
+                                    ![
+                                        'general-ledger',
+                                        'account-statement',
+                                        'journal-entry',
+                                        'account-balance',
+                                        'cash-flow',
+                                        'expense-report',
+                                    ].includes(tab.id)
+                            )
+                            ?.map((tab) => (
+                                <TabsContent key={tab.id} value={tab.id} className="mt-4">
+                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                        <FileText className="mb-4 h-16 w-16 text-muted-foreground" />
+                                        <h3 className="mb-2 text-lg font-semibold text-foreground">{tab.label}</h3>
+                                        <p className="text-sm text-muted-foreground">{t('Coming soon...')}</p>
+                                    </div>
+                                </TabsContent>
+                            ))}
                     </Tabs>
                 </CardContent>
             </Card>

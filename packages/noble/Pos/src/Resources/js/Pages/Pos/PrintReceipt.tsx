@@ -154,11 +154,12 @@ export const printReceipt = (completedSale: any, globalSettings: any) => {
             <div class="separator"></div>
             
             <div class="items-section">
-                ${completedSale.items?.map((item: any) => {
-                    const itemSubtotal = item.price * item.quantity;
-                    const itemTaxRate = item.taxes && item.taxes.length > 0 ? item.taxes[0].rate : 0;
-                    const itemTaxAmount = (itemSubtotal * itemTaxRate) / 100;
-                    return `
+                ${completedSale.items
+                    ?.map((item: any) => {
+                        const itemSubtotal = item.price * item.quantity;
+                        const itemTaxRate = item.taxes && item.taxes.length > 0 ? item.taxes[0].rate : 0;
+                        const itemTaxAmount = (itemSubtotal * itemTaxRate) / 100;
+                        return `
                         <div class="item">
                             <div class="item-name">${item.name}</div>
                             <div class="item-details">
@@ -181,7 +182,8 @@ export const printReceipt = (completedSale: any, globalSettings: any) => {
                             </div>
                         </div>
                     `;
-                }).join('')}
+                    })
+                    .join('')}
             </div>
             
             <div class="separator"></div>
@@ -202,29 +204,33 @@ export const printReceipt = (completedSale: any, globalSettings: any) => {
             <div class="footer">
                 <div class="thank-you">*** THANK YOU ***</div>
                 <div>Visit Again!</div>
-                ${completedSale.zatca_qr ? `
+                ${
+                    completedSale.zatca_qr
+                        ? `
                 <div style="margin-top: 10px; text-align: center;">
                     <img src="${completedSale.zatca_qr}" alt="ZATCA QR" style="width: 120px; height: 120px; object-fit: contain;" />
                 </div>
-                ` : ''}
+                `
+                        : ''
+                }
             </div>
         </div>
     </body>
     </html>
     `;
-    
+
     const printFrame = document.createElement('iframe');
     printFrame.style.display = 'none';
     document.body.appendChild(printFrame);
-    
+
     const frameDoc = printFrame.contentDocument || printFrame.contentWindow?.document;
     if (frameDoc) {
         frameDoc.write(receiptHTML);
         frameDoc.close();
-        
+
         printFrame.contentWindow?.focus();
         printFrame.contentWindow?.print();
-        
+
         setTimeout(() => {
             document.body.removeChild(printFrame);
         }, 1000);

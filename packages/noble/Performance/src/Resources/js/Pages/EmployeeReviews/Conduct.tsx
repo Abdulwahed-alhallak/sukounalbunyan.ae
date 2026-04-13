@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Head, usePage, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
-import { Label } from "@/components/ui/label";
-import { Star } from "lucide-react";
-import InputError from "@/components/ui/input-error";
+import { Label } from '@/components/ui/label';
+import { Star } from 'lucide-react';
+import InputError from '@/components/ui/input-error';
 
 interface PerformanceIndicator {
     id: number;
@@ -37,23 +37,23 @@ interface ConductProps {
 export default function Conduct() {
     const { t } = useTranslation();
     const { employeeReview, performanceIndicators, existingRatings } = usePage<ConductProps>().props;
-    
+
     const { data, setData, post, processing, errors } = useForm({
         ratings: existingRatings || {},
         pros: employeeReview.pros || '',
-        cons: employeeReview.cons || ''
+        cons: employeeReview.cons || '',
     });
 
     const setRating = (indicatorId: number, rating: number) => {
         setData('ratings', {
             ...data.ratings,
-            [indicatorId]: rating
+            [indicatorId]: rating,
         });
     };
 
     const renderStars = (indicatorId: number) => {
         const currentRating = data.ratings[indicatorId] || 0;
-        
+
         return (
             <div className="flex gap-1">
                 {[1, 2, 3, 4, 5]?.map((star) => (
@@ -86,7 +86,7 @@ export default function Conduct() {
             breadcrumbs={[
                 { label: t('Performance') },
                 { label: t('Employee Reviews'), url: route('performance.employee-reviews.index') },
-                { label: t('Conduct Review') }
+                { label: t('Conduct Review') },
             ]}
             pageTitle={t('Conduct Performance Review')}
         >
@@ -98,7 +98,7 @@ export default function Conduct() {
                         <CardTitle>{t('Review Information')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
                             <div>
                                 <span className="font-medium text-foreground">{t('Employee')}:</span>
                                 <p>{employeeReview.user?.name}</p>
@@ -126,23 +126,24 @@ export default function Conduct() {
                                     <h3 className="text-lg font-semibold text-foreground">
                                         {categoryName || t('Uncategorized')}
                                     </h3>
-                                    
+
                                     {indicators?.map((indicator) => (
-                                        <div key={indicator.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                                        <div
+                                            key={indicator.id}
+                                            className="flex items-center justify-between rounded-lg bg-muted/50 p-4"
+                                        >
                                             <div className="flex-1">
                                                 <span className="text-sm font-medium text-foreground">
                                                     {indicator.name}
                                                 </span>
                                             </div>
-                                            <div className="ml-4">
-                                                {renderStars(indicator.id)}
-                                            </div>
+                                            <div className="ml-4">{renderStars(indicator.id)}</div>
                                         </div>
                                     ))}
                                 </div>
                             ))}
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="pros">{t('Pros')}</Label>
                                     <RichTextEditor
@@ -165,11 +166,7 @@ export default function Conduct() {
                             </div>
 
                             <div className="flex justify-end gap-2 pt-4">
-                                <Button 
-                                    type="button" 
-                                    variant="outline" 
-                                    onClick={() => window.history.back()}
-                                >
+                                <Button type="button" variant="outline" onClick={() => window.history.back()}>
                                     {t('Cancel')}
                                 </Button>
                                 <Button type="submit" disabled={processing}>

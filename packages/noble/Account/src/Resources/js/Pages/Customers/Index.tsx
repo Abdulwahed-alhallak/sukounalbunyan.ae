@@ -2,22 +2,22 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Plus, Edit as EditIcon, Trash2, Building2, User as UserIcon, Lock, FileText, Eye } from "lucide-react";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Plus, Edit as EditIcon, Trash2, Building2, User as UserIcon, Lock, FileText, Eye } from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { DataTable } from "@/components/ui/data-table";
-import { SearchInput } from "@/components/ui/search-input";
-import { ListGridToggle } from "@/components/ui/list-grid-toggle";
-import { PerPageSelector } from "@/components/ui/per-page-selector";
-import { FilterButton } from "@/components/ui/filter-button";
-import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { DataTable } from '@/components/ui/data-table';
+import { SearchInput } from '@/components/ui/search-input';
+import { ListGridToggle } from '@/components/ui/list-grid-toggle';
+import { PerPageSelector } from '@/components/ui/per-page-selector';
+import { FilterButton } from '@/components/ui/filter-button';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import NoRecordsFound from '@/components/no-records-found';
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from '@/components/ui/pagination';
 import Create from './Create';
 import Edit from './Edit';
 import View from './View';
@@ -59,61 +59,75 @@ export default function Index() {
     const [filters, setFilters] = useState<CustomerFilters>({
         company_name: urlParams.get('company_name') || '',
         customer_code: urlParams.get('customer_code') || '',
-        tax_number: urlParams.get('tax_number') || ''
+        tax_number: urlParams.get('tax_number') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<CustomerModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [viewingItem, setViewingItem] = useState<Customer | null>(null);
     const [showFilters, setShowFilters] = useState(false);
 
-    const googleDriveButtons = usePageButtons('googleDriveBtn', { module: 'Customer', settingKey: 'GoogleDrive Customer' });
+    const googleDriveButtons = usePageButtons('googleDriveBtn', {
+        module: 'Customer',
+        settingKey: 'GoogleDrive Customer',
+    });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Customer', settingKey: 'OneDrive Customer' });
-    const dropboxBtn = usePageButtons('dropboxBtn', { module: 'Account Customer', settingKey: 'Dropbox Account Customer' });
+    const dropboxBtn = usePageButtons('dropboxBtn', {
+        module: 'Account Customer',
+        settingKey: 'Dropbox Account Customer',
+    });
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'account.customers.destroy',
-        defaultMessage: 'Are you sure you want to delete this customer?'
+        defaultMessage: 'Are you sure you want to delete this customer?',
     });
 
     const handleFilter = () => {
-        router.get(route('account.customers.index'), {
-            ...filters,
-            per_page: perPage,
-            sort: sortField,
-            direction: sortDirection,
-            view: viewMode
-        }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.customers.index'),
+            {
+                ...filters,
+                per_page: perPage,
+                sort: sortField,
+                direction: sortDirection,
+                view: viewMode,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('account.customers.index'), {
-            ...filters,
-            per_page: perPage,
-            sort: field,
-            direction,
-            view: viewMode
-        }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('account.customers.index'),
+            {
+                ...filters,
+                per_page: perPage,
+                sort: field,
+                direction,
+                view: viewMode,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ company_name: '', customer_code: '', tax_number: '' });
-        router.get(route('account.customers.index'), {per_page: perPage, view: viewMode});
+        router.get(route('account.customers.index'), { per_page: perPage, view: viewMode });
     };
 
     const openModal = (mode: 'add' | 'edit', data: Customer | null = null) => {
@@ -132,138 +146,171 @@ export default function Index() {
                 if (!customer.user) return null;
                 return (
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg overflow-hidden bg-muted border flex items-center justify-center">
+                        <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg border bg-muted">
                             {customer.user.avatar ? (
                                 <img
                                     src={getImagePath(customer.user.avatar)}
                                     alt="Avatar"
-                                    className="w-full h-full object-cover"
+                                    className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <UserIcon className="w-4 h-4 text-muted-foreground" />
+                                <UserIcon className="h-4 w-4 text-muted-foreground" />
                             )}
                         </div>
                         <span className="text-sm">{customer.user.name}</span>
                     </div>
                 );
-            }
+            },
         },
         {
             key: 'customer_code',
             header: t('Customer Code'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'company_name',
             header: t('Company Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'contact_person_name',
             header: t('Contact Person'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'contact_person_email',
             header: t('Email'),
-            sortable: false
+            sortable: false,
         },
         {
             key: 'tax_number',
             header: t('Tax Number'),
-            sortable: false
+            sortable: false,
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-customers', 'edit-customers', 'delete-customers', 'view-customer-detail-report'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, customer: Customer) => (
-                <div className="flex gap-1">
-                    {customer.user?.is_disable === 1 ? (
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <div className="h-8 w-8 p-0 flex items-center justify-center text-muted-foreground">
-                                    <Lock className="h-4 w-4" />
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent><p>{t('User is disabled')}</p></TooltipContent>
-                        </Tooltip>
-                    ) : (
-                        <TooltipProvider>
-                            {auth.user?.permissions?.includes('view-customer-detail-report') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => {
-                                            const params: any = { customer: customer.user_id };
-                                            if (is_demo) {
-                                                const year = new Date().getFullYear();
-                                                params.start_date = `${year}-01-01`;
-                                                params.end_date = `${year}-12-31`;
-                                            }
-                                            router.visit(route('account.reports.customer-detail', params));
-                                        }} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                            <FileText className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>{t('View Report')}</p></TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('view-customers') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => setViewingItem(customer)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                            <Eye className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>{t('View')}</p></TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('edit-customers') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', customer)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                            <EditIcon className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>{t('Edit')}</p></TooltipContent>
-                                </Tooltip>
-                            )}
-                            {auth.user?.permissions?.includes('delete-customers') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => openDeleteDialog(customer.id)}
-                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent><p>{t('Delete')}</p></TooltipContent>
-                                </Tooltip>
-                            )}
-                        </TooltipProvider>
-                    )}
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-customers', 'edit-customers', 'delete-customers', 'view-customer-detail-report'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, customer: Customer) => (
+                          <div className="flex gap-1">
+                              {customer.user?.is_disable === 1 ? (
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <div className="flex h-8 w-8 items-center justify-center p-0 text-muted-foreground">
+                                              <Lock className="h-4 w-4" />
+                                          </div>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('User is disabled')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              ) : (
+                                  <TooltipProvider>
+                                      {auth.user?.permissions?.includes('view-customer-detail-report') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => {
+                                                          const params: any = { customer: customer.user_id };
+                                                          if (is_demo) {
+                                                              const year = new Date().getFullYear();
+                                                              params.start_date = `${year}-01-01`;
+                                                              params.end_date = `${year}-12-31`;
+                                                          }
+                                                          router.visit(
+                                                              route('account.reports.customer-detail', params)
+                                                          );
+                                                      }}
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <FileText className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('View Report')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('view-customers') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => setViewingItem(customer)}
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <Eye className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('View')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('edit-customers') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openModal('edit', customer)}
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <EditIcon className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Edit')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                      {auth.user?.permissions?.includes('delete-customers') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openDeleteDialog(customer.id)}
+                                                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                                  >
+                                                      <Trash2 className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('Delete')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  </TooltipProvider>
+                              )}
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: 'Accounting', url:route('account.index')},{label: 'Customers'}]}
+            breadcrumbs={[{ label: 'Accounting', url: route('account.index') }, { label: 'Customers' }]}
             pageTitle="Manage Customers"
             pageActions={
                 <div className="flex gap-2">
-                      {googleDriveButtons?.map((button) => (
-                            <div key={button.id}>{button.component}</div>
-                        ))}
-                        {oneDriveButtons?.map((button) => (
-                            <div key={button.id}>{button.component}</div>
-                        ))}
-                        {dropboxBtn?.map((button) => (
-                            <div key={button.id}>{button.component}</div>
-                        ))}
+                    {googleDriveButtons?.map((button) => (
+                        <div key={button.id}>{button.component}</div>
+                    ))}
+                    {oneDriveButtons?.map((button) => (
+                        <div key={button.id}>{button.component}</div>
+                    ))}
+                    {dropboxBtn?.map((button) => (
+                        <div key={button.id}>{button.component}</div>
+                    ))}
                     <TooltipProvider>
                         {auth.user?.permissions?.includes('create-customers') && (
                             <Tooltip delayDuration={0}>
@@ -284,12 +331,12 @@ export default function Index() {
             <Head title="Customers" />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.company_name}
-                                onChange={(value) => setFilters({...filters, company_name: value})}
+                                onChange={(value) => setFilters({ ...filters, company_name: value })}
                                 onSearch={handleFilter}
                                 placeholder="Search customers..."
                             />
@@ -298,23 +345,24 @@ export default function Index() {
                             <ListGridToggle
                                 currentView={viewMode}
                                 routeName="account.customers.index"
-                                filters={{...filters, per_page: perPage}}
+                                filters={{ ...filters, per_page: perPage }}
                             />
                             <PerPageSelector
                                 routeName="account.customers.index"
-                                filters={{...filters, view: viewMode}}
+                                filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.customer_code, filters.tax_number].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.customer_code, filters.tax_number].filter(
+                                        Boolean
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -324,35 +372,45 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Customer Code')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Customer Code')}
+                                </label>
                                 <Input
                                     value={filters.customer_code}
-                                    onChange={(e) => setFilters({...filters, customer_code: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, customer_code: e.target.value })}
                                     placeholder={t('Filter by customer code')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Company Name')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Company Name')}
+                                </label>
                                 <Input
                                     value={filters.company_name}
-                                    onChange={(e) => setFilters({...filters, company_name: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, company_name: e.target.value })}
                                     placeholder={t('Filter by company name')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Tax Number')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Tax Number')}
+                                </label>
                                 <Input
                                     value={filters.tax_number}
-                                    onChange={(e) => setFilters({...filters, tax_number: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, tax_number: e.target.value })}
                                     placeholder={t('Filter by tax number')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -360,88 +418,118 @@ export default function Index() {
 
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
-                            <DataTable
-                                data={customers.data}
-                                columns={tableColumns}
-                                onSort={handleSort}
-                                sortKey={sortField}
-                                sortDirection={sortDirection as 'asc' | 'desc'}
-                                className="rounded-none"
-                                emptyState={
-                                    <NoRecordsFound
-                                        icon={Building2}
-                                        title="No customers found"
-                                        description="Get started by creating your first customer."
-                                        hasFilters={!!(filters.company_name || filters.customer_code || filters.tax_number)}
-                                        onClearFilters={clearFilters}
-                                        createPermission="create-customers"
-                                        onCreateClick={() => openModal('add')}
-                                        createButtonText="Create Customer"
-                                        className="h-auto"
-                                    />
-                                }
-                            />
+                                <DataTable
+                                    data={customers.data}
+                                    columns={tableColumns}
+                                    onSort={handleSort}
+                                    sortKey={sortField}
+                                    sortDirection={sortDirection as 'asc' | 'desc'}
+                                    className="rounded-none"
+                                    emptyState={
+                                        <NoRecordsFound
+                                            icon={Building2}
+                                            title="No customers found"
+                                            description="Get started by creating your first customer."
+                                            hasFilters={
+                                                !!(filters.company_name || filters.customer_code || filters.tax_number)
+                                            }
+                                            onClearFilters={clearFilters}
+                                            createPermission="create-customers"
+                                            onCreateClick={() => openModal('add')}
+                                            createButtonText="Create Customer"
+                                            className="h-auto"
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {customers.data.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                                     {customers.data?.map((customer) => (
-                                        <Card key={customer.id} className="border border-border hover:shadow-lg transition-all duration-200">
+                                        <Card
+                                            key={customer.id}
+                                            className="border border-border transition-all duration-200 hover:shadow-lg"
+                                        >
                                             <div className="p-4">
-                                                <div className="flex items-start justify-between mb-3">
+                                                <div className="mb-3 flex items-start justify-between">
                                                     <div className="flex-1">
-                                                        <h3 className="font-semibold text-base text-foreground truncate">{customer.company_name}</h3>
+                                                        <h3 className="truncate text-base font-semibold text-foreground">
+                                                            {customer.company_name}
+                                                        </h3>
                                                         {auth.user?.permissions?.includes('view-customers') ? (
-                                                            <p className="text-xs text-foreground font-medium mt-1 cursor-pointer" onClick={() => setViewingItem(customer)}>{customer.customer_code}</p>
+                                                            <p
+                                                                className="mt-1 cursor-pointer text-xs font-medium text-foreground"
+                                                                onClick={() => setViewingItem(customer)}
+                                                            >
+                                                                {customer.customer_code}
+                                                            </p>
                                                         ) : (
-                                                            <p className="text-xs font-medium mt-1">{customer.customer_code}</p>
+                                                            <p className="mt-1 text-xs font-medium">
+                                                                {customer.customer_code}
+                                                            </p>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                <div className="space-y-2 mb-3">
-                                                    <div className="flex justify-between items-center">
-                                                        <span className="text-xs text-muted-foreground">{t('Contact')}</span>
-                                                        <span className="text-xs font-medium text-foreground truncate ml-2">{customer.contact_person_name}</span>
+                                                <div className="mb-3 space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-xs text-muted-foreground">
+                                                            {t('Contact')}
+                                                        </span>
+                                                        <span className="ml-2 truncate text-xs font-medium text-foreground">
+                                                            {customer.contact_person_name}
+                                                        </span>
                                                     </div>
                                                     {customer.contact_person_email && (
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-muted-foreground">{t('Email')}</span>
-                                                            <span className="text-xs text-foreground truncate ml-2">{customer.contact_person_email}</span>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {t('Email')}
+                                                            </span>
+                                                            <span className="ml-2 truncate text-xs text-foreground">
+                                                                {customer.contact_person_email}
+                                                            </span>
                                                         </div>
                                                     )}
                                                     {customer.tax_number && (
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-muted-foreground">{t('Tax Number')}</span>
-                                                            <span className="text-xs font-medium text-foreground">{customer.tax_number}</span>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {t('Tax Number')}
+                                                            </span>
+                                                            <span className="text-xs font-medium text-foreground">
+                                                                {customer.tax_number}
+                                                            </span>
                                                         </div>
                                                     )}
                                                     {customer.payment_terms && (
-                                                        <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-muted-foreground">{t('Payment Terms')}</span>
-                                                            <span className="text-xs text-foreground font-medium">{customer.payment_terms}</span>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {t('Payment Terms')}
+                                                            </span>
+                                                            <span className="text-xs font-medium text-foreground">
+                                                                {customer.payment_terms}
+                                                            </span>
                                                         </div>
                                                     )}
                                                 </div>
 
-                                                <div className="flex items-center justify-between pt-3 border-t border-border">
+                                                <div className="flex items-center justify-between border-t border-border pt-3">
                                                     {customer.user && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
                                                                 <span className="inline-flex items-center py-1">
-                                                                    <div className="w-6 h-6 rounded-full overflow-hidden bg-muted border flex items-center justify-center">
+                                                                    <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full border bg-muted">
                                                                         {customer.user.avatar ? (
                                                                             <img
                                                                                 src={getImagePath(customer.user.avatar)}
                                                                                 alt="Avatar"
-                                                                                className="w-full h-full object-cover"
+                                                                                className="h-full w-full object-cover"
                                                                             />
                                                                         ) : (
-                                                                            <UserIcon className="w-3 h-3 text-muted-foreground" />
+                                                                            <UserIcon className="h-3 w-3 text-muted-foreground" />
                                                                         )}
                                                                     </div>
                                                                 </span>
@@ -455,7 +543,7 @@ export default function Index() {
                                                         {customer.user?.is_disable === 1 ? (
                                                             <Tooltip delayDuration={0}>
                                                                 <TooltipTrigger asChild>
-                                                                    <div className="h-8 w-8 p-0 flex items-center justify-center text-muted-foreground">
+                                                                    <div className="flex h-8 w-8 items-center justify-center p-0 text-muted-foreground">
                                                                         <Lock className="h-4 w-4" />
                                                                     </div>
                                                                 </TooltipTrigger>
@@ -465,18 +553,33 @@ export default function Index() {
                                                             </Tooltip>
                                                         ) : (
                                                             <TooltipProvider>
-                                                                {auth.user?.permissions?.includes('view-customer-detail-report') && (
+                                                                {auth.user?.permissions?.includes(
+                                                                    'view-customer-detail-report'
+                                                                ) && (
                                                                     <Tooltip delayDuration={0}>
                                                                         <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => {
-                                                                                const params: any = { customer: customer.user_id };
-                                                                                if (is_demo) {
-                                                                                    const year = new Date().getFullYear();
-                                                                                    params.start_date = `${year}-01-01`;
-                                                                                    params.end_date = `${year}-12-31`;
-                                                                                }
-                                                                                router.visit(route('account.reports.customer-detail', params));
-                                                                            }} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => {
+                                                                                    const params: any = {
+                                                                                        customer: customer.user_id,
+                                                                                    };
+                                                                                    if (is_demo) {
+                                                                                        const year =
+                                                                                            new Date().getFullYear();
+                                                                                        params.start_date = `${year}-01-01`;
+                                                                                        params.end_date = `${year}-12-31`;
+                                                                                    }
+                                                                                    router.visit(
+                                                                                        route(
+                                                                                            'account.reports.customer-detail',
+                                                                                            params
+                                                                                        )
+                                                                                    );
+                                                                                }}
+                                                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                            >
                                                                                 <FileText className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -488,7 +591,12 @@ export default function Index() {
                                                                 {auth.user?.permissions?.includes('view-customers') && (
                                                                     <Tooltip delayDuration={0}>
                                                                         <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => setViewingItem(customer)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => setViewingItem(customer)}
+                                                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                            >
                                                                                 <Eye className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -500,7 +608,14 @@ export default function Index() {
                                                                 {auth.user?.permissions?.includes('edit-customers') && (
                                                                     <Tooltip delayDuration={0}>
                                                                         <TooltipTrigger asChild>
-                                                                            <Button variant="ghost" size="sm" onClick={() => openModal('edit', customer)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() =>
+                                                                                    openModal('edit', customer)
+                                                                                }
+                                                                                className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                                            >
                                                                                 <EditIcon className="h-4 w-4" />
                                                                             </Button>
                                                                         </TooltipTrigger>
@@ -509,13 +624,17 @@ export default function Index() {
                                                                         </TooltipContent>
                                                                     </Tooltip>
                                                                 )}
-                                                                {auth.user?.permissions?.includes('delete-customers') && (
+                                                                {auth.user?.permissions?.includes(
+                                                                    'delete-customers'
+                                                                ) && (
                                                                     <Tooltip delayDuration={0}>
                                                                         <TooltipTrigger asChild>
                                                                             <Button
                                                                                 variant="ghost"
                                                                                 size="sm"
-                                                                                onClick={() => openDeleteDialog(customer.id)}
+                                                                                onClick={() =>
+                                                                                    openDeleteDialog(customer.id)
+                                                                                }
                                                                                 className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                                                                             >
                                                                                 <Trash2 className="h-4 w-4" />
@@ -551,24 +670,19 @@ export default function Index() {
                     )}
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={customers}
                         routeName="account.customers.index"
-                        filters={{...filters, per_page: perPage, view: viewMode}}
+                        filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} users={users} auth={auth} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} users={users} auth={auth} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <Edit
-                        customer={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <Edit customer={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

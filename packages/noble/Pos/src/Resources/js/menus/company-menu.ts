@@ -1,7 +1,5 @@
 import { Store } from 'lucide-react';
 
-
-
 export const posCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('POS Dashboard'),
@@ -49,7 +47,7 @@ export const posCompanyMenu = (t: (key: string) => string) => [
                         title: t('Customer Report'),
                         href: route('pos.reports.customers'),
                         permission: 'view-pos-reports',
-                    }
+                    },
                 ],
             },
         ],

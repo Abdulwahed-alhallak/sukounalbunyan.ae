@@ -16,10 +16,12 @@ export interface JobTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateJobTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateJobTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditJobTypeProps extends EditProps<JobType>  {[key: string]: any;
+export interface EditJobTypeProps extends EditProps<JobType> {
+    [key: string]: any;
 }
 
 export type PaginatedJobTypes = PaginatedData<JobType>;

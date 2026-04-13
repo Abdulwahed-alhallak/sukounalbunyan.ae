@@ -13,19 +13,19 @@ interface Props {
 
 export default function Permissions({ permissions }: Props) {
     const { t } = useTranslation();
-    const allPassed = Object.values(permissions).every(perm => perm.check);
+    const allPassed = Object.values(permissions).every((perm) => perm.check);
 
     return (
         <>
             <Head title={t('Installation - Permissions')} />
-            <div className="min-h-screen bg-muted/50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="flex min-h-screen flex-col justify-center bg-muted/50 py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
-                    <div className="bg-card py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <h2 className="text-2xl font-bold text-foreground mb-6">{t('File Permissions')}</h2>
-                        
+                    <div className="bg-card px-4 py-8 shadow sm:rounded-lg sm:px-10">
+                        <h2 className="mb-6 text-2xl font-bold text-foreground">{t('File Permissions')}</h2>
+
                         <div className="space-y-4">
                             {Object.entries(permissions).map(([key, perm]) => (
-                                <div key={key} className="flex items-center justify-between p-3 border rounded">
+                                <div key={key} className="flex items-center justify-between rounded border p-3">
                                     <div>
                                         <div className="font-medium">{perm.name}</div>
                                         <div className="text-sm text-muted-foreground">{perm.path}</div>
@@ -40,13 +40,14 @@ export default function Permissions({ permissions }: Props) {
                         </div>
 
                         {!allPassed && (
-                            <div className="mt-6 p-4 bg-muted border border-border rounded-md">
-                                <h3 className="font-semibold text-foreground mb-2">{t('Fix Permissions')}</h3>
-                                <p className="text-sm text-foreground mb-2">
+                            <div className="mt-6 rounded-md border border-border bg-muted p-4">
+                                <h3 className="mb-2 font-semibold text-foreground">{t('Fix Permissions')}</h3>
+                                <p className="mb-2 text-sm text-foreground">
                                     {t('Run the following commands to fix permissions')}:
                                 </p>
-                                <code className="block text-xs bg-muted p-2 rounded">
-                                    chmod -R 755 storage/<br/>
+                                <code className="block rounded bg-muted p-2 text-xs">
+                                    chmod -R 755 storage/
+                                    <br />
                                     chmod -R 755 bootstrap/cache/
                                 </code>
                             </div>
@@ -55,21 +56,21 @@ export default function Permissions({ permissions }: Props) {
                         <div className="mt-8 flex justify-between">
                             <Link
                                 href={route('installer.requirements')}
-                                className="py-2 px-4 border border-border rounded-md shadow-sm text-sm font-medium text-foreground bg-card hover:bg-muted/50"
+                                className="rounded-md border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm hover:bg-muted/50"
                             >
                                 {t('Back')}
                             </Link>
                             {allPassed ? (
                                 <Link
                                     href={route('installer.environment')}
-                                    className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-background bg-foreground hover:bg-accent"
+                                    className="rounded-md border border-transparent bg-foreground px-4 py-2 text-sm font-medium text-background shadow-sm hover:bg-accent"
                                 >
                                     {t('Next')}
                                 </Link>
                             ) : (
                                 <button
                                     disabled
-                                    className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-background bg-muted-foreground cursor-not-allowed"
+                                    className="cursor-not-allowed rounded-md border border-transparent bg-muted-foreground px-4 py-2 text-sm font-medium text-background shadow-sm"
                                 >
                                     {t('Fix Permissions First')}
                                 </button>

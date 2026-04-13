@@ -16,6 +16,6 @@ export const getAIAssistantCompanySettings = (t: (key: string) => string): Setti
         href: '#ai-assistant-settings',
         icon: Bot,
         permission: 'manage-ai-assistant-settings',
-        component: 'ai-assistant-settings'
-    }
+        component: 'ai-assistant-settings',
+    },
 ];

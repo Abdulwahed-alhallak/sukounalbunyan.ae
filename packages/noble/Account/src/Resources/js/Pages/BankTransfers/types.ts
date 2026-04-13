@@ -45,8 +45,8 @@ export interface BankTransfersIndexProps {
         total: number;
         links: any;
         meta: any;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     bankaccounts: BankAccount[];
     auth: {
         user: {

@@ -16,6 +16,6 @@ export const getTwilioCompanySettings = (t: (key: string) => string): SettingMen
         href: '#twilio-settings',
         icon: Phone,
         permission: 'manage-twilio-settings',
-        component: 'twilio-settings'
-    }
+        component: 'twilio-settings',
+    },
 ];

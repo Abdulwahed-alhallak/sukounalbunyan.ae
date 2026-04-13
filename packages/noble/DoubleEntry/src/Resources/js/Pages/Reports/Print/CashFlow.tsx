@@ -43,11 +43,14 @@ export default function Print() {
                 filename: `cash-flow-statement.pdf`,
                 image: { type: 'jpeg' as const, quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' as const },
             };
 
             try {
-                await html2pdf().set(opt).from(printContent as HTMLElement).save();
+                await html2pdf()
+                    .set(opt)
+                    .from(printContent as HTMLElement)
+                    .save();
                 setTimeout(() => window.close(), 1000);
             } catch (error) {
                 console.error('PDF generation failed:', error);
@@ -62,89 +65,112 @@ export default function Print() {
             <Head title={t('Cash Flow Statement')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="report-container bg-card max-w-5xl mx-auto p-8">
-                <div className="border-b-2 border-border pb-6 mb-8">
-                    <div className="flex justify-between items-start">
+            <div className="report-container mx-auto max-w-5xl bg-card p-8">
+                <div className="mb-8 border-b-2 border-border pb-6">
+                    <div className="flex items-start justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                            <div className="text-sm text-muted-foreground space-y-0.5">
+                            <h1 className="mb-2 text-3xl font-bold text-foreground">
+                                {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                            </h1>
+                            <div className="space-y-0.5 text-sm text-muted-foreground">
                                 {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
-                                {(getCompanySetting('company_city') || getCompanySetting('company_state') || getCompanySetting('company_zipcode')) && (
+                                {(getCompanySetting('company_city') ||
+                                    getCompanySetting('company_state') ||
+                                    getCompanySetting('company_zipcode')) && (
                                     <p>
-                                        {getCompanySetting('company_city')}{getCompanySetting('company_state') && `, ${getCompanySetting('company_state')}`} {getCompanySetting('company_zipcode')}
+                                        {getCompanySetting('company_city')}
+                                        {getCompanySetting('company_state') &&
+                                            `, ${getCompanySetting('company_state')}`}{' '}
+                                        {getCompanySetting('company_zipcode')}
                                     </p>
                                 )}
                                 {getCompanySetting('company_country') && <p>{getCompanySetting('company_country')}</p>}
                             </div>
                         </div>
                         <div className="text-right">
-                            <h2 className="text-2xl font-bold text-foreground mb-3">{t('CASH FLOW STATEMENT')}</h2>
-                            <p className="text-sm text-muted-foreground">{formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}</p>
+                            <h2 className="mb-3 text-2xl font-bold text-foreground">{t('CASH FLOW STATEMENT')}</h2>
+                            <p className="text-sm text-muted-foreground">
+                                {formatDate(filters.from_date)} {t('to')} {formatDate(filters.to_date)}
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <table className="w-full border-collapse">
                     <tbody>
-                        <tr className="border-b-2 border-black page-break-inside-avoid">
+                        <tr className="page-break-inside-avoid border-b-2 border-black">
                             <td className="py-3 text-sm font-bold">{t('Beginning Cash Balance')}</td>
-                            <td className="py-3 text-sm font-bold text-right tabular-nums w-40">{formatCurrency(data.beginning_cash)}</td>
+                            <td className="w-40 py-3 text-right text-sm font-bold tabular-nums">
+                                {formatCurrency(data.beginning_cash)}
+                            </td>
                         </tr>
 
                         <tr className="page-break-inside-avoid">
-                            <td colSpan={2} className="pt-6 pb-2">
-                                <h3 className="font-bold text-base">{t('Cash Flow from Operating Activities')}</h3>
+                            <td colSpan={2} className="pb-2 pt-6">
+                                <h3 className="text-base font-bold">{t('Cash Flow from Operating Activities')}</h3>
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
                             <td className="py-2 pl-6 text-sm">{t('Net cash from operations')}</td>
-                            <td className="py-2 text-sm text-right font-semibold tabular-nums">{formatCurrency(data.operating)}</td>
+                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                                {formatCurrency(data.operating)}
+                            </td>
                         </tr>
 
                         <tr className="page-break-inside-avoid">
-                            <td colSpan={2} className="pt-4 pb-2">
-                                <h3 className="font-bold text-base">{t('Cash Flow from Investing Activities')}</h3>
+                            <td colSpan={2} className="pb-2 pt-4">
+                                <h3 className="text-base font-bold">{t('Cash Flow from Investing Activities')}</h3>
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
                             <td className="py-2 pl-6 text-sm">{t('Net cash from investing')}</td>
-                            <td className="py-2 text-sm text-right font-semibold tabular-nums">{formatCurrency(data.investing)}</td>
+                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                                {formatCurrency(data.investing)}
+                            </td>
                         </tr>
 
                         <tr className="page-break-inside-avoid">
-                            <td colSpan={2} className="pt-4 pb-2">
-                                <h3 className="font-bold text-base">{t('Cash Flow from Financing Activities')}</h3>
+                            <td colSpan={2} className="pb-2 pt-4">
+                                <h3 className="text-base font-bold">{t('Cash Flow from Financing Activities')}</h3>
                             </td>
                         </tr>
                         <tr className="page-break-inside-avoid">
                             <td className="py-2 pl-6 text-sm">{t('Net cash from financing')}</td>
-                            <td className="py-2 text-sm text-right font-semibold tabular-nums">{formatCurrency(data.financing)}</td>
+                            <td className="py-2 text-right text-sm font-semibold tabular-nums">
+                                {formatCurrency(data.financing)}
+                            </td>
                         </tr>
 
-                        <tr className="border-t-2 border-border page-break-inside-avoid">
+                        <tr className="page-break-inside-avoid border-t-2 border-border">
                             <td className="py-3 text-sm font-bold">{t('Net Increase/Decrease in Cash')}</td>
-                            <td className="py-3 text-sm font-bold text-right tabular-nums">{formatCurrency(data.net_cash_flow)}</td>
+                            <td className="py-3 text-right text-sm font-bold tabular-nums">
+                                {formatCurrency(data.net_cash_flow)}
+                            </td>
                         </tr>
 
-                        <tr className="border-t-4 border-black page-break-inside-avoid">
+                        <tr className="page-break-inside-avoid border-t-4 border-black">
                             <td className="py-4 text-base font-bold">{t('Ending Cash Balance')}</td>
-                            <td className="py-4 text-base font-bold text-right tabular-nums">{formatCurrency(data.ending_cash)}</td>
+                            <td className="py-4 text-right text-base font-bold tabular-nums">
+                                {formatCurrency(data.ending_cash)}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
-                    <p>{t('Generated on')} {formatDate(new Date().toISOString())}</p>
+                <div className="mt-8 border-t pt-4 text-center text-xs text-muted-foreground">
+                    <p>
+                        {t('Generated on')} {formatDate(new Date().toISOString())}
+                    </p>
                 </div>
             </div>
 

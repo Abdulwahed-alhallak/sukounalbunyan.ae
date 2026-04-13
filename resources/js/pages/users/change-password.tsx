@@ -1,10 +1,10 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/ui/input-error';
 import { ChangePasswordProps, ChangePasswordFormData } from './types';
 
 export default function ChangePassword({ user, onSuccess }: ChangePasswordProps) {
@@ -19,14 +19,16 @@ export default function ChangePassword({ user, onSuccess }: ChangePasswordProps)
         patch(route('users.change-password', user.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>{t('Change Password')} - {user.name}</DialogTitle>
+                <DialogTitle>
+                    {t('Change Password')} - {user.name}
+                </DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>

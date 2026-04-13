@@ -20,13 +20,13 @@ interface EditProps {
 export default function EditCategory({ category, onSuccess }: EditProps) {
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm({
-        title: category.title
+        title: category.title,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('knowledge-category.update', category.id), {
-            onSuccess: () => onSuccess()
+            onSuccess: () => onSuccess(),
         });
     };
 

@@ -1,9 +1,9 @@
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Tag, Bug } from "lucide-react";
+import { Tag, Bug } from 'lucide-react';
 
 interface SidebarItem {
     key: string;
@@ -29,25 +29,23 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
             label: t('Task Stage'),
             icon: Tag,
             route: 'project.task-stages.index',
-            permission: 'manage-task-stages'
+            permission: 'manage-task-stages',
         },
         {
             key: 'bug-stages',
             label: t('Bug Stage'),
             icon: Bug,
             route: 'project.bug-stages.index',
-            permission: 'manage-bug-stages'
-        }
+            permission: 'manage-bug-stages',
+        },
     ];
 
-    const filteredItems = sidebarItems.filter(item =>
-        auth.user?.permissions?.includes(item.permission)
-    );
+    const filteredItems = sidebarItems.filter((item) => auth.user?.permissions?.includes(item.permission));
 
     return (
         <div className="sticky top-4">
             <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="pr-4 space-y-1">
+                <div className="space-y-1 pr-4">
                     {filteredItems?.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeItem === item.key || currentRoute === item.route;
@@ -64,7 +62,7 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
                                     onSectionChange?.(item.key);
                                 }}
                             >
-                                <Icon className="h-4 w-4 mr-2" />
+                                <Icon className="mr-2 h-4 w-4" />
                                 {item.label}
                             </Button>
                         );

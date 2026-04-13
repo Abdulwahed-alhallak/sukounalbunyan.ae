@@ -21,7 +21,13 @@ interface EditProps {
     departments: Department[];
 }
 
-export default function EditTrainingType({ data: initialData, trainingType, onSuccess, branches, departments }: EditProps) {
+export default function EditTrainingType({
+    data: initialData,
+    trainingType,
+    onSuccess,
+    branches,
+    departments,
+}: EditProps) {
     const { t } = useTranslation();
     const [filteredDepartments, setFilteredDepartments] = useState(departments || []);
 
@@ -44,9 +50,9 @@ export default function EditTrainingType({ data: initialData, trainingType, onSu
 
     useEffect(() => {
         if (data.branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
             }
         } else {
@@ -54,7 +60,6 @@ export default function EditTrainingType({ data: initialData, trainingType, onSu
             setData('department_id', '');
         }
     }, [data.branch_id]);
-
 
     return (
         <DialogContent className="sm:max-w-md">
@@ -88,7 +93,9 @@ export default function EditTrainingType({ data: initialData, trainingType, onSu
                 </div>
 
                 <div>
-                    <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                    <Label htmlFor="branch_id" required>
+                        {t('Branch')}
+                    </Label>
                     <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select branch')} />
@@ -105,14 +112,18 @@ export default function EditTrainingType({ data: initialData, trainingType, onSu
                 </div>
 
                 <div>
-                    <Label htmlFor="department_id" required>{t('Department')}</Label>
+                    <Label htmlFor="department_id" required>
+                        {t('Department')}
+                    </Label>
                     <Select
                         value={data.department_id}
                         onValueChange={(value) => setData('department_id', value)}
                         disabled={!data.branch_id}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                            <SelectValue
+                                placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {filteredDepartments?.map((department) => (
@@ -124,7 +135,7 @@ export default function EditTrainingType({ data: initialData, trainingType, onSu
                     </Select>
                     <InputError message={errors.department_id} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

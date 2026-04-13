@@ -18,7 +18,6 @@ interface EmailsProps {
 }
 
 export default function Emails({ deal, onRegisterAddHandler }: EmailsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => setEmailModalOpen(true));
     }, [onRegisterAddHandler]);
@@ -44,29 +43,32 @@ export default function Emails({ deal, onRegisterAddHandler }: EmailsProps) {
             onSuccess: () => {
                 setEmailForm({ to: '', subject: '', description: '' });
                 setEmailModalOpen(false);
-            }
+            },
         });
     };
 
     return (
         <>
-            <div className="space-y-4 max-h-[75vh] overflow-y-auto">
+            <div className="max-h-[75vh] space-y-4 overflow-y-auto">
                 {deal.emails && deal.emails.length > 0 ? (
                     deal.emails?.map((email: any, index: number) => {
                         const cleanText = stripHtmlAndDecode(email.description);
                         return (
-                            <div key={index} className="bg-card border border-border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-                                <div className="flex items-start justify-between mb-3">
+                            <div
+                                key={index}
+                                className="rounded-lg border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md"
+                            >
+                                <div className="mb-3 flex items-start justify-between">
                                     <div className="flex items-center gap-2">
                                         <Mail className="h-4 w-4 text-foreground" />
                                         <span className="font-medium text-foreground">{email.to}</span>
                                     </div>
-                                    <span className="text-xs text-muted-foreground">{formatDateTime(email.created_at)}</span>
+                                    <span className="text-xs text-muted-foreground">
+                                        {formatDateTime(email.created_at)}
+                                    </span>
                                 </div>
-                                <h4 className="font-semibold text-foreground mb-2">{email.subject}</h4>
-                                <p className="text-sm text-muted-foreground leading-relaxed">
-                                    {cleanText}
-                                </p>
+                                <h4 className="mb-2 font-semibold text-foreground">{email.subject}</h4>
+                                <p className="text-sm leading-relaxed text-muted-foreground">{cleanText}</p>
                             </div>
                         );
                     })
@@ -94,7 +96,7 @@ export default function Emails({ deal, onRegisterAddHandler }: EmailsProps) {
                                 id="to"
                                 type="email"
                                 value={emailForm.to}
-                                onChange={(e) => setEmailForm({...emailForm, to: e.target.value})}
+                                onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
                                 placeholder={t('Enter email address')}
                                 required
                             />
@@ -105,7 +107,7 @@ export default function Emails({ deal, onRegisterAddHandler }: EmailsProps) {
                                 id="subject"
                                 type="text"
                                 value={emailForm.subject}
-                                onChange={(e) => setEmailForm({...emailForm, subject: e.target.value})}
+                                onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
                                 placeholder={t('Enter subject')}
                                 required
                             />
@@ -114,13 +116,15 @@ export default function Emails({ deal, onRegisterAddHandler }: EmailsProps) {
                             <Label htmlFor="description">{t('Description')}</Label>
                             <RichTextEditor
                                 content={emailForm.description}
-                                onChange={(content) => setEmailForm({...emailForm, description: content})}
+                                onChange={(content) => setEmailForm({ ...emailForm, description: content })}
                                 placeholder={t('Enter email content')}
                                 className="mt-1"
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setEmailModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Send Email')}</Button>
                         </div>
                     </form>

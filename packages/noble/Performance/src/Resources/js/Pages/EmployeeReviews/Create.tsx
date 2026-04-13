@@ -1,13 +1,13 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DatePicker } from "@/components/ui/date-picker";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
+import InputError from '@/components/ui/input-error';
 
 interface Employee {
     id: number;
@@ -39,7 +39,6 @@ interface FormData {
     review_cycle_id: string;
     review_date: string;
 
-
     status: string;
 }
 
@@ -51,7 +50,6 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
         review_cycle_id: '',
         review_date: '',
 
-
         status: 'pending',
     });
 
@@ -60,7 +58,7 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
         post(route('performance.employee-reviews.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -70,9 +68,11 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                 <DialogTitle>{t('Create Employee Review')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="user_id" required>{t('Employee')}</Label>
+                        <Label htmlFor="user_id" required>
+                            {t('Employee')}
+                        </Label>
                         <Select value={data.user_id} onValueChange={(value) => setData('user_id', value)} required>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select employee')} />
@@ -80,7 +80,10 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                             <SelectContent searchable={true}>
                                 {employees && employees.length > 0 ? (
                                     employees?.map((employee) => (
-                                        <SelectItem key={employee.id} value={employee.user_id?.toString() || employee.id.toString()}>
+                                        <SelectItem
+                                            key={employee.id}
+                                            value={employee.user_id?.toString() || employee.id.toString()}
+                                        >
                                             {employee.name}
                                         </SelectItem>
                                     ))
@@ -93,10 +96,16 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                         </Select>
                         <InputError message={errors.user_id} />
                     </div>
-                    
+
                     <div>
-                        <Label htmlFor="reviewer_id" required>{t('Reviewer')}</Label>
-                        <Select value={data.reviewer_id} onValueChange={(value) => setData('reviewer_id', value)} required>
+                        <Label htmlFor="reviewer_id" required>
+                            {t('Reviewer')}
+                        </Label>
+                        <Select
+                            value={data.reviewer_id}
+                            onValueChange={(value) => setData('reviewer_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select reviewer')} />
                             </SelectTrigger>
@@ -112,10 +121,16 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="review_cycle_id" required>{t('Review Cycle')}</Label>
-                        <Select value={data.review_cycle_id} onValueChange={(value) => setData('review_cycle_id', value)} required>
+                        <Label htmlFor="review_cycle_id" required>
+                            {t('Review Cycle')}
+                        </Label>
+                        <Select
+                            value={data.review_cycle_id}
+                            onValueChange={(value) => setData('review_cycle_id', value)}
+                            required
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select review cycle')} />
                             </SelectTrigger>
@@ -147,11 +162,11 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <Label htmlFor="status" required>{t('Status')}</Label>
+                        <Label htmlFor="status" required>
+                            {t('Status')}
+                        </Label>
                         <Select value={data.status} onValueChange={(value) => setData('status', value)} required>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select status')} />
@@ -167,8 +182,6 @@ export default function Create({ onSuccess, employees, reviewers, reviewCycles }
                     </div>
                 </div>
 
-
-                
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

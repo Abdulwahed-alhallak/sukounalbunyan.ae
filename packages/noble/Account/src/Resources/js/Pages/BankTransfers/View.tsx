@@ -14,11 +14,15 @@ export default function View({ banktransfer }: ViewProps) {
 
     const getStatusBadge = (status: string) => {
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${
-                status === 'completed' ? 'bg-muted text-foreground' : 
-                status === 'pending' ? 'bg-muted text-foreground' : 
-                'bg-muted text-destructive'
-            }`}>
+            <span
+                className={`rounded-full px-2 py-1 text-sm ${
+                    status === 'completed'
+                        ? 'bg-muted text-foreground'
+                        : status === 'pending'
+                          ? 'bg-muted text-foreground'
+                          : 'bg-muted text-destructive'
+                }`}
+            >
                 {t(status.charAt(0).toUpperCase() + status.slice(1))}
             </span>
         );
@@ -29,7 +33,7 @@ export default function View({ banktransfer }: ViewProps) {
             <DialogHeader>
                 <DialogTitle>{t('Bank Transfer Details')}</DialogTitle>
             </DialogHeader>
-            
+
             <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -47,14 +51,18 @@ export default function View({ banktransfer }: ViewProps) {
                         <Label className="text-sm font-medium text-muted-foreground">{t('From Account')}</Label>
                         <div className="mt-1">
                             <div className="font-medium">{banktransfer.from_account.account_name}</div>
-                            <div className="text-sm text-muted-foreground">{banktransfer.from_account.account_number}</div>
+                            <div className="text-sm text-muted-foreground">
+                                {banktransfer.from_account.account_number}
+                            </div>
                         </div>
                     </div>
                     <div>
                         <Label className="text-sm font-medium text-muted-foreground">{t('To Account')}</Label>
                         <div className="mt-1">
                             <div className="font-medium">{banktransfer.to_account.account_name}</div>
-                            <div className="text-sm text-muted-foreground">{banktransfer.to_account.account_number}</div>
+                            <div className="text-sm text-muted-foreground">
+                                {banktransfer.to_account.account_number}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +70,7 @@ export default function View({ banktransfer }: ViewProps) {
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label className="text-sm font-medium text-muted-foreground">{t('Transfer Amount')}</Label>
-                        <div className="mt-1 font-medium text-lg">{formatCurrency(banktransfer.transfer_amount)}</div>
+                        <div className="mt-1 text-lg font-medium">{formatCurrency(banktransfer.transfer_amount)}</div>
                     </div>
                     <div>
                         <Label className="text-sm font-medium text-muted-foreground">{t('Transfer Charges')}</Label>
@@ -73,7 +81,7 @@ export default function View({ banktransfer }: ViewProps) {
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label className="text-sm font-medium text-muted-foreground">{t('Total Amount')}</Label>
-                        <div className="mt-1 font-medium text-lg text-destructive">
+                        <div className="mt-1 text-lg font-medium text-destructive">
                             {formatCurrency(banktransfer.transfer_amount + banktransfer.transfer_charges)}
                         </div>
                     </div>
@@ -92,7 +100,7 @@ export default function View({ banktransfer }: ViewProps) {
 
                 <div>
                     <Label className="text-sm font-medium text-muted-foreground">{t('Description')}</Label>
-                    <div className="mt-1 p-3 bg-muted/50 rounded-md">{banktransfer.description}</div>
+                    <div className="mt-1 rounded-md bg-muted/50 p-3">{banktransfer.description}</div>
                 </div>
 
                 <div>

@@ -41,18 +41,18 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
         client_name: lead.name,
         client_email: lead.email,
         client_password: '',
-        is_transfer: ['products', 'sources', 'files', 'discussion', 'notes', 'calls', 'emails']
+        is_transfer: ['products', 'sources', 'files', 'discussion', 'notes', 'calls', 'emails'],
     });
 
     useEffect(() => {
         if (formData.client_check === 'exist') {
             fetch(route('lead.leads.existing-clients'))
-                .then(response => {
+                .then((response) => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })
-                .then(data => setClients(Array.isArray(data) ? data : []))
-                .catch(error => {
+                .then((data) => setClients(Array.isArray(data) ? data : []))
+                .catch((error) => {
                     setClients([]);
                 });
         }
@@ -67,16 +67,14 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
             },
             onError: (errors) => {
                 setErrors(errors);
-            }
+            },
         });
     };
 
     const handleTransferChange = (value: string, checked: boolean) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            is_transfer: checked
-                ? [...prev.is_transfer, value]
-                : prev.is_transfer.filter(item => item !== value)
+            is_transfer: checked ? [...prev.is_transfer, value] : prev.is_transfer.filter((item) => item !== value),
         }));
     };
 
@@ -126,7 +124,7 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                             <Input
                                 id="name"
                                 value={formData.name}
-                                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                                 placeholder={t('Enter Name')}
                                 required
                             />
@@ -139,7 +137,7 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                                 type="number"
                                 min="0"
                                 value={formData.price}
-                                onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, price: e.target.value }))}
                             />
                             <InputError message={errors.price} />
                         </div>
@@ -147,7 +145,10 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
 
                     <div className="space-y-3">
                         <Label>{t('Client Type')}</Label>
-                        <RadioGroup value={formData.client_check} onValueChange={(value) => setFormData(prev => ({ ...prev, client_check: value }))}>
+                        <RadioGroup
+                            value={formData.client_check}
+                            onValueChange={(value) => setFormData((prev) => ({ ...prev, client_check: value }))}
+                        >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="new" id="new_client" />
                                 <Label htmlFor="new_client">{t('New Client')}</Label>
@@ -163,7 +164,10 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                         {formData.client_check === 'exist' ? (
                             <div>
                                 <Label htmlFor="clients">{t('Client')}</Label>
-                                <Select value={formData.clients} onValueChange={(value) => setFormData(prev => ({ ...prev, clients: value }))}>
+                                <Select
+                                    value={formData.clients}
+                                    onValueChange={(value) => setFormData((prev) => ({ ...prev, clients: value }))}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Select Client')} />
                                     </SelectTrigger>
@@ -183,7 +187,9 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                                     <Label htmlFor="client_name">{t('Client Name')}</Label>
                                     <Input
                                         id="client_name"
-                                        onChange={(e) => setFormData(prev => ({ ...prev, client_name: e.target.value }))}
+                                        onChange={(e) =>
+                                            setFormData((prev) => ({ ...prev, client_name: e.target.value }))
+                                        }
                                         placeholder={t('Enter Client Name')}
                                         required
                                     />
@@ -195,7 +201,9 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                                         id="client_email"
                                         type="email"
                                         value={formData.client_email}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, client_email: e.target.value }))}
+                                        onChange={(e) =>
+                                            setFormData((prev) => ({ ...prev, client_email: e.target.value }))
+                                        }
                                         placeholder={t('Enter Client Email')}
                                         required
                                     />
@@ -207,7 +215,9 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                                         id="client_password"
                                         type="password"
                                         value={formData.client_password}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, client_password: e.target.value }))}
+                                        onChange={(e) =>
+                                            setFormData((prev) => ({ ...prev, client_password: e.target.value }))
+                                        }
                                         placeholder={t('Enter Client Password')}
                                         required
                                     />
@@ -218,8 +228,8 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                     </div>
 
                     <div>
-                        <Label className="font-bold text-dark">{t('Copy To')}</Label>
-                        <div className="grid grid-cols-4 gap-2 mt-2">
+                        <Label className="text-dark font-bold">{t('Copy To')}</Label>
+                        <div className="mt-2 grid grid-cols-4 gap-2">
                             {[
                                 { key: 'products', label: 'Products' },
                                 { key: 'sources', label: 'Sources' },
@@ -227,15 +237,19 @@ export default function ConvertToDeal({ lead, deal }: ConvertToDealProps) {
                                 { key: 'discussion', label: 'Discussion' },
                                 { key: 'notes', label: 'Notes' },
                                 { key: 'calls', label: 'Calls' },
-                                { key: 'emails', label: 'Emails' }
-                            ]?.map(item => (
+                                { key: 'emails', label: 'Emails' },
+                            ]?.map((item) => (
                                 <div key={item.key} className="flex items-center space-x-2">
                                     <Checkbox
                                         id={`is_transfer_${item.key}`}
                                         checked={formData.is_transfer.includes(item.key)}
-                                        onCheckedChange={(checked) => handleTransferChange(item.key, checked as boolean)}
+                                        onCheckedChange={(checked) =>
+                                            handleTransferChange(item.key, checked as boolean)
+                                        }
                                     />
-                                    <Label htmlFor={`is_transfer_${item.key}`} className="text-sm">{t(item.label)}</Label>
+                                    <Label htmlFor={`is_transfer_${item.key}`} className="text-sm">
+                                        {t(item.label)}
+                                    </Label>
                                 </div>
                             ))}
                         </div>

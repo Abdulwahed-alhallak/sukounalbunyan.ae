@@ -26,12 +26,16 @@ export function PhoneInputComponent({
     id,
     required,
     readOnly,
-    style
+    style,
 }: PhoneInputProps) {
     const { t } = useTranslation();
     return (
         <div>
-            {label && <Label htmlFor={id} required={required}>{label}</Label>}
+            {label && (
+                <Label htmlFor={id} required={required}>
+                    {label}
+                </Label>
+            )}
             <Input
                 id={id}
                 type="tel"
@@ -44,7 +48,7 @@ export function PhoneInputComponent({
                 readOnly={readOnly}
                 style={style}
             />
-            <p className="text-xs text-muted-foreground mt-1">{t('Format: +[country code][phone number]')}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t('Format: +[country code][phone number]')}</p>
             <InputError message={error} />
         </div>
     );

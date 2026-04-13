@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm, usePage } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -34,17 +34,17 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
         put(route('goal.goals.update', goal.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Goal')}</DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label htmlFor="goal_name">{t('Goal Name')}</Label>
                         <Input
@@ -60,7 +60,10 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
 
                     <div>
                         <Label htmlFor="category_id">{t('Category')}</Label>
-                        <Select value={data.category_id ? data.category_id.toString() : ''} onValueChange={(value) => setData('category_id', parseInt(value))}>
+                        <Select
+                            value={data.category_id ? data.category_id.toString() : ''}
+                            onValueChange={(value) => setData('category_id', parseInt(value))}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Category')} />
                             </SelectTrigger>
@@ -76,7 +79,7 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label htmlFor="goal_type">{t('Goal Type')}</Label>
                         <Select value={data.goal_type} onValueChange={(value: any) => setData('goal_type', value)}>
@@ -119,7 +122,7 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label required>{t('Start Date')}</Label>
                         <DatePicker
@@ -141,7 +144,7 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <Label htmlFor="status">{t('Status')}</Label>
                         <Select value={data.status} onValueChange={(value: any) => setData('status', value)}>
@@ -159,24 +162,31 @@ export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
 
                     <div>
                         <Label htmlFor="account_id">{t('Chart of Account')}</Label>
-                        <Select value={data.account_id ? data.account_id.toString() : '0'} onValueChange={(value) => setData('account_id', value === '0' ? undefined : parseInt(value))}>
+                        <Select
+                            value={data.account_id ? data.account_id.toString() : '0'}
+                            onValueChange={(value) =>
+                                setData('account_id', value === '0' ? undefined : parseInt(value))
+                            }
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select Account')} />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="0">{t('None')}</SelectItem>
-                                {chartOfAccounts?.filter((account: any) => {
-                                    if (data.goal_type === 'savings' || data.goal_type === 'debt_reduction') {
-                                        return account.normal_balance === 'credit';
-                                    } else if (data.goal_type === 'expense_reduction') {
-                                        return account.normal_balance === 'debit';
-                                    }
-                                    return true;
-                                })?.map((account: any) => (
-                                    <SelectItem key={account.id} value={account.id.toString()}>
-                                        {account.account_code} - {account.account_name}
-                                    </SelectItem>
-                                ))}
+                                {chartOfAccounts
+                                    ?.filter((account: any) => {
+                                        if (data.goal_type === 'savings' || data.goal_type === 'debt_reduction') {
+                                            return account.normal_balance === 'credit';
+                                        } else if (data.goal_type === 'expense_reduction') {
+                                            return account.normal_balance === 'debit';
+                                        }
+                                        return true;
+                                    })
+                                    ?.map((account: any) => (
+                                        <SelectItem key={account.id} value={account.id.toString()}>
+                                            {account.account_code} - {account.account_name}
+                                        </SelectItem>
+                                    ))}
                             </SelectContent>
                         </Select>
                         <InputError message={errors.account_id} />

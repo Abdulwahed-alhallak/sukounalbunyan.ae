@@ -28,17 +28,24 @@ export default function PortalContracts({ contracts }: Props) {
     const { t } = useTranslation();
 
     return (
-        <AuthenticatedLayout breadcrumbs={[{ label: t('Portal'), url: route('portal.dashboard') }, { label: t('Contracts') }]}>
+        <AuthenticatedLayout
+            breadcrumbs={[{ label: t('Portal'), url: route('portal.dashboard') }, { label: t('Contracts') }]}
+        >
             <Head title={t('My Contracts')} />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-3">
-                    <Link href={route('portal.dashboard')} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border hover:bg-accent transition">
+                    <Link
+                        href={route('portal.dashboard')}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border transition hover:bg-accent"
+                    >
                         <ArrowLeft className="h-4 w-4" />
                     </Link>
                     <div>
                         <h1 className="text-xl font-bold text-foreground">{t('My Contracts')}</h1>
-                        <p className="text-sm text-muted-foreground">{contracts?.total || 0} {t('contracts')}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {contracts?.total || 0} {t('contracts')}
+                        </p>
                     </div>
                 </div>
 
@@ -48,30 +55,42 @@ export default function PortalContracts({ contracts }: Props) {
                             <FileSignature className="mb-4 h-12 w-12 text-muted-foreground/30" />
                             <h3 className="text-lg font-semibold text-foreground">{t('No contracts found')}</h3>
                         </div>
-                    ) : (contracts.data).map(contract => (
-                        <div key={contract.id} className="flex items-center justify-between rounded-xl border border-border bg-card p-5 transition hover:border-foreground/30 hover:shadow-md">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <h3 className="font-semibold text-foreground">{contract.subject}</h3>
-                                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${statusBadge[contract.status] || 'bg-muted text-muted-foreground'}`}>
-                                        {contract.status}
-                                    </span>
-                                </div>
-                                {contract.type && <p className="mt-0.5 text-xs text-muted-foreground">{contract.type}</p>}
-                                <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                                    {contract.start_date && (
-                                        <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {contract.start_date} — {contract.end_date || '∞'}</span>
+                    ) : (
+                        contracts.data.map((contract) => (
+                            <div
+                                key={contract.id}
+                                className="flex items-center justify-between rounded-xl border border-border bg-card p-5 transition hover:border-foreground/30 hover:shadow-md"
+                            >
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="font-semibold text-foreground">{contract.subject}</h3>
+                                        <span
+                                            className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${statusBadge[contract.status] || 'bg-muted text-muted-foreground'}`}
+                                        >
+                                            {contract.status}
+                                        </span>
+                                    </div>
+                                    {contract.type && (
+                                        <p className="mt-0.5 text-xs text-muted-foreground">{contract.type}</p>
                                     )}
+                                    <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
+                                        {contract.start_date && (
+                                            <span className="flex items-center gap-1">
+                                                <Calendar className="h-3 w-3" /> {contract.start_date} —{' '}
+                                                {contract.end_date || '∞'}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <div className="flex items-center gap-1 text-lg font-bold text-foreground">
+                                        <DollarSign className="h-4 w-4 text-foreground" />
+                                        {Number(contract.value || 0).toLocaleString()}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="flex items-center gap-1 text-lg font-bold text-foreground">
-                                    <DollarSign className="h-4 w-4 text-foreground" />
-                                    {Number(contract.value || 0).toLocaleString()}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>

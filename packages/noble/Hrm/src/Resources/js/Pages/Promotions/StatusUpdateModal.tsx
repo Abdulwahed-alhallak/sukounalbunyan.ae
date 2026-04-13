@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Play } from 'lucide-react';
@@ -17,7 +17,7 @@ export default function StatusUpdateModal({ promotion, onSuccess }: StatusUpdate
     const [selectedStatus, setSelectedStatus] = useState(promotion.status || 'pending');
 
     const { put, processing, setData } = useForm({
-        status: selectedStatus
+        status: selectedStatus,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -26,14 +26,14 @@ export default function StatusUpdateModal({ promotion, onSuccess }: StatusUpdate
         put(route('hrm.promotions.update-status', promotion.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
     const statusOptions = [
         { value: 'pending', label: t('Pending') },
         { value: 'approved', label: t('Approved') },
-        { value: 'rejected', label: t('Rejected') }
+        { value: 'rejected', label: t('Rejected') },
     ];
 
     return (
@@ -48,13 +48,14 @@ export default function StatusUpdateModal({ promotion, onSuccess }: StatusUpdate
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                            {t('Status')}
-                        </label>
-                        <Select value={selectedStatus} onValueChange={(value) => {
-                            setSelectedStatus(value);
-                            setData('status', value);
-                        }}>
+                        <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                        <Select
+                            value={selectedStatus}
+                            onValueChange={(value) => {
+                                setSelectedStatus(value);
+                                setData('status', value);
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>

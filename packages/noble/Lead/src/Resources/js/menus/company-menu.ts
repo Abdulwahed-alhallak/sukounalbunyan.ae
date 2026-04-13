@@ -1,7 +1,5 @@
 import { Contact } from 'lucide-react';
 
-
-
 export const leadCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('CRM Dashboard'),
@@ -15,7 +13,7 @@ export const leadCompanyMenu = (t: (key: string) => string) => [
         icon: Contact,
         permission: 'manage-leads',
         order: 500,
-        children: [                       
+        children: [
             {
                 title: t('Leads'),
                 href: route('lead.leads.index'),
@@ -35,20 +33,19 @@ export const leadCompanyMenu = (t: (key: string) => string) => [
                 title: t('Reports'),
                 href: route('lead.reports.index'),
                 permission: 'view-reports',
-                children: [                       
+                children: [
                     {
                         title: t('Lead Reports'),
                         href: route('lead.reports.leads'),
                         permission: 'view-reports',
-                    },   
+                    },
                     {
                         title: t('Deal Reports'),
                         href: route('lead.reports.deals'),
                         permission: 'view-reports',
-                    },  
-                ]
-            },   
-                     
+                    },
+                ],
+            },
         ],
-    }   
+    },
 ];

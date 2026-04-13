@@ -16,8 +16,8 @@ export interface Expense {
     category?: {
         id: number;
         category_name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     bank_account?: {
         id: number;
         account_name: string;
@@ -94,5 +94,6 @@ export interface CreateExpenseFormData {
     [key: string]: any;
 }
 
-export interface UpdateExpenseFormData extends CreateExpenseFormData  {[key: string]: any;
+export interface UpdateExpenseFormData extends CreateExpenseFormData {
+    [key: string]: any;
 }

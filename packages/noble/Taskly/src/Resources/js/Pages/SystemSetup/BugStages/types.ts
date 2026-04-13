@@ -14,10 +14,12 @@ export interface BugStageFormData {
     [key: string]: any;
 }
 
-export interface CreateBugStageProps extends CreateProps  {[key: string]: any;
+export interface CreateBugStageProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditBugStageProps extends EditProps<BugStage>  {[key: string]: any;
+export interface EditBugStageProps extends EditProps<BugStage> {
+    [key: string]: any;
 }
 
 export type PaginatedBugStages = PaginatedData<BugStage>;

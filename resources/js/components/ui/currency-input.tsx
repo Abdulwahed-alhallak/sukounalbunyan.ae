@@ -17,17 +17,17 @@ interface CurrencyInputProps {
     disabled?: boolean;
 }
 
-export function CurrencyInput({ 
-    label, 
-    value, 
-    onChange, 
-    currency, 
+export function CurrencyInput({
+    label,
+    value,
+    onChange,
+    currency,
     placeholder = '0.00',
     error,
     className,
     id,
     required,
-    disabled
+    disabled,
 }: CurrencyInputProps) {
     const [displayValue, setDisplayValue] = useState('');
     const currencySymbol = getCurrencySymbol() || currency;
@@ -56,9 +56,13 @@ export function CurrencyInput({
 
     return (
         <div>
-            {label && <Label htmlFor={id} required={required}>{label}</Label>}
+            {label && (
+                <Label htmlFor={id} required={required}>
+                    {label}
+                </Label>
+            )}
             <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
                     {currencySymbol}
                 </span>
                 <Input

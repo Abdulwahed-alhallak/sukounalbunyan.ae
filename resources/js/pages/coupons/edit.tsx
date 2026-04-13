@@ -33,7 +33,7 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
         expiry_date: coupon.expiry_date || '',
         included_module: coupon.included_module || [],
         excluded_module: coupon.excluded_module || [],
-        status: coupon.status
+        status: coupon.status,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -44,18 +44,18 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
             onSuccess: () => {
                 onSuccess();
             },
-            onFinish: () => setIsSubmitting(false)
+            onFinish: () => setIsSubmitting(false),
         });
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Coupon')}</DialogTitle>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                         <Label htmlFor="name">{t('Name')}</Label>
                         <Input
@@ -93,10 +93,15 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                        <Label htmlFor="type" required>{t('Type')}</Label>
-                        <Select value={data.type} onValueChange={(value: 'percentage' | 'flat' | 'fixed') => setData('type', value)}>
+                        <Label htmlFor="type" required>
+                            {t('Type')}
+                        </Label>
+                        <Select
+                            value={data.type}
+                            onValueChange={(value: 'percentage' | 'flat' | 'fixed') => setData('type', value)}
+                        >
                             <SelectTrigger className={errors.type ? 'border-destructive' : ''}>
                                 <SelectValue placeholder={t('Select type')} />
                             </SelectTrigger>
@@ -127,7 +132,7 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                         <Label htmlFor="limit">{t('Usage Limit')}</Label>
                         <Input
@@ -149,7 +154,9 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
                             type="number"
                             min="1"
                             value={data.limit_per_user || ''}
-                            onChange={(e) => setData('limit_per_user', e.target.value ? parseInt(e.target.value) : undefined)}
+                            onChange={(e) =>
+                                setData('limit_per_user', e.target.value ? parseInt(e.target.value) : undefined)
+                            }
                             placeholder={t('Enter Limit Per User')}
                             className={errors.limit_per_user ? 'border-destructive' : ''}
                         />
@@ -157,7 +164,7 @@ export default function EditCoupon({ coupon, onSuccess }: EditCouponProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                         <CurrencyInput
                             label={t('Minimum Spend')}

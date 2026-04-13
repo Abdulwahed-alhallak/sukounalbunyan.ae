@@ -55,7 +55,17 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
     });
 
     const nameAI = useFormFields('aiField', data, setData, errors, 'edit', 'name', 'Name', 'taskly', 'project');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'taskly', 'project');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'taskly',
+        'project'
+    );
 
     const [isLocating, setIsLocating] = React.useState(false);
 
@@ -65,19 +75,21 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
             toast.error(t('Please enter a location name or project name first.'));
             return;
         }
-        
+
         setIsLocating(true);
         try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
+            );
             const results = await response.json();
-            
+
             if (results && results.length > 0) {
                 const bestMatch = results[0];
-                setData(prev => ({
+                setData((prev) => ({
                     ...prev,
                     latitude: bestMatch.lat,
                     longitude: bestMatch.lon,
-                    location_name: bestMatch.display_name
+                    location_name: bestMatch.display_name,
                 }));
                 toast.success(t('Coordinates updated via Smart Geocoding!'));
             } else {
@@ -95,7 +107,7 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
         put(route('project.update', item.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -107,7 +119,7 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="name">{t('Name')}</Label>
                             <Input
@@ -118,9 +130,11 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                                 className={errors.name ? 'border-destructive' : ''}
                                 required
                             />
-                            {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
+                            {errors.name && <p className="mt-1 text-sm text-destructive">{errors.name}</p>}
                         </div>
-                        {nameAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {nameAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
 
@@ -132,7 +146,7 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                             onChange={(value) => setData('start_date', value)}
                             placeholder={t('Select start date')}
                         />
-                        {errors.start_date && <p className="text-sm text-destructive mt-1">{errors.start_date}</p>}
+                        {errors.start_date && <p className="mt-1 text-sm text-destructive">{errors.start_date}</p>}
                     </div>
                     <div>
                         <Label required>{t('End Date')}</Label>
@@ -141,7 +155,7 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                             onChange={(value) => setData('end_date', value)}
                             placeholder={t('Select end date')}
                         />
-                        {errors.end_date && <p className="text-sm text-destructive mt-1">{errors.end_date}</p>}
+                        {errors.end_date && <p className="mt-1 text-sm text-destructive">{errors.end_date}</p>}
                     </div>
                 </div>
 
@@ -156,15 +170,17 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                 </div>
 
                 {/* Geolocation Section */}
-                <div className="p-4 border rounded-xl bg-muted/20 space-y-4 shadow-inner">
-                    <div className="flex items-center justify-between mb-2">
+                <div className="space-y-4 rounded-xl border bg-muted/20 p-4 shadow-inner">
+                    <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-foreground" />
-                            <h3 className="text-sm font-bold uppercase tracking-wider">{t('Update Project Geofence')}</h3>
+                            <h3 className="text-sm font-bold uppercase tracking-wider">
+                                {t('Update Project Geofence')}
+                            </h3>
                         </div>
-                        <span className="text-[10px] text-muted-foreground uppercase">{t('Optional')}</span>
+                        <span className="text-[10px] uppercase text-muted-foreground">{t('Optional')}</span>
                     </div>
-                    
+
                     <div className="flex items-end gap-2">
                         <div className="flex-1">
                             <Label htmlFor="location_name_edit">{t('Location Search/Name')}</Label>
@@ -175,7 +191,13 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                                 placeholder={t('Enter new location...')}
                             />
                         </div>
-                        <Button type="button" onClick={autoLocate} disabled={isLocating} variant="secondary" className="flex gap-2">
+                        <Button
+                            type="button"
+                            onClick={autoLocate}
+                            disabled={isLocating}
+                            variant="secondary"
+                            className="flex gap-2"
+                        >
                             <Search className="h-4 w-4" />
                             {isLocating ? t('Scanning...') : t('Auto Locate')}
                         </Button>
@@ -214,7 +236,10 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
 
                 <div>
                     <Label htmlFor="status">{t('Status')}</Label>
-                    <Select value={data.status} onValueChange={(value) => setData('status', value as 'Ongoing' | 'Onhold' | 'Finished')}>
+                    <Select
+                        value={data.status}
+                        onValueChange={(value) => setData('status', value as 'Ongoing' | 'Onhold' | 'Finished')}
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -228,10 +253,12 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -242,7 +269,7 @@ export default function Edit({ item, users, onSuccess }: EditProps) {
                         placeholder={t('Enter project description')}
                         className={errors.description ? 'border-destructive' : ''}
                     />
-                    {errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
+                    {errors.description && <p className="mt-1 text-sm text-destructive">{errors.description}</p>}
                 </div>
 
                 <div className="flex justify-end gap-2 pt-4">

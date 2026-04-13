@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { History, ArrowLeft } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { History, ArrowLeft } from 'lucide-react';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import NoRecordsFound from '@/components/no-records-found';
 import { formatDate, formatDateTime } from '@/utils/helpers';
 
@@ -67,7 +67,7 @@ export default function LoginHistory() {
     const [filters, setFilters] = useState<LoginHistoryFilters>({
         user_name: urlParams.get('user_name') || '',
         ip: urlParams.get('ip') || '',
-        role: urlParams.get('role') || ''
+        role: urlParams.get('role') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
@@ -75,27 +75,34 @@ export default function LoginHistory() {
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
     const [showFilters, setShowFilters] = useState(false);
 
-
     const handleFilter = () => {
-        router.get(route('users.login-history'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('users.login-history'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('users.login-history'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('users.login-history'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ user_name: '', ip: '', role: '' });
-        router.get(route('users.login-history'), {per_page: perPage});
+        router.get(route('users.login-history'), { per_page: perPage });
     };
 
     const tableColumns = [
@@ -108,83 +115,78 @@ export default function LoginHistory() {
                     <div className="font-medium">{item.user.name}</div>
                     <div className="text-sm text-muted-foreground">{item.user.email}</div>
                 </div>
-            )
+            ),
         },
         {
             key: 'ip',
             header: t('IP Address'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'details',
             header: t('Location & Device'),
             render: (details: any) => (
-                <div className="text-sm space-y-1">
+                <div className="space-y-1 text-sm">
                     <div>{details.city ? `${details.city}, ${details.country}` : 'Unknown'}</div>
-                    <div className="text-muted-foreground">{details.browser_name} on {details.os_name}</div>
-                    <div className="text-muted-foreground capitalize">{details.device_type}</div>
+                    <div className="text-muted-foreground">
+                        {details.browser_name} on {details.os_name}
+                    </div>
+                    <div className="capitalize text-muted-foreground">{details.device_type}</div>
                     {details.isp && <div className="text-muted-foreground">ISP: {details.isp}</div>}
                     {details.org && <div className="text-muted-foreground">Org: {details.org}</div>}
                     {details.timezone && <div className="text-muted-foreground">TZ: {details.timezone}</div>}
-                    {details.browser_language && <div className="text-muted-foreground">Lang: {details.browser_language}</div>}
+                    {details.browser_language && (
+                        <div className="text-muted-foreground">Lang: {details.browser_language}</div>
+                    )}
                 </div>
-            )
+            ),
         },
         {
             key: 'type',
             header: t('Role'),
             sortable: true,
             render: (value: string) => (
-                <span className="capitalize px-2 py-1 bg-muted text-foreground rounded-full text-sm">
-                    {value}
-                </span>
-            )
+                <span className="rounded-full bg-muted px-2 py-1 text-sm capitalize text-foreground">{value}</span>
+            ),
         },
         {
             key: 'created_at',
             header: t('Time'),
             sortable: true,
-            render: (value: string) => formatDateTime(value)
-        }
+            render: (value: string) => formatDateTime(value),
+        },
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('Users'), url: route('users.index')},
-                {label: t('Login History')}
-            ]}
+            breadcrumbs={[{ label: t('Users'), url: route('users.index') }, { label: t('Login History') }]}
             pageTitle={t('User Login History')}
         >
             <Head title={t('User Login History')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.user_name}
-                                onChange={(value) => setFilters({...filters, user_name: value})}
+                                onChange={(value) => setFilters({ ...filters, user_name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search by user name...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="users.login-history"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="users.login-history" filters={filters} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [filters.ip, filters.role].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -193,20 +195,27 @@ export default function LoginHistory() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('IP Address')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('IP Address')}
+                                </label>
                                 <Input
                                     placeholder={t('Filter by IP address')}
                                     value={filters.ip}
-                                    onChange={(e) => setFilters({...filters, ip: e.target.value})}
+                                    onChange={(e) => setFilters({ ...filters, ip: e.target.value })}
                                 />
                             </div>
                             {auth.user?.permissions?.includes('manage-roles') && (
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Role')}</label>
-                                    <Select value={filters.role} onValueChange={(value) => setFilters({...filters, role: value})}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Role')}
+                                    </label>
+                                    <Select
+                                        value={filters.role}
+                                        onValueChange={(value) => setFilters({ ...filters, role: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Filter by role')} />
                                         </SelectTrigger>
@@ -221,15 +230,19 @@ export default function LoginHistory() {
                                 </div>
                             )}
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={loginHistories.data}
@@ -253,11 +266,11 @@ export default function LoginHistory() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={loginHistories}
                         routeName="users.login-history"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

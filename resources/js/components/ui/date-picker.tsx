@@ -1,114 +1,110 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Calendar as CalendarIcon } from "lucide-react"
-import ReactDatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import { useTranslation } from 'react-i18next'
+import * as React from 'react';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import ReactDatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useTranslation } from 'react-i18next';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface DatePickerProps {
-  value?: string
-  onChange: (value: string) => void
-  placeholder?: string
-  className?: string
-  id?: string
-  required?: boolean
-  maxDate?: Date
-  minDate?: Date
-  showYearDropdown?: boolean
-  showMonthDropdown?: boolean
-  style?: React.CSSProperties
+    value?: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
+    className?: string;
+    id?: string;
+    required?: boolean;
+    maxDate?: Date;
+    minDate?: Date;
+    showYearDropdown?: boolean;
+    showMonthDropdown?: boolean;
+    style?: React.CSSProperties;
 }
 
 export function DatePicker({
-  value,
-  onChange,
-  placeholder,
-  className,
-  id,
-  required,
-  maxDate,
-  minDate,
-  showYearDropdown = true,
-  showMonthDropdown = true,
-  style
+    value,
+    onChange,
+    placeholder,
+    className,
+    id,
+    required,
+    maxDate,
+    minDate,
+    showYearDropdown = true,
+    showMonthDropdown = true,
+    style,
 }: DatePickerProps) {
-  const { t } = useTranslation();
-  const [open, setOpen] = React.useState(false)
+    const { t } = useTranslation();
+    const [open, setOpen] = React.useState(false);
 
-  const parseValue = (val?: string): Date | null => {
-    return val ? new Date(val) : null
-  }
+    const parseValue = (val?: string): Date | null => {
+        return val ? new Date(val) : null;
+    };
 
-  const formatValue = (date: Date | null) => {
-    if (!date) return ''
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }
-    return date.toLocaleDateString('en-US', options)
-  }
+    const formatValue = (date: Date | null) => {
+        if (!date) return '';
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        };
+        return date.toLocaleDateString('en-US', options);
+    };
 
-  const selectedDate = parseValue(value)
+    const selectedDate = parseValue(value);
 
-  const handleChange = (date: Date | null) => {
-    if (date) {
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      const dateStr = `${year}-${month}-${day}`
-      onChange(dateStr)
-      setOpen(false)
-    } else {
-      onChange('')
-    }
-  }
+    const handleChange = (date: Date | null) => {
+        if (date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            onChange(dateStr);
+            setOpen(false);
+        } else {
+            onChange('');
+        }
+    };
 
-  return (
-    <div className={cn("w-full", className)}>
-      {id && <input id={id} type="hidden" value={value || ''} required={required} />}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              'w-full justify-start text-left font-normal h-10',
-              !value && 'text-muted-foreground'
-            )}
-            style={style}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {value && selectedDate ? formatValue(selectedDate) : (placeholder || t('Select date'))}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <div className="date-picker-wrapper">
-            <ReactDatePicker
-              selected={selectedDate}
-              onChange={handleChange}
-              inline
-              showPopperArrow={false}
-              maxDate={maxDate}
-              minDate={minDate}
-              showYearDropdown={showYearDropdown}
-              showMonthDropdown={showMonthDropdown}
-              dropdownMode="select"
-              yearDropdownItemNumber={100}
-            />
-          </div>
-        </PopoverContent>
-      </Popover>
+    return (
+        <div className={cn('w-full', className)}>
+            {id && <input id={id} type="hidden" value={value || ''} required={required} />}
+            <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                    <Button
+                        variant="outline"
+                        className={cn(
+                            'h-10 w-full justify-start text-left font-normal',
+                            !value && 'text-muted-foreground'
+                        )}
+                        style={style}
+                    >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {value && selectedDate ? formatValue(selectedDate) : placeholder || t('Select date')}
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                    <div className="date-picker-wrapper">
+                        <ReactDatePicker
+                            selected={selectedDate}
+                            onChange={handleChange}
+                            inline
+                            showPopperArrow={false}
+                            maxDate={maxDate}
+                            minDate={minDate}
+                            showYearDropdown={showYearDropdown}
+                            showMonthDropdown={showMonthDropdown}
+                            dropdownMode="select"
+                            yearDropdownItemNumber={100}
+                        />
+                    </div>
+                </PopoverContent>
+            </Popover>
 
-      <style>{`
+            <style>{`
         .date-picker-wrapper .react-datepicker {
           font-family: inherit;
           border: none;
@@ -199,6 +195,6 @@ export function DatePicker({
           box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
         }
       `}</style>
-    </div>
-  )
+        </div>
+    );
 }

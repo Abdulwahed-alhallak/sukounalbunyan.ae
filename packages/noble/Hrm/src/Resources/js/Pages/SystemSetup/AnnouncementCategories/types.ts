@@ -12,10 +12,12 @@ export interface AnnouncementCategoryFormData {
     [key: string]: any;
 }
 
-export interface CreateAnnouncementCategoryProps extends CreateProps  {[key: string]: any;
+export interface CreateAnnouncementCategoryProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditAnnouncementCategoryProps extends EditProps<AnnouncementCategory>  {[key: string]: any;
+export interface EditAnnouncementCategoryProps extends EditProps<AnnouncementCategory> {
+    [key: string]: any;
 }
 
 export type PaginatedAnnouncementCategories = PaginatedData<AnnouncementCategory>;

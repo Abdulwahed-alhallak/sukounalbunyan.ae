@@ -1,14 +1,14 @@
 import { useState, useMemo } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Eye, BarChart3 } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Eye, BarChart3 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { FilterButton } from '@/components/ui/filter-button';
@@ -58,7 +58,7 @@ export default function Index() {
     const [filters, setFilters] = useState({
         name: urlParams.get('name') || '',
         status: urlParams.get('status') || '',
-        date: urlParams.get('date') || ''
+        date: urlParams.get('date') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
@@ -67,34 +67,41 @@ export default function Index() {
 
     const [showFilters, setShowFilters] = useState(false);
 
-
     const handleFilter = () => {
-        router.get(route('project.report.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('project.report.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('project.report.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('project.report.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ name: '', status: '', date: '' });
-        router.get(route('project.report.index'), {per_page: perPage});
+        router.get(route('project.report.index'), { per_page: perPage });
     };
 
     const getStatusColor = (status: string) => {
         const colors = {
-            'Ongoing': 'bg-muted text-foreground',
-            'Onhold': 'bg-muted text-foreground',
-            'Finished': 'bg-muted text-foreground'
+            Ongoing: 'bg-muted text-foreground',
+            Onhold: 'bg-muted text-foreground',
+            Finished: 'bg-muted text-foreground',
         };
         return colors[status as keyof typeof colors] || 'bg-muted text-foreground';
     };
@@ -103,7 +110,7 @@ export default function Index() {
         {
             key: 'name',
             header: t('Project Name'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'tasks_count',
@@ -111,12 +118,8 @@ export default function Index() {
             render: (value: string) => {
                 const [completed, total] = (value || '0/0').split('/');
                 const isAllCompleted = completed === total && total !== '0';
-                return (
-                    <span className={isAllCompleted ? 'text-foreground font-semibold' : ''}>
-                        {value || '0/0'}
-                    </span>
-                );
-            }
+                return <span className={isAllCompleted ? 'font-semibold text-foreground' : ''}>{value || '0/0'}</span>;
+            },
         },
         {
             key: 'bugs_count',
@@ -124,12 +127,8 @@ export default function Index() {
             render: (value: string) => {
                 const [completed, total] = (value || '0/0').split('/');
                 const isAllCompleted = completed === total && total !== '0';
-                return (
-                    <span className={isAllCompleted ? 'text-foreground font-semibold' : ''}>
-                        {value || '0/0'}
-                    </span>
-                );
-            }
+                return <span className={isAllCompleted ? 'font-semibold text-foreground' : ''}>{value || '0/0'}</span>;
+            },
         },
         {
             key: 'milestones_count',
@@ -137,17 +136,13 @@ export default function Index() {
             render: (value: string) => {
                 const [completed, total] = (value || '0/0').split('/');
                 const isAllCompleted = completed === total && total !== '0';
-                return (
-                    <span className={isAllCompleted ? 'text-foreground font-semibold' : ''}>
-                        {value || '0/0'}
-                    </span>
-                );
-            }
+                return <span className={isAllCompleted ? 'font-semibold text-foreground' : ''}>{value || '0/0'}</span>;
+            },
         },
         {
             key: 'start_date',
             header: t('Start Date'),
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'end_date',
@@ -155,87 +150,81 @@ export default function Index() {
             render: (value: string) => {
                 if (!value) return '-';
                 const isOverdue = new Date(value) < new Date();
-                return (
-                    <span className={isOverdue ? 'text-destructive' : ''}>
-                        {formatDate(value)}
-                    </span>
-                );
-            }
+                return <span className={isOverdue ? 'text-destructive' : ''}>{formatDate(value)}</span>;
+            },
         },
         {
             key: 'status',
             header: t('Status'),
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(value)}`}>
-                    {t(value)}
-                </span>
-            )
+                <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(value)}`}>{t(value)}</span>
+            ),
         },
 
-        ...(auth.user?.permissions?.includes('view-project') ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, item: ProjectReportItem) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => router.get(route('project.report.show', item.id))}
-                                    className="h-8 w-8 p-0 text-foreground hover:text-foreground"
-                                >
-                                    <Eye className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{t('View')}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.includes('view-project')
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, item: ProjectReportItem) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              onClick={() => router.get(route('project.report.show', item.id))}
+                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                          >
+                                              <Eye className="h-4 w-4" />
+                                          </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('View')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Project'), url: route('project.dashboard.index')},
-                {label: t('Project Reports')},
+                { label: t('Project'), url: route('project.dashboard.index') },
+                { label: t('Project Reports') },
             ]}
             pageTitle={t('Manage Project Reports')}
         >
             <Head title={t('Project Reports')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.name}
-                                onChange={(value) => setFilters({...filters, name: value})}
+                                onChange={(value) => setFilters({ ...filters, name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search projects...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="project.report.index"
-                                filters={{...filters}}
-                            />
+                            <PerPageSelector routeName="project.report.index" filters={{ ...filters }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
                                     const activeFilters = [filters.status, filters.date].filter(Boolean).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -244,11 +233,14 @@ export default function Index() {
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by status')} />
                                     </SelectTrigger>
@@ -260,23 +252,29 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Date Range')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Date Range')}
+                                </label>
                                 <DatePicker
                                     value={filters.date}
-                                    onChange={(value) => setFilters({...filters, date: value})}
+                                    onChange={(value) => setFilters({ ...filters, date: value })}
                                     placeholder={t('Select date')}
                                 />
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={projects.data}
@@ -300,11 +298,11 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={projects}
                         routeName="project.report.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>

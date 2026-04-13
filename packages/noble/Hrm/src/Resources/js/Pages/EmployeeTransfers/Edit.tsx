@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -32,10 +32,13 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
     // Handle dependent dropdowns
     useEffect(() => {
         if (data.to_branch_id) {
-            const branchDepartments = departments?.filter((dept: any) => dept.branch_id.toString() === data.to_branch_id) || [];
+            const branchDepartments =
+                departments?.filter((dept: any) => dept.branch_id.toString() === data.to_branch_id) || [];
             setFilteredToDepartments(branchDepartments);
             if (data.to_department_id) {
-                const departmentExists = branchDepartments.find((dept: any) => dept.id.toString() === data.to_department_id);
+                const departmentExists = branchDepartments.find(
+                    (dept: any) => dept.id.toString() === data.to_department_id
+                );
                 if (!departmentExists) {
                     setData('to_department_id', '');
                     setData('to_designation_id', '');
@@ -50,10 +53,13 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
 
     useEffect(() => {
         if (data.to_department_id) {
-            const departmentDesignations = designations?.filter((desig: any) => desig.department_id.toString() === data.to_department_id) || [];
+            const departmentDesignations =
+                designations?.filter((desig: any) => desig.department_id.toString() === data.to_department_id) || [];
             setFilteredToDesignations(departmentDesignations);
             if (data.to_designation_id) {
-                const designationExists = departmentDesignations.find((desig: any) => desig.id.toString() === data.to_designation_id);
+                const designationExists = departmentDesignations.find(
+                    (desig: any) => desig.id.toString() === data.to_designation_id
+                );
                 if (!designationExists) {
                     setData('to_designation_id', '');
                 }
@@ -69,7 +75,7 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
         put(route('hrm.employee-transfers.update', employeetransfer.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -80,8 +86,14 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id">{t('Employee')} <span className="text-destructive">*</span></Label>
-                    <Select value={data.employee_id?.toString() || ''} onValueChange={(value) => setData('employee_id', value)} disabled>
+                    <Label htmlFor="employee_id">
+                        {t('Employee')} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select
+                        value={data.employee_id?.toString() || ''}
+                        onValueChange={(value) => setData('employee_id', value)}
+                        disabled
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -95,10 +107,15 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="to_branch_id">{t('To Branch')} <span className="text-destructive">*</span></Label>
-                    <Select value={data.to_branch_id?.toString() || ''} onValueChange={(value) => setData('to_branch_id', value)}>
+                    <Label htmlFor="to_branch_id">
+                        {t('To Branch')} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select
+                        value={data.to_branch_id?.toString() || ''}
+                        onValueChange={(value) => setData('to_branch_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select To Branch')} />
                         </SelectTrigger>
@@ -112,16 +129,22 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.to_branch_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="to_department_id">{t('To Department')} <span className="text-destructive">*</span></Label>
-                    <Select 
-                        value={data.to_department_id?.toString() || ''} 
+                    <Label htmlFor="to_department_id">
+                        {t('To Department')} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select
+                        value={data.to_department_id?.toString() || ''}
                         onValueChange={(value) => setData('to_department_id', value)}
                         disabled={!data.to_branch_id}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.to_branch_id ? t('Select To Department') : t('Select To Branch first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.to_branch_id ? t('Select To Department') : t('Select To Branch first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredToDepartments?.map((item: any) => (
@@ -133,16 +156,22 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.to_department_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="to_designation_id">{t('To Designation')} <span className="text-destructive">*</span></Label>
-                    <Select 
-                        value={data.to_designation_id?.toString() || ''} 
+                    <Label htmlFor="to_designation_id">
+                        {t('To Designation')} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select
+                        value={data.to_designation_id?.toString() || ''}
                         onValueChange={(value) => setData('to_designation_id', value)}
                         disabled={!data.to_department_id}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.to_department_id ? t('Select To Designation') : t('Select To Department first')} />
+                            <SelectValue
+                                placeholder={
+                                    data.to_department_id ? t('Select To Designation') : t('Select To Department first')
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredToDesignations?.map((item: any) => (
@@ -154,9 +183,11 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     </Select>
                     <InputError message={errors.to_designation_id} />
                 </div>
-                
+
                 <div>
-                    <Label>{t('Effective Date')} <span className="text-destructive">*</span></Label>
+                    <Label>
+                        {t('Effective Date')} <span className="text-destructive">*</span>
+                    </Label>
                     <DatePicker
                         value={data.effective_date}
                         onChange={(date) => setData('effective_date', date)}
@@ -164,9 +195,11 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     />
                     <InputError message={errors.effective_date} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="reason" required>{t('Reason')}</Label>
+                    <Label htmlFor="reason" required>
+                        {t('Reason')}
+                    </Label>
                     <Textarea
                         id="reason"
                         value={data.reason}
@@ -177,7 +210,7 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     />
                     <InputError message={errors.reason} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         label={t('Document')}
@@ -189,7 +222,7 @@ export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: Ed
                     />
                     <InputError message={errors.document} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

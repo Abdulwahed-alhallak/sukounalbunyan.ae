@@ -3,9 +3,20 @@ import { Head, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import {
-    Shield, AlertTriangle, LogIn, LogOut, Lock, KeyRound,
-    Search, Calendar, User, Monitor, Smartphone, Tablet,
-    ChevronLeft, ArrowLeft,
+    Shield,
+    AlertTriangle,
+    LogIn,
+    LogOut,
+    Lock,
+    KeyRound,
+    Search,
+    Calendar,
+    User,
+    Monitor,
+    Smartphone,
+    Tablet,
+    ChevronLeft,
+    ArrowLeft,
 } from 'lucide-react';
 
 interface SecurityLogEntry {
@@ -58,10 +69,14 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
     const [suspiciousOnly, setSuspiciousOnly] = useState(!!filters.suspicious_only);
 
     const handleFilter = (key: string, value: string | boolean) => {
-        router.get(route('audit-logs.security'), {
-            ...filters,
-            [key]: value || undefined,
-        }, { preserveState: true, preserveScroll: true });
+        router.get(
+            route('audit-logs.security'),
+            {
+                ...filters,
+                [key]: value || undefined,
+            },
+            { preserveState: true, preserveScroll: true }
+        );
     };
 
     const getConfig = (event: string) => {
@@ -70,8 +85,12 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
 
     const formatDate = (date: string) => {
         return new Date(date).toLocaleString('en-GB', {
-            year: 'numeric', month: 'short', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
         });
     };
 
@@ -83,11 +102,13 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                 {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
-                        <a href={route('audit-logs.index')}
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground">
+                        <a
+                            href={route('audit-logs.index')}
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                        >
                             <ArrowLeft className="h-4 w-4" />
                         </a>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/5 border border-border">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-foreground/5">
                             <Shield className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                         </div>
                         <div>
@@ -101,16 +122,20 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
 
                 {/* Stats Bar */}
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-                    {['login', 'logout', 'failed_login', 'password_changed', 'account_deleted'].map(event => {
+                    {['login', 'logout', 'failed_login', 'password_changed', 'account_deleted'].map((event) => {
                         const config = getConfig(event);
                         const EventIcon = config.icon;
-                        const count = logs.data.filter(l => l.event === event).length;
+                        const count = logs.data.filter((l) => l.event === event).length;
                         return (
-                            <div key={event}
+                            <div
+                                key={event}
                                 onClick={() => handleFilter('event', filters.event === event ? '' : event)}
                                 className={`cursor-pointer rounded-xl border p-3 transition hover:shadow-md ${
-                                    filters.event === event ? 'border-foreground bg-foreground/5' : 'border-border bg-card'
-                                }`}>
+                                    filters.event === event
+                                        ? 'border-foreground bg-foreground/5'
+                                        : 'border-border bg-card'
+                                }`}
+                            >
                                 <div className="flex items-center gap-2">
                                     <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${config.bg}`}>
                                         <EventIcon className={`h-4 w-4 ${config.color}`} />
@@ -131,7 +156,7 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                         <input
                             type="checkbox"
                             checked={suspiciousOnly}
-                            onChange={e => {
+                            onChange={(e) => {
                                 setSuspiciousOnly(e.target.checked);
                                 handleFilter('suspicious_only', e.target.checked ? 'true' : '');
                             }}
@@ -150,13 +175,27 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b border-border bg-muted/50">
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('Event')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('User')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('IP Address')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('Browser / OS')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('Device')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('Details')}</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('Date')}</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('Event')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('User')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('IP Address')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('Browser / OS')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('Device')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('Details')}
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {t('Date')}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border">
@@ -168,14 +207,19 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                                         </td>
                                     </tr>
                                 ) : (
-                                    logs.data.map(log => {
+                                    logs.data.map((log) => {
                                         const config = getConfig(log.event);
                                         const EventIcon = config.icon;
                                         const DeviceIcon = deviceIcons[log.device_type || 'desktop'] || Monitor;
                                         return (
-                                            <tr key={log.id} className={`transition hover:bg-muted/30 ${log.is_suspicious ? 'bg-muted/50' : ''}`}>
+                                            <tr
+                                                key={log.id}
+                                                className={`transition hover:bg-muted/30 ${log.is_suspicious ? 'bg-muted/50' : ''}`}
+                                            >
                                                 <td className="px-4 py-3">
-                                                    <div className={`inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium ${config.bg} ${config.color}`}>
+                                                    <div
+                                                        className={`inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium ${config.bg} ${config.color}`}
+                                                    >
                                                         <EventIcon className="h-3 w-3" />
                                                         {config.label}
                                                         {log.is_suspicious && (
@@ -196,7 +240,7 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-4 py-3 text-xs font-mono text-muted-foreground">
+                                                <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                                                     {log.ip_address || '—'}
                                                 </td>
                                                 <td className="px-4 py-3 text-xs text-muted-foreground">
@@ -239,8 +283,8 @@ export default function SecurityLogs({ logs, filters, eventTypes }: Props) {
                                             link.active
                                                 ? 'bg-foreground text-background'
                                                 : link.url
-                                                ? 'text-muted-foreground hover:bg-accent'
-                                                : 'cursor-not-allowed text-muted-foreground/50'
+                                                  ? 'text-muted-foreground hover:bg-accent'
+                                                  : 'cursor-not-allowed text-muted-foreground/50'
                                         }`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                     />

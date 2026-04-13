@@ -19,22 +19,17 @@ export default function ForgotPassword({ status }: { status?: string }) {
     };
 
     return (
-        <AuthLayout
-            title={t('Forgot password')}
-            description={t('Enter your email to receive a password reset link')}
-        >
+        <AuthLayout title={t('Forgot password')} description={t('Enter your email to receive a password reset link')}>
             <Head title={t('Forgot password')} />
 
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-foreground">
-                    {status}
-                </div>
-            )}
+            {status && <div className="mb-4 text-center text-sm font-medium text-foreground">{status}</div>}
 
             <div className="space-y-6">
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">{t('Email address')}</Label>
+                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Email address')}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
@@ -45,7 +40,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                             autoFocus
                             required
                             placeholder="email@example.com"
-                            className="w-full px-3 py-2 border border-border dark:border-border rounded-md text-sm focus:outline-none transition-colors placeholder-gray-400 dark:bg-muted dark:text-foreground"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
                         <InputError message={errors.email} />
                     </div>
@@ -53,7 +48,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     <div className="mt-6 flex items-center justify-start">
                         <Button
                             type="submit"
-                            className="w-full bg-foreground text-background py-2.5 text-sm font-medium tracking-wide transition-all duration-200 rounded-md shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                            className="w-full transform rounded-md bg-foreground py-2.5 text-sm font-medium tracking-wide text-background shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
                             disabled={processing}
                             data-test="email-password-reset-link-button"
                         >
@@ -62,10 +57,12 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     </div>
                 </form>
 
-                <div className="text-center mt-5">
+                <div className="mt-5 text-center">
                     <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                         <span>{t('Or, return to')}</span>{' '}
-                        <Link href={route('login')} className="text-foreground font-medium hover:underline">{t('log in')}</Link>
+                        <Link href={route('login')} className="font-medium text-foreground hover:underline">
+                            {t('log in')}
+                        </Link>
                     </p>
                 </div>
             </div>

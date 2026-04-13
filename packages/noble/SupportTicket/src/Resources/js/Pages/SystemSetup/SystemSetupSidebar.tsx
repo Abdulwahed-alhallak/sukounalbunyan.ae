@@ -1,9 +1,21 @@
 import { router, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Folder, BookOpen, HelpCircle, Library, Palette, FileEdit, Type, MousePointer, Link, Info, MapPin } from "lucide-react";
+import {
+    Folder,
+    BookOpen,
+    HelpCircle,
+    Library,
+    Palette,
+    FileEdit,
+    Type,
+    MousePointer,
+    Link,
+    Info,
+    MapPin,
+} from 'lucide-react';
 
 interface SidebarItem {
     key: string;
@@ -29,28 +41,28 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
             label: t('Categories'),
             icon: Folder,
             route: 'ticket-category.index',
-            permission: 'manage-ticket-categories'
+            permission: 'manage-ticket-categories',
         },
         {
             key: 'support-categories',
             label: t('Support Category'),
             icon: HelpCircle,
             route: 'support-category.index',
-            permission: 'manage-support-categories'
+            permission: 'manage-support-categories',
         },
         {
             key: 'knowledge-categories',
             label: t('KnowledgeBase Category'),
             icon: Library,
             route: 'knowledge-category.index',
-            permission: 'manage-knowledge-base'
+            permission: 'manage-knowledge-base',
         },
         {
             key: 'brand-settings',
             label: t('Brand Settings'),
             icon: Palette,
             route: 'support-ticket.settings.brand',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
 
         {
@@ -58,53 +70,51 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
             label: t('Custom Pages'),
             icon: FileEdit,
             route: 'support-ticket.custom-pages.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
         {
             key: 'title-sections',
             label: t('Title Sections'),
             icon: Type,
             route: 'support-ticket.title-sections.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
         {
             key: 'cta-sections',
             label: t('CTA Sections'),
             icon: MousePointer,
             route: 'support-ticket.cta-sections.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
         {
             key: 'quick-links',
             label: t('Quick Links'),
             icon: Link,
             route: 'support-ticket.quick-links.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
         {
             key: 'support-information',
             label: t('Support Information'),
             icon: Info,
             route: 'support-ticket.support-information.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
         {
             key: 'contact-information',
             label: t('Contact Information'),
             icon: MapPin,
             route: 'support-ticket.contact-information.index',
-            permission: 'manage-support-settings'
+            permission: 'manage-support-settings',
         },
     ];
 
-    const filteredItems = sidebarItems.filter(item =>
-        auth.user?.permissions?.includes(item.permission)
-    );
+    const filteredItems = sidebarItems.filter((item) => auth.user?.permissions?.includes(item.permission));
 
     return (
         <div className="sticky top-4">
             <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="pr-4 space-y-1">
+                <div className="space-y-1 pr-4">
                     {filteredItems?.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeItem === item.key || currentRoute === item.route;
@@ -121,7 +131,7 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
                                     onSectionChange?.(item.key);
                                 }}
                             >
-                                <Icon className="h-4 w-4 mr-2" />
+                                <Icon className="mr-2 h-4 w-4" />
                                 {item.label}
                             </Button>
                         );

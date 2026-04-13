@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 window.axios = axios;
 
-window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // Set CSRF token from meta tag
 const token = document.head.querySelector('meta[name="csrf-token"]');
@@ -25,12 +25,12 @@ window.axios.interceptors.response.use(
                 if (newToken) {
                     document.querySelector('meta[name="csrf-token"]')?.setAttribute('content', newToken);
                     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = newToken;
-                    
+
                     // Update the original request with new token
                     if (error.config && error.config.headers) {
                         error.config.headers['X-CSRF-TOKEN'] = newToken;
                     }
-                    
+
                     // Retry the original request
                     return window.axios.request(error.config);
                 }

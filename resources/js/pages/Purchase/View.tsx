@@ -22,28 +22,23 @@ export default function View() {
     const { t } = useTranslation();
     const { invoice, auth } = usePage<ViewProps>().props;
 
-
     const signatureStatusButtons = usePageButtons('signatureViewBtn', {
         invoice: invoice,
-        invoiceType: 'purchase'
+        invoiceType: 'purchase',
     });
-
 
     const downloadPDF = () => {
         const printUrl = route('purchase-invoices.print', invoice.id) + '?download=pdf';
         window.open(printUrl, '_blank');
     };
 
-
-
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Purchase Invoice'), url: route('purchase-invoices.index')},
-                {label: t('Purchase Invoice Details')}
+                { label: t('Purchase Invoice'), url: route('purchase-invoices.index') },
+                { label: t('Purchase Invoice Details') },
             ]}
             pageTitle={`${t('Purchase Invoice')} #${invoice.invoice_number}`}
-
         >
             <Head title={`${t('Purchase Invoice')} #${invoice.invoice_number}`} />
 
@@ -51,7 +46,7 @@ export default function View() {
                 {/* Invoice Header */}
                 <Card>
                     <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                             <div>
                                 <p className="text-lg text-muted-foreground">#{invoice.invoice_number}</p>
                             </div>
@@ -66,20 +61,26 @@ export default function View() {
                             </div>
                         </div>
 
-                        <div className={`grid grid-cols-1 gap-6 ${invoice.vendor_details?.billing_address || invoice.vendor_details?.shipping_address ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+                        <div
+                            className={`grid grid-cols-1 gap-6 ${invoice.vendor_details?.billing_address || invoice.vendor_details?.shipping_address ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}
+                        >
                             <div>
-                                <h3 className="font-semibold mb-2">{t('VENDOR')}</h3>
-                                <div className="text-sm space-y-1">
+                                <h3 className="mb-2 font-semibold">{t('VENDOR')}</h3>
+                                <div className="space-y-1 text-sm">
                                     <div className="font-medium">{invoice.vendor?.name}</div>
                                     <div className="text-muted-foreground">{invoice.vendor?.email}</div>
                                 </div>
                                 {invoice.vendor_details?.billing_address && (
                                     <div className="mt-3">
-                                        <div className="font-medium text-sm mb-1">{t('Billing Address')}</div>
-                                        <div className="text-sm text-muted-foreground space-y-1">
+                                        <div className="mb-1 text-sm font-medium">{t('Billing Address')}</div>
+                                        <div className="space-y-1 text-sm text-muted-foreground">
                                             <div>{invoice.vendor_details.billing_address.name}</div>
                                             <div>{invoice.vendor_details.billing_address.address_line_1}</div>
-                                            <div>{invoice.vendor_details.billing_address.city}, {invoice.vendor_details.billing_address.state} {invoice.vendor_details.billing_address.zip_code}</div>
+                                            <div>
+                                                {invoice.vendor_details.billing_address.city},{' '}
+                                                {invoice.vendor_details.billing_address.state}{' '}
+                                                {invoice.vendor_details.billing_address.zip_code}
+                                            </div>
                                         </div>
                                     </div>
                                 )}
@@ -87,17 +88,21 @@ export default function View() {
 
                             {invoice.vendor_details?.shipping_address && (
                                 <div>
-                                    <h3 className="font-semibold mb-2">{t('SHIPPING ADDRESS')}</h3>
-                                    <div className="text-sm text-muted-foreground space-y-1">
+                                    <h3 className="mb-2 font-semibold">{t('SHIPPING ADDRESS')}</h3>
+                                    <div className="space-y-1 text-sm text-muted-foreground">
                                         <div>{invoice.vendor_details.shipping_address.name}</div>
                                         <div>{invoice.vendor_details.shipping_address.address_line_1}</div>
-                                        <div>{invoice.vendor_details.shipping_address.city}, {invoice.vendor_details.shipping_address.state} {invoice.vendor_details.shipping_address.zip_code}</div>
+                                        <div>
+                                            {invoice.vendor_details.shipping_address.city},{' '}
+                                            {invoice.vendor_details.shipping_address.state}{' '}
+                                            {invoice.vendor_details.shipping_address.zip_code}
+                                        </div>
                                     </div>
                                 </div>
                             )}
 
                             <div>
-                                <h3 className="font-semibold mb-2">{t('DETAILS')}</h3>
+                                <h3 className="mb-2 font-semibold">{t('DETAILS')}</h3>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Invoice Date')}</span>
@@ -105,7 +110,11 @@ export default function View() {
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Due Date')}</span>
-                                        <span className={new Date(invoice.due_date) < new Date() ? 'text-destructive' : ''}>
+                                        <span
+                                            className={
+                                                new Date(invoice.due_date) < new Date() ? 'text-destructive' : ''
+                                            }
+                                        >
                                             {formatDate(invoice.due_date)}
                                         </span>
                                     </div>
@@ -120,44 +129,53 @@ export default function View() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="mt-4 p-3 bg-muted rounded">
-                                    <div className="flex justify-between items-center">
+                                <div className="mt-4 rounded bg-muted p-3">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex gap-2">
                                             {auth.user?.permissions?.includes('print-purchase-invoices') && (
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={downloadPDF}
-                                                >
-                                                    <Download className="h-4 w-4 mr-2" />
+                                                <Button variant="outline" size="sm" onClick={downloadPDF}>
+                                                    <Download className="mr-2 h-4 w-4" />
                                                     {t('Download PDF')}
                                                 </Button>
                                             )}
-                                            {invoice.status === 'draft' && auth.user?.permissions?.includes('post-purchase-invoices') && (
-                                                <TooltipProvider>
-                                                    <Tooltip delayDuration={0}>
-                                                        <TooltipTrigger asChild>
-                                                            <Button
-                                                                size="sm"
-                                                                onClick={() => router.post(route('purchase-invoices.post', invoice.id), {}, {
-                                                                    onSuccess: () => {
-                                                                        router.reload();
+                                            {invoice.status === 'draft' &&
+                                                auth.user?.permissions?.includes('post-purchase-invoices') && (
+                                                    <TooltipProvider>
+                                                        <Tooltip delayDuration={0}>
+                                                            <TooltipTrigger asChild>
+                                                                <Button
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        router.post(
+                                                                            route('purchase-invoices.post', invoice.id),
+                                                                            {},
+                                                                            {
+                                                                                onSuccess: () => {
+                                                                                    router.reload();
+                                                                                },
+                                                                            }
+                                                                        )
                                                                     }
-                                                                })}
-                                                            >
-                                                                <FileText className="h-4 w-4 mr-2" />
-                                                                {t('Post Invoice')}
-                                                            </Button>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>{t('Post invoice to finalize and create journal entries')}</p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            )}
+                                                                >
+                                                                    <FileText className="mr-2 h-4 w-4" />
+                                                                    {t('Post Invoice')}
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                <p>
+                                                                    {t(
+                                                                        'Post invoice to finalize and create journal entries'
+                                                                    )}
+                                                                </p>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
+                                                )}
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xl font-bold text-foreground">{formatCurrency(invoice.balance_amount)}</div>
+                                            <div className="text-xl font-bold text-foreground">
+                                                {formatCurrency(invoice.balance_amount)}
+                                            </div>
                                             <div className="text-sm text-muted-foreground">{t('Balance Due')}</div>
                                         </div>
                                     </div>
@@ -166,24 +184,25 @@ export default function View() {
                         </div>
 
                         {invoice.notes && (
-                            <div className="mt-4 pt-4 border-t">
-                                <span className="font-medium text-sm">{t('Notes')}:</span>
-                                <span className="text-sm text-muted-foreground ml-2">{invoice.notes}</span>
+                            <div className="mt-4 border-t pt-4">
+                                <span className="text-sm font-medium">{t('Notes')}:</span>
+                                <span className="ml-2 text-sm text-muted-foreground">{invoice.notes}</span>
                             </div>
                         )}
-                         {/* Signature Status */}
-                        {signatureStatusButtons.length > 0 && signatureStatusButtons.map((button) => (
-                          <div key={button.id} className="mt-4 pt-4 border-t">{button.component}</div>
-                        ))}
+                        {/* Signature Status */}
+                        {signatureStatusButtons.length > 0 &&
+                            signatureStatusButtons.map((button) => (
+                                <div key={button.id} className="mt-4 border-t pt-4">
+                                    {button.component}
+                                </div>
+                            ))}
                     </CardContent>
                 </Card>
 
                 {/* Invoice Items */}
                 <Card>
                     <CardHeader>
-                        <h3 className="text-lg font-semibold">
-                            {t('Invoice Items')}
-                        </h3>
+                        <h3 className="text-lg font-semibold">{t('Invoice Items')}</h3>
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
@@ -192,7 +211,9 @@ export default function View() {
                                     <tr className="border-b">
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Unit Price')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Unit Price')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Discount')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
@@ -204,10 +225,14 @@ export default function View() {
                                             <td className="px-4 py-4">
                                                 <div className="font-medium">{item.product?.name}</div>
                                                 {item.product?.sku && (
-                                                    <div className="text-sm text-muted-foreground">SKU: {item.product.sku}</div>
+                                                    <div className="text-sm text-muted-foreground">
+                                                        SKU: {item.product.sku}
+                                                    </div>
                                                 )}
                                                 {item.product?.description && (
-                                                    <div className="text-sm text-muted-foreground mt-1">{item.product.description}</div>
+                                                    <div className="mt-1 text-sm text-muted-foreground">
+                                                        {item.product.description}
+                                                    </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-4 text-right">{item.quantity}</td>
@@ -220,13 +245,17 @@ export default function View() {
                                                             -{formatCurrency(item.discount_amount)}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.taxes && item.taxes.length > 0 ? (
                                                     <div>
                                                         {item.taxes.map((tax, taxIndex) => (
-                                                            <div key={taxIndex} className="text-sm">{tax.tax_name} ({tax.tax_rate}%)</div>
+                                                            <div key={taxIndex} className="text-sm">
+                                                                {tax.tax_name} ({tax.tax_rate}%)
+                                                            </div>
                                                         ))}
                                                         <div className="text-sm text-muted-foreground">
                                                             {formatCurrency(item.tax_amount)}
@@ -239,7 +268,9 @@ export default function View() {
                                                             {formatCurrency(item.tax_amount)}
                                                         </div>
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right font-semibold">
                                                 {formatCurrency(item.total_amount)}
@@ -260,7 +291,9 @@ export default function View() {
                                 {invoice.discount_amount > 0 && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t('Discount')}</span>
-                                        <span className="font-medium text-destructive">-{formatCurrency(invoice.discount_amount)}</span>
+                                        <span className="font-medium text-destructive">
+                                            -{formatCurrency(invoice.discount_amount)}
+                                        </span>
                                     </div>
                                 )}
                                 {invoice.tax_amount > 0 && (
@@ -272,18 +305,22 @@ export default function View() {
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between">
                                         <span className="font-semibold">{t('Total Amount')}</span>
-                                        <span className="font-bold text-lg">{formatCurrency(invoice.total_amount)}</span>
+                                        <span className="text-lg font-bold">
+                                            {formatCurrency(invoice.total_amount)}
+                                        </span>
                                     </div>
                                 </div>
                                 {invoice.paid_amount > 0 && (
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t('Paid Amount')}</span>
-                                        <span className="font-medium text-foreground">{formatCurrency(invoice.paid_amount)}</span>
+                                        <span className="font-medium text-foreground">
+                                            {formatCurrency(invoice.paid_amount)}
+                                        </span>
                                     </div>
                                 )}
                                 <div className="flex justify-between">
                                     <span className="font-semibold">{t('Balance Due')}</span>
-                                    <span className="font-bold text-lg">{formatCurrency(invoice.balance_amount)}</span>
+                                    <span className="text-lg font-bold">{formatCurrency(invoice.balance_amount)}</span>
                                 </div>
                             </div>
                         </div>

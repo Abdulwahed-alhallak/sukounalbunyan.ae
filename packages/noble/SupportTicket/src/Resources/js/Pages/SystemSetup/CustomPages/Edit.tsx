@@ -30,7 +30,7 @@ export default function Edit({ customPage, onSuccess }: EditProps) {
         title: customPage.title || '',
         description: customPage.description || '',
         contents: customPage.contents || '',
-        enable_page_footer: customPage.enable_page_footer || 'off'
+        enable_page_footer: customPage.enable_page_footer || 'off',
     });
 
     const submit = (e: React.FormEvent) => {
@@ -43,19 +43,17 @@ export default function Edit({ customPage, onSuccess }: EditProps) {
                 console.error('Update errors:', errors);
             },
             preserveState: false,
-            preserveScroll: false
+            preserveScroll: false,
         });
     };
 
     return (
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Edit Custom Page')}</DialogTitle>
-                <DialogDescription>
-                    {t('Update the custom page details')}
-                </DialogDescription>
+                <DialogDescription>{t('Update the custom page details')}</DialogDescription>
             </DialogHeader>
-            
+
             <form onSubmit={submit} className="space-y-4">
                 <div>
                     <Label htmlFor="title">{t('Title')}</Label>
@@ -83,7 +81,9 @@ export default function Edit({ customPage, onSuccess }: EditProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="contents" required>{t('Contents')}</Label>
+                    <Label htmlFor="contents" required>
+                        {t('Contents')}
+                    </Label>
                     <RichTextEditor
                         content={data.contents}
                         onChange={(content) => setData('contents', content)}

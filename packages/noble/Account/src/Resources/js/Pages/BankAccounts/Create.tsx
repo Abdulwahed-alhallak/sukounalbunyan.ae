@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -37,14 +37,12 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
 
     const paymentGatewayFields = useFormFields('paymentGateway');
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('account.bank-accounts.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -101,37 +99,53 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
                         value={data.branch_name}
                         onChange={(e) => setData('branch_name', e.target.value)}
                         placeholder={t('Enter Branch Name')}
-
                     />
                     <InputError message={errors.branch_name} />
                 </div>
 
                 <div>
                     <Label required>{t('Account Type')}</Label>
-                    <RadioGroup value={data.account_type?.toString() || '0'} onValueChange={(value) => setData('account_type', value)} className="flex gap-6 mt-2">
+                    <RadioGroup
+                        value={data.account_type?.toString() || '0'}
+                        onValueChange={(value) => setData('account_type', value)}
+                        className="mt-2 flex gap-6"
+                    >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="0" id="account_type_0" />
-                            <Label htmlFor="account_type_0" className="cursor-pointer">{t('checking')}</Label>
+                            <Label htmlFor="account_type_0" className="cursor-pointer">
+                                {t('checking')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="1" id="account_type_1" />
-                            <Label htmlFor="account_type_1" className="cursor-pointer">{t('savings')}</Label>
+                            <Label htmlFor="account_type_1" className="cursor-pointer">
+                                {t('savings')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="2" id="account_type_2" />
-                            <Label htmlFor="account_type_2" className="cursor-pointer">{t('credit')}</Label>
+                            <Label htmlFor="account_type_2" className="cursor-pointer">
+                                {t('credit')}
+                            </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="3" id="account_type_3" />
-                            <Label htmlFor="account_type_3" className="cursor-pointer">{t('loan')}</Label>
+                            <Label htmlFor="account_type_3" className="cursor-pointer">
+                                {t('loan')}
+                            </Label>
                         </div>
                     </RadioGroup>
                     <InputError message={errors.account_type} />
                 </div>
 
                 <div>
-                    <Label htmlFor="gl_account_id" required>{t('Gl Account')}</Label>
-                    <Select value={data.gl_account_id?.toString() || ''} onValueChange={(value) => setData('gl_account_id', value)}>
+                    <Label htmlFor="gl_account_id" required>
+                        {t('Gl Account')}
+                    </Label>
+                    <Select
+                        value={data.gl_account_id?.toString() || ''}
+                        onValueChange={(value) => setData('gl_account_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Gl Account')} />
                         </SelectTrigger>
@@ -189,7 +203,6 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
                         value={data.iban}
                         onChange={(e) => setData('iban', e.target.value)}
                         placeholder={t('Enter Iban')}
-
                     />
                     <InputError message={errors.iban} />
                 </div>
@@ -202,7 +215,6 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
                         value={data.swift_code}
                         onChange={(e) => setData('swift_code', e.target.value)}
                         placeholder={t('Enter Swift Code')}
-
                     />
                     <InputError message={errors.swift_code} />
                 </div>
@@ -215,7 +227,6 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
                         value={data.routing_number}
                         onChange={(e) => setData('routing_number', e.target.value)}
                         placeholder={t('Enter Routing Number')}
-
                     />
                     <InputError message={errors.routing_number} />
                 </div>
@@ -226,11 +237,11 @@ export default function Create({ onSuccess }: CreateBankAccountProps) {
                         checked={data.is_active || false}
                         onCheckedChange={(checked) => setData('is_active', !!checked)}
                     />
-                    <Label htmlFor="is_active" className="cursor-pointer">{t('Is Active')}</Label>
+                    <Label htmlFor="is_active" className="cursor-pointer">
+                        {t('Is Active')}
+                    </Label>
                     <InputError message={errors.is_active} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

@@ -1,13 +1,12 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import InputError from "@/components/ui/input-error";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import InputError from '@/components/ui/input-error';
 import { useState } from 'react';
-
 
 interface AllowanceType {
     id: number;
@@ -33,10 +32,8 @@ export default function Edit({ allowance, allowanceTypes, onSuccess }: EditAllow
     const { data, setData, put, processing, errors } = useForm({
         allowance_type_id: allowance.allowance_type_id.toString(),
         type: allowance.type,
-        amount: allowance.amount.toString()
+        amount: allowance.amount.toString(),
     });
-
-
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,14 +44,15 @@ export default function Edit({ allowance, allowanceTypes, onSuccess }: EditAllow
             },
             onError: () => {
                 // Keep modal open on validation errors
-            }
+            },
         });
     };
 
-    const allowanceTypeOptions = allowanceTypes?.map(type => ({
-        value: type.id.toString(),
-        label: type.name
-    })) || [];
+    const allowanceTypeOptions =
+        allowanceTypes?.map((type) => ({
+            value: type.id.toString(),
+            label: type.name,
+        })) || [];
 
     return (
         <DialogContent>
@@ -63,13 +61,19 @@ export default function Edit({ allowance, allowanceTypes, onSuccess }: EditAllow
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="edit_allowance_type_id" required>{t('Allowance Type')}</Label>
-                    <Select value={data.allowance_type_id} onValueChange={(value) => setData('allowance_type_id', value)} required>
+                    <Label htmlFor="edit_allowance_type_id" required>
+                        {t('Allowance Type')}
+                    </Label>
+                    <Select
+                        value={data.allowance_type_id}
+                        onValueChange={(value) => setData('allowance_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select allowance type')} />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
-                            {allowanceTypeOptions?.map(option => (
+                            {allowanceTypeOptions?.map((option) => (
                                 <SelectItem key={option.value} value={option.value}>
                                     {option.label}
                                 </SelectItem>
@@ -80,7 +84,9 @@ export default function Edit({ allowance, allowanceTypes, onSuccess }: EditAllow
                 </div>
 
                 <div>
-                    <Label htmlFor="edit_type" required>{t('Type')}</Label>
+                    <Label htmlFor="edit_type" required>
+                        {t('Type')}
+                    </Label>
                     <Select value={data.type} onValueChange={(value) => setData('type', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select type')} />
@@ -94,7 +100,9 @@ export default function Edit({ allowance, allowanceTypes, onSuccess }: EditAllow
                 </div>
 
                 <div>
-                    <Label htmlFor="edit_amount" required>{t('Amount')}</Label>
+                    <Label htmlFor="edit_amount" required>
+                        {t('Amount')}
+                    </Label>
                     <Input
                         id="edit_amount"
                         type="number"

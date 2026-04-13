@@ -12,8 +12,8 @@ export interface GoalContribution {
     goal?: {
         id: number;
         goal_name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     created_at: string;
 }
 
@@ -61,8 +61,8 @@ export interface ContributionsIndexProps {
     goals: Array<{
         id: number;
         goal_name: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     auth: AuthContext;
     [key: string]: any;
 }

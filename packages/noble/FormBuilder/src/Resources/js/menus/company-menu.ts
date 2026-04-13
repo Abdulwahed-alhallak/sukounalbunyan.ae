@@ -1,7 +1,5 @@
 import { FormInput } from 'lucide-react';
 
-
-
 export const formbuilderCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Form Builder'),

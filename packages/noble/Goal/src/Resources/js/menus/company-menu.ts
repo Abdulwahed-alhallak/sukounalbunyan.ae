@@ -1,6 +1,4 @@
-import {  Target , Tag } from 'lucide-react';
-
-
+import { Target, Tag } from 'lucide-react';
 
 export const goalCompanyMenu = (t: (key: string) => string) => [
     {

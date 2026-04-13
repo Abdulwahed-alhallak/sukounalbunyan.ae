@@ -17,7 +17,7 @@ interface CreateLoanProps {
 
 export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanProps) {
     const { t } = useTranslation();
-    
+
     const { data, setData, post, processing, errors } = useForm({
         employee_id: employeeId,
         title: '',
@@ -38,19 +38,21 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
             },
             onError: () => {
                 // Keep modal open on validation errors
-            }
+            },
         });
     };
 
     return (
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-md overflow-y-auto">
             <DialogHeader>
                 <DialogTitle>{t('Add Loan')}</DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         value={data.title}
@@ -62,8 +64,14 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
                 </div>
 
                 <div>
-                    <Label htmlFor="loan_type_id" required>{t('Loan Type')}</Label>
-                    <Select value={data.loan_type_id} onValueChange={(value) => setData('loan_type_id', value)} required>
+                    <Label htmlFor="loan_type_id" required>
+                        {t('Loan Type')}
+                    </Label>
+                    <Select
+                        value={data.loan_type_id}
+                        onValueChange={(value) => setData('loan_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select loan type')} />
                         </SelectTrigger>
@@ -79,7 +87,9 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
                 </div>
 
                 <div>
-                    <Label htmlFor="type" required>{t('Type')}</Label>
+                    <Label htmlFor="type" required>
+                        {t('Type')}
+                    </Label>
                     <Select value={data.type} onValueChange={(value) => setData('type', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select type')} />
@@ -93,7 +103,9 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
                 </div>
 
                 <div>
-                    <Label htmlFor="amount" required>{t('Amount')}</Label>
+                    <Label htmlFor="amount" required>
+                        {t('Amount')}
+                    </Label>
                     <Input
                         id="amount"
                         type="number"
@@ -108,7 +120,9 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
                 </div>
 
                 <div>
-                    <Label htmlFor="start_date" required>{t('Start Date')}</Label>
+                    <Label htmlFor="start_date" required>
+                        {t('Start Date')}
+                    </Label>
                     <DatePicker
                         id="start_date"
                         value={data.start_date}
@@ -119,7 +133,9 @@ export default function Create({ employeeId, loanTypes, onSuccess }: CreateLoanP
                 </div>
 
                 <div>
-                    <Label htmlFor="end_date" required>{t('End Date')}</Label>
+                    <Label htmlFor="end_date" required>
+                        {t('End Date')}
+                    </Label>
                     <DatePicker
                         id="end_date"
                         value={data.end_date}

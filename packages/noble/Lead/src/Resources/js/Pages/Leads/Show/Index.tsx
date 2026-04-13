@@ -38,7 +38,11 @@ export default function Show() {
     const [activeSection, setActiveSection] = useState('general');
     const videoHubButtons = usePageButtons('leadShowButtons', { lead });
     const spreadsheetButtons = usePageButtons('spreadsheetBtn', { module: 'Lead', sub_module: lead.id });
-    const businessProcessMappingButtons = usePageButtons('businessProcessMappingBtn', { module: 'Lead', submodule: 'Lead', id: lead.id });
+    const businessProcessMappingButtons = usePageButtons('businessProcessMappingBtn', {
+        module: 'Lead',
+        submodule: 'Lead',
+        id: lead.id,
+    });
 
     const renderSectionHeader = () => {
         const headers: Record<string, string> = {
@@ -50,24 +54,27 @@ export default function Show() {
             files: t('Files'),
             attachments: t('Attachments'),
             calls: t('Calls'),
-            activity: t('Activity')
+            activity: t('Activity'),
         };
 
         const showAddButton = ['tasks', 'users', 'products', 'sources', 'calls'].includes(activeSection);
 
         return (
-            <div className="flex justify-between items-center mb-6">
+            <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-lg font-medium">{headers[activeSection] || ''}</h3>
                 {showAddButton && (
                     <TooltipProvider>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                                <Button size="sm" onClick={() => {
-                                    const handlers = addHandlers as any;
-                                    if (handlers[activeSection]) {
-                                        handlers[activeSection]();
-                                    }
-                                }}>
+                                <Button
+                                    size="sm"
+                                    onClick={() => {
+                                        const handlers = addHandlers as any;
+                                        if (handlers[activeSection]) {
+                                            handlers[activeSection]();
+                                        }
+                                    }}
+                                >
                                     <Plus className="h-4 w-4" />
                                 </Button>
                             </TooltipTrigger>
@@ -88,15 +95,40 @@ export default function Show() {
             case 'general':
                 return <General lead={lead} />;
             case 'tasks':
-                return <Tasks lead={lead} onRegisterAddHandler={(handler) => setAddHandlers(prev => ({...prev, tasks: handler}))} />;
+                return (
+                    <Tasks
+                        lead={lead}
+                        onRegisterAddHandler={(handler) => setAddHandlers((prev) => ({ ...prev, tasks: handler }))}
+                    />
+                );
             case 'users':
-                return <Users lead={lead} onRegisterAddHandler={(handler) => setAddHandlers(prev => ({...prev, users: handler}))} />;
+                return (
+                    <Users
+                        lead={lead}
+                        onRegisterAddHandler={(handler) => setAddHandlers((prev) => ({ ...prev, users: handler }))}
+                    />
+                );
             case 'products':
-                return <Products lead={lead} onRegisterAddHandler={(handler) => setAddHandlers(prev => ({...prev, products: handler}))} />;
+                return (
+                    <Products
+                        lead={lead}
+                        onRegisterAddHandler={(handler) => setAddHandlers((prev) => ({ ...prev, products: handler }))}
+                    />
+                );
             case 'sources':
-                return <Sources lead={lead} onRegisterAddHandler={(handler) => setAddHandlers(prev => ({...prev, sources: handler}))} />;
+                return (
+                    <Sources
+                        lead={lead}
+                        onRegisterAddHandler={(handler) => setAddHandlers((prev) => ({ ...prev, sources: handler }))}
+                    />
+                );
             case 'calls':
-                return <Calls lead={lead} onRegisterAddHandler={(handler) => setAddHandlers(prev => ({...prev, calls: handler}))} />;
+                return (
+                    <Calls
+                        lead={lead}
+                        onRegisterAddHandler={(handler) => setAddHandlers((prev) => ({ ...prev, calls: handler }))}
+                    />
+                );
 
             case 'files':
                 return <Files lead={lead} />;
@@ -114,7 +146,7 @@ export default function Show() {
                 return <Activity lead={lead} />;
             default:
                 return (
-                    <div className="text-center py-8 text-muted-foreground">
+                    <div className="py-8 text-center text-muted-foreground">
                         {t('This section is under development')}
                     </div>
                 );
@@ -124,9 +156,9 @@ export default function Show() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('CRM'), url: route('lead.index')},
-                {label: t('Lead'), url: route('lead.leads.index')},
-                {label: lead.name}
+                { label: t('CRM'), url: route('lead.index') },
+                { label: t('Lead'), url: route('lead.leads.index') },
+                { label: lead.name },
             ]}
             pageTitle={
                 <div className="flex items-center justify-between">
@@ -160,8 +192,8 @@ export default function Show() {
         >
             <Head title={`${lead.name} - ${t('CRM Details')}`} />
 
-            <div className="flex flex-col md:flex-row gap-6">
-                <div className="md:w-56 flex-shrink-0">
+            <div className="flex flex-col gap-6 md:flex-row">
+                <div className="flex-shrink-0 md:w-56">
                     <LeadSidebar activeItem={activeSection} onSectionChange={setActiveSection} />
                 </div>
 

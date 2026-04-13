@@ -13,13 +13,19 @@ export default function View({ goal }: ViewGoalProps) {
 
     const getStatusBadge = (status: string) => {
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${
-                status === 'completed' ? 'bg-muted text-foreground' :
-                status === 'active' ? 'bg-muted text-foreground' :
-                status === 'paused' ? 'bg-muted text-foreground' :
-                status === 'cancelled' ? 'bg-muted text-destructive' :
-                'bg-muted text-foreground'
-            }`}>
+            <span
+                className={`rounded-full px-2 py-1 text-sm ${
+                    status === 'completed'
+                        ? 'bg-muted text-foreground'
+                        : status === 'active'
+                          ? 'bg-muted text-foreground'
+                          : status === 'paused'
+                            ? 'bg-muted text-foreground'
+                            : status === 'cancelled'
+                              ? 'bg-muted text-destructive'
+                              : 'bg-muted text-foreground'
+                }`}
+            >
                 {t(status.charAt(0).toUpperCase() + status.slice(1))}
             </span>
         );
@@ -27,12 +33,17 @@ export default function View({ goal }: ViewGoalProps) {
 
     const getPriorityBadge = (priority: string) => {
         return (
-            <span className={`px-2 py-1 rounded-full text-sm ${
-                priority === 'critical' ? 'bg-muted text-destructive' :
-                priority === 'high' ? 'bg-muted text-foreground' :
-                priority === 'medium' ? 'bg-muted text-foreground' :
-                'bg-muted text-foreground'
-            }`}>
+            <span
+                className={`rounded-full px-2 py-1 text-sm ${
+                    priority === 'critical'
+                        ? 'bg-muted text-destructive'
+                        : priority === 'high'
+                          ? 'bg-muted text-foreground'
+                          : priority === 'medium'
+                            ? 'bg-muted text-foreground'
+                            : 'bg-muted text-foreground'
+                }`}
+            >
                 {t(priority.charAt(0).toUpperCase() + priority.slice(1))}
             </span>
         );
@@ -41,20 +52,22 @@ export default function View({ goal }: ViewGoalProps) {
     const progressPercentage = goal.target_amount > 0 ? (goal.current_amount / goal.target_amount) * 100 : 0;
 
     return (
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
-                <DialogTitle>{t('Goal Details')} - {goal.goal_name}</DialogTitle>
+                <DialogTitle>
+                    {t('Goal Details')} - {goal.goal_name}
+                </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-6 mt-3">
+            <div className="mt-3 space-y-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-base flex justify-between items-center">
+                        <CardTitle className="flex items-center justify-between text-base">
                             {t('Goal Information')}
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                             <div>
                                 <span className="font-semibold">{t('Goal Name')}</span>
                                 <p className="mt-1 text-muted-foreground">{goal.goal_name}</p>
@@ -89,9 +102,9 @@ export default function View({ goal }: ViewGoalProps) {
                             </div>
                         </div>
                         {goal.goal_description && (
-                            <div className="text-sm mt-4">
+                            <div className="mt-4 text-sm">
                                 <span className="font-semibold">{t('Description')}</span>
-                                <p className="mt-1 p-3 bg-muted/50 rounded text-sm">{goal.goal_description}</p>
+                                <p className="mt-1 rounded bg-muted/50 p-3 text-sm">{goal.goal_description}</p>
                             </div>
                         )}
                     </CardContent>
@@ -103,25 +116,31 @@ export default function View({ goal }: ViewGoalProps) {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <span className="font-semibold text-sm">{t('Target Amount')}</span>
-                                    <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(goal.target_amount)}</p>
+                                    <span className="text-sm font-semibold">{t('Target Amount')}</span>
+                                    <p className="mt-1 text-2xl font-bold text-foreground">
+                                        {formatCurrency(goal.target_amount)}
+                                    </p>
                                 </div>
                                 <div>
-                                    <span className="font-semibold text-sm">{t('Current Amount')}</span>
-                                    <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(goal.current_amount)}</p>
+                                    <span className="text-sm font-semibold">{t('Current Amount')}</span>
+                                    <p className="mt-1 text-2xl font-bold text-foreground">
+                                        {formatCurrency(goal.current_amount)}
+                                    </p>
                                 </div>
                             </div>
 
                             <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="font-semibold text-sm">{t('Progress')}</span>
-                                    <span className="text-sm text-muted-foreground">{progressPercentage.toFixed(1)}%</span>
+                                <div className="mb-2 flex items-center justify-between">
+                                    <span className="text-sm font-semibold">{t('Progress')}</span>
+                                    <span className="text-sm text-muted-foreground">
+                                        {progressPercentage.toFixed(1)}%
+                                    </span>
                                 </div>
-                                <div className="w-full bg-muted rounded-full h-3">
+                                <div className="h-3 w-full rounded-full bg-muted">
                                     <div
-                                        className="bg-foreground h-3 rounded-full transition-all duration-300"
+                                        className="h-3 rounded-full bg-foreground transition-all duration-300"
                                         style={{ width: `${Math.min(progressPercentage, 100)}%` }}
                                     ></div>
                                 </div>

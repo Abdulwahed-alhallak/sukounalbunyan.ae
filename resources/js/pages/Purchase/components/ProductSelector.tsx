@@ -8,7 +8,7 @@ interface Product {
     name: string;
     purchase_price: number;
     unit?: string;
-    taxes?: Array<{id: number; tax_name: string; rate: number}>;
+    taxes?: Array<{ id: number; tax_name: string; rate: number }>;
 }
 
 interface Props {
@@ -22,7 +22,7 @@ export default function ProductSelector({ products, value, onChange }: Props) {
 
     const handleChange = (productId: string) => {
         const id = parseInt(productId);
-        const product = products.find(p => p.id === id);
+        const product = products.find((p) => p.id === id);
         onChange(id, product);
     };
 

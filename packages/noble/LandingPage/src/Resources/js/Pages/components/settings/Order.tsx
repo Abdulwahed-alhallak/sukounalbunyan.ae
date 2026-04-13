@@ -18,12 +18,14 @@ export default function Order({ data, setData, updateSectionVisibility }: OrderP
             <Card>
                 <CardHeader>
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-muted rounded-lg">
+                        <div className="rounded-lg bg-muted p-2">
                             <ArrowUpDown className="h-5 w-5 text-foreground" />
                         </div>
                         <div>
                             <CardTitle>{t('Section Order')}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{t('Drag and drop to reorder sections on your landing page')}</p>
+                            <p className="text-sm text-muted-foreground">
+                                {t('Drag and drop to reorder sections on your landing page')}
+                            </p>
                         </div>
                     </div>
                 </CardHeader>
@@ -39,11 +41,11 @@ export default function Order({ data, setData, updateSectionVisibility }: OrderP
                                 benefits: t('Benefits'),
                                 gallery: t('Gallery'),
                                 cta: t('CTA'),
-                                footer: t('Footer')
+                                footer: t('Footer'),
                             };
-                            
+
                             const isEnabled = data.config_sections?.section_visibility?.[sectionKey] !== false;
-                            
+
                             return (
                                 <div
                                     key={sectionKey}
@@ -63,21 +65,25 @@ export default function Order({ data, setData, updateSectionVisibility }: OrderP
                                         currentOrder.splice(index, 0, draggedItem);
                                         setData('config_sections', {
                                             ...data.config_sections,
-                                            section_order: currentOrder
+                                            section_order: currentOrder,
                                         });
                                     }}
-                                    className={`flex items-center gap-3 p-4 border rounded-lg transition-all cursor-move ${
-                                        isEnabled ? 'bg-card border-border hover:shadow-md' : 'bg-muted/50 border-border opacity-60'
+                                    className={`flex cursor-move items-center gap-3 rounded-lg border p-4 transition-all ${
+                                        isEnabled
+                                            ? 'border-border bg-card hover:shadow-md'
+                                            : 'border-border bg-muted/50 opacity-60'
                                     }`}
                                 >
                                     <GripVertical className="h-5 w-5 text-muted-foreground" />
-                                    <div className="flex-1 flex items-center justify-between">
+                                    <div className="flex flex-1 items-center justify-between">
                                         <div className="flex items-center gap-3">
-                                            <span className="w-8 h-8 bg-muted text-foreground rounded-full flex items-center justify-center text-sm font-bold">
+                                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
                                                 {index + 1}
                                             </span>
                                             <div>
-                                                <h4 className="font-medium text-foreground">{sectionNames[sectionKey] || sectionKey}</h4>
+                                                <h4 className="font-medium text-foreground">
+                                                    {sectionNames[sectionKey] || sectionKey}
+                                                </h4>
                                                 <p className="text-sm text-muted-foreground">
                                                     {isEnabled ? t('Enabled') : t('Disabled')}
                                                 </p>
@@ -87,7 +93,9 @@ export default function Order({ data, setData, updateSectionVisibility }: OrderP
                                             <Label className="text-sm">{t('Enable')}</Label>
                                             <Switch
                                                 checked={isEnabled}
-                                                onCheckedChange={(checked) => updateSectionVisibility(sectionKey, checked)}
+                                                onCheckedChange={(checked) =>
+                                                    updateSectionVisibility(sectionKey, checked)
+                                                }
                                             />
                                         </div>
                                     </div>

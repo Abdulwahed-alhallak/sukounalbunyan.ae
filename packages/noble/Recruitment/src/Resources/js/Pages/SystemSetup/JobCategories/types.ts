@@ -16,10 +16,12 @@ export interface JobCategoryFormData {
     [key: string]: any;
 }
 
-export interface CreateJobCategoryProps extends CreateProps  {[key: string]: any;
+export interface CreateJobCategoryProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditJobCategoryProps extends EditProps<JobCategory>  {[key: string]: any;
+export interface EditJobCategoryProps extends EditProps<JobCategory> {
+    [key: string]: any;
 }
 
 export type PaginatedJobCategories = PaginatedData<JobCategory>;

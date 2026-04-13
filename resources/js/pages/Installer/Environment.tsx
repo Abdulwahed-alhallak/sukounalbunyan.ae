@@ -22,8 +22,6 @@ export default function Environment({ timezones }: { timezones: string[] }) {
         db_password: '',
     });
 
-
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -36,14 +34,13 @@ export default function Environment({ timezones }: { timezones: string[] }) {
             onError: (errors) => {
                 console.log('Validation errors:', errors);
             },
-
         });
     };
 
     return (
         <>
             <Head title={t('Installation - Environment')} />
-            <div className="min-h-screen bg-muted/50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="flex min-h-screen flex-col justify-center bg-muted/50 py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-2xl">
                     <Card>
                         <CardHeader>
@@ -51,25 +48,25 @@ export default function Environment({ timezones }: { timezones: string[] }) {
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={submit} className="space-y-6">
-                            {processing && (
-                                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                                    <div className="bg-card p-6 rounded-lg shadow-lg text-center">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground mx-auto mb-4"></div>
-                                        <p>{t('Configuring environment...')}</p>
-                                    </div>
-                                </div>
-                            )}
-
-                            {Object.keys(errors).length > 0 && (
-                                <div className="bg-muted border border-border rounded-md p-4 mb-4">
-                                    <h3 className="font-semibold text-destructive mb-2">Validation Errors:</h3>
-                                    {Object.entries(errors).map(([key, message]) => (
-                                        <div key={key} className="text-sm text-destructive mb-1">
-                                            <strong>{key}:</strong> {Array.isArray(message) ? message[0] : message}
+                                {processing && (
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                                        <div className="rounded-lg bg-card p-6 text-center shadow-lg">
+                                            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-foreground"></div>
+                                            <p>{t('Configuring environment...')}</p>
                                         </div>
-                                    ))}
-                                </div>
-                            )}
+                                    </div>
+                                )}
+
+                                {Object.keys(errors).length > 0 && (
+                                    <div className="mb-4 rounded-md border border-border bg-muted p-4">
+                                        <h3 className="mb-2 font-semibold text-destructive">Validation Errors:</h3>
+                                        {Object.entries(errors).map(([key, message]) => (
+                                            <div key={key} className="mb-1 text-sm text-destructive">
+                                                <strong>{key}:</strong> {Array.isArray(message) ? message[0] : message}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                                 <div className="space-y-2">
                                     <Label htmlFor="app_name">{t('Application Name')}</Label>
                                     <Input
@@ -98,13 +95,18 @@ export default function Environment({ timezones }: { timezones: string[] }) {
 
                                 <div className="space-y-2">
                                     <Label>{t('Timezone')}</Label>
-                                    <Select value={data.app_timezone} onValueChange={(value) => setData('app_timezone', value)}>
+                                    <Select
+                                        value={data.app_timezone}
+                                        onValueChange={(value) => setData('app_timezone', value)}
+                                    >
                                         <SelectTrigger className="h-11">
                                             <SelectValue placeholder="Select timezone" />
                                         </SelectTrigger>
                                         <SelectContent searchable>
                                             {timezones.map((tz) => (
-                                                <SelectItem key={tz} value={tz}>{tz}</SelectItem>
+                                                <SelectItem key={tz} value={tz}>
+                                                    {tz}
+                                                </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
@@ -113,7 +115,10 @@ export default function Environment({ timezones }: { timezones: string[] }) {
 
                                 <div className="space-y-2">
                                     <Label>{t('Database Connection')}</Label>
-                                    <Select value={data.db_connection} onValueChange={(value) => setData('db_connection', value)}>
+                                    <Select
+                                        value={data.db_connection}
+                                        onValueChange={(value) => setData('db_connection', value)}
+                                    >
                                         <SelectTrigger className="h-11">
                                             <SelectValue />
                                         </SelectTrigger>
@@ -199,7 +204,7 @@ export default function Environment({ timezones }: { timezones: string[] }) {
                                     </Button>
                                     <Button
                                         type="submit"
-                                        className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-background bg-foreground hover:bg-accent disabled:opacity-50"
+                                        className="rounded-md border border-transparent bg-foreground px-4 py-2 text-sm font-medium text-background shadow-sm hover:bg-accent disabled:opacity-50"
                                         disabled={processing}
                                         onClick={(e) => {
                                             console.log('Button clicked, processing:', processing);
@@ -216,4 +221,3 @@ export default function Environment({ timezones }: { timezones: string[] }) {
         </>
     );
 }
-

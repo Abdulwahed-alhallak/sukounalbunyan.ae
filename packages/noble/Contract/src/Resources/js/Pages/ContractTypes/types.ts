@@ -1,7 +1,5 @@
 import { PaginatedData, ModalState, AuthContext } from '@/types/common';
 
-
-
 export interface ContractType {
     id: number;
     name: string;
@@ -11,8 +9,8 @@ export interface ContractType {
         id: number;
         subject: string;
         contract_number?: string;
-    [key: string]: any;
-}>;
+        [key: string]: any;
+    }>;
     created_at: string;
 }
 

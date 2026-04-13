@@ -3,16 +3,16 @@ import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { formatDate } from '@/utils/helpers';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit, Trash2, Clock } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit, Trash2, Clock } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -70,42 +70,49 @@ export default function Index() {
         search: urlParams.get('search') || '',
         type: urlParams.get('type') || '',
         date: urlParams.get('date') || '',
-        user_id: urlParams.get('user_id') || ''
+        user_id: urlParams.get('user_id') || '',
     });
 
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [showFilters, setShowFilters] = useState(false);
     const [modalState, setModalState] = useState<TimesheetModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'timesheet.destroy',
-        defaultMessage: t('Are you sure you want to delete this timesheet?')
+        defaultMessage: t('Are you sure you want to delete this timesheet?'),
     });
 
     const handleFilter = () => {
-        router.get(route('timesheet.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('timesheet.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        
-        router.get(route('timesheet.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+
+        router.get(
+            route('timesheet.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -123,10 +130,14 @@ export default function Index() {
 
     const getTypeColor = (type: string) => {
         switch (type) {
-            case 'clock_in_out': return 'bg-muted text-foreground';
-            case 'project': return 'bg-muted text-foreground';
-            case 'manual': return 'bg-muted text-foreground';
-            default: return 'bg-muted text-foreground';
+            case 'clock_in_out':
+                return 'bg-muted text-foreground';
+            case 'project':
+                return 'bg-muted text-foreground';
+            case 'manual':
+                return 'bg-muted text-foreground';
+            default:
+                return 'bg-muted text-foreground';
         }
     };
 
@@ -135,87 +146,95 @@ export default function Index() {
             key: 'user_id',
             header: t('Name'),
             sortable: true,
-            render: (value: any, item: Timesheet) => item.user?.name || '-'
+            render: (value: any, item: Timesheet) => item.user?.name || '-',
         },
         {
             key: 'project_name',
             header: t('Project'),
-            render: (value: string) => value || '-'
+            render: (value: string) => value || '-',
         },
         {
             key: 'task_name',
             header: t('Task'),
-            render: (value: string) => value || '-'
+            render: (value: string) => value || '-',
         },
         {
             key: 'type',
             header: t('Type'),
             render: (value: string) => (
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(value)}`}>
-                    {value === 'clock_in_out' ? t('Clock In/Out') : 
-                     value === 'project' ? t('Project') : t('Manual')}
+                <span className={`rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(value)}`}>
+                    {value === 'clock_in_out' ? t('Clock In/Out') : value === 'project' ? t('Project') : t('Manual')}
                 </span>
-            )
+            ),
         },
         {
             key: 'date',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => formatDate(value, usePage().props)
+            render: (value: string) => formatDate(value, usePage().props),
         },
         {
             key: 'hours',
             header: t('Hours'),
             sortable: true,
             render: (_: any, item: Timesheet) => (
-                <span className="font-mono">
-                    {String(item.hours).padStart(2, '0')}
-                </span>
-            )
+                <span className="font-mono">{String(item.hours).padStart(2, '0')}</span>
+            ),
         },
         {
             key: 'minutes',
             header: t('Minutes'),
             sortable: true,
             render: (_: any, item: Timesheet) => (
-                <span className="font-mono">
-                    {String(item.minutes).padStart(2, '0')}
-                </span>
-            )
+                <span className="font-mono">{String(item.minutes).padStart(2, '0')}</span>
+            ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['edit-timesheet', 'delete-timesheet'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, item: Timesheet) => (
-                <div className="flex gap-1">
-                    {auth.user?.permissions?.includes('edit-timesheet') && (
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="sm" onClick={() => openModal('edit', item)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                    <Edit className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent><p>{t('Edit')}</p></TooltipContent>
-                        </Tooltip>
-                    )}
-                    {auth.user?.permissions?.includes('delete-timesheet') && (
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => openDeleteDialog(item.id)}
-                                    className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent><p>{t('Delete')}</p></TooltipContent>
-                        </Tooltip>
-                    )}
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) => ['edit-timesheet', 'delete-timesheet'].includes(p))
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, item: Timesheet) => (
+                          <div className="flex gap-1">
+                              {auth.user?.permissions?.includes('edit-timesheet') && (
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              onClick={() => openModal('edit', item)}
+                                              className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                          >
+                                              <Edit className="h-4 w-4" />
+                                          </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('Edit')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              )}
+                              {auth.user?.permissions?.includes('delete-timesheet') && (
+                                  <Tooltip delayDuration={0}>
+                                      <TooltipTrigger asChild>
+                                          <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              onClick={() => openDeleteDialog(item.id)}
+                                              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                          >
+                                              <Trash2 className="h-4 w-4" />
+                                          </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                          <p>{t('Delete')}</p>
+                                      </TooltipContent>
+                                  </Tooltip>
+                              )}
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
@@ -232,7 +251,9 @@ export default function Index() {
                                         <Plus className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
-                                <TooltipContent><p>{t('Create')}</p></TooltipContent>
+                                <TooltipContent>
+                                    <p>{t('Create')}</p>
+                                </TooltipContent>
                             </Tooltip>
                         )}
                     </div>
@@ -241,9 +262,9 @@ export default function Index() {
                 <Head title={t('Timesheet')} />
 
                 <Card className="shadow-sm">
-                    <CardContent className="p-6 border-b bg-muted/50/50">
+                    <CardContent className="bg-muted/50/50 border-b p-6">
                         <div className="flex items-center justify-between gap-4">
-                            <div className="flex-1 max-w-md">
+                            <div className="max-w-md flex-1">
                                 <SearchInput
                                     value={filters.search}
                                     onChange={(value) => setFilters({ ...filters, search: value })}
@@ -257,21 +278,22 @@ export default function Index() {
                                     routeName="timesheet.index"
                                     filters={{ ...filters, per_page: perPage }}
                                 />
-                                <PerPageSelector
-                                    routeName="timesheet.index"
-                                    filters={{ ...filters, view: viewMode }}
-                                />
+                                <PerPageSelector routeName="timesheet.index" filters={{ ...filters, view: viewMode }} />
                                 <div className="relative">
                                     <FilterButton
                                         showFilters={showFilters}
                                         onToggle={() => setShowFilters(!showFilters)}
                                     />
                                     {(() => {
-                                        const activeFilters = [filters.type, filters.date, filters.user_id].filter(Boolean).length;
-                                        return activeFilters > 0 && (
-                                            <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                                {activeFilters}
-                                            </span>
+                                        const activeFilters = [filters.type, filters.date, filters.user_id].filter(
+                                            Boolean
+                                        ).length;
+                                        return (
+                                            activeFilters > 0 && (
+                                                <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                    {activeFilters}
+                                                </span>
+                                            )
                                         );
                                     })()}
                                 </div>
@@ -280,40 +302,56 @@ export default function Index() {
                     </CardContent>
 
                     {showFilters && (
-                        <CardContent className="p-6 bg-muted/50/30 border-b">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:grid-cols-4">
+                        <CardContent className="bg-muted/50/30 border-b p-6">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Type')}</label>
-                                    <Select value={filters.type} onValueChange={(value) => setFilters({ ...filters, type: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Type')}
+                                    </label>
+                                    <Select
+                                        value={filters.type}
+                                        onValueChange={(value) => setFilters({ ...filters, type: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Types')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {hasHRM && <SelectItem value="clock_in_out">{t('Clock In/Out')}</SelectItem>}
+                                            {hasHRM && (
+                                                <SelectItem value="clock_in_out">{t('Clock In/Out')}</SelectItem>
+                                            )}
                                             {hasTaskly && <SelectItem value="project">{t('Project')}</SelectItem>}
                                             <SelectItem value="manual">{t('Manual')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                {(auth.user?.permissions?.includes('manage-any-users') || auth.user?.permissions?.includes('manage-own-users')) && users?.length > 0 && (
-                                    <div>
-                                        <label className="block text-sm font-medium text-foreground mb-2">{t('User')}</label>
-                                        <Select value={filters.user_id} onValueChange={(value) => setFilters({ ...filters, user_id: value })}>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder={t('All Users')} />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {users?.map((user) => (
-                                                    <SelectItem key={user.id} value={user.id.toString()}>
-                                                        {user.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                )}
+                                {(auth.user?.permissions?.includes('manage-any-users') ||
+                                    auth.user?.permissions?.includes('manage-own-users')) &&
+                                    users?.length > 0 && (
+                                        <div>
+                                            <label className="mb-2 block text-sm font-medium text-foreground">
+                                                {t('User')}
+                                            </label>
+                                            <Select
+                                                value={filters.user_id}
+                                                onValueChange={(value) => setFilters({ ...filters, user_id: value })}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder={t('All Users')} />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {users?.map((user) => (
+                                                        <SelectItem key={user.id} value={user.id.toString()}>
+                                                            {user.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    )}
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Date')}</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Date')}
+                                    </label>
                                     <Input
                                         type="date"
                                         value={filters.date}
@@ -321,8 +359,12 @@ export default function Index() {
                                     />
                                 </div>
                                 <div className="flex items-end gap-2">
-                                    <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                    <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                    <Button onClick={handleFilter} size="sm">
+                                        {t('Apply')}
+                                    </Button>
+                                    <Button variant="outline" onClick={clearFilters} size="sm">
+                                        {t('Clear')}
+                                    </Button>
                                 </div>
                             </div>
                         </CardContent>
@@ -330,7 +372,7 @@ export default function Index() {
 
                     <CardContent className="p-0">
                         {viewMode === 'list' ? (
-                            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                                 <div className="min-w-[800px]">
                                     <DataTable
                                         data={timesheets?.data || []}
@@ -344,7 +386,14 @@ export default function Index() {
                                                 icon={Clock}
                                                 title={t('No timesheets found')}
                                                 description={t('Get started by creating your first timesheet.')}
-                                                hasFilters={!!(filters.search || filters.type || filters.date || filters.user_id)}
+                                                hasFilters={
+                                                    !!(
+                                                        filters.search ||
+                                                        filters.type ||
+                                                        filters.date ||
+                                                        filters.user_id
+                                                    )
+                                                }
                                                 onClearFilters={clearFilters}
                                                 createPermission="create-timesheet"
                                                 onCreateClick={() => openModal('add')}
@@ -356,70 +405,108 @@ export default function Index() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="overflow-auto max-h-[70vh] p-6">
+                            <div className="max-h-[70vh] overflow-auto p-6">
                                 {timesheets?.data?.length > 0 ? (
                                     <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
                                         {timesheets.data?.map((timesheet) => (
-                                            <Card key={timesheet.id} className="p-0 hover:shadow-lg transition-all duration-200 relative overflow-hidden flex flex-col h-full min-w-0">
+                                            <Card
+                                                key={timesheet.id}
+                                                className="relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-200 hover:shadow-lg"
+                                            >
                                                 {/* Header */}
-                                                <div className="p-4 bg-gradient-to-r from-muted/50 to-transparent border-b flex-shrink-0">
+                                                <div className="flex-shrink-0 border-b bg-gradient-to-r from-muted/50 to-transparent p-4">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="p-2 bg-foreground/10 rounded-lg">
+                                                        <div className="rounded-lg bg-foreground/10 p-2">
                                                             <Clock className="h-5 w-5 text-foreground" />
                                                         </div>
                                                         <div className="min-w-0 flex-1">
-                                                            <h3 className="font-semibold text-sm text-foreground">{timesheet.user.name}</h3>
-                                                            <p className="text-xs font-medium text-muted-foreground">{formatDate(timesheet.date, usePage().props)}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Body */}
-                                                <div className="p-4 flex-1 min-h-0">
-                                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Hours')}</p>
-                                                            <p className="font-medium text-xs font-mono">{String(timesheet.hours).padStart(2, '0')}</p>
-                                                        </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Minutes')}</p>
-                                                            <p className="font-medium text-xs font-mono">{String(timesheet.minutes).padStart(2, '0')}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Project')}</p>
-                                                            <p className="font-medium text-xs">{timesheet.project_name || '-'}</p>
-                                                        </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Task')}</p>
-                                                            <p className="font-medium text-xs">{timesheet.task_name || '-'}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="grid grid-cols-1 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Type')}</p>
-                                                            <p className="font-medium text-xs">
-                                                                {timesheet.type === 'clock_in_out' ? t('Clock In/Out') : 
-                                                                 timesheet.type === 'project' ? t('Project') : t('Manual')}
+                                                            <h3 className="text-sm font-semibold text-foreground">
+                                                                {timesheet.user.name}
+                                                            </h3>
+                                                            <p className="text-xs font-medium text-muted-foreground">
+                                                                {formatDate(timesheet.date, usePage().props)}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex justify-between items-center p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
-                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(timesheet.type)}`}>
-                                                        {timesheet.type === 'clock_in_out' ? t('Clock In/Out') : 
-                                                         timesheet.type === 'project' ? t('Project') : t('Manual')}
+                                                {/* Body */}
+                                                <div className="min-h-0 flex-1 p-4">
+                                                    <div className="mb-4 grid grid-cols-2 gap-4">
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Hours')}
+                                                            </p>
+                                                            <p className="font-mono text-xs font-medium">
+                                                                {String(timesheet.hours).padStart(2, '0')}
+                                                            </p>
+                                                        </div>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Minutes')}
+                                                            </p>
+                                                            <p className="font-mono text-xs font-medium">
+                                                                {String(timesheet.minutes).padStart(2, '0')}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mb-4 grid grid-cols-2 gap-4">
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Project')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {timesheet.project_name || '-'}
+                                                            </p>
+                                                        </div>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Task')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {timesheet.task_name || '-'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-1 gap-4">
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Type')}
+                                                            </p>
+                                                            <p className="text-xs font-medium">
+                                                                {timesheet.type === 'clock_in_out'
+                                                                    ? t('Clock In/Out')
+                                                                    : timesheet.type === 'project'
+                                                                      ? t('Project')
+                                                                      : t('Manual')}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 items-center justify-between border-t p-3">
+                                                    <span
+                                                        className={`rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(timesheet.type)}`}
+                                                    >
+                                                        {timesheet.type === 'clock_in_out'
+                                                            ? t('Clock In/Out')
+                                                            : timesheet.type === 'project'
+                                                              ? t('Project')
+                                                              : t('Manual')}
                                                     </span>
                                                     <div className="flex gap-2">
                                                         <TooltipProvider>
                                                             {auth.user?.permissions?.includes('edit-timesheet') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', timesheet)} className="h-8 w-8 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', timesheet)}
+                                                                            className="h-8 w-8 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <Edit className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -434,8 +521,10 @@ export default function Index() {
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(timesheet.id)}
-                                                                            className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-muted/50"
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(timesheet.id)
+                                                                            }
+                                                                            className="h-8 w-8 p-0 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
                                                                         </Button>
@@ -456,7 +545,9 @@ export default function Index() {
                                         icon={Clock}
                                         title={t('No timesheets found')}
                                         description={t('Get started by creating your first timesheet.')}
-                                        hasFilters={!!(filters.search || filters.type || filters.date || filters.user_id)}
+                                        hasFilters={
+                                            !!(filters.search || filters.type || filters.date || filters.user_id)
+                                        }
                                         onClearFilters={clearFilters}
                                         createPermission="create-timesheet"
                                         onCreateClick={() => openModal('add')}
@@ -468,7 +559,7 @@ export default function Index() {
                         )}
                     </CardContent>
 
-                    <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                    <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                         <Pagination
                             data={timesheets}
                             routeName="timesheet.index"
@@ -490,9 +581,9 @@ export default function Index() {
                 {/* Timesheet Modal */}
                 <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
                     {modalState.mode === 'add' && (
-                        <Create 
-                            onSuccess={closeModal} 
-                            users={users || []} 
+                        <Create
+                            onSuccess={closeModal}
+                            users={users || []}
                             projects={projects || []}
                             hasHRM={hasHRM}
                             hasTaskly={hasTaskly}

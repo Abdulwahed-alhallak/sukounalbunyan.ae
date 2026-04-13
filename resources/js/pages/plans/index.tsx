@@ -3,14 +3,26 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+} from '@/components/ui/dialog';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Check, Plus, Edit, Trash2, X, Package, MoreVertical, Clock } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { SearchInput } from '@/components/ui/search-input';
 import { formatDate, formatAdminCurrency, formatStorage } from '@/utils/helpers';
 
@@ -36,7 +48,7 @@ interface Plan {
 interface Props {
     plans: Plan[];
     canCreate: boolean;
-    activeModules: { module: string; alias: string; image: string; monthly_price: number; yearly_price: number; }[];
+    activeModules: { module: string; alias: string; image: string; monthly_price: number; yearly_price: number }[];
     bankTransferEnabled: string;
     userTrialInfo?: {
         is_trial_done: number;
@@ -65,59 +77,66 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
         }
     };
 
-
-
-
-
     // Use active modules from Features
     const allModules = activeModules.sort((a, b) => a.alias.localeCompare(b.alias));
 
-    const activePlans = plans.filter(plan => plan.status);
+    const activePlans = plans.filter((plan) => plan.status);
 
     // Find the plan with the highest order count for "Most Popular" badge
-    const mostPopularPlanId = activePlans.length > 0
-        ? activePlans.reduce((prev, current) =>
-            (current.orders_count || 0) > (prev.orders_count || 0) ? current : prev
-          ).id
-        : null;
+    const mostPopularPlanId =
+        activePlans.length > 0
+            ? activePlans.reduce((prev, current) =>
+                  (current.orders_count || 0) > (prev.orders_count || 0) ? current : prev
+              ).id
+            : null;
 
-    const hasModule = (plan: Plan, moduleObj: { module: string; alias: string; image: string; }) => {
+    const hasModule = (plan: Plan, moduleObj: { module: string; alias: string; image: string }) => {
         return Array.isArray(plan.modules) ? plan.modules.includes(moduleObj.module) : false;
     };
 
     const handleStartTrial = (plan: Plan) => {
-        router.post(route('plans.start-trial', plan.id), {}, {
-            preserveState: true,
-            onSuccess: () => {
-                // Reload the page to update sidebar modules and user trial info
-                router.reload();
+        router.post(
+            route('plans.start-trial', plan.id),
+            {},
+            {
+                preserveState: true,
+                onSuccess: () => {
+                    // Reload the page to update sidebar modules and user trial info
+                    router.reload();
+                },
             }
-        });
+        );
     };
 
     const handleAssignFreePlan = (plan: Plan) => {
-        router.post(route('plans.assign-free', plan.id), {
-            duration: pricingPeriod === 'monthly' ? 'Month' : 'Year'
-        }, {
-            preserveState: true
-        });
+        router.post(
+            route('plans.assign-free', plan.id),
+            {
+                duration: pricingPeriod === 'monthly' ? 'Month' : 'Year',
+            },
+            {
+                preserveState: true,
+            }
+        );
     };
 
     const canStartTrial = (plan: Plan) => {
-        return isCompanyUser &&
-               plan.trial &&
-               plan.trial_days > 0 &&
-               (auth.user?.is_trial_done === 0 || auth.user?.is_trial_done === '0');
+        return (
+            isCompanyUser &&
+            plan.trial &&
+            plan.trial_days > 0 &&
+            (auth.user?.is_trial_done === 0 || auth.user?.is_trial_done === '0')
+        );
     };
 
     const isCurrentlySubscribed = (plan: Plan) => {
         if (!isCompanyUser || !auth.user?.active_plan) return false;
-        return auth.user.active_plan === plan.id &&
-               auth.user.plan_expire_date &&
-               new Date(auth.user.plan_expire_date) > new Date();
+        return (
+            auth.user.active_plan === plan.id &&
+            auth.user.plan_expire_date &&
+            new Date(auth.user.plan_expire_date) > new Date()
+        );
     };
-
-
 
     return (
         <AuthenticatedLayout
@@ -149,24 +168,24 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
             <div className="space-y-6">
                 {/* Monthly/Yearly Toggle */}
                 <div className="flex items-center justify-center space-x-6">
-                    <div className="bg-muted dark:bg-card p-1 rounded-lg">
+                    <div className="rounded-lg bg-muted p-1 dark:bg-card">
                         <div className="flex items-center">
                             <button
                                 onClick={() => setPricingPeriod('monthly')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                                className={`rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 ${
                                     pricingPeriod === 'monthly'
-                                        ? 'bg-card dark:bg-muted text-foreground dark:text-foreground shadow-sm'
-                                        : 'text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-background'
+                                        ? 'bg-card text-foreground shadow-sm dark:bg-muted dark:text-foreground'
+                                        : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-background'
                                 }`}
                             >
                                 {t('Monthly')}
                             </button>
                             <button
                                 onClick={() => setPricingPeriod('yearly')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                                className={`rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 ${
                                     pricingPeriod === 'yearly'
-                                        ? 'bg-card dark:bg-muted text-foreground dark:text-foreground shadow-sm'
-                                        : 'text-muted-foreground dark:text-muted-foreground hover:text-foreground dark:hover:text-background'
+                                        ? 'bg-card text-foreground shadow-sm dark:bg-muted dark:text-foreground'
+                                        : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-background'
                                 }`}
                             >
                                 {t('Yearly')}
@@ -179,31 +198,42 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                 {activePlans.length > 0 ? (
                     <div className="space-y-6 overflow-x-auto pt-6">
                         {/* Plans Header Cards */}
-                        <div className="grid gap-6" style={{ gridTemplateColumns: `300px repeat(${activePlans.length}, 280px)`, minWidth: `${300 + (activePlans.length * 280) + ((activePlans.length - 1) * 24)}px` }}>
+                        <div
+                            className="grid gap-6"
+                            style={{
+                                gridTemplateColumns: `300px repeat(${activePlans.length}, 280px)`,
+                                minWidth: `${300 + activePlans.length * 280 + (activePlans.length - 1) * 24}px`,
+                            }}
+                        >
                             {/* Features Header */}
-                            <div className="bg-gradient-to-br from-muted/50 to-muted dark:from-card dark:to-foreground rounded-2xl p-6 border border-border dark:border-border sticky left-0 z-20">
+                            <div className="sticky left-0 z-20 rounded-2xl border border-border bg-gradient-to-br from-muted/50 to-muted p-6 dark:border-border dark:from-card dark:to-foreground">
                                 <div className="flex items-center justify-center space-x-3">
-                                    <h3 className="text-xl font-bold text-foreground dark:text-foreground">{t('Features')}</h3>
+                                    <h3 className="text-xl font-bold text-foreground dark:text-foreground">
+                                        {t('Features')}
+                                    </h3>
                                 </div>
                             </div>
 
                             {/* Plan Header Cards */}
                             {activePlans.map((plan, index) => (
-                                <div key={plan.id} className={`relative rounded-2xl p-6 border-2 ${
-                                    plan.id === mostPopularPlanId && activePlans.length > 1
-                                        ? 'bg-card dark:bg-card border-foreground ring-2 ring-foreground/20'
-                                        : 'bg-card dark:bg-card border-border dark:border-border'
-                                }`}>
+                                <div
+                                    key={plan.id}
+                                    className={`relative rounded-2xl border-2 p-6 ${
+                                        plan.id === mostPopularPlanId && activePlans.length > 1
+                                            ? 'border-foreground bg-card ring-2 ring-foreground/20 dark:bg-card'
+                                            : 'border-border bg-card dark:border-border dark:bg-card'
+                                    }`}
+                                >
                                     {plan.id === mostPopularPlanId && activePlans.length > 1 && (
-                                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                            <Badge className="bg-foreground text-background px-4 py-2 text-sm font-bold shadow-lg">
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">
+                                            <Badge className="bg-foreground px-4 py-2 text-sm font-bold text-background shadow-lg">
                                                 ★ {t('Most Popular')}
                                             </Badge>
                                         </div>
                                     )}
 
                                     {!isCompanyUser && (
-                                        <div className="absolute top-4 right-4">
+                                        <div className="absolute right-4 top-4">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -212,8 +242,11 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuItem asChild>
-                                                        <Link href={route('plans.edit', plan.id)} className="flex items-center">
-                                                            <Edit className="w-4 h-4 mr-2" />
+                                                        <Link
+                                                            href={route('plans.edit', plan.id)}
+                                                            className="flex items-center"
+                                                        >
+                                                            <Edit className="mr-2 h-4 w-4" />
                                                             {t('Edit')}
                                                         </Link>
                                                     </DropdownMenuItem>
@@ -221,7 +254,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                         onClick={() => handleDelete(plan)}
                                                         className="text-destructive focus:text-destructive"
                                                     >
-                                                        <Trash2 className="w-4 h-4 mr-2" />
+                                                        <Trash2 className="mr-2 h-4 w-4" />
                                                         {t('Delete')}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
@@ -229,29 +262,35 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                         </div>
                                     )}
 
-                                    <div className="text-center space-y-4">
+                                    <div className="space-y-4 text-center">
                                         <div>
-                                            <h3 className="text-lg font-bold text-foreground dark:text-foreground mb-1">{plan.name}</h3>
-                                            <p className="text-xs text-muted-foreground dark:text-muted-foreground/60">{plan.description}</p>
+                                            <h3 className="mb-1 text-lg font-bold text-foreground dark:text-foreground">
+                                                {plan.name}
+                                            </h3>
+                                            <p className="text-xs text-muted-foreground dark:text-muted-foreground/60">
+                                                {plan.description}
+                                            </p>
                                         </div>
 
                                         <div className="space-y-2">
                                             {plan.free_plan ? (
                                                 <div>
-                                                    <div className="text-5xl font-black text-foreground mb-1">
+                                                    <div className="mb-1 text-5xl font-black text-foreground">
                                                         {t('Free')}
                                                     </div>
-                                                    <div className="text-foreground font-semibold">
-                                                        {t('Forever')}
-                                                    </div>
+                                                    <div className="font-semibold text-foreground">{t('Forever')}</div>
                                                 </div>
                                             ) : (
                                                 <div>
-                                                    <div className="flex items-baseline justify-center space-x-1 mb-2">
+                                                    <div className="mb-2 flex items-baseline justify-center space-x-1">
                                                         <span className="text-5xl font-black text-foreground dark:text-foreground">
-                                                            {formatAdminCurrency(pricingPeriod === 'monthly' ? plan.package_price_monthly : plan.package_price_yearly).replace('.00', '')}
+                                                            {formatAdminCurrency(
+                                                                pricingPeriod === 'monthly'
+                                                                    ? plan.package_price_monthly
+                                                                    : plan.package_price_yearly
+                                                            ).replace('.00', '')}
                                                         </span>
-                                                        <span className="text-xl text-muted-foreground dark:text-muted-foreground font-semibold">
+                                                        <span className="text-xl font-semibold text-muted-foreground dark:text-muted-foreground">
                                                             /{pricingPeriod === 'monthly' ? t('mo') : t('yr')}
                                                         </span>
                                                     </div>
@@ -261,27 +300,28 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
 
                                         <div className="space-y-3 py-4">
                                             <div className="flex items-center space-x-2">
-                                                <div className="w-2 h-2 rounded-full bg-foreground flex-shrink-0"></div>
+                                                <div className="h-2 w-2 flex-shrink-0 rounded-full bg-foreground"></div>
                                                 <span className="text-sm font-medium text-foreground dark:text-muted-foreground/60">
-                                                    {plan.number_of_users === -1 ? t('Unlimited users') : `${plan.number_of_users} ${t('users')}`}
+                                                    {plan.number_of_users === -1
+                                                        ? t('Unlimited users')
+                                                        : `${plan.number_of_users} ${t('users')}`}
                                                 </span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <div className="w-2 h-2 rounded-full bg-foreground flex-shrink-0"></div>
+                                                <div className="h-2 w-2 flex-shrink-0 rounded-full bg-foreground"></div>
                                                 <span className="text-sm font-medium text-foreground dark:text-muted-foreground/60">
                                                     {formatStorage(plan.storage_limit)} {t('storage')}
                                                 </span>
                                             </div>
                                             {plan.trial && (
                                                 <div className="flex items-center space-x-2">
-                                                    <div className="w-2 h-2 rounded-full bg-foreground/40 flex-shrink-0"></div>
+                                                    <div className="h-2 w-2 flex-shrink-0 rounded-full bg-foreground/40"></div>
                                                     <span className="text-sm font-medium text-muted-foreground">
                                                         {plan.trial_days}d {t('trial')}
                                                     </span>
                                                 </div>
                                             )}
                                         </div>
-
                                     </div>
                                 </div>
                             ))}
@@ -289,63 +329,81 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
 
                         {/* Features Comparison Cards */}
                         <div className="space-y-4">
-                                <div className="grid gap-6" style={{ gridTemplateColumns: `300px repeat(${activePlans.length}, 280px)`, minWidth: `${300 + (activePlans.length * 280) + ((activePlans.length - 1) * 24)}px` }}>
-                                    {/* All Modules Card */}
-                                    <div className="bg-card dark:bg-card rounded-2xl p-6 border border-border dark:border-border sticky left-0 z-20">
-                                        <div className="space-y-3">
-                                            <div className="flex items-center justify-center py-2 h-10 border-b border-border dark:border-border mb-3">
-                                                <span className="text-foreground dark:text-foreground font-semibold text-sm">
-                                                    {t('Features')}
+                            <div
+                                className="grid gap-6"
+                                style={{
+                                    gridTemplateColumns: `300px repeat(${activePlans.length}, 280px)`,
+                                    minWidth: `${300 + activePlans.length * 280 + (activePlans.length - 1) * 24}px`,
+                                }}
+                            >
+                                {/* All Modules Card */}
+                                <div className="sticky left-0 z-20 rounded-2xl border border-border bg-card p-6 dark:border-border dark:bg-card">
+                                    <div className="space-y-3">
+                                        <div className="mb-3 flex h-10 items-center justify-center border-b border-border py-2 dark:border-border">
+                                            <span className="text-sm font-semibold text-foreground dark:text-foreground">
+                                                {t('Features')}
+                                            </span>
+                                        </div>
+                                        {allModules.map((module) => (
+                                            <div
+                                                key={module.module}
+                                                className="flex h-6 items-center justify-center py-0.5"
+                                            >
+                                                <span className="text-center capitalize leading-none text-foreground dark:text-muted-foreground/60">
+                                                    {module.alias}
                                                 </span>
                                             </div>
-                                            {allModules.map((module) => (
-                                                <div key={module.module} className="flex items-center justify-center py-0.5 h-6">
-                                                    <span className="text-foreground dark:text-muted-foreground/60 capitalize text-center leading-none">
-                                                        {module.alias}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        ))}
                                     </div>
+                                </div>
 
-                                    {/* Plan Feature Cards */}
-                                    {activePlans.map((plan) => {
-                                        const enabledFeatures = allModules.filter(module => hasModule(plan, module));
-                                        const totalFeatures = allModules.length;
+                                {/* Plan Feature Cards */}
+                                {activePlans.map((plan) => {
+                                    const enabledFeatures = allModules.filter((module) => hasModule(plan, module));
+                                    const totalFeatures = allModules.length;
 
-                                        return (
-                                        <div key={plan.id} className="bg-card dark:bg-card rounded-2xl p-6 border border-border dark:border-border">
+                                    return (
+                                        <div
+                                            key={plan.id}
+                                            className="rounded-2xl border border-border bg-card p-6 dark:border-border dark:bg-card"
+                                        >
                                             <div className="space-y-3">
-                                                <div className="flex items-center justify-center py-2 h-10 border-b border-border dark:border-border mb-3">
-                                                    <span className="text-foreground dark:text-foreground font-semibold text-sm">
+                                                <div className="mb-3 flex h-10 items-center justify-center border-b border-border py-2 dark:border-border">
+                                                    <span className="text-sm font-semibold text-foreground dark:text-foreground">
                                                         {enabledFeatures.length}/{totalFeatures} {t('Enabled')}
                                                     </span>
                                                 </div>
                                                 {allModules.map((module) => (
-                                                    <div key={module.module} className="flex items-center justify-center py-0.5 h-6">
+                                                    <div
+                                                        key={module.module}
+                                                        className="flex h-6 items-center justify-center py-0.5"
+                                                    >
                                                         {hasModule(plan, module) ? (
-                                                            <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/5 dark:bg-foreground/10">
-                                                                <Check className="w-3 h-3 text-foreground" />
+                                                            <div className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-foreground/5 dark:bg-foreground/10">
+                                                                <Check className="h-3 w-3 text-foreground" />
                                                             </div>
                                                         ) : (
-                                                            <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-muted dark:bg-muted">
-                                                                <X className="w-3 h-3 text-muted-foreground" />
+                                                            <div className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted dark:bg-muted">
+                                                                <X className="h-3 w-3 text-muted-foreground" />
                                                             </div>
                                                         )}
                                                     </div>
                                                 ))}
                                                 {isCompanyUser && (
-                                                    <div className="pt-4 border-t space-y-2">
+                                                    <div className="space-y-2 border-t pt-4">
                                                         {isCurrentlySubscribed(plan) ? (
-                                                            <div className="text-center p-2 bg-muted rounded-lg border border-border">
+                                                            <div className="rounded-lg border border-border bg-muted p-2 text-center">
                                                                 <p className="text-xs text-muted-foreground">
-                                                                    {t('Expires on')} {formatDate(auth.user.plan_expire_date)}
+                                                                    {t('Expires on')}{' '}
+                                                                    {formatDate(auth.user.plan_expire_date)}
                                                                 </p>
                                                             </div>
-                                                        ) : auth.user?.trial_expire_date && auth.user.active_plan === plan.id ? (
-                                                            <div className="text-center p-2 bg-muted rounded-lg border border-border">
-                                                                <p className="text-xs text-muted-foreground mt-1">
-                                                                    {t('Trial expires on')} {formatDate(auth.user.trial_expire_date)}
+                                                        ) : auth.user?.trial_expire_date &&
+                                                          auth.user.active_plan === plan.id ? (
+                                                            <div className="rounded-lg border border-border bg-muted p-2 text-center">
+                                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                                    {t('Trial expires on')}{' '}
+                                                                    {formatDate(auth.user.trial_expire_date)}
                                                                 </p>
                                                             </div>
                                                         ) : (
@@ -362,7 +420,11 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                                     <Button
                                                                         className="w-full"
                                                                         size="sm"
-                                                                        onClick={() => router.visit(route('plans.subscribe', plan.id))}
+                                                                        onClick={() =>
+                                                                            router.visit(
+                                                                                route('plans.subscribe', plan.id)
+                                                                            )
+                                                                        }
                                                                     >
                                                                         {t('Subscribe to Plan')}
                                                                     </Button>
@@ -374,37 +436,36 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                                                         variant="outline"
                                                                         onClick={() => handleStartTrial(plan)}
                                                                     >
-                                                                        <Clock className="h-4 w-4 mr-2" />
+                                                                        <Clock className="mr-2 h-4 w-4" />
                                                                         {t('Start Trial')} ({plan.trial_days}d)
                                                                     </Button>
                                                                 )}
-
                                                             </>
                                                         )}
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
-                                        );
-                                    })}
-                                </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="text-center py-12">
-                        <div className="w-12 h-12 bg-muted dark:bg-card rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <Plus className="w-6 h-6 text-muted-foreground" />
+                    <div className="py-12 text-center">
+                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-muted dark:bg-card">
+                            <Plus className="h-6 w-6 text-muted-foreground" />
                         </div>
-                        <h3 className="text-lg font-medium text-foreground dark:text-foreground mb-2">
+                        <h3 className="mb-2 text-lg font-medium text-foreground dark:text-foreground">
                             {t('No active plans found')}
                         </h3>
-                        <p className="text-muted-foreground dark:text-muted-foreground mb-4">
+                        <p className="mb-4 text-muted-foreground dark:text-muted-foreground">
                             {t('Create your first plan to get started')}
                         </p>
                         {canCreate && (
                             <Link href={route('plans.create')}>
                                 <Button>
-                                    <Plus className="w-4 h-4 mr-2" />
+                                    <Plus className="mr-2 h-4 w-4" />
                                     {t('Create Plan')}
                                 </Button>
                             </Link>
@@ -419,7 +480,8 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                     <DialogHeader>
                         <DialogTitle>{t('Delete Plan')}</DialogTitle>
                         <DialogDescription>
-                            {t('Are you sure you want to delete')} "{deletingPlan?.name}"? {t('This action cannot be undone.')}
+                            {t('Are you sure you want to delete')} "{deletingPlan?.name}"?{' '}
+                            {t('This action cannot be undone.')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>

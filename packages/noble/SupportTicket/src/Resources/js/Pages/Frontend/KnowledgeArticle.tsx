@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import SupportTicketLayout from './Layouts/SupportTicketLayout';
 import { getImagePath } from '@/utils/helpers';
 import { useTranslation } from 'react-i18next';
-import { 
+import {
     Database,
     Calendar,
     Clock,
@@ -26,7 +26,7 @@ import {
     Link as LinkIcon,
     Tags,
     ChevronRight,
-    ArrowLeft
+    ArrowLeft,
 } from 'lucide-react';
 
 interface Article {
@@ -70,7 +70,13 @@ interface KnowledgeArticleProps {
     slug: string;
 }
 
-export default function KnowledgeArticle({ article, relatedArticles, settings, brandSettings, slug }: KnowledgeArticleProps) {
+export default function KnowledgeArticle({
+    article,
+    relatedArticles,
+    settings,
+    brandSettings,
+    slug,
+}: KnowledgeArticleProps) {
     const { t } = useTranslation();
     const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
@@ -86,10 +92,10 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
         const parser = new DOMParser();
         const doc = parser.parseFromString(description, 'text/html');
         const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        
+
         return Array.from(headings)?.map((heading, index) => ({
             id: `heading-${index}`,
-            title: heading.textContent || `Section ${index + 1}`
+            title: heading.textContent || `Section ${index + 1}`,
         }));
     };
 
@@ -98,10 +104,14 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
     return (
         <SupportTicketLayout title={article.title} settings={settings} brandSettings={brandSettings}>
             {/* Breadcrumbs */}
-            <div className="text-sm text-muted-foreground mb-4">
-                <Link href={route('support-ticket.index',[slug])} className="hover:text-foreground">{t('Home')}</Link>
+            <div className="mb-4 text-sm text-muted-foreground">
+                <Link href={route('support-ticket.index', [slug])} className="hover:text-foreground">
+                    {t('Home')}
+                </Link>
                 <span className="mx-2">/</span>
-                <Link href={route('support-ticket.knowledge',[slug])} className="hover:text-foreground">{t('Knowledge Base')}</Link>
+                <Link href={route('support-ticket.knowledge', [slug])} className="hover:text-foreground">
+                    {t('Knowledge Base')}
+                </Link>
                 {article.category && (
                     <>
                         <span className="mx-2">/</span>
@@ -113,38 +123,44 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
             </div>
 
             {/* Article Header */}
-            <Card className="bg-foreground overflow-hidden shadow-lg mb-8">
-                <CardContent className="py-6 px-4 md:p-8 flex flex-col md:flex-row items-center">
-                    <div className="w-full md:w-3/5 text-background mb-8 md:mb-0 md:pr-8">
+            <Card className="mb-8 overflow-hidden bg-foreground shadow-lg">
+                <CardContent className="flex flex-col items-center px-4 py-6 md:flex-row md:p-8">
+                    <div className="mb-8 w-full text-background md:mb-0 md:w-3/5 md:pr-8">
                         <div className="mb-4">
-                            <span className="inline-block bg-card/20 text-background text-sm px-4 py-1 rounded-full backdrop-blur-sm mb-3 md:mb-4">
-                                <Database className="inline h-4 w-4 mr-1" />
+                            <span className="mb-3 inline-block rounded-full bg-card/20 px-4 py-1 text-sm text-background backdrop-blur-sm md:mb-4">
+                                <Database className="mr-1 inline h-4 w-4" />
                                 {article.category?.title || t('Knowledge Base')}
                             </span>
                         </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4 text-background">{article.title}</h2>
-                        <p className="text-background mb-4 md:mb-6">
+                        <h2 className="mb-3 text-2xl font-bold text-background md:mb-4 md:text-3xl lg:text-4xl">
+                            {article.title}
+                        </h2>
+                        <p className="mb-4 text-background md:mb-6">
                             {t('Comprehensive guide to help you understand and implement the solution')}
                         </p>
-                        <div className="flex flex-wrap items-center gap-4 lg:gap-6 text-sm">
+                        <div className="flex flex-wrap items-center gap-4 text-sm lg:gap-6">
                             <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-2" />
-                                <span>{t('Last updated')}: {new Date(article.updated_at).toLocaleDateString()}</span>
+                                <Calendar className="mr-2 h-4 w-4" />
+                                <span>
+                                    {t('Last updated')}: {new Date(article.updated_at).toLocaleDateString()}
+                                </span>
                             </div>
                             <div className="flex items-center">
-                                <Clock className="h-4 w-4 mr-2" />
+                                <Clock className="mr-2 h-4 w-4" />
                                 <span>{t('5 min read')}</span>
                             </div>
                             <div className="flex items-center">
-                                <Eye className="h-4 w-4 mr-2" />
+                                <Eye className="mr-2 h-4 w-4" />
                                 <span>{t('1,245 views')}</span>
                             </div>
                         </div>
                     </div>
-                    <div className="w-full md:w-2/5 flex justify-center">
-                      
-                            <img src={getImagePath('packages/noble/SupportTicket/src/Resources/assets/images/svg/database-illustration.svg')}
-                            alt="Knowledge Base Illustration" 
+                    <div className="flex w-full justify-center md:w-2/5">
+                        <img
+                            src={getImagePath(
+                                'packages/noble/SupportTicket/src/Resources/assets/images/svg/database-illustration.svg'
+                            )}
+                            alt="Knowledge Base Illustration"
                             className="w-full max-w-sm"
                             style={{ animation: 'float 3s ease-in-out infinite' }}
                         />
@@ -153,46 +169,55 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
             </Card>
 
             {/* Main Content Area */}
-            <div className="flex flex-col lg:flex-row gap-8">
+            <div className="flex flex-col gap-8 lg:flex-row">
                 {/* Left Sidebar (Table of Contents) */}
                 {tocItems.length > 0 && (
                     <div className="w-full lg:w-1/4">
-                        <Card className="shadow-md sticky top-4">
+                        <Card className="sticky top-4 shadow-md">
                             <CardContent className="p-4 md:p-5">
-                                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                                    <List className="h-5 w-5 text-foreground mr-2" />
+                                <h3 className="mb-4 flex items-center text-lg font-semibold">
+                                    <List className="mr-2 h-5 w-5 text-foreground" />
                                     {t('Table of Contents')}
                                 </h3>
                                 <div className="space-y-1">
                                     {tocItems?.map((item) => (
-                                        <a 
+                                        <a
                                             key={item.id}
-                                            href={`#${item.id}`} 
-                                            className="block text-foreground text-sm rounded p-2 hover:bg-muted/50 hover:text-foreground hover:border-l-2 hover:border-foreground hover:pl-3 transition-all duration-300"
+                                            href={`#${item.id}`}
+                                            className="block rounded p-2 text-sm text-foreground transition-all duration-300 hover:border-l-2 hover:border-foreground hover:bg-muted/50 hover:pl-3 hover:text-foreground"
                                         >
                                             {item.title}
                                         </a>
                                     ))}
                                 </div>
-                                
+
                                 {/* Quick Resources Box */}
-                                <div className="mt-8 pt-6 border-t border-border">
-                                    <h3 className="text-lg font-semibold mb-4 flex items-center">
-                                        <LinkIcon className="h-5 w-5 text-foreground mr-2" />
+                                <div className="mt-8 border-t border-border pt-6">
+                                    <h3 className="mb-4 flex items-center text-lg font-semibold">
+                                        <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
                                         {t('Quick Resources')}
                                     </h3>
                                     <div className="space-y-3">
-                                        <Link href={route('support-ticket.knowledge',[slug])} className="flex items-center text-foreground hover:text-foreground text-sm">
-                                            <FileCode className="h-4 w-4 mr-2 text-foreground" />
+                                        <Link
+                                            href={route('support-ticket.knowledge', [slug])}
+                                            className="flex items-center text-sm text-foreground hover:text-foreground"
+                                        >
+                                            <FileCode className="mr-2 h-4 w-4 text-foreground" />
                                             <span>{t('Browse All Articles')}</span>
                                         </Link>
-                                        <Link href={route('support-ticket.create',[slug])} className="flex items-center text-foreground hover:text-foreground text-sm">
-                                            <Server className="h-4 w-4 mr-2 text-foreground" />
+                                        <Link
+                                            href={route('support-ticket.create', [slug])}
+                                            className="flex items-center text-sm text-foreground hover:text-foreground"
+                                        >
+                                            <Server className="mr-2 h-4 w-4 text-foreground" />
                                             <span>{t('Create Support Ticket')}</span>
                                         </Link>
                                         {settings.faq_is_on === 'on' && (
-                                            <Link href={route('support-ticket.faq',[slug])} className="flex items-center text-foreground hover:text-foreground text-sm">
-                                                <Shield className="h-4 w-4 mr-2 text-foreground" />
+                                            <Link
+                                                href={route('support-ticket.faq', [slug])}
+                                                className="flex items-center text-sm text-foreground hover:text-foreground"
+                                            >
+                                                <Shield className="mr-2 h-4 w-4 text-foreground" />
                                                 <span>{t('FAQ Section')}</span>
                                             </Link>
                                         )}
@@ -206,29 +231,29 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                 {/* Main Article Content */}
                 <div className={`w-full ${tocItems.length > 0 ? 'lg:w-2/4' : 'lg:w-2/3'}`}>
                     <Card className="shadow-md">
-                        <CardContent className="p-4 lg:p-8 md:p-6 max-h-[80vh] overflow-y-auto">
+                        <CardContent className="max-h-[80vh] overflow-y-auto p-4 md:p-6 lg:p-8">
                             {/* Introduction Section */}
                             <div className="mb-8">
-                                <div className="bg-muted/50 p-4 rounded-xl">
-                                    <h4 className="font-medium text-foreground mb-2 flex items-center">
-                                        <Info className="h-5 w-5 text-foreground mr-2" />
+                                <div className="rounded-xl bg-muted/50 p-4">
+                                    <h4 className="mb-2 flex items-center font-medium text-foreground">
+                                        <Info className="mr-2 h-5 w-5 text-foreground" />
                                         {t('Article Information')}
                                     </h4>
-                                    <p className="text-foreground text-sm">
-                                        {t('This article provides detailed information to help you understand the topic. Please read through the content carefully.')}
+                                    <p className="text-sm text-foreground">
+                                        {t(
+                                            'This article provides detailed information to help you understand the topic. Please read through the content carefully.'
+                                        )}
                                     </p>
                                 </div>
                             </div>
 
                             {/* Article Content */}
                             <div className="mb-10">
-                                <div 
-                                    className="prose prose-gray max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground"
+                                <div
+                                    className="prose prose-gray prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground max-w-none"
                                     dangerouslySetInnerHTML={{ __html: article.description }}
                                 />
                             </div>
-
-
                         </CardContent>
                     </Card>
                 </div>
@@ -237,24 +262,41 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                 {tocItems.length > 0 && (
                     <div className="w-full lg:w-1/4">
                         {/* Related Articles */}
-                        <Card className="shadow-md mb-6">
+                        <Card className="mb-6 shadow-md">
                             <CardContent className="p-5">
-
-                                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                                    <LinkIcon className="h-5 w-5 text-foreground mr-2" />
+                                <h3 className="mb-4 flex items-center text-lg font-semibold">
+                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
                                     {t('Related Articles')}
                                 </h3>
                                 <div className="space-y-4">
                                     {relatedArticles && relatedArticles.length > 0 ? (
                                         relatedArticles?.map((relatedArticle) => (
-                                            <Link key={relatedArticle.id} href={route('support-ticket.knowledge.article',[slug,relatedArticle.id])} className="block rounded-lg p-4 border border-border hover:border-foreground hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                                                <h4 className="font-medium text-foreground mb-1 hover:text-foreground transition-colors duration-300">{relatedArticle.title}</h4>
-                                                <p className="text-muted-foreground text-sm line-clamp-2">{relatedArticle.description.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>
-                                                <p className="text-xs text-muted-foreground mt-2">{new Date(relatedArticle.created_at).toLocaleDateString()}</p>
+                                            <Link
+                                                key={relatedArticle.id}
+                                                href={route('support-ticket.knowledge.article', [
+                                                    slug,
+                                                    relatedArticle.id,
+                                                ])}
+                                                className="block rounded-lg border border-border p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-md"
+                                            >
+                                                <h4 className="mb-1 font-medium text-foreground transition-colors duration-300 hover:text-foreground">
+                                                    {relatedArticle.title}
+                                                </h4>
+                                                <p className="line-clamp-2 text-sm text-muted-foreground">
+                                                    {relatedArticle.description
+                                                        .replace(/<[^>]*>/g, '')
+                                                        .substring(0, 100)}
+                                                    ...
+                                                </p>
+                                                <p className="mt-2 text-xs text-muted-foreground">
+                                                    {new Date(relatedArticle.created_at).toLocaleDateString()}
+                                                </p>
                                             </Link>
                                         ))
                                     ) : (
-                                        <p className="text-muted-foreground text-sm">{t('No related articles found.')}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {t('No related articles found.')}
+                                        </p>
                                     )}
                                 </div>
                             </CardContent>
@@ -263,19 +305,26 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                         {/* Navigation */}
                         <Card className="shadow-md">
                             <CardContent className="p-5">
-                                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                                    <LinkIcon className="h-5 w-5 text-foreground mr-2" />
+                                <h3 className="mb-4 flex items-center text-lg font-semibold">
+                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
                                     {t('Navigation')}
                                 </h3>
                                 <div className="space-y-4">
-                                    <Link href={route('support-ticket.knowledge',[slug])} className="block rounded-lg p-4 border border-border hover:border-foreground hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                                        <h4 className="font-medium text-foreground mb-1 hover:text-foreground transition-colors duration-300">← {t('Back to Knowledge Base')}</h4>
-                                        <p className="text-muted-foreground text-sm">{t('Browse all available articles')}</p>
+                                    <Link
+                                        href={route('support-ticket.knowledge', [slug])}
+                                        className="block rounded-lg border border-border p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-md"
+                                    >
+                                        <h4 className="mb-1 font-medium text-foreground transition-colors duration-300 hover:text-foreground">
+                                            ← {t('Back to Knowledge Base')}
+                                        </h4>
+                                        <p className="text-sm text-muted-foreground">
+                                            {t('Browse all available articles')}
+                                        </p>
                                     </Link>
                                     {article.category && (
-                                        <div className="rounded-lg p-4 border border-border">
-                                            <h4 className="font-medium text-foreground mb-1">{t('Category')}</h4>
-                                            <p className="text-foreground text-sm">{article.category.title}</p>
+                                        <div className="rounded-lg border border-border p-4">
+                                            <h4 className="mb-1 font-medium text-foreground">{t('Category')}</h4>
+                                            <p className="text-sm text-foreground">{article.category.title}</p>
                                         </div>
                                     )}
                                 </div>
@@ -287,23 +336,41 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                 {tocItems.length === 0 && (
                     <div className="w-full lg:w-1/3">
                         {/* Related Articles */}
-                        <Card className="shadow-md mb-6">
+                        <Card className="mb-6 shadow-md">
                             <CardContent className="p-5">
-                                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                                    <LinkIcon className="h-5 w-5 text-foreground mr-2" />
+                                <h3 className="mb-4 flex items-center text-lg font-semibold">
+                                    <LinkIcon className="mr-2 h-5 w-5 text-foreground" />
                                     {t('Related Articles')}
                                 </h3>
                                 <div className="space-y-4">
                                     {relatedArticles && relatedArticles.length > 0 ? (
                                         relatedArticles?.map((relatedArticle) => (
-                                            <Link key={relatedArticle.id} href={route('support-ticket.knowledge.article', [slug, relatedArticle.id])} className="block rounded-lg p-4 border border-border hover:border-foreground hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                                                <h4 className="font-medium text-foreground mb-1 hover:text-foreground transition-colors duration-300">{relatedArticle.title}</h4>
-                                                <p className="text-muted-foreground text-sm line-clamp-2">{relatedArticle.description.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>
-                                                <p className="text-xs text-muted-foreground mt-2">{new Date(relatedArticle.created_at).toLocaleDateString()}</p>
+                                            <Link
+                                                key={relatedArticle.id}
+                                                href={route('support-ticket.knowledge.article', [
+                                                    slug,
+                                                    relatedArticle.id,
+                                                ])}
+                                                className="block rounded-lg border border-border p-4 transition-all duration-300 hover:-translate-y-1 hover:border-foreground hover:shadow-md"
+                                            >
+                                                <h4 className="mb-1 font-medium text-foreground transition-colors duration-300 hover:text-foreground">
+                                                    {relatedArticle.title}
+                                                </h4>
+                                                <p className="line-clamp-2 text-sm text-muted-foreground">
+                                                    {relatedArticle.description
+                                                        .replace(/<[^>]*>/g, '')
+                                                        .substring(0, 100)}
+                                                    ...
+                                                </p>
+                                                <p className="mt-2 text-xs text-muted-foreground">
+                                                    {new Date(relatedArticle.created_at).toLocaleDateString()}
+                                                </p>
                                             </Link>
                                         ))
                                     ) : (
-                                        <p className="text-muted-foreground text-sm">{t('No related articles found.')}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {t('No related articles found.')}
+                                        </p>
                                     )}
                                 </div>
                             </CardContent>
@@ -312,15 +379,17 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                         {/* Support Section */}
                         <Card className="shadow-md">
                             <CardContent className="p-5">
-                                <h3 className="text-lg font-semibold mb-4">{t('Need Help?')}</h3>
-                                <div className="bg-muted/50 rounded-xl p-4">
-                                    <h4 className="font-bold text-foreground mb-3">{t('Still have questions?')}</h4>
-                                    <p className="text-foreground text-sm mb-4">
-                                        {t('If you couldn\'t find the information you were looking for, our support team is here to help.')}
+                                <h3 className="mb-4 text-lg font-semibold">{t('Need Help?')}</h3>
+                                <div className="rounded-xl bg-muted/50 p-4">
+                                    <h4 className="mb-3 font-bold text-foreground">{t('Still have questions?')}</h4>
+                                    <p className="mb-4 text-sm text-foreground">
+                                        {t(
+                                            "If you couldn't find the information you were looking for, our support team is here to help."
+                                        )}
                                     </p>
-                                    <Button className="bg-foreground hover:bg-foreground w-full" asChild>
-                                        <Link href={route('support-ticket.index',[slug])}>
-                                            <Ticket className="h-4 w-4 mr-2" />
+                                    <Button className="w-full bg-foreground hover:bg-foreground" asChild>
+                                        <Link href={route('support-ticket.index', [slug])}>
+                                            <Ticket className="mr-2 h-4 w-4" />
                                             {t('Create a Support Ticket')}
                                         </Link>
                                     </Button>

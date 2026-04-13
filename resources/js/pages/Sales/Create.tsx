@@ -20,9 +20,9 @@ import { Separator } from '@/components/ui/separator';
 import { CalendarDays, Building2, User, FileText, Package } from 'lucide-react';
 
 interface CreateProps {
-    customers: Array<{id: number; name: string; email: string}>;
-    warehouses: Array<{id: number; name: string; address: string}>;
-    modules?: {recurringinvoicebill?: boolean};
+    customers: Array<{ id: number; name: string; email: string }>;
+    warehouses: Array<{ id: number; name: string; address: string }>;
+    modules?: { recurringinvoicebill?: boolean };
     [key: string]: any;
 }
 
@@ -40,16 +40,18 @@ export default function Create() {
         payment_terms: '',
         notes: '',
         sync_to_google_calendar: false,
-        items: [{
-            product_id: 0,
-            quantity: 1,
-            unit_price: 0,
-            discount_percentage: 0,
-            discount_amount: 0,
-            tax_percentage: 0,
-            tax_amount: 0,
-            total_amount: 0
-        }] as SalesInvoiceItem[]
+        items: [
+            {
+                product_id: 0,
+                quantity: 1,
+                unit_price: 0,
+                discount_percentage: 0,
+                discount_amount: 0,
+                tax_percentage: 0,
+                tax_amount: 0,
+                total_amount: 0,
+            },
+        ] as SalesInvoiceItem[],
     });
 
     const calendarFields = useFormFields('createCalendarSyncField', data, setData, errors, 'create', t, 'Sales');
@@ -59,7 +61,9 @@ export default function Create() {
 
         if (warehouseId) {
             try {
-                const response = await fetch(route('sales-invoices.warehouse.products') + `?warehouse_id=${warehouseId}`);
+                const response = await fetch(
+                    route('sales-invoices.warehouse.products') + `?warehouse_id=${warehouseId}`
+                );
                 const warehouseProducts = await response.json();
                 setAvailableProducts(warehouseProducts);
             } catch (error) {
@@ -71,16 +75,18 @@ export default function Create() {
         }
 
         // Reset items when warehouse changes
-        setData('items', [{
-            product_id: 0,
-            quantity: 1,
-            unit_price: 0,
-            discount_percentage: 0,
-            discount_amount: 0,
-            tax_percentage: 0,
-            tax_amount: 0,
-            total_amount: 0
-        }]);
+        setData('items', [
+            {
+                product_id: 0,
+                quantity: 1,
+                unit_price: 0,
+                discount_percentage: 0,
+                discount_amount: 0,
+                tax_percentage: 0,
+                tax_amount: 0,
+                total_amount: 0,
+            },
+        ]);
     };
 
     const handleTypeChange = async (type: string) => {
@@ -100,16 +106,18 @@ export default function Create() {
         }
 
         // Reset items when type changes
-        setData('items', [{
-            product_id: 0,
-            quantity: 1,
-            unit_price: 0,
-            discount_percentage: 0,
-            discount_amount: 0,
-            tax_percentage: 0,
-            tax_amount: 0,
-            total_amount: 0
-        }]);
+        setData('items', [
+            {
+                product_id: 0,
+                quantity: 1,
+                unit_price: 0,
+                discount_percentage: 0,
+                discount_amount: 0,
+                tax_percentage: 0,
+                tax_amount: 0,
+                total_amount: 0,
+            },
+        ]);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -131,8 +139,8 @@ export default function Create() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Sales Invoice'), url: route('sales-invoices.index')},
-                {label: t('Create Sales Invoice')}
+                { label: t('Sales Invoice'), url: route('sales-invoices.index') },
+                { label: t('Create Sales Invoice') },
             ]}
             pageTitle={t('Create Sales Invoice')}
         >
@@ -148,21 +156,29 @@ export default function Create() {
                                     {t('Sales Invoice Details')}
                                 </CardTitle>
                                 <div className="flex items-center gap-2">
-                                    <RadioGroup value={data.type} onValueChange={handleTypeChange} className="flex gap-4">
+                                    <RadioGroup
+                                        value={data.type}
+                                        onValueChange={handleTypeChange}
+                                        className="flex gap-4"
+                                    >
                                         <div className="flex items-center gap-2">
                                             <RadioGroupItem value="product" id="type-product" />
-                                            <Label htmlFor="type-product" className="cursor-pointer font-normal">{t('Product Wise')}</Label>
+                                            <Label htmlFor="type-product" className="cursor-pointer font-normal">
+                                                {t('Product Wise')}
+                                            </Label>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <RadioGroupItem value="service" id="type-service" />
-                                            <Label htmlFor="type-service" className="cursor-pointer font-normal">{t('Service Wise')}</Label>
+                                            <Label htmlFor="type-service" className="cursor-pointer font-normal">
+                                                {t('Service Wise')}
+                                            </Label>
                                         </div>
                                     </RadioGroup>
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                                 <div>
                                     <Label htmlFor="invoice_date" required>
                                         {t('Invoice Date')}
@@ -193,7 +209,10 @@ export default function Create() {
                                     <Label htmlFor="customer_id" required>
                                         {t('Customer')}
                                     </Label>
-                                    <Select value={data.customer_id} onValueChange={(value) => setData('customer_id', value)}>
+                                    <Select
+                                        value={data.customer_id}
+                                        onValueChange={(value) => setData('customer_id', value)}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('Select Customer')} />
                                         </SelectTrigger>
@@ -230,11 +249,9 @@ export default function Create() {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <Label htmlFor="payment_terms">
-                                        {t('Payment Terms')}
-                                    </Label>
+                                    <Label htmlFor="payment_terms">{t('Payment Terms')}</Label>
                                     <Input
                                         id="payment_terms"
                                         value={data.payment_terms}
@@ -244,9 +261,7 @@ export default function Create() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="notes">
-                                        {t('Notes')}
-                                    </Label>
+                                    <Label htmlFor="notes">{t('Notes')}</Label>
                                     <Textarea
                                         id="notes"
                                         value={data.notes}
@@ -261,34 +276,30 @@ export default function Create() {
                             {modules?.recurringinvoicebill && (
                                 <div className="mt-6">
                                     {recurringFields.map((field) => (
-                                        <div key={field.id} className="mb-4">{field.component}</div>
+                                        <div key={field.id} className="mb-4">
+                                            {field.component}
+                                        </div>
                                     ))}
                                 </div>
                             )}
-                             {/* Commission Plan Fields */}
-                             <div className="mt-6">
+                            {/* Commission Plan Fields */}
+                            <div className="mt-6">
                                 {commissionFields.map((field) => (
-                                    <div key={field.id}>
-                                        {field.component}
-                                    </div>
+                                    <div key={field.id}>{field.component}</div>
                                 ))}
                             </div>
 
                             {/* Calendar Sync Field */}
                             <div className="mt-6">
                                 {calendarFields.map((field) => (
-                                    <div key={field.id}>
-                                        {field.component}
-                                    </div>
+                                    <div key={field.id}>{field.component}</div>
                                 ))}
                             </div>
 
                             {/* Sage Fields */}
                             <div className="mt-6">
                                 {sageFields.map((field) => (
-                                    <div key={field.id}>
-                                        {field.component}
-                                    </div>
+                                    <div key={field.id}>{field.component}</div>
                                 ))}
                             </div>
                         </CardContent>
@@ -312,7 +323,7 @@ export default function Create() {
                                             discount_amount: 0,
                                             tax_percentage: 0,
                                             tax_amount: 0,
-                                            total_amount: 0
+                                            total_amount: 0,
                                         };
                                         setData('items', [...data.items, newItem]);
                                     }}
@@ -334,8 +345,8 @@ export default function Create() {
                             />
 
                             <div className="mt-6 flex justify-end">
-                                <div className="w-80 bg-muted/30 rounded-lg p-4">
-                                    <h3 className="font-semibold mb-3">{t('Invoice Summary')}</h3>
+                                <div className="w-80 rounded-lg bg-muted/30 p-4">
+                                    <h3 className="mb-3 font-semibold">{t('Invoice Summary')}</h3>
                                     <div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Subtotal')}</span>
@@ -343,7 +354,9 @@ export default function Create() {
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Discount')}</span>
-                                            <span className="font-medium text-destructive">-{formatCurrency(totals.discountAmount)}</span>
+                                            <span className="font-medium text-destructive">
+                                                -{formatCurrency(totals.discountAmount)}
+                                            </span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t('Tax')}</span>
@@ -352,7 +365,7 @@ export default function Create() {
                                         <Separator className="my-2" />
                                         <div className="flex justify-between">
                                             <span className="font-semibold">{t('Total')}</span>
-                                            <span className="font-bold text-lg">{formatCurrency(totals.total)}</span>
+                                            <span className="text-lg font-bold">{formatCurrency(totals.total)}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -360,24 +373,15 @@ export default function Create() {
                         </CardContent>
                     </Card>
 
-
-
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="text-sm text-muted-foreground">
                             {data.items.length} {t('items added')}
                         </div>
                         <div className="flex gap-3">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => window.history.back()}
-                            >
+                            <Button type="button" variant="outline" onClick={() => window.history.back()}>
                                 {t('Cancel')}
                             </Button>
-                            <Button
-                                type="submit"
-                                disabled={processing || data.items.length === 0}
-                            >
+                            <Button type="submit" disabled={processing || data.items.length === 0}>
                                 {processing ? t('Creating...') : t('Create')}
                             </Button>
                         </div>

@@ -16,7 +16,7 @@ export function Rating({ value, onChange, max = 5, size = 'md', readonly = false
     const sizeClasses = {
         sm: 'h-4 w-4',
         md: 'h-5 w-5',
-        lg: 'h-6 w-6'
+        lg: 'h-6 w-6',
     };
 
     const handleClick = (rating: number) => {
@@ -42,15 +42,13 @@ export function Rating({ value, onChange, max = 5, size = 'md', readonly = false
             {Array.from({ length: max }, (_, index) => {
                 const rating = index + 1;
                 const isFilled = rating <= (hoverValue || value);
-                
+
                 return (
                     <Star
                         key={index}
-                        className={`${sizeClasses[size]} ${
-                            readonly ? 'cursor-default' : 'cursor-pointer'
-                        } ${
-                            isFilled 
-                                ? 'fill-foreground text-foreground' 
+                        className={`${sizeClasses[size]} ${readonly ? 'cursor-default' : 'cursor-pointer'} ${
+                            isFilled
+                                ? 'fill-foreground text-foreground'
                                 : 'text-muted-foreground/60 hover:text-foreground'
                         } transition-colors`}
                         onClick={() => handleClick(rating)}

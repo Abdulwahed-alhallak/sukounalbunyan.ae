@@ -15,7 +15,7 @@ interface CreateDeductionProps {
 
 export default function Create({ employeeId, deductionTypes, onSuccess }: CreateDeductionProps) {
     const { t } = useTranslation();
-    
+
     const { data, setData, post, processing, errors } = useForm({
         employee_id: employeeId,
         deduction_type_id: '',
@@ -32,7 +32,7 @@ export default function Create({ employeeId, deductionTypes, onSuccess }: Create
             },
             onError: () => {
                 // Keep modal open on validation errors
-            }
+            },
         });
     };
 
@@ -41,11 +41,17 @@ export default function Create({ employeeId, deductionTypes, onSuccess }: Create
             <DialogHeader>
                 <DialogTitle>{t('Add Deduction')}</DialogTitle>
             </DialogHeader>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <Label htmlFor="deduction_type_id" required>{t('Deduction Type')}</Label>
-                    <Select value={data.deduction_type_id} onValueChange={(value) => setData('deduction_type_id', value)} required>
+                    <Label htmlFor="deduction_type_id" required>
+                        {t('Deduction Type')}
+                    </Label>
+                    <Select
+                        value={data.deduction_type_id}
+                        onValueChange={(value) => setData('deduction_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select deduction type')} />
                         </SelectTrigger>
@@ -61,7 +67,9 @@ export default function Create({ employeeId, deductionTypes, onSuccess }: Create
                 </div>
 
                 <div>
-                    <Label htmlFor="type" required>{t('Type')}</Label>
+                    <Label htmlFor="type" required>
+                        {t('Type')}
+                    </Label>
                     <Select value={data.type} onValueChange={(value) => setData('type', value)} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select type')} />
@@ -75,7 +83,9 @@ export default function Create({ employeeId, deductionTypes, onSuccess }: Create
                 </div>
 
                 <div>
-                    <Label htmlFor="amount" required>{t('Amount')}</Label>
+                    <Label htmlFor="amount" required>
+                        {t('Amount')}
+                    </Label>
                     <Input
                         id="amount"
                         type="number"

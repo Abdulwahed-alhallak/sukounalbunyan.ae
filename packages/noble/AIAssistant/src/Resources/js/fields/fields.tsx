@@ -3,7 +3,16 @@ import { useAIField } from '../hooks/useAIField';
 import { usePage } from '@inertiajs/react';
 
 // Global AI field extension using existing useFormFields pattern
-export const aiField = (data: any, setData: any, errors: any, mode: string = 'create', fieldName?: string, fieldLabel?: string, module?: string, submodule?: string) => {
+export const aiField = (
+    data: any,
+    setData: any,
+    errors: any,
+    mode: string = 'create',
+    fieldName?: string,
+    fieldLabel?: string,
+    module?: string,
+    submodule?: string
+) => {
     // Check if AI config is provided in data object (new approach)
     const aiConfig = data._aiConfig;
 
@@ -43,9 +52,11 @@ export const aiField = (data: any, setData: any, errors: any, mode: string = 'cr
         actualSubmodule
     );
 
-    return [{
-        id: `ai-${actualFieldName}`,
-        order: 999, // Always appear last
-        component: <AIButton />
-    }];
+    return [
+        {
+            id: `ai-${actualFieldName}`,
+            order: 999, // Always appear last
+            component: <AIButton />,
+        },
+    ];
 };

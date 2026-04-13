@@ -16,10 +16,12 @@ export interface CandidateSourcesFormData {
     [key: string]: any;
 }
 
-export interface CreateCandidateSourcesProps extends CreateProps  {[key: string]: any;
+export interface CreateCandidateSourcesProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditCandidateSourcesProps extends EditProps<CandidateSources>  {[key: string]: any;
+export interface EditCandidateSourcesProps extends EditProps<CandidateSources> {
+    [key: string]: any;
 }
 
 export type PaginatedCandidateSources = PaginatedData<CandidateSources>;

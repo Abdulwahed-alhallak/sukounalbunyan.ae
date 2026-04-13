@@ -4,15 +4,33 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Calendar, Edit, Trash2, MoreVertical, Users, List, Eye, User, ShieldAlert, Zap, Target } from 'lucide-react';
+import {
+    Plus,
+    Calendar,
+    Edit,
+    Trash2,
+    MoreVertical,
+    Users,
+    List,
+    Eye,
+    User,
+    ShieldAlert,
+    Zap,
+    Target,
+} from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
 import KanbanBoard, { KanbanTask, KanbanColumn } from '@/components/kanban-board';
 import Create from './Create';
@@ -32,11 +50,11 @@ interface TasksByStatus {
 
 interface KanbanProps {
     project: Project;
-    stages: Array<{ id: number; name: string; color: string; order: number; }>;
+    stages: Array<{ id: number; name: string; color: string; order: number }>;
     tasks: TasksByStatus;
-    milestones: Array<{ id: number; title: string; }>;
-    teamMembers: Array<{ id: number; name: string; }>;
-    taskStages: Array<{ id: number; name: string; color: string; }>;
+    milestones: Array<{ id: number; title: string }>;
+    teamMembers: Array<{ id: number; name: string }>;
+    taskStages: Array<{ id: number; name: string; color: string }>;
     auth: { user?: { permissions?: string[] } };
     [key: string]: any;
 }
@@ -57,7 +75,7 @@ export default function Kanban() {
     const [modalState, setModalState] = useState<ModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
 
     const [deleteState, setDeleteState] = useState({ isOpen: false, taskId: null as number | null });
@@ -70,7 +88,10 @@ export default function Kanban() {
         setDeleteState({ isOpen: false, taskId: null });
     };
 
-    const googleDriveButtons = usePageButtons('googleDriveBtn', { module: 'Project Task', settingKey: 'GoogleDrive Task' });
+    const googleDriveButtons = usePageButtons('googleDriveBtn', {
+        module: 'Project Task',
+        settingKey: 'GoogleDrive Task',
+    });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Task', settingKey: 'OneDrive Task' });
     const dropboxBtn = usePageButtons('dropboxBtn', { module: 'Project Task', settingKey: 'Dropbox Project Task' });
 
@@ -88,7 +109,7 @@ export default function Kanban() {
     };
 
     const handleMove = async (taskId: number, fromStatus: string, toStatus: string) => {
-        const stageId = stages.find(stage => stage.name.toLowerCase().replace(/\s+/g, '-') === toStatus)?.id;
+        const stageId = stages.find((stage) => stage.name.toLowerCase().replace(/\s+/g, '-') === toStatus)?.id;
         if (stageId) {
             try {
                 const response = await axios.patch(route('project.tasks.move', taskId), { stage_id: stageId });
@@ -133,11 +154,15 @@ export default function Kanban() {
 
     const getPriorityStyle = (priority: string) => {
         switch (priority?.toLowerCase()) {
-            case 'high': 
-            case 'urgent': return 'bg-destructive/10 text-destructive border-destructive/20';
-            case 'medium': return 'bg-muted-foreground/10 text-muted-foreground border-border/20';
-            case 'low': return 'bg-foreground/10 text-foreground border-foreground/20';
-            default: return 'bg-muted/500/10 text-muted-foreground border-border/20';
+            case 'high':
+            case 'urgent':
+                return 'bg-destructive/10 text-destructive border-destructive/20';
+            case 'medium':
+                return 'bg-muted-foreground/10 text-muted-foreground border-border/20';
+            case 'low':
+                return 'bg-foreground/10 text-foreground border-foreground/20';
+            default:
+                return 'bg-muted/500/10 text-muted-foreground border-border/20';
         }
     };
 
@@ -149,49 +174,62 @@ export default function Kanban() {
 
         return (
             <div
-                className="premium-card bg-foreground/40 backdrop-blur-3xl border border-white/5 p-4 hover:bg-card/[0.05] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 cursor-grab active:cursor-grabbing group shadow-xl"
+                className="premium-card group cursor-grab border border-white/5 bg-foreground/40 p-4 shadow-xl backdrop-blur-3xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:bg-card/[0.05] active:cursor-grabbing"
                 draggable={true}
                 onDragStart={handleDragStart}
             >
-                <div className="flex items-start justify-between mb-4">
-                    <div className="space-y-1 pr-4 min-w-0 flex-1">
-                        <h4 className="font-black text-[11px] uppercase tracking-tight text-background/90 truncate leading-relaxed">
+                <div className="mb-4 flex items-start justify-between">
+                    <div className="min-w-0 flex-1 space-y-1 pr-4">
+                        <h4 className="truncate text-[11px] font-black uppercase leading-relaxed tracking-tight text-background/90">
                             {task.title}
                         </h4>
                         {task.milestone && (
                             <div className="flex items-center gap-1.5 opacity-60">
                                 <Target className="h-2.5 w-2.5 text-muted-foreground" />
-                                <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground truncate">
+                                <span className="truncate text-[8px] font-black uppercase tracking-widest text-muted-foreground">
                                     {task.milestone}
                                 </span>
                             </div>
                         )}
                     </div>
-                    
+
                     {(auth.user?.permissions?.includes('view-project-task') ||
-                      auth.user?.permissions?.includes('edit-project-task') ||
-                      auth.user?.permissions?.includes('delete-project-task')) && (
+                        auth.user?.permissions?.includes('edit-project-task') ||
+                        auth.user?.permissions?.includes('delete-project-task')) && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 hover:bg-card/10 transition-all">
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-6 w-6 p-0 opacity-0 transition-all hover:bg-card/10 group-hover:opacity-100"
+                                >
                                     <MoreVertical className="h-3 w-3 text-muted-foreground" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="glass-effect-dark border-white/10">
                                 {auth.user?.permissions?.includes('view-project-task') && (
-                                    <DropdownMenuItem onClick={() => openModal('view', task)} className="text-[10px] font-black uppercase tracking-widest gap-2">
+                                    <DropdownMenuItem
+                                        onClick={() => openModal('view', task)}
+                                        className="gap-2 text-[10px] font-black uppercase tracking-widest"
+                                    >
                                         <Eye className="h-3 w-3" />
                                         {t('View Vector')}
                                     </DropdownMenuItem>
                                 )}
                                 {auth.user?.permissions?.includes('edit-project-task') && (
-                                    <DropdownMenuItem onClick={() => openModal('edit', task)} className="text-[10px] font-black uppercase tracking-widest gap-2">
+                                    <DropdownMenuItem
+                                        onClick={() => openModal('edit', task)}
+                                        className="gap-2 text-[10px] font-black uppercase tracking-widest"
+                                    >
                                         <Edit className="h-3 w-3" />
                                         {t('Modify Protocol')}
                                     </DropdownMenuItem>
                                 )}
                                 {auth.user?.permissions?.includes('delete-project-task') && (
-                                    <DropdownMenuItem onClick={() => openDeleteDialog(task.id)} className="text-[10px] font-black uppercase tracking-widest gap-2 text-destructive hover:!text-destructive hover:bg-destructive/10">
+                                    <DropdownMenuItem
+                                        onClick={() => openDeleteDialog(task.id)}
+                                        className="gap-2 text-[10px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 hover:!text-destructive"
+                                    >
                                         <Trash2 className="h-3 w-3" />
                                         {t('Purge Record')}
                                     </DropdownMenuItem>
@@ -201,51 +239,61 @@ export default function Kanban() {
                     )}
                 </div>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="mb-4 flex flex-wrap gap-2">
                     {task.priority && (
-                        <Badge className={`text-[8px] font-black uppercase tracking-widest px-2 py-0 h-4 border ${getPriorityStyle(task.priority)}`}>
+                        <Badge
+                            className={`h-4 border px-2 py-0 text-[8px] font-black uppercase tracking-widest ${getPriorityStyle(task.priority)}`}
+                        >
                             {t(task.priority)}
                         </Badge>
                     )}
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
+                <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-4">
                     <div className="flex -space-x-2">
                         {task.assigned_users && task.assigned_users.length > 0 ? (
                             task.assigned_users.slice(0, 3)?.map((user: any, index: number) => (
                                 <TooltipProvider key={index}>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
-                                            <div className="h-6 w-6 rounded-lg border-2 border-border overflow-hidden bg-card flex items-center justify-center ring-1 ring-white/5 group-hover:scale-110 transition-transform duration-300">
+                                            <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-lg border-2 border-border bg-card ring-1 ring-white/5 transition-transform duration-300 group-hover:scale-110">
                                                 {user.avatar ? (
-                                                    <img src={getImagePath(user.avatar)} alt={user.name} className="h-full w-full object-cover" />
+                                                    <img
+                                                        src={getImagePath(user.avatar)}
+                                                        alt={user.name}
+                                                        className="h-full w-full object-cover"
+                                                    />
                                                 ) : (
                                                     <User className="h-2.5 w-2.5 text-muted-foreground" />
                                                 )}
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent className="glass-effect border-white/10">
-                                            <p className="text-[10px] font-black uppercase tracking-widest">{user.name}</p>
+                                            <p className="text-[10px] font-black uppercase tracking-widest">
+                                                {user.name}
+                                            </p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
                             ))
                         ) : (
-                            <div className="h-6 w-6 rounded-lg bg-card/5 border border-white/5 flex items-center justify-center">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-white/5 bg-card/5">
                                 <User className="h-2.5 w-2.5 text-foreground" />
                             </div>
                         )}
                         {task.assigned_users && task.assigned_users.length > 3 && (
-                            <div className="h-6 w-6 rounded-lg bg-card border-2 border-border flex items-center justify-center">
-                                <span className="text-[8px] font-black text-muted-foreground">+{task.assigned_users.length - 3}</span>
+                            <div className="flex h-6 w-6 items-center justify-center rounded-lg border-2 border-border bg-card">
+                                <span className="text-[8px] font-black text-muted-foreground">
+                                    +{task.assigned_users.length - 3}
+                                </span>
                             </div>
                         )}
                     </div>
 
                     {task.due_date && (
-                        <div className="flex items-center gap-1.5 opacity-50 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-1.5 opacity-50 transition-opacity group-hover:opacity-100">
                             <Clock className="h-3 w-3 text-muted-foreground" />
-                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">
+                            <span className="text-[9px] font-black uppercase tracking-tighter text-muted-foreground">
                                 {task.due_date.includes(' - ') ? task.due_date.split(' - ')[1].trim() : task.due_date}
                             </span>
                         </div>
@@ -260,31 +308,50 @@ export default function Kanban() {
             breadcrumbs={[
                 { label: t('Project'), url: route('project.index') },
                 { label: project.name, url: route('project.show', project.id) },
-                { label: t('Mission Matrix') }
+                { label: t('Mission Matrix') },
             ]}
             pageTitle={t('Mission Execution Board')}
             pageActions={
                 <div className="flex items-center gap-3">
-                    <div className="flex gap-1.5 mr-2">
-                        {googleDriveButtons?.map((button) => <div key={button.id} className="opacity-70 hover:opacity-100 transition-opacity">{button.component}</div>)}
-                        {oneDriveButtons?.map((button) => <div key={button.id} className="opacity-70 hover:opacity-100 transition-opacity">{button.component}</div>)}
-                        {dropboxBtn?.map((button) => <div key={button.id} className="opacity-70 hover:opacity-100 transition-opacity">{button.component}</div>)}
+                    <div className="mr-2 flex gap-1.5">
+                        {googleDriveButtons?.map((button) => (
+                            <div key={button.id} className="opacity-70 transition-opacity hover:opacity-100">
+                                {button.component}
+                            </div>
+                        ))}
+                        {oneDriveButtons?.map((button) => (
+                            <div key={button.id} className="opacity-70 transition-opacity hover:opacity-100">
+                                {button.component}
+                            </div>
+                        ))}
+                        {dropboxBtn?.map((button) => (
+                            <div key={button.id} className="opacity-70 transition-opacity hover:opacity-100">
+                                {button.component}
+                            </div>
+                        ))}
                     </div>
-                    
-                    <div className="h-8 w-px bg-card/10 mx-2" />
-                    
+
+                    <div className="mx-2 h-8 w-px bg-card/10" />
+
                     <TooltipProvider>
                         {auth.user?.permissions?.includes('manage-project-task') && (
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
-                                    <Button size="sm" variant="outline" className="premium-button border-white/10 hover:bg-card/10"
-                                        onClick={() => router.get(route('project.tasks.index', { project_id: project.id }))}
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="premium-button border-white/10 hover:bg-card/10"
+                                        onClick={() =>
+                                            router.get(route('project.tasks.index', { project_id: project.id }))
+                                        }
                                     >
                                         <List className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
-                                    <p className="text-[10px] font-black uppercase tracking-widest">{t('Switch to Grid')}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest">
+                                        {t('Switch to Grid')}
+                                    </p>
                                 </TooltipContent>
                             </Tooltip>
                         )}
@@ -292,12 +359,16 @@ export default function Kanban() {
                             <Tooltip delayDuration={0}>
                                 <TooltipTrigger asChild>
                                     <Button size="sm" className="premium-button px-6" onClick={() => openModal('add')}>
-                                        <Plus className="h-4 w-4 mr-2" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest">{t('Deploy Task')}</span>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest">
+                                            {t('Deploy Task')}
+                                        </span>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
-                                    <p className="text-[10px] font-black uppercase tracking-widest">{t('Deploy New Vector')}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest">
+                                        {t('Deploy New Vector')}
+                                    </p>
                                 </TooltipContent>
                             </Tooltip>
                         )}
@@ -310,15 +381,15 @@ export default function Kanban() {
             <div className="mt-6">
                 <KanbanBoard
                     tasks={currentTasks}
-                    columns={stages?.map(stage => ({
+                    columns={stages?.map((stage) => ({
                         id: stage.name.toLowerCase().replace(/\s+/g, '-'),
                         title: stage.name,
-                        color: stage.color
+                        color: stage.color,
                     }))}
                     onMove={handleMove}
                     taskCard={TaskCard}
                     kanbanActions={(columnId: string) => {
-                        const stage = stages.find(s => s.name.toLowerCase().replace(/\s+/g, '-') === columnId);
+                        const stage = stages.find((s) => s.name.toLowerCase().replace(/\s+/g, '-') === columnId);
                         return auth.user?.permissions?.includes('create-project-task') ? (
                             <TooltipProvider>
                                 <Tooltip delayDuration={0}>
@@ -326,13 +397,13 @@ export default function Kanban() {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="h-6 w-6 p-0 hover:bg-card/10 rounded-lg text-muted-foreground hover:text-background transition-all"
+                                            className="h-6 w-6 rounded-lg p-0 text-muted-foreground transition-all hover:bg-card/10 hover:text-background"
                                             onClick={() => {
                                                 setModalState({
                                                     isOpen: true,
                                                     mode: 'add',
                                                     data: null,
-                                                    preSelectedStage: stage?.id
+                                                    preSelectedStage: stage?.id,
                                                 });
                                             }}
                                         >
@@ -340,7 +411,9 @@ export default function Kanban() {
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent className="glass-effect-dark border-white/10">
-                                        <p className="text-[8px] font-black uppercase tracking-widest">{t('Quick Deploy')}</p>
+                                        <p className="text-[8px] font-black uppercase tracking-widest">
+                                            {t('Quick Deploy')}
+                                        </p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -398,7 +471,19 @@ export default function Kanban() {
 }
 
 const Clock = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+    >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
     </svg>
 );

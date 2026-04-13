@@ -17,20 +17,22 @@ declare global {
 
 const StripePayment: React.FC<StripePaymentProps> = ({ stripe_session, stripe_key }) => {
     const { t } = useTranslation();
-    
+
     useEffect(() => {
         if (stripe_session && stripe_key) {
             const script = document.createElement('script');
             script.src = 'https://js.stripe.com/v3/';
             script.onload = () => {
                 const stripe = window.Stripe(stripe_key);
-                stripe.redirectToCheckout({
-                    sessionId: stripe_session.id
-                }).then((result: any) => {
-                    if (result.error) {
-                        alert(result.error.message);
-                    }
-                });
+                stripe
+                    .redirectToCheckout({
+                        sessionId: stripe_session.id,
+                    })
+                    .then((result: any) => {
+                        if (result.error) {
+                            alert(result.error.message);
+                        }
+                    });
             };
             document.head.appendChild(script);
         }
@@ -39,9 +41,9 @@ const StripePayment: React.FC<StripePaymentProps> = ({ stripe_session, stripe_ke
     return (
         <>
             <Head title={t('Stripe Payment')} />
-            <div className="min-h-screen flex items-center justify-center bg-muted/50">
+            <div className="flex min-h-screen items-center justify-center bg-muted/50">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto mb-4"></div>
+                    <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-foreground"></div>
                     <p className="text-muted-foreground">{t('Redirecting to Stripe...')}</p>
                 </div>
             </div>

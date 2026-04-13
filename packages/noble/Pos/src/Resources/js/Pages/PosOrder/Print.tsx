@@ -67,7 +67,7 @@ export default function Print() {
                 filename: `pos-sale-${sale.sale_number}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
             };
 
             try {
@@ -86,54 +86,70 @@ export default function Print() {
             <Head title={t('POS Sale')} />
 
             {isDownloading && (
-                <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-card p-6 rounded-lg shadow-lg">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
+                    <div className="rounded-lg bg-card p-6 shadow-lg">
                         <div className="flex items-center space-x-3">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground"></div>
+                            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="sale-container bg-card max-w-4xl mx-auto p-12">
+            <div className="sale-container mx-auto max-w-4xl bg-card p-12">
                 {/* Header */}
-                <div className="flex justify-between items-start mb-12">
+                <div className="mb-12 flex items-start justify-between">
                     <div className="w-1/2">
-                        <h1 className="text-2xl font-bold mb-4">{getCompanySetting('company_name') || 'YOUR COMPANY'}</h1>
-                        <div className="text-sm space-y-1">
+                        <h1 className="mb-4 text-2xl font-bold">
+                            {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                        </h1>
+                        <div className="space-y-1 text-sm">
                             {getCompanySetting('company_address') && <p>{getCompanySetting('company_address')}</p>}
                             {(getCompanySetting('company_city') || getCompanySetting('company_state')) && (
-                                <p>{getCompanySetting('company_city')}, {getCompanySetting('company_state')}</p>
+                                <p>
+                                    {getCompanySetting('company_city')}, {getCompanySetting('company_state')}
+                                </p>
                             )}
                             {(getCompanySetting('company_country') || getCompanySetting('company_zipcode')) && (
-                                <p>{getCompanySetting('company_country')} - {getCompanySetting('company_zipcode')}</p>
+                                <p>
+                                    {getCompanySetting('company_country')} - {getCompanySetting('company_zipcode')}
+                                </p>
                             )}
-                            {getCompanySetting('company_telephone') && <p>{t('Phone')}: {getCompanySetting('company_telephone')}</p>}
-                            {getCompanySetting('company_email') && <p>{t('Email')}: {getCompanySetting('company_email')}</p>}
+                            {getCompanySetting('company_telephone') && (
+                                <p>
+                                    {t('Phone')}: {getCompanySetting('company_telephone')}
+                                </p>
+                            )}
+                            {getCompanySetting('company_email') && (
+                                <p>
+                                    {t('Email')}: {getCompanySetting('company_email')}
+                                </p>
+                            )}
                         </div>
                     </div>
-                    <div className="text-right w-1/2">
-                        <h2 className="text-2xl font-bold mb-2">{t('POS SALE')}</h2>
+                    <div className="w-1/2 text-right">
+                        <h2 className="mb-2 text-2xl font-bold">{t('POS SALE')}</h2>
                         <p className="text-lg font-semibold">{sale.sale_number}</p>
-                        <div className="text-sm mt-2">
-                            <p>{t('Date')}: {formatDate(sale.created_at)}</p>
+                        <div className="mt-2 text-sm">
+                            <p>
+                                {t('Date')}: {formatDate(sale.created_at)}
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 {/* Customer Information */}
-                <div className="flex justify-between mb-12">
+                <div className="mb-12 flex justify-between">
                     <div className="w-1/2">
-                        <h3 className="font-bold mb-3">{t('CUSTOMER')}</h3>
-                        <div className="text-sm space-y-1">
+                        <h3 className="mb-3 font-bold">{t('CUSTOMER')}</h3>
+                        <div className="space-y-1 text-sm">
                             <p className="font-semibold">{sale.customer?.name || t('Walk-in Customer')}</p>
                             {sale.customer?.email && <p>{sale.customer.email}</p>}
                         </div>
                     </div>
-                    <div className="text-right w-1/2">
-                        <h3 className="font-bold mb-3">{t('WAREHOUSE')}</h3>
-                        <div className="text-sm space-y-1">
+                    <div className="w-1/2 text-right">
+                        <h3 className="mb-3 font-bold">{t('WAREHOUSE')}</h3>
+                        <div className="space-y-1 text-sm">
                             <p className="font-semibold">{sale.warehouse?.name || '-'}</p>
                         </div>
                     </div>
@@ -144,12 +160,12 @@ export default function Print() {
                     <table className="w-full table-fixed">
                         <thead>
                             <tr className="border-b border-border">
-                                <th className="text-left py-3 font-bold">{t('Product')}</th>
-                                <th className="text-center py-3 font-bold">{t('Qty')}</th>
-                                <th className="text-right py-3 font-bold">{t('Unit Price')}</th>
-                                <th className="text-center py-3 font-bold">{t('Tax')}</th>
-                                <th className="text-right py-3 font-bold">{t('Tax Amount')}</th>
-                                <th className="text-right py-3 font-bold">{t('Total')}</th>
+                                <th className="py-3 text-left font-bold">{t('Product')}</th>
+                                <th className="py-3 text-center font-bold">{t('Qty')}</th>
+                                <th className="py-3 text-right font-bold">{t('Unit Price')}</th>
+                                <th className="py-3 text-center font-bold">{t('Tax')}</th>
+                                <th className="py-3 text-right font-bold">{t('Tax Amount')}</th>
+                                <th className="py-3 text-right font-bold">{t('Total')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,26 +174,32 @@ export default function Print() {
                                     <td className="py-4">
                                         <div className="font-semibold">{item.product?.name}</div>
                                         {item.product?.sku && (
-                                            <div className="text-xs text-muted-foreground">{t('SKU')}: {item.product.sku}</div>
+                                            <div className="text-xs text-muted-foreground">
+                                                {t('SKU')}: {item.product.sku}
+                                            </div>
                                         )}
                                     </td>
-                                    <td className="text-center py-4">{item.quantity}</td>
-                                    <td className="text-right py-4">{formatCurrency(item.price)}</td>
-                                    <td className="text-center py-4">
+                                    <td className="py-4 text-center">{item.quantity}</td>
+                                    <td className="py-4 text-right">{formatCurrency(item.price)}</td>
+                                    <td className="py-4 text-center">
                                         {item.taxes && item.taxes.length > 0 ? (
                                             <div className="text-xs">
                                                 {item.taxes?.map((tax, taxIndex) => (
-                                                    <div key={taxIndex}>{tax.tax_name} ({tax.rate}%)</div>
+                                                    <div key={taxIndex}>
+                                                        {tax.tax_name} ({tax.rate}%)
+                                                    </div>
                                                 ))}
                                             </div>
-                                        ) : '-'}
+                                        ) : (
+                                            '-'
+                                        )}
                                     </td>
-                                    <td className="text-right py-4">
-                                        {item.tax_amount > 0 ? (
-                                            <span>{formatCurrency(item.tax_amount)}</span>
-                                        ) : '-'}
+                                    <td className="py-4 text-right">
+                                        {item.tax_amount > 0 ? <span>{formatCurrency(item.tax_amount)}</span> : '-'}
                                     </td>
-                                    <td className="text-right py-4 font-semibold">{formatCurrency(item.total_amount)}</td>
+                                    <td className="py-4 text-right font-semibold">
+                                        {formatCurrency(item.total_amount)}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -185,7 +207,7 @@ export default function Print() {
                 </div>
 
                 {/* Summary */}
-                <div className="flex justify-end mb-8">
+                <div className="mb-8 flex justify-end">
                     <div className="w-80">
                         <div className="border border-border p-4">
                             <div className="space-y-2">
@@ -195,14 +217,16 @@ export default function Print() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span>{t('Discount')}:</span>
-                                    <span className="font-medium text-destructive">-{formatCurrency(sale.discount_amount || 0)}</span>
+                                    <span className="font-medium text-destructive">
+                                        -{formatCurrency(sale.discount_amount || 0)}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>{t('Tax')}:</span>
                                     <span>{formatCurrency(sale.tax_amount || 0)}</span>
                                 </div>
-                                <div className="border-t border-border pt-2 mt-2">
-                                    <div className="flex justify-between font-bold text-lg">
+                                <div className="mt-2 border-t border-border pt-2">
+                                    <div className="flex justify-between text-lg font-bold">
                                         <span>{t('TOTAL')}:</span>
                                         <span>{formatCurrency(sale.total_amount || 0)}</span>
                                     </div>
@@ -214,12 +238,12 @@ export default function Print() {
 
                 {/* Footer */}
                 <div className="border-t border-border pt-6 text-center">
-                    <p className="text-sm mt-2 mb-4">{t('Thank you for your business!')}</p>
-                    
+                    <p className="mb-4 mt-2 text-sm">{t('Thank you for your business!')}</p>
+
                     {/* ZATCA Phase 1 QR Code */}
                     {sale.zatca_qr && (
-                        <div className="flex justify-center mt-6 no-print-page-break">
-                            <img src={sale.zatca_qr} alt="ZATCA e-Invoice QR" className="w-32 h-32 object-contain" />
+                        <div className="no-print-page-break mt-6 flex justify-center">
+                            <img src={sale.zatca_qr} alt="ZATCA e-Invoice QR" className="h-32 w-32 object-contain" />
                         </div>
                     )}
                 </div>

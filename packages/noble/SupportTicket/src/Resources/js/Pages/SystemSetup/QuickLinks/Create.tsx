@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import InputError from '@/components/ui/input-error';
 
-
 interface CreateModalProps {
     onSuccess: () => void;
 }
@@ -18,7 +17,7 @@ export default function CreateModal({ onSuccess }: CreateModalProps) {
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         icon: '',
-        link: ''
+        link: '',
     });
 
     const iconOptions = [
@@ -31,7 +30,7 @@ export default function CreateModal({ onSuccess }: CreateModalProps) {
         { value: 'HelpCircle', label: 'HelpCircle' },
         { value: 'Settings', label: 'Settings' },
         { value: 'Download', label: 'Download' },
-        { value: 'ExternalLink', label: 'ExternalLink' }
+        { value: 'ExternalLink', label: 'ExternalLink' },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -39,7 +38,7 @@ export default function CreateModal({ onSuccess }: CreateModalProps) {
         post(route('support-ticket.quick-links.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

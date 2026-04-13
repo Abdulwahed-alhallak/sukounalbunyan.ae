@@ -36,7 +36,7 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
         twilio_notification_is: userSettings?.twilio_notification_is === 'on',
         twilio_sid: userSettings?.twilio_sid || '',
         twilio_token: userSettings?.twilio_token || '',
-        twilio_from: userSettings?.twilio_from || ''
+        twilio_from: userSettings?.twilio_from || '',
     });
 
     const [showToken, setShowToken] = useState(false);
@@ -47,12 +47,12 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
             twilio_notification_is: userSettings?.twilio_notification_is === 'on',
             twilio_sid: userSettings?.twilio_sid || '',
             twilio_token: userSettings?.twilio_token || '',
-            twilio_from: userSettings?.twilio_from || ''
+            twilio_from: userSettings?.twilio_from || '',
         });
 
         fetch(route('twilio.settings.index'))
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 setTwilioNotifications(data.twilioNotifications || {});
 
                 const initial: Record<string, string> = {};
@@ -64,41 +64,45 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                 });
                 setNotificationSettings(initial);
             })
-            .catch(error => console.error('Error fetching twilio notifications:', error));
+            .catch((error) => console.error('Error fetching twilio notifications:', error));
     }, [userSettings]);
 
     const handleSettingsChange = (field: string, value: string | boolean) => {
-        setTwilioSettings(prev => ({
+        setTwilioSettings((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
     };
 
     const handleNotificationToggle = (key: string, checked: boolean) => {
-        setNotificationSettings(prev => ({
+        setNotificationSettings((prev) => ({
             ...prev,
-            [key]: checked ? 'on' : 'off'
+            [key]: checked ? 'on' : 'off',
         }));
     };
 
     const saveTwilioSettings = () => {
         setIsLoading(true);
 
-        router.post(route('twilio.settings.store'), {
-            settings: {
-                ...twilioSettings,
-                ...notificationSettings,
-                twilio_notification_is: twilioSettings.twilio_notification_is ? 'on' : 'off'
-            }
-        }, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setIsLoading(false);
+        router.post(
+            route('twilio.settings.store'),
+            {
+                settings: {
+                    ...twilioSettings,
+                    ...notificationSettings,
+                    twilio_notification_is: twilioSettings.twilio_notification_is ? 'on' : 'off',
+                },
             },
-            onError: () => {
-                setIsLoading(false);
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -109,13 +113,13 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                         <Phone className="h-5 w-5" />
                         {t('Twilio Settings')}
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="mt-1 text-sm text-muted-foreground">
                         {t('Configure Twilio integration and SMS settings')}
                     </p>
                 </div>
                 {canEdit && (
                     <Button className="order-2 rtl:order-1" onClick={saveTwilioSettings} disabled={isLoading} size="sm">
-                        <Save className="h-4 w-4 mr-2" />
+                        <Save className="mr-2 h-4 w-4" />
                         {isLoading ? t('Saving...') : t('Save Changes')}
                     </Button>
                 )}
@@ -123,12 +127,12 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
             <CardContent>
                 <div className="space-y-6">
                     {/* Enable/Disable Twilio */}
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center justify-between rounded-lg border p-4">
                         <div>
                             <Label htmlFor="twilio_notification_is" className="text-base font-medium">
                                 {t('Enable Twilio Integration')}
                             </Label>
-                            <p className="text-sm text-muted-foreground mt-1">
+                            <p className="mt-1 text-sm text-muted-foreground">
                                 {t('Allow SMS notifications to be sent via Twilio')}
                             </p>
                         </div>
@@ -168,7 +172,7 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                                     <button
                                         type="button"
                                         onClick={() => setShowToken(!showToken)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 transform text-muted-foreground hover:text-foreground"
                                     >
                                         {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                     </button>
@@ -187,40 +191,56 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                             </div>
 
                             {(() => {
-                                const filteredModules = Object.keys(twilioNotifications || {}).filter(module =>
-                                    module.toLowerCase() === 'general' || activatedPackages.includes(module)
+                                const filteredModules = Object.keys(twilioNotifications || {}).filter(
+                                    (module) => module.toLowerCase() === 'general' || activatedPackages.includes(module)
                                 );
-                                return filteredModules.length > 0 && (
-                                    <div className="space-y-3">
-                                        <Label>{t('Notification Settings')}</Label>
-                                        <Tabs defaultValue={filteredModules[0]}>
-                                            <TabsList className="flex-wrap h-auto">
+                                return (
+                                    filteredModules.length > 0 && (
+                                        <div className="space-y-3">
+                                            <Label>{t('Notification Settings')}</Label>
+                                            <Tabs defaultValue={filteredModules[0]}>
+                                                <TabsList className="h-auto flex-wrap">
+                                                    {filteredModules?.map((module) => (
+                                                        <TabsTrigger key={module} value={module} className="capitalize">
+                                                            {getPackageAlias(module)}
+                                                        </TabsTrigger>
+                                                    ))}
+                                                </TabsList>
                                                 {filteredModules?.map((module) => (
-                                                    <TabsTrigger key={module} value={module} className="capitalize">
-                                                        {getPackageAlias(module)}
-                                                    </TabsTrigger>
+                                                    <TabsContent key={module} value={module}>
+                                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                                            {(twilioNotifications[module] || [])?.map(
+                                                                (notification: Notification) => (
+                                                                    <div
+                                                                        key={notification.id}
+                                                                        className="flex items-center justify-between rounded-lg bg-muted/50 p-3"
+                                                                    >
+                                                                        <span className="text-sm font-medium">
+                                                                            {notification.action}
+                                                                        </span>
+                                                                        <Switch
+                                                                            checked={
+                                                                                notificationSettings[
+                                                                                    `Twilio ${notification.action}`
+                                                                                ] === 'on'
+                                                                            }
+                                                                            onCheckedChange={(checked) =>
+                                                                                handleNotificationToggle(
+                                                                                    `Twilio ${notification.action}`,
+                                                                                    checked
+                                                                                )
+                                                                            }
+                                                                            disabled={!canEdit}
+                                                                        />
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </TabsContent>
                                                 ))}
-                                            </TabsList>
-                                            {filteredModules?.map((module) => (
-                                                <TabsContent key={module} value={module}>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        {(twilioNotifications[module] || [])?.map((notification: Notification) => (
-                                                            <div key={notification.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                                                                <span className="text-sm font-medium">
-                                                                    {notification.action}
-                                                                </span>
-                                                                <Switch
-                                                                    checked={notificationSettings[`Twilio ${notification.action}`] === 'on'}
-                                                                    onCheckedChange={(checked) => handleNotificationToggle(`Twilio ${notification.action}`, checked)}
-                                                                    disabled={!canEdit}
-                                                                />
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </TabsContent>
-                                            ))}
-                                        </Tabs>
-                                    </div>
+                                            </Tabs>
+                                        </div>
+                                    )
                                 );
                             })()}
                         </div>

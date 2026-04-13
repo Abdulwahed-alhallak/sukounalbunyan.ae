@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,15 +29,15 @@ export default function ApplicationTips() {
     const canEdit = auth?.user?.permissions?.includes('manage-application-tips');
 
     const [formSettings, setFormSettings] = useState({
-        tips: settings?.tips || [{ title: '' }]
+        tips: settings?.tips || [{ title: '' }],
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
             setFormSettings({
-                tips: settings?.tips || [{ title: '' }]
+                tips: settings?.tips || [{ title: '' }],
             });
         }
     }, [settings]);
@@ -45,25 +45,25 @@ export default function ApplicationTips() {
     const handleTipChange = (index: number, value: string) => {
         const newTips = [...formSettings.tips];
         newTips[index].title = value;
-        setFormSettings(prev => ({ ...prev, tips: newTips }));
+        setFormSettings((prev) => ({ ...prev, tips: newTips }));
     };
 
     const addTip = () => {
-        setFormSettings(prev => ({
+        setFormSettings((prev) => ({
             ...prev,
-            tips: [...prev.tips, { title: '' }]
+            tips: [...prev.tips, { title: '' }],
         }));
     };
 
     const removeTip = (index: number) => {
         if (formSettings.tips.length > 1) {
             const newTips = formSettings.tips.filter((_, i) => i !== index);
-            setFormSettings(prev => ({ ...prev, tips: newTips }));
+            setFormSettings((prev) => ({ ...prev, tips: newTips }));
         }
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         formSettings.tips.forEach((tip, index) => {
             if (!tip.title.trim()) {
@@ -82,27 +82,32 @@ export default function ApplicationTips() {
 
         setIsLoading(true);
 
-        router.post(route('recruitment.application-tips.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('recruitment.application-tips.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -110,25 +115,25 @@ export default function ApplicationTips() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('Application Tips Section') }
+                { label: t('Application Tips Section') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('Application Tips Section')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="application-tips" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('Application Tips Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -137,9 +142,9 @@ export default function ApplicationTips() {
                             <div className="space-y-4">
                                 {formSettings.tips?.map((tip, index) => (
                                     <div key={index} className="space-y-3">
-                                        <div className="flex justify-between items-center">
+                                        <div className="flex items-center justify-between">
                                             <Label htmlFor={`tip_${index}`} required>
-                                                {t('Tip')} {index + 1} 
+                                                {t('Tip')} {index + 1}
                                             </Label>
                                             {canEdit && formSettings.tips.length > 1 && (
                                                 <TooltipProvider>
@@ -170,7 +175,7 @@ export default function ApplicationTips() {
                                             className={errors[`tip_${index}`] ? 'border-destructive' : ''}
                                             maxLength={100}
                                         />
-                                        <div className="flex justify-between items-center text-xs">
+                                        <div className="flex items-center justify-between text-xs">
                                             <span className="text-destructive">{errors[`tip_${index}`] || ''}</span>
                                             <span className="text-muted-foreground">{tip.title.length}/100</span>
                                         </div>
@@ -178,13 +183,8 @@ export default function ApplicationTips() {
                                 ))}
 
                                 {canEdit && (
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={addTip}
-                                        className="w-full"
-                                    >
-                                        <Plus className="h-4 w-4 mr-2" />
+                                    <Button type="button" variant="outline" onClick={addTip} className="w-full">
+                                        <Plus className="mr-2 h-4 w-4" />
                                         {t('Add Tip')}
                                     </Button>
                                 )}

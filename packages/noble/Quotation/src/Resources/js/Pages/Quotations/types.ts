@@ -41,9 +41,7 @@ export interface QuotationItem {
     tax_percentage: number;
     tax_amount: number;
     total_amount: number;
-    taxes?: Array<{id?: number; tax_name: string; tax_rate: number
-    [key: string]: any;
-}>;
+    taxes?: Array<{ id?: number; tax_name: string; tax_rate: number; [key: string]: any }>;
     product?: ProductServiceItem;
 }
 

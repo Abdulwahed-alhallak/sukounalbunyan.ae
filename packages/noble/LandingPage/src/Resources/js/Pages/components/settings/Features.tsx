@@ -24,7 +24,7 @@ export default function Features({ data, getSectionData, updateSectionData, upda
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <Star className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -77,33 +77,45 @@ export default function Features({ data, getSectionData, updateSectionData, upda
                             rows={3}
                         />
                     </div>
-                    
+
                     <div className="space-y-4">
                         <Label>{t('Features List')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'title', label: t('Feature Title'), type: 'text', placeholder: t('Feature title'), required: true },
-                                { name: 'description', label: t('Feature Description'), type: 'textarea', placeholder: t('Feature description'), required: true },
-                                { 
-                                    name: 'icon', 
-                                    label: t('Icon'), 
-                                    type: 'select', 
+                                {
+                                    name: 'title',
+                                    label: t('Feature Title'),
+                                    type: 'text',
+                                    placeholder: t('Feature title'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'description',
+                                    label: t('Feature Description'),
+                                    type: 'textarea',
+                                    placeholder: t('Feature description'),
+                                    required: true,
+                                },
+                                {
+                                    name: 'icon',
+                                    label: t('Icon'),
+                                    type: 'select',
                                     options: [
                                         { value: 'Building2', label: 'Building' },
                                         { value: 'Calculator', label: 'Calculator' },
                                         { value: 'Users', label: 'Users' },
                                         { value: 'CreditCard', label: 'Credit Card' },
                                         { value: 'UserCheck', label: 'User Check' },
-                                        { value: 'FolderOpen', label: 'Folder' }
+                                        { value: 'FolderOpen', label: 'Folder' },
                                     ],
-                                    required: true
-                                }
+                                    required: true,
+                                },
                             ]}
                             value={(getSectionData('features').features || [])?.map((feature: any, index: number) => ({
                                 id: `feature-${index}`,
                                 title: feature.title || '',
                                 description: feature.description || '',
-                                icon: feature.icon || 'Building2'
+                                icon: feature.icon || 'Building2',
                             }))}
                             onChange={(items) => {
                                 const features = items?.map(({ id, ...item }) => item);

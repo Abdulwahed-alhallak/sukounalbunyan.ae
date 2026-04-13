@@ -38,9 +38,7 @@ export interface Employee {
     date_of_birth?: string;
     gender: string;
     shift_id?: number;
-    shift?: { id: number; shift_name: string;
-    [key: string]: any;
-};
+    shift?: { id: number; shift_name: string; [key: string]: any };
     date_of_joining: string;
     employment_type: string;
     // Personal
@@ -215,7 +213,8 @@ export interface CreateEmployeeFormData {
     [key: string]: any;
 }
 
-export interface EditEmployeeFormData extends CreateEmployeeFormData  {[key: string]: any;
+export interface EditEmployeeFormData extends CreateEmployeeFormData {
+    [key: string]: any;
 }
 
 export interface EmployeeFilters {

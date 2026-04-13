@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -26,7 +26,7 @@ export default function Create({ onSuccess, chartofaccounts }: CreateExpenseCate
         post(route('account.expense-categories.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -64,7 +64,10 @@ export default function Create({ onSuccess, chartofaccounts }: CreateExpenseCate
 
                 <div>
                     <Label htmlFor="gl_account_id">{t('Gl Account')}</Label>
-                    <Select value={data.gl_account_id?.toString() || ''} onValueChange={(value) => setData('gl_account_id', value)}>
+                    <Select
+                        value={data.gl_account_id?.toString() || ''}
+                        onValueChange={(value) => setData('gl_account_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Gl Account')} />
                         </SelectTrigger>

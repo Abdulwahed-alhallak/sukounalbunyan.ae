@@ -1,9 +1,20 @@
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, Calendar, Clock, MapPin, Video, User, Briefcase, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import {
+    Users,
+    Calendar,
+    Clock,
+    MapPin,
+    Video,
+    User,
+    Briefcase,
+    FileText,
+    CheckCircle,
+    AlertCircle,
+} from 'lucide-react';
 import { Interview } from './types';
 import { formatDate, formatTime } from '@/utils/helpers';
 
@@ -15,33 +26,43 @@ export default function Show() {
     const { t } = useTranslation();
     const { interview } = usePage<InterviewShowProps>().props;
 
-    const statusOptions: any = { "0": "Scheduled", "1": "Completed", "2": "Cancelled", "3": "No-show" };
+    const statusOptions: any = { '0': 'Scheduled', '1': 'Completed', '2': 'Cancelled', '3': 'No-show' };
     const getStatusColor = (status: string) => {
-        switch(status) {
-            case '0': return 'bg-muted text-foreground';
-            case '1': return 'bg-muted text-foreground';
-            case '2': return 'bg-muted text-destructive';
-            case '3': return 'bg-muted text-foreground';
-            default: return 'bg-muted text-foreground';
+        switch (status) {
+            case '0':
+                return 'bg-muted text-foreground';
+            case '1':
+                return 'bg-muted text-foreground';
+            case '2':
+                return 'bg-muted text-destructive';
+            case '3':
+                return 'bg-muted text-foreground';
+            default:
+                return 'bg-muted text-foreground';
         }
     };
 
     const statusValue = String(interview.status || '0');
-    const isSubmitted = interview.feedback_submitted === true || interview.feedback_submitted === 1 || interview.feedback_submitted === '1';
+    const isSubmitted =
+        interview.feedback_submitted === true ||
+        interview.feedback_submitted === 1 ||
+        interview.feedback_submitted === '1';
     const interviewers = interview.interviewers ? interview.interviewers.split(',').filter(Boolean) : [];
 
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                {label: t('Interviews'), url: route('recruitment.interviews.index')},
-                {label: t('Interview Details')},
+                { label: t('Interviews'), url: route('recruitment.interviews.index') },
+                { label: t('Interview Details') },
             ]}
             pageTitle={t('Interview Details')}
         >
-            <Head title={`${t('Interview Details')} - ${interview.candidate?.first_name} ${interview.candidate?.last_name}`} />
+            <Head
+                title={`${t('Interview Details')} - ${interview.candidate?.first_name} ${interview.candidate?.last_name}`}
+            />
 
             <div className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Candidate Information */}
                     <Card className="shadow-sm">
                         <CardHeader>
@@ -53,12 +74,21 @@ export default function Show() {
                         <CardContent>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">{t('Full Name')}</label>
-                                    <p className="font-medium">{`${interview.candidate?.first_name || ''} ${interview.candidate?.last_name || ''}`.trim() || '-'}</p>
+                                    <label className="text-sm font-medium text-muted-foreground">
+                                        {t('Full Name')}
+                                    </label>
+                                    <p className="font-medium">
+                                        {`${interview.candidate?.first_name || ''} ${interview.candidate?.last_name || ''}`.trim() ||
+                                            '-'}
+                                    </p>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">{t('Applied Job')}</label>
-                                    <p className="font-medium">{interview.jobPosting?.title || interview.job_posting?.title || '-'}</p>
+                                    <label className="text-sm font-medium text-muted-foreground">
+                                        {t('Applied Job')}
+                                    </label>
+                                    <p className="font-medium">
+                                        {interview.jobPosting?.title || interview.job_posting?.title || '-'}
+                                    </p>
                                 </div>
                                 <div>
                                     <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
@@ -91,8 +121,13 @@ export default function Show() {
                             <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4 text-muted-foreground" />
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">{t('Time & Duration')}</label>
-                                    <p className="font-medium">{interview.scheduled_time || '-'} ({interview.duration ? `${interview.duration} min` : '-'})</p>
+                                    <label className="text-sm font-medium text-muted-foreground">
+                                        {t('Time & Duration')}
+                                    </label>
+                                    <p className="font-medium">
+                                        {interview.scheduled_time || '-'} (
+                                        {interview.duration ? `${interview.duration} min` : '-'})
+                                    </p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -103,7 +138,9 @@ export default function Show() {
                                 )}
                                 <div>
                                     <label className="text-sm font-medium text-muted-foreground">{t('Location')}</label>
-                                    <p className={`font-medium ${interview.location === 'Online' ? 'text-foreground' : ''}`}>
+                                    <p
+                                        className={`font-medium ${interview.location === 'Online' ? 'text-foreground' : ''}`}
+                                    >
                                         {interview.location || '-'}
                                     </p>
                                 </div>
@@ -122,20 +159,28 @@ export default function Show() {
                         <CardContent className="space-y-4">
                             <div>
                                 <label className="text-sm font-medium text-muted-foreground">{t('Round')}</label>
-                                <p className="font-medium">{interview.interviewRound?.name || interview.interview_round?.name || '-'}</p>
+                                <p className="font-medium">
+                                    {interview.interviewRound?.name || interview.interview_round?.name || '-'}
+                                </p>
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-muted-foreground">{t('Interview Type')}</label>
-                                <p className="font-medium">{interview.interviewType?.name || interview.interview_type?.name || '-'}</p>
+                                <label className="text-sm font-medium text-muted-foreground">
+                                    {t('Interview Type')}
+                                </label>
+                                <p className="font-medium">
+                                    {interview.interviewType?.name || interview.interview_type?.name || '-'}
+                                </p>
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-muted-foreground">{t('Feedback Status')}</label>
+                                <label className="text-sm font-medium text-muted-foreground">
+                                    {t('Feedback Status')}
+                                </label>
                                 <div className="mt-1">
-                                    <Badge className={`px-3 py-1 ${
-                                        isSubmitted
-                                            ? 'bg-muted text-foreground'
-                                            : 'bg-muted text-foreground'
-                                    }`}>
+                                    <Badge
+                                        className={`px-3 py-1 ${
+                                            isSubmitted ? 'bg-muted text-foreground' : 'bg-muted text-foreground'
+                                        }`}
+                                    >
                                         <div className="flex items-center gap-1">
                                             {isSubmitted ? (
                                                 <CheckCircle className="h-3 w-3" />
@@ -160,7 +205,9 @@ export default function Show() {
                         </CardHeader>
                         <CardContent>
                             <div>
-                                <label className="text-sm font-medium text-muted-foreground">{t('Assigned Interviewers')}</label>
+                                <label className="text-sm font-medium text-muted-foreground">
+                                    {t('Assigned Interviewers')}
+                                </label>
                                 {interviewers.length > 0 ? (
                                     <div className="mt-2 flex flex-wrap gap-2">
                                         {interviewers?.map((interviewer, index) => (
@@ -170,7 +217,7 @@ export default function Show() {
                                         ))}
                                     </div>
                                 ) : (
-                                    <p className="font-medium text-muted-foreground mt-1">-</p>
+                                    <p className="mt-1 font-medium text-muted-foreground">-</p>
                                 )}
                             </div>
                         </CardContent>
@@ -189,12 +236,12 @@ export default function Show() {
                         <CardContent>
                             <div>
                                 <label className="text-sm font-medium text-muted-foreground">{t('Meeting Link')}</label>
-                                <div className="mt-2 p-3 bg-muted/50 rounded-md">
+                                <div className="mt-2 rounded-md bg-muted/50 p-3">
                                     <a
                                         href={interview.meeting_link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-foreground hover:text-foreground font-medium break-all"
+                                        className="break-all font-medium text-foreground hover:text-foreground"
                                     >
                                         {interview.meeting_link}
                                     </a>
@@ -214,7 +261,7 @@ export default function Show() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="bg-muted/50 p-4 rounded-md">
+                            <div className="rounded-md bg-muted/50 p-4">
                                 <p className="whitespace-pre-wrap">{interview.notes}</p>
                             </div>
                         </CardContent>

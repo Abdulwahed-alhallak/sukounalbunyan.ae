@@ -11,7 +11,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 
 export default function CreateTask({ onSuccess, training, users }) {
     const { t } = useTranslation();
-    
+
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         description: '',
@@ -36,7 +36,9 @@ export default function CreateTask({ onSuccess, training, users }) {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <Label htmlFor="title" required>{t('Title')}</Label>
+                    <Label htmlFor="title" required>
+                        {t('Title')}
+                    </Label>
                     <Input
                         id="title"
                         value={data.title}
@@ -45,7 +47,7 @@ export default function CreateTask({ onSuccess, training, users }) {
                         required
                     />
                     <InputError message={errors.title} />
-                </div>                
+                </div>
 
                 <div>
                     <Label required>{t('Due Date')}</Label>
@@ -59,7 +61,9 @@ export default function CreateTask({ onSuccess, training, users }) {
                 </div>
 
                 <div>
-                    <Label htmlFor="assigned_to" required>{t('Assign To')}</Label>
+                    <Label htmlFor="assigned_to" required>
+                        {t('Assign To')}
+                    </Label>
                     <Select value={data.assigned_to} onValueChange={(value) => setData('assigned_to', value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select user')} />

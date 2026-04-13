@@ -23,7 +23,7 @@ export default function Gallery({ data, getSectionData, updateSectionData, updat
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">
+                            <div className="rounded-lg bg-muted p-2">
                                 <Image className="h-5 w-5 text-foreground" />
                             </div>
                             <div>
@@ -75,19 +75,25 @@ export default function Gallery({ data, getSectionData, updateSectionData, updat
                             placeholder={t('Explore our product in action')}
                         />
                     </div>
-                    
+
                     <div className="space-y-4">
                         <Label>{t('Gallery Images')}</Label>
                         <Repeater
                             fields={[
-                                { name: 'image', label: t('Image'), type: 'image', placeholder: t('Select image...'), required: true }
+                                {
+                                    name: 'image',
+                                    label: t('Image'),
+                                    type: 'image',
+                                    placeholder: t('Select image...'),
+                                    required: true,
+                                },
                             ]}
                             value={(getSectionData('gallery').images || [])?.map((image: string, index: number) => ({
                                 id: `image-${index}`,
-                                image: image
+                                image: image,
                             }))}
                             onChange={(items) => {
-                                const images = items?.map(item => item.image);
+                                const images = items?.map((item) => item.image);
                                 updateSectionData('gallery', { images });
                             }}
                             addButtonText={t('Add Image')}

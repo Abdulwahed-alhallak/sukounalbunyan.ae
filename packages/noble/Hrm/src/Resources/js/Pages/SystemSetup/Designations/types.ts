@@ -18,13 +18,13 @@ export interface DesignationFormData {
     [key: string]: any;
 }
 
-export interface CreateDesignationProps extends CreateProps  {
+export interface CreateDesignationProps extends CreateProps {
     branches: any[];
     departments: any[];
     [key: string]: any;
 }
 
-export interface EditDesignationProps extends EditProps<Designation>  {
+export interface EditDesignationProps extends EditProps<Designation> {
     branches: any[];
     departments: any[];
     [key: string]: any;

@@ -4,7 +4,7 @@ import { Head, usePage } from '@inertiajs/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CTA from './components/CTA';
-import CookieConsent from "@/components/cookie-consent";
+import CookieConsent from '@/components/cookie-consent';
 // Import marketplace components
 import MarketplaceHero from './marketplace/Hero';
 import MarketplaceModules from './marketplace/Modules';
@@ -51,21 +51,32 @@ export default function Marketplace({ packages = [], settings, landingPageSettin
     const getSectionData = (key: string) => {
         return settings?.config_sections?.sections?.[key] || {};
     };
-    
+
     const favicon = getAdminSetting('favicon');
     const faviconUrl = favicon ? getImagePath(favicon) : null;
     const { adminAllSetting, auth } = usePage().props as any;
-    const updatedLandingPageSettings = { ...landingPageSettings, is_authenticated: (auth?.user?.id !== undefined && auth?.user?.id !== null) };
+    const updatedLandingPageSettings = {
+        ...landingPageSettings,
+        is_authenticated: auth?.user?.id !== undefined && auth?.user?.id !== null,
+    };
     const isSectionVisible = (key: string) => {
         return settings?.config_sections?.section_visibility?.[key] !== false;
     };
-    
-    const sectionOrder = settings?.config_sections?.section_order || 
-        ['header', 'hero', 'modules', 'dedication', 'screenshots', 'why_choose', 'cta', 'footer'];
-    
+
+    const sectionOrder = settings?.config_sections?.section_order || [
+        'header',
+        'hero',
+        'modules',
+        'dedication',
+        'screenshots',
+        'why_choose',
+        'cta',
+        'footer',
+    ];
+
     const renderSection = (sectionKey: string) => {
         if (!isSectionVisible(sectionKey)) return null;
-        
+
         switch (sectionKey) {
             case 'header':
                 return <Header key={sectionKey} settings={updatedLandingPageSettings} />;
@@ -93,8 +104,8 @@ export default function Marketplace({ packages = [], settings, landingPageSettin
             <Head title={`${settings?.title || 'Noble Architecture Marketplace'} - Premium Packages`}>
                 {faviconUrl && <link rel="icon" type="image/x-icon" href={faviconUrl} />}
             </Head>
-            
-            {sectionOrder?.map(sectionKey => renderSection(sectionKey))}
+
+            {sectionOrder?.map((sectionKey) => renderSection(sectionKey))}
 
             <CookieConsent settings={adminAllSetting || {}} />
         </div>

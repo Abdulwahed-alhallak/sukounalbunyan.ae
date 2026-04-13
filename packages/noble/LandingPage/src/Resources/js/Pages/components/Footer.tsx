@@ -14,15 +14,29 @@ export default function Footer({ settings }: FooterProps) {
     const description = sectionData.description || 'The complete business management solution for modern enterprises.';
     const contactEmail = settings?.contact_email || 'support@dion.sy';
     const newsletterButtonText = sectionData.newsletter_button_text || 'Subscribe';
-    const copyrightText = sectionData.copyright_text || `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`;
-    
+    const copyrightText =
+        sectionData.copyright_text || `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`;
+
     // Fallback navigation if not provided
-    const navSections = sectionData.navigation_sections?.length > 0 
-        ? sectionData.navigation_sections 
-        : [
-            { title: 'Resources', links: [{ text: 'Documentation', href: '#' }, { text: 'Guides', href: '#' }] },
-            { title: 'Company', links: [{ text: 'About', href: '#' }, { text: 'Blog', href: '#' }] }
-        ];
+    const navSections =
+        sectionData.navigation_sections?.length > 0
+            ? sectionData.navigation_sections
+            : [
+                  {
+                      title: 'Resources',
+                      links: [
+                          { text: 'Documentation', href: '#' },
+                          { text: 'Guides', href: '#' },
+                      ],
+                  },
+                  {
+                      title: 'Company',
+                      links: [
+                          { text: 'About', href: '#' },
+                          { text: 'Blog', href: '#' },
+                      ],
+                  },
+              ];
 
     const handleNewsletterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -39,11 +53,11 @@ export default function Footer({ settings }: FooterProps) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 },
                 body: JSON.stringify({
-                    email: emailInput.trim()
-                })
+                    email: emailInput.trim(),
+                }),
             });
 
             const data = await response.json();
@@ -62,35 +76,35 @@ export default function Footer({ settings }: FooterProps) {
     };
 
     return (
-        <footer className="bg-black py-16 border-t border-neutral-800 text-white">
-            <div className="max-w-6xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+        <footer className="border-t border-neutral-800 bg-black py-16 text-white">
+            <div className="mx-auto max-w-6xl px-6">
+                <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-12 lg:gap-8">
                     {/* Brand & Newsletter Section */}
-                    <div className="md:col-span-12 lg:col-span-5 flex flex-col justify-between">
+                    <div className="flex flex-col justify-between md:col-span-12 lg:col-span-5">
                         <div>
-                            <span className="text-2xl font-extrabold tracking-tight mb-4 inline-block">
+                            <span className="mb-4 inline-block text-2xl font-extrabold tracking-tight">
                                 {companyName}
                             </span>
-                            <p className="text-neutral-400 text-sm leading-relaxed max-w-sm mb-6">
-                                {description}
-                            </p>
+                            <p className="mb-6 max-w-sm text-sm leading-relaxed text-neutral-400">{description}</p>
                         </div>
-                        
+
                         <div className="mt-8">
-                            <h3 className="text-sm font-semibold text-white mb-3 tracking-wide uppercase">Subscribe to our newsletter</h3>
-                            <form onSubmit={handleNewsletterSubmit} className="flex max-w-sm relative group">
-                                <input 
-                                    type="email" 
+                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-white">
+                                Subscribe to our newsletter
+                            </h3>
+                            <form onSubmit={handleNewsletterSubmit} className="group relative flex max-w-sm">
+                                <input
+                                    type="email"
                                     placeholder="Enter your email"
                                     value={emailInput}
                                     onChange={(e) => setEmailInput(e.target.value)}
                                     disabled={isSubmitting}
-                                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-neutral-500 transition-colors placeholder:text-neutral-600 pr-24"
+                                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2.5 pr-24 text-sm outline-none transition-colors placeholder:text-neutral-600 focus:border-neutral-500"
                                 />
-                                <button 
+                                <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="absolute right-1 top-1 bottom-1 px-4 bg-white text-black hover:bg-neutral-200 text-xs font-semibold rounded-md transition-colors disabled:opacity-50"
+                                    className="absolute bottom-1 right-1 top-1 rounded-md bg-white px-4 text-xs font-semibold text-black transition-colors hover:bg-neutral-200 disabled:opacity-50"
                                 >
                                     {isSubmitting ? '...' : newsletterButtonText}
                                 </button>
@@ -99,18 +113,22 @@ export default function Footer({ settings }: FooterProps) {
                     </div>
 
                     {/* Navigation Columns */}
-                    <div className="md:col-span-12 lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-12 lg:col-span-7">
                         {navSections.map((section: any, index: number) => (
                             <div key={index}>
-                                <h3 className="text-sm font-semibold text-white mb-4 tracking-wide">{section.title}</h3>
+                                <h3 className="mb-4 text-sm font-semibold tracking-wide text-white">{section.title}</h3>
                                 <ul className="space-y-3">
                                     {section.links?.map((link: any, linkIndex: number) => (
                                         <li key={linkIndex}>
-                                            <a 
-                                                href={link.href?.startsWith('/page/') ? route('custom-page.show', link.href.replace('/page/', '')) : link.href}
+                                            <a
+                                                href={
+                                                    link.href?.startsWith('/page/')
+                                                        ? route('custom-page.show', link.href.replace('/page/', ''))
+                                                        : link.href
+                                                }
                                                 target={link.target === '_blank' ? '_blank' : '_self'}
                                                 rel={link.target === '_blank' ? 'noopener noreferrer' : ''}
-                                                className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors"
+                                                className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
                                             >
                                                 {link.text}
                                             </a>
@@ -119,13 +137,16 @@ export default function Footer({ settings }: FooterProps) {
                                 </ul>
                             </div>
                         ))}
-                        
+
                         {/* Contact Column if needed based on settings */}
                         <div>
-                            <h3 className="text-sm font-semibold text-white mb-4 tracking-wide">Contact</h3>
+                            <h3 className="mb-4 text-sm font-semibold tracking-wide text-white">Contact</h3>
                             <ul className="space-y-3">
                                 <li>
-                                    <a href={`mailto:${contactEmail}`} className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors">
+                                    <a
+                                        href={`mailto:${contactEmail}`}
+                                        className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
+                                    >
                                         {contactEmail}
                                     </a>
                                 </li>
@@ -134,11 +155,15 @@ export default function Footer({ settings }: FooterProps) {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-neutral-900 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-600">
+                <div className="flex flex-col items-center justify-between border-t border-neutral-900 pt-8 text-xs text-neutral-600 md:flex-row">
                     <p>{copyrightText}</p>
-                    <div className="flex space-x-4 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                    <div className="mt-4 flex space-x-4 md:mt-0">
+                        <a href="#" className="transition-colors hover:text-white">
+                            Privacy Policy
+                        </a>
+                        <a href="#" className="transition-colors hover:text-white">
+                            Terms of Service
+                        </a>
                     </div>
                 </div>
             </div>

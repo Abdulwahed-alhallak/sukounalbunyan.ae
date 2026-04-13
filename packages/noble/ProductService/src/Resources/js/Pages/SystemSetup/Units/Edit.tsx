@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { UnitEditProps, UnitFormData } from './types';
 
 export default function Edit({ unit, onSuccess }: UnitEditProps) {
@@ -18,7 +18,7 @@ export default function Edit({ unit, onSuccess }: UnitEditProps) {
         put(route('product-service.units.update', unit.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 

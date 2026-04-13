@@ -17,13 +17,13 @@ export interface LeadStageFormData {
     [key: string]: any;
 }
 
-export interface CreateLeadStageProps extends CreateProps  {
+export interface CreateLeadStageProps extends CreateProps {
     pipelines: any[];
     defaultPipelineId?: number;
     [key: string]: any;
 }
 
-export interface EditLeadStageProps extends EditProps<LeadStage>  {
+export interface EditLeadStageProps extends EditProps<LeadStage> {
     pipelines: any[];
     [key: string]: any;
 }

@@ -1,27 +1,26 @@
 import { useState } from 'react';
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MultiSelectEnhanced } from "@/components/ui/multi-select-enhanced";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog } from "@/components/ui/dialog";
-import MediaPicker from "@/components/MediaPicker";
-import InputError from "@/components/ui/input-error";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog } from '@/components/ui/dialog';
+import MediaPicker from '@/components/MediaPicker';
+import InputError from '@/components/ui/input-error';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { CreateItemPageProps, ItemFormData } from './types';
 
 export default function Create() {
     const { t } = useTranslation();
     const { taxes, categories = [], units, warehouses } = usePage<CreateItemPageProps>().props;
     const [activeTab, setActiveTab] = useState('details');
-
 
     const { data, setData, post, processing, errors } = useForm<ItemFormData>({
         name: '',
@@ -42,30 +41,42 @@ export default function Create() {
         has_warranty: 0,
         warranty_type: '',
         warranty_duration: '',
-        warranty_terms: ''
+        warranty_terms: '',
     });
 
     // Get custom fields using useFormFields hook
-    const customFields = useFormFields('getCustomFields', { ...data, module: 'ProductService', sub_module: 'Items' }, setData, errors, 'create', t);
+    const customFields = useFormFields(
+        'getCustomFields',
+        { ...data, module: 'ProductService', sub_module: 'Items' },
+        setData,
+        errors,
+        'create',
+        t
+    );
 
     // AI hook for short description
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Short Description', 'productservice', 'item');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Short Description',
+        'productservice',
+        'item'
+    );
     // Inventory fields hook
     const inventoryFields = useFormFields('inventoryFields', data, setData, errors, 'create');
     // Warranty fields hook
     const warrantyFields = useFormFields('warrantyFields', data, setData, errors, 'create');
 
     const validateDetailsTab = () => {
-        return data.name.trim() !== '' &&
-               data.sku.trim() !== '' &&
-               data.tax_ids.length > 0 &&
-               data.category_id !== '';
+        return data.name.trim() !== '' && data.sku.trim() !== '' && data.tax_ids.length > 0 && data.category_id !== '';
     };
 
     const validatePricingTab = () => {
-        const baseValidation = data.sale_price.trim() !== '' &&
-               data.purchase_price.trim() !== '' &&
-               data.unit !== '';
+        const baseValidation = data.sale_price.trim() !== '' && data.purchase_price.trim() !== '' && data.unit !== '';
 
         if (data.type === 'service') {
             return baseValidation;
@@ -80,14 +91,12 @@ export default function Create() {
                 return; // Don't proceed if validation fails
             }
             setActiveTab('pricing');
-        }
-        else if (activeTab === 'pricing') {
+        } else if (activeTab === 'pricing') {
             if (!validatePricingTab()) {
                 return;
             }
             setActiveTab('media');
-        }
-        else if (activeTab === 'media') setActiveTab('warehouse');
+        } else if (activeTab === 'media') setActiveTab('warehouse');
     };
 
     const prevTab = () => {
@@ -106,17 +115,14 @@ export default function Create() {
                 }
 
                 return data;
-            }
+            },
         });
     };
 
     return (
         <Dialog>
             <AuthenticatedLayout
-                breadcrumbs={[
-                    {label: t('Items'), url: route('product-service.items.index')},
-                    {label: t('Create')}
-                ]}
+                breadcrumbs={[{ label: t('Items'), url: route('product-service.items.index') }, { label: t('Create') }]}
                 pageTitle={
                     <div className="flex items-center justify-between">
                         <span>{t('Create Item')}</span>
@@ -129,17 +135,20 @@ export default function Create() {
                     <CardContent>
                         <form onSubmit={submit} className="pt-5">
                             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                                <TabsContent value="details" className="space-y-6 mt-6">
+                                <TabsContent value="details" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
                                             <Label htmlFor="type">{t('Item Type')}</Label>
-                                            <Select value={data.type || ''} onValueChange={(value) => {
-                                                setData('type', value);
-                                                if (value === 'service') {
-                                                    setData('quantity', '');
-                                                    setData('warehouse_id', '');
-                                                }
-                                            }}>
+                                            <Select
+                                                value={data.type || ''}
+                                                onValueChange={(value) => {
+                                                    setData('type', value);
+                                                    if (value === 'service') {
+                                                        setData('quantity', '');
+                                                        setData('warehouse_id', '');
+                                                    }
+                                                }}
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={t('Select Type')} />
                                                 </SelectTrigger>
@@ -186,11 +195,13 @@ export default function Create() {
                                             <InputError message={errors.sku} />
                                         </div>
                                         <div>
-                                            <Label htmlFor="tax_ids" required>{t('Tax')}</Label>
+                                            <Label htmlFor="tax_ids" required>
+                                                {t('Tax')}
+                                            </Label>
                                             <MultiSelectEnhanced
-                                                options={taxes?.map(tax => ({
+                                                options={taxes?.map((tax) => ({
                                                     value: tax.id.toString(),
-                                                    label: `${tax.tax_name} (${tax.rate}%)`
+                                                    label: `${tax.tax_name} (${tax.rate}%)`,
                                                 }))}
                                                 value={data.tax_ids}
                                                 onValueChange={(value) => setData('tax_ids', value)}
@@ -199,8 +210,14 @@ export default function Create() {
                                             <InputError message={errors.tax_ids} />
                                         </div>
                                         <div>
-                                            <Label htmlFor="category_id" required>{t('Category')}</Label>
-                                            <Select value={data.category_id} onValueChange={(value) => setData('category_id', value)} required>
+                                            <Label htmlFor="category_id" required>
+                                                {t('Category')}
+                                            </Label>
+                                            <Select
+                                                value={data.category_id}
+                                                onValueChange={(value) => setData('category_id', value)}
+                                                required
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={t('Select Category')} />
                                                 </SelectTrigger>
@@ -217,10 +234,12 @@ export default function Create() {
                                     </div>
 
                                     <div>
-                                        <div className="flex items-center justify-between mb-2">
+                                        <div className="mb-2 flex items-center justify-between">
                                             <Label htmlFor="description">{t('Short Description')}</Label>
                                             <div className="flex gap-2">
-                                                {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                                                {descriptionAI?.map((field) => (
+                                                    <div key={field.id}>{field.component}</div>
+                                                ))}
                                             </div>
                                         </div>
                                         <Textarea
@@ -246,32 +265,28 @@ export default function Create() {
                                     {/* Custom Fields */}
                                     {customFields && customFields.length > 0 && (
                                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                            {customFields?.map(field => field.component)}
+                                            {customFields?.map((field) => field.component)}
                                         </div>
                                     )}
 
                                     {/* Warranty Fields */}
                                     {warrantyFields && warrantyFields.length > 0 && (
                                         <div className="border-t pt-6">
-                                            <h3 className="text-lg font-medium mb-4">{t('Warranty Information')}</h3>
+                                            <h3 className="mb-4 text-lg font-medium">{t('Warranty Information')}</h3>
                                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                                {warrantyFields?.map(field => field.component)}
+                                                {warrantyFields?.map((field) => field.component)}
                                             </div>
                                         </div>
                                     )}
 
                                     <div className="flex justify-end">
-                                        <Button
-                                            type="button"
-                                            onClick={nextTab}
-                                            disabled={!validateDetailsTab()}
-                                        >
+                                        <Button type="button" onClick={nextTab} disabled={!validateDetailsTab()}>
                                             {t('Next')}
                                         </Button>
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="pricing" className="space-y-6 mt-6">
+                                <TabsContent value="pricing" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
                                             <Label htmlFor="sale_price">{t('Sale Price')}</Label>
@@ -303,8 +318,14 @@ export default function Create() {
 
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
-                                            <Label htmlFor="unit" required>{t('Unit')}</Label>
-                                            <Select value={data.unit} onValueChange={(value) => setData('unit', value)} required>
+                                            <Label htmlFor="unit" required>
+                                                {t('Unit')}
+                                            </Label>
+                                            <Select
+                                                value={data.unit}
+                                                onValueChange={(value) => setData('unit', value)}
+                                                required
+                                            >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={t('Select Unit')} />
                                                 </SelectTrigger>
@@ -338,17 +359,13 @@ export default function Create() {
                                         <Button type="button" variant="outline" onClick={prevTab}>
                                             {t('Previous')}
                                         </Button>
-                                        <Button
-                                            type="button"
-                                            onClick={nextTab}
-                                            disabled={!validatePricingTab()}
-                                        >
+                                        <Button type="button" onClick={nextTab} disabled={!validatePricingTab()}>
                                             {t('Next')}
                                         </Button>
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="media" className="space-y-6 mt-6">
+                                <TabsContent value="media" className="mt-6 space-y-6">
                                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                         <div>
                                             <MediaPicker
@@ -364,7 +381,12 @@ export default function Create() {
                                             <MediaPicker
                                                 label={t('Additional Images')}
                                                 value={data.images}
-                                                onChange={(value) => setData('images', Array.isArray(value) ? value : [value].filter(Boolean))}
+                                                onChange={(value) =>
+                                                    setData(
+                                                        'images',
+                                                        Array.isArray(value) ? value : [value].filter(Boolean)
+                                                    )
+                                                }
                                                 multiple={true}
                                                 placeholder={t('Select multiple images')}
                                                 showPreview={false}
@@ -378,7 +400,11 @@ export default function Create() {
                                         </Button>
                                         {data.type === 'service' ? (
                                             <div className="flex gap-2">
-                                                <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    onClick={() => window.history.back()}
+                                                >
                                                     {t('Cancel')}
                                                 </Button>
                                                 <Button type="submit" disabled={processing}>
@@ -393,18 +419,27 @@ export default function Create() {
                                     </div>
                                 </TabsContent>
 
-                                <TabsContent value="warehouse" className="space-y-6 mt-6">
+                                <TabsContent value="warehouse" className="mt-6 space-y-6">
                                     {data.type !== 'service' && (
                                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             <div>
-                                                <Label htmlFor="warehouse_id" required>{t('Warehouse')}</Label>
-                                                <Select value={data.warehouse_id} onValueChange={(value) => setData('warehouse_id', value)} required>
+                                                <Label htmlFor="warehouse_id" required>
+                                                    {t('Warehouse')}
+                                                </Label>
+                                                <Select
+                                                    value={data.warehouse_id}
+                                                    onValueChange={(value) => setData('warehouse_id', value)}
+                                                    required
+                                                >
                                                     <SelectTrigger>
                                                         <SelectValue placeholder={t('Select Warehouse')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {warehouses?.map((warehouse) => (
-                                                            <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
+                                                            <SelectItem
+                                                                key={warehouse.id}
+                                                                value={warehouse.id.toString()}
+                                                            >
                                                                 {warehouse.name}
                                                             </SelectItem>
                                                         ))}
@@ -418,7 +453,7 @@ export default function Create() {
                                     {/* Inventory Fields */}
                                     {data.type !== 'service' && inventoryFields.length > 0 && (
                                         <div>
-                                            {inventoryFields?.map(field => (
+                                            {inventoryFields?.map((field) => (
                                                 <div key={field.id}>{field.component}</div>
                                             ))}
                                         </div>
@@ -428,7 +463,11 @@ export default function Create() {
                                             {t('Previous')}
                                         </Button>
                                         <div className="flex gap-2">
-                                            <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => window.history.back()}
+                                            >
                                                 {t('Cancel')}
                                             </Button>
                                             <Button type="submit" disabled={processing}>

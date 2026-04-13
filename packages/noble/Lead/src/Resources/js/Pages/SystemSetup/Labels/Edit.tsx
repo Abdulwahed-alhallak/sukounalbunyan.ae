@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ export default function Edit({ label, onSuccess, pipelines }: EditLabelProps) {
         put(route('lead.labels.update', label.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -44,7 +44,7 @@ export default function Edit({ label, onSuccess, pipelines }: EditLabelProps) {
                     />
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="color">{t('Color')}</Label>
                     <Input
@@ -56,10 +56,13 @@ export default function Edit({ label, onSuccess, pipelines }: EditLabelProps) {
                     />
                     <InputError message={errors.color} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="pipeline_id">{t('Pipeline')}</Label>
-                    <Select value={data.pipeline_id?.toString() || ''} onValueChange={(value) => setData('pipeline_id', value)}>
+                    <Select
+                        value={data.pipeline_id?.toString() || ''}
+                        onValueChange={(value) => setData('pipeline_id', value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Pipeline')} />
                         </SelectTrigger>

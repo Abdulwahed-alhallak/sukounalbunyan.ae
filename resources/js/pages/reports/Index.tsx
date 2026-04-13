@@ -2,10 +2,30 @@ import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import {
-    BarChart3, DollarSign, Users, Target, Briefcase, CreditCard, Shield,
-    TrendingUp, Clock, ShoppingCart, Receipt, CalendarCheck, CalendarOff,
-    UserMinus, Filter, GitBranch, PieChart, Activity, CheckSquare,
-    AlertTriangle, CalendarDays, Star, ArrowRight, FileText,
+    BarChart3,
+    DollarSign,
+    Users,
+    Target,
+    Briefcase,
+    CreditCard,
+    Shield,
+    TrendingUp,
+    Clock,
+    ShoppingCart,
+    Receipt,
+    CalendarCheck,
+    CalendarOff,
+    UserMinus,
+    Filter,
+    GitBranch,
+    PieChart,
+    Activity,
+    CheckSquare,
+    AlertTriangle,
+    CalendarDays,
+    Star,
+    ArrowRight,
+    FileText,
 } from 'lucide-react';
 
 interface ReportItem {
@@ -27,10 +47,29 @@ interface Props {
 }
 
 const iconMap: Record<string, any> = {
-    DollarSign, Users, Target, Briefcase, CreditCard, Shield,
-    TrendingUp, Clock, ShoppingCart, Receipt, CalendarCheck, CalendarOff,
-    UserMinus, Filter, GitBranch, PieChart, Activity, CheckSquare,
-    AlertTriangle, CalendarDays, Star, BarChart3, FileText,
+    DollarSign,
+    Users,
+    Target,
+    Briefcase,
+    CreditCard,
+    Shield,
+    TrendingUp,
+    Clock,
+    ShoppingCart,
+    Receipt,
+    CalendarCheck,
+    CalendarOff,
+    UserMinus,
+    Filter,
+    GitBranch,
+    PieChart,
+    Activity,
+    CheckSquare,
+    AlertTriangle,
+    CalendarDays,
+    Star,
+    BarChart3,
+    FileText,
 };
 
 const categoryColors: Record<string, { gradient: string; shadow: string; text: string }> = {
@@ -54,17 +93,19 @@ export default function ReportsIndex({ reports }: Props) {
             <div className="space-y-8">
                 {/* Header */}
                 <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/5 border border-border">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-foreground/5">
                         <BarChart3 className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                     </div>
                     <div>
                         <h1 className="text-xl font-bold text-foreground">{t('Report Center')}</h1>
-                        <p className="text-sm text-muted-foreground">{t('Generate and export reports across all modules')}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {t('Generate and export reports across all modules')}
+                        </p>
                     </div>
                 </div>
 
                 {/* Report Categories */}
-                {reports.map(category => {
+                {reports.map((category) => {
                     const colors = categoryColors[category.category] || categoryColors.financial;
                     const CategoryIcon = getIcon(category.category_icon);
 
@@ -72,7 +113,7 @@ export default function ReportsIndex({ reports }: Props) {
                         <div key={category.category} className="space-y-4">
                             {/* Category Header */}
                             <div className="flex items-center gap-3">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/5 border border-border">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-foreground/5">
                                     <CategoryIcon className="h-4 w-4 text-foreground" strokeWidth={1.5} />
                                 </div>
                                 <h2 className="text-lg font-semibold text-foreground">{t(category.category_label)}</h2>
@@ -83,7 +124,7 @@ export default function ReportsIndex({ reports }: Props) {
 
                             {/* Report Cards Grid */}
                             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                {category.items.map(report => {
+                                {category.items.map((report) => {
                                     const ReportIcon = getIcon(report.icon);
                                     return (
                                         <Link
@@ -92,15 +133,15 @@ export default function ReportsIndex({ reports }: Props) {
                                             className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-foreground/30 hover:shadow-lg hover:shadow-primary/5"
                                         >
                                             <div className="flex items-start justify-between">
-                                                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/5 border border-border">
+                                                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-foreground/5">
                                                     <ReportIcon className="h-4 w-4 text-foreground" strokeWidth={1.5} />
                                                 </div>
-                                                <ArrowRight className="h-4 w-4 text-muted-foreground/0 transition group-hover:text-foreground group-hover:translate-x-1" />
+                                                <ArrowRight className="h-4 w-4 text-muted-foreground/0 transition group-hover:translate-x-1 group-hover:text-foreground" />
                                             </div>
-                                            <h3 className="mt-3 text-sm font-semibold text-foreground group-hover:text-foreground transition">
+                                            <h3 className="mt-3 text-sm font-semibold text-foreground transition group-hover:text-foreground">
                                                 {t(report.label)}
                                             </h3>
-                                            <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
+                                            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
                                                 {t(report.description)}
                                             </p>
                                         </Link>
@@ -115,7 +156,9 @@ export default function ReportsIndex({ reports }: Props) {
                     <div className="flex flex-col items-center py-16 text-center">
                         <BarChart3 className="mb-4 h-12 w-12 text-muted-foreground/30" />
                         <h3 className="text-lg font-semibold text-foreground">{t('No reports available')}</h3>
-                        <p className="text-sm text-muted-foreground">{t('Reports will appear based on your active modules')}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {t('Reports will appear based on your active modules')}
+                        </p>
                     </div>
                 )}
             </div>

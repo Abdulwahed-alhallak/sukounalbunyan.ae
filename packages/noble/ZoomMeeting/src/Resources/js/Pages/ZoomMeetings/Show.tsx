@@ -13,7 +13,7 @@ interface ShowModalProps {
     isOpen: boolean;
     onClose: () => void;
     zoommeeting: ZoomMeeting;
-    users: Array<{id: number; name: string; avatar?: string}>;
+    users: Array<{ id: number; name: string; avatar?: string }>;
 }
 
 export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalProps) {
@@ -44,10 +44,10 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
     };
 
     const statusColors = {
-        "Scheduled": "bg-muted text-foreground",
-        "Started": "bg-muted text-foreground",
-        "Ended": "bg-muted text-foreground",
-        "Cancelled": "bg-muted text-destructive"
+        Scheduled: 'bg-muted text-foreground',
+        Started: 'bg-muted text-foreground',
+        Ended: 'bg-muted text-foreground',
+        Cancelled: 'bg-muted text-destructive',
     };
 
     return (
@@ -58,7 +58,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                 </DialogHeader>
 
                 <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Title')}</label>
                             <p className="mt-1 text-sm text-foreground">{zoommeeting.title}</p>
@@ -73,16 +73,22 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         </div>
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Start Time')}</label>
-                            <p className="mt-1 text-sm text-foreground">{zoommeeting.start_time ? formatDateTime(zoommeeting.start_time) : '-'}</p>
+                            <p className="mt-1 text-sm text-foreground">
+                                {zoommeeting.start_time ? formatDateTime(zoommeeting.start_time) : '-'}
+                            </p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Duration')}</label>
-                            <p className="mt-1 text-sm text-foreground">{zoommeeting.duration ? `${zoommeeting.duration} minutes` : '-'}</p>
+                            <p className="mt-1 text-sm text-foreground">
+                                {zoommeeting.duration ? `${zoommeeting.duration} minutes` : '-'}
+                            </p>
                         </div>
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Status')}</label>
                             <div className="mt-1">
-                                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${(statusColors as any)[zoommeeting.status] || 'bg-muted text-foreground'}`}>
+                                <span
+                                    className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${(statusColors as any)[zoommeeting.status] || 'bg-muted text-foreground'}`}
+                                >
                                     {zoommeeting.status}
                                 </span>
                             </div>
@@ -94,7 +100,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                     <img
                                         src={getImagePath(zoommeeting.host?.avatar || '')}
                                         alt={zoommeeting.host.name}
-                                        className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"
+                                        className="h-8 w-8 cursor-pointer rounded-full border-2 border-white object-cover shadow-sm transition-transform hover:scale-110"
                                     />
                                     <span className="text-sm text-foreground">{zoommeeting.host.name}</span>
                                 </div>
@@ -113,7 +119,8 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         <label className="text-sm font-medium text-foreground">{t('Participants')}</label>
                         <div className="mt-1">
                             {(() => {
-                                if (!zoommeeting.participants) return <span className="text-sm text-muted-foreground">-</span>;
+                                if (!zoommeeting.participants)
+                                    return <span className="text-sm text-muted-foreground">-</span>;
                                 let items = [];
                                 if (typeof zoommeeting.participants === 'string') {
                                     try {
@@ -129,16 +136,23 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                     <div className="flex flex-wrap items-center gap-2">
                                         <TooltipProvider>
                                             {items?.map((item: any, index: number) => {
-                                                const modelItem = users.find((u: any) => u.id.toString() === item?.toString());
+                                                const modelItem = users.find(
+                                                    (u: any) => u.id.toString() === item?.toString()
+                                                );
                                                 const userName = modelItem?.name || item;
                                                 return (
-                                                    <div key={index} className="flex items-center gap-2 bg-muted/50 rounded-lg p-2">
-                                                          <img
-                                                                src={getImagePath(modelItem?.avatar || '')}
-                                                                alt={userName}
-                                                                className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm cursor-pointer hover:scale-110 transition-transform"
-                                                            />
-                                                        <span className="text-sm font-medium text-foreground">{userName}</span>
+                                                    <div
+                                                        key={index}
+                                                        className="flex items-center gap-2 rounded-lg bg-muted/50 p-2"
+                                                    >
+                                                        <img
+                                                            src={getImagePath(modelItem?.avatar || '')}
+                                                            alt={userName}
+                                                            className="h-8 w-8 cursor-pointer rounded-full border-2 border-white object-cover shadow-sm transition-transform hover:scale-110"
+                                                        />
+                                                        <span className="text-sm font-medium text-foreground">
+                                                            {userName}
+                                                        </span>
                                                     </div>
                                                 );
                                             })}
@@ -153,7 +167,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Host Video')}</label>
                             <div className="mt-1">
-                                <Badge variant={zoommeeting.host_video ? "default" : "secondary"}>
+                                <Badge variant={zoommeeting.host_video ? 'default' : 'secondary'}>
                                     {zoommeeting.host_video ? t('Enabled') : t('Disabled')}
                                 </Badge>
                             </div>
@@ -161,7 +175,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Participant Video')}</label>
                             <div className="mt-1">
-                                <Badge variant={zoommeeting.participant_video ? "default" : "secondary"}>
+                                <Badge variant={zoommeeting.participant_video ? 'default' : 'secondary'}>
                                     {zoommeeting.participant_video ? t('Enabled') : t('Disabled')}
                                 </Badge>
                             </div>
@@ -169,7 +183,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Waiting Room')}</label>
                             <div className="mt-1">
-                                <Badge variant={zoommeeting.waiting_room ? "default" : "secondary"}>
+                                <Badge variant={zoommeeting.waiting_room ? 'default' : 'secondary'}>
                                     {zoommeeting.waiting_room ? t('Enabled') : t('Disabled')}
                                 </Badge>
                             </div>
@@ -177,7 +191,7 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                         <div>
                             <label className="text-sm font-medium text-foreground">{t('Recording')}</label>
                             <div className="mt-1">
-                                <Badge variant={zoommeeting.recording ? "default" : "secondary"}>
+                                <Badge variant={zoommeeting.recording ? 'default' : 'secondary'}>
                                     {zoommeeting.recording ? t('Enabled') : t('Disabled')}
                                 </Badge>
                             </div>
@@ -186,12 +200,12 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
 
                     {zoommeeting.meeting_id && ['Scheduled', 'Started'].includes(zoommeeting.status) && (
                         <div className="border-t pt-6">
-                            <h4 className="text-sm font-medium text-foreground mb-4">{t('Meeting Links')}</h4>
+                            <h4 className="mb-4 text-sm font-medium text-foreground">{t('Meeting Links')}</h4>
                             <div className="space-y-3">
                                 {auth.user?.permissions?.includes('join-zoom-meetings') && (
                                     <div className="flex items-center gap-2">
-                                        <span className="text-sm text-muted-foreground w-20">{t('Join URL')}:</span>
-                                        <code className="flex-1 text-xs bg-muted p-2 rounded break-all">
+                                        <span className="w-20 text-sm text-muted-foreground">{t('Join URL')}:</span>
+                                        <code className="flex-1 break-all rounded bg-muted p-2 text-xs">
                                             {zoommeeting.join_url || `https://zoom.us/j/${zoommeeting.meeting_id}`}
                                         </code>
                                         <TooltipProvider>
@@ -200,7 +214,13 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => copyToClipboard(zoommeeting.join_url || `https://zoom.us/j/${zoommeeting.meeting_id}`, 'join')}
+                                                        onClick={() =>
+                                                            copyToClipboard(
+                                                                zoommeeting.join_url ||
+                                                                    `https://zoom.us/j/${zoommeeting.meeting_id}`,
+                                                                'join'
+                                                            )
+                                                        }
                                                     >
                                                         <Copy className="h-4 w-4" />
                                                     </Button>
@@ -212,69 +232,95 @@ export default function Show({ isOpen, onClose, zoommeeting, users }: ShowModalP
                                         </TooltipProvider>
                                     </div>
                                 )}
-                                {auth.user?.permissions?.includes('start-zoom-meetings') && (zoommeeting.host_id === auth.user?.id || auth.user?.type === 'company') && (
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm text-muted-foreground w-20">{t('Start URL')}:</span>
-                                        <code className="flex-1 text-xs bg-muted p-2 rounded break-all">
-                                            {zoommeeting.start_url || `https://zoom.us/s/${zoommeeting.meeting_id}`}
-                                        </code>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => copyToClipboard(zoommeeting.start_url || `https://zoom.us/s/${zoommeeting.meeting_id}`, 'start')}
-                                                    >
-                                                        <Copy className="h-4 w-4" />
-                                                    </Button>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>{t('Copy Start URL')}</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    </div>
-                                )}
+                                {auth.user?.permissions?.includes('start-zoom-meetings') &&
+                                    (zoommeeting.host_id === auth.user?.id || auth.user?.type === 'company') && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-20 text-sm text-muted-foreground">
+                                                {t('Start URL')}:
+                                            </span>
+                                            <code className="flex-1 break-all rounded bg-muted p-2 text-xs">
+                                                {zoommeeting.start_url || `https://zoom.us/s/${zoommeeting.meeting_id}`}
+                                            </code>
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                copyToClipboard(
+                                                                    zoommeeting.start_url ||
+                                                                        `https://zoom.us/s/${zoommeeting.meeting_id}`,
+                                                                    'start'
+                                                                )
+                                                            }
+                                                        >
+                                                            <Copy className="h-4 w-4" />
+                                                        </Button>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>{t('Copy Start URL')}</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     )}
 
-                    <div className="flex justify-end gap-3 pt-6 border-t">
+                    <div className="flex justify-end gap-3 border-t pt-6">
                         <TooltipProvider>
-                            {zoommeeting.meeting_id && ['Scheduled', 'Started'].includes(zoommeeting.status) && auth.user?.permissions?.includes('join-zoom-meetings') && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => window.open(zoommeeting.join_url || `https://zoom.us/j/${zoommeeting.meeting_id}`, '_blank')}
-                                            className="text-foreground hover:text-foreground"
-                                        >
-                                            <Users className="h-4 w-4 mr-2" />
-                                            {t('Join Meeting')}
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Join Meeting')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
-                            {zoommeeting.meeting_id && ['Scheduled', 'Started'].includes(zoommeeting.status) && auth.user?.permissions?.includes('start-zoom-meetings') && (zoommeeting.host_id === auth.user?.id || auth.user?.type === 'company') && (
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            onClick={() => window.open(zoommeeting.start_url || `https://zoom.us/s/${zoommeeting.meeting_id}`, '_blank')}
-                                            className="text-background bg-foreground hover:bg-foreground/80"
-                                        >
-                                            <Play className="h-4 w-4 mr-2" />
-                                            {t('Start Meeting')}
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('Start Meeting')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
+                            {zoommeeting.meeting_id &&
+                                ['Scheduled', 'Started'].includes(zoommeeting.status) &&
+                                auth.user?.permissions?.includes('join-zoom-meetings') && (
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                onClick={() =>
+                                                    window.open(
+                                                        zoommeeting.join_url ||
+                                                            `https://zoom.us/j/${zoommeeting.meeting_id}`,
+                                                        '_blank'
+                                                    )
+                                                }
+                                                className="text-foreground hover:text-foreground"
+                                            >
+                                                <Users className="mr-2 h-4 w-4" />
+                                                {t('Join Meeting')}
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{t('Join Meeting')}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )}
+                            {zoommeeting.meeting_id &&
+                                ['Scheduled', 'Started'].includes(zoommeeting.status) &&
+                                auth.user?.permissions?.includes('start-zoom-meetings') &&
+                                (zoommeeting.host_id === auth.user?.id || auth.user?.type === 'company') && (
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                onClick={() =>
+                                                    window.open(
+                                                        zoommeeting.start_url ||
+                                                            `https://zoom.us/s/${zoommeeting.meeting_id}`,
+                                                        '_blank'
+                                                    )
+                                                }
+                                                className="bg-foreground text-background hover:bg-foreground/80"
+                                            >
+                                                <Play className="mr-2 h-4 w-4" />
+                                                {t('Start Meeting')}
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{t('Start Meeting')}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )}
                         </TooltipProvider>
                     </div>
                 </div>

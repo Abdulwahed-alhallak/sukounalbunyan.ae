@@ -14,10 +14,12 @@ export interface AwardTypeFormData {
     [key: string]: any;
 }
 
-export interface CreateAwardTypeProps extends CreateProps  {[key: string]: any;
+export interface CreateAwardTypeProps extends CreateProps {
+    [key: string]: any;
 }
 
-export interface EditAwardTypeProps extends EditProps<AwardType>  {[key: string]: any;
+export interface EditAwardTypeProps extends EditProps<AwardType> {
+    [key: string]: any;
 }
 
 export type PaginatedAwardTypes = PaginatedData<AwardType>;

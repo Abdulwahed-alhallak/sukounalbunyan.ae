@@ -9,47 +9,49 @@ export default function PrintIncomeStatement() {
     return (
         <>
             <Head title={t('Income Statement')} />
-            <div className="p-8 max-w-5xl mx-auto">
-                <div className="text-center mb-6">
+            <div className="mx-auto max-w-5xl p-8">
+                <div className="mb-6 text-center">
                     <h1 className="text-2xl font-bold">{t('Income Statement')}</h1>
-                    <p className="text-muted-foreground">{formatDate(data.from_date)} {t('to')} {formatDate(data.to_date)}</p>
+                    <p className="text-muted-foreground">
+                        {formatDate(data.from_date)} {t('to')} {formatDate(data.to_date)}
+                    </p>
                 </div>
 
                 <table className="w-full border-collapse">
                     <tbody>
                         <tr className="bg-muted">
-                            <td className="px-4 py-2 font-semibold border">{t('Revenue')}</td>
-                            <td className="px-4 py-2 border"></td>
+                            <td className="border px-4 py-2 font-semibold">{t('Revenue')}</td>
+                            <td className="border px-4 py-2"></td>
                         </tr>
                         {data.revenue?.map((item: any, idx: number) => (
                             <tr key={idx}>
-                                <td className="px-8 py-1 border">{item.category}</td>
-                                <td className="px-4 py-1 text-right border">{formatCurrency(item.amount)}</td>
+                                <td className="border px-8 py-1">{item.category}</td>
+                                <td className="border px-4 py-1 text-right">{formatCurrency(item.amount)}</td>
                             </tr>
                         ))}
-                        <tr className="font-semibold bg-muted/50">
-                            <td className="px-4 py-2 border">{t('Total Revenue')}</td>
-                            <td className="px-4 py-2 text-right border">{formatCurrency(data.total_revenue)}</td>
+                        <tr className="bg-muted/50 font-semibold">
+                            <td className="border px-4 py-2">{t('Total Revenue')}</td>
+                            <td className="border px-4 py-2 text-right">{formatCurrency(data.total_revenue)}</td>
                         </tr>
 
                         <tr className="bg-muted">
-                            <td className="px-4 py-2 font-semibold border">{t('Expenses')}</td>
-                            <td className="px-4 py-2 border"></td>
+                            <td className="border px-4 py-2 font-semibold">{t('Expenses')}</td>
+                            <td className="border px-4 py-2"></td>
                         </tr>
                         {data.expenses?.map((item: any, idx: number) => (
                             <tr key={idx}>
-                                <td className="px-8 py-1 border">{item.category}</td>
-                                <td className="px-4 py-1 text-right border">{formatCurrency(item.amount)}</td>
+                                <td className="border px-8 py-1">{item.category}</td>
+                                <td className="border px-4 py-1 text-right">{formatCurrency(item.amount)}</td>
                             </tr>
                         ))}
-                        <tr className="font-semibold bg-muted/50">
-                            <td className="px-4 py-2 border">{t('Total Expenses')}</td>
-                            <td className="px-4 py-2 text-right border">{formatCurrency(data.total_expenses)}</td>
+                        <tr className="bg-muted/50 font-semibold">
+                            <td className="border px-4 py-2">{t('Total Expenses')}</td>
+                            <td className="border px-4 py-2 text-right">{formatCurrency(data.total_expenses)}</td>
                         </tr>
 
-                        <tr className="font-bold bg-muted">
-                            <td className="px-4 py-3 text-lg border">{t('Net Income')}</td>
-                            <td className="px-4 py-3 text-lg text-right border">{formatCurrency(data.net_income)}</td>
+                        <tr className="bg-muted font-bold">
+                            <td className="border px-4 py-3 text-lg">{t('Net Income')}</td>
+                            <td className="border px-4 py-3 text-right text-lg">{formatCurrency(data.net_income)}</td>
                         </tr>
                     </tbody>
                 </table>

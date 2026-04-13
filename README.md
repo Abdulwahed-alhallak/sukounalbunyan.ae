@@ -64,4 +64,17 @@ npm run dev
 ## 📊 Integrations & Support
 This platform includes native CSV parsing mechanisms (e.g., `php artisan noble:import-employees`) engineered to safely map complex legacy records into the relational graphs securely.
 
+---
+
+## 🚀 CI/CD Automated Deployment (Hostinger)
+The platform is fully synchronized with Noble's live production server via a highly secure, one-click Git deployment pipeline. 
+
+### Secure Hostinger Syncing
+1. Local changes (both code and Database Migrations) can be automatically pushed to `noble.dion.sy`.
+2. Ensure your passwords and tokens are safely vaulted inside `.env.hostinger`.
+3. To Execute a Push & Remote Database Sync to Production, run:
+```powershell
+.\_scripts\deploy_to_hostinger.ps1
+```
+
 *Engineered with precision for Noble Architecture.*

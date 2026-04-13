@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,7 @@ export default function Edit({ awardtype, onSuccess }: EditAwardTypeProps) {
         put(route('hrm.award-types.update', awardtype.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -42,7 +42,7 @@ export default function Edit({ awardtype, onSuccess }: EditAwardTypeProps) {
                     />
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Input
@@ -51,7 +51,6 @@ export default function Edit({ awardtype, onSuccess }: EditAwardTypeProps) {
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         placeholder={t('Enter Description')}
-                        
                     />
                     <InputError message={errors.description} />
                 </div>

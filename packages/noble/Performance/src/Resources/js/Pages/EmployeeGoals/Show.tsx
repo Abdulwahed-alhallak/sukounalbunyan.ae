@@ -1,4 +1,4 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { Target } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
@@ -38,7 +38,7 @@ export default function Show({ goal }: ShowProps) {
             not_started: 'bg-muted text-foreground',
             in_progress: 'bg-muted text-foreground',
             completed: 'bg-muted text-foreground',
-            overdue: 'bg-muted text-destructive'
+            overdue: 'bg-muted text-destructive',
         };
         return colors[status] || 'bg-muted text-foreground';
     };
@@ -48,16 +48,16 @@ export default function Show({ goal }: ShowProps) {
             not_started: t('Not Started'),
             in_progress: t('In Progress'),
             completed: t('Completed'),
-            overdue: t('Overdue')
+            overdue: t('Overdue'),
         };
         return labels[status] || status;
     };
 
     return (
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <Target className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -66,8 +66,8 @@ export default function Show({ goal }: ShowProps) {
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="overflow-y-auto flex-1 p-4 space-y-6">
+
+            <div className="flex-1 space-y-6 overflow-y-auto p-4">
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -76,17 +76,18 @@ export default function Show({ goal }: ShowProps) {
                         </div>
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Employee')}</label>
-                            <p className="mt-1 text-sm text-foreground">
-                                {goal.employee?.name || '-'}
-                            </p>
+                            <p className="mt-1 text-sm text-foreground">{goal.employee?.name || '-'}</p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Goal Type')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                {goal_types?.find((type: any) => type.id.toString() === goal.goal_type?.id?.toString())?.name || goal.goal_type?.name || '-'}
+                                {goal_types?.find((type: any) => type.id.toString() === goal.goal_type?.id?.toString())
+                                    ?.name ||
+                                    goal.goal_type?.name ||
+                                    '-'}
                             </p>
                         </div>
                         <div>
@@ -94,14 +95,14 @@ export default function Show({ goal }: ShowProps) {
                             <p className="mt-1 text-sm text-foreground">{goal.target || '-'}</p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Progress')}</label>
                             <div className="mt-1 flex items-center gap-2">
-                                <div className="flex-1 bg-muted rounded-full h-2">
-                                    <div 
-                                        className="bg-foreground h-2 rounded-full transition-all duration-300"
+                                <div className="h-2 flex-1 rounded-full bg-muted">
+                                    <div
+                                        className="h-2 rounded-full bg-foreground transition-all duration-300"
                                         style={{ width: `${Math.min(goal.progress || 0, 100)}%` }}
                                     />
                                 </div>
@@ -111,13 +112,13 @@ export default function Show({ goal }: ShowProps) {
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Status')}</label>
                             <p className="mt-1 text-sm text-foreground">
-                                <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(goal.status)}`}>
+                                <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(goal.status)}`}>
                                     {getStatusLabel(goal.status)}
                                 </span>
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="text-sm font-medium text-muted-foreground">{t('Start Date')}</label>

@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -30,17 +30,35 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
     });
 
     // AI hooks for reason and description fields
-    const reasonAI = useFormFields('aiField', data, setData, errors, 'create', 'reason', 'Reason', 'hrm', 'termination');
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'create', 'description', 'Description', 'hrm', 'termination');
-
-
+    const reasonAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'reason',
+        'Reason',
+        'hrm',
+        'termination'
+    );
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'create',
+        'description',
+        'Description',
+        'hrm',
+        'termination'
+    );
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('hrm.terminations.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -51,8 +69,14 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="employee_id" required>{t('Employee')}</Label>
-                    <Select value={data.employee_id?.toString() || ''} onValueChange={(value) => setData('employee_id', value)} required>
+                    <Label htmlFor="employee_id" required>
+                        {t('Employee')}
+                    </Label>
+                    <Select
+                        value={data.employee_id?.toString() || ''}
+                        onValueChange={(value) => setData('employee_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Employee')} />
                         </SelectTrigger>
@@ -66,10 +90,16 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     </Select>
                     <InputError message={errors.employee_id} />
                 </div>
-                
+
                 <div>
-                    <Label htmlFor="termination_type_id" required>{t('Termination Type')}</Label>
-                    <Select value={data.termination_type_id?.toString() || ''} onValueChange={(value) => setData('termination_type_id', value)} required>
+                    <Label htmlFor="termination_type_id" required>
+                        {t('Termination Type')}
+                    </Label>
+                    <Select
+                        value={data.termination_type_id?.toString() || ''}
+                        onValueChange={(value) => setData('termination_type_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Termination Type')} />
                         </SelectTrigger>
@@ -83,7 +113,7 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     </Select>
                     <InputError message={errors.termination_type_id} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Notice Date')}</Label>
                     <DatePicker
@@ -94,7 +124,7 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     />
                     <InputError message={errors.notice_date} />
                 </div>
-                
+
                 <div>
                     <Label required>{t('Termination Date')}</Label>
                     <DatePicker
@@ -105,11 +135,13 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     />
                     <InputError message={errors.termination_date} />
                 </div>
-                
+
                 <div>
-                    <div className="flex gap-2 items-end">
+                    <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="reason" required>{t('Reason')}</Label>
+                            <Label htmlFor="reason" required>
+                                {t('Reason')}
+                            </Label>
                             <Input
                                 id="reason"
                                 type="text"
@@ -120,15 +152,19 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                             />
                             <InputError message={errors.reason} />
                         </div>
-                        {reasonAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                        {reasonAI?.map((field) => (
+                            <div key={field.id}>{field.component}</div>
+                        ))}
                     </div>
                 </div>
-                
+
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -140,7 +176,7 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div>
                     <MediaPicker
                         label={t('Document')}
@@ -152,7 +188,7 @@ export default function Create({ onSuccess }: CreateTerminationProps) {
                     />
                     <InputError message={errors.document} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

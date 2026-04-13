@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -15,9 +15,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useFormFields } from '@/hooks/useFormFields';
 
-
 export default function Create({ onSuccess }: CreatePayrollProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreatePayrollFormData>({
@@ -42,7 +41,7 @@ export default function Create({ onSuccess }: CreatePayrollProps) {
         post(route('hrm.payrolls.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -67,7 +66,11 @@ export default function Create({ onSuccess }: CreatePayrollProps) {
 
                 <div>
                     <Label required>{t('Payroll Frequency')}</Label>
-                    <Select value={data.payroll_frequency || 'weekly'} onValueChange={(value) => setData('payroll_frequency', value)} required>
+                    <Select
+                        value={data.payroll_frequency || 'weekly'}
+                        onValueChange={(value) => setData('payroll_frequency', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Payroll Frequency')} />
                         </SelectTrigger>
@@ -128,8 +131,6 @@ export default function Create({ onSuccess }: CreatePayrollProps) {
                     />
                     <InputError message={errors.notes} />
                 </div>
-
-
 
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>

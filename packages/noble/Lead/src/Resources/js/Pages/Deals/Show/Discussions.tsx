@@ -17,7 +17,6 @@ interface DiscussionsProps {
 }
 
 export default function Discussions({ deal, onRegisterAddHandler }: DiscussionsProps) {
-
     useEffect(() => {
         onRegisterAddHandler(() => setDiscussionModalOpen(true));
     }, [onRegisterAddHandler]);
@@ -31,30 +30,37 @@ export default function Discussions({ deal, onRegisterAddHandler }: DiscussionsP
             onSuccess: () => {
                 setDiscussionForm({ message: '' });
                 setDiscussionModalOpen(false);
-            }
+            },
         });
     };
 
     return (
         <>
-            <div className="space-y-3 max-h-[75vh] overflow-y-auto">
+            <div className="max-h-[75vh] space-y-3 overflow-y-auto">
                 {deal.discussions && deal.discussions.length > 0 ? (
                     deal.discussions?.map((discussion: any, index: number) => {
                         return (
-                            <div key={index} className="bg-gradient-to-r from-muted/50 to-muted/50 border-l-4 border-foreground rounded-r-lg p-5 shadow-sm">
-                                <div className="flex items-center justify-between mb-4">
+                            <div
+                                key={index}
+                                className="rounded-r-lg border-l-4 border-foreground bg-gradient-to-r from-muted/50 to-muted/50 p-5 shadow-sm"
+                            >
+                                <div className="mb-4 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="bg-muted p-2 rounded-full">
+                                        <div className="rounded-full bg-muted p-2">
                                             <MessageSquare className="h-4 w-4 text-foreground" />
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-foreground">{discussion.creator?.name || 'Unknown User'}</p>
-                                            <p className="text-xs text-muted-foreground">{formatDateTime(discussion.created_at)}</p>
+                                            <p className="font-semibold text-foreground">
+                                                {discussion.creator?.name || 'Unknown User'}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatDateTime(discussion.created_at)}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-card rounded-lg p-4 border border-border">
-                                    <div className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                                <div className="rounded-lg border border-border bg-card p-4">
+                                    <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
                                         {discussion.comment}
                                     </div>
                                 </div>
@@ -84,14 +90,16 @@ export default function Discussions({ deal, onRegisterAddHandler }: DiscussionsP
                             <Textarea
                                 id="message"
                                 value={discussionForm.message}
-                                onChange={(e) => setDiscussionForm({...discussionForm, message: e.target.value})}
+                                onChange={(e) => setDiscussionForm({ ...discussionForm, message: e.target.value })}
                                 placeholder={t('Enter your message')}
                                 rows={4}
                                 required
                             />
                         </div>
                         <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>{t('Cancel')}</Button>
+                            <Button type="button" variant="outline" onClick={() => setDiscussionModalOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
                             <Button type="submit">{t('Save')}</Button>
                         </div>
                     </form>

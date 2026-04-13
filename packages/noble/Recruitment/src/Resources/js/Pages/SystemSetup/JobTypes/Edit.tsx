@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -23,7 +23,7 @@ export default function Edit({ jobtype, onSuccess }: EditJobTypeProps) {
         put(route('recruitment.job-types.update', jobtype.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -44,13 +44,13 @@ export default function Edit({ jobtype, onSuccess }: EditJobTypeProps) {
                         required
                         maxLength={50}
                     />
-                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                         <span></span>
                         <span>{data.name.length}/50</span>
                     </div>
                     <InputError message={errors.name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -61,20 +61,22 @@ export default function Edit({ jobtype, onSuccess }: EditJobTypeProps) {
                         rows={3}
                         maxLength={100}
                     />
-                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                         <span></span>
                         <span>{data.description.length}/100</span>
                     </div>
                     <InputError message={errors.description} />
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_active"
                         checked={data.is_active || false}
                         onCheckedChange={(checked) => setData('is_active', !!checked)}
                     />
-                    <Label htmlFor="is_active" className="cursor-pointer">{t('Is Active')}</Label>
+                    <Label htmlFor="is_active" className="cursor-pointer">
+                        {t('Is Active')}
+                    </Label>
                     <InputError message={errors.is_active} />
                 </div>
 

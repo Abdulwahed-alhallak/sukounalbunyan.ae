@@ -1,19 +1,19 @@
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { LineChart, PieChart, BarChart } from '@/components/charts';
-import CalendarView from "@/components/calendar-view";
-import { 
-    Users, 
-    UserCheck, 
-    UserX, 
-    Clock, 
-    Calendar, 
-    DollarSign, 
-    TrendingUp, 
+import CalendarView from '@/components/calendar-view';
+import {
+    Users,
+    UserCheck,
+    UserX,
+    Clock,
+    Calendar,
+    DollarSign,
+    TrendingUp,
     TrendingDown,
     Award,
     AlertTriangle,
@@ -25,7 +25,7 @@ import {
     ArrowUpRight,
     ArrowDownRight,
     MoreHorizontal,
-    User as UserIcon
+    User as UserIcon,
 } from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
 
@@ -86,77 +86,100 @@ interface HrmProps {
 
 export default function HrmIndex({ message, stats }: HrmProps) {
     const { t } = useTranslation();
-    
+
     return (
-        <AuthenticatedLayout
-            breadcrumbs={[{label: t('HRM Dashboard')}]}
-            pageTitle={t('HRM Dashboard')}
-        >
+        <AuthenticatedLayout breadcrumbs={[{ label: t('HRM Dashboard') }]} pageTitle={t('HRM Dashboard')}>
             <Head title={t('HRM Dashboard')} />
-            
+
             <div className="space-y-6">
                 {/* Key Metrics Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div onClick={() => window.location.href = route('hrm.employees.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div
+                        onClick={() => (window.location.href = route('hrm.employees.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-foreground">{t('Total Employees')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-foreground">
+                                    {t('Total Employees')}
+                                </CardTitle>
                                 <Users className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.total_employees}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
+                                <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Active employees')}</span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.attendances.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.attendances.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-foreground">{t('Present Today')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-foreground">
+                                    {t('Present Today')}
+                                </CardTitle>
                                 <UserCheck className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.present_today}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
-                                    <span>{((stats.present_today / stats.total_employees) * 100).toFixed(1)}% {t('attendance rate')}</span>
+                                <div className="mt-1 flex items-center text-xs text-foreground">
+                                    <span>
+                                        {((stats.present_today / stats.total_employees) * 100).toFixed(1)}%{' '}
+                                        {t('attendance rate')}
+                                    </span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.attendances.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.attendances.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-destructive">{t('Absent Today')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-destructive">
+                                    {t('Absent Today')}
+                                </CardTitle>
                                 <UserX className="h-5 w-5 text-destructive" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-destructive">{stats.absent_today}</div>
-                                <div className="flex items-center text-xs text-destructive mt-1">
+                                <div className="mt-1 flex items-center text-xs text-destructive">
                                     {stats.absent_today > stats.absent_yesterday ? (
-                                        <ArrowUpRight className="h-3 w-3 mr-1" />
+                                        <ArrowUpRight className="mr-1 h-3 w-3" />
                                     ) : (
-                                        <ArrowDownRight className="h-3 w-3 mr-1" />
+                                        <ArrowDownRight className="mr-1 h-3 w-3" />
                                     )}
-                                    <span>{stats.absent_today - stats.absent_yesterday > 0 ? '+' : ''}{stats.absent_today - stats.absent_yesterday} {t('from yesterday')}</span>
+                                    <span>
+                                        {stats.absent_today - stats.absent_yesterday > 0 ? '+' : ''}
+                                        {stats.absent_today - stats.absent_yesterday} {t('from yesterday')}
+                                    </span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.leave-applications.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.leave-applications.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">{t('On Leave')}</CardTitle>
                                 <Calendar className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.on_leave}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
-                                    <span>{stats.pending_leaves} {t('pending approvals')}</span>
+                                <div className="mt-1 flex items-center text-xs text-foreground">
+                                    <span>
+                                        {stats.pending_leaves} {t('pending approvals')}
+                                    </span>
                                 </div>
                             </CardContent>
                         </Card>
@@ -164,61 +187,81 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                 </div>
 
                 {/* Secondary Metrics Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div onClick={() => window.location.href = route('hrm.branches.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div
+                        onClick={() => (window.location.href = route('hrm.branches.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-foreground">{t('Total Branch')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-foreground">
+                                    {t('Total Branch')}
+                                </CardTitle>
                                 <Building className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.total_branches}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
+                                <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Active branches')}</span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.departments.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.departments.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-foreground">{t('Total Department')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-foreground">
+                                    {t('Total Department')}
+                                </CardTitle>
                                 <Briefcase className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.total_departments}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
+                                <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Across all branches')}</span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.promotions.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.promotions.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-foreground">{t('Total Promotions')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-foreground">
+                                    {t('Total Promotions')}
+                                </CardTitle>
                                 <TrendingUp className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-foreground">{stats.total_promotions}</div>
-                                <div className="flex items-center text-xs text-foreground mt-1">
+                                <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('This year')}</span>
                                 </div>
                             </CardContent>
                         </Card>
                     </div>
-                    
-                    <div onClick={() => window.location.href = route('hrm.terminations.index')} className="cursor-pointer">
-                        <Card className="bg-gradient-to-r from-muted/50 to-muted border-border">
+
+                    <div
+                        onClick={() => (window.location.href = route('hrm.terminations.index'))}
+                        className="cursor-pointer"
+                    >
+                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-semibold text-destructive">{t('Terminations')}</CardTitle>
+                                <CardTitle className="text-sm font-semibold text-destructive">
+                                    {t('Terminations')}
+                                </CardTitle>
                                 <TrendingDown className="h-5 w-5 text-destructive" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-3xl font-bold text-destructive">{stats.terminations}</div>
-                                <div className="flex items-center text-xs text-destructive mt-1">
+                                <div className="mt-1 flex items-center text-xs text-destructive">
                                     <span>{t('This month')}</span>
                                 </div>
                             </CardContent>
@@ -262,7 +305,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                 </Card> */}
 
                 {/* Charts and Analytics */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Department Distribution */}
                     <Card>
                         <CardHeader>
@@ -272,25 +315,40 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-4 pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-4 overflow-y-auto pr-2">
                                 {stats.department_distribution && stats.department_distribution.length > 0 ? (
                                     stats.department_distribution?.map((dept, index) => {
-                                        const maxValue = Math.max(...stats.department_distribution?.map(d => d.value));
+                                        const maxValue = Math.max(
+                                            ...stats.department_distribution?.map((d) => d.value)
+                                        );
                                         const percentage = (dept.value / maxValue) * 100;
-                                        const colors = ['#3b82f6', '#10b77f', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4', '#f97316', '#84cc16'];
-                                        
+                                        const colors = [
+                                            '#3b82f6',
+                                            '#10b77f',
+                                            '#f59e0b',
+                                            '#8b5cf6',
+                                            '#ef4444',
+                                            '#06b6d4',
+                                            '#f97316',
+                                            '#84cc16',
+                                        ];
+
                                         return (
                                             <div key={index} className="space-y-2">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm font-medium text-foreground">{dept.name}</span>
-                                                    <span className="text-sm font-bold text-foreground">{dept.value}</span>
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-sm font-medium text-foreground">
+                                                        {dept.name}
+                                                    </span>
+                                                    <span className="text-sm font-bold text-foreground">
+                                                        {dept.value}
+                                                    </span>
                                                 </div>
-                                                <div className="w-full bg-muted rounded-full h-2">
-                                                    <div 
-                                                        className="h-2 rounded-full transition-all duration-300" 
-                                                        style={{ 
-                                                            width: `${percentage}%`, 
-                                                            backgroundColor: colors[index % 8] 
+                                                <div className="h-2 w-full rounded-full bg-muted">
+                                                    <div
+                                                        className="h-2 rounded-full transition-all duration-300"
+                                                        style={{
+                                                            width: `${percentage}%`,
+                                                            backgroundColor: colors[index % 8],
                                                         }}
                                                     ></div>
                                                 </div>
@@ -298,9 +356,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                         );
                                     })
                                 ) : (
-                                    <div className="flex items-center justify-center h-40 text-muted-foreground">
+                                    <div className="flex h-40 items-center justify-center text-muted-foreground">
                                         <div className="text-center">
-                                            <Briefcase className="h-12 w-12 mx-auto mb-2 text-muted-foreground/60" />
+                                            <Briefcase className="mx-auto mb-2 h-12 w-12 text-muted-foreground/60" />
                                             <p className="text-sm">{t('No departments found')}</p>
                                         </div>
                                     </div>
@@ -308,8 +366,6 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </div>
                         </CardContent>
                     </Card>
-
-
 
                     {/* Quick Actions */}
                     <Card>
@@ -320,69 +376,69 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-3 pr-2">
-                                <Button 
-                                    className="w-full justify-start" 
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.employees.create')}
+                                    onClick={() => (window.location.href = route('hrm.employees.create'))}
                                 >
-                                    <Users className="h-4 w-4 mr-2" />
+                                    <Users className="mr-2 h-4 w-4" />
                                     {t('Add New Employee')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.attendances.index')}
+                                    onClick={() => (window.location.href = route('hrm.attendances.index'))}
                                 >
-                                    <Clock className="h-4 w-4 mr-2" />
+                                    <Clock className="mr-2 h-4 w-4" />
                                     {t('Mark Attendance')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.leave-applications.index')}
+                                    onClick={() => (window.location.href = route('hrm.leave-applications.index'))}
                                 >
-                                    <Calendar className="h-4 w-4 mr-2" />
+                                    <Calendar className="mr-2 h-4 w-4" />
                                     {t('Apply for Leave')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.payrolls.index')}
+                                    onClick={() => (window.location.href = route('hrm.payrolls.index'))}
                                 >
-                                    <CreditCard className="h-4 w-4 mr-2" />
+                                    <CreditCard className="mr-2 h-4 w-4" />
                                     {t('Process Payroll')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.promotions.index')}
+                                    onClick={() => (window.location.href = route('hrm.promotions.index'))}
                                 >
-                                    <TrendingUp className="h-4 w-4 mr-2" />
+                                    <TrendingUp className="mr-2 h-4 w-4" />
                                     {t('Create Promotion')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.resignations.index')}
+                                    onClick={() => (window.location.href = route('hrm.resignations.index'))}
                                 >
-                                    <TrendingDown className="h-4 w-4 mr-2" />
+                                    <TrendingDown className="mr-2 h-4 w-4" />
                                     {t('Create Resignation')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.holidays.index')}
+                                    onClick={() => (window.location.href = route('hrm.holidays.index'))}
                                 >
-                                    <CalendarDays className="h-4 w-4 mr-2" />
+                                    <CalendarDays className="mr-2 h-4 w-4" />
                                     {t('Create Holiday')}
                                 </Button>
-                                <Button 
-                                    className="w-full justify-start" 
+                                <Button
+                                    className="w-full justify-start"
                                     variant="outline"
-                                    onClick={() => window.location.href = route('hrm.warnings.index')}
+                                    onClick={() => (window.location.href = route('hrm.warnings.index'))}
                                 >
-                                    <AlertTriangle className="h-4 w-4 mr-2" />
+                                    <AlertTriangle className="mr-2 h-4 w-4" />
                                     {t('Create Warning')}
                                 </Button>
                             </div>
@@ -391,7 +447,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                 </div>
 
                 {/* Employee Status Sections */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Employees on Leave Today */}
                     <Card>
                         <CardHeader>
@@ -401,29 +457,44 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-3 pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
                                 {stats.employees_on_leave_today && stats.employees_on_leave_today.length > 0 ? (
                                     stats.employees_on_leave_today?.map((employee, index) => {
-                                        const colors = ['bg-foreground', 'bg-muted/500', 'bg-muted/500', 'bg-foreground', 'bg-foreground'];
+                                        const colors = [
+                                            'bg-foreground',
+                                            'bg-muted/500',
+                                            'bg-muted/500',
+                                            'bg-foreground',
+                                            'bg-foreground',
+                                        ];
                                         return (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-card rounded-lg border border-border">
+                                            <div
+                                                key={index}
+                                                className="flex items-center justify-between rounded-lg border border-border bg-card p-3"
+                                            >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted border flex-shrink-0">
+                                                    <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
                                                         {employee.avatar ? (
                                                             <img
                                                                 src={getImagePath(employee.avatar)}
                                                                 alt={employee.name}
-                                                                className="w-full h-full object-cover"
+                                                                className="h-full w-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className={`w-full h-full ${colors[index % 5]} flex items-center justify-center text-background text-sm font-medium`}>
+                                                            <div
+                                                                className={`h-full w-full ${colors[index % 5]} flex items-center justify-center text-sm font-medium text-background`}
+                                                            >
                                                                 {employee.name.charAt(0).toUpperCase()}
                                                             </div>
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-medium text-foreground">{employee.name}</p>
-                                                        <p className="text-xs text-muted-foreground">{employee.leave_type}</p>
+                                                        <p className="text-sm font-medium text-foreground">
+                                                            {employee.name}
+                                                        </p>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {employee.leave_type}
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div className="text-xs text-muted-foreground">
@@ -433,9 +504,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                         );
                                     })
                                 ) : (
-                                    <div className="flex items-center justify-center h-40 text-muted-foreground">
+                                    <div className="flex h-40 items-center justify-center text-muted-foreground">
                                         <div className="text-center">
-                                            <Calendar className="h-12 w-12 mx-auto mb-2 text-muted-foreground/60" />
+                                            <Calendar className="mx-auto mb-2 h-12 w-12 text-muted-foreground/60" />
                                             <p className="text-sm">{t('No employees on leave today')}</p>
                                         </div>
                                     </div>
@@ -453,38 +524,53 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-3 pr-2">
+                            <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto pr-2">
                                 {stats.employees_without_attendance && stats.employees_without_attendance.length > 0 ? (
                                     stats.employees_without_attendance?.map((employee, index) => {
-                                        const colors = ['bg-muted/500', 'bg-foreground', 'bg-muted/500', 'bg-foreground', 'bg-destructive'];
+                                        const colors = [
+                                            'bg-muted/500',
+                                            'bg-foreground',
+                                            'bg-muted/500',
+                                            'bg-foreground',
+                                            'bg-destructive',
+                                        ];
                                         return (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-card rounded-lg border border-border">
+                                            <div
+                                                key={index}
+                                                className="flex items-center justify-between rounded-lg border border-border bg-card p-3"
+                                            >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted border flex-shrink-0">
+                                                    <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
                                                         {employee.avatar ? (
                                                             <img
                                                                 src={getImagePath(employee.avatar)}
                                                                 alt={employee.name}
-                                                                className="w-full h-full object-cover"
+                                                                className="h-full w-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className={`w-full h-full ${colors[index % 5]} flex items-center justify-center text-background text-sm font-medium`}>
+                                                            <div
+                                                                className={`h-full w-full ${colors[index % 5]} flex items-center justify-center text-sm font-medium text-background`}
+                                                            >
                                                                 {employee.name.charAt(0).toUpperCase()}
                                                             </div>
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-medium text-foreground">{employee.name}</p>
-                                                        <p className="text-xs text-muted-foreground">{employee.employee_id}</p>
+                                                        <p className="text-sm font-medium text-foreground">
+                                                            {employee.name}
+                                                        </p>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {employee.employee_id}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         );
                                     })
                                 ) : (
-                                    <div className="flex items-center justify-center h-40 text-muted-foreground">
+                                    <div className="flex h-40 items-center justify-center text-muted-foreground">
                                         <div className="text-center">
-                                            <UserCheck className="h-12 w-12 mx-auto mb-2 text-muted-foreground/60" />
+                                            <UserCheck className="mx-auto mb-2 h-12 w-12 text-muted-foreground/60" />
                                             <p className="text-sm">{t('All employees marked attendance')}</p>
                                         </div>
                                     </div>
@@ -495,7 +581,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                 </div>
 
                 {/* Calendar and Recent Activities */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                     {/* Calendar View */}
                     <Card className="lg:col-span-8">
                         <CardHeader>
@@ -505,15 +591,12 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <CalendarView
-                                events={stats.calendar_events}
-                                height={400}
-                            />
+                            <CalendarView events={stats.calendar_events} height={400} />
                         </CardContent>
                     </Card>
 
                     {/* Recent Activities & Notifications */}
-                    <div className="lg:col-span-4 space-y-6">
+                    <div className="space-y-6 lg:col-span-4">
                         {/* Recent Leave Applications */}
                         <Card>
                             <CardHeader>
@@ -523,44 +606,66 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-3">
+                                <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto">
                                     {stats.recent_leave_applications && stats.recent_leave_applications.length > 0 ? (
                                         stats.recent_leave_applications?.map((leave, index) => {
                                             const getStatusColor = (status: string) => {
                                                 switch (status.toLowerCase()) {
-                                                    case 'pending': return { icon: 'bg-muted/500', badge: 'bg-muted text-foreground border-border' };
-                                                    case 'approved': return { icon: 'bg-muted/500', badge: 'bg-muted text-foreground border-border' };
-                                                    case 'rejected': return { icon: 'bg-muted/500', badge: 'bg-muted text-destructive border-border' };
-                                                    default: return { icon: 'bg-muted/500', badge: 'bg-muted text-foreground border-border' };
+                                                    case 'pending':
+                                                        return {
+                                                            icon: 'bg-muted/500',
+                                                            badge: 'bg-muted text-foreground border-border',
+                                                        };
+                                                    case 'approved':
+                                                        return {
+                                                            icon: 'bg-muted/500',
+                                                            badge: 'bg-muted text-foreground border-border',
+                                                        };
+                                                    case 'rejected':
+                                                        return {
+                                                            icon: 'bg-muted/500',
+                                                            badge: 'bg-muted text-destructive border-border',
+                                                        };
+                                                    default:
+                                                        return {
+                                                            icon: 'bg-muted/500',
+                                                            badge: 'bg-muted text-foreground border-border',
+                                                        };
                                                 }
                                             };
                                             const colors = getStatusColor(leave.status);
                                             return (
-                                                <div key={index} className="flex items-start justify-between p-3 bg-card rounded-lg border border-border">
+                                                <div
+                                                    key={index}
+                                                    className="flex items-start justify-between rounded-lg border border-border bg-card p-3"
+                                                >
                                                     <div className="flex items-start space-x-3">
                                                         <div className={`${colors.icon} rounded-full p-1.5`}>
                                                             <Calendar className="h-3 w-3 text-background" />
                                                         </div>
                                                         <div>
-                                                            <p className="text-sm font-medium">{leave.employee_name} - {leave.leave_type}</p>
+                                                            <p className="text-sm font-medium">
+                                                                {leave.employee_name} - {leave.leave_type}
+                                                            </p>
                                                             <p className="text-xs text-muted-foreground">
-                                                                {leave.start_date === leave.end_date 
+                                                                {leave.start_date === leave.end_date
                                                                     ? `${new Date(leave.start_date).toLocaleDateString()} (${leave.total_days} day${leave.total_days > 1 ? 's' : ''})`
-                                                                    : `${new Date(leave.start_date).toLocaleDateString()} - ${new Date(leave.end_date).toLocaleDateString()} (${leave.total_days} day${leave.total_days > 1 ? 's' : ''})`
-                                                                }
+                                                                    : `${new Date(leave.start_date).toLocaleDateString()} - ${new Date(leave.end_date).toLocaleDateString()} (${leave.total_days} day${leave.total_days > 1 ? 's' : ''})`}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <span className={`px-2 py-1 rounded-full text-sm ${colors.badge}`}>
-                                                        {t(leave.status.charAt(0).toUpperCase() + leave.status.slice(1))}
+                                                    <span className={`rounded-full px-2 py-1 text-sm ${colors.badge}`}>
+                                                        {t(
+                                                            leave.status.charAt(0).toUpperCase() + leave.status.slice(1)
+                                                        )}
                                                     </span>
                                                 </div>
                                             );
                                         })
                                     ) : (
-                                        <div className="flex items-center justify-center h-40 text-muted-foreground">
+                                        <div className="flex h-40 items-center justify-center text-muted-foreground">
                                             <div className="text-center">
-                                                <Calendar className="h-12 w-12 mx-auto mb-2 text-muted-foreground/60" />
+                                                <Calendar className="mx-auto mb-2 h-12 w-12 text-muted-foreground/60" />
                                                 <p className="text-sm">{t('No recent leave applications')}</p>
                                             </div>
                                         </div>
@@ -578,28 +683,40 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 space-y-3">
+                                <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 h-80 space-y-3 overflow-y-auto">
                                     {stats.recent_announcements && stats.recent_announcements.length > 0 ? (
                                         stats.recent_announcements?.map((announcement, index) => {
-                                            const colors = ['bg-foreground', 'bg-muted/500', 'bg-muted/500', 'bg-foreground', 'bg-muted/500', 'bg-foreground'];
+                                            const colors = [
+                                                'bg-foreground',
+                                                'bg-muted/500',
+                                                'bg-muted/500',
+                                                'bg-foreground',
+                                                'bg-muted/500',
+                                                'bg-foreground',
+                                            ];
                                             const timeAgo = new Date(announcement.created_at).toLocaleDateString();
                                             return (
-                                                <div key={index} className="flex items-start space-x-3 p-3 bg-card rounded-lg border border-border">
+                                                <div
+                                                    key={index}
+                                                    className="flex items-start space-x-3 rounded-lg border border-border bg-card p-3"
+                                                >
                                                     <div className={`${colors[index % 6]} rounded-full p-1.5`}>
                                                         <FileText className="h-3 w-3 text-background" />
                                                     </div>
                                                     <div className="flex-1">
                                                         <p className="text-sm font-medium">{announcement.title}</p>
-                                                        <p className="text-xs text-muted-foreground">{announcement.description}</p>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {announcement.description}
+                                                        </p>
                                                         <p className="text-xs text-muted-foreground">{timeAgo}</p>
                                                     </div>
                                                 </div>
                                             );
                                         })
                                     ) : (
-                                        <div className="flex items-center justify-center h-40 text-muted-foreground">
+                                        <div className="flex h-40 items-center justify-center text-muted-foreground">
                                             <div className="text-center">
-                                                <FileText className="h-12 w-12 mx-auto mb-2 text-muted-foreground/60" />
+                                                <FileText className="mx-auto mb-2 h-12 w-12 text-muted-foreground/60" />
                                                 <p className="text-sm">{t('No active announcements')}</p>
                                             </div>
                                         </div>
@@ -607,12 +724,8 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 </div>
                             </CardContent>
                         </Card>
-
-
                     </div>
                 </div>
-
-
             </div>
         </AuthenticatedLayout>
     );

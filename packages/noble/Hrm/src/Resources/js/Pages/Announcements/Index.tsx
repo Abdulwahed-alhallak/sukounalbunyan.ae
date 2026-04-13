@@ -2,17 +2,26 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Megaphone as MegaphoneIcon, Download, FileImage, Play } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Plus,
+    Edit as EditIcon,
+    Trash2,
+    Eye,
+    Megaphone as MegaphoneIcon,
+    Download,
+    FileImage,
+    Play,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -40,11 +49,11 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<AnnouncementModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [viewingItem, setViewingItem] = useState<Announcement | null>(null);
     const [statusModalState, setStatusModalState] = useState<{
@@ -54,29 +63,34 @@ export default function Index() {
 
     const [showFilters, setShowFilters] = useState(false);
 
-
-
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'hrm.announcements.destroy',
-        defaultMessage: t('Are you sure you want to delete this announcement?')
+        defaultMessage: t('Are you sure you want to delete this announcement?'),
     });
 
     const handleFilter = () => {
-        router.get(route('hrm.announcements.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.announcements.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('hrm.announcements.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.announcements.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -101,19 +115,19 @@ export default function Index() {
         {
             key: 'title',
             header: t('Title'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'announcement_category.announcement_category',
             header: t('Announcement Category '),
             sortable: false,
-            render: (value: any, row: any) => row.announcement_category?.announcement_category || '-'
+            render: (value: any, row: any) => row.announcement_category?.announcement_category || '-',
         },
         {
             key: 'start_date',
             header: t('Start Date'),
             sortable: false,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'end_date',
@@ -123,12 +137,8 @@ export default function Index() {
                 if (!value) return '-';
                 const isOverdue = new Date(value) < new Date();
 
-                return (
-                    <span className={isOverdue ? 'text-destructive' : ''}>
-                        {formatDate(value)}
-                    </span>
-                );
-            }
+                return <span className={isOverdue ? 'text-destructive' : ''}>{formatDate(value)}</span>;
+            },
         },
         {
             key: 'priority',
@@ -136,17 +146,19 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const priorityColors = {
-                    'low': 'bg-muted text-foreground',
-                    'medium': 'bg-muted text-foreground',
-                    'high': 'bg-muted text-foreground',
-                    'urgent': 'bg-muted text-destructive'
+                    low: 'bg-muted text-foreground',
+                    medium: 'bg-muted text-foreground',
+                    high: 'bg-muted text-foreground',
+                    urgent: 'bg-muted text-destructive',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${priorityColors[value as keyof typeof priorityColors] || 'bg-muted text-foreground'}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${priorityColors[value as keyof typeof priorityColors] || 'bg-muted text-foreground'}`}
+                    >
                         {t(value?.charAt(0).toUpperCase() + value?.slice(1) || 'Unknown')}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'status',
@@ -154,94 +166,119 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const statusColors = {
-                    'active': 'bg-muted text-foreground',
-                    'inactive': 'bg-muted text-destructive',
-                    'draft': 'bg-muted text-foreground'
+                    active: 'bg-muted text-foreground',
+                    inactive: 'bg-muted text-destructive',
+                    draft: 'bg-muted text-foreground',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground'}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
+                    >
                         {t(value?.charAt(0).toUpperCase() + value?.slice(1) || 'Unknown')}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'approved_by',
             header: t('Approved By'),
             sortable: false,
-            render: (value: any, row: any) => row.approved_by?.name ? String(row.approved_by.name) : '-'
+            render: (value: any, row: any) => (row.approved_by?.name ? String(row.approved_by.name) : '-'),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['manage-announcements-status', 'view-announcements', 'edit-announcements', 'delete-announcements'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, announcement: Announcement) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('manage-announcements-status') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => setStatusModalState({ isOpen: true, announcement })} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Play className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Update Status')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-announcements') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => setViewingItem(announcement)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-announcements') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', announcement)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-announcements') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(announcement.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            [
+                'manage-announcements-status',
+                'view-announcements',
+                'edit-announcements',
+                'delete-announcements',
+            ].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, announcement: Announcement) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('manage-announcements-status') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => setStatusModalState({ isOpen: true, announcement })}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Play className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Update Status')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('view-announcements') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => setViewingItem(announcement)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-announcements') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', announcement)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-announcements') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(announcement.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Hrm'), url: route('hrm.index') },
-                { label: t('Announcements') }
-            ]}
+            breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Announcements') }]}
             pageTitle={t('Manage Announcements')}
             pageActions={
                 <TooltipProvider>
@@ -265,9 +302,9 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.title}
                                 onChange={(value) => setFilters({ ...filters, title: value })}
@@ -286,16 +323,17 @@ export default function Index() {
                                 filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.priority, filters.status].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [filters.priority, filters.status].filter(
+                                        (f) => f !== '' && f !== null && f !== undefined
+                                    ).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -305,11 +343,16 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Priority')}</label>
-                                <Select value={filters.priority} onValueChange={(value) => setFilters({ ...filters, priority: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Priority')}
+                                </label>
+                                <Select
+                                    value={filters.priority}
+                                    onValueChange={(value) => setFilters({ ...filters, priority: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Priority')} />
                                     </SelectTrigger>
@@ -322,8 +365,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -335,8 +381,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -345,7 +395,7 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={announcements?.data || []}
@@ -359,7 +409,14 @@ export default function Index() {
                                             icon={MegaphoneIcon}
                                             title={t('No Announcements found')}
                                             description={t('Get started by creating your first Announcement.')}
-                                            hasFilters={!!(filters.title || filters.description || filters.priority || filters.status)}
+                                            hasFilters={
+                                                !!(
+                                                    filters.title ||
+                                                    filters.description ||
+                                                    filters.priority ||
+                                                    filters.status
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-announcements"
                                             onCreateClick={() => openModal('add')}
@@ -371,65 +428,117 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {announcements?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {announcements?.data?.map((announcement) => (
-                                        <Card key={announcement.id} className="p-6 hover:shadow-md transition-shadow">
-                                            <div className="flex items-center justify-between mb-4">
+                                        <Card key={announcement.id} className="p-6 transition-shadow hover:shadow-md">
+                                            <div className="mb-4 flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg">
+                                                    <div className="rounded-lg bg-foreground/10 p-2">
                                                         <MegaphoneIcon className="h-5 w-5 text-foreground" />
                                                     </div>
-                                                    <h3 className="font-semibold text-lg">{announcement.title}</h3>
+                                                    <h3 className="text-lg font-semibold">{announcement.title}</h3>
                                                 </div>
                                             </div>
-                                            <div className="space-y-3 mb-6">
+                                            <div className="mb-6 space-y-3">
                                                 <div className="text-sm">
-                                                    <p className="text-muted-foreground mb-1">{t('Start Date')}</p>
-                                                    <p className="font-medium">{announcement.start_date ? formatDate(announcement.start_date) : '-'}</p>
+                                                    <p className="mb-1 text-muted-foreground">{t('Start Date')}</p>
+                                                    <p className="font-medium">
+                                                        {announcement.start_date
+                                                            ? formatDate(announcement.start_date)
+                                                            : '-'}
+                                                    </p>
                                                 </div>
                                                 <div className="text-sm">
-                                                    <p className="text-muted-foreground mb-1">{t('End Date')}</p>
-                                                    <p className={`font-medium ${announcement.end_date && new Date(announcement.end_date) < new Date() ? 'text-destructive' : ''}`}>{announcement.end_date ? formatDate(announcement.end_date) : '-'}</p>
+                                                    <p className="mb-1 text-muted-foreground">{t('End Date')}</p>
+                                                    <p
+                                                        className={`font-medium ${announcement.end_date && new Date(announcement.end_date) < new Date() ? 'text-destructive' : ''}`}
+                                                    >
+                                                        {announcement.end_date
+                                                            ? formatDate(announcement.end_date)
+                                                            : '-'}
+                                                    </p>
                                                 </div>
-                                                <div className="flex items-center justify-between mb-3">
+                                                <div className="mb-3 flex items-center justify-between">
                                                     <div>
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Priority')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Priority')}
+                                                        </p>
                                                         {announcement.priority ? (
-                                                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${announcement.priority === 'low' ? 'bg-muted text-foreground' :
-                                                                announcement.priority === 'medium' ? 'bg-muted text-foreground' :
-                                                                    announcement.priority === 'high' ? 'bg-muted text-foreground' :
-                                                                        'bg-muted text-destructive'
-                                                                }`}>
-                                                                {t(announcement.priority.charAt(0).toUpperCase() + announcement.priority.slice(1))}
+                                                            <span
+                                                                className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${
+                                                                    announcement.priority === 'low'
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : announcement.priority === 'medium'
+                                                                          ? 'bg-muted text-foreground'
+                                                                          : announcement.priority === 'high'
+                                                                            ? 'bg-muted text-foreground'
+                                                                            : 'bg-muted text-destructive'
+                                                                }`}
+                                                            >
+                                                                {t(
+                                                                    announcement.priority.charAt(0).toUpperCase() +
+                                                                        announcement.priority.slice(1)
+                                                                )}
                                                             </span>
-                                                        ) : '-'}
+                                                        ) : (
+                                                            '-'
+                                                        )}
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="text-xs font-medium text-muted-foreground mb-1">{t('Status')}</p>
+                                                        <p className="mb-1 text-xs font-medium text-muted-foreground">
+                                                            {t('Status')}
+                                                        </p>
                                                         {announcement.status ? (
-                                                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${announcement.status === 'active' ? 'bg-muted text-foreground' :
-                                                                announcement.status === 'inactive' ? 'bg-muted text-destructive' :
-                                                                    'bg-muted text-foreground'
-                                                                }`}>
-                                                                {t(announcement.status.charAt(0).toUpperCase() + announcement.status.slice(1))}
+                                                            <span
+                                                                className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${
+                                                                    announcement.status === 'active'
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : announcement.status === 'inactive'
+                                                                          ? 'bg-muted text-destructive'
+                                                                          : 'bg-muted text-foreground'
+                                                                }`}
+                                                            >
+                                                                {t(
+                                                                    announcement.status.charAt(0).toUpperCase() +
+                                                                        announcement.status.slice(1)
+                                                                )}
                                                             </span>
-                                                        ) : '-'}
+                                                        ) : (
+                                                            '-'
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className="text-sm">
-                                                    <p className="text-muted-foreground mb-1">{t('Announcement Category')}</p>
-                                                    <p className="font-medium">{announcement.announcement_category?.announcement_category || '-'}</p>
+                                                    <p className="mb-1 text-muted-foreground">
+                                                        {t('Announcement Category')}
+                                                    </p>
+                                                    <p className="font-medium">
+                                                        {announcement.announcement_category?.announcement_category ||
+                                                            '-'}
+                                                    </p>
                                                 </div>
                                             </div>
 
-                                            <div className="flex justify-end gap-2 pt-4 border-t">
+                                            <div className="flex justify-end gap-2 border-t pt-4">
                                                 <TooltipProvider>
-                                                    {auth.user?.permissions?.includes('manage-announcements-status') && (
+                                                    {auth.user?.permissions?.includes(
+                                                        'manage-announcements-status'
+                                                    ) && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => setStatusModalState({ isOpen: true, announcement })} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        setStatusModalState({
+                                                                            isOpen: true,
+                                                                            announcement,
+                                                                        })
+                                                                    }
+                                                                    className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                >
                                                                     <Play className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -441,7 +550,12 @@ export default function Index() {
                                                     {auth.user?.permissions?.includes('view-announcements') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => setViewingItem(announcement)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => setViewingItem(announcement)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                >
                                                                     <Eye className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -453,7 +567,12 @@ export default function Index() {
                                                     {auth.user?.permissions?.includes('edit-announcements') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('edit', announcement)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('edit', announcement)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                >
                                                                     <EditIcon className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -469,7 +588,7 @@ export default function Index() {
                                                                     variant="ghost"
                                                                     size="sm"
                                                                     onClick={() => openDeleteDialog(announcement.id)}
-                                                                    className="h-9 w-9 p-0 text-destructive hover:text-destructive hover:bg-muted/50"
+                                                                    className="h-9 w-9 p-0 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                                 >
                                                                     <Trash2 className="h-4 w-4" />
                                                                 </Button>
@@ -489,7 +608,9 @@ export default function Index() {
                                     icon={MegaphoneIcon}
                                     title={t('No Announcements found')}
                                     description={t('Get started by creating your first Announcement.')}
-                                    hasFilters={!!(filters.title || filters.description || filters.priority || filters.status)}
+                                    hasFilters={
+                                        !!(filters.title || filters.description || filters.priority || filters.status)
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-announcements"
                                     onCreateClick={() => openModal('add')}
@@ -501,7 +622,7 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={announcements || { data: [], links: [], meta: {} }}
                         routeName="hrm.announcements.index"
@@ -511,14 +632,9 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditAnnouncement
-                        announcement={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditAnnouncement announcement={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 
@@ -526,8 +642,16 @@ export default function Index() {
                 {viewingItem && <View announcement={viewingItem} />}
             </Dialog>
 
-            <Dialog open={statusModalState.isOpen} onOpenChange={() => setStatusModalState({ isOpen: false, announcement: null })}>
-                {statusModalState.announcement && <UpdateStatus announcement={statusModalState.announcement} onSuccess={() => setStatusModalState({ isOpen: false, announcement: null })} />}
+            <Dialog
+                open={statusModalState.isOpen}
+                onOpenChange={() => setStatusModalState({ isOpen: false, announcement: null })}
+            >
+                {statusModalState.announcement && (
+                    <UpdateStatus
+                        announcement={statusModalState.announcement}
+                        onSuccess={() => setStatusModalState({ isOpen: false, announcement: null })}
+                    />
+                )}
             </Dialog>
 
             <ConfirmationDialog

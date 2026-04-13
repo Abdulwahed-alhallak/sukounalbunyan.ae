@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Info, DollarSign } from "lucide-react";
+import { Info, DollarSign } from 'lucide-react';
 import { Deal } from './types';
 
 interface ViewProps {
@@ -25,7 +25,7 @@ export default function View({ deal }: ViewProps) {
 
     const renderGeneral = () => (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                     <div>
                         <h3 className="text-sm font-medium text-muted-foreground">{t('Deal Name')}</h3>
@@ -65,10 +65,10 @@ export default function View({ deal }: ViewProps) {
     );
 
     return (
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
-            <DialogHeader className="pb-4 border-b">
+        <DialogContent className="max-h-[90vh] max-w-6xl overflow-hidden">
+            <DialogHeader className="border-b pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-foreground/10 rounded-lg">
+                    <div className="rounded-lg bg-foreground/10 p-2">
                         <DollarSign className="h-5 w-5 text-foreground" />
                     </div>
                     <div>
@@ -77,8 +77,8 @@ export default function View({ deal }: ViewProps) {
                     </div>
                 </div>
             </DialogHeader>
-            
-            <div className="flex gap-6 h-full">
+
+            <div className="flex h-full gap-6">
                 {/* Sidebar */}
                 <div className="w-64 flex-shrink-0">
                     <ScrollArea className="h-[calc(100vh-12rem)]">
@@ -96,7 +96,7 @@ export default function View({ deal }: ViewProps) {
                                         })}
                                         onClick={() => setActiveTab(tab.key)}
                                     >
-                                        <Icon className="h-4 w-4 mr-2" />
+                                        <Icon className="mr-2 h-4 w-4" />
                                         {tab.label}
                                     </Button>
                                 );
@@ -108,9 +108,7 @@ export default function View({ deal }: ViewProps) {
                 {/* Content */}
                 <div className="flex-1 overflow-hidden">
                     <ScrollArea className="h-[calc(100vh-12rem)]">
-                        <div className="pr-4">
-                            {activeTab === 'general' && renderGeneral()}
-                        </div>
+                        <div className="pr-4">{activeTab === 'general' && renderGeneral()}</div>
                     </ScrollArea>
                 </div>
             </div>

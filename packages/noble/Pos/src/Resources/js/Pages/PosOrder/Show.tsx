@@ -58,7 +58,6 @@ export default function Show() {
     const { t } = useTranslation();
     const { sale } = usePage<ShowProps>().props;
 
-
     const downloadPDF = () => {
         const printUrl = route('pos-orders.print', sale.id) + '?download=pdf';
         window.open(printUrl, '_blank');
@@ -79,10 +78,7 @@ export default function Show() {
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                {label: t('POS Orders'), url: route('pos.orders')},
-                {label: t('POS Sale Details')}
-            ]}
+            breadcrumbs={[{ label: t('POS Orders'), url: route('pos.orders') }, { label: t('POS Sale Details') }]}
             pageTitle={`${t('POS Sale')} `}
         >
             <Head title={`${t('POS Sale')} ${sale.sale_number}`} />
@@ -91,12 +87,11 @@ export default function Show() {
                 {/* Sale Header */}
                 <Card>
                     <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                             <div>
                                 <p className="text-lg font-bold">{sale.sale_number}</p>
                             </div>
                             <div className="flex items-center gap-4">
-                                
                                 <span className={getStatusBadgeClasses(sale.status || 'completed')}>
                                     {t((sale.status || 'completed').toUpperCase())}
                                 </span>
@@ -107,22 +102,34 @@ export default function Show() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                             <div>
-                                <h3 className="font-semibold mb-2">{t('COMPANY')}</h3>
-                                <div className="text-sm space-y-1">
-                                    <div className="font-bold">{getCompanySetting('company_name') || 'YOUR COMPANY'}</div>
+                                <h3 className="mb-2 font-semibold">{t('COMPANY')}</h3>
+                                <div className="space-y-1 text-sm">
+                                    <div className="font-bold">
+                                        {getCompanySetting('company_name') || 'YOUR COMPANY'}
+                                    </div>
                                     <div className="text-muted-foreground">{getCompanySetting('company_address')}</div>
-                                    <div className="text-muted-foreground">{getCompanySetting('company_city') || 'City'}, {getCompanySetting('company_state') || 'State'}</div>
-                                    <div className="text-muted-foreground">{getCompanySetting('company_country') || 'Country'} - {getCompanySetting('company_zipcode') || 'Zipcode'}</div>
-                                    <div className="text-muted-foreground">{t('Phone')}: {getCompanySetting('company_telephone')}</div>
-                                    <div className="text-muted-foreground">{t('Email')}: {getCompanySetting('company_email')}</div>
+                                    <div className="text-muted-foreground">
+                                        {getCompanySetting('company_city') || 'City'},{' '}
+                                        {getCompanySetting('company_state') || 'State'}
+                                    </div>
+                                    <div className="text-muted-foreground">
+                                        {getCompanySetting('company_country') || 'Country'} -{' '}
+                                        {getCompanySetting('company_zipcode') || 'Zipcode'}
+                                    </div>
+                                    <div className="text-muted-foreground">
+                                        {t('Phone')}: {getCompanySetting('company_telephone')}
+                                    </div>
+                                    <div className="text-muted-foreground">
+                                        {t('Email')}: {getCompanySetting('company_email')}
+                                    </div>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 className="font-semibold mb-2">{t('CUSTOMER')}</h3>
-                                <div className="text-sm space-y-1">
+                                <h3 className="mb-2 font-semibold">{t('CUSTOMER')}</h3>
+                                <div className="space-y-1 text-sm">
                                     <div className="font-medium">{sale.customer?.name || t('Walk-in Customer')}</div>
                                     <div className="text-muted-foreground">{sale.customer?.email || '-'}</div>
                                     {sale.customer?.phone && (
@@ -130,7 +137,7 @@ export default function Show() {
                                     )}
                                 </div>
                                 <div className="mt-3">
-                                    <div className="font-medium text-sm mb-1">{t('Warehouse')}</div>
+                                    <div className="mb-1 text-sm font-medium">{t('Warehouse')}</div>
                                     <div className="text-sm text-muted-foreground">
                                         <div>{sale.warehouse?.name || '-'}</div>
                                     </div>
@@ -138,7 +145,7 @@ export default function Show() {
                             </div>
 
                             <div>
-                                <h3 className="font-semibold mb-2">{t('DETAILS')}</h3>
+                                <h3 className="mb-2 font-semibold">{t('DETAILS')}</h3>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-muted-foreground">{t('Sale Date')}</span>
@@ -149,15 +156,11 @@ export default function Show() {
                                         <span>{sale.items.length}</span>
                                     </div>
                                 </div>
-                                <div className="mt-4 p-3 bg-muted/50 rounded">
-                                    <div className="flex justify-between items-center">
+                                <div className="mt-4 rounded bg-muted/50 p-3">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex gap-2">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={downloadPDF}
-                                            >
-                                                <Download className="h-4 w-4 mr-2" />
+                                            <Button variant="outline" size="sm" onClick={downloadPDF}>
+                                                <Download className="mr-2 h-4 w-4" />
                                                 {t('Download PDF')}
                                             </Button>
                                         </div>
@@ -167,9 +170,9 @@ export default function Show() {
                         </div>
 
                         {sale.notes && (
-                            <div className="mt-4 pt-4 border-t">
-                                <span className="font-medium text-sm">{t('Notes')}:</span>
-                                <span className="text-sm text-muted-foreground ml-2">{sale.notes}</span>
+                            <div className="mt-4 border-t pt-4">
+                                <span className="text-sm font-medium">{t('Notes')}:</span>
+                                <span className="ml-2 text-sm text-muted-foreground">{sale.notes}</span>
                             </div>
                         )}
                     </CardContent>
@@ -178,9 +181,7 @@ export default function Show() {
                 {/* Sale Items */}
                 <Card>
                     <CardHeader>
-                        <h3 className="text-lg font-semibold">
-                            {t('Sale Items')}
-                        </h3>
+                        <h3 className="text-lg font-semibold">{t('Sale Items')}</h3>
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
@@ -189,9 +190,13 @@ export default function Show() {
                                     <tr className="border-b">
                                         <th className="px-4 py-3 text-left text-sm font-semibold">{t('Product')}</th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Qty')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Unit Price')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Unit Price')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax')}</th>
-                                        <th className="px-4 py-3 text-right text-sm font-semibold">{t('Tax Amount')}</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold">
+                                            {t('Tax Amount')}
+                                        </th>
                                         <th className="px-4 py-3 text-right text-sm font-semibold">{t('Total')}</th>
                                     </tr>
                                 </thead>
@@ -201,31 +206,37 @@ export default function Show() {
                                             <td className="px-4 py-4">
                                                 <div className="font-medium">{item.product?.name}</div>
                                                 {item.product?.sku && (
-                                                    <div className="text-sm text-muted-foreground">{t('SKU:')} {item.product.sku}</div>
+                                                    <div className="text-sm text-muted-foreground">
+                                                        {t('SKU:')} {item.product.sku}
+                                                    </div>
                                                 )}
                                                 {item.product?.description && (
-                                                    <div className="text-sm text-muted-foreground mt-1">{item.product.description}</div>
+                                                    <div className="mt-1 text-sm text-muted-foreground">
+                                                        {item.product.description}
+                                                    </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-4 text-right">{item.quantity}</td>
                                             <td className="px-4 py-4 text-right">{formatCurrency(item.price)}</td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.taxes && item.taxes.length > 0 ? (
-                                                    <div className="flex flex-wrap gap-1 justify-end">
+                                                    <div className="flex flex-wrap justify-end gap-1">
                                                         {item.taxes?.map((tax) => (
                                                             <Badge key={tax.id} variant="outline" className="text-xs">
                                                                 {tax.tax_name} ({tax.rate}%)
                                                             </Badge>
                                                         ))}
                                                     </div>
-                                                ) : '-'}
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right">
                                                 {item.tax_amount > 0 ? (
-                                                    <div className="text-sm">
-                                                        {formatCurrency(item.tax_amount)}
-                                                    </div>
-                                                ) : '-'}
+                                                    <div className="text-sm">{formatCurrency(item.tax_amount)}</div>
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="px-4 py-4 text-right font-semibold">
                                                 {formatCurrency(item.total_amount)}
@@ -245,7 +256,9 @@ export default function Show() {
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">{t('Discount')}</span>
-                                    <span className="font-medium text-destructive">-{formatCurrency(sale.discount_amount || 0)}</span>
+                                    <span className="font-medium text-destructive">
+                                        -{formatCurrency(sale.discount_amount || 0)}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">{t('Tax')}</span>
@@ -254,7 +267,9 @@ export default function Show() {
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between">
                                         <span className="font-semibold">{t('Total Amount')}</span>
-                                        <span className="font-bold text-lg">{formatCurrency(sale.total_amount || 0)}</span>
+                                        <span className="text-lg font-bold">
+                                            {formatCurrency(sale.total_amount || 0)}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

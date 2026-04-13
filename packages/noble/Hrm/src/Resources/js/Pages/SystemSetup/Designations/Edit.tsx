@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -18,13 +18,13 @@ export default function Edit({ designation, onSuccess, branches, departments }: 
     });
 
     // Filter departments based on selected branch
-    const filteredDepartments = departments.filter(dept => dept.branch_id?.toString() === data.branch_id);
+    const filteredDepartments = departments.filter((dept) => dept.branch_id?.toString() === data.branch_id);
 
     const handleBranchChange = (value: string) => {
         setData({
             ...data,
             branch_id: value,
-            department_id: '' // Reset department when branch changes
+            department_id: '', // Reset department when branch changes
         });
     };
 
@@ -33,7 +33,7 @@ export default function Edit({ designation, onSuccess, branches, departments }: 
         put(route('hrm.designations.update', designation.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -57,8 +57,10 @@ export default function Edit({ designation, onSuccess, branches, departments }: 
                 </div>
 
                 <div>
-                    <Label htmlFor="branch_id" required>{t('Branch')}</Label>
-                    <Select value={data.branch_id?.toString() || ''} onValueChange={handleBranchChange} required> 
+                    <Label htmlFor="branch_id" required>
+                        {t('Branch')}
+                    </Label>
+                    <Select value={data.branch_id?.toString() || ''} onValueChange={handleBranchChange} required>
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Branch')} />
                         </SelectTrigger>
@@ -74,7 +76,9 @@ export default function Edit({ designation, onSuccess, branches, departments }: 
                 </div>
 
                 <div>
-                    <Label htmlFor="department_id" required>{t('Department')}</Label>
+                    <Label htmlFor="department_id" required>
+                        {t('Department')}
+                    </Label>
                     <Select
                         value={data.department_id?.toString() || ''}
                         onValueChange={(value) => setData('department_id', value)}
@@ -82,7 +86,9 @@ export default function Edit({ designation, onSuccess, branches, departments }: 
                         required
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                            <SelectValue
+                                placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')}
+                            />
                         </SelectTrigger>
                         <SelectContent searchable={true}>
                             {filteredDepartments?.length > 0 ? (

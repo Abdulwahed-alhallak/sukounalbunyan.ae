@@ -1,7 +1,5 @@
 import { FolderKanban } from 'lucide-react';
 
-
-
 export const projectCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Project Dashboard'),
@@ -15,7 +13,7 @@ export const projectCompanyMenu = (t: (key: string) => string) => [
         icon: FolderKanban,
         permission: 'manage-project',
         order: 300,
-        name : 'project',
+        name: 'project',
         children: [
             {
                 title: t('Projects'),

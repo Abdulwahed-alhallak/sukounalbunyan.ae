@@ -2,17 +2,27 @@ import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, AlertOctagon as AlertOctagonIcon, Download, FileImage, MessageSquare, Play } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Plus,
+    Edit as EditIcon,
+    Trash2,
+    Eye,
+    AlertOctagon as AlertOctagonIcon,
+    Download,
+    FileImage,
+    MessageSquare,
+    Play,
+} from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -39,39 +49,43 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<WarningModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const [showFilters, setShowFilters] = useState(false);
 
-
-
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'hrm.warnings.destroy',
-        defaultMessage: t('Are you sure you want to delete this warning?')
+        defaultMessage: t('Are you sure you want to delete this warning?'),
     });
 
     const handleFilter = () => {
-        router.get(route('hrm.warnings.index'), { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.warnings.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('hrm.warnings.index'), { ...filters, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('hrm.warnings.index'),
+            { ...filters, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -95,24 +109,24 @@ export default function Index() {
             key: 'employee.name',
             header: t('Employee Name'),
             sortable: false,
-            render: (value: any, row: any) => row.employee?.name || '-'
+            render: (value: any, row: any) => row.employee?.name || '-',
         },
         {
             key: 'warning_by.name',
             header: t('Warning By Name'),
             sortable: false,
-            render: (value: any, row: any) => row.warning_by?.name || '-'
+            render: (value: any, row: any) => row.warning_by?.name || '-',
         },
         {
             key: 'warning_type.warning_type_name',
             header: t('Warning Type'),
             sortable: false,
-            render: (value: any, row: any) => row.warning_type?.warning_type_name || '-'
+            render: (value: any, row: any) => row.warning_type?.warning_type_name || '-',
         },
         {
             key: 'subject',
             header: t('Subject'),
-            sortable: true
+            sortable: true,
         },
         {
             key: 'severity',
@@ -120,22 +134,24 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const severityColors = {
-                    'Minor': 'bg-muted text-foreground',
-                    'Moderate': 'bg-muted text-foreground',
-                    'Major': 'bg-muted text-destructive'
+                    Minor: 'bg-muted text-foreground',
+                    Moderate: 'bg-muted text-foreground',
+                    Major: 'bg-muted text-destructive',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${severityColors[value as keyof typeof severityColors] || 'bg-muted text-foreground'}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${severityColors[value as keyof typeof severityColors] || 'bg-muted text-foreground'}`}
+                    >
                         {t(value || '-')}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'warning_date',
             header: t('Warning Date'),
             sortable: false,
-            render: (value: string) => value ? formatDate(value) : '-'
+            render: (value: string) => (value ? formatDate(value) : '-'),
         },
         {
             key: 'status',
@@ -143,101 +159,127 @@ export default function Index() {
             sortable: false,
             render: (value: string) => {
                 const statusColors = {
-                    'pending': 'bg-muted text-foreground',
-                    'approved': 'bg-muted text-foreground',
-                    'rejected': 'bg-muted text-destructive'
+                    pending: 'bg-muted text-foreground',
+                    approved: 'bg-muted text-foreground',
+                    rejected: 'bg-muted text-destructive',
                 };
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground'}`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
+                    >
                         {t(value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Pending')}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'document',
             header: t('Document'),
             sortable: false,
-            render: (_: any, warning: Warning) => (
+            render: (_: any, warning: Warning) =>
                 warning.document ? (
-                    <a href={getImagePath(warning.document)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-foreground hover:text-foreground">
+                    <a
+                        href={getImagePath(warning.document)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-foreground hover:text-foreground"
+                    >
                         <FileImage className="h-4 w-4" />
                     </a>
-                ) : '-'
-            )
+                ) : (
+                    '-'
+                ),
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-warnings', 'manage-warning-response', 'edit-warnings', 'delete-warnings'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, warning: Warning) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-
-                        {auth.user?.permissions?.includes('manage-warning-response') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('response', warning)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Play className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Response')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('view-warnings') && (warning.status === 'approved' || warning.status === 'rejected') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('view', warning)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-warnings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', warning)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-warnings') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(warning.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-warnings', 'manage-warning-response', 'edit-warnings', 'delete-warnings'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, warning: Warning) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('manage-warning-response') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('response', warning)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Play className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Response')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('view-warnings') &&
+                                      (warning.status === 'approved' || warning.status === 'rejected') && (
+                                          <Tooltip delayDuration={0}>
+                                              <TooltipTrigger asChild>
+                                                  <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => openModal('view', warning)}
+                                                      className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                                  >
+                                                      <Eye className="h-4 w-4" />
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent>
+                                                  <p>{t('View')}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )}
+                                  {auth.user?.permissions?.includes('edit-warnings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', warning)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-warnings') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(warning.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Hrm'), url: route('hrm.index') },
-                { label: t('Warnings') }
-            ]}
+            breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Warnings') }]}
             pageTitle={t('Manage Warnings')}
             pageActions={
                 <TooltipProvider>
@@ -261,9 +303,9 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.subject}
                                 onChange={(value) => setFilters({ ...filters, subject: value })}
@@ -277,21 +319,19 @@ export default function Index() {
                                 routeName="hrm.warnings.index"
                                 filters={{ ...filters, per_page: perPage }}
                             />
-                            <PerPageSelector
-                                routeName="hrm.warnings.index"
-                                filters={{ ...filters, view: viewMode }}
-                            />
+                            <PerPageSelector routeName="hrm.warnings.index" filters={{ ...filters, view: viewMode }} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.employee_id !== 'all' ? filters.employee_id : ''].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.employee_id !== 'all' ? filters.employee_id : '',
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -301,12 +341,17 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
                         {auth.user?.permissions?.includes('manage-employees') && (
-                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-foreground mb-2">{t('Employee')}</label>
-                                    <Select value={filters.employee_id} onValueChange={(value) => setFilters({ ...filters, employee_id: value })}>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">
+                                        {t('Employee')}
+                                    </label>
+                                    <Select
+                                        value={filters.employee_id}
+                                        onValueChange={(value) => setFilters({ ...filters, employee_id: value })}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder={t('All Employees')} />
                                         </SelectTrigger>
@@ -321,8 +366,12 @@ export default function Index() {
                                     </Select>
                                 </div>
                                 <div className="flex items-end gap-2">
-                                    <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                    <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                    <Button onClick={handleFilter} size="sm">
+                                        {t('Apply')}
+                                    </Button>
+                                    <Button variant="outline" onClick={clearFilters} size="sm">
+                                        {t('Clear')}
+                                    </Button>
                                 </div>
                             </div>
                         )}
@@ -332,7 +381,7 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={(warnings as any)?.data || []}
@@ -346,7 +395,12 @@ export default function Index() {
                                             icon={AlertOctagonIcon}
                                             title={t('No Warnings found')}
                                             description={t('Get started by creating your first Warning.')}
-                                            hasFilters={!!(filters.subject || (filters.employee_id !== 'all' && filters.employee_id))}
+                                            hasFilters={
+                                                !!(
+                                                    filters.subject ||
+                                                    (filters.employee_id !== 'all' && filters.employee_id)
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-warnings"
                                             onCreateClick={() => openModal('add')}
@@ -358,86 +412,134 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {(warnings as any)?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {(warnings as any)?.data?.map((warning: Warning) => (
-                                        <Card key={warning.id} className="p-0 hover:shadow-lg transition-all duration-200 relative overflow-hidden flex flex-col h-full min-w-0">
+                                        <Card
+                                            key={warning.id}
+                                            className="relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-200 hover:shadow-lg"
+                                        >
                                             {/* Header */}
-                                            <div className="p-4 bg-gradient-to-r from-primary/5 to-transparent border-b flex-shrink-0">
+                                            <div className="flex-shrink-0 border-b bg-gradient-to-r from-primary/5 to-transparent p-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-12 h-12 bg-foreground/10 rounded-lg flex items-center justify-center">
+                                                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-foreground/10">
                                                         <AlertOctagonIcon className="h-6 w-6 text-foreground" />
                                                     </div>
-                                                    <h3 className="font-semibold text-lg truncate">{warning.employee?.name || 'Unknown Employee'}</h3>
+                                                    <h3 className="truncate text-lg font-semibold">
+                                                        {warning.employee?.name || 'Unknown Employee'}
+                                                    </h3>
                                                 </div>
                                             </div>
 
                                             {/* Body */}
-                                            <div className="p-4 flex-1 min-h-0">
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Warning By')}</p>
-                                                        <p className="font-medium text-xs">{warning.warning_by?.name || '-'}</p>
+                                            <div className="min-h-0 flex-1 p-4">
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Warning By')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {warning.warning_by?.name || '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Warning Date')}</p>
-                                                        <p className="font-medium text-xs">{warning.warning_date ? formatDate(warning.warning_date) : '-'}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Warning Date')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {warning.warning_date
+                                                                ? formatDate(warning.warning_date)
+                                                                : '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Warning Type')}</p>
-                                                        <p className="font-medium text-xs">{warning.warning_type?.warning_type_name || '-'}</p>
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Warning Type')}
+                                                        </p>
+                                                        <p className="text-xs font-medium">
+                                                            {warning.warning_type?.warning_type_name || '-'}
+                                                        </p>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Document')}</p>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Document')}
+                                                        </p>
                                                         {warning.document ? (
-                                                            <a href={getImagePath(warning.document)} target="_blank" className="text-foreground hover:text-foreground flex items-center gap-1 text-xs">
+                                                            <a
+                                                                href={getImagePath(warning.document)}
+                                                                target="_blank"
+                                                                className="flex items-center gap-1 text-xs text-foreground hover:text-foreground"
+                                                            >
                                                                 <FileImage className="h-3 w-3" />
                                                                 {t('View')}
                                                             </a>
                                                         ) : (
-                                                            <p className="font-medium text-xs">-</p>
+                                                            <p className="text-xs font-medium">-</p>
                                                         )}
                                                     </div>
                                                 </div>
 
-                                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Status')}</p>
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium inline-block ${
-                                                            warning.status === 'pending' ? 'bg-muted text-foreground' :
-                                                            warning.status === 'approved' ? 'bg-muted text-foreground' :
-                                                            warning.status === 'rejected' ? 'bg-muted text-destructive' :
-                                                            'bg-muted text-foreground'
-                                                        }`}>
-                                                            {t(warning.status ? warning.status.charAt(0).toUpperCase() + warning.status.slice(1) : 'Pending')}
+                                                <div className="mb-4 grid grid-cols-2 gap-4">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Status')}
+                                                        </p>
+                                                        <span
+                                                            className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${
+                                                                warning.status === 'pending'
+                                                                    ? 'bg-muted text-foreground'
+                                                                    : warning.status === 'approved'
+                                                                      ? 'bg-muted text-foreground'
+                                                                      : warning.status === 'rejected'
+                                                                        ? 'bg-muted text-destructive'
+                                                                        : 'bg-muted text-foreground'
+                                                            }`}
+                                                        >
+                                                            {t(
+                                                                warning.status
+                                                                    ? warning.status.charAt(0).toUpperCase() +
+                                                                          warning.status.slice(1)
+                                                                    : 'Pending'
+                                                            )}
                                                         </span>
                                                     </div>
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Severity')}</p>
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium inline-block ${
-                                                            warning.severity === 'Minor' ? 'bg-muted text-foreground' :
-                                                            warning.severity === 'Moderate' ? 'bg-muted text-foreground' :
-                                                            warning.severity === 'Major' ? 'bg-muted text-destructive' :
-                                                            'bg-muted text-foreground'
-                                                        }`}>
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Severity')}
+                                                        </p>
+                                                        <span
+                                                            className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${
+                                                                warning.severity === 'Minor'
+                                                                    ? 'bg-muted text-foreground'
+                                                                    : warning.severity === 'Moderate'
+                                                                      ? 'bg-muted text-foreground'
+                                                                      : warning.severity === 'Major'
+                                                                        ? 'bg-muted text-destructive'
+                                                                        : 'bg-muted text-foreground'
+                                                            }`}
+                                                        >
                                                             {t(warning.severity || '-')}
                                                         </span>
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
 
                                             {/* Actions Footer */}
-                                            <div className="flex justify-end gap-2 p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
+                                            <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 justify-end gap-2 border-t p-3">
                                                 <TooltipProvider>
                                                     {auth.user?.permissions?.includes('manage-warning-response') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('response', warning)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('response', warning)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <Play className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -446,22 +548,34 @@ export default function Index() {
                                                             </TooltipContent>
                                                         </Tooltip>
                                                     )}
-                                                    {auth.user?.permissions?.includes('view-warnings') && (warning.status === 'approved' || warning.status === 'rejected') && (
-                                                        <Tooltip delayDuration={300}>
-                                                            <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('view', warning)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
-                                                                    <Eye className="h-4 w-4" />
-                                                                </Button>
-                                                            </TooltipTrigger>
-                                                            <TooltipContent>
-                                                                <p>{t('View')}</p>
-                                                            </TooltipContent>
-                                                        </Tooltip>
-                                                    )}
+                                                    {auth.user?.permissions?.includes('view-warnings') &&
+                                                        (warning.status === 'approved' ||
+                                                            warning.status === 'rejected') && (
+                                                            <Tooltip delayDuration={300}>
+                                                                <TooltipTrigger asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        onClick={() => openModal('view', warning)}
+                                                                        className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                    >
+                                                                        <Eye className="h-4 w-4" />
+                                                                    </Button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    <p>{t('View')}</p>
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        )}
                                                     {auth.user?.permissions?.includes('edit-warnings') && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
-                                                                <Button variant="ghost" size="sm" onClick={() => openModal('edit', warning)} className="h-9 w-9 p-0 text-foreground hover:text-foreground">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => openModal('edit', warning)}
+                                                                    className="h-9 w-9 p-0 text-foreground hover:text-foreground"
+                                                                >
                                                                     <EditIcon className="h-4 w-4" />
                                                                 </Button>
                                                             </TooltipTrigger>
@@ -497,7 +611,9 @@ export default function Index() {
                                     icon={AlertOctagonIcon}
                                     title={t('No Warnings found')}
                                     description={t('Get started by creating your first Warning.')}
-                                    hasFilters={!!(filters.subject || (filters.employee_id !== 'all' && filters.employee_id))}
+                                    hasFilters={
+                                        !!(filters.subject || (filters.employee_id !== 'all' && filters.employee_id))
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-warnings"
                                     onCreateClick={() => openModal('add')}
@@ -509,9 +625,9 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={warnings as any || { data: [], links: [], meta: {} }}
+                        data={(warnings as any) || { data: [], links: [], meta: {} }}
                         routeName="hrm.warnings.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />
@@ -519,30 +635,17 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditWarning
-                        warning={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditWarning warning={modalState.data} onSuccess={closeModal} />
                 )}
                 {modalState.mode === 'response' && modalState.data && (
-                    <WarningResponse
-                        warning={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <WarningResponse warning={modalState.data} onSuccess={closeModal} />
                 )}
                 {modalState.mode === 'view' && modalState.data && (
-                    <WarningView
-                        warning={modalState.data}
-                        onClose={closeModal}
-                    />
+                    <WarningView warning={modalState.data} onClose={closeModal} />
                 )}
             </Dialog>
-
-
 
             <ConfirmationDialog
                 open={deleteState.isOpen}

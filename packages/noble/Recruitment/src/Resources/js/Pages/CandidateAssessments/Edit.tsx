@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -31,7 +31,7 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
         put(route('recruitment.candidate-assessments.update', candidateassessment.id), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -42,8 +42,14 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="candidate_id" required>{t('Candidate')} </Label>
-                    <Select value={data.candidate_id?.toString() || ''} onValueChange={(value) => setData('candidate_id', value)} required>
+                    <Label htmlFor="candidate_id" required>
+                        {t('Candidate')}{' '}
+                    </Label>
+                    <Select
+                        value={data.candidate_id?.toString() || ''}
+                        onValueChange={(value) => setData('candidate_id', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={t('Select Candidate')} />
                         </SelectTrigger>
@@ -56,18 +62,19 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
                         </SelectContent>
                     </Select>
                     <InputError message={errors.candidate_id} />
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="mt-1 text-xs text-muted-foreground">
                         {t('Only candidates with Strong Hire/Hire recommendations are shown.')}
                     </p>
                     {(!candidates || candidates.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create candidate here. ')}
                             <a
                                 href={route('recruitment.candidates.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('candidate')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>
@@ -114,8 +121,14 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
                 </div>
 
                 <div>
-                    <Label htmlFor="pass_fail_status" required>{t('Status')} </Label>
-                    <Select value={data.pass_fail_status?.toString() || '2'} onValueChange={(value) => setData('pass_fail_status', value)} required>
+                    <Label htmlFor="pass_fail_status" required>
+                        {t('Status')}{' '}
+                    </Label>
+                    <Select
+                        value={data.pass_fail_status?.toString() || '2'}
+                        onValueChange={(value) => setData('pass_fail_status', value)}
+                        required
+                    >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
@@ -129,7 +142,9 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
                 </div>
 
                 <div>
-                    <Label htmlFor="conducted_by" required>{t('Conducted by')} </Label>
+                    <Label htmlFor="conducted_by" required>
+                        {t('Conducted by')}{' '}
+                    </Label>
                     <Select
                         value={data.conducted_by?.toString() || ''}
                         onValueChange={(value) => setData('conducted_by', value)}
@@ -147,18 +162,17 @@ export default function EditCandidateAssessment({ candidateassessment, onSuccess
                         </SelectContent>
                     </Select>
                     <InputError message={errors.conducted_by} />
-                    <p className="text-xs text-muted-foreground mt-1">
-                        {t('Conducted by are users with staff role.')}
-                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">{t('Conducted by are users with staff role.')}</p>
                     {(!users || users.length === 0) && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             {t('Create user here. ')}
                             <a
                                 href={route('users.index')}
-                                className="text-foreground hover:text-foreground cursor-pointer"
+                                className="cursor-pointer text-foreground hover:text-foreground"
                             >
                                 {t('Create User')}
-                            </a>.
+                            </a>
+                            .
                         </p>
                     )}
                 </div>

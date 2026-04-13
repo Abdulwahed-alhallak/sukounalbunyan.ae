@@ -67,7 +67,7 @@ export interface UserModalState {
 export interface UsersIndexProps {
     users: PaginatedUsers;
     roles: Record<string, string>;
-    plans?: { id: number; name: string; }[];
+    plans?: { id: number; name: string }[];
     auth: AuthContext;
     [key: string]: unknown;
 }

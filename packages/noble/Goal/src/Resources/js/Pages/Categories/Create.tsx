@@ -1,7 +1,7 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useForm } from "@inertiajs/react";
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Create({ onSuccess }: CreateCategoryProps) {
-    const {  } = usePage<any>().props;
+    const {} = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateCategoryFormData>({
@@ -23,14 +23,12 @@ export default function Create({ onSuccess }: CreateCategoryProps) {
         is_active: true,
     });
 
-
-
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('goal.categories.store'), {
             onSuccess: () => {
                 onSuccess();
-            }
+            },
         });
     };
 
@@ -52,7 +50,7 @@ export default function Create({ onSuccess }: CreateCategoryProps) {
                     />
                     <InputError message={errors.category_name} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="category_code">{t('Category Code')}</Label>
                     <Input
@@ -65,7 +63,7 @@ export default function Create({ onSuccess }: CreateCategoryProps) {
                     />
                     <InputError message={errors.category_code} />
                 </div>
-                
+
                 <div>
                     <Label htmlFor="description">{t('Description')}</Label>
                     <Textarea
@@ -77,9 +75,7 @@ export default function Create({ onSuccess }: CreateCategoryProps) {
                     />
                     <InputError message={errors.description} />
                 </div>
-                
 
-                
                 <div className="flex items-center space-x-2">
                     <Switch
                         id="is_active"
@@ -89,7 +85,7 @@ export default function Create({ onSuccess }: CreateCategoryProps) {
                     <Label htmlFor="is_active">{t('Is Active')}</Label>
                     <InputError message={errors.is_active} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

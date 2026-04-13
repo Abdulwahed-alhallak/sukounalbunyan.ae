@@ -24,7 +24,16 @@ interface EditProps {
     users: User[];
 }
 
-export default function EditTraining({ data: initialData, training, onSuccess, trainingTypes, trainers, branches, departments, users }: EditProps) {
+export default function EditTraining({
+    data: initialData,
+    training,
+    onSuccess,
+    trainingTypes,
+    trainers,
+    branches,
+    departments,
+    users,
+}: EditProps) {
     const { t } = useTranslation();
     const [filteredDepartments, setFilteredDepartments] = useState(departments || []);
     const [filteredUsers, setFilteredUsers] = useState(users || []);
@@ -48,7 +57,17 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
     });
 
     // AI hooks for description field
-    const descriptionAI = useFormFields('aiField', data, setData, errors, 'edit', 'description', 'Description', 'training', 'training');
+    const descriptionAI = useFormFields(
+        'aiField',
+        data,
+        setData,
+        errors,
+        'edit',
+        'description',
+        'Description',
+        'training',
+        'training'
+    );
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,9 +80,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
 
     useEffect(() => {
         if (data.branch_id) {
-            const branchDepartments = departments.filter(dept => dept.branch_id.toString() === data.branch_id);
+            const branchDepartments = departments.filter((dept) => dept.branch_id.toString() === data.branch_id);
             setFilteredDepartments(branchDepartments);
-            if (data.department_id && !branchDepartments.find(dept => dept.id.toString() === data.department_id)) {
+            if (data.department_id && !branchDepartments.find((dept) => dept.id.toString() === data.department_id)) {
                 setData('department_id', '');
             }
         } else {
@@ -74,9 +93,8 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
 
     useEffect(() => {
         if (data.branch_id && users) {
-            const branchUsers = users.filter(user => user.branch_id?.toString() === data.branch_id);
+            const branchUsers = users.filter((user) => user.branch_id?.toString() === data.branch_id);
             setFilteredUsers(branchUsers);
-
         } else {
             setFilteredUsers(users || []);
         }
@@ -91,7 +109,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="title" required>{t('Title')}</Label>
+                        <Label htmlFor="title" required>
+                            {t('Title')}
+                        </Label>
                         <Input
                             id="title"
                             value={data.title}
@@ -103,8 +123,13 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="training_type_id" required>{t('Training Type')}</Label>
-                        <Select value={data.training_type_id} onValueChange={(value) => setData('training_type_id', value)}>
+                        <Label htmlFor="training_type_id" required>
+                            {t('Training Type')}
+                        </Label>
+                        <Select
+                            value={data.training_type_id}
+                            onValueChange={(value) => setData('training_type_id', value)}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select training type')} />
                             </SelectTrigger>
@@ -120,7 +145,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="trainer_id" required>{t('Trainer')}</Label>
+                        <Label htmlFor="trainer_id" required>
+                            {t('Trainer')}
+                        </Label>
                         <Select value={data.trainer_id} onValueChange={(value) => setData('trainer_id', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select trainer')} />
@@ -137,7 +164,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="status" required>{t('Status')}</Label>
+                        <Label htmlFor="status" required>
+                            {t('Status')}
+                        </Label>
                         <Select value={data.status} onValueChange={(value) => setData('status', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select status')} />
@@ -153,7 +182,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="branch_id" required>{t('Branch')}</Label>
+                        <Label htmlFor="branch_id" required>
+                            {t('Branch')}
+                        </Label>
                         <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={t('Select branch')} />
@@ -170,14 +201,18 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="department_id" required>{t('Department')}</Label>
+                        <Label htmlFor="department_id" required>
+                            {t('Department')}
+                        </Label>
                         <Select
                             value={data.department_id}
                             onValueChange={(value) => setData('department_id', value)}
                             disabled={!data.branch_id}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')} />
+                                <SelectValue
+                                    placeholder={data.branch_id ? t('Select Department') : t('Select Branch first')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredDepartments?.map((department) => (
@@ -211,7 +246,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="start_time" required>{t('Start Time')}</Label>
+                        <Label htmlFor="start_time" required>
+                            {t('Start Time')}
+                        </Label>
                         <Input
                             id="start_time"
                             type="time"
@@ -223,7 +260,9 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     </div>
 
                     <div>
-                        <Label htmlFor="end_time" required>{t('End Time')}</Label>
+                        <Label htmlFor="end_time" required>
+                            {t('End Time')}
+                        </Label>
                         <Input
                             id="end_time"
                             type="time"
@@ -260,10 +299,12 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                 </div>
 
                 <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                         <Label htmlFor="description">{t('Description')}</Label>
                         <div className="flex gap-2">
-                            {descriptionAI?.map(field => <div key={field.id}>{field.component}</div>)}
+                            {descriptionAI?.map((field) => (
+                                <div key={field.id}>{field.component}</div>
+                            ))}
                         </div>
                     </div>
                     <Textarea
@@ -289,7 +330,7 @@ export default function EditTraining({ data: initialData, training, onSuccess, t
                     />
                     <InputError message={errors.cost} />
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={onSuccess}>
                         {t('Cancel')}

@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Edit as EditIcon, Trash2, Eye, Calendar as CalendarIcon, Download, FileImage } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Edit as EditIcon, Trash2, Eye, Calendar as CalendarIcon, Download, FileImage } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import { ListGridToggle } from '@/components/ui/list-grid-toggle';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -28,7 +28,8 @@ import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } 
 
 export default function Index() {
     const { t } = useTranslation();
-    const { interviews, auth, candidates, jobpostings, interviewrounds, interviewtypes } = usePage<InterviewsIndexProps>().props;
+    const { interviews, auth, candidates, jobpostings, interviewrounds, interviewtypes } =
+        usePage<InterviewsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<InterviewFilters>({
@@ -42,19 +43,18 @@ export default function Index() {
     const [perPage] = useState(urlParams.get('per_page') || '10');
     const [sortField, setSortField] = useState(urlParams.get('sort') || '');
     const [sortDirection, setSortDirection] = useState(urlParams.get('direction') || 'asc');
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>(urlParams.get('view') as 'list' | 'grid' || 'list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>((urlParams.get('view') as 'list' | 'grid') || 'list');
     const [modalState, setModalState] = useState<InterviewModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
     const [viewingItem, setViewingItem] = useState<Interview | null>(null);
     const [showFilters, setShowFilters] = useState(false);
 
-
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'recruitment.interviews.destroy',
-        defaultMessage: t('Are you sure you want to delete this interview?')
+        defaultMessage: t('Are you sure you want to delete this interview?'),
     });
 
     const handleFilter = () => {
@@ -62,10 +62,14 @@ export default function Index() {
         if (filterParams.feedback === 'all') {
             filterParams.feedback = '';
         }
-        router.get(route('recruitment.interviews.index'), { ...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.interviews.index'),
+            { ...filterParams, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
@@ -76,10 +80,14 @@ export default function Index() {
         if (filterParams.feedback === 'all') {
             filterParams.feedback = '';
         }
-        router.get(route('recruitment.interviews.index'), { ...filterParams, per_page: perPage, sort: field, direction, view: viewMode }, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('recruitment.interviews.index'),
+            { ...filterParams, per_page: perPage, sort: field, direction, view: viewMode },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
@@ -102,9 +110,8 @@ export default function Index() {
     };
 
     // Check if any interview has non-remote job to show location column
-    const hasNonRemoteJobs = interviews?.data?.some((interview: any) =>
-        !interview.jobPosting?.location?.remote_work
-    ) || false;
+    const hasNonRemoteJobs =
+        interviews?.data?.some((interview: any) => !interview.jobPosting?.location?.remote_work) || false;
 
     const tableColumns = [
         {
@@ -113,22 +120,34 @@ export default function Index() {
             sortable: true,
             render: (value: any, row: any) => (
                 <div>
-                    <div className="font-medium">{`${row.candidate?.first_name || ''} ${row.candidate?.last_name || ''}`.trim() || '-'}</div>
-                    <div className="text-xs text-muted-foreground">{row.jobPosting?.title || row.job_posting?.title || (row.job_id ? `Job ID: ${row.job_id}` : '-')}</div>
+                    <div className="font-medium">
+                        {`${row.candidate?.first_name || ''} ${row.candidate?.last_name || ''}`.trim() || '-'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                        {row.jobPosting?.title ||
+                            row.job_posting?.title ||
+                            (row.job_id ? `Job ID: ${row.job_id}` : '-')}
+                    </div>
                 </div>
-            )
+            ),
         },
         {
             key: 'round_name',
             header: t('Round'),
             sortable: true,
-            render: (value: any, row: any) => row.interviewRound?.name || row.interview_round?.name || (row.round_id ? `Round ID: ${row.round_id}` : '-')
+            render: (value: any, row: any) =>
+                row.interviewRound?.name ||
+                row.interview_round?.name ||
+                (row.round_id ? `Round ID: ${row.round_id}` : '-'),
         },
         {
             key: 'interview_type_name',
             header: t('Interview Type'),
             sortable: true,
-            render: (value: any, row: any) => row.interviewType?.name || row.interview_type?.name || (row.interview_type_id ? `Type ID: ${row.interview_type_id}` : '-')
+            render: (value: any, row: any) =>
+                row.interviewType?.name ||
+                row.interview_type?.name ||
+                (row.interview_type_id ? `Type ID: ${row.interview_type_id}` : '-'),
         },
         {
             key: 'scheduled_date',
@@ -137,125 +156,150 @@ export default function Index() {
             render: (value: any, row: any) => (
                 <div>
                     <div className="font-medium">{formatDate(row.scheduled_date) || '-'}</div>
-                    <div className="text-xs text-muted-foreground">{formatTime(row.scheduled_time) || '-'} ({row.duration ? `${row.duration} min` : '-'})</div>
+                    <div className="text-xs text-muted-foreground">
+                        {formatTime(row.scheduled_time) || '-'} ({row.duration ? `${row.duration} min` : '-'})
+                    </div>
                 </div>
-            )
+            ),
         },
-        ...(hasNonRemoteJobs ? [{
-            key: 'location',
-            header: t('Location'),
-            sortable: false,
-            render: (value: any, row: any) => {
-                const location = row.location || '-';
-                return location === 'Online' ? (
-                    <span className="text-foreground font-medium">
-                        {location}
-                    </span>
-                ) : location;
-            }
-        }] : []),
+        ...(hasNonRemoteJobs
+            ? [
+                  {
+                      key: 'location',
+                      header: t('Location'),
+                      sortable: false,
+                      render: (value: any, row: any) => {
+                          const location = row.location || '-';
+                          return location === 'Online' ? (
+                              <span className="font-medium text-foreground">{location}</span>
+                          ) : (
+                              location
+                          );
+                      },
+                  },
+              ]
+            : []),
         {
             key: 'status',
             header: t('Status'),
             sortable: false,
             render: (value: string, row: any) => {
-                const options: any = { "0": "Scheduled", "1": "Completed", "2": "Cancelled", "3": "No-show" };
+                const options: any = { '0': 'Scheduled', '1': 'Completed', '2': 'Cancelled', '3': 'No-show' };
                 const statusValue = String(row.status || value || '0');
                 const displayValue = options[statusValue] || statusValue || '-';
 
                 const getStatusColor = (status: string) => {
-                    switch(status) {
-                        case '0': return 'bg-muted text-foreground'; // Scheduled
-                        case '1': return 'bg-muted text-foreground'; // Completed
-                        case '2': return 'bg-muted text-destructive'; // Cancelled
-                        case '3': return 'bg-muted text-foreground'; // No-show
-                        default: return 'bg-muted text-foreground';
+                    switch (status) {
+                        case '0':
+                            return 'bg-muted text-foreground'; // Scheduled
+                        case '1':
+                            return 'bg-muted text-foreground'; // Completed
+                        case '2':
+                            return 'bg-muted text-destructive'; // Cancelled
+                        case '3':
+                            return 'bg-muted text-foreground'; // No-show
+                        default:
+                            return 'bg-muted text-foreground';
                     }
                 };
 
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(statusValue)}`}>
+                    <span className={`rounded-full px-2 py-1 text-sm ${getStatusColor(statusValue)}`}>
                         {t(displayValue)}
                     </span>
                 );
-            }
+            },
         },
         {
             key: 'feedback_submitted',
             header: t('Feedback'),
             sortable: false,
             render: (value: any, row: any) => {
-                const isSubmitted = row.feedback_submitted === true || row.feedback_submitted === 1 || row.feedback_submitted === '1';
+                const isSubmitted =
+                    row.feedback_submitted === true || row.feedback_submitted === 1 || row.feedback_submitted === '1';
                 return (
-                    <span className={`px-2 py-1 rounded-full text-sm ${
-                        isSubmitted
-                            ? 'bg-muted text-foreground'
-                            : 'bg-muted text-foreground'
-                    }`}>
+                    <span
+                        className={`rounded-full px-2 py-1 text-sm ${
+                            isSubmitted ? 'bg-muted text-foreground' : 'bg-muted text-foreground'
+                        }`}
+                    >
                         {t(isSubmitted ? 'Submitted' : 'Pending')}
                     </span>
                 );
-            }
+            },
         },
-        ...(auth.user?.permissions?.some((p: string) => ['view-interviews', 'edit-interviews', 'delete-interviews'].includes(p)) ? [{
-            key: 'actions',
-            header: t('Actions'),
-            render: (_: any, interview: Interview) => (
-                <div className="flex gap-1">
-                    <TooltipProvider>
-                        {auth.user?.permissions?.includes('view-interviews') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => setViewingItem(interview)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <Eye className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('View')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('edit-interviews') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="sm" onClick={() => openModal('edit', interview)} className="h-8 w-8 p-0 text-foreground hover:text-foreground">
-                                        <EditIcon className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Edit')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                        {auth.user?.permissions?.includes('delete-interviews') && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openDeleteDialog(interview.id)}
-                                        className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Delete')}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </TooltipProvider>
-                </div>
-            )
-        }] : [])
+        ...(auth.user?.permissions?.some((p: string) =>
+            ['view-interviews', 'edit-interviews', 'delete-interviews'].includes(p)
+        )
+            ? [
+                  {
+                      key: 'actions',
+                      header: t('Actions'),
+                      render: (_: any, interview: Interview) => (
+                          <div className="flex gap-1">
+                              <TooltipProvider>
+                                  {auth.user?.permissions?.includes('view-interviews') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => setViewingItem(interview)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <Eye className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('View')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('edit-interviews') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openModal('edit', interview)}
+                                                  className="h-8 w-8 p-0 text-foreground hover:text-foreground"
+                                              >
+                                                  <EditIcon className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Edit')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                                  {auth.user?.permissions?.includes('delete-interviews') && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => openDeleteDialog(interview.id)}
+                                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                              >
+                                                  <Trash2 className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Delete')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
+                                  )}
+                              </TooltipProvider>
+                          </div>
+                      ),
+                  },
+              ]
+            : []),
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[
-                { label: t('Recruitment'), url: route('recruitment.index') },
-                { label: t('Interviews') }
-            ]}
+            breadcrumbs={[{ label: t('Recruitment'), url: route('recruitment.index') }, { label: t('Interviews') }]}
             pageTitle={t('Manage Interviews')}
             pageActions={
                 <TooltipProvider>
@@ -279,9 +323,9 @@ export default function Index() {
             {/* Main Content Card */}
             <Card className="shadow-sm">
                 {/* Search & Controls Header */}
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.location}
                                 onChange={(value) => setFilters({ ...filters, location: value })}
@@ -300,16 +344,20 @@ export default function Index() {
                                 filters={{ ...filters, view: viewMode }}
                             />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                                 {(() => {
-                                    const activeFilters = [filters.interview_date, filters.feedback !== 'all' ? filters.feedback : '', filters.status, filters.interview_type_id !== 'all' ? filters.interview_type_id : ''].filter(f => f !== '' && f !== null && f !== undefined).length;
-                                    return activeFilters > 0 && (
-                                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                                            {activeFilters}
-                                        </span>
+                                    const activeFilters = [
+                                        filters.interview_date,
+                                        filters.feedback !== 'all' ? filters.feedback : '',
+                                        filters.status,
+                                        filters.interview_type_id !== 'all' ? filters.interview_type_id : '',
+                                    ].filter((f) => f !== '' && f !== null && f !== undefined).length;
+                                    return (
+                                        activeFilters > 0 && (
+                                            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                                                {activeFilters}
+                                            </span>
+                                        )
                                     );
                                 })()}
                             </div>
@@ -319,10 +367,12 @@ export default function Index() {
 
                 {/* Advanced Filters */}
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/50/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <CardContent className="bg-muted/50/30 border-b p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Interview Date')}</label>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Interview Date')}
+                                </label>
                                 <DatePicker
                                     value={filters.interview_date}
                                     onChange={(value) => setFilters({ ...filters, interview_date: value })}
@@ -330,8 +380,13 @@ export default function Index() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Interview Type')}</label>
-                                <Select value={filters.interview_type_id} onValueChange={(value) => setFilters({ ...filters, interview_type_id: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Interview Type')}
+                                </label>
+                                <Select
+                                    value={filters.interview_type_id}
+                                    onValueChange={(value) => setFilters({ ...filters, interview_type_id: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Types')} />
                                     </SelectTrigger>
@@ -346,8 +401,13 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Feedback')}</label>
-                                <Select value={filters.feedback} onValueChange={(value) => setFilters({ ...filters, feedback: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('Feedback')}
+                                </label>
+                                <Select
+                                    value={filters.feedback}
+                                    onValueChange={(value) => setFilters({ ...filters, feedback: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('All Feedback')} />
                                     </SelectTrigger>
@@ -359,8 +419,11 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('Status')}</label>
-                                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">{t('Status')}</label>
+                                <Select
+                                    value={filters.status}
+                                    onValueChange={(value) => setFilters({ ...filters, status: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by Status')} />
                                     </SelectTrigger>
@@ -373,8 +436,12 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
@@ -383,7 +450,7 @@ export default function Index() {
                 {/* Table Content */}
                 <CardContent className="p-0">
                     {viewMode === 'list' ? (
-                        <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                             <div className="min-w-[800px]">
                                 <DataTable
                                     data={interviews?.data || []}
@@ -397,7 +464,15 @@ export default function Index() {
                                             icon={CalendarIcon}
                                             title={t('No Interviews found')}
                                             description={t('Get started by creating your first Interview.')}
-                                            hasFilters={!!(filters.location || filters.interview_date || (filters.feedback && filters.feedback !== 'all') || filters.status || (filters.interview_type_id && filters.interview_type_id !== 'all'))}
+                                            hasFilters={
+                                                !!(
+                                                    filters.location ||
+                                                    filters.interview_date ||
+                                                    (filters.feedback && filters.feedback !== 'all') ||
+                                                    filters.status ||
+                                                    (filters.interview_type_id && filters.interview_type_id !== 'all')
+                                                )
+                                            }
                                             onClearFilters={clearFilters}
                                             createPermission="create-interviews"
                                             onCreateClick={() => openModal('add')}
@@ -409,80 +484,150 @@ export default function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="overflow-auto max-h-[70vh] p-6">
+                        <div className="max-h-[70vh] overflow-auto p-6">
                             {interviews?.data?.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                                     {interviews?.data?.map((interview) => {
-                                        const statusOptions: any = { "0": "Scheduled", "1": "Completed", "2": "Cancelled", "3": "No-show" };
-                                        const statusColors: any = { "0": "bg-muted text-foreground", "1": "bg-muted text-foreground", "2": "bg-muted text-destructive", "3": "bg-muted text-foreground" };
+                                        const statusOptions: any = {
+                                            '0': 'Scheduled',
+                                            '1': 'Completed',
+                                            '2': 'Cancelled',
+                                            '3': 'No-show',
+                                        };
+                                        const statusColors: any = {
+                                            '0': 'bg-muted text-foreground',
+                                            '1': 'bg-muted text-foreground',
+                                            '2': 'bg-muted text-destructive',
+                                            '3': 'bg-muted text-foreground',
+                                        };
                                         const statusValue = String(interview.status || '0');
-                                        const statusInfo = { label: statusOptions[statusValue] || statusValue || '-', class: statusColors[statusValue as keyof typeof statusColors] || 'bg-muted text-foreground' };
-                                        const isSubmitted = interview.feedback_submitted === true || interview.feedback_submitted === 1 || interview.feedback_submitted === '1';
+                                        const statusInfo = {
+                                            label: statusOptions[statusValue] || statusValue || '-',
+                                            class:
+                                                statusColors[statusValue as keyof typeof statusColors] ||
+                                                'bg-muted text-foreground',
+                                        };
+                                        const isSubmitted =
+                                            interview.feedback_submitted === true ||
+                                            interview.feedback_submitted === 1 ||
+                                            interview.feedback_submitted === '1';
 
                                         return (
-                                            <Card key={interview.id} className="flex flex-col h-full hover:shadow-md transition-shadow duration-200">
-                                                <div className="flex items-center gap-3 p-3 border-b bg-muted/50/50">
-                                                    <div className="p-2 bg-foreground/10 rounded-lg flex-shrink-0">
+                                            <Card
+                                                key={interview.id}
+                                                className="flex h-full flex-col transition-shadow duration-200 hover:shadow-md"
+                                            >
+                                                <div className="bg-muted/50/50 flex items-center gap-3 border-b p-3">
+                                                    <div className="flex-shrink-0 rounded-lg bg-foreground/10 p-2">
                                                         <CalendarIcon className="h-5 w-5 text-foreground" />
                                                     </div>
                                                     <div className="min-w-0 flex-1">
-                                                        <h3 className="font-semibold text-sm leading-tight">{`${interview.candidate?.first_name || ''} ${interview.candidate?.last_name || ''}`.trim() || 'Unknown Candidate'}</h3>
-                                                        <p className="text-xs text-muted-foreground">{interview.jobPosting?.title || interview.job_posting?.title || '-'}</p>
+                                                        <h3 className="text-sm font-semibold leading-tight">
+                                                            {`${interview.candidate?.first_name || ''} ${interview.candidate?.last_name || ''}`.trim() ||
+                                                                'Unknown Candidate'}
+                                                        </h3>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {interview.jobPosting?.title ||
+                                                                interview.job_posting?.title ||
+                                                                '-'}
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex-1 p-3 space-y-3">
-                                                    <div className="text-xs min-w-0">
-                                                        <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Schedule Date & Time')}</p>
-                                                        <p className="font-medium">{formatDate(interview.scheduled_date)} • {formatTime(interview.scheduled_time)}</p>
+                                                <div className="flex-1 space-y-3 p-3">
+                                                    <div className="min-w-0 text-xs">
+                                                        <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                            {t('Schedule Date & Time')}
+                                                        </p>
+                                                        <p className="font-medium">
+                                                            {formatDate(interview.scheduled_date)} •{' '}
+                                                            {formatTime(interview.scheduled_time)}
+                                                        </p>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Round')}</p>
-                                                            <p className="font-medium">{interview.interviewRound?.name || interview.interview_round?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Round')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {interview.interviewRound?.name ||
+                                                                    interview.interview_round?.name ||
+                                                                    '-'}
+                                                            </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Type')}</p>
-                                                            <p className="font-medium">{interview.interviewType?.name || interview.interview_type?.name || '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Type')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {interview.interviewType?.name ||
+                                                                    interview.interview_type?.name ||
+                                                                    '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Location')}</p>
-                                                            <p className={`font-medium ${
-                                                                interview.location === 'Online' ? 'text-foreground' : 'text-foreground'
-                                                            }`}>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Location')}
+                                                            </p>
+                                                            <p
+                                                                className={`font-medium ${
+                                                                    interview.location === 'Online'
+                                                                        ? 'text-foreground'
+                                                                        : 'text-foreground'
+                                                                }`}
+                                                            >
                                                                 {interview.location || '-'}
                                                             </p>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Duration')}</p>
-                                                            <p className="font-medium">{interview.duration ? `${interview.duration} min` : '-'}</p>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Duration')}
+                                                            </p>
+                                                            <p className="font-medium">
+                                                                {interview.duration ? `${interview.duration} min` : '-'}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4">
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Feedback')}</p>
-                                                            <span className={`px-2 py-1 rounded-full text-xs  ${
-                                                                isSubmitted ? 'bg-muted text-foreground' : 'bg-muted text-foreground'
-                                                            }`}>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Feedback')}
+                                                            </p>
+                                                            <span
+                                                                className={`rounded-full px-2 py-1 text-xs ${
+                                                                    isSubmitted
+                                                                        ? 'bg-muted text-foreground'
+                                                                        : 'bg-muted text-foreground'
+                                                                }`}
+                                                            >
                                                                 {t(isSubmitted ? 'Submitted' : 'Pending')}
                                                             </span>
                                                         </div>
-                                                        <div className="text-xs min-w-0">
-                                                            <p className="text-muted-foreground mb-1 text-xs uppercase tracking-wide">{t('Status')}</p>
-                                                            <span className={`px-2 py-1 rounded-full text-xs ${statusInfo.class}`}>
+                                                        <div className="min-w-0 text-xs">
+                                                            <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
+                                                                {t('Status')}
+                                                            </p>
+                                                            <span
+                                                                className={`rounded-full px-2 py-1 text-xs ${statusInfo.class}`}
+                                                            >
                                                                 {t(statusInfo.label)}
                                                             </span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-end items-center p-3 border-t bg-muted/50/50 flex-shrink-0 mt-auto">
+                                                <div className="bg-muted/50/50 mt-auto flex flex-shrink-0 items-center justify-end border-t p-3">
                                                     <div className="flex gap-2">
                                                         <TooltipProvider>
                                                             {auth.user?.permissions?.includes('view-interviews') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => setViewingItem(interview)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => setViewingItem(interview)}
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <Eye className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -494,7 +639,12 @@ export default function Index() {
                                                             {auth.user?.permissions?.includes('edit-interviews') && (
                                                                 <Tooltip delayDuration={300}>
                                                                     <TooltipTrigger asChild>
-                                                                        <Button variant="ghost" size="sm" onClick={() => openModal('edit', interview)} className="h-9 w-9 p-0 text-foreground hover:text-foreground hover:bg-muted/50">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => openModal('edit', interview)}
+                                                                            className="h-9 w-9 p-0 text-foreground hover:bg-muted/50 hover:text-foreground"
+                                                                        >
                                                                             <EditIcon className="h-4 w-4" />
                                                                         </Button>
                                                                     </TooltipTrigger>
@@ -509,8 +659,10 @@ export default function Index() {
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="sm"
-                                                                            onClick={() => openDeleteDialog(interview.id)}
-                                                                            className="h-9 w-9 p-0 text-destructive hover:text-destructive hover:bg-muted/50"
+                                                                            onClick={() =>
+                                                                                openDeleteDialog(interview.id)
+                                                                            }
+                                                                            className="h-9 w-9 p-0 text-destructive hover:bg-muted/50 hover:text-destructive"
                                                                         >
                                                                             <Trash2 className="h-4 w-4" />
                                                                         </Button>
@@ -532,7 +684,15 @@ export default function Index() {
                                     icon={CalendarIcon}
                                     title={t('No Interviews found')}
                                     description={t('Get started by creating your first Interview.')}
-                                    hasFilters={!!(filters.location || filters.interview_date || (filters.feedback && filters.feedback !== 'all') || filters.status || (filters.interview_type_id && filters.interview_type_id !== 'all'))}
+                                    hasFilters={
+                                        !!(
+                                            filters.location ||
+                                            filters.interview_date ||
+                                            (filters.feedback && filters.feedback !== 'all') ||
+                                            filters.status ||
+                                            (filters.interview_type_id && filters.interview_type_id !== 'all')
+                                        )
+                                    }
                                     onClearFilters={clearFilters}
                                     createPermission="create-interviews"
                                     onCreateClick={() => openModal('add')}
@@ -544,7 +704,7 @@ export default function Index() {
                 </CardContent>
 
                 {/* Pagination Footer */}
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={interviews || { data: [], links: [], meta: {} }}
                         routeName="recruitment.interviews.index"
@@ -554,14 +714,9 @@ export default function Index() {
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
                 {modalState.mode === 'edit' && modalState.data && (
-                    <EditInterview
-                        interview={modalState.data}
-                        onSuccess={closeModal}
-                    />
+                    <EditInterview interview={modalState.data} onSuccess={closeModal} />
                 )}
             </Dialog>
 

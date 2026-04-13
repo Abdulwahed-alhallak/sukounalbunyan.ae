@@ -17,8 +17,8 @@ export interface Item {
     category?: Category;
     unit_relation?: {
         unit_name: string;
-    [key: string]: any;
-};
+        [key: string]: any;
+    };
     image?: string;
 }
 
@@ -65,7 +65,8 @@ export interface Warehouse {
     [key: string]: any;
 }
 
-export interface EditItemProps extends EditProps<Item>  {[key: string]: any;
+export interface EditItemProps extends EditProps<Item> {
+    [key: string]: any;
 }
 
 export interface ItemFilters {

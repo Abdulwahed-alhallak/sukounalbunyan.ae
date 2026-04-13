@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,15 +33,15 @@ export default function WhatHappensNext() {
     const canEdit = auth?.user?.permissions?.includes('manage-what-happens-next');
 
     const [formSettings, setFormSettings] = useState({
-        steps: settings?.steps || [{ title: '', description: '', icon: '' }]
+        steps: settings?.steps || [{ title: '', description: '', icon: '' }],
     });
 
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         if (settings) {
             setFormSettings({
-                steps: settings?.steps || [{ title: '', description: '', icon: '' }]
+                steps: settings?.steps || [{ title: '', description: '', icon: '' }],
             });
         }
     }, [settings]);
@@ -49,25 +49,25 @@ export default function WhatHappensNext() {
     const handleStepChange = (index: number, field: keyof Step, value: string) => {
         const newSteps = [...formSettings.steps];
         newSteps[index][field] = value;
-        setFormSettings(prev => ({ ...prev, steps: newSteps }));
+        setFormSettings((prev) => ({ ...prev, steps: newSteps }));
     };
 
     const addStep = () => {
-        setFormSettings(prev => ({
+        setFormSettings((prev) => ({
             ...prev,
-            steps: [...prev.steps, { title: '', description: '', icon: '' }]
+            steps: [...prev.steps, { title: '', description: '', icon: '' }],
         }));
     };
 
     const removeStep = (index: number) => {
         if (formSettings.steps.length > 1) {
             const newSteps = formSettings.steps.filter((_, i) => i !== index);
-            setFormSettings(prev => ({ ...prev, steps: newSteps }));
+            setFormSettings((prev) => ({ ...prev, steps: newSteps }));
         }
     };
 
     const validateForm = () => {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
 
         formSettings.steps.forEach((step, index) => {
             if (!step.title.trim()) {
@@ -92,27 +92,32 @@ export default function WhatHappensNext() {
 
         setIsLoading(true);
 
-        router.post(route('recruitment.what-happens-next.update'), {
-            settings: formSettings
-        }, {
-            preserveScroll: true,
-            onSuccess: (page) => {
-                setIsLoading(false);
-                const successMessage = (page.props.flash as any)?.success;
-                const errorMessage = (page.props.flash as any)?.error;
-
-                if (successMessage) {
-                    toast.success(successMessage);
-                } else if (errorMessage) {
-                    toast.error(errorMessage);
-                }
+        router.post(
+            route('recruitment.what-happens-next.update'),
+            {
+                settings: formSettings,
             },
-            onError: (errors) => {
-                setIsLoading(false);
-                const errorMessage = errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
-                toast.error(errorMessage);
+            {
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setIsLoading(false);
+                    const successMessage = (page.props.flash as any)?.success;
+                    const errorMessage = (page.props.flash as any)?.error;
+
+                    if (successMessage) {
+                        toast.success(successMessage);
+                    } else if (errorMessage) {
+                        toast.error(errorMessage);
+                    }
+                },
+                onError: (errors) => {
+                    setIsLoading(false);
+                    const errorMessage =
+                        errors.error || Object.values(errors).join(', ') || t('Failed to save settings');
+                    toast.error(errorMessage);
+                },
             }
-        });
+        );
     };
 
     return (
@@ -120,25 +125,25 @@ export default function WhatHappensNext() {
             breadcrumbs={[
                 { label: t('Recruitment'), url: route('recruitment.index') },
                 { label: t('System Setup') },
-                { label: t('What Happens Next Section') }
+                { label: t('What Happens Next Section') },
             ]}
             pageTitle={t('System Setup')}
         >
             <Head title={t('What Happens Next Section')} />
 
-            <div className="flex flex-col md:flex-row gap-8">
-                <div className="md:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-8 md:flex-row">
+                <div className="flex-shrink-0 md:w-64">
                     <SystemSetupSidebar activeItem="what-happens-next" />
                 </div>
 
                 <div className="flex-1">
                     <Card className="shadow-sm">
                         <CardContent className="p-6">
-                            <div className="flex justify-between items-center mb-6">
+                            <div className="mb-6 flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{t('What Happens Next Section')}</h3>
                                 {canEdit && (
                                     <Button onClick={saveSettings} disabled={isLoading}>
-                                        <Save className="h-4 w-4 mr-2" />
+                                        <Save className="mr-2 h-4 w-4" />
                                         {isLoading ? t('Saving...') : t('Save Changes')}
                                     </Button>
                                 )}
@@ -146,9 +151,11 @@ export default function WhatHappensNext() {
 
                             <div className="space-y-6">
                                 {formSettings.steps?.map((step, index) => (
-                                    <div key={index} className="border rounded-lg p-4 space-y-4">
-                                        <div className="flex justify-between items-center">
-                                            <h4 className="font-medium">{t('Step')} {index + 1}</h4>
+                                    <div key={index} className="space-y-4 rounded-lg border p-4">
+                                        <div className="flex items-center justify-between">
+                                            <h4 className="font-medium">
+                                                {t('Step')} {index + 1}
+                                            </h4>
                                             {canEdit && formSettings.steps.length > 1 && (
                                                 <TooltipProvider>
                                                     <Tooltip delayDuration={0}>
@@ -170,10 +177,10 @@ export default function WhatHappensNext() {
                                             )}
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor={`title_${index}`} required>
-                                                    {t('Title')} 
+                                                    {t('Title')}
                                                 </Label>
                                                 <Input
                                                     id={`title_${index}`}
@@ -184,15 +191,19 @@ export default function WhatHappensNext() {
                                                     className={errors[`title_${index}`] ? 'border-destructive' : ''}
                                                     maxLength={50}
                                                 />
-                                                <div className="flex justify-between items-center text-xs">
-                                                    <span className="text-destructive">{errors[`title_${index}`] || ''}</span>
-                                                    <span className="text-muted-foreground">{step.title.length}/50</span>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="text-destructive">
+                                                        {errors[`title_${index}`] || ''}
+                                                    </span>
+                                                    <span className="text-muted-foreground">
+                                                        {step.title.length}/50
+                                                    </span>
                                                 </div>
                                             </div>
 
                                             <div className="space-y-2">
                                                 <Label htmlFor={`icon_${index}`} required>
-                                                    {t('Icon')} 
+                                                    {t('Icon')}
                                                 </Label>
                                                 <IconPicker
                                                     value={step.icon}
@@ -200,8 +211,10 @@ export default function WhatHappensNext() {
                                                     placeholder={t('Select an icon')}
                                                     className={errors[`icon_${index}`] ? 'border-destructive' : ''}
                                                 />
-                                                <div className="flex justify-between items-center text-xs">
-                                                    <span className="text-destructive">{errors[`icon_${index}`] || ''}</span>
+                                                <div className="flex items-center justify-between text-xs">
+                                                    <span className="text-destructive">
+                                                        {errors[`icon_${index}`] || ''}
+                                                    </span>
                                                     <span className="text-muted-foreground">{step.icon.length}/30</span>
                                                 </div>
                                             </div>
@@ -209,7 +222,7 @@ export default function WhatHappensNext() {
 
                                         <div className="space-y-2">
                                             <Label htmlFor={`description_${index}`} required>
-                                                {t('Description')} 
+                                                {t('Description')}
                                             </Label>
                                             <Textarea
                                                 id={`description_${index}`}
@@ -221,22 +234,21 @@ export default function WhatHappensNext() {
                                                 maxLength={100}
                                                 rows={3}
                                             />
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="text-destructive">{errors[`description_${index}`] || ''}</span>
-                                                <span className="text-muted-foreground">{step.description.length}/100</span>
+                                            <div className="flex items-center justify-between text-xs">
+                                                <span className="text-destructive">
+                                                    {errors[`description_${index}`] || ''}
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {step.description.length}/100
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
 
                                 {canEdit && (
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={addStep}
-                                        className="w-full"
-                                    >
-                                        <Plus className="h-4 w-4 mr-2" />
+                                    <Button type="button" variant="outline" onClick={addStep} className="w-full">
+                                        <Plus className="mr-2 h-4 w-4" />
                                         {t('Add Step')}
                                     </Button>
                                 )}

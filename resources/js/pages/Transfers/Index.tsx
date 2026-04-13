@@ -5,17 +5,17 @@ import { useDeleteHandler } from '@/hooks/useDeleteHandler';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerPageSelector } from '@/components/ui/per-page-selector';
-import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { Dialog } from "@/components/ui/dialog";
+import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/data-table';
+import { Dialog } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Plus, Trash2, ArrowRightLeft } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Plus, Trash2, ArrowRightLeft } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
-import { Pagination } from "@/components/ui/pagination";
-import { SearchInput } from "@/components/ui/search-input";
+import { Pagination } from '@/components/ui/pagination';
+import { SearchInput } from '@/components/ui/search-input';
 import NoRecordsFound from '@/components/no-records-found';
 import Create from './create';
 import { Transfer as TransferType, TransfersIndexProps, TransferFilters, TransferModalState } from './types';
@@ -31,8 +31,6 @@ interface Product {
     name: string;
     sku: string;
 }
-
-
 
 export default function Index() {
     const { t } = useTranslation();
@@ -51,42 +49,49 @@ export default function Index() {
     const [modalState, setModalState] = useState<TransferModalState>({
         isOpen: false,
         mode: '',
-        data: null
+        data: null,
     });
-
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'transfers.destroy',
-        defaultMessage: t('Are you sure you want to delete this transfer?')
+        defaultMessage: t('Are you sure you want to delete this transfer?'),
     });
 
     const handleFilter = () => {
-        router.get(route('transfers.index'), {...filters, per_page: perPage, sort: sortField, direction: sortDirection}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('transfers.index'),
+            { ...filters, per_page: perPage, sort: sortField, direction: sortDirection },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const handleSort = (field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
-        router.get(route('transfers.index'), {...filters, per_page: perPage, sort: field, direction}, {
-            preserveState: true,
-            replace: true
-        });
+        router.get(
+            route('transfers.index'),
+            { ...filters, per_page: perPage, sort: field, direction },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
     };
 
     const clearFilters = () => {
         setFilters({ product_name: '', from_warehouse: '' });
-        router.get(route('transfers.index'), {per_page: perPage});
+        router.get(route('transfers.index'), { per_page: perPage });
     };
 
     const openModal = (mode: 'add', data: TransferType | null = null) => {
         setModalState({
             isOpen: true,
             mode,
-            data
+            data,
         });
     };
 
@@ -94,7 +99,7 @@ export default function Index() {
         setModalState({
             isOpen: false,
             mode: '',
-            data: null
+            data: null,
         });
     };
 
@@ -107,33 +112,29 @@ export default function Index() {
                 <div>
                     <div>{transfer.product.name}</div>
                 </div>
-            )
+            ),
         },
         {
             key: 'from_warehouse.name',
             header: t('From Warehouse'),
-            render: (value: any, transfer: TransferType) => transfer.from_warehouse.name
+            render: (value: any, transfer: TransferType) => transfer.from_warehouse.name,
         },
         {
             key: 'to_warehouse.name',
             header: t('To Warehouse'),
-            render: (value: any, transfer: TransferType) => transfer.to_warehouse.name
+            render: (value: any, transfer: TransferType) => transfer.to_warehouse.name,
         },
         {
             key: 'quantity',
             header: t('Quantity'),
             sortable: true,
-            render: (value: number) => Math.floor(value) || 0
+            render: (value: number) => Math.floor(value) || 0,
         },
         {
             key: 'date',
             header: t('Date'),
             sortable: true,
-            render: (value: string) => (
-                <span className="whitespace-nowrap">
-                    {value ? formatDate(value) : '-'}
-                </span>
-            )
+            render: (value: string) => <span className="whitespace-nowrap">{value ? formatDate(value) : '-'}</span>,
         },
         {
             key: 'actions',
@@ -160,13 +161,13 @@ export default function Index() {
                         </Tooltip>
                     </TooltipProvider>
                 </div>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{label: t('Transfers')}]}
+            breadcrumbs={[{ label: t('Transfers') }]}
             pageTitle={t('Manage Transfers')}
             pageActions={
                 <div className="flex gap-2">
@@ -190,37 +191,36 @@ export default function Index() {
             <Head title={t('Transfers')} />
 
             <Card className="shadow-sm">
-                <CardContent className="p-6 border-b bg-muted/50/50">
+                <CardContent className="bg-muted/50/50 border-b p-6">
                     <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                        <div className="max-w-md flex-1">
                             <SearchInput
                                 value={filters.product_name}
-                                onChange={(value) => setFilters({...filters, product_name: value})}
+                                onChange={(value) => setFilters({ ...filters, product_name: value })}
                                 onSearch={handleFilter}
                                 placeholder={t('Search transfers...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            <PerPageSelector
-                                routeName="transfers.index"
-                                filters={filters}
-                            />
+                            <PerPageSelector routeName="transfers.index" filters={filters} />
                             <div className="relative">
-                                <FilterButton
-                                    showFilters={showFilters}
-                                    onToggle={() => setShowFilters(!showFilters)}
-                                />
+                                <FilterButton showFilters={showFilters} onToggle={() => setShowFilters(!showFilters)} />
                             </div>
                         </div>
                     </div>
                 </CardContent>
 
                 {showFilters && (
-                    <CardContent className="p-6 bg-muted/30 border-b">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <CardContent className="border-b bg-muted/30 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-foreground mb-2">{t('From Warehouse')}</label>
-                                <Select value={filters.from_warehouse} onValueChange={(value) => setFilters({...filters, from_warehouse: value})}>
+                                <label className="mb-2 block text-sm font-medium text-foreground">
+                                    {t('From Warehouse')}
+                                </label>
+                                <Select
+                                    value={filters.from_warehouse}
+                                    onValueChange={(value) => setFilters({ ...filters, from_warehouse: value })}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder={t('Filter by warehouse')} />
                                     </SelectTrigger>
@@ -234,15 +234,19 @@ export default function Index() {
                                 </Select>
                             </div>
                             <div className="flex items-end gap-2">
-                                <Button onClick={handleFilter} size="sm">{t('Apply')}</Button>
-                                <Button variant="outline" onClick={clearFilters} size="sm">{t('Clear')}</Button>
+                                <Button onClick={handleFilter} size="sm">
+                                    {t('Apply')}
+                                </Button>
+                                <Button variant="outline" onClick={clearFilters} size="sm">
+                                    {t('Clear')}
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 )}
 
                 <CardContent className="p-0">
-                    <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] rounded-none w-full">
+                    <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
                         <div className="min-w-[800px]">
                             <DataTable
                                 data={transfers.data}
@@ -268,19 +272,17 @@ export default function Index() {
                     </div>
                 </CardContent>
 
-                <CardContent className="px-4 py-2 border-t bg-muted/50/30">
+                <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
                         data={transfers}
                         routeName="transfers.index"
-                        filters={{...filters, per_page: perPage}}
+                        filters={{ ...filters, per_page: perPage }}
                     />
                 </CardContent>
             </Card>
 
             <Dialog open={modalState.isOpen} onOpenChange={closeModal}>
-                {modalState.mode === 'add' && (
-                    <Create onSuccess={closeModal} />
-                )}
+                {modalState.mode === 'add' && <Create onSuccess={closeModal} />}
             </Dialog>
 
             <ConfirmationDialog
