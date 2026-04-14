@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -1324,7 +1324,7 @@ export default function Show() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <Label required>{t('Users')}</Label>
-                            <MultiSelectEnhanced
+                            <MultiSelect
                                 options={teamMembers?.map((user) => ({ value: user.id.toString(), label: user.name }))}
                                 value={data.user_ids?.map((id) => id.toString())}
                                 onValueChange={(value) =>
@@ -1360,7 +1360,7 @@ export default function Show() {
                     <form onSubmit={handleClientSubmit} className="space-y-4">
                         <div>
                             <Label required>{t('Clients')}</Label>
-                            <MultiSelectEnhanced
+                            <MultiSelect
                                 options={available_clients?.map((client) => ({
                                     value: client.id.toString(),
                                     label: client.name,

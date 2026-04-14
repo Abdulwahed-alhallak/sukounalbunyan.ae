@@ -19,14 +19,14 @@ import { RichTextEditor } from './rich-text-editor';
 import { Slider } from './slider';
 import { Rating } from './rating';
 import { Toggle } from './toggle';
-import { MultiSelectEnhanced } from './multi-select-enhanced';
+import { MultiSelect } from './multi-select';
 import { CheckboxGroup } from './checkbox-group';
 import { SearchInput } from './search-input';
 import { TagsInput } from './tags-input';
 import { IconPicker } from './icon-picker';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 import MediaPicker from '../MediaPicker';
-import { SimpleMultiSelect } from '../simple-multi-select';
+
 import { cn } from '@/lib/utils';
 
 export interface RepeaterFieldLayout {
@@ -64,7 +64,7 @@ export interface RepeaterField {
         | 'multiselect'
         | 'checkboxgroup'
         | 'search'
-        | 'simplemultiselect'
+        | 'MultiSelect'
         | 'color'
         | 'file'
         | 'url'
@@ -570,7 +570,7 @@ const Repeater = React.forwardRef<RepeaterRef, RepeaterProps>(
 
                 case 'multiselect':
                     return (
-                        <MultiSelectEnhanced
+                        <MultiSelect
                             options={field.options || []}
                             value={fieldValue || []}
                             onValueChange={(value) => updateItem(item.id, field.name, value)}
@@ -601,13 +601,14 @@ const Repeater = React.forwardRef<RepeaterRef, RepeaterProps>(
                         />
                     );
 
-                case 'simplemultiselect':
+                case 'MultiSelect':
                     return (
-                        <SimpleMultiSelect
+                        <MultiSelect
                             options={field.options || []}
-                            selected={fieldValue || []}
-                            onChange={(value) => updateItem(item.id, field.name, value)}
+                            value={fieldValue || []}
+                            onValueChange={(value) => updateItem(item.id, field.name, value)}
                             placeholder={field.placeholder}
+                            searchable={true}
                         />
                     );
 

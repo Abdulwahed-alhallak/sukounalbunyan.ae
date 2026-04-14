@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { glob } from 'glob';
 
-const diononePackages = glob.sync('packages/dionone/*/src/Resources/js/app.tsx');
+const noblePackages = glob.sync('packages/noble/*/src/Resources/js/app.tsx');
 
 export default defineConfig({
     base: './',
@@ -13,7 +13,7 @@ export default defineConfig({
             input:
             [
                 'resources/js/app.tsx',
-                ...diononePackages
+                ...noblePackages
             ],
             refresh: true,
         }),
@@ -48,12 +48,16 @@ export default defineConfig({
         },
     },
     build: {
+        chunkSizeWarningLimit: 800,
         rollupOptions: {
             output: {
-                manualChunks: {
-                    vendor: ['react', 'react-dom'],
-                    ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
-                    utils: ['date-fns', 'clsx']
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        if (id.includes('lucide')) return 'icons';
+                        if (id.includes('recharts') || id.includes('d3')) return 'charts';
+                        if (id.includes('@radix-ui')) return 'radix';
+                        return 'vendor';
+                    }
                 }
             },
         },

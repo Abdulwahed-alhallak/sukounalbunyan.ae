@@ -112,10 +112,10 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                 )}
                                             >
                                                 {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                                <span className="ms-2.5 flex-1 text-[13px] tracking-tight">{t(item.title)}</span>
+                                                <span className="ms-2.5 flex-1 text-[13px] tracking-tight group-data-[collapsible=icon]:hidden">{t(item.title)}</span>
                                                 <ChevronRight
                                                     className={cn(
-                                                        'ms-auto h-3.5 w-3.5 text-muted-foreground/30 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90',
+                                                        'ms-auto h-3.5 w-3.5 text-muted-foreground/30 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-90 group-data-[collapsible=icon]:hidden',
                                                         'rtl:rotate-180 rtl:group-data-[state=open]/collapsible:-rotate-90'
                                                     )}
                                                 />
@@ -205,7 +205,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                             >
                                 <Link href={item.href!}>
                                     {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
-                                    <span className="text-label-13">{t(item.title)}</span>
+                                    <span className="ms-2.5 text-label-13 group-data-[collapsible=icon]:hidden">{t(item.title)}</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

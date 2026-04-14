@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog } from '@/components/ui/dialog';
@@ -171,7 +171,7 @@ export default function Edit() {
                                             <Label htmlFor="tax_ids" required>
                                                 {t('Tax')}
                                             </Label>
-                                            <MultiSelectEnhanced
+                                            <MultiSelect
                                                 options={taxes?.map((tax) => ({
                                                     value: tax.id.toString(),
                                                     label: `${tax.tax_name} (${tax.rate}%)`,

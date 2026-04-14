@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import InputError from '@/components/ui/input-error';
 import { useFormFields } from '@/hooks/useFormFields';
 import axios from 'axios';
@@ -150,7 +150,7 @@ export default function Edit({ onSuccess, bug, teamMembers, bugStages }: EditBug
 
                 <div>
                     <Label required>{t('Assign To')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={teamMembers?.map((member) => ({ value: member.id.toString(), label: member.name }))}
                         value={data.assigned_to?.map((id) => id.toString())}
                         onValueChange={(value) => setData({ ...data, assigned_to: value?.map((v) => parseInt(v)) })}

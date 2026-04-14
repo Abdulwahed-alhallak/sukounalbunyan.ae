@@ -16,7 +16,7 @@ class GamificationController extends Controller
         // Get top 10 users across the ecosystem
         $leaderboard = GamificationPoint::with('user')->orderBy('points', 'desc')->take(10)->get();
 
-        return Inertia::render('mission-command/Gamification', [
+        return Inertia::render('MissionCommand/Gamification', [
             'rules' => $rules,
             'leaderboard' => $leaderboard
         ]);

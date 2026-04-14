@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { useEffect, useState } from 'react';
@@ -163,7 +163,7 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
 
                 <div>
                     <Label>{t('Sources')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             sources?.map((source: any) => ({
                                 value: source.id.toString(),
@@ -180,7 +180,7 @@ export default function EditDeal({ deal, onSuccess }: EditDealProps) {
 
                 <div>
                     <Label>{t('Products')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             products?.map((product: any) => ({
                                 value: product.id.toString(),

@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { DateTimeRangePicker } from '@/components/ui/datetime-range-picker';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CreateZoomMeetingProps, CreateZoomMeetingFormData } from './types';
 import { usePage } from '@inertiajs/react';
@@ -202,7 +202,7 @@ export default function Create({ onSuccess }: CreateZoomMeetingProps) {
 
                 <div>
                     <Label>{t('Participants')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={users?.map((item: any) => ({ value: item.id.toString(), label: item.name })) || []}
                         value={data.participants}
                         onValueChange={(value) => setData('participants', value)}

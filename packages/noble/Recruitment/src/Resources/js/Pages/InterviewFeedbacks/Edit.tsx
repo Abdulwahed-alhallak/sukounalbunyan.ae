@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/ui/input-error';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Rating } from '@/components/ui/rating';
 import { EditInterviewFeedbackProps, EditInterviewFeedbackFormData } from './types';
 import { usePage } from '@inertiajs/react';
@@ -121,7 +121,7 @@ export default function EditInterviewFeedback({ interviewfeedback, onSuccess }: 
 
                 <div>
                     <Label required>{t('Interviewers')} </Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={filteredInterviewers?.map((user: any) => ({
                             value: user.id.toString(),
                             label: user.name,

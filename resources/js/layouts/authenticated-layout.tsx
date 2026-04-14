@@ -159,7 +159,7 @@ function AuthenticatedLayoutContent({
                                         href={route('notifications.index')}
                                         className="relative group inline-flex h-9 w-9 items-center justify-center rounded-xl bg-background border border-border transition-all duration-200 hover:border-foreground/30 hover:shadow-sm"
                                     >
-                                        <Bell className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" strokeWidth={2} />
+                                        <Bell className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground" strokeWidth={1.5} />
                                         {unreadNotifications > 0 && (
                                             <span
                                                 className="absolute -top-1 -end-1 flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-foreground border border-background px-1 text-[10px] font-bold text-background shadow-lg"

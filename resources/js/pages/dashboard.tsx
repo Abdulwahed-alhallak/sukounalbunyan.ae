@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/lib/utils';
 import { 
     Activity, 
     ArrowUpRight, 
@@ -47,7 +48,7 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('Total Projects')}</CardTitle>
-                            <Briefcase className="h-4 w-4 text-primary" strokeWidth={2.5} />
+                            <Briefcase className="h-4 w-4 text-primary" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">12</div>
@@ -64,7 +65,7 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('Active Users')}</CardTitle>
-                            <Users className="h-4 w-4 text-geist-purple" strokeWidth={2.5} />
+                            <Users className="h-4 w-4 text-geist-purple" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">840</div>
@@ -81,7 +82,7 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('System Uptime')}</CardTitle>
-                            <Zap className="h-4 w-4 text-amber-500" strokeWidth={2.5} />
+                            <Zap className="h-4 w-4 text-amber-500" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">99.9%</div>
@@ -98,7 +99,7 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('Efficiency Rank')}</CardTitle>
-                            <Clock className="h-4 w-4 text-muted-foreground" strokeWidth={2.5} />
+                            <Clock className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">#1</div>

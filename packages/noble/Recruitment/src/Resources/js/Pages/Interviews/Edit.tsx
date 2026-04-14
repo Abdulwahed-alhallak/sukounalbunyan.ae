@@ -7,7 +7,7 @@ import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { DatePicker } from '@/components/ui/date-picker';
 import { EditInterviewProps, EditInterviewFormData } from './types';
 import { usePage } from '@inertiajs/react';
@@ -258,7 +258,7 @@ export default function EditInterview({ interview, onSuccess }: EditInterviewPro
 
                 <div>
                     <Label>{t('Interviewers')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             employees?.map((emp: any) => ({
                                 value: emp.id.toString(),

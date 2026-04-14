@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { DatePicker } from '@/components/ui/date-picker';
 import { CurrencyInput } from '@/components/ui/currency-input';
 import { useFormFields } from '@/hooks/useFormFields';
@@ -142,7 +142,7 @@ export default function Create({ onSuccess, users }: CreateProps) {
                 </div>
                 <div>
                     <Label required>{t('Users')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={users?.map((user) => ({ value: user.id.toString(), label: user.name }))}
                         value={data.user_ids?.map((id) => id.toString())}
                         onValueChange={(value) =>

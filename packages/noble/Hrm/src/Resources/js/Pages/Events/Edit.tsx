@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { useFormFields } from '@/hooks/useFormFields';
 import { EditEventProps, EditEventFormData } from './types';
 import { usePage } from '@inertiajs/react';
@@ -103,7 +103,7 @@ export default function EditEvent({ event, onSuccess }: EditEventProps) {
 
                 <div>
                     <Label required>{t('Departments')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             departments?.map((dept: any) => ({
                                 value: dept.id.toString(),

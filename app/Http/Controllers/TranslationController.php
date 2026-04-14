@@ -58,7 +58,9 @@ class TranslationController extends Controller
             'translations' => $translations,
             'layoutDirection' => $layoutDirection,
             'locale' => $locale
-        ]);
+        ], 200, [
+            'Content-Type' => 'application/json; charset=UTF-8'
+        ], JSON_UNESCAPED_UNICODE);
     }
 
     public function manage(Request $request)

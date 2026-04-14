@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { DatePicker } from '@/components/ui/date-picker';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { EditLeadProps, EditLeadFormData } from './types';
 import { useState, useEffect } from 'react';
 import { useFormFields } from '@/hooks/useFormFields';
@@ -305,7 +305,7 @@ export default function EditLead({
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
                                     <Label className="text-xs font-medium">{t('Sources')}</Label>
-                                    <MultiSelectEnhanced
+                                    <MultiSelect
                                         options={Object.entries(propSources || {})?.map(([id, name]) => ({
                                             value: id,
                                             label: name as string,
@@ -319,7 +319,7 @@ export default function EditLead({
 
                                 <div className="space-y-2">
                                     <Label className="text-xs font-medium">{t('Products')}</Label>
-                                    <MultiSelectEnhanced
+                                    <MultiSelect
                                         options={Object.entries(propProducts || {})?.map(([id, name]) => ({
                                             value: id,
                                             label: name as string,

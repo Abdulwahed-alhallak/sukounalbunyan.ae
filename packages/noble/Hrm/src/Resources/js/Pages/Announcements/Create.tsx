@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { useFormFields } from '@/hooks/useFormFields';
 import { CreateAnnouncementProps, CreateAnnouncementFormData } from './types';
 import { usePage } from '@inertiajs/react';
@@ -100,7 +100,7 @@ export default function Create({ onSuccess }: CreateAnnouncementProps) {
 
                 <div>
                     <Label required>{t('Department')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             departments?.map((dept: any) => ({ value: dept.id.toString(), label: dept.name })) || []
                         }

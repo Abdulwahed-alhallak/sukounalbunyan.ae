@@ -87,7 +87,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                         <DropdownMenuSeparator className="mx-1" />
                         <DropdownMenuItem asChild className="rounded-md px-3 py-2 text-[12px] font-bold text-destructive focus:bg-destructive/5 focus:text-destructive cursor-pointer">
                             <Link className="flex w-full items-center" href={route('logout')} method={'post'} as={'button'}>
-                                <LogOut className="me-2 h-4 w-4" strokeWidth={2} />
+                                <LogOut className="me-2 h-4 w-4" strokeWidth={1.5} />
                                 {t('Terminate Session')}
                             </Link>
                         </DropdownMenuItem>

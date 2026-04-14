@@ -61,12 +61,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const displayFavicon = settings?.favicon ? getPreviewUrl(settings.favicon) : '';
 
     const { i18n } = useTranslation();
-    const currentDir = i18n.dir();
+    const isRtl = i18n.dir() === 'rtl';
 
     return (
         <Sidebar
             variant="inset"
-            side={currentDir === 'rtl' ? 'right' : 'left'}
+            side="left"
             collapsible="icon"
             {...props}
         >

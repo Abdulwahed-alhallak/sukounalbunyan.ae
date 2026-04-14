@@ -1,6 +1,5 @@
-// components/multi-select-field.tsx
 import React from 'react';
-import { SimpleMultiSelect } from '@/components/simple-multi-select';
+import { MultiSelect } from './multi-select';
 import { FormField } from '@/types/crud';
 import { useTranslation } from 'react-i18next';
 
@@ -20,11 +19,12 @@ export function MultiSelectField({ field, formData, handleChange }: MultiSelectF
           : [];
 
     return (
-        <SimpleMultiSelect
+        <MultiSelect
             options={field.options || []}
-            selected={selectedValues}
-            onChange={(selected: string[]) => handleChange(field.name, selected)}
+            value={selectedValues}
+            onValueChange={(selected: string[]) => handleChange(field.name, selected)}
             placeholder={field.placeholder || t('Select {{label}}', { label: field.label })}
+            searchable={true}
         />
     );
 }

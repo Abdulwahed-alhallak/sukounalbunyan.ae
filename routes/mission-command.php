@@ -6,12 +6,12 @@ Route::middleware(['auth', 'verified', 'mission.command'])->prefix('mission-comm
     
     // Mission Command Central Dashboard
     Route::get('/', function () {
-        return \Inertia\Inertia::render('mission-command/Dashboard');
+        return \Inertia\Inertia::render('MissionCommand/Dashboard');
     })->name('dashboard');
 
     // Firebase Push Notification Hub
     Route::get('/notifications', function () {
-        return \Inertia\Inertia::render('mission-command/NotificationsHub');
+        return \Inertia\Inertia::render('MissionCommand/NotificationsHub');
     })->name('notifications.index');
     
     // Mission Command Gamification

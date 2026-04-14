@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import InputError from '@/components/ui/input-error';
 import { KanbanTask } from '@/components/kanban-board';
@@ -195,7 +195,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
 
                 <div>
                     <Label required>{t('Assign To')}</Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={teamMembers?.map((member) => ({
                             value: member.id.toString(),
                             label: member.name,

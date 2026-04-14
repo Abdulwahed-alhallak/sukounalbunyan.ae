@@ -5,7 +5,7 @@ import { DataTable } from '@/components/ui/data-table';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { Package, Trash2 } from 'lucide-react';
@@ -177,7 +177,7 @@ export default function Products({ lead, onRegisterAddHandler }: ProductsProps) 
                     <div className="space-y-4">
                         <div>
                             <Label>{t('Select Products')}</Label>
-                            <MultiSelectEnhanced
+                            <MultiSelect
                                 options={availableProducts}
                                 value={selectedProducts}
                                 onValueChange={setSelectedProducts}

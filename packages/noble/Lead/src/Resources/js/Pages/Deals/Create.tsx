@@ -7,7 +7,7 @@ import InputError from '@/components/ui/input-error';
 import { Input } from '@/components/ui/input';
 import { CurrencyInput } from '@/components/ui/currency-input';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
-import { MultiSelectEnhanced } from '@/components/ui/multi-select-enhanced';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { CreateDealProps, CreateDealFormData } from './types';
 import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
@@ -80,7 +80,7 @@ export default function Create({ onSuccess }: CreateDealProps) {
                     <Label htmlFor="client_id" required>
                         {t('Clients')}
                     </Label>
-                    <MultiSelectEnhanced
+                    <MultiSelect
                         options={
                             users?.map((user: any) => ({
                                 value: user.id.toString(),
