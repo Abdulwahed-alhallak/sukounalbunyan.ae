@@ -51,11 +51,11 @@ export default function AccountIndex({
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{ label: t('Account') }]}
+            breadcrumbs={[{ label: t('Accounting') }]}
             pageTitle={t('Account Dashboard')}
             pageTitleClass="text-lg"
         >
-            <Head title={t('Account')} />
+            <Head title={t('Accounting')} />
 
             {stats && (
                 <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -122,7 +122,7 @@ export default function AccountIndex({
                                 height={300}
                                 showTooltip={true}
                                 showGrid={true}
-                                lines={[{ dataKey: 'customer_payments', color: '#10b77f', name: 'Customer Payments' }]}
+                                lines={[{ dataKey: 'customer_payments', color: '#10b77f', name: t('Customer Payments') }]}
                                 xAxisKey="month"
                                 showLegend={true}
                             />
@@ -171,7 +171,7 @@ export default function AccountIndex({
                                 height={300}
                                 showTooltip={true}
                                 showGrid={true}
-                                lines={[{ dataKey: 'vendor_payments', color: '#ef4444', name: 'Vendor Payments' }]}
+                                lines={[{ dataKey: 'vendor_payments', color: '#ef4444', name: t('Vendor Payments') }]}
                                 xAxisKey="month"
                                 showLegend={true}
                             />

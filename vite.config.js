@@ -12,7 +12,7 @@ export default defineConfig({
         laravel({
             input:
             [
-                'resources/js/app.tsx',
+                resolve(__dirname, 'resources/js/app.tsx'),
                 ...noblePackages
             ],
             refresh: true,

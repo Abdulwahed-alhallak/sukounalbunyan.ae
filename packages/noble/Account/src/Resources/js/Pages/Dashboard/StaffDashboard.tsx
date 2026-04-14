@@ -25,7 +25,7 @@ export default function StaffDashboard({ stats, recentActivities }: StaffProps) 
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{ label: t('Account') }, { label: t('Dashboard') }]}
+            breadcrumbs={[{ label: t('Accounting') }, { label: t('Dashboard') }]}
             pageTitle={t('Dashboard')}
             pageTitleClass="text-lg"
         >

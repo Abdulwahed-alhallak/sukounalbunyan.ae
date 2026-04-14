@@ -43,7 +43,7 @@ export default function VendorDashboard({
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{ label: t('Account') }, { label: t('Dashboard') }]}
+            breadcrumbs={[{ label: t('Accounting') }, { label: t('Dashboard') }]}
             pageTitleClass="text-lg"
             pageTitle={t('Dashboard')}
         >
@@ -98,7 +98,7 @@ export default function VendorDashboard({
                         height={300}
                         showTooltip={true}
                         showGrid={true}
-                        lines={[{ dataKey: 'payments', color: '#3b82f6', name: 'Payments' }]}
+                        lines={[{ dataKey: 'payments', color: '#3b82f6', name: t('Payments') }]}
                         xAxisKey="month"
                         showLegend={true}
                     />

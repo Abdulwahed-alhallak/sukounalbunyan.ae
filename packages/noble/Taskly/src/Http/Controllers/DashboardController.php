@@ -37,10 +37,8 @@ class DashboardController extends Controller
                 case 'staff':
                 default:
                     return $this->staffDashboard();
-                return abort(403);
-    }
-            return abort(403);
-    }
+            }
+        }
         return abort(403);
     }
 
@@ -73,10 +71,8 @@ class DashboardController extends Controller
                     if ($assigneeIds) {
                         $assignees = User::whereIn('id', $assigneeIds)->get();
                         $assigneeNames = $assignees->pluck('name')->toArray();
-                        return abort(403);
-    }
-                    return abort(403);
-    }
+                    }
+                }
 
                 return [
                     'id' => $task->id,
@@ -162,16 +158,14 @@ class DashboardController extends Controller
                         $query->where('complete', true);
                     })
                     ->count();
-                return abort(403);
-    }
+            }
 
             $monthlyProgress[] = [
                 'month' => $monthName,
                 'created' => $tasksCreated,
                 'completed' => $tasksCompleted
             ];
-            return abort(403);
-    }
+        }
 
         // Company Project Health (overdue projects)
         $overdueProjects = Project::where('created_by', $creatorId)
@@ -209,7 +203,6 @@ class DashboardController extends Controller
             'monthlyProgress' => $monthlyProgress,
             'bugStats' => $bugStats
         ]);
-        return abort(403);
     }
 
     private function clientDashboard()
@@ -246,10 +239,8 @@ class DashboardController extends Controller
                 if ($assigneeIds) {
                     $assignees = User::whereIn('id', $assigneeIds)->get();
                     $assigneeNames = $assignees->pluck('name')->toArray();
-                    return abort(403);
-    }
-                return abort(403);
-    }
+                }
+            }
 
             return [
                 'id' => $task->id,
@@ -300,7 +291,6 @@ class DashboardController extends Controller
                 ];
             })
         ]);
-        return abort(403);
     }
 
     private function staffDashboard()
@@ -388,6 +378,5 @@ class DashboardController extends Controller
             'taskPriority' => $taskPriority,
             'staffProjects' => $staffProjects
         ]);
-        return abort(403);
     }
 }

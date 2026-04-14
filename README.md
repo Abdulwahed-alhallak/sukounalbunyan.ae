@@ -1,4 +1,4 @@
-# 🌐 Noble Architecture ERP Ecosystem (v4.0.0 Stable)
+# 🌐 Noble Architecture ERP Ecosystem (v4.0.1 Stable)
 
 > **Master Repository** - The fully integrated enterprise resource planning system for Noble Architecture.
 
@@ -76,8 +76,8 @@ The platform is fully synchronized with Noble's live production server via a hig
 
 | Script | Purpose |
 | :--- | :--- |
-| `.\_scripts\deployment\deploy_to_hostinger.ps1` | Full SFTP sync + Remote Command execution. |
-| `.\_scripts\fixes\sync_translations.ps1` | Synchronizes local `ar.json` with all package resources. |
-| `.\_scripts\fixes\fix_all_casing.ps1` | Ensures Inertia paths match physical folders for Linux environments. |
+| `.\_scripts\fixes\accounting_polish.php` | Standardizes breadcrumbs and localizes chart labels. |
+| `.\_scripts\fixes\crm_taskly_polish.php` | Fixes white screen issues and localizes Taskly metrics. |
+| `.\_scripts\fixes\stabilize-tsx.js` | Bulk updates TSX components for RTL and Geist 2026 compatibility. |
 
 _Engineered with precision for Noble Architecture 2026 — Total Operational Sovereignty._
