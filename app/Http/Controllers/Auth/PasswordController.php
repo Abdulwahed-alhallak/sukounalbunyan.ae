@@ -16,20 +16,15 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        if(Auth::user()->can('change-password-profile')){
-            $validated = $request->validate([
-                'current_password' => ['required', 'current_password'],
-                'password' => ['required', Password::defaults(), 'confirmed'],
-            ]);
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
 
-            $request->user()->update([
-                'password' => Hash::make($validated['password']),
-            ]);
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
 
-            return back()->with('success', __('Password updated successfully.'));
-        }
-        else{
-            return back()->with('error', __('Permission denied'));
-        }
+        return back()->with('success', __('Password updated successfully.'));
     }
 }

@@ -51,6 +51,7 @@ npm run dev                # في نافذة ثانية
 | 17 | 🔧 استكشاف الأخطاء | [`17-Production_Troubleshooting_and_Maintenance.md`](./17-Production_Troubleshooting_and_Maintenance.md) | تشخيص المشاكل، الصيانة الدورية |
 | 18 | 📊 التحليلات | [`18-Data_Visualization_and_Analytics.md`](./18-Data_Visualization_and_Analytics.md) | Dashboards، الرسوم البيانية، KPIs |
 | 19 | ✅ قائمة النشر | [`19-Final_Deployment_Checklist.md`](./19-Final_Deployment_Checklist.md) | Checklist النشر النهائي |
+| 20 | 🔍 دليل الفحص | [`20-Application_Audit_Playbook.md`](./20-Application_Audit_Playbook.md) | فحص العلاقات، النتائج، الثيم، RTL، الربط، والمسارات |
 
 ---
 

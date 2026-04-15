@@ -7,7 +7,8 @@
 describe('Authentication — Login Flow', () => {
 
     beforeEach(() => {
-        cy.visit('/login');
+        cy.visitWithConsent('/login');
+        cy.dismissCookieConsentIfPresent();
     });
 
     it('Rejects login with invalid credentials', () => {
@@ -37,14 +38,39 @@ describe('Authentication — Login Flow', () => {
             .should('have.attr', 'type', 'password');
     });
 
-    it('Login with valid admin credentials', () => {
-        cy.get('input[name="email"], input[type="email"]').clear().type(Cypress.env('adminEmail'));
-        cy.get('input[name="password"], input[type="password"]').clear().type(Cypress.env('adminPassword'));
-        cy.get('button[type="submit"]').click();
-        
-        // Should redirect to dashboard
-        cy.url({ timeout: 15000 }).should('not.include', '/login');
-        cy.url().should('include', '/dashboard');
+    it('Login with valid admin credentials', function () {
+        if (!Cypress.env('adminPassword')) {
+            this.skip();
+        }
+
+        cy.request('/login').then((loginPageResponse) => {
+            const csrfToken = /<meta name="csrf-token" content="([^"]+)"/.exec(loginPageResponse.body)?.[1];
+
+            expect(csrfToken, 'csrf token').to.be.a('string').and.not.be.empty;
+
+            cy.request({
+                method: 'POST',
+                url: '/login',
+                form: true,
+                followRedirect: false,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: {
+                    _token: csrfToken,
+                    email: Cypress.env('adminEmail'),
+                    password: Cypress.env('adminPassword'),
+                    remember: false,
+                },
+            }).then((response) => {
+                expect(response.status).to.eq(302);
+                expect(response.redirectedToUrl || response.headers.location).to.include('/dashboard');
+            });
+        });
+
+        cy.getCookie('noble_architecture_session').should('exist');
+        cy.visitWithConsent('/dashboard');
+        cy.location('pathname', { timeout: 15000 }).should('eq', '/dashboard');
     });
 });
 

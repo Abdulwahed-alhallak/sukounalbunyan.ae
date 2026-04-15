@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +21,7 @@ class RegisteredUserController extends Controller
     public function create(): Response|RedirectResponse
     {
         // Check if registration is enabled
-        $enableRegistration = admin_setting('enableRegistration');
+        $enableRegistration = admin_setting('enableRegistration') ?? 'on';
 
         if ($enableRegistration !== 'on') {
             return redirect()->route('login');
@@ -39,7 +38,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Check if registration is enabled
-        $enableRegistration = admin_setting('enableRegistration');
+        $enableRegistration = admin_setting('enableRegistration') ?? 'on';
 
         if ($enableRegistration !== 'on') {
             return redirect()->route('login');
@@ -52,7 +51,7 @@ class RegisteredUserController extends Controller
         ]);
 
         try {
-            $enableEmailVerification = admin_setting('enableEmailVerification');
+            $enableEmailVerification = admin_setting('enableEmailVerification') ?? 'off';
 
             $adminUser = User::where('type', 'superadmin')->first();
 
@@ -62,18 +61,22 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'email_verified_at' => $enableEmailVerification === 'on' ? null : now(),
                 'type' => 'company',
-                'lang' => $adminUser->lang,
+                'lang' => $adminUser?->lang ?? app()->getLocale(),
                 'created_by' => $adminUser ? $adminUser->id : null,
             ]);
 
-            User::CompanySetting($user->id);
+            if ($adminUser) {
+                User::CompanySetting($user->id);
+            }
             User::MakeRole($user->id);
-            $user->assignRole($user->type);
+            if (\Spatie\Permission\Models\Role::where('name', $user->type)->where('guard_name', 'web')->exists()) {
+                $user->assignRole($user->type);
+            }
 
             Auth::login($user);
 
              // Send welcome email
-            if(admin_setting('New User') == 'on') {
+            if (admin_setting('New User') == 'on' && $adminUser) {
                 $emailData = [
                     'name' => $user->name,
                     'email' => $user->email,
@@ -94,7 +97,7 @@ class RegisteredUserController extends Controller
                 ]
             );
 
-            if ($enableEmailVerification === 'on') {
+            if ($enableEmailVerification === 'on' && $adminUser) {
                 // Apply dynamic mail configuration
                 SetConfigEmail($adminUser->id);
                 $user->sendEmailVerificationNotification();

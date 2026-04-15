@@ -34,27 +34,27 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        try {
-            // Apply dynamic mail configuration
-            $adminUser = User::where('type', 'superadmin')->first();
-            SetConfigEmail($adminUser->id);
-
-            // We will send the password reset link to this user. Once we have attempted
-            // to send the link, we will examine the response then see the message we
-            // need to show to the user. Finally, we'll send out a proper response.
-            $status = Password::sendResetLink(
-                $request->only('email')
-            );
-
-            if ($status == Password::RESET_LINK_SENT) {
-                return back()->with('status', __($status));
+        // Prefer tenant-aware mail settings when they exist, but do not block the
+        // reset flow from using the application's default mailer.
+        $adminUser = User::where('type', 'superadmin')->first();
+        if ($adminUser) {
+            try {
+                SetConfigEmail($adminUser->id);
+            } catch (\Throwable $e) {
+                report($e);
             }
-
-            throw ValidationException::withMessages([
-                'email' => [trans($status)],
-            ]);
-        } catch (\Exception $e) {
-            return back()->withErrors(['email' => 'Failed to send password reset email. Please try again.']);
         }
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status == Password::RESET_LINK_SENT) {
+            return back()->with('status', __($status));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => [trans($status)],
+        ]);
     }
 }

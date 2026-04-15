@@ -39,15 +39,16 @@ class EmployeeController extends Controller
         if (Auth::user()->can('manage-employees')) {
             $query = Employee::query()->with(['user:id,name,avatar,is_disable', 'branch', 'department', 'designation', 'shift']);
 
-            $query->where(function ($q) {
-                if (Auth::user()->can('manage-any-employees')) {
-                    $q->where('created_by', creatorId());
-                } elseif (Auth::user()->can('manage-own-employees')) {
-                    $q->where('creator_id', Auth::id())->orWhere('user_id', Auth::id());
-                } else {
-                    $q->whereRaw('1 = 0');
-                }
-            });
+            // Show all employees if manage-any-employees, otherwise filter by own employees
+            if (!Auth::user()->can('manage-any-employees')) {
+                $query->where(function ($q) {
+                    if (Auth::user()->can('manage-own-employees')) {
+                        $q->where('creator_id', Auth::id())->orWhere('user_id', Auth::id());
+                    } else {
+                        $q->whereRaw('1 = 0');
+                    }
+                });
+            }
 
             if ($request->filled('employee_id')) {
                 $query->where(function ($q) use ($request) {
