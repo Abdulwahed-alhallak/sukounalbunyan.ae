@@ -286,7 +286,7 @@ export default function Index() {
                     <Tooltip>
                         <TooltipTrigger>
                             <div
-                                className={`flex items-center space-x-1 rounded px-2 py-1 text-sm font-medium ${
+                                className={`flex items-center gap-1 rounded px-2 py-1 text-sm font-medium ${
                                     deal.tasks_count > 0 && deal.complete_tasks_count === deal.tasks_count
                                         ? 'bg-muted/50 text-foreground'
                                         : 'bg-muted/50 text-muted-foreground'
@@ -306,7 +306,7 @@ export default function Index() {
                     <div className="flex items-center gap-1">
                         <Tooltip>
                             <TooltipTrigger>
-                                <div className="flex items-center space-x-1 rounded bg-muted/50 px-2 py-1 text-xs font-medium text-foreground">
+                                <div className="flex items-center gap-1 rounded bg-muted/50 px-2 py-1 text-xs font-medium text-foreground">
                                     <ShoppingCart className="h-3 w-3" />
                                     <span>
                                         {deal.products
@@ -343,7 +343,7 @@ export default function Index() {
 
                         <Tooltip>
                             <TooltipTrigger>
-                                <div className="flex items-center space-x-1 rounded bg-muted/50 px-2 py-1 text-xs font-medium text-foreground">
+                                <div className="flex items-center gap-1 rounded bg-muted/50 px-2 py-1 text-xs font-medium text-foreground">
                                     <Globe className="h-3 w-3" />
                                     <span>
                                         {deal.sources
@@ -381,7 +381,7 @@ export default function Index() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <div className="flex -space-x-2">
+                    <div className="flex -space-x-2 rtl:space-x-reverse">
                         <TooltipProvider>
                             {(() => {
                                 if (!deal.users || deal.users.length === 0) {
@@ -435,7 +435,7 @@ export default function Index() {
                     </div>
 
                     {deal.price && (
-                        <div className="flex items-center space-x-1 text-xs font-medium text-foreground">
+                        <div className="flex items-center gap-1 text-xs font-medium text-foreground">
                             <DollarSignIcon className="h-3 w-3" />
                             <span>{formatCurrency(deal.price)}</span>
                         </div>
