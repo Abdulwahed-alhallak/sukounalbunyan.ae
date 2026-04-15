@@ -2,17 +2,25 @@ import { Client } from 'ssh2';
 import fs from 'fs';
 import path from 'path';
 
+const CONFIG = require('../deployment/secureConfig.js');
+
 const conn = new Client();
 
 const config = {
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
+    host: CONFIG.SSH.host,
+    port: CONFIG.SSH.port,
+    username: CONFIG.SSH.username,
+    password: CONFIG.SSH.password
 };
 
 const REMOTE_FILE = 'domains/noble.dion.sy/noble_final_sync.sql';
 const LOCAL_FILE = './noble_final_sync.sql';
+
+// Database credentials from CONFIG (loaded from .env.production)
+const DB_HOST = CONFIG.DB.host;
+const DB_USER = CONFIG.DB.username;
+const DB_PASS = CONFIG.DB.password;
+const DB_NAME = CONFIG.DB.database;
 
 conn.on('ready', () => {
     console.log('SSH Connected for Database Sync...');
@@ -26,7 +34,8 @@ conn.on('ready', () => {
             if (err) throw err;
             console.log('Upload complete. Starting database import...');
 
-            const importCommand = `mysql -h srv1142.hstgr.io -u u256167180_noble -p'4_m_XMkgux@.AgC' u256167180_noble < ${REMOTE_FILE} && rm ${REMOTE_FILE}`;
+            // Use CONFIG database credentials instead of hardcoded values
+            const importCommand = `mysql -h ${DB_HOST} -u ${DB_USER} -p'${DB_PASS}' ${DB_NAME} < ${REMOTE_FILE} && rm ${REMOTE_FILE}`;
             
             conn.exec(importCommand, (err, stream) => {
                 if (err) throw err;
@@ -47,3 +56,4 @@ conn.on('ready', () => {
         });
     });
 }).connect(config);
+

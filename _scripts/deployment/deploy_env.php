@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 use phpseclib3\Net\SFTP;
 
 // Load sensitive credentials from .env.production.php (NOT from hardcoded values)

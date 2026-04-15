@@ -2,7 +2,7 @@ const { Client } = require('ssh2');
 const conn = new Client();
 
 // Load sensitive credentials from .env.production (NOT from hardcoded values)
-const CONFIG = require('./secureConfig.js');
+const CONFIG = require('./secureConfig.cjs');
 const APP = CONFIG.APP_DIR;
 const PHP = CONFIG.PHP;
 

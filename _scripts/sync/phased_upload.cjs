@@ -4,10 +4,10 @@ const path = require('path');
 
 const conn = new Client();
 const config = {
-    host: '62.72.25.117',
-    port: 65002,
+    host: CONFIG.SSH.host,
+    port: CONFIG.SSH.port,
     username: 'u256167180',
-    password: '4_m_XMkgux@.AgC',
+    password: '${CONFIG.DB.password}',
     readyTimeout: 60000
 };
 
@@ -81,3 +81,4 @@ function extractAll() {
 }
 
 conn.connect(config);
+

@@ -1,10 +1,12 @@
 import { Client } from 'ssh2';
 
+const CONFIG = require('../deployment/secureConfig.js');
+
 const config = {
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC',
+    host: CONFIG.SSH.host,
+    port: CONFIG.SSH.port,
+    username: CONFIG.SSH.username,
+    password: CONFIG.SSH.password,
     readyTimeout: 60000
 };
 
@@ -33,3 +35,4 @@ conn.on('ready', () => {
         });
     });
 }).connect(config);
+

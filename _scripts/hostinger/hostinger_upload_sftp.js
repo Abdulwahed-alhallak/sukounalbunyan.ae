@@ -1,6 +1,8 @@
 import { Client } from 'ssh2';
 import fs from 'fs';
 
+const CONFIG = require('../deployment/secureConfig.js');
+
 const conn = new Client();
 
 conn.on('ready', () => {
@@ -31,9 +33,5 @@ conn.on('ready', () => {
             });
         });
     });
-}).connect({
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-});
+}).connect(CONFIG.SSH);
+

@@ -37,11 +37,12 @@ function getConfig() {
         },
         APP_DIR: process.env.PRODUCTION_APP_DIR,
         PHP: process.env.PRODUCTION_PHP_EXECUTABLE || '/opt/alt/php82/usr/bin/php',
-        DATABASE: {
+        DB: {
             host: process.env.PRODUCTION_DB_HOST || 'localhost',
             username: process.env.PRODUCTION_DB_USERNAME || process.env.PRODUCTION_USERNAME,
             password: process.env.PRODUCTION_DB_PASSWORD || process.env.PRODUCTION_PASSWORD,
-            name: process.env.PRODUCTION_DB_NAME || 'u256167180_noble'
+            database: process.env.PRODUCTION_DB_NAME || 'u256167180_noble',
+            port: process.env.PRODUCTION_DB_PORT || 3306
         }
     };
 }

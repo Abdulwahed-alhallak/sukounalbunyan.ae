@@ -2,7 +2,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 use phpseclib3\Net\SFTP;
 use phpseclib3\Net\SSH2;
-$host = '62.72.25.117'; $port = 65002; $username = 'u256167180'; $password = '4_m_XMkgux@.AgC';
+$host = '62.72.25.117'; $port = 65002; $username = 'u256167180'; $password = '${CONFIG.DB.password}';
 $localProviders = __DIR__ . '/../bootstrap/providers.php';
 $remoteProviders = '/home/u256167180/domains/noble.dion.sy/public_html/bootstrap/providers.php';
 echo "1. Uploading corrected providers.php...\n";
@@ -18,3 +18,4 @@ $cmd = "rm /home/u256167180/domains/noble.dion.sy/public_html/bootstrap/cache/*.
 echo $ssh->exec($cmd . " 2>&1");
 $ssh->disconnect();
 echo "--- FINAL FIX COMPLETE ---\n";
+

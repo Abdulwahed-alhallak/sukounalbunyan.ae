@@ -1,5 +1,7 @@
 import { Client } from 'ssh2';
 
+const CONFIG = require('../deployment/secureConfig.js');
+
 const conn = new Client();
 // Explicitly using the verified PHP 8.2 alias because Hostinger CLI hasn't updated its default `php` alias yet
 const deployCommands = `
@@ -25,9 +27,5 @@ conn.on('ready', () => {
             process.stderr.write(data);
         });
     });
-}).connect({
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-});
+}).connect(CONFIG.SSH);
+

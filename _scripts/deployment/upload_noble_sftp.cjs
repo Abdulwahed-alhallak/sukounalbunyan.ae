@@ -2,7 +2,7 @@ const Client = require('ssh2').Client;
 const fs = require('fs');
 
 // Load sensitive credentials from .env.production (NOT from hardcoded values)
-const CONFIG = require('./secureConfig.js');
+const CONFIG = require('./secureConfig.cjs');
 const conn = new Client();
 const file = 'noble_production_ecosystem.tar.gz';
 const remotePath = '/home/u256167180/noble_production_ecosystem.tar.gz';

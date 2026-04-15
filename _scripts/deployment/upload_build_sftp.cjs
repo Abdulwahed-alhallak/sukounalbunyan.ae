@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Load sensitive credentials from .env.production (NOT from hardcoded values)
-const CONFIG = require('./secureConfig.js');
+const CONFIG = require('./secureConfig.cjs');
 const SSH_CONFIG = CONFIG.SSH;
 const APP = CONFIG.APP_DIR;
 const LOCAL_BUILD = path.join(__dirname, '..', '..', 'public', 'build');
