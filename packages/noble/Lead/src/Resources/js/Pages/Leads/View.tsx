@@ -31,7 +31,7 @@ export default function View({ lead }: ViewProps) {
         { label: t('Phone Number'), value: lead.phone || t('Not recorded'), icon: Phone },
         { label: t('Acquisition Goal (Subject)'), value: lead.subject, icon: Target },
         { label: t('Current Phase'), value: lead.stage?.name || t('Initial Phase'), icon: Activity },
-        { label: t('Intelligence Agent'), value: lead.user?.name || t('Unassigned'), icon: Users },
+        { label: t('Assigned To'), value: lead.user?.name || t('Unassigned'), icon: Users },
         {
             label: t('Created At'),
             value: lead.created_at ? format(new Date(lead.created_at), 'PPPp') : t('Unknown'),
@@ -91,7 +91,7 @@ export default function View({ lead }: ViewProps) {
                         <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-muted-foreground" />
                             <h4 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                                {t('Intelligence Briefing')}
+                                {t('Lead Information')}
                             </h4>
                             <div className="h-px flex-1 bg-muted dark:bg-foreground" />
                         </div>

@@ -677,7 +677,7 @@ export default function Index() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
                         {
-                            label: t('Potential Revenue Payload'),
+                            label: t('Potential Revenue'),
                             value: formatCurrency(
                                 (deals as any)?.data?.reduce(
                                     (acc: number, d: any) => acc + (parseFloat(d.price) || 0),

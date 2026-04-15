@@ -21,6 +21,9 @@ class UpdateJobLocationRequest extends FormRequest
             'state' => 'nullable|max:50',
             'country' => 'nullable|max:50',
             'postal_code' => 'nullable|max:20',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'geofence_radius_meters' => 'nullable|integer|min:1',
             'status' => 'boolean'
         ];
     }

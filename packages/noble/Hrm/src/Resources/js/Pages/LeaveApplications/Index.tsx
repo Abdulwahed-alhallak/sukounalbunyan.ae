@@ -499,7 +499,7 @@ export default function Index() {
                                             onValueChange={(value) => setFilters({ ...filters, employee_id: value })}
                                         >
                                             <SelectTrigger className="h-11 border-white/5 bg-background/20">
-                                                <SelectValue placeholder={t('Select Agent')} />
+                                                <SelectValue placeholder={t('Select Employee')} />
                                             </SelectTrigger>
                                             <SelectContent className="border-white/10 bg-foreground">
                                                 {employees?.map((employee) => (
@@ -626,7 +626,7 @@ export default function Index() {
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <h3 className="truncate text-sm font-black uppercase tracking-tight">
-                                                                    {leave.employee?.name || 'Unknown Agent'}
+                                                                    {leave.employee?.name || t('Unknown Employee')}
                                                                 </h3>
                                                                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                                                                     {leave.leave_type?.name}

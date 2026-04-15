@@ -1,0 +1,47 @@
+name: Deploy to Hostinger
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: 191.101.104.20
+          username: u256167180
+          password: 4_m_XMkgux@.AgC
+          port: 65002
+          timeout: 120s
+          command_timeout: 300s
+          script: |
+            echo "═══════════════════════════════════════════"
+            echo "🏛️ NOBLE ARCHITECTURE — GITHUB ACTIONS DEPLOY"
+            echo "═══════════════════════════════════════════"
+            
+            cd ~/domains/noble.dion.sy/public_html
+            
+            echo "▸ [1/5] Git pull..."
+            git fetch origin master
+            git reset --hard origin/master
+            
+            echo "▸ [2/5] Clear caches..."
+            /usr/local/bin/php artisan optimize:clear 2>&1 || true
+            
+            echo "▸ [3/5] Migrate..."
+            /usr/local/bin/php artisan migrate --force 2>&1 || true
+            
+            echo "▸ [4/5] Rebuild caches..."
+            /usr/local/bin/php artisan config:cache 2>&1 || true
+            /usr/local/bin/php artisan route:cache 2>&1 || true
+            /usr/local/bin/php artisan view:cache 2>&1 || true
+            
+            echo "▸ [5/5] Verify..."
+            /usr/local/bin/php artisan --version 2>&1 || true
+            ls -la public/build/manifest.json 2>&1 || true
+            
+            echo "═══════════════════════════════════════════"
+            echo "✅ DEPLOY COMPLETE"
+            echo "═══════════════════════════════════════════"

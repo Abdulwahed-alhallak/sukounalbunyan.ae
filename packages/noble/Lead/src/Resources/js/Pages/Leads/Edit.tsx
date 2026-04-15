@@ -124,7 +124,7 @@ export default function EditLead({
                         <div>
                             <DialogTitle className="text-lg font-semibold tracking-tight">{t('Edit Lead')}</DialogTitle>
                             <p className="mt-0.5 text-xs text-muted-foreground">
-                                {t('Update lead intelligence and strategic context.')}
+                                {t('Update lead details and professional context.')}
                             </p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ export default function EditLead({
                                 value="intelligence"
                                 className="rounded-md px-4 py-1.5 text-xs font-medium transition-all data-[state=active]:bg-foreground data-[state=active]:text-background dark:data-[state=active]:bg-muted dark:data-[state=active]:text-foreground"
                             >
-                                {t('Intelligence')}
+                                {t('Details')}
                             </TabsTrigger>
                         </TabsList>
                     </div>

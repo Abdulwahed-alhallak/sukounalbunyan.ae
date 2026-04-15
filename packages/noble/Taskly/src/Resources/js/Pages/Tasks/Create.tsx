@@ -42,7 +42,7 @@ interface CreateProps {
     preSelectedStageId?: number;
 }
 
-type TabType = 'intel' | 'allocation' | 'temporal';
+type TabType = 'details' | 'allocation' | 'schedule';
 
 export default function Create({
     onSuccess,
@@ -53,7 +53,7 @@ export default function Create({
     preSelectedStageId,
 }: CreateProps) {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<TabType>('intel');
+    const [activeTab, setActiveTab] = useState<TabType>('details');
 
     const { data, setData, post, processing, errors } = useForm<CreateProjectTaskFormData>({
         project_id: project?.id || 0,
@@ -91,18 +91,18 @@ export default function Create({
     };
 
     const tabs = [
-        { id: 'intel', label: t('Task Details'), icon: Target, description: t('Core parameters') },
+        { id: 'details', label: t('Task Details'), icon: Target, description: t('Core parameters') },
         { id: 'allocation', label: t('Assignment'), icon: Users, description: t('Priority & team') },
-        { id: 'temporal', label: t('Schedule'), icon: Clock, description: t('Timeline & files') },
+        { id: 'schedule', label: t('Schedule'), icon: Clock, description: t('Timeline & files') },
     ];
 
     const getProgressWidth = () => {
         switch (activeTab) {
-            case 'intel':
+            case 'details':
                 return 'w-1/3';
             case 'allocation':
                 return 'w-2/3';
-            case 'temporal':
+            case 'schedule':
                 return 'w-full';
             default:
                 return 'w-0';
@@ -189,7 +189,7 @@ export default function Create({
                                     <span className="h-1.5 w-1.5 animate-ping rounded-full bg-foreground" />
                                 </DialogTitle>
                                 <p className="mt-1 text-[10px] font-bold uppercase tracking-tighter text-muted-foreground opacity-50">
-                                Operational Anchor: {project?.name || 'Undefined Project'}
+                                    {t('Project Context')}: {project?.name || t('Undefined Project')}
                                 </p>
                             </div>
                             <Badge
@@ -203,7 +203,7 @@ export default function Create({
 
                     <form onSubmit={submit} className="flex flex-1 flex-col overflow-hidden p-0">
                         <div className="custom-scrollbar relative flex-1 overflow-y-auto p-8">
-                            {activeTab === 'intel' && (
+                            {activeTab === 'details' && (
                                 <div className="space-y-6 duration-300 animate-in fade-in slide-in-from-end-4">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="col-span-2">
@@ -221,7 +221,7 @@ export default function Create({
                                                     />
                                                     <InputError message={errors.title} />
                                                 </div>
-                                                {titleAI?.map((field) => (
+                                                {titleAI?.map((field: any) => (
                                                     <div key={field.id} className="pb-0.5">
                                                         {field.component}
                                                     </div>
@@ -275,7 +275,7 @@ export default function Create({
                                                 {t('Description')}
                                             </Label>
                                             <div className="flex gap-2">
-                                                {descriptionAI?.map((field) => (
+                                                {descriptionAI?.map((field: any) => (
                                                     <div key={field.id}>{field.component}</div>
                                                 ))}
                                             </div>
@@ -394,7 +394,7 @@ export default function Create({
                                 </div>
                             )}
 
-                            {activeTab === 'temporal' && (
+                            {activeTab === 'schedule' && (
                                 <div className="space-y-8 duration-300 animate-in fade-in slide-in-from-end-4">
                                     <div className="space-y-4 rounded-2xl border border-white/5 bg-card/[0.02] p-6">
                                         <div className="mb-4 flex items-center gap-2">
@@ -421,14 +421,14 @@ export default function Create({
                                         </div>
                                         <MediaPicker
                                             value={data.media_paths || []}
-                                            onChange={(v) => setData('media_paths', v)}
+                                            onChange={(v: any) => setData('media_paths', v)}
                                             multiple={true}
                                         />
                                         <InputError message={errors.media_paths} />
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
-                                        {calendarFields?.map((field) => (
+                                        {calendarFields?.map((field: any) => (
                                             <div
                                                 key={field.id}
                                                 className="rounded-xl border border-white/5 bg-card/[0.02] p-3 transition-all hover:bg-card/[0.05]"
@@ -443,11 +443,11 @@ export default function Create({
 
                         <div className="flex items-center justify-between border-t border-white/5 bg-foreground/40 p-8">
                             <div>
-                                {activeTab !== 'intel' && (
+                                {activeTab !== 'details' && (
                                     <Button
                                         type="button"
                                         variant="outline"
-                                        onClick={() => setActiveTab(activeTab === 'temporal' ? 'allocation' : 'intel')}
+                                        onClick={() => setActiveTab(activeTab === 'schedule' ? 'allocation' : 'details')}
                                         className="group h-10 gap-2 rounded-xl border-white/5 px-6 hover:bg-card/10"
                                     >
                                         <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -470,7 +470,7 @@ export default function Create({
                                     </span>
                                 </Button>
 
-                                {activeTab === 'temporal' ? (
+                                {activeTab === 'schedule' ? (
                                     <Button
                                         type="submit"
                                         disabled={processing}
@@ -486,7 +486,7 @@ export default function Create({
                                         ) : (
                                             <div className="flex items-center gap-2">
                                                 <Zap className="h-4 w-4 transition-transform group-hover:scale-125" />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">
+                                                <span className="text-[10px) font-black uppercase tracking-widest">
                                                     {t('Create Task')}
                                                 </span>
                                             </div>
@@ -495,7 +495,7 @@ export default function Create({
                                 ) : (
                                     <Button
                                         type="button"
-                                        onClick={() => setActiveTab(activeTab === 'intel' ? 'allocation' : 'temporal')}
+                                        onClick={() => setActiveTab(activeTab === 'details' ? 'allocation' : 'schedule')}
                                         className="premium-button group h-10 px-10"
                                     >
                                         <span className="text-[10px] font-black uppercase tracking-widest">

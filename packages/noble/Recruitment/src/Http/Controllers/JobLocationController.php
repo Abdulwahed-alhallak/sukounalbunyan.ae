@@ -61,15 +61,7 @@ class JobLocationController extends Controller
             $validated['status'] = $request->boolean('status', false);
 
             $joblocation = new JobLocation();
-            $joblocation->name = $validated['name'];
-            $joblocation->remote_work = $validated['remote_work'];
-            $joblocation->address = $validated['address'];
-            $joblocation->city = $validated['city'];
-            $joblocation->state = $validated['state'];
-            $joblocation->country = $validated['country'];
-            $joblocation->postal_code = $validated['postal_code'];
-            $joblocation->status = $validated['status'];
-
+            $joblocation->fill($validated);
             $joblocation->creator_id = Auth::id();
             $joblocation->created_by = creatorId();
             $joblocation->save();
@@ -89,15 +81,7 @@ class JobLocationController extends Controller
 
             $validated['status'] = $request->boolean('status', false);
 
-            $joblocation->name = $validated['name'];
-            $joblocation->remote_work = $validated['remote_work'];
-            $joblocation->address = $validated['address'];
-            $joblocation->city = $validated['city'];
-            $joblocation->state = $validated['state'];
-            $joblocation->country = $validated['country'];
-            $joblocation->postal_code = $validated['postal_code'];
-            $joblocation->status = $validated['status'];
-
+            $joblocation->fill($validated);
             $joblocation->save();
 
             UpdateJobLocation::dispatch($request, $joblocation);

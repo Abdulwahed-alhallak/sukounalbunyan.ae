@@ -122,7 +122,7 @@ export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
                     <div className="space-y-3">
                         <Label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                             <User className="h-3 w-3 text-foreground" />
-                            {t('Target Operative')}
+                            {t('Select Employee')}
                         </Label>
                         <Select
                             value={data.employee_id?.toString() || ''}
@@ -130,7 +130,7 @@ export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
                             required
                         >
                             <SelectTrigger className="h-12 border-white/10 bg-card/5 text-xs font-black uppercase tracking-widest">
-                                <SelectValue placeholder={t('Identify Agent')} />
+                                <SelectValue placeholder={t('Choose Employee')} />
                             </SelectTrigger>
                             <SelectContent className="glass-effect-dark border-white/10">
                                 {employees?.map((item: any) => (
@@ -300,7 +300,7 @@ export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
                 <div className="space-y-3">
                     <Label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                         <Paperclip className="h-3 w-3 text-muted-foreground" />
-                        {t('Supporting Intelligence (Attachments)')}
+                        {t('Attachments & Supporting Documents')}
                     </Label>
                     <MediaPicker
                         multiple={true}
