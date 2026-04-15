@@ -14,6 +14,16 @@ class Project extends Model
 {
     use HasFactory, InteractsWithMedia;
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            // Auto-assign the Tenant ID to prevent data-leaks or 500 errors 
+            if (empty($model->created_by) && auth()->check()) {
+                $model->created_by = creatorId();
+            }
+        });
+    }
+
     protected $fillable = [
         'name',
         'description',

@@ -15,6 +15,18 @@ class ProjectTask extends Model implements HasMedia
 {
     use HasFactory, SpatieInteractsWithMedia, InteractsWithMedia;
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->created_by) && auth()->check()) {
+                $model->created_by = creatorId();
+            }
+            if (empty($model->creator_id) && auth()->check()) {
+                $model->creator_id = auth()->id();
+            }
+        });
+    }
+
     protected $fillable = [
         'project_id',
         'milestone_id',

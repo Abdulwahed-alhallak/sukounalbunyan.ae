@@ -98,6 +98,13 @@ class SalesInvoice extends Model
             if (empty($invoice->invoice_number)) {
                 $invoice->invoice_number = static::generateInvoiceNumber();
             }
+            // Ensure Tenant Boundary enforcement securely
+            if (empty($invoice->created_by) && auth()->check()) {
+                $invoice->created_by = creatorId();
+            }
+            if (empty($invoice->creator_id) && auth()->check()) {
+                $invoice->creator_id = auth()->id();
+            }
         });
     }
 
