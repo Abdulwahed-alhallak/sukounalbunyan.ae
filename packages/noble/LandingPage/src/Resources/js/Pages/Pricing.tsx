@@ -116,7 +116,7 @@ export default function Pricing(props: PricingProps) {
                                 } transition-all duration-300 hover:border-neutral-600`}
                             >
                                 {plan.id === mostPopularPlanId && (
-                                    <div className="absolute -top-4 start-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-black uppercase tracking-widest text-black">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-black uppercase tracking-widest text-black">
                                         {t('Most Popular')}
                                     </div>
                                 )}

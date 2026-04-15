@@ -225,7 +225,7 @@ export default function PlansIndex({ plans, canCreate, activeModules, bankTransf
                                     }`}
                                 >
                                     {plan.id === mostPopularPlanId && activePlans.length > 1 && (
-                                        <div className="absolute -top-4 start-1/2 -translate-x-1/2 transform">
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">
                                             <Badge className="bg-foreground px-4 py-2 text-sm font-bold text-background shadow-lg">
                                                 ★ {t('Most Popular')}
                                             </Badge>

@@ -60,7 +60,7 @@ export default function View({ promotion }: ViewProps) {
 
                     <div className="relative">
                         {/* Timeline Line */}
-                        <div className="absolute bottom-8 start-1/2 top-8 w-0.5 -translate-x-1/2 transform bg-gradient-to-b from-foreground to-foreground/60"></div>
+                        <div className="absolute bottom-8 left-1/2 top-8 w-0.5 -translate-x-1/2 transform bg-gradient-to-b from-foreground to-foreground/60"></div>
 
                         {/* Previous Position */}
                         <div className="mb-8 flex items-center">

@@ -21,7 +21,7 @@ export default function Hero({ settings }: HeroProps) {
     return (
         <section className="relative flex items-center justify-center overflow-hidden bg-black py-32 text-white md:py-48">
             {/* Background Vercel glow effect */}
-            <div className="pointer-events-none absolute start-1/2 top-[-10%] h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-r from-neutral-800 to-neutral-600 opacity-30 blur-[120px]"></div>
+            <div className="pointer-events-none absolute left-1/2 top-[-10%] h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-r from-neutral-800 to-neutral-600 opacity-30 blur-[120px]"></div>
 
             <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-6 text-center">
                 {/* Tech Badge */}

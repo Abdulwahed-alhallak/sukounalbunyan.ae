@@ -21,7 +21,7 @@ export default function CTA({ settings }: CTAProps) {
             <div className="mx-auto w-full max-w-4xl px-6">
                 <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-12 text-center backdrop-blur-sm md:p-20">
                     {/* Minimalist glow effect */}
-                    <div className="pointer-events-none absolute start-1/2 top-0 h-32 w-64 -translate-x-1/2 rounded-full bg-white/5 blur-[80px]"></div>
+                    <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-64 -translate-x-1/2 rounded-full bg-white/5 blur-[80px]"></div>
 
                     <h2 className="relative z-10 mb-6 text-4xl font-extrabold tracking-tighter text-white md:text-5xl">
                         {title}

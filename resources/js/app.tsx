@@ -139,7 +139,7 @@ createInertiaApp({
                 <Suspense fallback={<NobleLoader />}>
                     <App {...props} />
                 </Suspense>
-                <Toaster position="top-center" richColors />
+                <Toaster position="top-center" richColors dir="auto" />
             </ThemeProvider>
         );
     },
