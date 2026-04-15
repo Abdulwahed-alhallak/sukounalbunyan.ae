@@ -11,19 +11,15 @@ use Noble\Hrm\Models\Designation;
 use Noble\Taskly\Traits\InteractsWithMedia;
 use Noble\Taskly\Models\TaskAttachment;
 
+use App\Traits\TenantBound;
+
 class Employee extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, TenantBound;
 
     protected static function booted()
     {
         static::creating(function ($model) {
-            if (empty($model->created_by) && auth()->check()) {
-                $model->created_by = creatorId();
-            }
-            if (empty($model->creator_id) && auth()->check()) {
-                $model->creator_id = auth()->id();
-            }
             if (empty($model->employee_id)) {
                 $model->employee_id = self::generateEmployeeId();
             }

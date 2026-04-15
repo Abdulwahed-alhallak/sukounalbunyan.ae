@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Traits\TenantBound;
+
 class SalesInvoice extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'invoice_number',
         'invoice_date',
@@ -97,13 +100,6 @@ class SalesInvoice extends Model
         static::creating(function ($invoice) {
             if (empty($invoice->invoice_number)) {
                 $invoice->invoice_number = static::generateInvoiceNumber();
-            }
-            // Ensure Tenant Boundary enforcement securely
-            if (empty($invoice->created_by) && auth()->check()) {
-                $invoice->created_by = creatorId();
-            }
-            if (empty($invoice->creator_id) && auth()->check()) {
-                $invoice->creator_id = auth()->id();
             }
         });
     }

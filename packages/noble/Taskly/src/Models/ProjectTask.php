@@ -11,20 +11,15 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia as SpatieInteractsWithMedia;
 use Noble\Taskly\Traits\InteractsWithMedia;
 
+use App\Traits\TenantBound;
+
 class ProjectTask extends Model implements HasMedia
 {
-    use HasFactory, SpatieInteractsWithMedia, InteractsWithMedia;
+    use HasFactory, SpatieInteractsWithMedia, InteractsWithMedia, TenantBound;
 
     protected static function booted()
     {
-        static::creating(function ($model) {
-            if (empty($model->created_by) && auth()->check()) {
-                $model->created_by = creatorId();
-            }
-            if (empty($model->creator_id) && auth()->check()) {
-                $model->creator_id = auth()->id();
-            }
-        });
+        // Add any task-specific boot logic here if needed
     }
 
     protected $fillable = [

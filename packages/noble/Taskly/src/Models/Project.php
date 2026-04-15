@@ -10,18 +10,15 @@ use App\Models\User;
 
 use Noble\Taskly\Traits\InteractsWithMedia;
 
+use App\Traits\TenantBound;
+
 class Project extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, TenantBound;
 
     protected static function booted()
     {
-        static::creating(function ($model) {
-            // Auto-assign the Tenant ID to prevent data-leaks or 500 errors 
-            if (empty($model->created_by) && auth()->check()) {
-                $model->created_by = creatorId();
-            }
-        });
+        // Add any project-specific boot logic here if needed
     }
 
     protected $fillable = [

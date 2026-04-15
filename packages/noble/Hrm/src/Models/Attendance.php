@@ -8,9 +8,11 @@ use App\Models\User;
 use Noble\Hrm\Models\Employee;
 use Noble\Hrm\Models\Shift;
 
+use App\Traits\TenantBound;
+
 class Attendance extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'employee_id',
