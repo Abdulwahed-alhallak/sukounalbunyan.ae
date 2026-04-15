@@ -62,11 +62,11 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                     </div>
 
                     <div className="my-auto w-full max-w-xl">
-                        <h2 className="mb-6 text-4xl font-bold leading-[1.15] tracking-tight text-background lg:text-[44px]">
+                        <h2 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-background lg:text-4xl xl:text-[44px]">
                             {t('The ultimate workspace for your business.')}
                         </h2>
 
-                        <p className="mb-12 max-w-lg text-[16px] font-normal leading-relaxed text-neutral-400">
+                        <p className="mb-12 max-w-xl text-base font-normal leading-relaxed text-neutral-300 dark:text-neutral-400">
                             {t('Manage projects, accounting, HR, CRM, and more in one unified ecosystem.')}
                         </p>
 
@@ -89,10 +89,10 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-[15px] font-semibold tracking-tight text-white">
+                                    <h4 className="text-[15px] font-semibold tracking-tight text-white/95">
                                         {t('Unified modular architecture')}
                                     </h4>
-                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-500">
+                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-300/80">
                                         {t('Seamless integration across all modules')}
                                     </p>
                                 </div>
@@ -114,10 +114,10 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-[15px] font-semibold tracking-tight text-white">
+                                    <h4 className="text-[15px] font-semibold tracking-tight text-white/95">
                                         {t('Real-time comprehensive reporting')}
                                     </h4>
-                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-500">
+                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-300/80">
                                         {t('Advanced analytics & insights')}
                                     </p>
                                 </div>
@@ -139,10 +139,10 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-[15px] font-semibold tracking-tight text-white">
+                                    <h4 className="text-[15px] font-semibold tracking-tight text-white/95">
                                         {t('Multi-company & multi-currency')}
                                     </h4>
-                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-500">
+                                    <p className="text-[13px] font-medium leading-relaxed text-neutral-300/80">
                                         {t('Global reach with localized precision')}
                                     </p>
                                 </div>
@@ -150,16 +150,16 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                         </div>
                     </div>
 
-                    <div className="flex w-full items-center gap-3 pb-2 text-[13px] font-medium text-neutral-600">
+                    <div className="flex w-full items-center gap-3 pb-2 text-[13px] font-medium text-neutral-400">
                         <p>
                             {settings.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
                         </p>
                         <span className="opacity-30">·</span>
-                        <a href="#" className="transition-colors hover:text-neutral-400">
+                        <a href="#" className="transition-colors hover:text-white">
                             {t('Privacy')}
                         </a>
                         <span className="opacity-30">·</span>
-                        <a href="#" className="transition-colors hover:text-neutral-400">
+                        <a href="#" className="transition-colors hover:text-white">
                             {t('Terms')}
                         </a>
                     </div>
@@ -188,10 +188,10 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                 </div>
 
                 {/* Form Card Area */}
-                <div className="relative z-20 mx-auto w-full max-w-[420px] px-6 py-12 sm:px-10 lg:py-0">
-                    <div className="mb-8 mt-8 text-start lg:mt-0">
-                        <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
-                        <p className="text-[14px] font-normal leading-relaxed text-muted-foreground">{description}</p>
+                <div className="relative z-20 mx-auto w-full max-w-[440px] px-6 py-12 sm:px-10 lg:py-0">
+                    <div className="mb-10 mt-8 text-start lg:mt-0">
+                        <h1 className="mb-3 text-2xl font-bold tracking-tight text-foreground lg:text-3xl">{title}</h1>
+                        <p className="text-[15px] font-medium leading-relaxed text-muted-foreground/90">{description}</p>
                     </div>
 
                     <div className="bg-transparent text-start">{children}</div>

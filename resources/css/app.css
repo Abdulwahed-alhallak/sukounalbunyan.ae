@@ -637,7 +637,7 @@
 
     /* ─── RTL Overrides ─── */
     .rtl {
-        text-align: right;
+        text-align: inherit;
     }
     .rtl table {
         text-align: right;
@@ -652,13 +652,22 @@
         text-align: left !important;
     }
     .rtl .ml-auto {
+        margin-inline-start: auto !important;
+        margin-inline-end: 0 !important;
+    }
+    .rtl .mr-auto {
         margin-inline-end: auto !important;
         margin-inline-start: 0 !important;
     }
 
-    [dir='rtl'] & .ms-auto-force {
-        margin-inline-start: auto !important;
-        margin-inline-end: 0 !important;
+    /* Logical property enforcement */
+    [dir='rtl'] {
+        --text-align-start: right;
+        --text-align-end: left;
+    }
+    
+    .rtl .flex-row-reverse-on-rtl {
+        flex-direction: row-reverse;
     }
 
     /* ─── Vercel Kbd Style ─── */
@@ -932,7 +941,7 @@
 }
 
 .rtl [data-sidebar="sidebar"] {
-    @apply border-s border-e-0;
+    @apply border-e border-s-0;
 }
 
 /* ─── Vercel Geist 2026 — Backdrop Pattern ─── */

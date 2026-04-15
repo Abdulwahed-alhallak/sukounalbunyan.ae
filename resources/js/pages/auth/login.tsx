@@ -79,12 +79,12 @@ export default function Login({
         >
             <Head title={t('Log in')} />
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-foreground">{status}</div>}
+            {status && <div className="mb-6 text-center text-sm font-medium text-success dark:text-success-foreground">{status}</div>}
 
             <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                        <Label htmlFor="email" className="text-sm font-semibold tracking-tight text-foreground">
                             {t('Email address')}
                         </Label>
                         <Input
@@ -107,14 +107,14 @@ export default function Login({
                         <div className="flex items-center justify-between">
                             <Label
                                 htmlFor="password"
-                                className="text-sm font-medium text-foreground dark:text-foreground"
+                                className="text-sm font-semibold tracking-tight text-foreground"
                             >
                                 {t('Password')}
                             </Label>
                             {canResetPassword && (
                                 <Link
                                     href={route('password.request')}
-                                    className="text-sm text-foreground hover:underline"
+                                    className="text-sm font-medium text-foreground/70 transition-colors hover:text-foreground hover:underline"
                                     tabIndex={5}
                                 >
                                     {t('Forgot password?')}
@@ -147,7 +147,7 @@ export default function Login({
                         />
                         <Label
                             htmlFor="remember"
-                            className="cursor-pointer text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                            className="cursor-pointer text-xs font-semibold text-muted-foreground/70 transition-colors hover:text-foreground"
                         >
                             {t('Remember me')}
                         </Label>
@@ -159,12 +159,12 @@ export default function Login({
 
                     <Button
                         type="submit"
-                        className="mt-4 w-full rounded-lg bg-foreground py-6 text-sm font-bold tracking-tight text-background shadow-sm transition-all duration-300 hover:translate-y-[-1px] hover:shadow-xl active:translate-y-[1px]"
+                        className="mt-6 w-full rounded-xl bg-foreground py-6 text-[15px] font-bold tracking-tight text-background shadow-md transition-all duration-300 hover:translate-y-[-1px] hover:shadow-xl active:translate-y-[1px]"
                         tabIndex={4}
                         disabled={processing}
                         data-test="login-button"
                     >
-                        {processing ? <div className="vercel-shimmer h-4 w-20 rounded" /> : t('SIGN IN')}
+                        {processing ? <div className="vercel-shimmer h-4 w-20 rounded" /> : t('Sign In')}
                     </Button>
 
                     {loginButtons.length > 0 && (
@@ -183,9 +183,9 @@ export default function Login({
                                     <div className="absolute inset-0 flex items-center">
                                         <span className="w-full border-t dark:border-border" />
                                     </div>
-                                    <div className="relative flex justify-center text-xs uppercase">
-                                        <span className="bg-card px-2 text-muted-foreground dark:bg-card dark:text-muted-foreground">
-                                            {t('Or continue with')}
+                                     <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
+                                        <span className="bg-background px-3 text-muted-foreground/60">
+                                            {t('Or secure entry with')}
                                         </span>
                                     </div>
                                 </div>
@@ -233,7 +233,7 @@ export default function Login({
                         </div>
                         
                         <div className="grid grid-cols-2 gap-3">
-                            <Button
+                             <Button
                                 type="button"
                                 onClick={() => handleQuickLogin('admin@noblearchitecture.net', '1234')}
                                 disabled={processing}
@@ -245,13 +245,13 @@ export default function Login({
                                     </div>
                                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                                 </div>
-                                <div className="mt-2 min-w-0">
+                                <div className="mt-2 min-w-0 text-start">
                                     <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Commander')}</p>
-                                    <p className="text-[9px] font-medium text-muted-foreground truncate">{t('Full Governance')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Full Governance')}</p>
                                 </div>
                             </Button>
 
-                            <Button
+                             <Button
                                 type="button"
                                 onClick={() => handleQuickLogin('samad34557788@noblearchitecture.net', '1234')}
                                 disabled={processing}
@@ -263,9 +263,9 @@ export default function Login({
                                     </div>
                                     <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
                                 </div>
-                                <div className="mt-2 min-w-0">
+                                <div className="mt-2 min-w-0 text-start">
                                     <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Employee')}</p>
-                                    <p className="text-[9px] font-medium text-muted-foreground truncate">{t('Operational Access')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Operational Access')}</p>
                                 </div>
                             </Button>
                         </div>

@@ -83,7 +83,7 @@ conn.on('ready', async () => {
         const junkFiles = [
             'execute_ssh.cjs', 'noble_final_sync.sql', 'nobel_Employee_S_Data.csv',
             'artisan_serve.log', 'npm_dev.log', 'tsc_output.txt', 'LAST_UPDATE.log',
-            'manifest.json', 'index.php', 'sw.js',
+            'manifest.json', 'sw.js',
         ];
         for (const f of junkFiles) {
             r = await exec(conn, `test -f ${APP}/${f} && rm -f ${APP}/${f} && echo "DELETED: ${f}" || echo "skip: ${f}"`);
