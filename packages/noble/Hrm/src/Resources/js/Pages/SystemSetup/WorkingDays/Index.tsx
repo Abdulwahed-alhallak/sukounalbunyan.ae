@@ -81,7 +81,7 @@ export default function Index() {
                                         {daysOfWeek?.map((day) => (
                                             <div
                                                 key={day.key}
-                                                className="flex items-center space-x-3 rounded-lg border p-3 hover:bg-muted/50"
+                                                className="flex items-center gap-3 rounded-lg border p-3 hover:bg-muted/50"
                                             >
                                                 <Checkbox
                                                     id={day.key}

@@ -101,7 +101,7 @@ export default function Create({ onSuccess }: CreateShiftProps) {
                     <InputError message={errors.break_end_time} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Checkbox
                         id="is_night_shift"
                         checked={data.is_night_shift || false}

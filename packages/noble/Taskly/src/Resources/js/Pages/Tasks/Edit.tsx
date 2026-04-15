@@ -236,7 +236,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 </div>
 
                 <div>
-                    <Label>{t('Mission Documentation / Tactical Payload')}</Label>
+                    <Label>{t('Attachments')}</Label>
                     <MediaPicker
                         value={data.media_paths || []}
                         onChange={(v) => updateData('media_paths', v)}

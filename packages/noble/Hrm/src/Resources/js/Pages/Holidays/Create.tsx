@@ -148,7 +148,7 @@ export default function Create({ onSuccess }: CreateHolidayProps) {
                     <InputError message={errors.description} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="is_paid"
                         checked={data.is_paid || false}
@@ -160,7 +160,7 @@ export default function Create({ onSuccess }: CreateHolidayProps) {
                     <InputError message={errors.is_paid} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="is_sync_google_calendar"
                         checked={data.is_sync_google_calendar || false}
@@ -172,7 +172,7 @@ export default function Create({ onSuccess }: CreateHolidayProps) {
                     <InputError message={errors.is_sync_google_calendar} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="is_sync_outlook_calendar"
                         checked={data.is_sync_outlook_calendar || false}

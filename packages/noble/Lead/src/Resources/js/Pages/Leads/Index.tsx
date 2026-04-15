@@ -518,7 +518,7 @@ export default function Index() {
             <Head title={t('Leads')} />
 
             <div className="space-y-8 pb-12">
-                {/* Mission Command: Tactical Intelligence Header */}
+                {/* CRM Header */}
                 <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-foreground/5 p-8 backdrop-blur-3xl dark:border-white/10 dark:bg-card/5">
                     {/* Ambient Glows */}
                     <div className="pointer-events-none absolute end-0 top-0 p-12 opacity-[0.03] transition-transform duration-1000 group-hover:scale-125">
@@ -532,13 +532,13 @@ export default function Index() {
                                     <UsersIcon className="h-5 w-5" />
                                 </div>
                                 <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground dark:text-foreground">
-                                    {t('Lead Intelligence')}
+                                    {t('Leads')}
                                     <span className="italic text-foreground">.</span>
                                 </h1>
                             </div>
                             <p className="max-w-md text-sm font-medium tracking-tight text-muted-foreground">
                                 {t(
-                                    'Real-time synchronization of conversion pipelines and strategic outreach telemetry.'
+                                    'Track and manage your sales leads, pipelines, and conversion stages.'
                                 )}
                             </p>
                         </div>
@@ -561,7 +561,7 @@ export default function Index() {
                                     className={`h-8 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'kanban' ? 'bg-foreground text-background shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-muted dark:hover:bg-card'}`}
                                 >
                                     <Kanban className="me-2 h-3 w-3" />
-                                    {t('Kanban Flux')}
+                                    {t('Kanban View')}
                                 </Button>
                             </div>
 
@@ -640,7 +640,7 @@ export default function Index() {
                             <div className="flex items-center gap-1.5">
                                 <div className="h-2 w-2 rounded-full bg-foreground shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
                                 <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                                    {pipelines?.length || 0} {t('Active Sectors')}
+                                    {pipelines?.length || 0} {t('Pipelines')}
                                 </span>
                             </div>
                         </div>
@@ -651,24 +651,24 @@ export default function Index() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
                         {
-                            label: t('Total Force'),
+                            label: t('Total Leads'),
                             value: (leads as any)?.meta?.total || (leads as any)?.total || 0,
                             icon: UsersIcon,
                             color: 'blue',
                         },
                         {
-                            label: t('Sync Required'),
+                            label: t('Overdue'),
                             value: leads?.data?.filter((l: any) => l.date && new Date(l.date) < new Date()).length || 0,
                             icon: Calendar,
                             color: 'rose',
                         },
                         {
-                            label: t('Operational'),
+                            label: t('With Tasks'),
                             value: leads?.data?.filter((l: any) => l.tasks_count > 0).length || 0,
                             icon: CheckSquare,
                             color: 'emerald',
                         },
-                        { label: t('Sectors'), value: pipelines?.length || 0, icon: Kanban, color: 'amber' },
+                        { label: t('Pipelines'), value: pipelines?.length || 0, icon: Kanban, color: 'amber' },
                     ]?.map((kpi, i) => (
                         <div
                             key={i}
@@ -690,7 +690,7 @@ export default function Index() {
                                 </span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="origin-left text-3xl font-black tracking-tighter transition-transform duration-500 group-hover:scale-105">
+                                <h3 className="tabular-nums origin-left text-3xl font-black tracking-tighter transition-transform duration-500 group-hover:scale-105">
                                     {kpi.value}
                                 </h3>
                             </div>
@@ -723,7 +723,7 @@ export default function Index() {
                                         value={filters.name}
                                         onChange={(value) => setFilters({ ...filters, name: value })}
                                         onSearch={handleFilter}
-                                        placeholder={t('Search coordinates...')}
+                                        placeholder={t('Search leads...')}
                                         className="h-11 rounded-2xl border-border bg-card/50 text-xs font-medium focus:ring-foreground/20 dark:border-white/10 dark:bg-foreground/20"
                                     />
                                 </div>
@@ -758,19 +758,19 @@ export default function Index() {
                                 </div>
                             </div>
 
-                            {/* Filter Drawer: Modern Tactical Layout */}
+                            {/* Filter Drawer */}
                             {showFilters && (
                                 <div className="mt-6 grid grid-cols-1 gap-6 border-t border-border pt-6 duration-500 animate-in slide-in-from-top-4 dark:border-white/5 sm:grid-cols-2 lg:grid-cols-3">
                                     <div className="space-y-2">
                                         <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
-                                            {t('Assigned Unit')}
+                                            {t('Assigned User')}
                                         </label>
                                         <Select
                                             value={filters.user_id}
                                             onValueChange={(value) => setFilters({ ...filters, user_id: value })}
                                         >
                                             <SelectTrigger className="h-10 rounded-xl border-border bg-card/50 px-4 text-xs font-bold transition-all hover:bg-muted dark:border-white/10 dark:bg-foreground/20 dark:hover:bg-foreground/50">
-                                                <SelectValue placeholder={t('All Personnel')} />
+                                                <SelectValue placeholder={t('All Users')} />
                                             </SelectTrigger>
                                             <SelectContent className="rounded-xl shadow-2xl">
                                                 {users?.map((item: any) => (
@@ -787,7 +787,7 @@ export default function Index() {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
-                                            {t('Deployment Stage')}
+                                            {t('Lead Stage')}
                                         </label>
                                         <Select
                                             value={filters.stage_id}
@@ -814,7 +814,7 @@ export default function Index() {
                                             onClick={handleFilter}
                                             className="h-10 flex-1 rounded-xl bg-foreground px-6 text-[10px] font-black uppercase tracking-widest text-background shadow-lg shadow-primary/10 transition-all active:scale-95"
                                         >
-                                            {t('Apply Synch')}
+                                            {t('Apply Filters')}
                                         </Button>
                                         <Button
                                             variant="ghost"

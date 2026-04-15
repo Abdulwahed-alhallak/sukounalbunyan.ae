@@ -67,10 +67,10 @@ export default function Index() {
             <Head title={t('Trial Balance')} />
 
             <div className="mx-auto max-w-7xl space-y-6">
-                <Card className="border-0 bg-gradient-to-r from-white to-muted/50 shadow-lg">
+                <Card className="border-0 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                     <CardHeader className="pb-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div className="flex items-center gap-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-muted/50">
                                     <FileText className="h-5 w-5 text-foreground" />
                                 </div>

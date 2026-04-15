@@ -303,7 +303,7 @@ export default function Index() {
                                 value={filters.company_name}
                                 onChange={(value) => setFilters({ ...filters, company_name: value })}
                                 onSearch={handleFilter}
-                                placeholder="Search vendors..."
+                                placeholder={t('Search vendors...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
@@ -395,15 +395,15 @@ export default function Index() {
                                     emptyState={
                                         <NoRecordsFound
                                             icon={Building2}
-                                            title="No vendors found"
-                                            description="Get started by creating your first vendor."
+                                            title={t('No vendors found')}
+                                            description={t('Get started by creating your first vendor.')}
                                             hasFilters={
                                                 !!(filters.company_name || filters.vendor_code || filters.tax_number)
                                             }
                                             onClearFilters={clearFilters}
                                             createPermission="create-vendors"
                                             onCreateClick={() => openModal('add')}
-                                            createButtonText="Create Vendor"
+                                            createButtonText={t('Create Vendor')}
                                             className="h-auto"
                                         />
                                     }
@@ -619,13 +619,13 @@ export default function Index() {
                             ) : (
                                 <NoRecordsFound
                                     icon={Building2}
-                                    title="No vendors found"
-                                    description="Get started by creating your first vendor."
+                                    title={t('No vendors found')}
+                                    description={t('Get started by creating your first vendor.')}
                                     hasFilters={!!(filters.company_name || filters.vendor_code || filters.tax_number)}
                                     onClearFilters={clearFilters}
                                     createPermission="create-vendors"
                                     onCreateClick={() => openModal('add')}
-                                    createButtonText="Create Vendor"
+                                    createButtonText={t('Create Vendor')}
                                     className="h-auto"
                                 />
                             )}
@@ -656,7 +656,7 @@ export default function Index() {
             <ConfirmationDialog
                 open={deleteState.isOpen}
                 onOpenChange={closeDeleteDialog}
-                title="Delete Vendor"
+                title={t('Delete Vendor')}
                 message={deleteState.message}
                 confirmText="Delete"
                 onConfirm={confirmDelete}

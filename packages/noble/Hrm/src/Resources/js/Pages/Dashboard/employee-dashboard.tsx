@@ -226,7 +226,7 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                                     <Calendar className="h-6 w-6" />
                                 </div>
                                 <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-foreground">
-                                    {t('Tactical Leave')}
+                                    {t('Leave Balance')}
                                 </span>
                             </div>
                             <div className="space-y-1">
@@ -356,7 +356,7 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-[10px] font-bold uppercase text-muted-foreground">
-                                                {t('Deployment')}
+                                                {t('Start Date')}
                                             </p>
                                             <p className="text-lg font-black">
                                                 {stats.attendance_data?.shift_start_time
@@ -389,7 +389,7 @@ export default function EmployeeDashboard({ message, stats }: EmployeeDashboardP
                                         ) : (
                                             <>
                                                 <Play className="me-3 h-6 w-6" />
-                                                {t('Deploy')}
+                                                {t('Apply')}
                                             </>
                                         )}
                                     </Button>

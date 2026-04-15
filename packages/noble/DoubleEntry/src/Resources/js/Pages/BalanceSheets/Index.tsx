@@ -108,21 +108,27 @@ export default function Index() {
         },
         {
             key: 'total_assets',
-            header: t('Total Assets'),
+            header: <div className="text-end">{t('Total Assets')}</div>,
             sortable: false,
-            render: (value: number) => formatCurrency(value),
+            render: (value: number) => (
+                <div className="text-end tabular-nums font-medium">{formatCurrency(value)}</div>
+            ),
         },
         {
             key: 'total_liabilities',
-            header: t('Total Liabilities'),
+            header: <div className="text-end">{t('Total Liabilities')}</div>,
             sortable: false,
-            render: (value: number) => formatCurrency(value),
+            render: (value: number) => (
+                <div className="text-end tabular-nums font-medium text-destructive">{formatCurrency(value)}</div>
+            ),
         },
         {
             key: 'total_equity',
-            header: t('Total Equity'),
+            header: <div className="text-end">{t('Total Equity')}</div>,
             sortable: false,
-            render: (value: number) => formatCurrency(value),
+            render: (value: number) => (
+                <div className="text-end tabular-nums font-medium">{formatCurrency(value)}</div>
+            ),
         },
         {
             key: 'is_balanced',
@@ -308,8 +314,8 @@ export default function Index() {
         >
             <Head title={t('Balance Sheets')} />
 
-            <Card className="shadow-sm">
-                <CardContent className="bg-muted/50/50 border-b p-6">
+            <Card className="border-0 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
+                <CardContent className="border-b bg-muted/50 p-6">
                     <div className="flex items-center justify-between gap-4">
                         <div className="max-w-md flex-1">
                             <SearchInput

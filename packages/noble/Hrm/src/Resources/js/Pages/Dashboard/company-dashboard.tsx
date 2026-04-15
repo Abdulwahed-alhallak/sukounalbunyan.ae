@@ -362,7 +362,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                         <CalendarDays className="h-5 w-5" />
                                     </div>
                                     <h3 className="text-xl font-black uppercase tracking-tighter">
-                                        {t('Mission Deployment Timeline')}
+                                        {t('Project Timeline')}
                                     </h3>
                                 </div>
                                 <div className="flex gap-2">

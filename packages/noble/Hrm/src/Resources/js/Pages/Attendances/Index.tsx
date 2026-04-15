@@ -171,7 +171,7 @@ export default function Index() {
                     absent: 'bg-destructive/10 text-destructive border-destructive/20',
                 };
                 const formatStatus = (status: string) => {
-                    return status.toUpperCase();
+                    return status.charAt(0).toUpperCase() + status.slice(1);
                 };
 
                 return (
@@ -266,7 +266,11 @@ export default function Index() {
                     {auth.user?.permissions?.includes('create-attendances') && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
-                                <Button size="sm" onClick={() => openModal('add')}>
+                                <Button 
+                                    size="sm" 
+                                    onClick={() => openModal('add')}
+                                    className="bg-foreground text-background hover:opacity-90 dark:bg-muted dark:text-foreground"
+                                >
                                     <Plus className="h-4 w-4" />
                                 </Button>
                             </TooltipTrigger>
@@ -283,24 +287,24 @@ export default function Index() {
             <div className="space-y-8 duration-1000 animate-in fade-in">
                 {/* Duty Presence Board */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="premium-card from-muted/500/10 bg-gradient-to-br via-transparent to-transparent p-6">
+                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="bg-muted/500/20 flex h-10 w-10 items-center justify-center rounded-xl text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/20 text-foreground">
                                 <ClockIcon className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Presence Level')}
+                                {t('Attendance Rate')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">
                                 {attendances?.data?.filter((a) => a.status === 'present').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Active Field Agents')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Present Employees')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6">
+                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted-foreground/20 text-muted-foreground">
                                 <ClockIcon className="h-5 w-5 rotate-45" />
@@ -310,33 +314,33 @@ export default function Index() {
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">
-                                {attendances?.data?.filter((a) => a.status === 'half day').length || 0}
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">
+                                {attendances?.data?.filter((a: any) => a.status === 'half_day').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Resticted Field Ops')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Half-Day Attendance')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6">
+                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground">
                                 <TrendingUp className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Combat Hours')}
+                                {t('Working Hours')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">
                                 {attendances?.data
                                     ?.reduce((acc, curr) => acc + (parseFloat(curr.total_hour?.toString()) || 0), 0)
                                     .toFixed(1)}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Total Operational Cycles')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Total Hours Worked')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6">
+                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/20 text-destructive">
                                 <XCircle className="h-5 w-5" />
@@ -346,10 +350,10 @@ export default function Index() {
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">
                                 {attendances?.data?.filter((a) => a.status === 'absent').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Units Off-Station')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Absent Employees')}</p>
                         </div>
                     </div>
                 </div>
@@ -362,12 +366,12 @@ export default function Index() {
                             <div className="w-full max-w-xl lg:flex-1">
                                 {auth.user?.permissions?.includes('manage-employees') && (
                                     <SearchInput
-                                        value={filters.search}
-                                        onChange={(value) => setFilters({ ...filters, search: value })}
-                                        onSearch={handleFilter}
-                                        placeholder={t('Identify personnel or date vector...')}
-                                        className="border-white/10 bg-background/20"
-                                    />
+                                    value={filters.search}
+                                    onChange={(value) => setFilters({ ...filters, search: value })}
+                                    onSearch={handleFilter}
+                                    placeholder={t('Search by employee or date...')}
+                                    className="border-border bg-background/50"
+                                />
                                 )}
                             </div>
                             <div className="flex w-full items-center gap-4 overflow-x-auto pb-2 lg:w-auto lg:pb-0">
@@ -445,7 +449,7 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Vector Start')}
+                                        {t('Start Date')}
                                     </label>
                                     <Input
                                         type="date"
@@ -456,7 +460,7 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Vector End')}
+                                        {t('End Date')}
                                     </label>
                                     <Input
                                         type="date"
@@ -470,7 +474,7 @@ export default function Index() {
                                         onClick={handleFilter}
                                         className="h-10 rounded-xl bg-foreground px-8 text-xs font-black uppercase tracking-widest hover:bg-foreground/80"
                                     >
-                                        {t('Synchronize')}
+                                        {t('Apply Filters')}
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -524,7 +528,7 @@ export default function Index() {
                     {/* Matrix Pagination */}
                     <div className="border-t border-white/5 bg-card/5 px-6 py-4">
                         <Pagination
-                            data={attendances || { data: [], links: [], meta: {} }}
+                            data={(attendances || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }) as any}
                             routeName="hrm.attendances.index"
                             filters={{ ...filters, per_page: perPage, view: viewMode }}
                         />

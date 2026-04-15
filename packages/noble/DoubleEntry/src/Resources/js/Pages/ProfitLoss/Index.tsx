@@ -66,10 +66,10 @@ export default function Index() {
             <Head title={t('Profit & Loss')} />
 
             <div className="mx-auto max-w-7xl space-y-6">
-                <Card className="border-0 bg-gradient-to-r from-white to-muted/50 shadow-lg">
+                <Card className="border-0 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                     <CardHeader className="pb-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div className="flex items-center gap-4">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-muted/50">
                                     <FileText className="h-5 w-5 text-foreground" />
                                 </div>
@@ -135,19 +135,19 @@ export default function Index() {
                                 </p>
                             </div>
                             <div
-                                className={`rounded-xl border p-6 text-center shadow-sm transition-shadow hover:shadow-md ${
+                                className={`rounded-xl border p-6 text-center shadow-md transition-all hover:shadow-lg ${
                                     profitLoss.net_profit >= 0
-                                        ? 'border-border bg-gradient-to-br from-muted/50 to-muted'
-                                        : 'border-border bg-gradient-to-br from-muted/50 to-muted'
+                                        ? 'border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10'
+                                        : 'border-destructive/20 bg-gradient-to-br from-destructive/5 to-destructive/10'
                                 }`}
                             >
                                 <h4
-                                    className={`mb-2 font-semibold ${profitLoss.net_profit >= 0 ? 'text-foreground' : 'text-foreground'}`}
+                                    className={`mb-2 font-semibold ${profitLoss.net_profit >= 0 ? 'text-primary' : 'text-destructive'}`}
                                 >
                                     {profitLoss.net_profit >= 0 ? t('Net Profit') : t('Net Loss')}
                                 </h4>
                                 <p
-                                    className={`text-3xl font-bold tabular-nums ${profitLoss.net_profit >= 0 ? 'text-foreground' : 'text-foreground'}`}
+                                    className={`text-3xl font-bold tabular-nums ${profitLoss.net_profit >= 0 ? 'text-primary' : 'text-destructive'}`}
                                 >
                                     {formatCurrency(Math.abs(profitLoss.net_profit))}
                                 </p>

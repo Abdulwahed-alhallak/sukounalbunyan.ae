@@ -513,7 +513,7 @@ export default function Index() {
                                 )}
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Mission Status')}
+                                        {t('Status')}
                                     </label>
                                     <Select
                                         value={filters.status}
@@ -531,7 +531,7 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Deployment Start')}
+                                        {t('Start Date')}
                                     </label>
                                     <Input
                                         type="date"
@@ -542,7 +542,7 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Deployment End')}
+                                        {t('End Date')}
                                     </label>
                                     <Input
                                         type="date"
@@ -556,7 +556,7 @@ export default function Index() {
                                         onClick={handleFilter}
                                         className="h-10 rounded-xl bg-foreground px-8 text-xs font-black uppercase tracking-widest hover:bg-foreground/80"
                                     >
-                                        {t('Synchronize')}
+                                        {t('Apply Filters')}
                                     </Button>
                                     <Button
                                         variant="ghost"

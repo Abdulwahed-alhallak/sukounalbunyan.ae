@@ -69,7 +69,7 @@ export default function Create({ onSuccess }: CreateLeaveTypeProps) {
                     <InputError message={errors.max_days_per_year} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="is_paid"
                         checked={data.is_paid || false}

@@ -98,12 +98,12 @@ export default function CompanyDashboard() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[{ label: t('Project Dashboard') }]}
-            pageTitle={t('Strategic Intel Terminal')}
+            pageTitle={t('Project Dashboard')}
         >
             <Head title={t('Project Dashboard')} />
 
             <div className="space-y-8 pb-12">
-                {/* Tactical KPI Matrix */}
+                {/* KPI Metrics */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
                     <div
                         onClick={() => router.get(route('project.index'))}
@@ -114,15 +114,15 @@ export default function CompanyDashboard() {
                                 <FolderKanban className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Payload Active')}
+                                {t('Projects')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">{stats.total_projects}</h3>
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">{stats.total_projects}</h3>
                             <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
                                 {stats.overdue_projects > 0
-                                    ? `${stats.overdue_projects} ${t('Sector Anomalies')}`
-                                    : t('Operational Integrity')}
+                                    ? `${stats.overdue_projects} ${t('Overdue')}`
+                                    : t('All On Track')}
                             </p>
                         </div>
                     </div>
@@ -136,13 +136,13 @@ export default function CompanyDashboard() {
                                 <CheckSquare className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Mission Velocity')}
+                                {t('Completion Rate')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">{stats.completion_rate}%</h3>
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">{stats.completion_rate}%</h3>
                             <p className="text-[10px] font-bold uppercase tracking-tight text-foreground">
-                                {stats.completed_tasks}/{stats.total_tasks} {t('Tasks Captured')}
+                                {stats.completed_tasks}/{stats.total_tasks} {t('Completed')}
                             </p>
                         </div>
                     </div>
@@ -156,13 +156,13 @@ export default function CompanyDashboard() {
                                 <ShieldAlert className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Threat Density')}
+                                {t('Open Bugs')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">{bugStats.open}</h3>
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">{bugStats.open}</h3>
                             <p className="text-[10px] font-bold uppercase tracking-tight text-destructive">
-                                {bugStats.resolved} {t('Threats Neutralized')}
+                                {bugStats.resolved} {t('Resolved')}
                             </p>
                         </div>
                     </div>
@@ -176,13 +176,13 @@ export default function CompanyDashboard() {
                                 <Users className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Personnel Unit')}
+                                {t('Team Members')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">{stats.total_users}</h3>
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">{stats.total_users}</h3>
                             <p className="text-[10px] font-bold uppercase tracking-tight text-foreground">
-                                {t('Registered Agents')}
+                                {t('Active Users')}
                             </p>
                         </div>
                     </div>
@@ -193,20 +193,20 @@ export default function CompanyDashboard() {
                                 <UserCheck className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Entity Breadth')}
+                                {t('Clients')}
                             </span>
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-3xl font-black tracking-tight">{stats.total_clients}</h3>
+                            <h3 className="tabular-nums text-3xl font-black tracking-tight">{stats.total_clients}</h3>
                             <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
-                                {t('Sector Stakeholders')}
+                                {t('Total Clients')}
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                    {/* Mission Flux Analytics */}
+                    {/* Monthly Progress */}
                     <div className="lg:col-span-8">
                         <Card className="premium-card h-full overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
                             <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 p-8">
@@ -214,11 +214,11 @@ export default function CompanyDashboard() {
                                     <div className="flex items-center gap-2">
                                         <TrendingUp className="h-4 w-4 animate-pulse text-foreground" />
                                         <CardTitle className="text-sm font-black uppercase tracking-widest">
-                                            {t('Mission Flux Analytics')}
+                                            {t('Monthly Progress')}
                                         </CardTitle>
                                     </div>
                                     <p className="text-[10px] font-black uppercase tracking-tight text-muted-foreground">
-                                        {t('Operational Temporal Progression')}
+                                        {t('Tasks created vs completed over time')}
                                     </p>
                                 </div>
                             </CardHeader>
@@ -230,8 +230,8 @@ export default function CompanyDashboard() {
                                     showTooltip={true}
                                     showGrid={false}
                                     lines={[
-                                        { dataKey: 'created', color: '#3b82f6', name: 'Vector Created' },
-                                        { dataKey: 'completed', color: '#10b77f', name: 'Vector Captured' },
+                                        { dataKey: 'created', color: '#3b82f6', name: 'Created' },
+                                        { dataKey: 'completed', color: '#10b77f', name: 'Completed' },
                                     ]}
                                     xAxisKey="month"
                                     showLegend={true}
@@ -240,14 +240,14 @@ export default function CompanyDashboard() {
                         </Card>
                     </div>
 
-                    {/* Sector Status Matrix */}
+                    {/* Project Status */}
                     <div className="space-y-8 lg:col-span-4">
                         <Card className="premium-card overflow-hidden border-none bg-foreground/40 text-background backdrop-blur-3xl">
                             <CardHeader className="border-b border-white/5 p-6">
                                 <div className="flex items-center gap-2">
                                     <Activity className="h-4 w-4 text-foreground" />
                                     <CardTitle className="text-xs font-black uppercase tracking-widest">
-                                        {t('Mission Status Matrix')}
+                                        {t('Project Status')}
                                     </CardTitle>
                                 </div>
                             </CardHeader>
@@ -294,7 +294,7 @@ export default function CompanyDashboard() {
                                 <div className="flex items-center gap-2">
                                     <Zap className="h-4 w-4 text-muted-foreground" />
                                     <CardTitle className="text-xs font-black uppercase tracking-widest">
-                                        {t('Personnel Capability Index')}
+                                        {t('Team Performance')}
                                     </CardTitle>
                                 </div>
                             </CardHeader>
@@ -304,7 +304,7 @@ export default function CompanyDashboard() {
                                         <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
                                             <span className="text-background">{member.name}</span>
                                             <span className="text-muted-foreground">
-                                                {member.completed_tasks}/{member.total_tasks} {t('Tasks Captured')}
+                                                {member.completed_tasks}/{member.total_tasks} {t('Completed')}
                                             </span>
                                         </div>
                                         <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-card/5">
@@ -323,7 +323,7 @@ export default function CompanyDashboard() {
                     </div>
                 </div>
 
-                {/* Real-Time Operational Feed */}
+                {/* Recent Tasks */}
                 <div>
                     <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
                         <CardHeader className="flex flex-col justify-between gap-4 border-b border-white/5 p-8 md:flex-row md:items-center">
@@ -331,12 +331,12 @@ export default function CompanyDashboard() {
                                 <div className="flex items-center gap-2">
                                     <Activity className="h-4 w-4 text-foreground" />
                                     <CardTitle className="text-sm font-black uppercase tracking-widest">
-                                        {t('Real-Time Operational Feed')}
+                                        {t('Recent Tasks')}
                                     </CardTitle>
                                 </div>
                                 <p className="text-[10px] font-black uppercase tracking-tight text-muted-foreground">
                                     {stats.completed_tasks} {t('of')} {stats.total_tasks}{' '}
-                                    {t('vectors captured across global fleet')}
+                                    {t('tasks completed across all projects')}
                                 </p>
                             </div>
                         </CardHeader>
@@ -361,7 +361,7 @@ export default function CompanyDashboard() {
                                         <div className="space-y-4">
                                             <div className="flex items-center justify-between">
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                    {t('Threat Level')}
+                                                    {t('Priority')}
                                                 </span>
                                                 <Badge
                                                     className={`${getPriorityColor(task.priority)} h-4 border-none px-2 py-0 text-[8px] font-black uppercase`}
@@ -371,7 +371,7 @@ export default function CompanyDashboard() {
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                    {t('Operational Stage')}
+                                                    {t('Stage')}
                                                 </span>
                                                 <span
                                                     className={`rounded border px-1.5 py-0.5 text-[8px] font-black uppercase tracking-widest ${getStageColor(task.stage)}`}

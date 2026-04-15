@@ -98,7 +98,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.employees.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">
                                     {t('Total Employees')}
@@ -106,7 +106,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <Users className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.total_employees}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.total_employees}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Active employees')}</span>
                                 </div>
@@ -118,7 +118,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.attendances.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">
                                     {t('Present Today')}
@@ -126,7 +126,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <UserCheck className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.present_today}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.present_today}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>
                                         {((stats.present_today / stats.total_employees) * 100).toFixed(1)}%{' '}
@@ -141,7 +141,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.attendances.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-destructive">
                                     {t('Absent Today')}
@@ -149,7 +149,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <UserX className="h-5 w-5 text-destructive" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-destructive">{stats.absent_today}</div>
+                                <div className="tabular-nums text-3xl font-bold text-destructive">{stats.absent_today}</div>
                                 <div className="mt-1 flex items-center text-xs text-destructive">
                                     {stats.absent_today > stats.absent_yesterday ? (
                                         <ArrowUpRight className="me-1 h-3 w-3" />
@@ -169,13 +169,13 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.leave-applications.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">{t('On Leave')}</CardTitle>
                                 <Calendar className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.on_leave}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.on_leave}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>
                                         {stats.pending_leaves} {t('pending approvals')}
@@ -192,7 +192,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.branches.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">
                                     {t('Total Branch')}
@@ -200,7 +200,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <Building className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.total_branches}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.total_branches}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Active branches')}</span>
                                 </div>
@@ -212,7 +212,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.departments.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">
                                     {t('Total Department')}
@@ -220,7 +220,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <Briefcase className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.total_departments}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.total_departments}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('Across all branches')}</span>
                                 </div>
@@ -232,7 +232,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.promotions.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-foreground">
                                     {t('Total Promotions')}
@@ -240,7 +240,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <TrendingUp className="h-5 w-5 text-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-foreground">{stats.total_promotions}</div>
+                                <div className="tabular-nums text-3xl font-bold text-foreground">{stats.total_promotions}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>{t('This year')}</span>
                                 </div>
@@ -252,7 +252,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                         onClick={() => (window.location.href = route('hrm.terminations.index'))}
                         className="cursor-pointer"
                     >
-                        <Card className="border-border bg-gradient-to-r from-muted/50 to-muted">
+                        <Card className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-semibold text-destructive">
                                     {t('Terminations')}
@@ -260,7 +260,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <TrendingDown className="h-5 w-5 text-destructive" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-3xl font-bold text-destructive">{stats.terminations}</div>
+                                <div className="tabular-nums text-3xl font-bold text-destructive">{stats.terminations}</div>
                                 <div className="mt-1 flex items-center text-xs text-destructive">
                                     <span>{t('This month')}</span>
                                 </div>
@@ -639,7 +639,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                                     key={index}
                                                     className="flex items-start justify-between rounded-lg border border-border bg-card p-3"
                                                 >
-                                                    <div className="flex items-start space-x-3">
+                                                    <div className="flex items-start gap-3">
                                                         <div className={`${colors.icon} rounded-full p-1.5`}>
                                                             <Calendar className="h-3 w-3 text-background" />
                                                         </div>
@@ -698,7 +698,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                             return (
                                                 <div
                                                     key={index}
-                                                    className="flex items-start space-x-3 rounded-lg border border-border bg-card p-3"
+                                                    className="flex items-start gap-3 rounded-lg border border-border bg-card p-3"
                                                 >
                                                     <div className={`${colors[index % 6]} rounded-full p-1.5`}>
                                                         <FileText className="h-3 w-3 text-background" />

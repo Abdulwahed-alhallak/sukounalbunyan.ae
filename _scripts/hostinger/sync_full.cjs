@@ -21,7 +21,8 @@ const tasks = [
     { local: './package.json', remote: `${SYNC_ROOT}/package.json`, type: 'file' },
     { local: './composer.json', remote: `${SYNC_ROOT}/composer.json`, type: 'file' },
     { local: './vite.config.js', remote: `${SYNC_ROOT}/vite.config.js`, type: 'file' },
-    { local: './tailwind.config.js', remote: `${SYNC_ROOT}/tailwind.config.js`, type: 'file' }
+    { local: './tailwind.config.js', remote: `${SYNC_ROOT}/tailwind.config.js`, type: 'file' },
+    { local: './_scripts/hostinger/import_db.php', remote: `${SYNC_ROOT}/import_db.php`, type: 'file' }
 ];
 
 async function uploadFile(sftp, localPath, remotePath) {
@@ -51,7 +52,7 @@ conn.on('ready', () => {
                 tar -xzf build.tar.gz && rm build.tar.gz &&
                 tar -xzf resources.tar.gz && rm resources.tar.gz &&
                 tar -xzf packages.tar.gz && rm packages.tar.gz &&
-                /opt/alt/php82/usr/bin/php _scripts/hostinger/import_db.php &&
+                /opt/alt/php82/usr/bin/php import_db.php &&
                 /opt/alt/php82/usr/bin/php artisan migrate --force &&
                 /opt/alt/php82/usr/bin/php artisan optimize:clear &&
                 /opt/alt/php82/usr/bin/php artisan storage:link

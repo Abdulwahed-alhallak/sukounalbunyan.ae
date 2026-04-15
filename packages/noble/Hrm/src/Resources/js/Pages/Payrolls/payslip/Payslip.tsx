@@ -103,7 +103,7 @@ export default function Payslip() {
             {isDownloading && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground bg-opacity-50">
                     <div className="rounded-lg bg-card p-6 shadow-lg">
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center gap-3">
                             <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-foreground"></div>
                             <p className="text-lg font-semibold text-foreground">{t('Generating PDF...')}</p>
                         </div>

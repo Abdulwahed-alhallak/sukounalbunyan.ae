@@ -255,16 +255,17 @@ export default function Index() {
             header: t('Status'),
             render: (value: string) => {
                 const statusColors = {
-                    Ongoing: 'bg-muted text-foreground',
-                    Onhold: 'bg-muted text-foreground',
-                    Finished: 'bg-muted text-foreground',
+                    Ongoing: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+                    Onhold: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+                    Finished: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
                 };
                 return (
-                    <span
-                        className={`rounded-full px-2 py-1 text-sm ${statusColors[value as keyof typeof statusColors]}`}
+                    <Badge
+                        variant="outline"
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-tight ${statusColors[value as keyof typeof statusColors] || 'bg-muted text-foreground border-border'}`}
                     >
                         {t(value)}
-                    </span>
+                    </Badge>
                 );
             },
         },
@@ -373,12 +374,12 @@ export default function Index() {
                                     <Package className="h-5 w-5" />
                                 </div>
                                 <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground dark:text-foreground">
-                                    {t('Fleet Command')}
+                                    {t('Projects')}
                                     <span className="italic text-foreground">.</span>
                                 </h1>
                             </div>
                             <p className="max-w-md text-sm font-medium tracking-tight text-muted-foreground">
-                                {t('Strategic oversight of active mission protocols and resource allocation matrices.')}
+                                {t('Manage and track all your projects, budgets, and team assignments.')}
                             </p>
                         </div>
 
@@ -399,7 +400,7 @@ export default function Index() {
                                     className="h-11 rounded-2xl border-t border-white/20 bg-foreground px-6 text-[10px] font-black uppercase tracking-widest text-background shadow-xl shadow-primary/20 transition-all hover:opacity-90 active:scale-95"
                                 >
                                     <Plus className="me-2 h-4 w-4" />
-                                    {t('Initialize Vector')}
+                                    {t('New Project')}
                                 </Button>
                             )}
 
@@ -415,13 +416,13 @@ export default function Index() {
                         <div className="flex items-center gap-2">
                             <div className="h-2 w-2 rounded-full bg-foreground shadow-[0_0_8px_rgba(var(--foreground),0.1)]" />
                             <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                                {items?.total || 0} {t('Active Signatures')}
+                                {items?.total || 0} {t('Total Projects')}
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="h-2 w-2 rounded-full bg-foreground shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
                             <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                                {users?.length || 0} {t('Deployed Personnel')}
+                                {users?.length || 0} {t('Team Members')}
                             </span>
                         </div>
                     </div>
@@ -430,20 +431,20 @@ export default function Index() {
                 {/* Tactical Metrics Layer */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
-                        { label: t('Total Payload'), value: items?.total || 0, icon: Package, color: 'blue' },
+                        { label: t('All Projects'), value: items?.total || 0, icon: Package, color: 'blue' },
                         {
-                            label: t('Operational'),
+                            label: t('Ongoing'),
                             value: items?.data?.filter((p) => p.status === 'Ongoing').length || 0,
                             icon: Plus,
                             color: 'emerald',
                         },
                         {
-                            label: t('Tactical Hold'),
+                            label: t('On Hold'),
                             value: items?.data?.filter((p) => p.status === 'Onhold').length || 0,
                             icon: Trash2,
                             color: 'rose',
                         },
-                        { label: t('Force Strength'), value: users?.length || 0, icon: Users, color: 'amber' },
+                        { label: t('Team Members'), value: users?.length || 0, icon: Users, color: 'amber' },
                     ]?.map((kpi, i) => (
                         <div
                             key={i}
@@ -465,7 +466,7 @@ export default function Index() {
                                 </span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="origin-left text-3xl font-black tracking-tighter transition-transform duration-500 group-hover:scale-105">
+                                <h3 className="tabular-nums origin-left text-3xl font-black tracking-tighter transition-transform duration-500 group-hover:scale-105">
                                     {kpi.value}
                                 </h3>
                             </div>
@@ -483,7 +484,7 @@ export default function Index() {
                                     value={filters.name}
                                     onChange={(value) => setFilters({ ...filters, name: value })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Search mission database...')}
+                                    placeholder={t('Search projects...')}
                                     className="h-11 rounded-2xl border-border bg-card/50 text-xs font-medium focus:ring-foreground/20 dark:border-white/10 dark:bg-foreground/20"
                                 />
                             </div>
@@ -519,7 +520,7 @@ export default function Index() {
                             <div className="mt-8 grid grid-cols-1 gap-6 border-t border-border pt-8 duration-500 animate-in slide-in-from-top-4 dark:border-white/5 md:grid-cols-2 lg:grid-cols-4">
                                 <div className="space-y-2">
                                     <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
-                                        {t('Sector Status')}
+                                        {t('Project Status')}
                                     </label>
                                     <Select
                                         value={filters.status}
@@ -552,7 +553,7 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="ms-1 text-[10px] font-black uppercase tracking-[.2em] text-muted-foreground">
-                                        {t('Mission Calendar')}
+                                        {t('Date Filter')}
                                     </label>
                                     <DatePicker
                                         value={filters.date}
@@ -566,14 +567,14 @@ export default function Index() {
                                         onClick={handleFilter}
                                         className="h-10 flex-1 rounded-xl bg-foreground px-6 text-[10px] font-black uppercase tracking-widest text-background shadow-lg shadow-primary/10 transition-all active:scale-95"
                                     >
-                                        {t('Calibrate Signals')}
+                                        {t('Apply Filters')}
                                     </Button>
                                     <Button
                                         variant="ghost"
                                         onClick={clearFilters}
                                         className="h-10 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground transition-all hover:bg-destructive/5 hover:text-destructive"
                                     >
-                                        {t('Flush Filters')}
+                                        {t('Clear Filters')}
                                     </Button>
                                 </div>
                             </div>
@@ -770,13 +771,13 @@ export default function Index() {
                                 ) : (
                                     <NoRecordsFound
                                         icon={Package}
-                                        title={t('No Project Vectors Found')}
-                                        description={t('System clear. No active mission signatures detected.')}
+                                        title={t('No Projects Found')}
+                                        description={t('Your project list is currently empty. Create your first project to get started.')}
                                         hasFilters={!!(filters.name || filters.status || filters.date)}
                                         onClearFilters={clearFilters}
                                         createPermission="create-project"
                                         onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Authorize New Mission')}
+                                        createButtonText={t('Create Project')}
                                     />
                                 )}
                             </div>

@@ -58,7 +58,7 @@ export default function Create({ onSuccess }: CreateEmployeeDocumentTypeProps) {
                     <InputError message={errors.description} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="is_required"
                         checked={data.is_required || false}

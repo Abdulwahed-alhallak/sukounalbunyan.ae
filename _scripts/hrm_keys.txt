@@ -1,0 +1,1262 @@
+﻿ 
+(Basic + Allowances) / 30 أ— Vacation Days
+/
+:
++966...
+a
+Abort Protocol
+Absence Delta
+Absent
+Absent Days
+Absent Operatives Matrix
+Absent Today
+Accept
+Accepted
+Account Holder
+Account Holder Name
+Account Number
+Acknowledged
+Acknowledged At
+Acknowledgment Details
+Acknowledgment Note
+acknowledgment_note
+Acknowledgments
+Across all branches
+Action
+Action Taken
+Action Type
+Actions
+Active
+Active Attendance Today
+Active branches
+Active Compute Cycles
+Active Days This Month
+Active Duty Station
+Active employees
+Active Field Agents
+Active Gaps
+Active Personnel Absences
+Add Allowance
+Add Asset
+Add Deduction
+Add Employee
+Add Loan
+Add New Asset
+Add New Attachments
+Add New Employee
+Add Overtime
+Additional notes...
+Address
+Address Line 1
+Address Line 2
+ADMS Biometric Logs
+Against Employee
+All Award Types
+All Branches
+All Categories
+All Departments
+All Employees
+All employees marked attendance
+All Events
+All Frequencies
+All States
+All Status
+All Streams
+All Types
+All Units Operational
+Allocated Area
+Allowance Type
+Allowance Types
+Allowances
+Allowances Total
+All-Time Recorded Vectors
+All-Time Vectors
+Alternate Mobile
+Amount
+Announcement Categories
+Announcement Category
+Announcement Category 
+Announcement Details
+Announcements
+Application ID
+Applied On
+Apply
+Apply Filters
+Apply for Leave
+Approve
+Approved
+Approved At
+Approved By
+Approved Days (Month)
+Approved Leave
+Approver Comment
+Arabic Level
+Arabic Name
+Archived Transactions
+Are you sure you want to delete this acknowledgment?
+Are you sure you want to delete this allowance?
+Are you sure you want to delete this AllowanceType?
+Are you sure you want to delete this announcement?
+Are you sure you want to delete this AnnouncementCategory?
+Are you sure you want to delete this asset?
+Are you sure you want to delete this attachment?
+Are you sure you want to delete this attendance?
+Are you sure you want to delete this Award Type?
+Are you sure you want to delete this award?
+Are you sure you want to delete this Branch?
+Are you sure you want to delete this Complaint Type?
+Are you sure you want to delete this complaint?
+Are you sure you want to delete this contract?
+Are you sure you want to delete this deduction?
+Are you sure you want to delete this DeductionType?
+Are you sure you want to delete this Department?
+Are you sure you want to delete this Designation?
+Are you sure you want to delete this document?
+Are you sure you want to delete this DocumentCategory?
+Are you sure you want to delete this employee?
+Are you sure you want to delete this EmployeeDocumentType?
+Are you sure you want to delete this employeetransfer?
+Are you sure you want to delete this Event Type?
+Are you sure you want to delete this event?
+Are you sure you want to delete this Holiday Type?
+Are you sure you want to delete this holiday?
+Are you sure you want to delete this Ip Restrict?
+Are you sure you want to delete this leave type?
+Are you sure you want to delete this leaveapplication?
+Are you sure you want to delete this loan?
+Are you sure you want to delete this LoanType?
+Are you sure you want to delete this overtime?
+Are you sure you want to delete this payroll?
+Are you sure you want to delete this promotion?
+Are you sure you want to delete this resignation?
+Are you sure you want to delete this shift?
+Are you sure you want to delete this termination?
+Are you sure you want to delete this TerminationType?
+Are you sure you want to delete this violation record?
+Are you sure you want to delete this warning?
+Are you sure you want to delete this WarningType?
+Are you sure you want to import this CSV? Exact matches will be updated, new entries will be added.
+Are you sure?
+Asset
+Asset Name
+Asset Type
+Assets
+Assign
+Assign Unit
+Assigned
+Assigned By
+Assigned Date
+Assigned To
+Attachments
+Attendance
+Attendance Details
+Attendance History
+Attendance Log
+Attendance OT
+Attendance OT Hours
+Attendance Overtime
+attendance rate
+Attendance Summary
+Attendance Tracker
+Attendance Trends
+Attendances
+Authorization Notes
+Authorize Leave
+Authorize New Leave
+Authorized
+Authorized Downtime
+Authorized Units
+Auto Generated
+Available
+Available Margin
+Awaiting Authorization
+Awaiting Command Approval
+Award Date
+Award Details
+Award Type
+Award Types
+award_type_id
+Awards
+Bachelors
+Bank A/C No
+Bank Details
+Bank IBAN
+Bank Name
+Bank Transfer
+Banking
+Basic
+Basic Salary
+Biometric Logs
+Bi-Weekly
+Blood Type
+Branch
+Branch Name
+branch_id
+Branches
+Break End Time
+Break Hour
+Break Hours
+Break Start Time
+Calendar
+Cancel
+Cancelled
+Career Progression
+Cash
+Category
+Certificate
+Cheque
+City
+Clear
+Clock In
+Clock In Time
+Clock Out
+Clock Out Time
+Color
+Combat Hours
+Command Directives
+Command notice: Today is observed as a regional holiday.
+Command Warning
+Comment (Optional)
+Company Assets
+Compensated Intervals
+Complaint Date
+Complaint Details
+Complaint Type
+Complaint Types
+complaint_type_id
+Complaints
+Completed
+Computer Skills
+Condition
+Contact
+Contact Information
+Contact Name
+Contact Number
+Contract
+Contract Type
+Contracts
+Contracts Overview
+Cost
+Country
+Create
+Create Acknowledgment
+Create Allowance Type
+Create AllowanceType
+Create Announcement
+Create Announcement Category
+Create AnnouncementCategory
+Create Attendance
+Create Award
+Create Award Type
+Create Branch
+Create Complaint
+Create Complaint Type
+Create Contract
+Create Deduction Type
+Create Department
+Create Designation
+Create Document
+Create Document Category
+Create DocumentCategory
+Create Employee
+Create Employee Transfer
+Create Event
+Create Event Type
+Create EventType
+Create Holiday
+Create Holiday Type
+Create Ip Restrict
+Create Leave Type
+Create Loan Type
+Create Payroll
+Create Promotion
+Create Resignation
+Create Settlement
+Create Shift
+Create Termination
+Create Termination Type
+Create Violation Type
+Create Warning
+Create Warning Type
+Create your first final settlement off-boarding.
+Created at
+Created By
+created_by
+Creating...
+creator_id
+Critical
+Crunching Data...
+Current Branch
+Current Department
+Current Designation
+Current Month
+Current Position
+Custom
+Cycles
+Cycles Remain
+Date
+Date Of Birth
+Date Of Joining
+date_from
+date_to
+days
+Days Per Week
+Days Worked
+Declined Requests
+Deduction
+Deduction Amount
+Deduction Type
+Deduction Types
+Deductions
+Default Deduction Amount
+Define the mission necessity and operational constraints...
+Delete
+Delete Acknowledgment
+Delete Allowance
+Delete AllowanceType
+Delete Announcement
+Delete AnnouncementCategory
+Delete Asset
+Delete Attendance
+Delete Award
+Delete Award Type
+Delete Branch
+Delete Complaint
+Delete Complaint Type
+Delete Deduction
+Delete DeductionType
+Delete Department
+Delete Designation
+Delete Document
+Delete DocumentCategory
+Delete Employee
+Delete Employee Transfer
+Delete EmployeeDocumentType
+Delete Event
+Delete Event Type
+Delete Holiday Type
+Delete Ip Restrict
+Delete Leave Type
+Delete LeaveApplication
+Delete Loan
+Delete LoanType
+Delete Onboarding
+Delete Overtime
+Delete Payroll
+Delete Payroll Entry
+Delete Payslip
+Delete Promotion
+Delete Resignation
+Delete Settlement
+Delete Shift
+Delete Termination
+Delete Termination Type
+Delete Violation
+Delete Violation Type
+Delete Warning
+Delete Warning Type
+Delta from Yesterday
+Department
+Department Distribution
+Department Name
+department_id
+Departments
+Depleted Units
+Deploy
+Deployment
+Deployment End
+Deployment Rationale
+Deployment Start
+Description
+Designation
+Designation Name
+Designations
+Detailed breakdown of employee salaries and deductions
+Diploma
+direction
+Disabled
+Disciplinary Framework
+Divorced
+Document
+Document Categories
+Document Category
+Document Details
+Document Expiries
+Document Expiry Alerts
+Document Expiry Dashboard
+Document Name
+Document Type
+Document Types
+document_category_id
+document_id
+Documents
+Download
+Download Document
+Download Payslip
+Draft
+Drafting
+Due
+Due Date
+Due:
+Duration
+Duty Exemption Status
+Duty Log
+Duty Restriction Active
+e.g., S-01-2017
+e.g., Saudi
+e.g., Saudi, Egyptian
+e.g., Urdu, Hindi
+Earnings
+Edit
+Edit Acknowledgment
+Edit Allowance
+Edit Allowance Type
+Edit Announcement
+Edit Announcement Category
+Edit Asset
+Edit Attendance
+Edit Award
+Edit Award Type
+Edit Branch
+Edit Complaint
+Edit Complaint Type
+Edit Contract
+Edit Deduction
+Edit Deduction Type
+Edit Department
+Edit Designation
+Edit Document
+Edit Document Category
+Edit Employee
+Edit Employee Transfer
+Edit Event
+Edit Event Type
+Edit Holiday
+Edit Holiday Type
+Edit Ip Restrict
+Edit Leave Application
+Edit Leave Type
+Edit Loan
+Edit Loan Type
+Edit Onboarding
+Edit Overtime
+Edit Payroll
+Edit Promotion
+Edit Resignation
+Edit Shift
+Edit Termination
+Edit Termination Type
+Edit Violation
+Edit Violation Type
+Edit Warning
+Edit Warning Type
+Education
+Education & Skills
+Education Level
+Effective Date
+Email Address
+Emergency Contact
+Emergency Contact Name
+Emergency Contact Number
+Emergency Contact Relationship
+Employee
+Employee Contracts
+Employee Count
+Employee Dashboard
+Employee Details
+Employee ID
+Employee Machine ID
+Employee Mission Payload (Attachments)
+Employee Name
+Employee Onboarding
+Employee Response
+Employee Salary Details
+Employee Status
+Employee Transfer Details
+Employee Transfers
+employee_id
+Employees
+Employees on Leave
+Employer Number
+Employment
+Employment Details
+Employment Type
+employment_type
+Enable/Disable
+Enabled
+End Date
+End Time
+End Window
+end_date
+English Level
+Enter Acknowledgment Note
+Enter Address Line 1
+Enter Address Line 2
+Enter amount
+Enter Announcement Category
+Enter Bank Name
+Enter Branch Name
+Enter City
+Enter Complaint Type
+Enter Country
+Enter Department Name
+Enter Description
+Enter Designation Name
+Enter Document Name
+Enter Document Type
+Enter Emergency Contact Name
+Enter Emergency Contact Relationship
+Enter Event Type
+Enter Holiday Type
+Enter hours
+Enter incident details...
+Enter Ip
+Enter Iqama Number
+Enter loan title
+Enter Location
+Enter Marital Status 2
+Enter Name
+Enter Notes
+Enter notes for overtime
+Enter overtime title
+Enter Passport Number
+Enter percentage
+Enter Place of Birth
+Enter Postal Code
+Enter rate
+Enter Reason
+Enter reason for loan
+Enter Religion
+Enter Response
+Enter Shift Name
+Enter Sponsor ID
+Enter State
+Enter Subject
+Enter SWIFT Code
+Enter Termination Type
+Enter Title
+Enter total days
+Enter Warning Type Name
+Enter your assessment...
+Enter your reason or comments...
+Erase Suspension Point
+Estimated Total
+Event Details
+Event Type
+Event Types
+event_type_id
+Events
+Events & Holidays Calendar
+Events Calendar
+Execute
+Execute Payroll
+Expired
+Expires
+Expiring Soon
+Export
+Export Data
+Extraction
+Extraction Date
+Female
+Field Absence
+Field Timeline
+Filter by Document
+Filter by Document Category
+Filter by Employee
+Filter by Event Type
+Filter by Payment Status
+Filter by Priority
+Filter by Status
+Final Settlement
+Fixed
+Fixed Amount
+Fixed Term
+Fluent
+Force Processor Engine
+Freelance
+Frequency
+Friday
+From
+from yesterday
+Full Name
+Full Time
+Full Timeline
+gender
+Generating PDF...
+Get started by creating your first Acknowledgment.
+Get started by creating your first Announcement.
+Get started by creating your first Award.
+Get started by creating your first AwardType.
+Get started by creating your first Branch.
+Get started by creating your first Complaint.
+Get started by creating your first Department.
+Get started by creating your first Designation.
+Get started by creating your first Document.
+Get started by creating your first Employee Transfer.
+Get started by creating your first Event.
+Get started by creating your first EventType.
+Get started by creating your first Holiday Type.
+Get started by creating your first Ip Restrict.
+Get started by creating your first Leave Type.
+Get started by creating your first Loan Type.
+Get started by creating your first Promotion.
+Get started by creating your first Resignation.
+Get started by creating your first Shift.
+Get started by creating your first Termination.
+Get started by creating your first Warning Type.
+Get started by creating your first Warning.
+Global Downtime
+Google Calendar Sync
+GOSI Joining Date
+Graduation Year
+Gratuity (EoS)
+Gross Pay
+Half Day
+Half Days
+Health Score
+High
+High School
+Holiday Category
+Holiday Details
+Holiday Name
+Holiday Type
+Holiday Types
+holiday_type_id
+Holidays
+Hours
+Hours Per Day
+HR
+HR Final Authorization
+HR Status
+HRM
+HRM Dashboard
+HRM Mission Command
+ID/Iqama No.
+Identify Agent
+Identify downtime vector or type...
+Identify personnel or date vector...
+Identity
+Identity Documents
+IFSC No
+Import CSV
+in
+In Progress
+In Review
+Inactive
+Incident Date
+Incursion Start
+Incursion-04
+Initialization required for current duty cycle. Deploy now.
+Initiate New Payroll
+Insurance
+Insurance Class
+Insurance Information
+Insurance Status
+Interactive personnel command structure visualization.
+Intermediate
+Ip
+IP Restrict Off
+IP Restrict On
+Ip Restricts
+Iqama / National ID Expiries
+Iqama Expiry Date
+Iqama Issue Date
+Iqama Number
+Is Night Shift
+Is Paid
+Is Required
+Is Sync Google Calendar
+Is Sync Outlook Calendar
+is_paid
+JISR Active
+Job Details
+Job Title
+Job Title (AR)
+Joining Date
+Languages
+Last Working Date
+Last Working Day
+Late Arrivals
+Leave
+Leave Application Details
+Leave Applications
+Leave Balance
+Leave Deductions
+Leave Details
+Leave Encashment
+Leave Timeline
+Leave Type
+Leave Type Details
+Leave Types
+LeaveApplications
+Legend
+Line Manager
+Line Manager Approval
+Line Manager Authorization
+Linked
+List Type
+Live Tracker
+Loan Details
+Loan Type
+Loan Types
+Loans
+Location
+Low
+Maintenance Mode
+Major
+Major / Field
+Male
+Manage Acknowledgments
+Manage and define employee policy violations and corresponding actions/deductions.
+Manage Announcements
+Manage Attendances
+Manage Awards
+Manage Complaints
+Manage Documents
+Manage employee records and information.
+Manage Employee Transfers
+Manage Events
+Manage Holidays
+Manage Leave Applications
+Manage Leave Types
+Manage Payrolls
+Manage Promotions
+Manage Resignations
+Manage Shifts
+Manage Status
+Manage Terminations
+Manage Warnings
+Manager
+Manager Status
+Manual OT
+Manual OT Hours
+Manual Overtime
+Marital Status
+Marital Status 2
+Mark Attendance
+Married
+Masters
+Max Days Per Year
+Medium
+Members
+Mgr
+Mgr Approved
+Mgr Pending
+Mgr Rejected
+Minor
+Missing Attendance Today
+Missing Personnel
+Mission Deployment Timeline
+Mission Status
+Mobile No.
+Mobile Number
+Moderate
+Monday
+Monitor upcoming expirations for critical employee documents within the next 60 days.
+Monthly
+Monthly Overview
+name
+Nationality
+Native
+Needs Renewal
+Net Pay
+Net Payable
+Net Salary
+Network Latency
+New Contract
+New Onboarding
+Next
+Night Shift
+No
+No Acknowledgments found
+No active announcements
+No ADMS Vectors Found
+No Allowance Types found
+No allowances found
+No Announcement Categories found
+No Announcements found
+No approved leaves found for this month.
+No assets assigned.
+No assets found
+No Attendance logs yet
+No attendance records found.
+No Attendance Vectors
+No Award Types found
+No Awards found
+No Branches found
+No commendations recorded
+No Complaint Types found
+No Complaints found
+No Contracts
+No contracts found.
+No contracts found. Assign a contract to an employee to get started.
+No deduction
+No Deduction Types found
+No deductions found
+No Department found
+No Departments found
+No Designations found
+No DocumentCategories found
+No Documents found
+No Employee Transfers found
+No EmployeeDocumentTypes found
+No employees assigned to shifts
+No employees available for salary management.
+No Employees found
+No employees on leave today
+No Events
+No Events found
+No EventTypes found
+No expiring documents found in the next 60 days.
+No final settlements found
+No Holiday Types found
+No Ip Restricts found
+No leave applications found.
+No Leave Dossiers Found
+No Leave Types found
+No Loan Types found
+No loans found
+No onboarding plan found.
+No onboarding records found
+No overtimes found
+No Payroll Registers Found
+No Promotions found
+No recent leave applications
+No Resignations found
+No Salary Data
+No shifts available
+No Shifts found
+No Suspension Vectors
+No Termination Types found
+No Terminations found
+No vacation settlements found
+No Violation Types
+No violations found. Excellent record!
+No violations recorded yet.
+No Warning Types found
+No Warnings found
+No. of Dependents
+None
+Not Required
+Note: Company users will be applicable for create employee.
+Notes
+Notice Date
+Occupation
+OCT Active
+Off
+Off-board Employee
+Off-board Employee - Final Settlement
+On Leave
+Onboarding
+Onboarding Checklist
+Onboarding Plan
+Onboarding Progress
+Open
+Operational Leave Request
+Operational Sector Distribution
+Operational State
+Organizational Chart
+Organizational Hierarchy
+OT Hours
+Other Deductions
+Other Earnings
+Other Languages
+Outlook Calendar Sync
+Overtime
+Overtime Amount
+Overtime Details
+Overtime Hours
+Overtimes
+Paid
+Paid Leave
+Paid Leave Days
+Part Time
+Partial Duty
+Passport
+Passport Expiries
+Passport Expiry Date
+Passport No.
+Passport Number
+Passports requiring renewal
+Pay Date
+Pay Period End
+Pay Period Start
+Pay Salary
+Payment Method
+Payment Status
+Payout Frequency
+Payroll
+Payroll Details
+Payroll Frequency
+payroll_frequency
+Payrolls
+Payslip
+Pending
+Pending Approval
+pending approvals
+Pending Engine
+Pending Ops
+per_page
+Percentage
+Personal
+Personal Deployment Logs
+Personal Information
+Personnel
+Personnel Intelligence Hub
+Personnel Missed Cycles
+Personnel on-station since
+Personnel schedule indicates non-working cycle.
+Personnel Strategic Dashboard
+Personnel Unit
+Ph
+PhD
+Place of Birth
+Place of Residence
+Postal Code
+Presence Level
+Present
+Present Days
+Present Today
+Previous
+Previous Branch
+Previous Position
+Primary Objective
+Priority
+Probation End Date
+Probation until
+Process Payroll
+Processed
+Processing
+Processing...
+Progress
+Projected Consumption
+Promotion Details
+Promotions
+Protocol Category
+Protocol Promotion
+Punch Timestamp
+Purchase Cost
+Purchase Date
+Quick Actions
+Rate
+Raw Data
+Ready for Duty
+Real-time synchronization across all operational sectors.
+Reason
+Reason for Promotion
+Recent Leave Applications
+Recent Violations
+Record
+Record New Violation
+Record Violation
+Recruit Unit
+Register Downtime Event
+Register Manual Unit
+Register Status
+Registered Personnel
+Reject
+Rejected
+Relationship
+Religion
+Request Annual Leave
+Request Annual Leave Settlement
+Requesting
+Required
+Requires Manual Mapping in Employees
+Reset
+Reset Matrix
+Residency / Iqama
+Residency documents requiring renewal
+Resident Type
+Resignation Details
+Resignations
+Resigned
+Resolution Date
+Resolved
+Resolved By
+Resource Capacity Gauge
+Response
+Resticted Field Ops
+Return Date
+Root Nodes
+Run mapping CRON job manually to generate attendances
+Run Payroll
+SA...
+Salary
+Salary & Payment
+Salary + Leave + Gratuity + Others âˆ’ Deductions
+Salary Deduction
+SAR
+Saturday
+Save
+Save Action
+Saving...
+Schedule Calendar
+Scheduler
+search
+Search Announcements...
+Search assets...
+Search Awards...
+Search by employee name or ID...
+Search by employee name or reason...
+Search by employee name...
+Search by employee, document...
+Search Complaints...
+Search Documents...
+Search employees...
+Search Events...
+Search financial registers...
+Search Leave Types...
+Search Machine ID...
+Search mission dossiers...
+Search Promotions...
+Search Resignations...
+Search Shifts...
+Search Warnings...
+Search...
+Sector Vector
+Secure Authorization Protocols Active
+Select
+Select Against Employee
+Select Agent
+Select allowance type
+Select Announcement Category
+Select Assignee
+Select Attachments...
+Select Award Date
+Select Award Type
+Select Branch
+Select Branch first
+Select Certificate
+Select Clock In Time
+Select Clock Out Time
+Select Complaint Date
+Select Complaint Type
+Select Current Branch
+Select Current Department
+Select Current Designation
+Select Date
+Select Date Of Birth
+Select Date Of Joining
+Select deduction type
+Select Department
+Select Department first
+Select Departments
+Select Designation
+Select Document
+Select Document Category
+Select Document...
+Select Effective Date
+Select Employee
+Select Employee first
+Select Employment Type
+Select End Date
+Select Event Type
+Select Holiday Type
+Select Last Working Date
+Select Leave Type
+Select Leave Vector
+Select loan type
+Select Notice Date
+Select Pay Date
+Select Pay Period End
+Select Pay Period Start
+Select Payment Status
+Select Payroll Frequency
+Select Priority
+Select Reason
+Select Shift
+Select Start Date
+Select Status
+Select Termination Date
+Select Termination Type
+Select To Branch
+Select To Branch first
+Select To Department
+Select To Department first
+Select To Designation
+Select Type
+Select User
+Select User first
+Select Warning Date
+Select Warningby
+Select Warningby first
+Select Warningtype
+Separation Reason
+Serial No
+Serial Number
+Service Commendations
+Set Salary
+Severity
+Shift
+Shift Complete
+Shift Details
+Shift Distributions
+Shift Name
+shift_name
+Shifts
+Shifts Scheduler
+Single
+sort
+Sponsor ID
+staff
+Standard operations suspended due to approved absence.
+Start Date
+Start Time
+Start Window
+start_date
+Started
+State
+Status
+Status: Nominal
+Strategic Command Matrix
+Strategic Intelligence Feed
+subject
+Sunday
+Supporting Intelligence (Attachments)
+Suspension
+Suspension Categories
+SWIFT Code
+Sync Active
+Sync Attendance
+Sync Matrix
+Synchronize
+System clear. No active absence vectors detected.
+System clear. No active financial payout vectors detected.
+System clear. Waiting for biometric device push payload.
+System Security
+System Setup
+System Standby
+System Suspension Points
+T
+Tactical Leave
+Target Operative
+Tax Payer Id
+Team Leave Timeline
+Temporary
+Terminated
+Termination Date
+Termination Details
+Termination Type
+Termination Types
+Terminations
+There are no attendance records for this date.
+This award must be evaluated by the Line Manager first before you can approve it.
+This is a computer generated payslip and does not require signature.
+This loan must be evaluated by the Line Manager first before you can approve it.
+This month
+This year
+Thursday
+Timeline
+title
+To
+To Branch
+To Department
+To Designation
+Today
+Total
+Total amount
+Total Assets
+Total Branch
+Total Days
+Total Department
+Total Employees
+Total Experience (Years)
+Total Force
+Total Hour
+Total Hours
+Total Leave Deductions
+Total Liquidity
+Total Net Pay
+Total Operational Cycles
+Total Payout Vector
+Total Promotions
+Total Pushes
+Total Requests
+Total Settlements
+Tracker
+Transfer Date
+Transfer Path
+Transmitting...
+Tuesday
+Type
+Unassigned
+Unassigned Employees
+Unbound IDs
+Uncompensated Halts
+Units
+Units Off-Station
+University
+Unknown
+Unknown Employee
+Unlimited
+Unpaid
+Unpaid Leave
+Unpaid Leave Days
+Unstaged Assets
+Update
+Update Announcement Status
+Update Award Status
+Update Complaint Status
+Update Document Status
+Update Event Status
+Update Leave Authorization
+Update Loan Status
+Update Promotion Status
+Update Resignation Status
+Update Status
+Update Termination Status
+Update Transfer Status
+Updating...
+Upload additional mission-critical documents or update existing ones.
+Upload mission-critical documents, identity proofs, and certifications.
+Uploaded By
+Urgent
+Used
+User
+User is disabled
+user_name
+Vacation Days
+Vacation Settlement
+Vacation Start Date
+Vacation starts on
+Vector End
+Vector Start
+View
+View All Broadcasts
+View Certificate
+View Document
+View Employee
+View Payslip
+View Salary
+Violation Date
+Violation Type
+Violation Types
+Violations
+Violations & Disciplinary
+Violations Framework
+Violations Management
+Visualize employee approved leaves and prevent overlaps.
+Warning
+Warning By
+Warning By Name
+Warning Date
+Warning Details
+Warning Status
+Warning Type
+Warning Type Name
+Warning Types
+WARNING: MARGIN EXCEEDED
+Warnings
+Wednesday
+Weekend/Off
+Weekly
+Weekly Schedule
+Widowed
+Work Area
+Work Email
+Working Days
+Yes
+ط£ط¯ط®ظ„ ط§ظ„ط§ط³ظ… ط¨ط§ظ„ط¹ط±ط¨ظٹ
+ط§ظ„ط§ط³ظ… ط¨ط§ظ„ط¹ط±ط¨ظٹ
+ط§ظ„ظ…ط³ظ…ظ‰ ط§ظ„ظˆط¸ظٹظپظٹ ط¨ط§ظ„ط¹ط±ط¨ظٹ

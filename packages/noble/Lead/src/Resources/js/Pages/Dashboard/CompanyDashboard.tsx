@@ -67,15 +67,15 @@ export default function CompanyDashboard({
     const [selectedPipeline, setSelectedPipeline] = useState(pipelines?.[0]?.id?.toString() || '');
 
     return (
-        <AuthenticatedLayout breadcrumbs={[{ label: t('CRM') }]} pageTitle={t('Strategic Intel Terminal')}>
+        <AuthenticatedLayout breadcrumbs={[{ label: t('CRM') }]} pageTitle={t('CRM Dashboard')}>
             <Head title={t('Dashboard')} />
 
             <div className="space-y-8 duration-700 animate-in fade-in">
-                {/* Global Market Vectors */}
+                {/* Summary Metrics */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
                         {
-                            title: t('Projected Deals'),
+                            title: t('Total Deals'),
                             value: stats?.total_deals || 0,
                             icon: Rocket,
                             color: 'text-foreground',
@@ -83,7 +83,7 @@ export default function CompanyDashboard({
                             route: 'lead.deals.index',
                         },
                         {
-                            title: t('Acquisition Leads'),
+                            title: t('Total Leads'),
                             value: stats?.total_leads || 0,
                             icon: TrendingUp,
                             color: 'text-foreground',
@@ -91,7 +91,7 @@ export default function CompanyDashboard({
                             route: 'lead.leads.index',
                         },
                         {
-                            title: t('Operational Users'),
+                            title: t('Active Users'),
                             value: stats?.total_users || 0,
                             icon: Users,
                             color: 'text-foreground',
@@ -99,7 +99,7 @@ export default function CompanyDashboard({
                             route: 'users.index',
                         },
                         {
-                            title: t('Strategic Clients'),
+                            title: t('Total Clients'),
                             value: stats?.total_clients || 0,
                             icon: Target,
                             color: 'text-foreground',
@@ -122,7 +122,7 @@ export default function CompanyDashboard({
                                     <TrendingUp className="animate-pulse-slow h-4 w-4 text-foreground" />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-3xl font-bold tracking-tight">{card.value}</h3>
+                                    <h3 className="tabular-nums text-3xl font-bold tracking-tight">{card.value}</h3>
                                     <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
                                         {card.title}
                                     </p>
@@ -132,9 +132,9 @@ export default function CompanyDashboard({
                     ))}
                 </div>
 
-                {/* Main Visual Intelligence Sector */}
+                {/* Charts Section */}
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-                    {/* Mission Timeline Calendar */}
+                    {/* Tasks Calendar */}
                     <div className="delay-300 duration-700 animate-in fade-in slide-in-from-bottom-4 lg:col-span-2">
                         <Card className="premium-card glass-effect h-full overflow-hidden border-none shadow-2xl">
                             <CardHeader className="border-b bg-muted/20 p-6 backdrop-blur-md">
@@ -142,7 +142,7 @@ export default function CompanyDashboard({
                                     <div className="rounded-lg bg-foreground/10 p-2">
                                         <Calendar className="h-5 w-5 text-foreground" />
                                     </div>
-                                    {t('Strategic Mission Timeline')}
+                                    {t('Tasks Calendar')}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="p-0">
@@ -157,7 +157,7 @@ export default function CompanyDashboard({
                                                 time: event.time || '00:00',
                                                 color: 'hsl(var(--primary))',
                                                 description: `${t('Task')}: ${event.title}`,
-                                                type: 'Sector Action',
+                                                type: 'Task',
                                             })) || []
                                         }
                                         onEventClick={() => {}}
@@ -170,13 +170,13 @@ export default function CompanyDashboard({
 
                     {/* Data Visualization Column */}
                     <div className="space-y-8">
-                        {/* Status Distribution Radar */}
+                        {/* Call Distribution */}
                         <div className="delay-400 duration-700 animate-in fade-in slide-in-from-bottom-4">
                             <Card className="premium-card glass-effect overflow-hidden border-none shadow-xl">
                                 <CardHeader className="border-b bg-muted/10 pb-2">
                                     <CardTitle className="text-md flex items-center gap-2">
                                         <Phone className="h-4 w-4 text-foreground" />
-                                        {t('Acquisition Flux Distribution')}
+                                        {t('Call Distribution')}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-4">
@@ -217,21 +217,21 @@ export default function CompanyDashboard({
                                         </div>
                                     ) : (
                                         <div className="flex h-[300px] items-center justify-center text-sm italic text-muted-foreground">
-                                            {t('Telemetry unavailable')}
+                                            {t('No data available')}
                                         </div>
                                     )}
                                 </CardContent>
                             </Card>
                         </div>
 
-                        {/* Stage Amplitude Matrix */}
+                        {/* Deals by Stage */}
                         <div className="delay-500 duration-700 animate-in fade-in slide-in-from-bottom-4">
                             <Card className="premium-card glass-effect overflow-hidden border-none shadow-xl">
                                 <CardHeader className="border-b bg-muted/10 pb-2">
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-md flex items-center gap-2">
                                             <BarChart3 className="h-4 w-4 text-foreground" />
-                                            {t('Stage Flow Amplitude')}
+                                            {t('Deals by Stage')}
                                         </CardTitle>
                                         <Select
                                             value={selectedPipeline}
@@ -286,7 +286,7 @@ export default function CompanyDashboard({
                                         </div>
                                     ) : (
                                         <div className="flex h-[300px] items-center justify-center text-sm italic text-muted-foreground">
-                                            {t('Sensor data offline')}
+                                            {t('No data available')}
                                         </div>
                                     )}
                                 </CardContent>
@@ -295,11 +295,11 @@ export default function CompanyDashboard({
                     </div>
                 </div>
 
-                {/* Strategic Activity Feed */}
+                {/* Recent Activity */}
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     {[
-                        { title: t('Recent Acquisition Captured'), data: recentDeals, icon: Clock, type: 'deal' },
-                        { title: t('Fresh Intel Identified'), data: recentLeads, icon: TrendingUp, type: 'lead' },
+                        { title: t('Recent Deals'), data: recentDeals, icon: Clock, type: 'deal' },
+                        { title: t('Recent Leads'), data: recentLeads, icon: TrendingUp, type: 'lead' },
                     ]?.map((feed, i) => (
                         <div key={i} className="delay-600 duration-700 animate-in fade-in slide-in-from-bottom-4">
                             <Card className="premium-card glass-effect h-full overflow-hidden border-none shadow-xl">
@@ -344,7 +344,7 @@ export default function CompanyDashboard({
                                     ) : (
                                         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
                                             <feed.icon className="mb-4 h-12 w-12 opacity-20" />
-                                            <p className="text-sm font-medium">{t('No activity detected')}</p>
+                                            <p className="text-sm font-medium">{t('No recent activity')}</p>
                                         </div>
                                     )}
                                 </CardContent>

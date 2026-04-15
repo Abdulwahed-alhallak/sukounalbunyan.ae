@@ -25,7 +25,7 @@ import { formatDate } from '@/utils/helpers';
 
 export default function Index() {
     const { t } = useTranslation();
-    const { holidays = [], auth, holidaytypes } = usePage<HolidaysIndexProps>().props;
+    const { holidays, auth, holidaytypes } = usePage<HolidaysIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<HolidayFilters>({
@@ -223,7 +223,7 @@ export default function Index() {
             <Head title={t('Holidays')} />
 
             <div className="space-y-8 duration-1000 animate-in fade-in">
-                {/* Tactical Suspension Board */}
+                {/* Holiday Statistics */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     <div className="premium-card from-muted/500/10 bg-gradient-to-br via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
@@ -231,12 +231,12 @@ export default function Index() {
                                 <CalendarIcon className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Global Downtime')}
+                                {t('Total Holidays')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{holidays?.total || 0}</h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('System Suspension Points')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Scheduled Holidays')}</p>
                         </div>
                     </div>
 
@@ -246,14 +246,14 @@ export default function Index() {
                                 <Plus className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Authorized Downtime')}
+                                {t('Paid Holidays')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {holidays?.data?.filter((h) => h.is_paid).length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Compensated Intervals')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Paid Leave Days')}</p>
                         </div>
                     </div>
 
@@ -263,14 +263,14 @@ export default function Index() {
                                 <Trash2 className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Maintenance Mode')}
+                                {t('Unpaid Holidays')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {holidays?.data?.filter((h) => !h.is_paid).length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Uncompensated Halts')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Unpaid Leave Days')}</p>
                         </div>
                     </div>
 
@@ -280,19 +280,19 @@ export default function Index() {
                                 <Plus className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Sector Vector')}
+                                {t('Search')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{holidaytypes?.length || 0}</h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Suspension Categories')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Holiday Categories')}</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Main Command Dashboard */}
                 <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
-                    {/* Tactical Control Bar */}
+                    {/* Filter & Search Bar */}
                     <div className="border-b border-white/5 bg-card/5 p-6">
                         <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
                             <div className="w-full max-w-xl lg:flex-1">
@@ -300,7 +300,7 @@ export default function Index() {
                                     value={filters.name}
                                     onChange={(value) => setFilters({ ...filters, name: value })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Identify downtime vector or type...')}
+                                    placeholder={t('Search holidays...')}
                                     className="border-white/10 bg-background/20"
                                 />
                             </div>
@@ -330,7 +330,7 @@ export default function Index() {
                             </div>
                         </div>
 
-                        {/* Tactical Filter Projection */}
+                        {/* Advanced Filters */}
                         {showFilters && (
                             <div className="mt-6 grid grid-cols-1 gap-6 border-t border-white/5 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-2 lg:grid-cols-4">
                                 <div className="space-y-2">
@@ -359,21 +359,21 @@ export default function Index() {
                                         onClick={handleFilter}
                                         className="h-10 rounded-xl bg-foreground px-8 text-xs font-black uppercase tracking-widest hover:bg-foreground/80"
                                     >
-                                        {t('Synchronize')}
+                                        {t('Apply Filters')}
                                     </Button>
                                     <Button
                                         variant="ghost"
                                         onClick={clearFilters}
                                         className="h-10 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-background"
                                     >
-                                        {t('Reset Matrix')}
+                                        {t('Reset Filters')}
                                     </Button>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Data Matrix Sector */}
+                    {/* Data Table */}
                     <div className="p-0">
                         <div className="custom-scrollbar max-h-[60vh] w-full overflow-y-auto">
                             <DataTable
@@ -386,15 +386,15 @@ export default function Index() {
                                 emptyState={
                                     <NoRecordsFound
                                         icon={CalendarIcon}
-                                        title={t('No Suspension Vectors')}
+                                        title={t('No Holidays Found')}
                                         description={t(
-                                            'Operational continuity confirmed. No scheduled downtime detected.'
+                                            'No scheduled holidays found.'
                                         )}
                                         hasFilters={!!(filters.name || filters.holiday_type_id)}
                                         onClearFilters={clearFilters}
                                         createPermission="create-holidays"
                                         onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Register Downtime Event')}
+                                        createButtonText={t('Add Holiday')}
                                         className="h-96"
                                     />
                                 }
@@ -405,7 +405,7 @@ export default function Index() {
                     {/* Matrix Pagination */}
                     <div className="border-t border-white/5 bg-card/5 px-6 py-4">
                         <Pagination
-                            data={holidays || { data: [], links: [], meta: {} }}
+                            data={(holidays || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }) as any}
                             routeName="hrm.holidays.index"
                             filters={{ ...filters, per_page: perPage }}
                         />
@@ -427,7 +427,7 @@ export default function Index() {
             <ConfirmationDialog
                 open={deleteState.isOpen}
                 onOpenChange={closeDeleteDialog}
-                title={t('Erase Suspension Point')}
+                title={t('Delete Holiday')}
                 message={deleteState.message}
                 confirmText={t('Delete')}
                 onConfirm={confirmDelete}

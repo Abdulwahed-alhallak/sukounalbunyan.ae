@@ -133,7 +133,7 @@ export default function Index() {
                                 <div className="mb-6 flex items-center justify-between">
                                     <h3 className="text-lg font-medium">{t('Ip Restricts')}</h3>
                                     <div className="flex items-center gap-4">
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex items-center gap-2">
                                             <Label htmlFor="ip-restrict-toggle" className="text-sm font-medium">
                                                 {ipRestrictEnabled ? t('IP Restrict On') : t('IP Restrict Off')}
                                             </Label>

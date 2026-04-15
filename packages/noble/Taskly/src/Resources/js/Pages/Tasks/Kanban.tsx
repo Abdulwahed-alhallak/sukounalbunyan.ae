@@ -213,7 +213,7 @@ export default function Kanban() {
                                         className="gap-2 text-[10px] font-black uppercase tracking-widest"
                                     >
                                         <Eye className="h-3 w-3" />
-                                        {t('View Vector')}
+                                        {t('View')}
                                     </DropdownMenuItem>
                                 )}
                                 {auth.user?.permissions?.includes('edit-project-task') && (
@@ -222,7 +222,7 @@ export default function Kanban() {
                                         className="gap-2 text-[10px] font-black uppercase tracking-widest"
                                     >
                                         <Edit className="h-3 w-3" />
-                                        {t('Modify Protocol')}
+                                        {t('Edit')}
                                     </DropdownMenuItem>
                                 )}
                                 {auth.user?.permissions?.includes('delete-project-task') && (
@@ -231,7 +231,7 @@ export default function Kanban() {
                                         className="gap-2 text-[10px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 hover:!text-destructive"
                                     >
                                         <Trash2 className="h-3 w-3" />
-                                        {t('Purge Record')}
+                                        {t('Delete')}
                                     </DropdownMenuItem>
                                 )}
                             </DropdownMenuContent>
@@ -308,9 +308,9 @@ export default function Kanban() {
             breadcrumbs={[
                 { label: t('Project'), url: route('project.index') },
                 { label: project.name, url: route('project.show', project.id) },
-                { label: t('Mission Matrix') },
+                { label: t('Task Board') },
             ]}
-            pageTitle={t('Mission Execution Board')}
+            pageTitle={t('Task Board')}
             pageActions={
                 <div className="flex items-center gap-3">
                     <div className="me-2 flex gap-1.5">
@@ -350,7 +350,7 @@ export default function Kanban() {
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
                                     <p className="text-[10px] font-black uppercase tracking-widest">
-                                        {t('Switch to Grid')}
+                                        {t('Switch to List View')}
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
@@ -361,13 +361,13 @@ export default function Kanban() {
                                     <Button size="sm" className="premium-button px-6" onClick={() => openModal('add')}>
                                         <Plus className="me-2 h-4 w-4" />
                                         <span className="text-[10px] font-black uppercase tracking-widest">
-                                            {t('Deploy Task')}
+                                            {t('Add Task')}
                                         </span>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
                                     <p className="text-[10px] font-black uppercase tracking-widest">
-                                        {t('Deploy New Vector')}
+                                        {t('Create new task')}
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
@@ -376,7 +376,7 @@ export default function Kanban() {
                 </div>
             }
         >
-            <Head title={t('Mission Board')} />
+            <Head title={t('Task Board')} />
 
             <div className="mt-6">
                 <KanbanBoard
@@ -412,7 +412,7 @@ export default function Kanban() {
                                     </TooltipTrigger>
                                     <TooltipContent className="glass-effect-dark border-white/10">
                                         <p className="text-[8px] font-black uppercase tracking-widest">
-                                            {t('Quick Deploy')}
+                                            {t('Add Task')}
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -460,9 +460,9 @@ export default function Kanban() {
             <ConfirmationDialog
                 open={deleteState.isOpen}
                 onOpenChange={closeDeleteDialog}
-                title={t('Terminate Mission Vector')}
-                message={t('Are you sure you want to purge this task? This action is irrevocable.')}
-                confirmText={t('Purge')}
+                title={t('Delete Task')}
+                message={t('Are you sure you want to delete this task? This action cannot be undone.')}
+                confirmText={t('Delete')}
                 onConfirm={confirmDelete}
                 variant="destructive"
             />

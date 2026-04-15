@@ -44,7 +44,7 @@ export default function Edit({ documentcategory, onSuccess }: EditDocumentCatego
                     <InputError message={errors.document_type} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Switch
                         id="status"
                         checked={data.status || false}

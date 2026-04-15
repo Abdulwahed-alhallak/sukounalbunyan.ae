@@ -90,9 +90,9 @@ export default function Create({
     };
 
     const tabs = [
-        { id: 'intel', label: t('Mission Intel'), icon: Target, description: t('Core parameters') },
-        { id: 'allocation', label: t('Strategic Allocation'), icon: Users, description: t('Resource distribution') },
-        { id: 'temporal', label: t('Temporal Support'), icon: Clock, description: t('Execution window') },
+        { id: 'intel', label: t('Task Details'), icon: Target, description: t('Core parameters') },
+        { id: 'allocation', label: t('Assignment'), icon: Users, description: t('Priority & team') },
+        { id: 'temporal', label: t('Schedule'), icon: Clock, description: t('Timeline & files') },
     ];
 
     const getProgressWidth = () => {
@@ -118,10 +118,10 @@ export default function Create({
                             <Crosshair className="h-4 w-4 animate-pulse text-foreground" />
                         </div>
                         <h2 className="text-sm font-black uppercase tracking-widest text-background">
-                            {t('Deploy Vector')}
+                            {t('Create Task')}
                         </h2>
                         <p className="mt-1 text-[10px] font-bold uppercase tracking-tighter text-muted-foreground opacity-60">
-                            System: Noble Architecture Operational Core
+                            Noble Architecture
                         </p>
                     </div>
 
@@ -163,7 +163,7 @@ export default function Create({
                             <div className="mb-2 flex items-center gap-2">
                                 <Info className="h-3 w-3 text-muted-foreground" />
                                 <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground">
-                                    {t('Protocol Status')}
+                                    {t('Progress')}
                                 </span>
                             </div>
                             <div className="h-1.5 w-full overflow-hidden rounded-full bg-card/5">
@@ -184,18 +184,18 @@ export default function Create({
                         <div className="flex items-center justify-between">
                             <div>
                                 <DialogTitle className="group flex items-center gap-2 text-xl font-black uppercase tracking-widest text-background">
-                                    {t('Mission Configuration')}
+                                    {t('Create Task')}
                                     <span className="h-1.5 w-1.5 animate-ping rounded-full bg-foreground" />
                                 </DialogTitle>
                                 <p className="mt-1 text-[10px] font-bold uppercase tracking-tighter text-muted-foreground opacity-50">
-                                    Operational Anchor: {project?.name || 'Undefined Project'}
+                                Operational Anchor: {project?.name || 'Undefined Project'}
                                 </p>
                             </div>
                             <Badge
                                 variant="outline"
                                 className="h-5 border-foreground/20 bg-foreground/5 text-[8px] font-black uppercase tracking-widest text-foreground"
                             >
-                                {t('Directives Authorized')}
+                                {t('Ready')}
                             </Badge>
                         </div>
                     </DialogHeader>
@@ -209,12 +209,12 @@ export default function Create({
                                             <div className="flex items-end gap-2">
                                                 <div className="flex-1">
                                                     <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                        {t('Mission Payload (Title)')}
+                                                        {t('Task Title')}
                                                     </Label>
                                                     <Input
                                                         value={data.title}
                                                         onChange={(e) => setData('title', e.target.value)}
-                                                        placeholder={t('Enter operational title...')}
+                                                        placeholder={t('Enter task title...')}
                                                         required
                                                         className="h-11 border-white/10 bg-card/5 text-xs font-bold uppercase tracking-widest focus:border-foreground/50"
                                                     />
@@ -230,7 +230,7 @@ export default function Create({
 
                                         <div>
                                             <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Target Milestone')}
+                                                {t('Milestone')}
                                             </Label>
                                             <Select
                                                 value={data.milestone_id?.toString() || ''}
@@ -239,7 +239,7 @@ export default function Create({
                                                 }
                                             >
                                                 <SelectTrigger className="h-11 border-white/10 bg-card/5 text-xs font-bold uppercase tracking-widest">
-                                                    <SelectValue placeholder={t('Anchor point')} />
+                                                    <SelectValue placeholder={t('Select milestone')} />
                                                 </SelectTrigger>
                                                 <SelectContent className="glass-effect-dark border-white/10">
                                                     {milestones?.map((milestone) => (
@@ -258,7 +258,7 @@ export default function Create({
 
                                         <div>
                                             <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Operating Sector')}
+                                                {t('Project')}
                                             </Label>
                                             <Input
                                                 value={project?.name || ''}
@@ -271,7 +271,7 @@ export default function Create({
                                     <div>
                                         <div className="mb-2 flex items-center justify-between">
                                             <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Tactical Briefing (Description)')}
+                                                {t('Description')}
                                             </Label>
                                             <div className="flex gap-2">
                                                 {descriptionAI?.map((field) => (
@@ -284,7 +284,7 @@ export default function Create({
                                             rows={5}
                                             value={data.description}
                                             onChange={(e) => setData('description', e.target.value)}
-                                            placeholder={t('Define vector objectives and execution parameters...')}
+                                            placeholder={t('Enter task description...')}
                                             required
                                             className="border-white/10 bg-card/5 text-[11px] font-medium leading-relaxed focus:border-foreground/50"
                                         />
@@ -298,7 +298,7 @@ export default function Create({
                                     <div className="grid grid-cols-2 gap-6">
                                         <div>
                                             <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Operational Priority')}
+                                                {t('Priority')}
                                             </Label>
                                             <Select
                                                 value={data.priority}
@@ -314,19 +314,19 @@ export default function Create({
                                                         value="High"
                                                         className="text-destructive focus:text-destructive"
                                                     >
-                                                        {t('High Velocity')}
+                                                        {t('High')}
                                                     </SelectItem>
                                                     <SelectItem
                                                         value="Medium"
                                                         className="text-muted-foreground focus:text-muted-foreground"
                                                     >
-                                                        {t('Standard Op')}
+                                                        {t('Medium')}
                                                     </SelectItem>
                                                     <SelectItem
                                                         value="Low"
                                                         className="text-foreground focus:text-foreground"
                                                     >
-                                                        {t('Low Sustain')}
+                                                        {t('Low')}
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
@@ -335,7 +335,7 @@ export default function Create({
 
                                         <div>
                                             <Label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Mission Stage')}
+                                                {t('Task Stage')}
                                             </Label>
                                             <Select
                                                 value={data.stage_id?.toString() || ''}
@@ -344,7 +344,7 @@ export default function Create({
                                                 }
                                             >
                                                 <SelectTrigger className="h-11 border-white/10 bg-card/5 text-xs font-bold uppercase tracking-widest">
-                                                    <SelectValue placeholder={t('Current Vector State')} />
+                                                    <SelectValue placeholder={t('Select stage')} />
                                                 </SelectTrigger>
                                                 <SelectContent className="glass-effect-dark border-white/10">
                                                     {taskStages?.map((stage) => (
@@ -366,7 +366,7 @@ export default function Create({
                                         <div className="mb-4 flex items-center gap-2">
                                             <Users className="h-4 w-4 text-foreground" />
                                             <Label className="m-0 text-[11px] font-black uppercase tracking-widest text-background">
-                                                {t('Field Operatives')}
+                                                {t('Assigned To')}
                                             </Label>
                                         </div>
                                         <MultiSelect
@@ -381,12 +381,12 @@ export default function Create({
                                                     values?.map((v) => parseInt(v))
                                                 )
                                             }
-                                            placeholder={t('Assign mission personnel...')}
+                                            placeholder={t('Select team members...')}
                                             searchable={true}
                                             className="border-white/10 bg-transparent"
                                         />
                                         <p className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground opacity-60">
-                                            * Selected operatives will receive immediate deployment notification.
+                                            * Selected members will be notified.
                                         </p>
                                         <InputError message={errors.assigned_to} />
                                     </div>
@@ -399,13 +399,13 @@ export default function Create({
                                         <div className="mb-4 flex items-center gap-2">
                                             <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                                             <Label className="m-0 text-[11px] font-black uppercase tracking-widest text-background">
-                                                {t('Engagement Window')}
+                                                {t('Duration')}
                                             </Label>
                                         </div>
                                         <DateRangePicker
                                             value={data.duration || ''}
                                             onChange={(value) => setData('duration', value)}
-                                            placeholder={t('Select operational timeframe...')}
+                                            placeholder={t('Select date range...')}
                                             className="h-11 border-white/10 bg-foreground/20"
                                         />
                                         <InputError message={errors.duration} />
@@ -415,7 +415,7 @@ export default function Create({
                                         <div className="mb-2 flex items-center gap-2">
                                             <Paperclip className="h-4 w-4 text-muted-foreground" />
                                             <Label className="m-0 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                {t('Tactical Payload (Attachments)')}
+                                                {t('Attachments')}
                                             </Label>
                                         </div>
                                         <MediaPicker
@@ -451,7 +451,7 @@ export default function Create({
                                     >
                                         <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                                         <span className="text-[10px] font-black uppercase tracking-widest">
-                                            {t('Previous Sector')}
+                                            {t('Previous')}
                                         </span>
                                     </Button>
                                 )}
@@ -465,7 +465,7 @@ export default function Create({
                                     className="h-10 px-6 text-muted-foreground hover:text-background"
                                 >
                                     <span className="text-[10px] font-black uppercase tracking-widest">
-                                        {t('Abort')}
+                                        {t('Cancel')}
                                     </span>
                                 </Button>
 
@@ -479,14 +479,14 @@ export default function Create({
                                             <div className="flex items-center gap-2">
                                                 <div className="h-3 w-3 animate-spin rounded-full border-2 border-white/20 border-t-white" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest">
-                                                    {t('Deploying...')}
+                                                    {t('Creating...')}
                                                 </span>
                                             </div>
                                         ) : (
                                             <div className="flex items-center gap-2">
                                                 <Zap className="h-4 w-4 transition-transform group-hover:scale-125" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest">
-                                                    {t('Deploy Vector')}
+                                                    {t('Create Task')}
                                                 </span>
                                             </div>
                                         )}
@@ -498,7 +498,7 @@ export default function Create({
                                         className="premium-button group h-10 px-10"
                                     >
                                         <span className="text-[10px] font-black uppercase tracking-widest">
-                                            {t('Next Sector')}
+                                            {t('Next')}
                                         </span>
                                         <ChevronRight className="ms-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </Button>

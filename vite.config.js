@@ -10,9 +10,8 @@ export default defineConfig({
     base: './',
     plugins: [
         laravel({
-            input:
-            [
-                resolve(__dirname, 'resources/js/app.tsx'),
+            input: [
+                'resources/js/app.tsx',
                 ...noblePackages
             ],
             refresh: true,

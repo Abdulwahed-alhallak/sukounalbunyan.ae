@@ -144,7 +144,7 @@ export default function Index() {
     const tableColumns = [
         {
             key: 'title',
-            header: t('Mission Payload'),
+            header: t('Task Name'),
             sortable: true,
             render: (value: string, task: ProjectTask) => (
                 <div className="flex max-w-[200px] flex-col gap-0.5">
@@ -159,19 +159,19 @@ export default function Index() {
         },
         {
             key: 'milestone',
-            header: t('Strategic Anchor'),
+            header: t('Milestone'),
             render: (_: any, task: ProjectTask) => (
                 <div className="flex items-center gap-2">
                     <Target className="h-3 w-3 text-muted-foreground transition-transform group-hover:scale-110" />
                     <span className="max-w-[150px] truncate text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                        {task.milestone?.title || t('UNANCHORED')}
+                        {task.milestone?.title || t('None')}
                     </span>
                 </div>
             ),
         },
         {
             key: 'assignedUser',
-            header: t('Field Operatives'),
+            header: t('Assigned To'),
             render: (_: any, task: ProjectTask) => {
                 const assignedUsers = task.assignedUsers || [];
                 return (
@@ -205,7 +205,7 @@ export default function Index() {
         },
         {
             key: 'stage',
-            header: t('Mission Status'),
+            header: t('Stage'),
             render: (_: any, task: ProjectTask) => {
                 const stage = taskStages.find((s) => s.id === (task as any).stage_id);
                 return (
@@ -217,7 +217,7 @@ export default function Index() {
         },
         {
             key: 'priority',
-            header: t('Operational Priority'),
+            header: t('Priority'),
             sortable: true,
             render: (value: string) => (
                 <Badge className={`border text-[8px] font-black uppercase tracking-widest ${getPriorityStyle(value)}`}>
@@ -227,7 +227,7 @@ export default function Index() {
         },
         {
             key: 'actions',
-            header: t('Tactical Hub'),
+            header: t('Actions'),
             render: (_: any, task: ProjectTask) => (
                 <div className="flex justify-end gap-1">
                     <TooltipProvider>
@@ -243,7 +243,7 @@ export default function Index() {
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent className="glass-effect-dark border-white/10">
-                                <p className="text-xs">{t('View Intel')}</p>
+                                <p className="text-xs">{t('View')}</p>
                             </TooltipContent>
                         </Tooltip>
                         {auth.user?.permissions?.includes('edit-project-task') && (
@@ -259,7 +259,7 @@ export default function Index() {
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
-                                    <p className="text-xs">{t('Modify Protocol')}</p>
+                                    <p className="text-xs">{t('Edit')}</p>
                                 </TooltipContent>
                             </Tooltip>
                         )}
@@ -276,7 +276,7 @@ export default function Index() {
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="glass-effect-dark border-white/10">
-                                    <p className="text-xs">{t('Purge Vector')}</p>
+                                    <p className="text-xs">{t('Delete')}</p>
                                 </TooltipContent>
                             </Tooltip>
                         )}
@@ -297,7 +297,7 @@ export default function Index() {
                       ]
                     : [{ label: t('Tasks') }]
             }
-            pageTitle={t('Mission Deployment Grid')}
+            pageTitle={t('Tasks')}
             pageActions={
                 <div className="flex items-center gap-3">
                     <div className="flex gap-1">
@@ -327,7 +327,7 @@ export default function Index() {
                         >
                             <Kanban className="me-2 h-4 w-4" />
                             <span className="text-[10px] font-black uppercase tracking-widest">
-                                {t('Mission Matrix')}
+                                {t('Kanban Board')}
                             </span>
                         </Button>
                     )}
@@ -346,7 +346,7 @@ export default function Index() {
                                     value={filters.title}
                                     onChange={(v) => setFilters({ ...filters, title: v })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Search Sector...')}
+                                    placeholder={t('Search tasks...')}
                                     className="h-11 border-white/5 bg-foreground/50 ps-10 text-xs font-bold uppercase tracking-widest transition-all focus:border-foreground/50"
                                 />
                             </div>
@@ -384,7 +384,7 @@ export default function Index() {
                                     >
                                         <Plus className="me-2 h-4 w-4" />
                                         <span className="text-[10px] font-black uppercase tracking-widest">
-                                            {t('Deploy Task')}
+                                            {t('Add Task')}
                                         </span>
                                     </Button>
                                 )}
@@ -398,49 +398,49 @@ export default function Index() {
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                            {t('Priority Tier')}
+                                            {t('Priority')}
                                         </label>
                                         <Select
                                             value={filters.priority}
                                             onValueChange={(v) => setFilters({ ...filters, priority: v })}
                                         >
                                             <SelectTrigger className="glass-effect-dark h-10 border-white/5 text-xs font-bold uppercase tracking-widest">
-                                                <SelectValue placeholder={t('Filter Tier')} />
+                                                <SelectValue placeholder={t('All Priorities')} />
                                             </SelectTrigger>
                                             <SelectContent className="glass-effect-dark border-white/10">
                                                 <SelectItem value="High" className="text-destructive">
-                                                    {t('High Velocity')}
+                                                    {t('High')}
                                                 </SelectItem>
                                                 <SelectItem value="Medium" className="text-muted-foreground">
-                                                    {t('Standard Op')}
+                                                    {t('Medium')}
                                                 </SelectItem>
                                                 <SelectItem value="Low" className="text-foreground">
-                                                    {t('Low Sustain')}
+                                                    {t('Low')}
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                            {t('Temporal Window')}
+                                            {t('Date Range')}
                                         </label>
                                         <DatePicker
                                             value={filters.date_range}
                                             onChange={(v) => setFilters({ ...filters, date_range: v })}
-                                            placeholder={t('Select Window')}
+                                            placeholder={t('Select date range')}
                                             className="h-10 border-white/5 bg-card/50"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                            {t('Assigned Operative')}
+                                            {t('Assigned To')}
                                         </label>
                                         <Select
                                             value={filters.user_id}
                                             onValueChange={(v) => setFilters({ ...filters, user_id: v })}
                                         >
                                             <SelectTrigger className="glass-effect-dark h-10 border-white/5 text-xs font-bold uppercase tracking-widest">
-                                                <SelectValue placeholder={t('Select Agent')} />
+                                                <SelectValue placeholder={t('Select Member')} />
                                             </SelectTrigger>
                                             <SelectContent className="glass-effect-dark border-white/10">
                                                 {teamMembers?.map((u) => (
@@ -546,7 +546,7 @@ export default function Index() {
                                                                     className="gap-2 text-[10px] font-black uppercase tracking-widest"
                                                                 >
                                                                     <Eye className="h-3.5 w-3.5" />
-                                                                    {t('View Intel')}
+                                                                    {t('View Details')}
                                                                 </DropdownMenuItem>
                                                                 {auth.user?.permissions?.includes(
                                                                     'edit-project-task'
@@ -556,7 +556,7 @@ export default function Index() {
                                                                         className="gap-2 text-[10px] font-black uppercase tracking-widest"
                                                                     >
                                                                         <Edit className="h-3.5 w-3.5" />
-                                                                        {t('Modify Op')}
+                                                                        {t('Edit Task')}
                                                                     </DropdownMenuItem>
                                                                 )}
                                                                 {auth.user?.permissions?.includes(
@@ -567,7 +567,7 @@ export default function Index() {
                                                                         className="gap-2 text-[10px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 hover:!text-destructive"
                                                                     >
                                                                         <Trash2 className="h-3.5 w-3.5" />
-                                                                        {t('Purge Vector')}
+                                                                        {t('Delete Task')}
                                                                     </DropdownMenuItem>
                                                                 )}
                                                             </DropdownMenuContent>
@@ -579,7 +579,7 @@ export default function Index() {
                                                     <div className="mt-auto space-y-3 border-t border-white/5 pt-4">
                                                         <div className="flex items-center justify-between">
                                                             <span className="text-[8px] font-black uppercase tracking-tighter text-muted-foreground">
-                                                                {t('Priority Tier')}
+                                                                {t('Priority')}
                                                             </span>
                                                             <Badge
                                                                 className={`border px-2 py-0 text-[8px] font-black uppercase tracking-widest ${getPriorityStyle(task.priority)}`}
@@ -629,15 +629,15 @@ export default function Index() {
                         {tasks.data.length === 0 && (
                             <NoRecordsFound
                                 icon={Package}
-                                title={t('Vector Field Clear')}
+                                title={t('No Tasks Found')}
                                 description={t(
-                                    'Operational grid is currently empty. Initialize a new mission vector to begin.'
+                                    'No tasks have been created yet. Add your first task to get started.'
                                 )}
                                 hasFilters={!!(filters.title || filters.priority)}
                                 onClearFilters={clearFilters}
                                 createPermission="create-project-task"
                                 onCreateClick={() => openModal('add')}
-                                createButtonText={t('Initialize Vector')}
+                                createButtonText={t('Add Task')}
                                 className="py-32"
                             />
                         )}
@@ -680,11 +680,11 @@ export default function Index() {
             <ConfirmationDialog
                 open={deleteState.isOpen}
                 onOpenChange={closeDeleteDialog}
-                title={t('Purge Mission Vector')}
+                title={t('Delete Task')}
                 message={t(
-                    'Irrevocable action authorized: Are you sure you want to permanently erase this task record from the strategic grid?'
+                    'Are you sure you want to delete this task? This action cannot be undone.'
                 )}
-                confirmText={t('Purge')}
+                confirmText={t('Delete')}
                 onConfirm={confirmDelete}
                 variant="destructive"
             />

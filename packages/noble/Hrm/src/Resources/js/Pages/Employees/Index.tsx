@@ -190,9 +190,9 @@ export default function Index() {
                         />
                     )}
                     <div className="min-w-0">
-                        <span className="block truncate text-sm font-medium">{row.user?.name || '-'}</span>
+                        <span className="block truncate text-sm font-semibold">{row.user?.name || '-'}</span>
                         {row.name_ar && (
-                            <span className="block truncate text-xs text-muted-foreground" dir="rtl">
+                            <span className="block truncate text-[11px] font-medium text-muted-foreground" dir="rtl">
                                 {row.name_ar}
                             </span>
                         )}
@@ -208,7 +208,7 @@ export default function Index() {
                 <div className="min-w-0">
                     <span className="block truncate text-sm">{row.job_title || '-'}</span>
                     {row.job_title_ar && (
-                        <span className="block truncate text-xs text-muted-foreground" dir="rtl">
+                        <span className="block truncate text-[11px] font-medium text-muted-foreground" dir="rtl">
                             {row.job_title_ar}
                         </span>
                     )}
@@ -233,17 +233,21 @@ export default function Index() {
             sortable: false,
             render: (value: any) => {
                 const colors: any = {
-                    Active: 'bg-muted text-foreground',
-                    Resigned: 'bg-muted text-destructive',
-                    Terminated: 'bg-muted text-destructive',
-                    Transferred: 'bg-muted text-foreground',
+                    Active: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+                    Resigned: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+                    Terminated: 'bg-destructive/10 text-destructive border-destructive/20',
+                    Transferred: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
                 };
                 return (
-                    <span
-                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${colors[value] || 'bg-muted text-foreground'}`}
+                    <Badge
+                        variant="outline"
+                        className={cn(
+                            'rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-tight',
+                            colors[value] || 'bg-muted text-foreground border-border'
+                        )}
                     >
-                        {value || '-'}
-                    </span>
+                        {t(value) || '-'}
+                    </Badge>
                 );
             },
         },
@@ -251,7 +255,7 @@ export default function Index() {
             key: 'basic_salary',
             header: t('Salary'),
             sortable: false,
-            render: (value: any) => (value ? `${Number(value).toLocaleString()} SAR` : '-'),
+            render: (value: any) => (value ? formatCurrency(value) : '-'),
         },
         {
             key: 'date_of_joining',
@@ -379,7 +383,7 @@ export default function Index() {
                                 <Button
                                     size="sm"
                                     onClick={() => router.visit(route('hrm.employees.create'))}
-                                    className="bg-foreground font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
+                                    className="h-9 bg-foreground px-4 font-bold tracking-tight text-background hover:opacity-90 dark:bg-muted dark:text-foreground"
                                 >
                                     <Plus className="me-2 h-4 w-4" />
                                     {t('Add Employee')}
@@ -539,7 +543,7 @@ export default function Index() {
                                 <div className="flex items-end gap-2">
                                     <Button
                                         onClick={handleFilter}
-                                        className="h-9 flex-1 rounded-md bg-foreground px-6 text-xs font-medium text-foreground hover:opacity-90 dark:bg-muted dark:text-foreground"
+                                        className="h-9 flex-1 rounded-md bg-foreground px-6 text-xs font-medium text-background hover:opacity-90 dark:bg-muted dark:text-foreground"
                                     >
                                         {t('Apply Filters')}
                                     </Button>
@@ -588,7 +592,7 @@ export default function Index() {
                                                     variant="secondary"
                                                     className="rounded-full px-2 py-0.5 text-[10px] font-bold"
                                                 >
-                                                    {employee.employee_status}
+                                                    {t(employee.employee_status) || employee.employee_status}
                                                 </Badge>
                                             </div>
 
@@ -619,7 +623,7 @@ export default function Index() {
                                                     </p>
                                                     <p className="text-[11px] font-semibold">
                                                         {employee.basic_salary
-                                                            ? `${Number(employee.basic_salary).toLocaleString()} SAR`
+                                                            ? formatCurrency(employee.basic_salary)
                                                             : '-'}
                                                     </p>
                                                 </div>
@@ -634,7 +638,7 @@ export default function Index() {
                                                             onClick={() =>
                                                                 router.get(route('hrm.employees.show', employee.id))
                                                             }
-                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-black dark:hover:text-background"
+                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
                                                         >
                                                             <Eye className="h-3.5 w-3.5" />
                                                         </Button>
@@ -646,7 +650,7 @@ export default function Index() {
                                                             onClick={() =>
                                                                 router.visit(route('hrm.employees.edit', employee.id))
                                                             }
-                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-black dark:hover:text-background"
+                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
                                                         >
                                                             <EditIcon className="h-3.5 w-3.5" />
                                                         </Button>

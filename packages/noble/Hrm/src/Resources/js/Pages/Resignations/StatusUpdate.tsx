@@ -97,21 +97,21 @@ export function StatusUpdate({ open, onOpenChange, resignation, auth, globalSett
                             className="flex gap-4"
                             disabled={processing || (cannotApproveAsHr && status !== 'rejected')}
                         >
-                            <label className="flex cursor-pointer items-center space-x-2">
+                            <label className="flex cursor-pointer items-center gap-2">
                                 <RadioGroupItem value="pending" id="pending" />
                                 <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium">
                                     <Clock className="h-4 w-4 text-warning" />
                                     {t('Pending')}
                                 </span>
                             </label>
-                            <label className="flex cursor-pointer items-center space-x-2">
+                            <label className="flex cursor-pointer items-center gap-2">
                                 <RadioGroupItem value="accepted" id="accepted" disabled={cannotApproveAsHr} />
                                 <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium text-success">
                                     <CheckCircle2 className="h-4 w-4" />
                                     {t('Accept')}
                                 </span>
                             </label>
-                            <label className="flex cursor-pointer items-center space-x-2">
+                            <label className="flex cursor-pointer items-center gap-2">
                                 <RadioGroupItem value="rejected" id="rejected" />
                                 <span className="flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-sm font-medium text-destructive">
                                     <XCircle className="h-4 w-4" />

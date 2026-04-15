@@ -279,7 +279,7 @@ export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
                     <div className="flex items-center justify-between">
                         <Label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                             <FileText className="h-3 w-3 text-foreground" />
-                            {t('Deployment Rationale')}
+                            {t('Reason')}
                         </Label>
                         <div className="flex gap-2">
                             {reasonAI?.map((field) => (

@@ -239,13 +239,13 @@ export default function Edit() {
                                             onValueChange={(value: any) => setData('gender', value)}
                                             className="mt-2 flex gap-6"
                                         >
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex items-center gap-2">
                                                 <RadioGroupItem value="Male" id="gender_male" />
                                                 <Label htmlFor="gender_male" className="cursor-pointer">
                                                     {t('Male')}
                                                 </Label>
                                             </div>
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex items-center gap-2">
                                                 <RadioGroupItem value="Female" id="gender_female" />
                                                 <Label htmlFor="gender_female" className="cursor-pointer">
                                                     {t('Female')}

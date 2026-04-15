@@ -122,7 +122,7 @@ function OrgNodeCard({
                             variant="outline"
                             className="mt-2 border-primary/20 bg-primary/10 px-2 text-[9px] font-black text-primary"
                         >
-                            {node.employee_count || node.children?.length || 0} {t('Members')}
+                            {node.employee_count || node.children?.length || 0} {t('Employees')}
                         </Badge>
                     </div>
                 ) : (
@@ -174,8 +174,8 @@ function OrgNodeCard({
                             <div
                                 className="absolute top-0 h-[2px] bg-primary/20"
                                 style={{
-                                    left: `calc(50% - ${(node.children.length - 1) * 56}px)`,
-                                    right: `calc(50% - ${(node.children.length - 1) * 56}px)`,
+                                    insetInlineStart: `calc(50% - ${(node.children.length - 1) * 56}px)`,
+                                    insetInlineEnd: `calc(50% - ${(node.children.length - 1) * 56}px)`,
                                 }}
                             />
                         )}
@@ -219,20 +219,20 @@ export default function OrgChartIndex({ orgTree, employees, departments, stats }
                             </div>
                             <div>
                                 <h1 className="text-2xl font-black uppercase tracking-tight">
-                                    {t('Organizational Hierarchy')}
+                                    {t('Organizational Structure')}
                                 </h1>
                                 <p className="text-sm font-medium text-muted-foreground">
-                                    {t('Interactive personnel command structure visualization.')}
+                                    {t('Visualize your organizational structure and reporting relationships.')}
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex flex-wrap gap-3">
                             {[
-                                { label: t('Personnel'), value: stats.total_employees, icon: Users },
+                                { label: t('Employees'), value: stats.total_employees, icon: Users },
                                 { label: t('Departments'), value: stats.total_departments, icon: Building },
                                 { label: t('Branches'), value: stats.total_branches, icon: MapPin },
-                                { label: t('Linked'), value: stats.with_manager, icon: GitBranch },
+                                { label: t('Manager Assigned'), value: stats.with_manager, icon: GitBranch },
                             ].map((stat, i) => (
                                 <div
                                     key={i}
@@ -271,7 +271,7 @@ export default function OrgChartIndex({ orgTree, employees, departments, stats }
                         </Button>
                     </div>
                     <Badge variant="outline" className="bg-muted/30 text-[9px] font-black uppercase tracking-widest">
-                        {orgTree.length} {t('Root Nodes')}
+                        {orgTree.length} {t('Top Level')}
                     </Badge>
                 </div>
 
@@ -322,7 +322,7 @@ export default function OrgChartIndex({ orgTree, employees, departments, stats }
                                         )}
                                         <span>•</span>
                                         <span>
-                                            {dept.employee_count} {t('staff')}
+                                            {dept.employee_count} {t('employees')}
                                         </span>
                                     </div>
                                 </div>

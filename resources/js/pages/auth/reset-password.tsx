@@ -1,0 +1,108 @@
+import InputError from '@/components/ui/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+import AuthLayout from '@/layouts/auth-layout';
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
+interface ResetPasswordProps {
+    token: string;
+    email: string;
+}
+
+export default function ResetPassword({ token, email }: ResetPasswordProps) {
+    const { t } = useTranslation();
+    const { data, setData, post, processing, errors, reset } = useForm({
+        token: token,
+        email: email,
+        password: '',
+        password_confirmation: '',
+    });
+
+    useEffect(() => {
+        return () => {
+            reset('password', 'password_confirmation');
+        };
+    }, []);
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(route('password.store'));
+    };
+
+    return (
+        <AuthLayout title={t('Reset password')} description={t('Please enter your new password below')}>
+            <Head title={t('Reset password')} />
+
+            <form onSubmit={submit} className="space-y-4">
+                <div className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="email" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Email')}
+                        </Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
+                            readOnly
+                        />
+                        <InputError message={errors.email} className="mt-2" />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="password" className="text-sm font-medium text-foreground dark:text-foreground">
+                            {t('Password')}
+                        </Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            name="password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            autoComplete="new-password"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
+                            autoFocus
+                            placeholder={t('Password')}
+                        />
+                        <InputError message={errors.password} />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label
+                            htmlFor="password_confirmation"
+                            className="text-sm font-medium text-foreground dark:text-foreground"
+                        >
+                            {t('Confirm password')}
+                        </Label>
+                        <Input
+                            id="password_confirmation"
+                            type="password"
+                            name="password_confirmation"
+                            value={data.password_confirmation}
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            autoComplete="new-password"
+                            className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
+                            placeholder={t('Confirm password')}
+                        />
+                        <InputError message={errors.password_confirmation} className="mt-2" />
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className="mt-6 w-full transform rounded-md bg-foreground py-2.5 text-sm font-medium tracking-wide text-background shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+                        disabled={processing}
+                        data-test="reset-password-button"
+                    >
+                        {processing ? 'Loading...' : t('RESET PASSWORD')}
+                    </Button>
+                </div>
+            </form>
+        </AuthLayout>
+    );
+}

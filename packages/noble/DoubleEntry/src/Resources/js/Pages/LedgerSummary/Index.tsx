@@ -125,15 +125,19 @@ export default function Index() {
         },
         {
             key: 'debit_amount',
-            header: t('Debit'),
+            header: <div className="text-end">{t('Debit')}</div>,
             sortable: false,
-            render: (value: number) => (value > 0 ? formatCurrency(value) : '-'),
+            render: (value: number) => (
+                <div className="text-end tabular-nums">{value > 0 ? formatCurrency(value) : '-'}</div>
+            ),
         },
         {
             key: 'credit_amount',
-            header: t('Credit'),
+            header: <div className="text-end">{t('Credit')}</div>,
             sortable: false,
-            render: (value: number) => (value > 0 ? formatCurrency(value) : '-'),
+            render: (value: number) => (
+                <div className="text-end tabular-nums">{value > 0 ? formatCurrency(value) : '-'}</div>
+            ),
         },
     ];
 
@@ -144,8 +148,8 @@ export default function Index() {
         >
             <Head title={t('Ledger Summary')} />
 
-            <Card className="shadow-sm">
-                <CardContent className="bg-muted/50/50 border-b p-6">
+            <Card className="border-0 bg-gradient-to-br from-background via-muted/50 to-muted shadow-xl">
+                <CardContent className="border-b bg-muted/50 p-6">
                     <div className="flex items-center justify-between gap-4">
                         <div className="max-w-md flex-1">
                             <SearchInput

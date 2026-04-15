@@ -139,7 +139,7 @@ export default function Index() {
             header: t('Account Type'),
             sortable: false,
             render: (value: any) => {
-                const options: any = { '0': 'checking', '1': 'savings', '2': 'credit', '3': 'loan' };
+                const options: any = { '0': t('checking'), '1': t('savings'), '2': t('credit'), '3': t('loan') };
                 return options[value] || value;
             },
         },
@@ -439,10 +439,10 @@ export default function Index() {
                                                         <span className="rounded-full bg-muted px-2 py-1 text-sm capitalize text-foreground">
                                                             {(() => {
                                                                 const options: any = {
-                                                                    '0': 'checking',
-                                                                    '1': 'savings',
-                                                                    '2': 'credit',
-                                                                    '3': 'loan',
+                                                                    '0': t('checking'),
+                                                                    '1': t('savings'),
+                                                                    '2': t('credit'),
+                                                                    '3': t('loan'),
                                                                 };
                                                                 return (
                                                                     options[bankaccount.account_type] ||

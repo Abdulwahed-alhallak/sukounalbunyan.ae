@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export default function ContractsIndex() {
     const { t } = useTranslation();
-    const { contracts, employees } = usePage<any>().props;
+    const { contracts = [], employees = [] } = usePage<any>().props;
 
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -88,7 +88,7 @@ export default function ContractsIndex() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[
-                { label: t('HRM Dashboard'), url: route('hrm.dashboard') },
+                { label: t('HRM'), url: route('hrm.index') },
                 { label: t('Employee Contracts') },
             ]}
             pageTitle={t('Employee Contracts')}
@@ -303,9 +303,9 @@ export default function ContractsIndex() {
                                         <SelectValue placeholder={t('Select Type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Fixed Term">Fixed Term</SelectItem>
-                                        <SelectItem value="Unlimited">Unlimited</SelectItem>
-                                        <SelectItem value="Freelance">Freelance</SelectItem>
+                                        <SelectItem value="Fixed Term">{t('Fixed Term')}</SelectItem>
+                                        <SelectItem value="Unlimited">{t('Unlimited')}</SelectItem>
+                                        <SelectItem value="Freelance">{t('Freelance')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -382,9 +382,9 @@ export default function ContractsIndex() {
                                         <SelectValue placeholder={t('Select Type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Fixed Term">Fixed Term</SelectItem>
-                                        <SelectItem value="Unlimited">Unlimited</SelectItem>
-                                        <SelectItem value="Freelance">Freelance</SelectItem>
+                                        <SelectItem value="Fixed Term">{t('Fixed Term')}</SelectItem>
+                                        <SelectItem value="Unlimited">{t('Unlimited')}</SelectItem>
+                                        <SelectItem value="Freelance">{t('Freelance')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -400,9 +400,9 @@ export default function ContractsIndex() {
                                         <SelectValue placeholder={t('Status')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Active">Active</SelectItem>
-                                        <SelectItem value="Expired">Expired</SelectItem>
-                                        <SelectItem value="Terminated">Terminated</SelectItem>
+                                        <SelectItem value="Active">{t('Active')}</SelectItem>
+                                        <SelectItem value="Expired">{t('Expired')}</SelectItem>
+                                        <SelectItem value="Terminated">{t('Terminated')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>

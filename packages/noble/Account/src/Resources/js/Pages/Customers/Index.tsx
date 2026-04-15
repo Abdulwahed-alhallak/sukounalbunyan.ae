@@ -298,8 +298,8 @@ export default function Index() {
 
     return (
         <AuthenticatedLayout
-            breadcrumbs={[{ label: 'Accounting', url: route('account.index') }, { label: 'Customers' }]}
-            pageTitle="Manage Customers"
+            breadcrumbs={[{ label: t('Accounting'), url: route('account.index') }, { label: t('Customers') }]}
+            pageTitle={t('Manage Customers')}
             pageActions={
                 <div className="flex gap-2">
                     {googleDriveButtons?.map((button) => (
@@ -338,7 +338,7 @@ export default function Index() {
                                 value={filters.company_name}
                                 onChange={(value) => setFilters({ ...filters, company_name: value })}
                                 onSearch={handleFilter}
-                                placeholder="Search customers..."
+                                placeholder={t('Search customers...')}
                             />
                         </div>
                         <div className="flex items-center gap-3">
@@ -430,15 +430,15 @@ export default function Index() {
                                     emptyState={
                                         <NoRecordsFound
                                             icon={Building2}
-                                            title="No customers found"
-                                            description="Get started by creating your first customer."
+                                            title={t('No customers found')}
+                                            description={t('Get started by creating your first customer.')}
                                             hasFilters={
                                                 !!(filters.company_name || filters.customer_code || filters.tax_number)
                                             }
                                             onClearFilters={clearFilters}
                                             createPermission="create-customers"
                                             onCreateClick={() => openModal('add')}
-                                            createButtonText="Create Customer"
+                                            createButtonText={t('Create Customer')}
                                             className="h-auto"
                                         />
                                     }
@@ -656,13 +656,13 @@ export default function Index() {
                             ) : (
                                 <NoRecordsFound
                                     icon={Building2}
-                                    title="No customers found"
-                                    description="Get started by creating your first customer."
+                                    title={t('No customers found')}
+                                    description={t('Get started by creating your first customer.')}
                                     hasFilters={!!(filters.company_name || filters.customer_code || filters.tax_number)}
                                     onClearFilters={clearFilters}
                                     createPermission="create-customers"
                                     onCreateClick={() => openModal('add')}
-                                    createButtonText="Create Customer"
+                                    createButtonText={t('Create Customer')}
                                     className="h-auto"
                                 />
                             )}
@@ -693,7 +693,7 @@ export default function Index() {
             <ConfirmationDialog
                 open={deleteState.isOpen}
                 onOpenChange={closeDeleteDialog}
-                title="Delete Customer"
+                title={t('Delete Customer')}
                 message={deleteState.message}
                 confirmText="Delete"
                 onConfirm={confirmDelete}
