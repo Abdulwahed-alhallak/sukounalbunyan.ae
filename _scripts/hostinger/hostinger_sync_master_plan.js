@@ -1,15 +1,7 @@
 import { Client } from 'ssh2';
 import fs from 'fs';
 
-const CONFIG = require('../deployment/secureConfig.js');
-
 const conn = new Client();
-
-// Load database credentials from CONFIG (loaded from .env.production)
-const DB_HOST = CONFIG.DB.host;
-const DB_USER = CONFIG.DB.username;
-const DB_PASS = CONFIG.DB.password;
-const DB_NAME = CONFIG.DB.database;
 
 conn.on('ready', () => {
     console.log('SSH Connected. Initializing native SFTP pipeline...');
@@ -24,10 +16,9 @@ conn.on('ready', () => {
         
         sftp.fastPut(localFile, remoteFile, (err) => {
             if (err) throw err;
-            console.log('Restoring Production Env and triggering global database sync from CONFIG...');
+            console.log('Upload complete. Restoring Production Env and triggering global database sync...');
             
-            // Use CONFIG database credentials instead of hardcoded values
-            const cmd = `cd domains/noble.dion.sy/public_html && sed -i 's/DB_DATABASE=.*/DB_DATABASE=${DB_NAME}/g' .env && sed -i 's/DB_USERNAME=.*/DB_USERNAME=${DB_USER}/g' .env && sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=${DB_PASS}/g' .env && /opt/alt/php82/usr/bin/php artisan cache:clear && /opt/alt/php82/usr/bin/php artisan config:cache && /opt/alt/php82/usr/bin/php artisan noble:master-sync`;
+            const cmd = `cd domains/noble.dion.sy/public_html && sed -i 's/DB_DATABASE=.*/DB_DATABASE=u256167180_noble/g' .env && sed -i 's/DB_USERNAME=.*/DB_USERNAME=u256167180_noble/g' .env && sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=4_m_XMkgux@.AgC/g' .env && /opt/alt/php82/usr/bin/php artisan cache:clear && /opt/alt/php82/usr/bin/php artisan config:cache && /opt/alt/php82/usr/bin/php artisan noble:master-sync`;
 
             conn.exec(cmd, (err, stream) => {
                 if (err) throw err;
@@ -42,5 +33,9 @@ conn.on('ready', () => {
             });
         });
     });
-}).connect(CONFIG.SSH);
-
+}).connect({
+    host: '62.72.25.117',
+    port: 65002,
+    username: 'u256167180',
+    password: '4_m_XMkgux@.AgC'
+});

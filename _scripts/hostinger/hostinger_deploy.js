@@ -1,7 +1,5 @@
 import { Client } from 'ssh2';
 
-const CONFIG = require('../deployment/secureConfig.js');
-
 const conn = new Client();
 const PAT = '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';
 const repoUrl = `https://Abdulwahed-alhallak:${PAT}@github.com/Abdulwahed-alhallak/nobel.dion.sy.git`;
@@ -40,5 +38,9 @@ conn.on('ready', () => {
             process.stderr.write(data);
         });
     });
-}).connect(CONFIG.SSH);
-
+}).connect({
+    host: '62.72.25.117',
+    port: 65002,
+    username: 'u256167180',
+    password: '4_m_XMkgux@.AgC'
+});

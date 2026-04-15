@@ -8,9 +8,9 @@
 
 // --- SECURITY PROTOCOL ---
 $SECRET_TOKEN = 'noble_gold_master_sync_2026_q2'; // In production, this should be moved to .env
-$providedToekn = $_GET['token'] ?? '';
+$providedToken = $_GET['token'] ?? '';
 
-if ($providedToekn !== $SECRET_TOKEN) {
+if ($providedToken !== $SECRET_TOKEN) {
     header('HTTP/1.0 403 Forbidden');
     echo "❌ ACCESS DENIED: Invalid Synchronization Token.";
     exit;

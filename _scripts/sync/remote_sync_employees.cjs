@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 const config = {
-    host: CONFIG.SSH.host,
-    port: CONFIG.SSH.port,
+    host: '62.72.25.117',
+    port: 65002,
     username: 'u256167180',
-    password: '${CONFIG.DB.password}',
+    password: '4_m_XMkgux@.AgC',
     readyTimeout: 60000
 };
 
@@ -75,4 +75,3 @@ function executeRemoteImport() {
 }
 
 conn.on('error', (e) => console.error('Conn Error', e)).connect(config);
-

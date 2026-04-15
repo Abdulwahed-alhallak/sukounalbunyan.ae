@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db   = 'u256167180_noble';
 $user = 'u256167180_noble';
-$pass = '${CONFIG.DB.password}';
+$pass = '4_m_XMkgux@.AgC';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -31,4 +31,3 @@ try {
 } catch (\PDOException $e) {
      throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
-

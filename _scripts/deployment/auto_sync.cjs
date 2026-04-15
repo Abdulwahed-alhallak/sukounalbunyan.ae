@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Load sensitive credentials from .env.production (NOT from hardcoded values)
-const CONFIG = require('./secureConfig.cjs');
+const CONFIG = require('./secureConfig.js');
 const SSH_CONFIG = CONFIG.SSH;
 const APP_DIR = CONFIG.APP_DIR;
 const LOCAL_DIR = path.join(__dirname, '..', '..');
@@ -134,10 +134,5 @@ async function syncBuildFiles(conn) {
     }).on('error', err => {
         console.error('❌ SSH Error:', err.message);
         process.exit(1);
-    }).connect({
-        ...SSH_CONFIG,
-        readyTimeout: 120000,
-        keepaliveInterval: 10000,
-        keepaliveCountMax: 10
-    });
+    }).connect(SSH_CONFIG);
 })();

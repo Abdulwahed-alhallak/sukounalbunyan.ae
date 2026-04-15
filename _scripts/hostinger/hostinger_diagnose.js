@@ -1,13 +1,5 @@
 import { Client } from 'ssh2';
 
-const CONFIG = require('../deployment/secureConfig.js');
-
-// Load database credentials from CONFIG (loaded from .env.production)
-const DB_HOST = CONFIG.DB.host;
-const DB_USER = CONFIG.DB.username;
-const DB_PASS = CONFIG.DB.password;
-const DB_NAME = CONFIG.DB.database;
-
 const conn = new Client();
 
 conn.on('ready', () => {
@@ -18,11 +10,11 @@ conn.on('ready', () => {
         'echo "=== CURRENT .env DB settings ==="',
         'grep -E "^(DB_|APP_)" .env',
         'echo "=== Testing DB Connection ==="',
-        `/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO('mysql:host=127.0.0.1;dbname=${DB_NAME}', '${DB_USER}', '${DB_PASS}'); echo 'LOCAL OK'; } catch(Exception $e) { echo 'LOCAL FAIL: '.$e->getMessage(); }"`,
+        '/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO(\'mysql:host=127.0.0.1;dbname=u256167180_noble\', \'u256167180_noble\', \'4_m_XMkgux@.AgC\'); echo \'LOCAL OK\'; } catch(Exception $e) { echo \'LOCAL FAIL: \'.$e->getMessage(); }"',
         'echo ""',
-        `/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO('mysql:host=localhost;dbname=${DB_NAME}', '${DB_USER}', '${DB_PASS}'); echo 'LOCALHOST OK'; } catch(Exception $e) { echo 'LOCALHOST FAIL: '.$e->getMessage(); }"`,
+        '/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO(\'mysql:host=localhost;dbname=u256167180_noble\', \'u256167180_noble\', \'4_m_XMkgux@.AgC\'); echo \'LOCALHOST OK\'; } catch(Exception $e) { echo \'LOCALHOST FAIL: \'.$e->getMessage(); }"',
         'echo ""', 
-        `/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO('mysql:host=srv1142.hstgr.io;dbname=${DB_NAME}', '${DB_USER}', '${DB_PASS}'); echo 'REMOTE OK'; } catch(Exception $e) { echo 'REMOTE FAIL: '.$e->getMessage(); }"`,
+        '/opt/alt/php82/usr/bin/php -r "try { $pdo = new PDO(\'mysql:host=srv1142.hstgr.io;dbname=u256167180_noble\', \'u256167180_noble\', \'4_m_XMkgux@.AgC\'); echo \'REMOTE OK\'; } catch(Exception $e) { echo \'REMOTE FAIL: \'.$e->getMessage(); }"',
         'echo ""',
         'echo "=== Config Cache DB Host ==="',
         'grep "srv1142\\|127.0.0.1\\|localhost" bootstrap/cache/config.php 2>/dev/null | head -3 || echo "No config cache"',
@@ -43,5 +35,9 @@ conn.on('ready', () => {
             process.stderr.write(data);
         });
     });
-}).connect(CONFIG.SSH);
-
+}).connect({
+    host: '62.72.25.117',
+    port: 65002,
+    username: 'u256167180',
+    password: '4_m_XMkgux@.AgC'
+});

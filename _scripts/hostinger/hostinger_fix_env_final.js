@@ -1,15 +1,6 @@
 import { Client } from 'ssh2';
 
-const CONFIG = require('../deployment/secureConfig.js');
-
 const conn = new Client();
-
-// Load database credentials from environment (NOT hardcoded)
-const DB_PASSWORD = process.env.DB_PASSWORD || CONFIG.DB.password;
-const DB_HOST = process.env.DB_HOST || CONFIG.DB.host;
-const DB_PORT = process.env.DB_PORT || CONFIG.DB.port;
-const DB_USER = process.env.DB_USERNAME || CONFIG.DB.username;
-const DB_NAME = process.env.DB_DATABASE || CONFIG.DB.database;
 
 const CORRECT_ENV = `APP_NAME="Noble Architecture"
 APP_ENV=production
@@ -26,11 +17,11 @@ LOG_CHANNEL=stack
 LOG_LEVEL=error
 
 DB_CONNECTION=mysql
-DB_HOST=${DB_HOST}
-DB_PORT=${DB_PORT}
-DB_USERNAME=${DB_USER}
-DB_PASSWORD=${DB_PASSWORD}
-DB_DATABASE=${DB_NAME}
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USERNAME=u256167180_noble
+DB_PASSWORD=4_m_XMkgux@.AgC
+DB_DATABASE=u256167180_noble
 
 SESSION_DRIVER=file
 SESSION_LIFETIME=120
@@ -85,5 +76,9 @@ conn.on('ready', () => {
             });
         });
     });
-}).connect(CONFIG.SSH);
-
+}).connect({
+    host: '62.72.25.117',
+    port: 65002,
+    username: 'u256167180',
+    password: '4_m_XMkgux@.AgC'
+});

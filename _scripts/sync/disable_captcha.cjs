@@ -1,10 +1,10 @@
 const { Client } = require('ssh2');
 
 const config = {
-    host: CONFIG.SSH.host,
-    port: CONFIG.SSH.port,
+    host: '62.72.25.117',
+    port: 65002,
     username: 'u256167180',
-    password: '${CONFIG.DB.password}',
+    password: '4_m_XMkgux@.AgC',
     readyTimeout: 60000
 };
 
@@ -30,4 +30,3 @@ conn.on('ready', () => {
         });
     });
 }).on('error', console.error).connect(config);
-

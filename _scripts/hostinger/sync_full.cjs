@@ -5,10 +5,10 @@ const path = require('path');
 const conn = new Client();
 
 const config = {
-    host: CONFIG.SSH.host,
-    port: CONFIG.SSH.port,
+    host: '62.72.25.117',
+    port: 65002,
     username: 'u256167180',
-    password: '${CONFIG.DB.password}'
+    password: '4_m_XMkgux@.AgC'
 };
 
 const SYNC_ROOT = 'domains/noble.dion.sy/public_html';
@@ -77,4 +77,3 @@ conn.on('ready', () => {
         }
     });
 }).connect(config);
-

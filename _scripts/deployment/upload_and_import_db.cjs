@@ -2,7 +2,7 @@ const { Client } = require('ssh2');
 const fs = require('fs');
 
 // Load sensitive credentials from .env.production (NOT from hardcoded values)
-const CONFIG = require('./secureConfig.cjs');
+const CONFIG = require('./secureConfig.js');
 const SSH_CONFIG = CONFIG.SSH;
 
 const LOCAL_DUMP = 'C:\\\\Users\\\\DION-SERVER\\\\Desktop\\\\noble.dion.sy\\\\docs\\\\Archive\\\\nobel_db_backup_v1.0.sql';

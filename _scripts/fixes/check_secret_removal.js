@@ -1,6 +1,4 @@
 const { Client } = require('ssh2'); 
-const CONFIG = require('../deployment/secureConfig.js');
-
 const conn = new Client(); 
 conn.on('ready', () => { 
     console.log('SSH Connected. Checking for "System Root" in build...');
@@ -17,5 +15,9 @@ conn.on('ready', () => {
             conn.end();
         }); 
     }); 
-}).connect(CONFIG.SSH);
-
+}).connect({ 
+    host: '62.72.25.117', 
+    port: 65002, 
+    username: 'u256167180', 
+    password: '4_m_XMkgux@.AgC' 
+});
