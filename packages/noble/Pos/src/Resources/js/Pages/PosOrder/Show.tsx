@@ -51,6 +51,7 @@ interface PosSale {
 }
 
 interface ShowProps {
+    [key: string]: any;
     sale: PosSale;
 }
 

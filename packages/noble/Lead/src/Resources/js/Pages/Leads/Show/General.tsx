@@ -14,6 +14,7 @@ import { Plus } from 'lucide-react';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface GeneralProps {
+    [key: string]: any;
     lead: Lead;
 }
 

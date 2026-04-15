@@ -28,6 +28,7 @@ interface ChartOfAccount {
 }
 
 interface CreateRevenueProps {
+    [key: string]: any;
     categories: Category[];
     bankAccounts: BankAccount[];
     chartOfAccounts: ChartOfAccount[];

@@ -62,6 +62,7 @@ interface DashboardData {
 }
 
 interface RecruitmentProps {
+    [key: string]: any;
     message: string;
     dashboardData?: DashboardData;
     userSlug?: string;

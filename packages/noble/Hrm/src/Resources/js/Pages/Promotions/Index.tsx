@@ -37,8 +37,7 @@ const getStatusBadge = (status: string) => {
 
 export default function Index() {
     const { t } = useTranslation();
-    const {
-        promotions = [],
+    const { promotions,
         auth,
         employees = [],
         branches = [],
@@ -549,7 +548,7 @@ export default function Index() {
                 {/* Pagination Footer */}
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={(promotions as any) || { data: [], links: [], meta: {} }}
+                        data={(promotions as any) || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="hrm.promotions.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

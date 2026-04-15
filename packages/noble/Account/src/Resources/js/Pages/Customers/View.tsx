@@ -4,6 +4,7 @@ import { Building2 } from 'lucide-react';
 import { Customer } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     customer: Customer;
 }
 

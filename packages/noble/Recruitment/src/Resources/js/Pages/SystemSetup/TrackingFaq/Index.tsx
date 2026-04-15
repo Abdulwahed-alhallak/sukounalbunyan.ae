@@ -18,6 +18,7 @@ interface Faq {
 }
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         faqs: Faq[];
     };

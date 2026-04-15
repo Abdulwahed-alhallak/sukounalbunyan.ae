@@ -12,7 +12,7 @@ import { CurrencyInput } from '@/components/ui/currency-input';
 import { CreateGoalFormData, CreateGoalProps } from './types';
 
 export default function Create({ onSuccess }: CreateGoalProps) {
-    const { categories = [], chartOfAccounts, auth } = usePage<any>().props;
+    const { categories, chartOfAccounts, auth } = usePage<any>().props;
     const { t } = useTranslation();
 
     const { data, setData, post, processing, errors } = useForm<CreateGoalFormData>({

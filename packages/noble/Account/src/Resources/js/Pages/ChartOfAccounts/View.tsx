@@ -4,6 +4,7 @@ import { Calculator } from 'lucide-react';
 import { ChartOfAccount } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     chartofaccount: ChartOfAccount;
 }
 

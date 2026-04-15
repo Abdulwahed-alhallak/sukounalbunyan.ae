@@ -13,6 +13,7 @@ import { MapPin, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     users: Array<{
         id: number;

@@ -19,6 +19,7 @@ interface Label {
 }
 
 interface LabelViewProps {
+    [key: string]: any;
     lead: Lead;
     onClose: () => void;
 }

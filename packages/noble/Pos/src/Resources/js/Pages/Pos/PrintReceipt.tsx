@@ -1,6 +1,7 @@
 import { formatCurrency, formatDate } from '@/utils/helpers';
 
 interface PrintReceiptProps {
+    [key: string]: any;
     completedSale: any;
     globalSettings: any;
 }

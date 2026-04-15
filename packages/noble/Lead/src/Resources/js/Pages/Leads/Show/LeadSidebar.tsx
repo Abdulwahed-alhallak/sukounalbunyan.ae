@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { User, CheckSquare, Users, Package, Database, File, Phone, Activity, Paperclip } from 'lucide-react';
 
 interface LeadSidebarProps {
+    [key: string]: any;
     activeItem: string;
     onSectionChange: (section: string) => void;
 }

@@ -5,6 +5,7 @@ import html2pdf from 'html2pdf.js';
 import { formatCurrency, formatDate, getCompanySetting } from '@/utils/helpers';
 
 interface ComparisonPrintProps {
+    [key: string]: any;
     comparison: {
         currentPeriod: any;
         previousPeriod: any;

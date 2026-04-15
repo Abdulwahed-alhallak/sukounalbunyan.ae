@@ -14,7 +14,7 @@ import { EditAnnouncementProps, EditAnnouncementFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function EditAnnouncement({ announcement, onSuccess }: EditAnnouncementProps) {
-    const { announcementcategories = [], departments = [] } = usePage<any>().props;
+    const { announcementcategories, departments = [] } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditAnnouncementFormData>({
         title: announcement.title ?? '',

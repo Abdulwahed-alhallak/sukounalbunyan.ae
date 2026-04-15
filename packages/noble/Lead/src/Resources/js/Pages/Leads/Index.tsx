@@ -854,7 +854,7 @@ export default function Index() {
 
                         <div className="mt-4">
                             <Pagination
-                                data={leads || { data: [], links: [], meta: {} }}
+                                data={leads || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                                 routeName="lead.leads.index"
                                 filters={{ ...filters, per_page: perPage, view: viewMode }}
                             />

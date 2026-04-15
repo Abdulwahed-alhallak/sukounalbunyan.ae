@@ -406,7 +406,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={balanceSheets || { data: [], links: [], meta: {} }}
+                        data={balanceSheets || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="double-entry.balance-sheets.list"
                         filters={{ ...filters, per_page: perPage }}
                     />

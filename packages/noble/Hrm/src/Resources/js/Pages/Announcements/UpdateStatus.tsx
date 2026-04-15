@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Announcement } from './types';
 
 interface UpdateStatusProps {
+    [key: string]: any;
     announcement: Announcement;
     onSuccess: () => void;
 }

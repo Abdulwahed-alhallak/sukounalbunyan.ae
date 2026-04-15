@@ -716,7 +716,7 @@ export default function Index() {
                 {/* Pagination Footer */}
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={contracts || { data: [], links: [], meta: {} }}
+                        data={contracts || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="contract.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

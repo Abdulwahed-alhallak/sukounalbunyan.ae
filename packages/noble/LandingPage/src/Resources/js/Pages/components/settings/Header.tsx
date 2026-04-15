@@ -14,6 +14,7 @@ interface CustomPage {
 }
 
 interface HeaderProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

@@ -29,6 +29,7 @@ interface LandingPageSettings {
 }
 
 interface ShowProps {
+    [key: string]: any;
     page: CustomPage;
     landingPageSettings?: LandingPageSettings;
 }

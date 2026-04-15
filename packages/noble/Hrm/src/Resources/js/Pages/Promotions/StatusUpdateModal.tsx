@@ -8,6 +8,7 @@ import { Play } from 'lucide-react';
 import { Promotion } from './types';
 
 interface StatusUpdateModalProps {
+    [key: string]: any;
     promotion: Promotion;
     onSuccess: () => void;
 }

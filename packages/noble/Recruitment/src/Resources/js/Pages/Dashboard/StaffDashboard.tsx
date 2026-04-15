@@ -19,6 +19,7 @@ import {
 import { formatDate } from '@/utils/helpers';
 
 interface StaffDashboardProps {
+    [key: string]: any;
     dashboardData: {
         overview: {
             assignedInterviews: number;

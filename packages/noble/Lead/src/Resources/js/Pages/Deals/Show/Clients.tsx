@@ -14,6 +14,7 @@ import { getImagePath } from '@/utils/helpers';
 import { Deal } from '../types';
 
 interface ClientsProps {
+    [key: string]: any;
     deal: Deal;
     availableClients: any[];
     onRegisterAddHandler: (handler: () => void) => void;

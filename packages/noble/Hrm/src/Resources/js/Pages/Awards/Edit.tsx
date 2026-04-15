@@ -14,7 +14,7 @@ import { EditAwardProps, EditAwardFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function EditAward({ award, onSuccess }: EditAwardProps) {
-    const { employees = [], awardTypes } = usePage<any>().props;
+    const { employees, awardTypes } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditAwardFormData>({

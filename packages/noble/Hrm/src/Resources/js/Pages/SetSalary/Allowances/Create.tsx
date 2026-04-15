@@ -14,6 +14,7 @@ interface AllowanceType {
 }
 
 interface CreateAllowanceProps {
+    [key: string]: any;
     employeeId: number;
     allowanceTypes: AllowanceType[];
     onSuccess: () => void;

@@ -14,6 +14,7 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { TrainingType, Trainer, Branch, Department, User } from './types';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     trainingTypes: TrainingType[];
     trainers: Trainer[];

@@ -9,6 +9,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 import { LineChart, PieChart } from '@/components/charts';
 
 interface PosProps {
+    [key: string]: any;
     stats: {
         today_sales: number;
         week_sales: number;

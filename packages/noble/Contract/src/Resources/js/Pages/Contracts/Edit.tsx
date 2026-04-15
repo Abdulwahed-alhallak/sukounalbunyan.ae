@@ -13,7 +13,7 @@ import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
 
 export default function EditContract({ contract, onSuccess }: EditContractProps) {
-    const { users = [], contracttypes } = usePage<any>().props;
+    const { users, contracttypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditContractFormData>({
         subject: contract.subject ?? '',

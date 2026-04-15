@@ -29,6 +29,7 @@ interface EmployeeReview {
 }
 
 interface ConductProps {
+    [key: string]: any;
     employeeReview: EmployeeReview;
     performanceIndicators: { [categoryName: string]: PerformanceIndicator[] };
     existingRatings: { [key: string]: number };

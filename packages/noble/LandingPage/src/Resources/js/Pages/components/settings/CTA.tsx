@@ -10,6 +10,7 @@ import { ArrowUpDown } from 'lucide-react';
 import MediaPicker from '@/components/MediaPicker';
 
 interface CTAProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

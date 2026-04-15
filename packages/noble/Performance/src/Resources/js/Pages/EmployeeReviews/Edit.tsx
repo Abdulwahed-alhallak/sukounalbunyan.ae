@@ -31,6 +31,7 @@ interface ReviewCycle {
 }
 
 interface EditProps {
+    [key: string]: any;
     employeeReview: EmployeeReview;
     onSuccess: () => void;
     employees: User[];

@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export default function ContractsIndex() {
     const { t } = useTranslation();
-    const { contracts = [], employees = [] } = usePage<any>().props;
+    const { contracts, employees = [] } = usePage<any>().props;
 
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);

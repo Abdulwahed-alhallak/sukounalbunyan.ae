@@ -19,7 +19,7 @@ import SystemSetupSidebar from '../SystemSetupSidebar';
 
 export default function Index() {
     const { t } = useTranslation();
-    const { categories = [], auth } = usePage<ItemCategoriesIndexProps>().props;
+    const { categories, auth } = usePage<ItemCategoriesIndexProps>().props;
 
     const [modalState, setModalState] = useState<ItemCategoryModalState>({
         isOpen: false,

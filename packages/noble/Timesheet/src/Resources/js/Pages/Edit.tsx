@@ -36,6 +36,7 @@ interface EditTimesheetFormData {
 }
 
 interface EditTimesheetProps {
+    [key: string]: any;
     timesheet: Timesheet;
     users: Array<{ id: number; name: string }>;
     projects: Array<{ id: number; name: string }>;

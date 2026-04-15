@@ -8,6 +8,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 import { LineChart } from '@/components/charts';
 
 interface ClientDashboardProps {
+    [key: string]: any;
     stats: {
         total_purchases: number;
         total_spent: number;

@@ -15,7 +15,7 @@ import { usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 
 export default function Create({ onSuccess }: CreateWarningProps) {
-    const { users = [], allUsers, warningtypes } = usePage<any>().props;
+    const { users, allUsers, warningtypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateWarningFormData>({
         subject: '',

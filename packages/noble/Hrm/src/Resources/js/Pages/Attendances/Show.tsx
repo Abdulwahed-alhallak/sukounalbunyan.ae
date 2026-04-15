@@ -5,6 +5,7 @@ import { Attendance } from './types';
 import { formatDate, formatTime, formatDateTime, getCurrencySymbol } from '@/utils/helpers';
 
 interface ViewAttendanceProps {
+    [key: string]: any;
     attendance: Attendance;
     onSuccess: () => void;
 }

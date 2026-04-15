@@ -35,6 +35,7 @@ interface NewsletterSubscriber {
 }
 
 interface IndexProps {
+    [key: string]: any;
     subscribers: {
         data: NewsletterSubscriber[];
         current_page: number;

@@ -34,6 +34,7 @@ interface GoalType {
 }
 
 interface EditProps {
+    [key: string]: any;
     goal: EmployeeGoal;
     onSuccess: () => void;
     employees: Employee[];

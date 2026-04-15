@@ -9,6 +9,7 @@ import InputError from '@/components/ui/input-error';
 import { EmployeeTransfer } from './types';
 
 interface StatusModalProps {
+    [key: string]: any;
     employeeTransfer: EmployeeTransfer | null;
     onClose: () => void;
 }

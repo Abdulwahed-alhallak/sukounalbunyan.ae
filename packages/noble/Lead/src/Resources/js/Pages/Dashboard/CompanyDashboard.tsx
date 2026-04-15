@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +37,7 @@ import {
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface LeadProps {
+    [key: string]: any;
     message: string;
     stats?: {
         total_leads: number;

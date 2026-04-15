@@ -71,6 +71,7 @@ const getRenewalStatusText = (status: any, t: (key: string) => string) => {
 };
 
 interface RenewalsTabProps {
+    [key: string]: any;
     contract: any;
     setDeleteConfig?: (config: any) => void;
 }

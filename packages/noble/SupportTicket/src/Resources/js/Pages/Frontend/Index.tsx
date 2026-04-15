@@ -18,6 +18,7 @@ interface Category {
 }
 
 interface IndexProps {
+    [key: string]: any;
     categories: Category[];
     settings: {
         faq_is_on: string;
@@ -27,7 +28,7 @@ interface IndexProps {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { categories = [], settings } = usePage<IndexProps>().props;
+    const { categories, settings } = usePage<IndexProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         name: '',

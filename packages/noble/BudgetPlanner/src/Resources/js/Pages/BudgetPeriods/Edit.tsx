@@ -11,7 +11,7 @@ import { EditBudgetPeriodProps, EditBudgetPeriodFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function Edit({ budgetperiod, onSuccess }: EditBudgetPeriodProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditBudgetPeriodFormData>({
         period_name: budgetperiod.period_name ?? '',

@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface GeneralProps {
+    [key: string]: any;
     deal: Deal;
     onStatusChange: (status: string) => void;
 }

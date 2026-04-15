@@ -11,6 +11,7 @@ import CustomerBalance from './CustomerBalance';
 import VendorBalance from './VendorBalance';
 
 interface ReportsIndexProps {
+    [key: string]: any;
     auth: {
         user?: {
             permissions?: string[];

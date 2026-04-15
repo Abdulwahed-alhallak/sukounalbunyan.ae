@@ -33,8 +33,7 @@ interface CustomerPaymentFilters {
 
 export default function Index() {
     const { t } = useTranslation();
-    const {
-        payments = [],
+    const { payments,
         customers = [],
         bankAccounts,
         filters: initialFilters,

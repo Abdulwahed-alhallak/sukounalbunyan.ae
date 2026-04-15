@@ -19,6 +19,7 @@ import { Lead } from '../types';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface TasksProps {
+    [key: string]: any;
     lead: Lead;
     onRegisterAddHandler: (handler: () => void) => void;
 }

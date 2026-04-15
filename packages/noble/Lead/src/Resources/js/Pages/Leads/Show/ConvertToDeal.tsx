@@ -21,6 +21,7 @@ interface Client {
 }
 
 interface ConvertToDealProps {
+    [key: string]: any;
     lead: Lead;
     deal?: {
         id: number;

@@ -76,6 +76,7 @@ interface OfferDetails {
 }
 
 interface TrackingDetailsProps {
+    [key: string]: any;
     trackingId: string;
     userSlug: string;
     brandSettings: {

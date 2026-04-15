@@ -30,6 +30,7 @@ interface ProjectItem {
 }
 
 interface EditProps {
+    [key: string]: any;
     item: ProjectItem;
     users: Array<{
         id: number;

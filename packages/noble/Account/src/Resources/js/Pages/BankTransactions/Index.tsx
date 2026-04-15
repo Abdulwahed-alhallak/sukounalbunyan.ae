@@ -43,6 +43,7 @@ interface BankAccount {
 }
 
 interface BankTransactionsIndexProps {
+    [key: string]: any;
     transactions: {
         data: BankTransaction[];
         links: any[];
@@ -59,7 +60,7 @@ interface BankTransactionsIndexProps {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { transactions = [], bankAccounts, auth } = usePage<BankTransactionsIndexProps>().props;
+    const { transactions, bankAccounts, auth } = usePage<BankTransactionsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState({
@@ -550,7 +551,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={transactions || { data: [], links: [], meta: {} }}
+                        data={transactions || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="account.bank-transactions.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

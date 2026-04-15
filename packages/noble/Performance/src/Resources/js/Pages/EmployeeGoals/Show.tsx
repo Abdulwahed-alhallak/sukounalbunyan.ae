@@ -26,12 +26,13 @@ interface EmployeeGoal {
 }
 
 interface ShowProps {
+    [key: string]: any;
     goal: EmployeeGoal;
 }
 
 export default function Show({ goal }: ShowProps) {
     const { t } = useTranslation();
-    const { employees = [], goal_types } = usePage<any>().props;
+    const { employees, goal_types } = usePage<any>().props;
 
     const getStatusColor = (status: string) => {
         const colors: { [key: string]: string } = {

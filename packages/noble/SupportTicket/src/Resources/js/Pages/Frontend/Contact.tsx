@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 
 interface ContactProps {
+    [key: string]: any;
     settings: {
         faq_is_on: string;
         knowledge_base_is_on: string;

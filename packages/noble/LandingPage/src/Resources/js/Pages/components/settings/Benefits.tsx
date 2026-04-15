@@ -8,6 +8,7 @@ import { Repeater } from '@/components/ui/repeater';
 import { CheckCircle } from 'lucide-react';
 
 interface BenefitsProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

@@ -27,6 +27,7 @@ interface Contact {
 }
 
 interface ContactIndexProps {
+    [key: string]: any;
     contacts: {
         data: Contact[];
         links: any[];
@@ -230,7 +231,7 @@ export default function Index({ contacts }: ContactIndexProps) {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={contacts || { data: [], links: [], meta: {} }}
+                        data={contacts || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="support-ticket-contact.index"
                         filters={{ ...filters, per_page: perPage }}
                     />

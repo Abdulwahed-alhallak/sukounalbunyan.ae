@@ -14,7 +14,7 @@ import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 export default function EditPromotion({ promotion, onSuccess }: EditPromotionProps) {
-    const { employees = [], branches = [], departments = [], designations = [] } = usePage<any>().props;
+    const { employees, branches = [], departments = [], designations = [] } = usePage<any>().props;
     const [filteredDepartments, setFilteredDepartments] = useState([]);
     const [filteredDesignations, setFilteredDesignations] = useState([]);
 

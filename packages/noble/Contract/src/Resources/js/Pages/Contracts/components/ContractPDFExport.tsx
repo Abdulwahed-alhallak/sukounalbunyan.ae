@@ -6,6 +6,7 @@ import { formatCurrency, formatDate, formatDateTime } from '@/utils/helpers';
 import { Contract } from '../types';
 
 interface ContractPDFExportProps {
+    [key: string]: any;
     contract: Contract & {
         signatures?: Array<{
             id: number;

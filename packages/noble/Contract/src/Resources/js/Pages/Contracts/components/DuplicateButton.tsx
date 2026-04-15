@@ -9,6 +9,7 @@ import Duplicate from '../Duplicate';
 import { Contract } from '../types';
 
 interface DuplicateButtonProps {
+    [key: string]: any;
     contract: Contract;
     variant?: 'ghost' | 'default' | 'outline';
     size?: 'sm' | 'default' | 'lg';

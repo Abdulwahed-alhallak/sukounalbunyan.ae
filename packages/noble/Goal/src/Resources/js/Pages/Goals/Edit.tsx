@@ -12,7 +12,7 @@ import { CurrencyInput } from '@/components/ui/currency-input';
 import { EditGoalFormData, EditGoalProps } from './types';
 
 export default function EditGoal({ goal, onSuccess }: EditGoalProps) {
-    const { categories = [], chartOfAccounts } = usePage<any>().props;
+    const { categories, chartOfAccounts } = usePage<any>().props;
     const { t } = useTranslation();
 
     const { data, setData, put, processing, errors } = useForm<EditGoalFormData>({

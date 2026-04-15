@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Create({ onSuccess }: CreateTerminationProps) {
-    const { users = [], terminationtypes } = usePage<any>().props;
+    const { users, terminationtypes } = usePage<any>().props;
     const [filteredTerminationTypes, setFilteredTerminationTypes] = useState(terminationtypes || []);
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateTerminationFormData>({

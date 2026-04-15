@@ -6,6 +6,7 @@ import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Type } from 'lucide-react';
 
 interface GeneralProps {
+    [key: string]: any;
     data: any;
     updateSectionData: (field: string, value: any) => void;
 }

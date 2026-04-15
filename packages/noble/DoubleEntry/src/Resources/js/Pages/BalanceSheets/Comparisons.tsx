@@ -9,6 +9,7 @@ import NoRecordsFound from '@/components/no-records-found';
 import { formatDate } from '@/utils/helpers';
 
 interface ComparisonsProps {
+    [key: string]: any;
     comparisons: {
         data: Array<{
             id: number;

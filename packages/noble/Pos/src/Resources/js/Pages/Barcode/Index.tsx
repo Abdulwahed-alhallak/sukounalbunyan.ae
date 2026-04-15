@@ -27,6 +27,7 @@ interface Product {
 }
 
 interface IndexProps {
+    [key: string]: any;
     warehouses: Warehouse[];
 }
 

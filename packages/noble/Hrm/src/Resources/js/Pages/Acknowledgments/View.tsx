@@ -6,6 +6,7 @@ import { Acknowledgment } from './types';
 import { formatDate } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     acknowledgment: Acknowledgment;
 }
 

@@ -4,6 +4,7 @@ import { CheckSquare } from 'lucide-react';
 import { OnboardingChecklist } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     onboardingchecklist: OnboardingChecklist;
 }
 

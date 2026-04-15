@@ -8,6 +8,7 @@ import { Tag } from 'lucide-react';
 import { Deal } from './types';
 
 interface DealLabelViewProps {
+    [key: string]: any;
     deal: Deal;
     onSuccess?: () => void;
 }

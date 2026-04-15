@@ -63,6 +63,7 @@ interface ExpenseFilters {
 }
 
 interface ExpenseIndexProps {
+    [key: string]: any;
     expenses: {
         data: Expense[];
         meta?: any;

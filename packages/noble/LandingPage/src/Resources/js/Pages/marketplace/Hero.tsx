@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface MarketplaceHeroProps {
+    [key: string]: any;
     settings?: any;
     title?: string;
     subtitle?: string;
@@ -32,7 +33,7 @@ export default function MarketplaceHero({
     return (
         <section className="relative overflow-hidden border-b border-neutral-800 bg-black pb-20 pt-32 md:pb-40 md:pt-48">
             {/* Subtle glow background */}
-            <div className="pointer-events-none absolute left-1/2 top-0 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-white/5 blur-[120px]"></div>
+            <div className="pointer-events-none absolute start-1/2 top-0 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-white/5 blur-[120px]"></div>
 
             <div className="relative z-10 mx-auto max-w-6xl px-6 text-center">
                 {/* Badge */}

@@ -16,6 +16,7 @@ interface CustomPage {
 }
 
 interface FooterProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

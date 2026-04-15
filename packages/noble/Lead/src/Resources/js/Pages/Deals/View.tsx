@@ -8,6 +8,7 @@ import { Info, DollarSign } from 'lucide-react';
 import { Deal } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     deal: Deal;
 }
 

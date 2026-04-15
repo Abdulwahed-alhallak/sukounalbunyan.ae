@@ -1,4 +1,5 @@
 interface GalleryProps {
+    [key: string]: any;
     settings?: any;
 }
 

@@ -21,6 +21,7 @@ interface CashFlowData {
 }
 
 interface CashFlowProps {
+    [key: string]: any;
     financialYear?: {
         year_start_date: string;
         year_end_date: string;

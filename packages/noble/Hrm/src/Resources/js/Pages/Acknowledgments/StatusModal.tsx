@@ -9,6 +9,7 @@ import InputError from '@/components/ui/input-error';
 import { Acknowledgment } from './types';
 
 interface StatusModalProps {
+    [key: string]: any;
     acknowledgment: Acknowledgment | null;
     onClose: () => void;
 }

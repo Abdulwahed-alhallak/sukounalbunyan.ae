@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
 interface PricingProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

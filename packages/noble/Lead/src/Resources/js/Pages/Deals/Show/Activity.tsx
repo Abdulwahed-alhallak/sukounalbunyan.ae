@@ -5,6 +5,7 @@ import { formatDateTime } from '@/utils/helpers';
 import { Deal } from '../types';
 
 interface ActivityProps {
+    [key: string]: any;
     deal: Deal;
 }
 

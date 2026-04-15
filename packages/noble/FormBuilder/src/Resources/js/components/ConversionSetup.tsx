@@ -14,6 +14,7 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 interface ConversionSetupProps {
+    [key: string]: any;
     formId: number;
     auth: any;
     initialData?: {

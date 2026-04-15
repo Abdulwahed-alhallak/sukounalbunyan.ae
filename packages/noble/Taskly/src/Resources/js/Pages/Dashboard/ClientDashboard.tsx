@@ -35,6 +35,7 @@ interface ProjectProgress {
 }
 
 interface ClientDashboardProps {
+    [key: string]: any;
     stats: {
         total_projects: number;
         total_tasks: number;

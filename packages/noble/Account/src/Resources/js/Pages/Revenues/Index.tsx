@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -63,6 +64,7 @@ interface RevenueFilters {
 }
 
 interface RevenueIndexProps {
+    [key: string]: any;
     revenues: {
         data: Revenue[];
         meta?: any;
@@ -76,8 +78,7 @@ interface RevenueIndexProps {
 
 export default function Index() {
     const { t } = useTranslation();
-    const {
-        revenues = [],
+    const { revenues,
         categories = [],
         bankAccounts,
         chartOfAccounts,

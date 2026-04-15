@@ -15,6 +15,7 @@ interface Category {
 }
 
 interface CreateKnowledgeProps {
+    [key: string]: any;
     categories: Category[];
     onSuccess: () => void;
 }

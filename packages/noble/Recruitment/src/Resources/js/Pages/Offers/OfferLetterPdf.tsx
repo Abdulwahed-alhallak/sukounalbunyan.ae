@@ -56,6 +56,7 @@ interface CompanySettings {
 }
 
 interface OfferLetterPdfProps {
+    [key: string]: any;
     offer: Offer;
     companyName: string;
     companySettings: CompanySettings;

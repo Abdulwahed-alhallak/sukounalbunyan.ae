@@ -44,6 +44,7 @@ import {
 import { cn } from '@/lib/utils';
 
 interface IconSelectorProps {
+    [key: string]: any;
     value: string;
     onChange: (iconName: string) => void;
     disabled?: boolean;

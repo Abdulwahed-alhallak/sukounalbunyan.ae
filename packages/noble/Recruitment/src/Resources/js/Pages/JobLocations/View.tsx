@@ -4,6 +4,7 @@ import { MapPin } from 'lucide-react';
 import { JobLocation } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     joblocation: JobLocation;
 }
 

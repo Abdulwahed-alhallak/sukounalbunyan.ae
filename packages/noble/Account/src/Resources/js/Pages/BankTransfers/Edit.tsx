@@ -15,6 +15,7 @@ import { BankAccount, BankTransfer } from './types';
 import { formatCurrency } from '@/utils/helpers';
 
 interface EditProps {
+    [key: string]: any;
     banktransfer: BankTransfer;
     onSuccess: () => void;
 }

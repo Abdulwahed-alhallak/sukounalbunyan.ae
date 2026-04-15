@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     project?: Project;
     milestones: Milestone[];

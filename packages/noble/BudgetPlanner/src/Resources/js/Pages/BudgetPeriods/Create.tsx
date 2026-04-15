@@ -11,7 +11,7 @@ import { CreateBudgetPeriodProps, CreateBudgetPeriodFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function Create({ onSuccess }: CreateBudgetPeriodProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateBudgetPeriodFormData>({
         period_name: '',

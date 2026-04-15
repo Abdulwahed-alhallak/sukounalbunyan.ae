@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { useState, useEffect } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ import { formatDate } from '@/utils/helpers';
 import { DatePicker } from '@/components/ui/date-picker';
 
 interface DealReportsProps {
+    [key: string]: any;
     weeklyDealConversions: any[];
     dealSourcesConversion: any[];
     monthlyDeals: any[];

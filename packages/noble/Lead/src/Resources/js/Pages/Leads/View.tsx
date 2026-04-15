@@ -19,6 +19,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { format } from 'date-fns';
 
 interface ViewProps {
+    [key: string]: any;
     lead: Lead;
 }
 

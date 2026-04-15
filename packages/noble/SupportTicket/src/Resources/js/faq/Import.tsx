@@ -1,3 +1,6 @@
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Card, CardHeader, CardBody } from '@/Components/ui/card';
@@ -7,6 +10,7 @@ import { Label } from '@/Components/ui/label';
 import { useTranslation } from 'react-i18next';
 
 interface ImportFaqProps {
+    [key: string]: any;
     routes: {
         import: string;
         index: string;

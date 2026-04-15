@@ -36,7 +36,7 @@ interface ModalState {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { categories = [], auth } = usePage<Props>().props;
+    const { categories, auth } = usePage<Props>().props;
 
     const [modalState, setModalState] = useState<ModalState>({
         isOpen: false,

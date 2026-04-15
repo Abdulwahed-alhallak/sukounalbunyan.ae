@@ -27,6 +27,7 @@ interface ProfitLossData {
 }
 
 interface ProfitLossProps {
+    [key: string]: any;
     profitLoss: ProfitLossData;
     auth: {
         user: {

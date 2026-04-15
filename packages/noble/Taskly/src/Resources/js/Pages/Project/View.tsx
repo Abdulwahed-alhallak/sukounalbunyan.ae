@@ -68,6 +68,7 @@ interface Project {
 }
 
 interface ShowProps {
+    [key: string]: any;
     project: Project;
     teamMembers: Array<{ id: number; name: string }>;
     available_clients: Array<{ id: number; name: string }>;

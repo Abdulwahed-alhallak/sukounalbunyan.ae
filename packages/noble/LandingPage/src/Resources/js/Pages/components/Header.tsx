@@ -4,6 +4,7 @@ import { Link, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
+    [key: string]: any;
     settings?: any;
 }
 

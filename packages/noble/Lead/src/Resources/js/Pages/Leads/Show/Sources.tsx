@@ -13,6 +13,7 @@ import NoRecordsFound from '@/components/no-records-found';
 import { Lead } from '../types';
 
 interface SourcesProps {
+    [key: string]: any;
     lead: Lead;
     onRegisterAddHandler: (handler: () => void) => void;
 }

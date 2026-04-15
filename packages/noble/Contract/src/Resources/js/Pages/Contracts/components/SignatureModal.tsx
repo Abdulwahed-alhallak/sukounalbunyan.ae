@@ -7,6 +7,7 @@ import { PenTool } from 'lucide-react';
 import SignatureCanvas from 'react-signature-canvas';
 
 interface SignatureModalProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     contractId: number;

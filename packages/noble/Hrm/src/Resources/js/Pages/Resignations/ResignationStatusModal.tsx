@@ -8,6 +8,7 @@ import { Play } from 'lucide-react';
 import { Resignation } from './types';
 
 interface ResignationStatusModalProps {
+    [key: string]: any;
     resignation: Resignation;
     onSuccess: () => void;
 }

@@ -20,6 +20,7 @@ interface Notification {
 }
 
 interface TelegramSettingsProps {
+    [key: string]: any;
     userSettings?: Record<string, string>;
     auth?: any;
 }

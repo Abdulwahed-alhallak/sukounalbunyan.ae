@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface EditDealProps {
+    [key: string]: any;
     deal: any;
     onSuccess: () => void;
 }

@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,7 @@ import {
 } from 'recharts';
 
 interface SalesReportProps {
+    [key: string]: any;
     salesData: {
         data: Array<{
             id: number;

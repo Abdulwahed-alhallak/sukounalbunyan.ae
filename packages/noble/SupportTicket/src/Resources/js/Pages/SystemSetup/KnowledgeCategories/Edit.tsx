@@ -13,6 +13,7 @@ interface Category {
 }
 
 interface EditProps {
+    [key: string]: any;
     category: Category;
     onSuccess: () => void;
 }

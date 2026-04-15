@@ -22,6 +22,7 @@ interface Overtime {
 }
 
 interface EditOvertimeProps {
+    [key: string]: any;
     overtime: Overtime;
     onSuccess: () => void;
 }

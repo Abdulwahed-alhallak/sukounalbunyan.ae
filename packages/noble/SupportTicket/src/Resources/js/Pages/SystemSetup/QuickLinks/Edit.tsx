@@ -15,6 +15,7 @@ interface QuickLink {
 }
 
 interface EditModalProps {
+    [key: string]: any;
     quickLink: QuickLink;
     onSuccess: () => void;
 }

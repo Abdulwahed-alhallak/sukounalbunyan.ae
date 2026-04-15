@@ -13,6 +13,7 @@ import NoRecordsFound from '@/components/no-records-found';
 import { Deal } from '../types';
 
 interface ProductsProps {
+    [key: string]: any;
     deal: Deal;
     availableProducts: any[];
     onRegisterAddHandler: (handler: () => void) => void;

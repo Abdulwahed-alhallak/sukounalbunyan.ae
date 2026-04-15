@@ -727,7 +727,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={goals || { data: [], links: [], meta: {} }}
+                        data={goals || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="goal.goals.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

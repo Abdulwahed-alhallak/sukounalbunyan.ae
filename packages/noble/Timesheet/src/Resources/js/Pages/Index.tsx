@@ -36,6 +36,7 @@ interface Timesheet {
 }
 
 interface TimesheetIndexProps {
+    [key: string]: any;
     timesheets: {
         data: Timesheet[];
         links: any;

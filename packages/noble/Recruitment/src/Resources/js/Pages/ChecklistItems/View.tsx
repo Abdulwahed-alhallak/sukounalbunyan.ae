@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { ChecklistItem } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     checklistitem: ChecklistItem;
 }
 

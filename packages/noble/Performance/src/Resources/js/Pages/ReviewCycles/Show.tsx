@@ -26,12 +26,13 @@ interface ReviewCycle {
 }
 
 interface ShowProps {
+    [key: string]: any;
     reviewCycle: ReviewCycle;
 }
 
 export default function Show({ reviewCycle }: ShowProps) {
     const { t } = useTranslation();
-    const { users = [], frequency_options } = usePage<any>().props;
+    const { users, frequency_options } = usePage<any>().props;
 
     const getStatusColor = (status: string) => {
         const colors: { [key: string]: string } = {

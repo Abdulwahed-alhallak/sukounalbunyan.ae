@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface LandingPreviewProps {
+    [key: string]: any;
     settings?: any;
 }
 

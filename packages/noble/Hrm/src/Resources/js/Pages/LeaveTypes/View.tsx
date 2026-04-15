@@ -4,6 +4,7 @@ import { Calendar, FileText, Palette, DollarSign, Hash } from 'lucide-react';
 import { LeaveType } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     leavetype: LeaveType;
 }
 

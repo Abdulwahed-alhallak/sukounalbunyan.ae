@@ -13,6 +13,7 @@ import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Branch, Department } from './types';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     branches: Branch[];
     departments: Department[];

@@ -10,6 +10,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 import NoRecordsFound from '@/components/no-records-found';
 
 interface VendorDetailProps {
+    [key: string]: any;
     vendorData: {
         vendor: { id: number; name: string; email: string };
         date_range: { start_date: string | null; end_date: string | null };

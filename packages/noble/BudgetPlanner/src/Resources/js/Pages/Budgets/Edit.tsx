@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CurrencyInput } from '@/components/ui/currency-input';
 
 interface EditProps {
+    [key: string]: any;
     budget: any;
     onSuccess: () => void;
 }

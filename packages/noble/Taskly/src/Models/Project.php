@@ -104,7 +104,7 @@ class Project extends Model
 
     public static function GivePermissionToRoles($role_id = null, $rolename = null)
     {
-        $staff_permission = [
+        $permissions = [
             'manage-project',
             'view-project',
             'manage-own-project',
@@ -114,34 +114,19 @@ class Project extends Model
             'manage-own-project-bug'
         ];
 
-        $client_permission = [
-            'manage-project',
-            'view-project',
-            'manage-own-project',
-            'manage-project-task',
-            'manage-own-project-task',
-            'manage-project-bug',
-            'manage-own-project-bug'
-        ];
-        if ($rolename == 'staff') {
-            $roles_v = Role::where('name', 'staff')->where('id', $role_id)->first();
-            foreach ($staff_permission as $permission_v) {
-                $permission = Permission::where('name', $permission_v)->first();
-                if (!empty($permission)) {
-                    if (!$roles_v->hasPermissionTo($permission_v)) {
-                        $roles_v->givePermissionTo($permission);
-                    }
-                }
+        // Retrieve role dynamically without hardcoding role names in multiple if blocks
+        if ($rolename) {
+            $query = Role::where('name', $rolename);
+            if ($role_id) {
+                $query->where('id', $role_id);
             }
-        }
+            $role = $query->first();
 
-        if ($rolename == 'client') {
-            $roles_v = Role::where('name', 'client')->where('id', $role_id)->first();
-            foreach ($client_permission as $permission_v) {
-                $permission = Permission::where('name', $permission_v)->first();
-                if (!empty($permission)) {
-                    if (!$roles_v->hasPermissionTo($permission_v)) {
-                        $roles_v->givePermissionTo($permission);
+            if ($role) {
+                foreach ($permissions as $permission_name) {
+                    $permission = Permission::firstOrCreate(['name' => $permission_name]);
+                    if (!$role->hasPermissionTo($permission_name)) {
+                        $role->givePermissionTo($permission);
                     }
                 }
             }

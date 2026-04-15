@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Document } from './types';
 
 interface ActionProps {
+    [key: string]: any;
     document: Document;
     onSuccess: () => void;
 }

@@ -12,7 +12,7 @@ import { CreateAcknowledgmentProps, CreateAcknowledgmentFormData } from './types
 import { usePage } from '@inertiajs/react';
 
 export default function Create({ onSuccess }: CreateAcknowledgmentProps) {
-    const { users = [], hrmdocuments } = usePage<any>().props;
+    const { users, hrmdocuments } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateAcknowledgmentFormData>({

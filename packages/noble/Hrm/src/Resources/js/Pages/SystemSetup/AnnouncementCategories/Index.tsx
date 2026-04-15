@@ -21,7 +21,7 @@ import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } 
 
 export default function Index() {
     const { t } = useTranslation();
-    const { announcementcategories = [], auth } = usePage<AnnouncementCategoriesIndexProps>().props;
+    const { announcementcategories, auth } = usePage<AnnouncementCategoriesIndexProps>().props;
 
     const [modalState, setModalState] = useState<AnnouncementCategoryModalState>({
         isOpen: false,

@@ -84,6 +84,7 @@ interface Field {
 }
 
 interface EditReplyProps {
+    [key: string]: any;
     ticket: TicketData;
     categories: Category[];
     staff: User[];

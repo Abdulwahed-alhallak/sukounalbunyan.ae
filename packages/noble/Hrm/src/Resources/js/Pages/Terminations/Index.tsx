@@ -28,7 +28,7 @@ import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } 
 
 export default function Index() {
     const { t } = useTranslation();
-    const { terminations = [], auth, users = [], terminationtypes } = usePage<TerminationsIndexProps>().props;
+    const { terminations, auth, users = [], terminationtypes } = usePage<TerminationsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<TerminationFilters>({
@@ -607,7 +607,7 @@ export default function Index() {
                 {/* Pagination Footer */}
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={(terminations as any) || { data: [], links: [], meta: {} }}
+                        data={(terminations as any) || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="hrm.terminations.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

@@ -16,6 +16,7 @@ interface ExpenseReportData {
 }
 
 interface PrintProps {
+    [key: string]: any;
     data: ExpenseReportData;
     filters: {
         from_date: string;

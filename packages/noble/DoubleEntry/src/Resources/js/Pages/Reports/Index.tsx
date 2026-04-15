@@ -13,6 +13,7 @@ import CashFlow from './CashFlow';
 import ExpenseReport from './ExpenseReport';
 
 interface ReportsIndexProps {
+    [key: string]: any;
     auth: {
         user?: {
             permissions?: string[];

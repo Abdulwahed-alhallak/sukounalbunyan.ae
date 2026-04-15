@@ -16,6 +16,7 @@ interface FaqItem {
 }
 
 interface FaqProps {
+    [key: string]: any;
     faqs: FaqItem[];
     settings: {
         faq_is_on: string;

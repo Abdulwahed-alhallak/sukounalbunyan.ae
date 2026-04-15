@@ -36,6 +36,7 @@ interface GeneralLedgerData {
 }
 
 interface GeneralLedgerProps {
+    [key: string]: any;
     financialYear?: {
         year_start_date: string;
         year_end_date: string;

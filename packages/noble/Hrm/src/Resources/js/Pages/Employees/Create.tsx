@@ -19,8 +19,7 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { User, Briefcase, Phone, Fingerprint, CreditCard, ShieldCheck, GraduationCap, FileUp } from 'lucide-react';
 
 export default function Create() {
-    const {
-        users = [],
+    const { users,
         branches = [],
         departments = [],
         designations = [],

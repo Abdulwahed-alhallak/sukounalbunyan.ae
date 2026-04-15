@@ -8,6 +8,7 @@ import { Play } from 'lucide-react';
 import { Termination } from './types';
 
 interface TerminationStatusModalProps {
+    [key: string]: any;
     termination: Termination;
     onSuccess: () => void;
 }

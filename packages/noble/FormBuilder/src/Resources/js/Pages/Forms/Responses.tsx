@@ -29,6 +29,7 @@ interface Form {
 }
 
 interface ResponsesProps {
+    [key: string]: any;
     form: Form & { fields: Array<{ id: number; label: string; type: string }> };
     responses: any;
     auth: any;

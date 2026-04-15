@@ -14,7 +14,7 @@ import { CreateComplaintProps, CreateComplaintFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function Create({ onSuccess }: CreateComplaintProps) {
-    const { employees = [], allEmployees, complaintTypes } = usePage<any>().props;
+    const { employees, allEmployees, complaintTypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateComplaintFormData>({
         employee_id: '',

@@ -5,6 +5,7 @@ import { BankAccount } from './types';
 import { formatCurrency } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     bankaccount: BankAccount;
 }
 

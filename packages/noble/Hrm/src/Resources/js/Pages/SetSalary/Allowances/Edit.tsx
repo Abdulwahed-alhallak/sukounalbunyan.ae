@@ -21,6 +21,7 @@ interface Allowance {
 }
 
 interface EditAllowanceProps {
+    [key: string]: any;
     allowance: Allowance;
     allowanceTypes: AllowanceType[];
     onSuccess: () => void;

@@ -342,7 +342,7 @@ export default function Index({ knowledge, categories }: Props) {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={knowledge || { data: [], links: [], meta: {} }}
+                        data={knowledge || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="support-ticket-knowledge.index"
                         filters={{ ...filters, per_page: perPage }}
                     />

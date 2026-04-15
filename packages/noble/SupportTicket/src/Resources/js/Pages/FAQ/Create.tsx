@@ -9,6 +9,7 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { toast } from 'sonner';
 
 interface CreateFAQProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

@@ -14,6 +14,7 @@ import { X } from 'lucide-react';
 import { TrainingType, Branch, Department } from './types';
 
 interface EditProps {
+    [key: string]: any;
     data: TrainingType;
     trainingType: TrainingType;
     onSuccess: () => void;

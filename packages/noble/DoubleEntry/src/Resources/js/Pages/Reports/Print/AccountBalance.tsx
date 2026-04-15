@@ -30,6 +30,7 @@ interface AccountBalanceData {
 }
 
 interface PrintProps {
+    [key: string]: any;
     data: AccountBalanceData;
     filters: {
         as_of_date: string;

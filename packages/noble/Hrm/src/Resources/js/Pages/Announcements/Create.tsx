@@ -14,7 +14,7 @@ import { CreateAnnouncementProps, CreateAnnouncementFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function Create({ onSuccess }: CreateAnnouncementProps) {
-    const { announcementcategories = [], departments = [] } = usePage<any>().props;
+    const { announcementcategories, departments = [] } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateAnnouncementFormData>({
         title: '',

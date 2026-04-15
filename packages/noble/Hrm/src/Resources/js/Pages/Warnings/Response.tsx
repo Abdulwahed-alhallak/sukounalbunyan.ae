@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 
 interface WarningResponseProps {
+    [key: string]: any;
     warning: any;
     onSuccess: () => void;
 }

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Sparkles } from 'lucide-react';
 
 interface AIGenerationModalProps {
+    [key: string]: any;
     isOpen: boolean;
     onClose: () => void;
     fieldType: string;

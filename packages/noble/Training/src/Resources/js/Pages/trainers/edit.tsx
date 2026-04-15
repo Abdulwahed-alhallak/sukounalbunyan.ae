@@ -13,6 +13,7 @@ import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Trainer, Branch, Department } from './types';
 
 interface EditProps {
+    [key: string]: any;
     data: Trainer;
     trainer: Trainer;
     onSuccess: () => void;

@@ -21,6 +21,7 @@ interface Expense {
 }
 
 interface ShowExpenseProps {
+    [key: string]: any;
     expense: Expense;
 }
 

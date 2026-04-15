@@ -50,6 +50,7 @@ interface Module {
 }
 
 interface SettingsProps {
+    [key: string]: any;
     settings: MarketplaceSetting;
     activeModules: Module[];
     selectedModule?: string;

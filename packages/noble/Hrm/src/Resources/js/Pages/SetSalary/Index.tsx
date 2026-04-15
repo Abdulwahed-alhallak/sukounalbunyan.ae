@@ -36,6 +36,7 @@ interface Employee {
 }
 
 interface SetSalaryIndexProps {
+    [key: string]: any;
     employees: {
         data: Employee[];
         links: any[];
@@ -47,7 +48,7 @@ interface SetSalaryIndexProps {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { employees = [], auth, allEmployees } = usePage<SetSalaryIndexProps>().props;
+    const { employees, auth, allEmployees } = usePage<SetSalaryIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState({
@@ -282,7 +283,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={employees || { data: [], links: [], meta: {} }}
+                        data={employees || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="hrm.set-salary.index"
                         filters={{ ...filters, per_page: perPage }}
                     />

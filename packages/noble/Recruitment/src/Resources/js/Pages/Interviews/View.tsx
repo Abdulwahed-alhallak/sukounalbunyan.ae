@@ -6,6 +6,7 @@ import { Interview } from './types';
 import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     interview: Interview;
 }
 

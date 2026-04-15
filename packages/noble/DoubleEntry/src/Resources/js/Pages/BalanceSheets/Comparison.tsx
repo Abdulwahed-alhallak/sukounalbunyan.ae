@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface ComparisonProps {
+    [key: string]: any;
     comparison: {
         id: number;
         currentPeriod: {

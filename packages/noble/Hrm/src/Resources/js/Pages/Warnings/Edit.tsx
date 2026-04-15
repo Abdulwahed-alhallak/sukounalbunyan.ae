@@ -15,7 +15,7 @@ import { usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 
 export default function EditWarning({ warning, onSuccess }: EditWarningProps) {
-    const { users = [], allUsers, warningtypes } = usePage<any>().props;
+    const { users, allUsers, warningtypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditWarningFormData>({
         subject: warning.subject ?? '',

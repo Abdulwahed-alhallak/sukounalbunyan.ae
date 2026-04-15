@@ -13,6 +13,7 @@ import { getImagePath } from '@/utils/helpers';
 import SystemSetupSidebar from '../SystemSetupSidebar';
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         logo_dark: string;
         favicon: string;

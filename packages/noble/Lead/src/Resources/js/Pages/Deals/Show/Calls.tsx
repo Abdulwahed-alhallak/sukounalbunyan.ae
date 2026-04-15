@@ -18,6 +18,7 @@ import { formatTime } from '@/utils/helpers';
 import { Deal } from '../types';
 
 interface CallsProps {
+    [key: string]: any;
     deal: Deal;
     onRegisterAddHandler: (handler: () => void) => void;
 }

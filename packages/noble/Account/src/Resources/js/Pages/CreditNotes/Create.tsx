@@ -34,13 +34,14 @@ interface CreditNoteItem {
 }
 
 interface CreateProps {
+    [key: string]: any;
     customers: Array<{ id: number; name: string }>;
     products: Product[];
 }
 
 export default function Create() {
     const { t } = useTranslation();
-    const { customers = [], products } = usePage<CreateProps>().props;
+    const { customers, products } = usePage<CreateProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         customer_id: '',

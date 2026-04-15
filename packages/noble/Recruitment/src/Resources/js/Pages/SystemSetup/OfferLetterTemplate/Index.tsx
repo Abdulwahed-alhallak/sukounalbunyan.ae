@@ -12,6 +12,7 @@ import SystemSetupSidebar from '../SystemSetupSidebar';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         templates: { [key: string]: string };
         languages?: { [key: string]: string };

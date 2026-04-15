@@ -14,7 +14,7 @@ import { EditComplaintProps, EditComplaintFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function EditComplaint({ complaint, onSuccess }: EditComplaintProps) {
-    const { employees = [], allEmployees, complaintTypes } = usePage<any>().props;
+    const { employees, allEmployees, complaintTypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditComplaintFormData>({
         employee_id: complaint.employee_id ? complaint.employee_id.toString() : '',

@@ -29,6 +29,7 @@ interface Job {
 }
 
 interface JobListingsProps {
+    [key: string]: any;
     userSlug?: string;
     jobs: Job[];
     jobCategories: string[];

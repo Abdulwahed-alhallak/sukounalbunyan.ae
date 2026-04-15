@@ -16,6 +16,7 @@ interface Tip {
 }
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         tips: Tip[];
     };

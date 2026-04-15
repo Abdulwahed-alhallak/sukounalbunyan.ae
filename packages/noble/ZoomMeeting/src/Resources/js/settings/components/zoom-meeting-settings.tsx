@@ -9,6 +9,7 @@ import { router } from '@inertiajs/react';
 import { Switch } from '@/components/ui/switch';
 
 interface ZoomMeetingSettingsProps {
+    [key: string]: any;
     userSettings?: Record<string, string>;
     auth?: any;
 }

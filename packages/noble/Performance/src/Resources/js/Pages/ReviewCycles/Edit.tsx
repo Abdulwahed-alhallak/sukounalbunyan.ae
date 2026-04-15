@@ -17,6 +17,7 @@ interface ReviewCycle {
 }
 
 interface EditProps {
+    [key: string]: any;
     reviewCycle: ReviewCycle;
     onSuccess: () => void;
 }

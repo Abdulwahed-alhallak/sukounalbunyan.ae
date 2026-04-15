@@ -6,6 +6,7 @@ import CookieConsent from '@/components/cookie-consent';
 import { useTranslation } from 'react-i18next';
 
 interface MarketplaceNotFoundProps {
+    [key: string]: any;
     landingPageSettings?: {
         company_name?: string;
         contact_email?: string;

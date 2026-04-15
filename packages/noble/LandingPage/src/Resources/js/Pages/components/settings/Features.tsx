@@ -9,6 +9,7 @@ import { Repeater } from '@/components/ui/repeater';
 import { Star } from 'lucide-react';
 
 interface FeaturesProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

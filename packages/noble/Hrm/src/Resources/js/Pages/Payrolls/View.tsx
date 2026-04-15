@@ -4,6 +4,7 @@ import { Calculator } from 'lucide-react';
 import { Payroll } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     payroll: Payroll;
 }
 

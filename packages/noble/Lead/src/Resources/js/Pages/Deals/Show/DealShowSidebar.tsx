@@ -11,6 +11,7 @@ interface SidebarItem {
 }
 
 interface DealShowSidebarProps {
+    [key: string]: any;
     activeItem?: string;
     onSectionChange?: (section: string) => void;
 }

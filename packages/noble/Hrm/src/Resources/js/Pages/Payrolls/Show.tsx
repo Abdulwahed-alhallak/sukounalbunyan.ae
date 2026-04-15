@@ -60,6 +60,7 @@ interface Payroll {
 }
 
 interface ShowProps {
+    [key: string]: any;
     payroll: Payroll;
     auth: {
         user: {

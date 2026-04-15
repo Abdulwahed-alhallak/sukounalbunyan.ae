@@ -68,6 +68,7 @@ interface CartItem extends Product {
 }
 
 interface CreateProps {
+    [key: string]: any;
     customers: Customer[];
     warehouses: WarehouseType[];
     categories: Category[];

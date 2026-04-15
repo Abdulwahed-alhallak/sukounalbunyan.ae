@@ -13,6 +13,7 @@ import { Upload, X, Download } from 'lucide-react';
 import { Ticket, TicketCategory } from './types';
 
 interface EditTicketProps {
+    [key: string]: any;
     ticket: Ticket & {
         attachments?: Array<{ name: string; path: string }>;
     };

@@ -21,6 +21,7 @@ interface Revenue {
 }
 
 interface ShowRevenueProps {
+    [key: string]: any;
     revenue: Revenue;
 }
 

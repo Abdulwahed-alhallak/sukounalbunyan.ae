@@ -38,7 +38,7 @@ import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } 
 
 export default function Index() {
     const { t } = useTranslation();
-    const { warnings = [], auth, users = [], warningtypes } = usePage<WarningsIndexProps>().props;
+    const { warnings, auth, users = [], warningtypes } = usePage<WarningsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
 
     const [filters, setFilters] = useState<WarningFilters>({
@@ -627,7 +627,7 @@ export default function Index() {
                 {/* Pagination Footer */}
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={(warnings as any) || { data: [], links: [], meta: {} }}
+                        data={(warnings as any) || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="hrm.warnings.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

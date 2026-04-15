@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface FooterProps {
+    [key: string]: any;
     settings?: any;
 }
 

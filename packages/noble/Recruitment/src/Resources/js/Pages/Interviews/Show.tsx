@@ -19,6 +19,7 @@ import { Interview } from './types';
 import { formatDate, formatTime } from '@/utils/helpers';
 
 interface InterviewShowProps {
+    [key: string]: any;
     interview: Interview;
 }
 

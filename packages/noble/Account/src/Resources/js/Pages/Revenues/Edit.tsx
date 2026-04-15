@@ -40,6 +40,7 @@ interface Revenue {
 }
 
 interface EditRevenueProps {
+    [key: string]: any;
     revenue: Revenue;
     categories: Category[];
     bankAccounts: BankAccount[];

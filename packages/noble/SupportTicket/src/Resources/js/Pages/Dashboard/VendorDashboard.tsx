@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
@@ -34,6 +35,7 @@ import { toast } from 'sonner';
 import { formatDateTime } from '@/utils/helpers';
 
 interface VendorDashboardProps {
+    [key: string]: any;
     stats: {
         totalTickets: number;
         openTickets: number;

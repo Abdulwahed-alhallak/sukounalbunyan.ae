@@ -39,6 +39,7 @@ interface TicketData {
 }
 
 interface ShowProps {
+    [key: string]: any;
     ticket: TicketData;
     workspace?: any;
     settings?: {

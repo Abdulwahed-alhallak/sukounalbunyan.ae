@@ -5,6 +5,7 @@ import { formatDateTime } from '@/utils/helpers';
 import { Lead } from '../types';
 
 interface ActivityProps {
+    [key: string]: any;
     lead: Lead;
 }
 

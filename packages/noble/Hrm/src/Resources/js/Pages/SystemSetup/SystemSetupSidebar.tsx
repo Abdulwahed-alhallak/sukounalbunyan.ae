@@ -30,6 +30,7 @@ interface SidebarItem {
 }
 
 interface SystemSetupSidebarProps {
+    [key: string]: any;
     activeItem?: string;
     onSectionChange?: (section: string) => void;
 }

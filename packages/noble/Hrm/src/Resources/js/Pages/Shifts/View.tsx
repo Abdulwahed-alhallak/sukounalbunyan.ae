@@ -5,6 +5,7 @@ import { Shift } from './types';
 import { formatTime, formatDate } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     shift: Shift;
 }
 

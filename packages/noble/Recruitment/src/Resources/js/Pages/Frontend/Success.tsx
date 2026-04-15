@@ -25,6 +25,7 @@ import FrontendLayout from '../../Components/Frontend/FrontendLayout';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface SuccessProps {
+    [key: string]: any;
     userSlug: string;
     brandSettings: {
         logo?: string;

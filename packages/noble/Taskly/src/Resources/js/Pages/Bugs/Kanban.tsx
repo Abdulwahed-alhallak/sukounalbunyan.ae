@@ -35,6 +35,7 @@ interface BugsByStatus {
 }
 
 interface BugKanbanProps {
+    [key: string]: any;
     project: Project;
     stages: Array<{ id: number; name: string; color: string; order: number }>;
     bugs: BugsByStatus;

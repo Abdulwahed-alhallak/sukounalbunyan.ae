@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import InputError from '@/components/ui/input-error';
 
 interface CreateDeductionProps {
+    [key: string]: any;
     employeeId: number;
     deductionTypes: Array<{ id: number; name: string }>;
     onSuccess: () => void;

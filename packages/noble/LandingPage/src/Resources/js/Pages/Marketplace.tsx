@@ -14,6 +14,7 @@ import MarketplaceWhyChoose from './marketplace/WhyChoose';
 import { getAdminSetting, getImagePath } from '@/utils/helpers';
 
 interface MarketplaceProps {
+    [key: string]: any;
     packages?: Array<{
         name: string;
         slug: string;

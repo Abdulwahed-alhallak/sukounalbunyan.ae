@@ -10,6 +10,7 @@ import { ShieldAlert, CheckCircle2, XCircle, Clock, AlertTriangle } from 'lucide
 import { Resignation } from './types';
 
 interface StatusUpdateProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     resignation: Resignation | null;

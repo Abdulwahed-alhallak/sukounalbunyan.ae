@@ -11,6 +11,7 @@ import { formatCurrency, formatDate } from '@/utils/helpers';
 import html2pdf from 'html2pdf.js';
 
 interface ContractPreviewProps {
+    [key: string]: any;
     contract: Contract & {
         signatures?: Array<{
             id: number;

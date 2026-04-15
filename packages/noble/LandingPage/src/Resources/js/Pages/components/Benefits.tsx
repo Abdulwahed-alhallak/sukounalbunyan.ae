@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, Plus } from 'lucide-react';
 
 interface BenefitsProps {
+    [key: string]: any;
     settings?: any;
 }
 

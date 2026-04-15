@@ -17,6 +17,7 @@ interface LedgerEntry {
 }
 
 interface LedgerSummaryProps {
+    [key: string]: any;
     entries: LedgerEntry[];
     selectedAccount: {
         account_code: string;

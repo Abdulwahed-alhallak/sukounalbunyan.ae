@@ -19,6 +19,7 @@ interface Loan {
 }
 
 interface ViewLoanProps {
+    [key: string]: any;
     loan: Loan;
 }
 

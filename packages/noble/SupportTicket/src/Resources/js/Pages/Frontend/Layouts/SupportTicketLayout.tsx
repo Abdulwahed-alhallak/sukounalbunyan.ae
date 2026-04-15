@@ -8,6 +8,7 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { Menu, X, Ticket, Search, Book, HelpCircle, UserCircle, Headphones } from 'lucide-react';
 
 interface SupportTicketLayoutProps {
+    [key: string]: any;
     children: ReactNode;
     title?: string;
     settings?: {
@@ -33,6 +34,7 @@ interface SupportTicketLayoutProps {
 }
 
 interface PageProps {
+    [key: string]: any;
     auth?: {
         user?: {
             id: number;

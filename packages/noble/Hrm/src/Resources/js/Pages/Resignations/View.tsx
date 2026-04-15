@@ -7,6 +7,7 @@ import { Resignation } from './types';
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     resignation: Resignation;
 }
 

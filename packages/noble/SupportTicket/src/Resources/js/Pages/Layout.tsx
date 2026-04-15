@@ -5,6 +5,7 @@ import { Menu, X, Ticket, Search, Book, HelpCircle, UserCircle, Headphones } fro
 import { useTranslation } from 'react-i18next';
 
 interface SupportTicketLayoutProps {
+    [key: string]: any;
     children: ReactNode;
     title?: string;
     brandSettings?: {

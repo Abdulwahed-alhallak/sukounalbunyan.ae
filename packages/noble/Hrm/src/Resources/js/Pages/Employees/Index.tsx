@@ -23,8 +23,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function Index() {
     const { t } = useTranslation();
-    const {
-        employees = [],
+    const { employees,
         auth,
         users = [],
         branches = [],

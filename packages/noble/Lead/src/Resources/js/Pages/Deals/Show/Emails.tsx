@@ -13,6 +13,7 @@ import { formatDateTime } from '@/utils/helpers';
 import { Deal } from '../types';
 
 interface EmailsProps {
+    [key: string]: any;
     deal: Deal;
     onRegisterAddHandler: (handler: () => void) => void;
 }

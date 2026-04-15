@@ -40,6 +40,7 @@ interface CustomPage {
 }
 
 interface SettingsProps {
+    [key: string]: any;
     settings: LandingPageSetting;
     customPages: CustomPage[];
 }

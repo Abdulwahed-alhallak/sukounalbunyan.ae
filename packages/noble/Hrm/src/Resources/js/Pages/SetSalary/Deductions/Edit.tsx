@@ -15,6 +15,7 @@ interface Deduction {
 }
 
 interface EditDeductionProps {
+    [key: string]: any;
     deduction: Deduction;
     deductionTypes: Array<{ id: number; name: string }>;
     onSuccess: () => void;

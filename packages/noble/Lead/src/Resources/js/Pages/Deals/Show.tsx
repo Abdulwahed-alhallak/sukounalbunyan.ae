@@ -22,6 +22,7 @@ import Clients from './Show/Clients';
 import { Deal } from './types';
 
 interface DealShowProps {
+    [key: string]: any;
     deal: Deal;
     availableUsers: any[];
     availableProducts: any[];

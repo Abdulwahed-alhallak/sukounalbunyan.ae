@@ -13,7 +13,7 @@ import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
 
 export default function Create({ onSuccess }: CreateContractProps) {
-    const { users = [], contracttypes } = usePage<any>().props;
+    const { users, contracttypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateContractFormData>({
         subject: '',

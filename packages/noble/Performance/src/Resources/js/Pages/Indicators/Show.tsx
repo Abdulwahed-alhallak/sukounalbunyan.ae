@@ -20,12 +20,13 @@ interface PerformanceIndicator {
 }
 
 interface ShowProps {
+    [key: string]: any;
     indicator: PerformanceIndicator;
 }
 
 export default function Show({ indicator }: ShowProps) {
     const { t } = useTranslation();
-    const { categories = [] } = usePage<any>().props;
+    const { categories } = usePage<any>().props;
 
     const getStatusColor = (status: string) => {
         return status === 'active' ? 'bg-muted text-foreground' : 'bg-muted text-destructive';

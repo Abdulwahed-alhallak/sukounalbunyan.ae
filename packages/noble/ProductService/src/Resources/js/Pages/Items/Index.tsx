@@ -23,7 +23,7 @@ import { usePageButtons } from '@/hooks/usePageButtons';
 
 export default function Index() {
     const { t } = useTranslation();
-    const { items = [], categories = [], auth } = usePage<ItemsIndexProps>().props;
+    const { items, categories = [], auth } = usePage<ItemsIndexProps>().props;
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
     // Item types same as Create page

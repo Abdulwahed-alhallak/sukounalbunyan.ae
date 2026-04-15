@@ -25,7 +25,7 @@ interface CreateProps {
 
 export default function Create() {
     const { t } = useTranslation();
-    const { customers = [], warehouses } = usePage<CreateProps>().props;
+    const { customers, warehouses } = usePage<CreateProps>().props;
     const [availableProducts, setAvailableProducts] = useState([]);
 
     const { data, setData, post, processing, errors } = useForm({

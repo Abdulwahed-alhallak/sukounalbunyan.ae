@@ -52,7 +52,7 @@ export function LanguageSwitcher() {
         // Hard refresh or re-sync if needed, but i18next usually handles it
         // We trigger a small delay to ensure all modules pick up the change
         setTimeout(() => {
-             router.reload({ preserveScroll: true });
+             router.reload();
         }, 100);
     };
 

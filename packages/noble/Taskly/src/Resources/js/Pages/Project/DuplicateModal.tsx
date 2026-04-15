@@ -13,6 +13,7 @@ interface ProjectItem {
 }
 
 interface DuplicateModalProps {
+    [key: string]: any;
     isOpen: boolean;
     project: ProjectItem | null;
     onClose: () => void;

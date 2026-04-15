@@ -5,6 +5,7 @@ import { Award } from './types';
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface ViewAwardProps {
+    [key: string]: any;
     award: Award;
 }
 

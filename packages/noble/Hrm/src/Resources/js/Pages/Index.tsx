@@ -30,6 +30,7 @@ import {
 import { getImagePath } from '@/utils/helpers';
 
 interface HrmProps {
+    [key: string]: any;
     message: string;
     stats: {
         total_employees: number;

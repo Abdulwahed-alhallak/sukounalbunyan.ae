@@ -24,6 +24,7 @@ interface CreateTimesheetFormData {
 }
 
 interface CreateTimesheetProps {
+    [key: string]: any;
     users: Array<{ id: number; name: string }>;
     projects: Array<{ id: number; name: string }>;
     hasHRM: boolean;

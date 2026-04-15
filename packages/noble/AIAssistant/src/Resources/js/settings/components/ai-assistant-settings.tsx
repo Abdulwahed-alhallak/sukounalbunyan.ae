@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { router } from '@inertiajs/react';
 
 interface AIAssistantSettingsProps {
+    [key: string]: any;
     userSettings?: Record<string, string>;
     auth?: any;
 }

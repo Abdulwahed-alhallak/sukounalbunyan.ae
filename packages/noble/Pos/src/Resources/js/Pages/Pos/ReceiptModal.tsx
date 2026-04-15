@@ -8,6 +8,7 @@ import { printReceipt } from './PrintReceipt';
 import { downloadReceiptPDF } from './DownloadReceipt';
 
 interface ReceiptModalProps {
+    [key: string]: any;
     isOpen: boolean;
     onClose: () => void;
     completedSale: any;

@@ -15,6 +15,7 @@ import { BankAccount } from './types';
 import { formatCurrency } from '@/utils/helpers';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

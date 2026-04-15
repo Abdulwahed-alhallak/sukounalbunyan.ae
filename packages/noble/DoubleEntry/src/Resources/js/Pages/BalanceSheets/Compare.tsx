@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { formatDate } from '@/utils/helpers';
 
 interface CompareProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     balanceSheetId: number;

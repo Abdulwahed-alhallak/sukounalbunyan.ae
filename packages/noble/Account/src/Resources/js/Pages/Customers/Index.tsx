@@ -36,6 +36,7 @@ interface CustomerModalState {
 }
 
 interface CustomersIndexProps {
+    [key: string]: any;
     customers: {
         data: Customer[];
         current_page: number;
@@ -52,7 +53,7 @@ interface CustomersIndexProps {
 }
 
 export default function Index() {
-    const { customers = [], users = [], auth, is_demo } = usePage<any>().props;
+    const { customers, users = [], auth, is_demo } = usePage<any>().props;
     const { t } = useTranslation();
     const urlParams = new URLSearchParams(window.location.search);
 

@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditEmployeeTransfer({ employeetransfer, onSuccess }: EditEmployeeTransferProps) {
-    const { employees = [], branches = [], departments = [], designations = [] } = usePage<any>().props;
+    const { employees, branches = [], departments = [], designations = [] } = usePage<any>().props;
     const [filteredToDepartments, setFilteredToDepartments] = useState<any[]>([]);
     const [filteredToDesignations, setFilteredToDesignations] = useState<any[]>([]);
     const { t } = useTranslation();

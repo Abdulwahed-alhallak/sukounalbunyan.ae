@@ -6,6 +6,7 @@ import { Event } from './types';
 import { formatDate, formatTime } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     event: Event;
 }
 

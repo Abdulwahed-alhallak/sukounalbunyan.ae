@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface FrontendFooterProps {
+    [key: string]: any;
     userSlug?: string;
     brandSettings: {
         footerText?: string;

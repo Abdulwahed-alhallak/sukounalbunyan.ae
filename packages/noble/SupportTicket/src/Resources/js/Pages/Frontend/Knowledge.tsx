@@ -26,6 +26,7 @@ interface Category {
 }
 
 interface KnowledgeProps {
+    [key: string]: any;
     knowledgeItems: KnowledgeItem[];
     categories: Category[];
     settings: {

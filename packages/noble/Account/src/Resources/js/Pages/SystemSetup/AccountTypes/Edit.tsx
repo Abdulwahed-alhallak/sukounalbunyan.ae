@@ -32,6 +32,7 @@ interface EditAccountTypeFormData {
 }
 
 interface EditAccountTypeProps {
+    [key: string]: any;
     accounttype: AccountType;
     onSuccess: () => void;
 }

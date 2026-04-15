@@ -6,6 +6,7 @@ import { Users, Building, DollarSign, TrendingUp, TrendingDown, Receipt } from '
 import { formatCurrency } from '@/utils/helpers';
 
 interface StaffProps {
+    [key: string]: any;
     stats: {
         total_clients: number;
         total_vendors: number;

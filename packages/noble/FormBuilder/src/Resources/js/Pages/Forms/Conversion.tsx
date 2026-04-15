@@ -8,6 +8,7 @@ import { Edit } from 'lucide-react';
 import ConversionSetup from '../../components/ConversionSetup';
 
 interface ConversionPageProps {
+    [key: string]: any;
     form: {
         id: number;
         name: string;

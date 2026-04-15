@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Create({ onSuccess }: CreateShiftProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateShiftFormData>({

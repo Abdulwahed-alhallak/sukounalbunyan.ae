@@ -22,6 +22,7 @@ interface CtaSectionData {
 }
 
 interface CtaSectionProps {
+    [key: string]: any;
     ctaSections: CtaSectionData;
 }
 

@@ -18,6 +18,7 @@ import { formatTime } from '@/utils/helpers';
 import { Lead } from '../types';
 
 interface CallsProps {
+    [key: string]: any;
     lead: Lead;
     onRegisterAddHandler: (handler: () => void) => void;
 }

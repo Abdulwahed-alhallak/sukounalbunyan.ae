@@ -9,6 +9,7 @@ import { Repeater } from '@/components/ui/repeater';
 import { Monitor } from 'lucide-react';
 
 interface ModulesProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

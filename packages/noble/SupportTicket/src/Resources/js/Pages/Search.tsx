@@ -8,6 +8,7 @@ import { Search, Ticket, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface SearchProps {
+    [key: string]: any;
     workspace: any;
 }
 

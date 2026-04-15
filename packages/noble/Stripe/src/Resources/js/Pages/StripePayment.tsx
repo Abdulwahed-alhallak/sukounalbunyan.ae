@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 interface StripePaymentProps {
+    [key: string]: any;
     stripe_session: {
         id: string;
     };

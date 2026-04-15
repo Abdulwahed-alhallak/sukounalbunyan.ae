@@ -40,6 +40,7 @@ interface Ticket {
 }
 
 interface TicketsIndexProps {
+    [key: string]: any;
     tickets: {
         data: Ticket[];
         links: any[];

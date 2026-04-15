@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface ViewBugProps {
+    [key: string]: any;
     bug: { id: number };
 }
 

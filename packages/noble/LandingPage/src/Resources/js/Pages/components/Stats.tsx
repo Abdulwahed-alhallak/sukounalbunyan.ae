@@ -1,4 +1,5 @@
 interface StatsProps {
+    [key: string]: any;
     settings?: any;
 }
 

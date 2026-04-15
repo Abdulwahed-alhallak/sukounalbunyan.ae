@@ -29,6 +29,7 @@ interface Warehouse {
 }
 
 interface StockIndexProps {
+    [key: string]: any;
     stocks: {
         data: StockItem[];
         current_page: number;

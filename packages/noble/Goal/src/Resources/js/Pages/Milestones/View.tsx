@@ -5,6 +5,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 import { Milestone } from './types';
 
 interface ViewMilestoneProps {
+    [key: string]: any;
     milestone: Milestone;
 }
 

@@ -21,6 +21,7 @@ interface CustomPage {
 }
 
 interface EditProps {
+    [key: string]: any;
     page: CustomPage;
 }
 

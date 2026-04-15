@@ -7,6 +7,7 @@ import { Termination } from './types';
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     termination: Termination;
 }
 

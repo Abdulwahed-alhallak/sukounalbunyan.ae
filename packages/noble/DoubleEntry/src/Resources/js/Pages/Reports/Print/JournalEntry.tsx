@@ -26,6 +26,7 @@ interface JournalEntryData {
 }
 
 interface PrintProps {
+    [key: string]: any;
     data: JournalEntryData[];
     filters: {
         from_date: string;

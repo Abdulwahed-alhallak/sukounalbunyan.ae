@@ -33,6 +33,7 @@ interface WebhookModule {
 }
 
 interface WebhookSettingsProps {
+    [key: string]: any;
     webhooks?: Webhook[];
     webhookModules?: Record<string, WebhookModule[]>;
 }

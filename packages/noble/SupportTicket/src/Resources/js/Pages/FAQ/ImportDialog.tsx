@@ -9,6 +9,7 @@ import { Upload, Download } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ImportDialogProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

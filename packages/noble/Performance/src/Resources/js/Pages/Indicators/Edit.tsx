@@ -24,6 +24,7 @@ interface IndicatorCategory {
 }
 
 interface EditProps {
+    [key: string]: any;
     indicator: PerformanceIndicator;
     onSuccess: () => void;
     categories: IndicatorCategory[];

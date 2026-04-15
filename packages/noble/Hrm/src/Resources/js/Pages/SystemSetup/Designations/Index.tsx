@@ -21,7 +21,7 @@ import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } 
 
 export default function Index() {
     const { t } = useTranslation();
-    const { designations = [], auth, branches = [], departments = [] } = usePage<DesignationsIndexProps>().props;
+    const { designations, auth, branches = [], departments = [] } = usePage<DesignationsIndexProps>().props;
 
     const [modalState, setModalState] = useState<DesignationModalState>({
         isOpen: false,

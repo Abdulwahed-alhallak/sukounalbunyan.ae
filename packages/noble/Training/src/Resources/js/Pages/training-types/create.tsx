@@ -13,6 +13,7 @@ import { X } from 'lucide-react';
 import { Branch, Department, Designation } from './types';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     branches: Branch[];
     departments: Department[];

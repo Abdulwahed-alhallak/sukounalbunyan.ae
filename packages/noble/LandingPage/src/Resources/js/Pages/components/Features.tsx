@@ -1,6 +1,7 @@
 import { Building2, Calculator, Users, CreditCard, UserCheck, FolderOpen } from 'lucide-react';
 
 interface FeaturesProps {
+    [key: string]: any;
     settings?: any;
 }
 

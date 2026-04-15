@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CustomerFormData, User } from './types';
 import { useFormFields } from '@/hooks/useFormFields';
 interface CreateCustomerProps {
+    [key: string]: any;
     onSuccess: () => void;
     users: User[];
     auth: {

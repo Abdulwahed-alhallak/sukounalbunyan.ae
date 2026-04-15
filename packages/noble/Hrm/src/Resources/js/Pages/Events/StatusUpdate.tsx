@@ -7,6 +7,7 @@ import InputError from '@/components/ui/input-error';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface StatusUpdateProps {
+    [key: string]: any;
     event: any;
     onSuccess: () => void;
 }

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CurrencyInput } from '@/components/ui/currency-input';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

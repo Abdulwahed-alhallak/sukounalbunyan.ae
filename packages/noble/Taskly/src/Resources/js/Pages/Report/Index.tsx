@@ -30,6 +30,7 @@ interface ProjectReportItem {
 }
 
 interface ProjectReportIndexProps {
+    [key: string]: any;
     projects: {
         data: ProjectReportItem[];
         current_page: number;

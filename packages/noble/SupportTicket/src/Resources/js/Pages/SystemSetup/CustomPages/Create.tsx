@@ -10,6 +10,7 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import InputError from '@/components/ui/input-error';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

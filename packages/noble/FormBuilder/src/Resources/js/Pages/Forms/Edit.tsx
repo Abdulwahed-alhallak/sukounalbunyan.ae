@@ -55,6 +55,7 @@ interface Form {
 }
 
 interface EditFormProps {
+    [key: string]: any;
     form: Form;
     auth: any;
 }

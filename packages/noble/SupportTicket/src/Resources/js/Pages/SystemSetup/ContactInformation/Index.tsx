@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { PhoneInputComponent } from '@/components/ui/phone-input';
 
 interface ContactInformationProps {
+    [key: string]: any;
     contactInformation: {
         map_embed_url: string;
         address: string;

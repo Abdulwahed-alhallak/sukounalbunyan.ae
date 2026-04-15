@@ -12,6 +12,7 @@ import { formatDateTime } from '@/utils/helpers';
 import { Deal } from '../types';
 
 interface DiscussionsProps {
+    [key: string]: any;
     deal: Deal;
     onRegisterAddHandler: (handler: () => void) => void;
 }

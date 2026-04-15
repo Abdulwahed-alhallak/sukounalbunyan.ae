@@ -51,6 +51,7 @@ interface PayrollEntry {
 }
 
 interface PayslipProps {
+    [key: string]: any;
     payrollEntry: PayrollEntry;
 }
 

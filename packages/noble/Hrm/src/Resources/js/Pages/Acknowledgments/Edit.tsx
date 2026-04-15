@@ -12,7 +12,7 @@ import { EditAcknowledgmentProps, EditAcknowledgmentFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function EditAcknowledgment({ acknowledgment, onSuccess }: EditAcknowledgmentProps) {
-    const { users = [], hrmdocuments } = usePage<any>().props;
+    const { users, hrmdocuments } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditAcknowledgmentFormData>({

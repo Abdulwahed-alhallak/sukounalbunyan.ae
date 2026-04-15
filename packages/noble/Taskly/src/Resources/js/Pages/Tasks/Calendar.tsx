@@ -27,6 +27,7 @@ interface Project {
 }
 
 interface CalendarProps {
+    [key: string]: any;
     project: Project;
     events: CalendarEvent[];
     auth: { user?: { permissions?: string[] } };

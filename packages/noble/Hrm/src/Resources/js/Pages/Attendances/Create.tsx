@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CreateAttendanceFormData, CreateAttendanceProps } from './types';
 
 export default function Create({ onSuccess }: CreateAttendanceProps) {
-    const { employees = [], shifts } = usePage<any>().props;
+    const { employees, shifts } = usePage<any>().props;
     const { t } = useTranslation();
 
     const { data, setData, post, processing, errors } = useForm<CreateAttendanceFormData>({

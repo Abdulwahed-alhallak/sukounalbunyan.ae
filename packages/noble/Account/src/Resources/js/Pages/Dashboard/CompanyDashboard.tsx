@@ -17,6 +17,7 @@ import {
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface AccountProps {
+    [key: string]: any;
     message: string;
     stats?: {
         total_items: number;

@@ -10,6 +10,7 @@ import { ShieldAlert, AlertTriangle } from 'lucide-react';
 import { Complaint } from './types';
 
 interface ComplaintStatusProps {
+    [key: string]: any;
     complaint: Complaint;
     onSuccess: () => void;
     auth: any;

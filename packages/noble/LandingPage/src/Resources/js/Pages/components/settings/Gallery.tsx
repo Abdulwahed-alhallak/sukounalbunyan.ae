@@ -8,6 +8,7 @@ import { Repeater } from '@/components/ui/repeater';
 import { Image } from 'lucide-react';
 
 interface GalleryProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

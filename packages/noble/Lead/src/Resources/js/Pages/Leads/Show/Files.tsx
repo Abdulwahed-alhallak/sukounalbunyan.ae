@@ -10,6 +10,7 @@ import { Image, File, FileText, Video, Music, Download, Eye, Trash2 } from 'luci
 import { Lead } from '../types';
 
 interface FilesProps {
+    [key: string]: any;
     lead: Lead;
 }
 

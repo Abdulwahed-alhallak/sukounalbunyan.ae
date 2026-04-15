@@ -10,6 +10,7 @@ import InputError from '@/components/ui/input-error';
 import { DatePicker } from '@/components/ui/date-picker';
 
 interface CreateOvertimeProps {
+    [key: string]: any;
     employeeId: number;
     onSuccess: () => void;
 }

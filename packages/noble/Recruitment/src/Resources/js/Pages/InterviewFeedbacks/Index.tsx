@@ -660,7 +660,7 @@ export default function Index() {
                 {/* Pagination Footer */}
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={interviewfeedbacks || { data: [], links: [], meta: {} }}
+                        data={interviewfeedbacks || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="recruitment.interview-feedbacks.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

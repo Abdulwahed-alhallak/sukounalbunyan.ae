@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { usePage, router } from '@inertiajs/react';
 
 interface ViewProps {
+    [key: string]: any;
     offer: Offer;
     onClose?: () => void;
 }

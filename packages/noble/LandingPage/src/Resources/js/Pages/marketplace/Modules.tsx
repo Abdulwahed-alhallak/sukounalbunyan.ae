@@ -2,6 +2,7 @@ import AddonCard from '../components/AddonCard';
 import { router } from '@inertiajs/react';
 
 interface ModulesProps {
+    [key: string]: any;
     settings?: any;
     packages?: Array<{
         id: number;

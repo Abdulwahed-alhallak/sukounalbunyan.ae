@@ -74,6 +74,7 @@ interface DeferredEmployeeData {
 }
 
 interface EmployeeDashboardProps {
+    [key: string]: any;
     message: string;
     auth: any;
     stats: {

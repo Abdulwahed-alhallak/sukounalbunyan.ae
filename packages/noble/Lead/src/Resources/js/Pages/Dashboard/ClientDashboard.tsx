@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
@@ -9,6 +10,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface ClientDashboardProps {
+    [key: string]: any;
     message: string;
     stats?: {
         total_deals: number;

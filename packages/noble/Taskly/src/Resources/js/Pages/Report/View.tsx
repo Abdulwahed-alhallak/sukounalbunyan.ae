@@ -9,6 +9,7 @@ import { formatCurrency, formatDate } from '@/utils/helpers';
 import { CalendarDays, Users, CheckCircle, Clock, BarChart3, PieChart as PieChartIcon } from 'lucide-react';
 
 interface ProjectReportViewProps {
+    [key: string]: any;
     project: {
         id: number;
         name: string;

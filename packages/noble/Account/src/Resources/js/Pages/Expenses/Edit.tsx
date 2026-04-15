@@ -40,6 +40,7 @@ interface Expense {
 }
 
 interface EditExpenseProps {
+    [key: string]: any;
     expense: Expense;
     categories: Category[];
     bankAccounts: BankAccount[];

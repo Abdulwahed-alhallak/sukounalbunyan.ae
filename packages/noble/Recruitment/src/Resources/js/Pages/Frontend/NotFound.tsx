@@ -7,6 +7,7 @@ import FrontendLayout from '../../Components/Frontend/FrontendLayout';
 import { AlertTriangle, Home, Search, ArrowLeft } from 'lucide-react';
 
 interface NotFoundProps {
+    [key: string]: any;
     userSlug: string;
     brandSettings: {
         logo?: string;

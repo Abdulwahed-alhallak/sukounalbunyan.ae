@@ -24,6 +24,7 @@ interface CalendarEvent {
 }
 
 interface CalendarIndexProps {
+    [key: string]: any;
     events: CalendarEvent[];
     filters: {
         calendar_type: string;

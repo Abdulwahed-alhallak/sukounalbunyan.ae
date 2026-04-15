@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { EditAttendanceFormData, EditAttendanceProps } from './types';
 
 export default function Edit({ attendance, onSuccess }: EditAttendanceProps) {
-    const { employees = [], shifts } = usePage<any>().props;
+    const { employees, shifts } = usePage<any>().props;
     const { t } = useTranslation();
 
     const { data, setData, put, processing, errors } = useForm<EditAttendanceFormData>({

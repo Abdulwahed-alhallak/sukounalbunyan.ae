@@ -21,6 +21,7 @@ interface Loan {
 }
 
 interface EditLoanProps {
+    [key: string]: any;
     loan: Loan;
     loanTypes: Array<{ id: number; name: string }>;
     onSuccess: () => void;

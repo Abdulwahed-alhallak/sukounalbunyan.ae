@@ -103,6 +103,7 @@ interface Overtime {
 }
 
 interface SetSalaryShowProps {
+    [key: string]: any;
     employee: Employee;
     allowanceTypes: any[];
     allowances: Allowance[];

@@ -5,6 +5,7 @@ import { HelpCircle } from 'lucide-react';
 import { CustomQuestion } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     customquestion: CustomQuestion;
 }
 

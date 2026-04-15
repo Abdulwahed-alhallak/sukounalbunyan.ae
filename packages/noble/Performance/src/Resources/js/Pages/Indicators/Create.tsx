@@ -14,6 +14,7 @@ interface IndicatorCategory {
 }
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     categories: IndicatorCategory[];
 }

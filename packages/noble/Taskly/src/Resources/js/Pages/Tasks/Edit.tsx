@@ -17,6 +17,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 interface EditProps {
+    [key: string]: any;
     onSuccess: () => void;
     task: { id: number } | KanbanTask;
     project?: Project;

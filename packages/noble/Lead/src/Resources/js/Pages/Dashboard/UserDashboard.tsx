@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
@@ -20,6 +21,7 @@ import {
 import { formatDate } from '@/utils/helpers';
 
 interface UserDashboardProps {
+    [key: string]: any;
     message: string;
     stats?: {
         assigned_leads: number;

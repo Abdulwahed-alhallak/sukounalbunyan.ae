@@ -4,6 +4,7 @@ import { User, Calendar, FileText, AlertOctagon, CheckCircle } from 'lucide-reac
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface WarningViewProps {
+    [key: string]: any;
     warning: any;
     onClose: () => void;
 }

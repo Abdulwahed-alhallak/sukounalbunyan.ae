@@ -7,6 +7,7 @@ import { CreditCard, DollarSign, TrendingDown, Receipt } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface VendorProps {
+    [key: string]: any;
     stats: {
         total_payments: number;
         total_expenses: number;

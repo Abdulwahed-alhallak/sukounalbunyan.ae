@@ -34,6 +34,7 @@ interface Field {
 }
 
 interface CreateProps {
+    [key: string]: any;
     categories: Category[];
     staff: User[];
     clients: User[];

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import InputError from '@/components/ui/input-error';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

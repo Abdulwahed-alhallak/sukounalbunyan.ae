@@ -19,6 +19,7 @@ import { Deal } from '../types';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface TasksProps {
+    [key: string]: any;
     deal: Deal;
     onRegisterAddHandler: (handler: () => void) => void;
 }

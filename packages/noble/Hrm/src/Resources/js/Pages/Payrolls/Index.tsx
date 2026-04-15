@@ -513,7 +513,7 @@ export default function Index() {
                     {/* Matrix Pagination */}
                     <div className="border-t border-white/5 bg-card/5 px-6 py-4">
                         <Pagination
-                            data={payrolls || { data: [], links: [], meta: {} }}
+                            data={payrolls || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                             routeName="hrm.payrolls.index"
                             filters={{ ...filters, per_page: perPage }}
                         />

@@ -14,6 +14,7 @@ import { getImagePath } from '@/utils/helpers';
 import { Lead } from '../types';
 
 interface UsersProps {
+    [key: string]: any;
     lead: Lead;
     onRegisterAddHandler: (handler: () => void) => void;
 }

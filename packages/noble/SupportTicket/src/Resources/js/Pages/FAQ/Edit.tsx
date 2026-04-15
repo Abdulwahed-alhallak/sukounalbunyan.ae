@@ -15,6 +15,7 @@ interface FAQ {
 }
 
 interface EditFAQProps {
+    [key: string]: any;
     faq: FAQ;
     onSuccess: () => void;
 }

@@ -21,6 +21,7 @@ interface GoalType {
 }
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     employees: Employee[];
     goalTypes: GoalType[];

@@ -67,7 +67,7 @@ interface ProjectIndexProps {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { items = [], users = [], auth } = usePage<ProjectIndexProps>().props;
+    const { items, users = [], auth } = usePage<ProjectIndexProps>().props;
     const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
     const [filters, setFilters] = useState({

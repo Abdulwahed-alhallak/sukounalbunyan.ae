@@ -19,6 +19,7 @@ interface CustomPage {
 }
 
 interface EditProps {
+    [key: string]: any;
     customPage: CustomPage;
     onSuccess: () => void;
 }

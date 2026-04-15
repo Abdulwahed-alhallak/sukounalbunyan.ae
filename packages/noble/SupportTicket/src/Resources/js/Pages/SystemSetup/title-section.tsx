@@ -34,6 +34,7 @@ interface TitleSectionData {
 }
 
 interface TitleSectionProps {
+    [key: string]: any;
     titleSections: TitleSectionData;
 }
 

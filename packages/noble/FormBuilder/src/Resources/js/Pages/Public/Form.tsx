@@ -24,6 +24,7 @@ interface Form {
 }
 
 interface PublicFormProps {
+    [key: string]: any;
     form: Form;
 }
 

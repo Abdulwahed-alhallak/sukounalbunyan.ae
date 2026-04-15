@@ -6,6 +6,7 @@ import { getImagePath } from '@/utils/helpers';
 import { t } from 'i18next';
 
 interface FrontendHeaderProps {
+    [key: string]: any;
     userSlug?: string;
     brandSettings: {
         logo?: string;

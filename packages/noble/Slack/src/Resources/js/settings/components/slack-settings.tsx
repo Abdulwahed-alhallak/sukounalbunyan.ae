@@ -20,6 +20,7 @@ interface Notification {
 }
 
 interface SlackSettingsProps {
+    [key: string]: any;
     userSettings?: Record<string, string>;
     auth?: any;
 }

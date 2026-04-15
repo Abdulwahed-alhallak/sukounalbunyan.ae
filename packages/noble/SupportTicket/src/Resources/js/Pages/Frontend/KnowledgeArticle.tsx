@@ -49,6 +49,7 @@ interface RelatedArticle {
 }
 
 interface KnowledgeArticleProps {
+    [key: string]: any;
     article: Article;
     relatedArticles: RelatedArticle[];
     settings: {

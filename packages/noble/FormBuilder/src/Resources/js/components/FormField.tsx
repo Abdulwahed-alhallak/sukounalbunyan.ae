@@ -10,6 +10,7 @@ import InputError from '@/components/ui/input-error';
 import { useTranslation } from 'react-i18next';
 
 interface FormFieldProps {
+    [key: string]: any;
     field: {
         id: number;
         label: string;

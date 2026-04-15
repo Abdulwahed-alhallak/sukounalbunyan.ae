@@ -16,6 +16,7 @@ interface IndicatorCategory {
 }
 
 interface EditProps {
+    [key: string]: any;
     indicatorCategory: IndicatorCategory;
     onSuccess: () => void;
 }

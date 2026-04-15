@@ -31,6 +31,7 @@ interface Job {
 }
 
 interface JobDetailsProps {
+    [key: string]: any;
     job: Job;
     userSlug: string;
     brandSettings: {

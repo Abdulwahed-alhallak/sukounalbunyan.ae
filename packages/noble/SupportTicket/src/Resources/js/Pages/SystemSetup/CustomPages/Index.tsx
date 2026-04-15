@@ -24,6 +24,7 @@ interface CustomPage {
 }
 
 interface CustomPagesProps {
+    [key: string]: any;
     customPages: CustomPage[];
     auth: any;
     actualUserSlug: string;

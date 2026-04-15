@@ -28,6 +28,7 @@ interface TrialBalanceData {
 }
 
 interface TrialBalanceProps {
+    [key: string]: any;
     trialBalance: TrialBalanceData;
     auth: {
         user: {

@@ -26,6 +26,7 @@ interface CustomPage {
 }
 
 interface IndexProps {
+    [key: string]: any;
     pages: {
         data: CustomPage[];
         current_page: number;

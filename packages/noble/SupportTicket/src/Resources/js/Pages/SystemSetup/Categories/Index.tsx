@@ -25,6 +25,7 @@ interface Category {
 }
 
 interface CategoriesIndexProps {
+    [key: string]: any;
     categories: Category[];
     auth: {
         user: {
@@ -41,7 +42,7 @@ interface CategoryModalState {
 
 export default function Index() {
     const { t } = useTranslation();
-    const { categories = [], auth } = usePage<CategoriesIndexProps>().props;
+    const { categories, auth } = usePage<CategoriesIndexProps>().props;
 
     const [modalState, setModalState] = useState<CategoryModalState>({
         isOpen: false,

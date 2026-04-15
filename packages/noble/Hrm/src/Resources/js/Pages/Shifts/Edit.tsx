@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditShift({ shift, onSuccess }: EditShiftProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditShiftFormData>({

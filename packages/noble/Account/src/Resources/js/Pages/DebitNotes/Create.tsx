@@ -34,6 +34,7 @@ interface DebitNoteItem {
 }
 
 interface CreateProps {
+    [key: string]: any;
     vendors: Array<{ id: number; name: string }>;
     products: Product[];
 }

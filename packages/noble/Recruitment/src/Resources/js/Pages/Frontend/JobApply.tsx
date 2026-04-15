@@ -40,6 +40,7 @@ interface CustomQuestion {
 }
 
 interface JobApplyProps {
+    [key: string]: any;
     job: Job;
     userSlug: string;
     brandSettings: {

@@ -34,6 +34,7 @@ interface StaffProject {
 }
 
 interface StaffDashboardProps {
+    [key: string]: any;
     stats: {
         total_tasks: number;
         completed_tasks: number;

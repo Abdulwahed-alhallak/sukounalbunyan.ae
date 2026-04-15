@@ -48,6 +48,7 @@ interface PaginatedHistory {
 }
 
 interface ShowProps {
+    [key: string]: any;
     chartofaccount: ChartOfAccount;
     history: PaginatedHistory;
     calculatedBalance: number;

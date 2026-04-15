@@ -40,6 +40,7 @@ interface PosSale {
 }
 
 interface IndexProps {
+    [key: string]: any;
     sales: {
         data: PosSale[];
         links: any[];

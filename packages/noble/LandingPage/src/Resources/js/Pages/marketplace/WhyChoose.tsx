@@ -1,6 +1,7 @@
 import { Shield, Zap, Headphones, Check } from 'lucide-react';
 
 interface WhyChooseProps {
+    [key: string]: any;
     settings?: any;
     title?: string;
     subtitle?: string;

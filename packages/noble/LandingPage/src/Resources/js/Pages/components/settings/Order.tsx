@@ -5,6 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { ArrowUpDown, GripVertical } from 'lucide-react';
 
 interface OrderProps {
+    [key: string]: any;
     data: any;
     setData: (key: string, value: any) => void;
     updateSectionVisibility: (sectionKey: string, visible: boolean) => void;

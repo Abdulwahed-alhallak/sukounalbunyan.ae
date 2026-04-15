@@ -7,6 +7,7 @@ import { formatDate } from '@/utils/helpers';
 import { usePage } from '@inertiajs/react';
 
 interface ViewProps {
+    [key: string]: any;
     document: Document;
 }
 

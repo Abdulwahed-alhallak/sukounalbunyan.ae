@@ -27,6 +27,7 @@ interface ReviewCycle {
 }
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
     employees: Employee[];
     reviewers: User[];

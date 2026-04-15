@@ -4,6 +4,7 @@ import { Building2 } from 'lucide-react';
 import { Vendor } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     vendor: Vendor;
 }
 

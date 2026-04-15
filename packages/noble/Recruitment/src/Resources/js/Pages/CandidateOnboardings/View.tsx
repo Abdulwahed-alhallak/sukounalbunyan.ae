@@ -5,6 +5,7 @@ import { CandidateOnboarding } from './types';
 import { formatDate } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     candidateonboarding: CandidateOnboarding;
 }
 

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 
 interface GenerateProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
 }

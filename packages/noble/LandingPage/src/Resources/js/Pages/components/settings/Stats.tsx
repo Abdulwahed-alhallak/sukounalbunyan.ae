@@ -7,6 +7,7 @@ import { Repeater } from '@/components/ui/repeater';
 import { Settings as SettingsIcon } from 'lucide-react';
 
 interface StatsProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

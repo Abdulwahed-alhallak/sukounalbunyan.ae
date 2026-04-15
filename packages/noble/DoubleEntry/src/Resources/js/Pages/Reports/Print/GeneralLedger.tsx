@@ -26,6 +26,7 @@ interface Account {
 }
 
 interface PrintProps {
+    [key: string]: any;
     data: GeneralLedgerData;
     selectedAccount: Account | null;
     filters: {

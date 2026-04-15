@@ -17,6 +17,7 @@ interface Overtime {
 }
 
 interface ViewOvertimeProps {
+    [key: string]: any;
     overtime: Overtime;
 }
 

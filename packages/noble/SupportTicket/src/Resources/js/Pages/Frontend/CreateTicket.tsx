@@ -48,6 +48,7 @@ interface Field {
 }
 
 interface CreateTicketProps {
+    [key: string]: any;
     categories: Category[];
     allFields?: Field[];
     customFields?: Field[];

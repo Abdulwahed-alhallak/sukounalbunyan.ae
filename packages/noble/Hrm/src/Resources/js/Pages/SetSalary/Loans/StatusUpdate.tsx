@@ -18,6 +18,7 @@ interface Loan {
 }
 
 interface StatusUpdateProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     loan: Loan | null;

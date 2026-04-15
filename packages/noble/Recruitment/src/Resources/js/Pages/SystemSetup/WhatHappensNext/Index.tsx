@@ -20,6 +20,7 @@ interface Step {
 }
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         steps: Step[];
     };

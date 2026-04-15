@@ -14,6 +14,7 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { Training, TrainingType, Trainer, Branch, Department, User } from './types';
 
 interface EditProps {
+    [key: string]: any;
     data: Training;
     training: Training;
     onSuccess: () => void;

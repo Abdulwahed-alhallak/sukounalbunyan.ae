@@ -2,6 +2,7 @@ import { CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface DedicationProps {
+    [key: string]: any;
     settings?: any;
     title?: string;
     description?: string;

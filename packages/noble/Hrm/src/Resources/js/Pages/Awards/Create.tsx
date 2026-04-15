@@ -14,7 +14,7 @@ import { CreateAwardProps, CreateAwardFormData } from './types';
 import { usePage } from '@inertiajs/react';
 
 export default function Create({ onSuccess }: CreateAwardProps) {
-    const { employees = [], awardTypes } = usePage<any>().props;
+    const { employees, awardTypes } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateAwardFormData>({

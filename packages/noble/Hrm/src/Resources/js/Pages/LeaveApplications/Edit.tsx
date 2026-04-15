@@ -16,7 +16,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function EditLeaveApplication({ leaveapplication, onSuccess }: EditLeaveApplicationProps) {
-    const { employees = [], leavetypes } = usePage<any>().props;
+    const { employees, leavetypes } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditLeaveApplicationFormData>({

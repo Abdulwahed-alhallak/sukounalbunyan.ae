@@ -14,6 +14,7 @@ interface CashFlowData {
 }
 
 interface PrintProps {
+    [key: string]: any;
     data: CashFlowData;
     filters: {
         from_date: string;

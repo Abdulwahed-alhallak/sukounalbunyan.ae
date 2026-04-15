@@ -20,6 +20,7 @@ interface LeaveBalanceData {
 }
 
 interface LeaveBalanceIndexProps {
+    [key: string]: any;
     leaveBalances: LeaveBalanceData[];
 }
 

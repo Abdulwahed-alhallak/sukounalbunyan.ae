@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditResignation({ resignation, onSuccess }: EditResignationProps) {
-    const { employees = [], users = [], auth } = usePage<any>().props;
+    const { employees, users = [], auth } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditResignationFormData>({

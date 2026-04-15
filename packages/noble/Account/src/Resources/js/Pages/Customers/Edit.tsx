@@ -11,6 +11,7 @@ import { PhoneInputComponent } from '@/components/ui/phone-input';
 import { Customer, CustomerFormData } from './types';
 import { useFormFields } from '@/hooks/useFormFields';
 interface EditCustomerProps {
+    [key: string]: any;
     customer: Customer;
     onSuccess: () => void;
 }

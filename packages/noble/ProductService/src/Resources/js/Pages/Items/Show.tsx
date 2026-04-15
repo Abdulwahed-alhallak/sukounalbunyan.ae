@@ -9,6 +9,7 @@ import { formatCurrency, getImagePath } from '@/utils/helpers';
 import { ImageSlider } from '@/components/ui/image-slider';
 
 interface ShowItemPageProps {
+    [key: string]: any;
     item: {
         id: number;
         name: string;

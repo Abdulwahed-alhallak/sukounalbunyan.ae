@@ -26,6 +26,7 @@ interface EmployeeReview {
 }
 
 interface ShowProps {
+    [key: string]: any;
     employeeReview: EmployeeReview;
     performanceIndicators: { [categoryName: string]: PerformanceIndicator[] };
     averageRating: number | null;
@@ -33,7 +34,7 @@ interface ShowProps {
 
 export default function Show({ employeeReview, performanceIndicators, averageRating }: ShowProps) {
     const { t } = useTranslation();
-    const { users = [], review_cycles } = usePage<any>().props;
+    const { users, review_cycles } = usePage<any>().props;
 
     const getStatusColor = (status: string) => {
         const colors: { [key: string]: string } = {

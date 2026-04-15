@@ -5,6 +5,7 @@ import { Complaint } from './types';
 import { formatDate, getImagePath } from '@/utils/helpers';
 
 interface ShowComplaintProps {
+    [key: string]: any;
     complaint: Complaint;
     onClose: () => void;
 }

@@ -10,6 +10,7 @@ import FrontendLayout from '../../Components/Frontend/FrontendLayout';
 import { useFormFields } from '@/hooks/useFormFields';
 
 interface TrackingFormProps {
+    [key: string]: any;
     userSlug: string;
     brandSettings: {
         logo?: string;

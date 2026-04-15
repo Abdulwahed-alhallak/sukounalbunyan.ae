@@ -13,6 +13,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 interface CreateBugProps {
+    [key: string]: any;
     onSuccess: () => void;
     project: { id: number; name: string };
     teamMembers: Array<{ id: number; name: string }>;

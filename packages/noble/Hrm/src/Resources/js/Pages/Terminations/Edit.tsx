@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function EditTermination({ termination, onSuccess }: EditTerminationProps) {
-    const { users = [], terminationtypes } = usePage<any>().props;
+    const { users, terminationtypes } = usePage<any>().props;
     const [filteredTerminationTypes, setFilteredTerminationTypes] = useState(terminationtypes || []);
     const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm<EditTerminationFormData>({

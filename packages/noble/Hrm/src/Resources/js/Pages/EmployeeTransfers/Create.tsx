@@ -13,7 +13,7 @@ import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 export default function Create({ onSuccess }: CreateEmployeeTransferProps) {
-    const { employees = [], branches = [], departments = [], designations = [] } = usePage<any>().props;
+    const { employees, branches = [], departments = [], designations = [] } = usePage<any>().props;
     const [filteredToDepartments, setFilteredToDepartments] = useState<any[]>([]);
     const [filteredToDesignations, setFilteredToDesignations] = useState<any[]>([]);
     const { t } = useTranslation();

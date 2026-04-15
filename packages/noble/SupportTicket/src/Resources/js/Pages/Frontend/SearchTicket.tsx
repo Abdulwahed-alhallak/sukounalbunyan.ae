@@ -14,6 +14,7 @@ interface SearchFormData {
 }
 
 interface SearchTicketProps {
+    [key: string]: any;
     settings: {
         faq_is_on: string;
         knowledge_base_is_on: string;

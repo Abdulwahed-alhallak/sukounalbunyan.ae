@@ -9,6 +9,7 @@ import { Layout } from 'lucide-react';
 import MediaPicker from '@/components/MediaPicker';
 
 interface HeroProps {
+    [key: string]: any;
     data: any;
     getSectionData: (key: string) => any;
     updateSectionData: (key: string, updates: any) => void;

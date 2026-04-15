@@ -29,6 +29,7 @@ interface SupportInformationData {
 }
 
 interface SupportInformationProps {
+    [key: string]: any;
     supportInformation: SupportInformationData;
 }
 

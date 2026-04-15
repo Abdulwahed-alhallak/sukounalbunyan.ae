@@ -4,6 +4,7 @@ import { MessageCircle } from 'lucide-react';
 import { InterviewRound } from './types';
 
 interface ViewProps {
+    [key: string]: any;
     interviewround: InterviewRound;
 }
 

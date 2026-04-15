@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Maximize2, X } from 'lucide-react';
 
 interface ScreenshotsProps {
+    [key: string]: any;
     settings?: any;
     title?: string;
     subtitle?: string;

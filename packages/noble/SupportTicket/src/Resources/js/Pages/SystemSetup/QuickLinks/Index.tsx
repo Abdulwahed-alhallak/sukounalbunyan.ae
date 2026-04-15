@@ -24,6 +24,7 @@ interface QuickLink {
 }
 
 interface QuickLinksProps {
+    [key: string]: any;
     quickLinks: QuickLink[];
     auth: any;
 }

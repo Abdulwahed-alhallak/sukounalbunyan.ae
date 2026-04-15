@@ -5,6 +5,7 @@ import FrontendFooter from './FrontendFooter';
 import { getImagePath } from '@/utils/helpers';
 
 interface FrontendLayoutProps {
+    [key: string]: any;
     children: React.ReactNode;
     title: string;
     description?: string;

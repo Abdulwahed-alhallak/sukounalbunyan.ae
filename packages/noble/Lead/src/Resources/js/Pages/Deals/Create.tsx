@@ -13,7 +13,7 @@ import { usePage } from '@inertiajs/react';
 import { useFormFields } from '@/hooks/useFormFields';
 
 export default function Create({ onSuccess }: CreateDealProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateDealFormData>({
         name: '',

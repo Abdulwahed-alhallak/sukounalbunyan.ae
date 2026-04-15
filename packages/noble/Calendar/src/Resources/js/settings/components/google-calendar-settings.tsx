@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 
 interface GoogleCalendarSettingsProps {
+    [key: string]: any;
     userSettings?: Record<string, string>;
     auth?: any;
 }

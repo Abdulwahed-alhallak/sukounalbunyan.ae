@@ -25,6 +25,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { getImagePath, downloadFile, formatDate } from '@/utils/helpers';
 
 interface AttachmentsTabProps {
+    [key: string]: any;
     contract: any;
     setDeleteConfig: (config: any) => void;
 }

@@ -18,7 +18,7 @@ import axios from 'axios';
 import { useFormFields } from '@/hooks/useFormFields';
 
 export default function Create({ onSuccess }: CreateZoomMeetingProps) {
-    const { users = [] } = usePage<any>().props;
+    const { users } = usePage<any>().props;
 
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateZoomMeetingFormData>({

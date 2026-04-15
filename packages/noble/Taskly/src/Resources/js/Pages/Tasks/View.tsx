@@ -24,6 +24,7 @@ import { Trash2, FileText, Download, Paperclip } from 'lucide-react';
 import { formatDate } from '@/utils/helpers';
 
 interface ViewTaskProps {
+    [key: string]: any;
     task: { id: number } | ProjectTask;
     project?: Project;
     milestones: Milestone[];

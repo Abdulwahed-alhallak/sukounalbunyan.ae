@@ -16,6 +16,7 @@ interface GoalType {
 }
 
 interface EditProps {
+    [key: string]: any;
     goalType: GoalType;
     onSuccess: () => void;
 }

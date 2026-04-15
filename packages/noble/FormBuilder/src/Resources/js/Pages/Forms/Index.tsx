@@ -28,6 +28,7 @@ interface Form {
 }
 
 interface FormsIndexProps {
+    [key: string]: any;
     forms: {
         data: Form[];
         links: any;

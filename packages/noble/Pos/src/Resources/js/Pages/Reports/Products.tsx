@@ -1,3 +1,4 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
@@ -35,6 +36,7 @@ const COLORS = [
 ];
 
 interface ProductsReportProps {
+    [key: string]: any;
     productData: Array<{
         name: string;
         sku: string;

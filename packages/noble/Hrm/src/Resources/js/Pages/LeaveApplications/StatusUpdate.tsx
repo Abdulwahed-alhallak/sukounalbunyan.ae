@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { LeaveApplication, LeaveApplicationsIndexProps } from './types';
 
 interface StatusUpdateProps {
+    [key: string]: any;
     leaveapplication: LeaveApplication;
     onSuccess: () => void;
 }

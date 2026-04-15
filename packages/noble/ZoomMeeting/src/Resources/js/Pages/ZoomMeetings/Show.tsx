@@ -10,6 +10,7 @@ import { ZoomMeeting } from './types';
 import { toast } from 'sonner';
 
 interface ShowModalProps {
+    [key: string]: any;
     isOpen: boolean;
     onClose: () => void;
     zoommeeting: ZoomMeeting;

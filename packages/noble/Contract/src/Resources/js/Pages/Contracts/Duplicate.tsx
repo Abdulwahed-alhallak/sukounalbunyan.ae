@@ -9,13 +9,14 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { Contract } from './types';
 
 interface DuplicateProps {
+    [key: string]: any;
     contract: Contract;
     onSuccess: () => void;
 }
 
 export default function Duplicate({ contract, onSuccess }: DuplicateProps) {
     const { t } = useTranslation();
-    const { users = [], contracttypes } = usePage<any>().props;
+    const { users, contracttypes } = usePage<any>().props;
 
     const { data, setData, post, processing, errors, reset } = useForm({
         subject: contract.subject + ' (Copy)',

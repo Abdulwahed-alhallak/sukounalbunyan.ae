@@ -4,6 +4,7 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Deal } from '../types';
 
 interface NotesProps {
+    [key: string]: any;
     deal: Deal;
 }
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Package } from 'lucide-react';
 
 interface AddonCardProps {
+    [key: string]: any;
     addon: {
         id: number;
         name: string;

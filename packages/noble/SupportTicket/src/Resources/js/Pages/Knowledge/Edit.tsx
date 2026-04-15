@@ -22,6 +22,7 @@ interface Category {
 }
 
 interface EditKnowledgeProps {
+    [key: string]: any;
     knowledge: Knowledge;
     categories: Category[];
     onSuccess: () => void;

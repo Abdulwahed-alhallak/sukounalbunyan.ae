@@ -21,6 +21,7 @@ interface CalendarEvent {
 }
 
 interface CalendarProps {
+    [key: string]: any;
     events: CalendarEvent[];
 }
 

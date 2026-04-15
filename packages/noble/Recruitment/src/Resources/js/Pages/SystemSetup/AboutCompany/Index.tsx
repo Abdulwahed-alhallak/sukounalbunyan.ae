@@ -12,6 +12,7 @@ import { Save } from 'lucide-react';
 import SystemSetupSidebar from '../SystemSetupSidebar';
 
 interface SettingsProps {
+    [key: string]: any;
     settings: {
         ourMission: string;
         companySize: string;

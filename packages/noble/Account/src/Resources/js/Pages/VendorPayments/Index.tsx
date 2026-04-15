@@ -34,8 +34,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 
 export default function Index() {
     const { t } = useTranslation();
-    const {
-        payments = [],
+    const { payments,
         vendors,
         bankAccounts,
         filters: initialFilters,
@@ -705,7 +704,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={payments || { data: [], links: [], meta: {} }}
+                        data={payments || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="account.vendor-payments.index"
                         filters={{ ...filters, per_page: perPage, view: viewMode }}
                     />

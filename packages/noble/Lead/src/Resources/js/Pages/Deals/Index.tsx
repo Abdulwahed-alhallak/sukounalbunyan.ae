@@ -891,7 +891,7 @@ export default function Index() {
                         {/* Pagination Terminal Footer */}
                         <CardContent className="border-t bg-muted/10 px-6 py-4 backdrop-blur-md">
                             <Pagination
-                                data={deals || { data: [], links: [], meta: {} }}
+                                data={deals || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                                 routeName="lead.deals.index"
                                 filters={{ ...filters, per_page: perPage, view: viewMode }}
                             />

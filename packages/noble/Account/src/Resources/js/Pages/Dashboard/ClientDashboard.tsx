@@ -7,6 +7,7 @@ import { CreditCard, DollarSign, TrendingUp, Receipt } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface ClientProps {
+    [key: string]: any;
     stats: {
         total_payments: number;
         total_revenues: number;

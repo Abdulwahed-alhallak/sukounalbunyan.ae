@@ -55,6 +55,7 @@ interface Payroll {
 }
 
 interface PayslipModalProps {
+    [key: string]: any;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     payrollEntry: PayrollEntry | null;

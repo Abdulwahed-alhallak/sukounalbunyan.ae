@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -453,7 +454,7 @@ export default function Index() {
 
                 <CardContent className="bg-muted/50/30 border-t px-4 py-2">
                     <Pagination
-                        data={banktransfers || { data: [], links: [], meta: {} }}
+                        data={banktransfers || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                         routeName="account.bank-transfers.index"
                         filters={filters}
                     />

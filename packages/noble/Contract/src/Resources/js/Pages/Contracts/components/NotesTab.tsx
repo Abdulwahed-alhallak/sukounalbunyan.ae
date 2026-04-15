@@ -13,6 +13,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { formatDateTime, getImagePath } from '@/utils/helpers';
 
 interface NotesTabProps {
+    [key: string]: any;
     contract: any;
     setDeleteConfig: (config: any) => void;
 }

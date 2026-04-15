@@ -8,6 +8,7 @@ import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog
 import InputError from '@/components/ui/input-error';
 
 interface CreateProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

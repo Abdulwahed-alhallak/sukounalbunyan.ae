@@ -21,6 +21,7 @@ interface CreateAccountTypeFormData {
 }
 
 interface CreateAccountTypeProps {
+    [key: string]: any;
     onSuccess: () => void;
 }
 

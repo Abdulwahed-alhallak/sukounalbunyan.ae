@@ -9,6 +9,7 @@ import { GoalTracking } from './types';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 
 interface ViewProps {
+    [key: string]: any;
     tracking: GoalTracking;
 }
 

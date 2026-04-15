@@ -5,6 +5,7 @@ import { formatDate, formatCurrency } from '@/utils/helpers';
 import { Goal } from './types';
 
 interface ViewGoalProps {
+    [key: string]: any;
     goal: Goal;
 }
 

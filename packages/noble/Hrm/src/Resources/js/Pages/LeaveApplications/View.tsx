@@ -7,6 +7,7 @@ import ModuleAttachments from '@/components/ModuleAttachments';
 import { router } from '@inertiajs/react';
 
 interface ViewProps {
+    [key: string]: any;
     leaveapplication: LeaveApplication;
 }
 

@@ -29,7 +29,7 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
 export default function Create({ onSuccess }: CreateLeaveApplicationProps) {
-    const { employees = [], leavetypes } = usePage<any>().props;
+    const { employees, leavetypes } = usePage<any>().props;
     const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm<CreateLeaveApplicationFormData>({
         employee_id: '',

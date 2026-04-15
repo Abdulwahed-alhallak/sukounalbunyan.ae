@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 
 interface CustomPageProps {
+    [key: string]: any;
     settings: {
         faq_is_on: string;
         knowledge_base_is_on: string;
