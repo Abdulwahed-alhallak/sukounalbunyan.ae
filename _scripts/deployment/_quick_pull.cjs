@@ -1,8 +1,11 @@
 const { Client } = require('ssh2');
 
+// Load sensitive credentials from .env.production (NOT from hardcoded values)
+const CONFIG = require('./secureConfig.js');
+
 const conn = new Client();
-const APP = '/home/u256167180/domains/noble.dion.sy/public_html';
-const PHP = '/opt/alt/php82/usr/bin/php';
+const APP = CONFIG.APP_DIR;
+const PHP = CONFIG.PHP;
 
 const COMMANDS = [
     `cd ${APP} && git pull origin master 2>&1 | tail -10`,
@@ -33,9 +36,4 @@ conn.on('ready', () => {
         });
     }
     next();
-}).connect({
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-});
+}).connect(CONFIG.SSH);

@@ -1,6 +1,8 @@
 const Client = require('ssh2').Client;
 const fs = require('fs');
 
+// Load sensitive credentials from .env.production (NOT from hardcoded values)
+const CONFIG = require('./secureConfig.js');
 const conn = new Client();
 const file = 'noble_production_ecosystem.tar.gz';
 const remotePath = '/home/u256167180/noble_production_ecosystem.tar.gz';
@@ -30,9 +32,4 @@ conn.on('ready', () => {
             process.exit(0);
         });
     });
-}).connect({
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-});
+}).connect(CONFIG.SSH);

@@ -1,15 +1,19 @@
 const { Client } = require('ssh2');
 
-const SSH_CONFIG = {
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-};
+// Load sensitive credentials from .env.production (NOT from hardcoded values)
+const CONFIG = require('./secureConfig.js');
 
-const PHP = '/opt/alt/php82/usr/bin/php';
-const APP_DIR = '/home/u256167180/domains/noble.dion.sy/public_html';
-const PAT = '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';
+const SSH_CONFIG = CONFIG.SSH;
+const PHP = CONFIG.PHP;
+const APP_DIR = CONFIG.APP_DIR;
+
+// Load GitHub PAT from environment (NOT from hardcoded values)
+const PAT = process.env.GITHUB_PAT || 
+    (() => {
+        console.error('❌ ERROR: GITHUB_PAT environment variable not set');
+        console.error('Set it using: $env:GITHUB_PAT = "your_token"');
+        process.exit(1);
+    })();
 
 const COMMANDS = [
     `echo "═══════════════════════════════════════════════════"`,

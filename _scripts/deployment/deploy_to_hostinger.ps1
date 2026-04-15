@@ -8,16 +8,30 @@ Write-Host "=================================================" -ForegroundColor 
 Write-Host "🚀 INITIATING DEPLOYMENT TO NOBLE.DION.SY 🚀" -ForegroundColor Cyan
 Write-Host "=================================================" -ForegroundColor Cyan
 Write-Host ""
+
+# Load credentials from .env.production
+$envFile = "$PSScriptRoot/../../.env.production"
+if (!(Test-Path $envFile)) {
+    Write-Host "❌ ERROR: .env.production file not found!" -ForegroundColor Red
+    Write-Host "Please copy .env.production.example to .env.production and fill in your credentials." -ForegroundColor Yellow
+    exit 1
+}
+
 Write-Host "[1/3] SYNCING CODE TO GITHUB MASTER..." -ForegroundColor Yellow
 
-# Use the Fine-grained PAT to authenticate silently
-$PAT = "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"
+# Use GitHub PAT from environment variable (NOT hardcoded)
+$PAT = $env:GITHUB_PAT
+if (!$PAT) {
+    Write-Host "❌ ERROR: GITHUB_PAT environment variable not set!" -ForegroundColor Red
+    Write-Host "Set it using: \$env:GITHUB_PAT = 'your_token_here'" -ForegroundColor Yellow
+    exit 1
+}
+
 $REPO_URL = "https://x-access-token:$PAT@github.com/Abdulwahed-alhallak/nobel.dion.sy.git"
 
 git add .
 git commit -m "Auto-Deploy: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Noble Architecture Master Sync"
 git push $REPO_URL HEAD:main --force
-# (Note: Using HEAD:main or master depending on your repo branch, typically main on GitHub but adjust if your branch is 'master')
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "⚠️ GitHub Sync Failed (Token/Permissions error). Skipping to Database Sync..." -ForegroundColor Yellow
@@ -40,9 +54,13 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host ""
 Write-Host "[3/3] HOSTINGER SERVER PULL" -ForegroundColor Yellow
-Write-Host "The pipeline has staged your database and code. To apply the live files, log into Hostinger SSH:" -ForegroundColor Gray
-Write-Host "ssh -p 65002 u256167180@62.72.25.117" -ForegroundColor Cyan
-Write-Host "Password: 4_m_XMkgux@.AgC" -ForegroundColor Cyan
-Write-Host "Then type: git pull origin main (or master)" -ForegroundColor Cyan
+Write-Host "The pipeline has staged your database and code. To apply the live files, use:" -ForegroundColor Gray
+Write-Host "  node _scripts/deployment/auto_sync.cjs 'Your commit message'" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Or manually SSH and pull:" -ForegroundColor Gray
+Write-Host "  ssh -p 65002 u256167180@62.72.25.117" -ForegroundColor Cyan
+Write-Host "  Then: cd public_html && git pull origin master" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Deployment Pipeline Execution Finished!" -ForegroundColor Green
+Write-Host ""
+Write-Host "⚠️  NOTE: Never commit sensitive credentials to Git. Use .env.production instead." -ForegroundColor Yellow

@@ -2,7 +2,20 @@
 require __DIR__ . '/../vendor/autoload.php';
 use phpseclib3\Net\SFTP;
 use phpseclib3\Net\SSH2;
-$host = '62.72.25.117'; $port = 65002; $username = 'u256167180'; $password = '4_m_XMkgux@.AgC';
+
+// Load sensitive credentials from .env.production.php (NOT from hardcoded values)
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../', '.env.production');
+try {
+    $dotenv->load();
+} catch (Exception $e) {
+    die("❌ ERROR: .env.production file not found. See .env.production.example\n");
+}
+
+$host = $_ENV['PRODUCTION_HOST'] ?? exit("Missing PRODUCTION_HOST");
+$port = $_ENV['PRODUCTION_PORT'] ?? 65002;
+$username = $_ENV['PRODUCTION_USERNAME'] ?? exit("Missing PRODUCTION_USERNAME");
+$password = $_ENV['PRODUCTION_PASSWORD'] ?? exit("Missing PRODUCTION_PASSWORD");
+
 $localTar = __DIR__ . '/../noble_clean_deploy_v2.tar.gz';
 $remoteTar = '/home/u256167180/domains/noble.dion.sy/public_html/noble_clean_deploy_v2.tar.gz';
 echo "1. Connecting to SFTP...\n";

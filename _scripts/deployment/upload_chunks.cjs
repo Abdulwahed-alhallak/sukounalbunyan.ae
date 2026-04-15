@@ -2,11 +2,10 @@ const { Client } = require('ssh2');
 const fs = require('fs');
 const path = require('path');
 
+// Load sensitive credentials from .env.production (NOT from hardcoded values)
+const CONFIG = require('./secureConfig.js');
 const config = {
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC',
+    ...CONFIG.SSH,
     readyTimeout: 60000,
     keepaliveInterval: 10000,
     keepaliveCountMax: 10

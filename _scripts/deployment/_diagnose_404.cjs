@@ -1,5 +1,7 @@
 const { Client } = require('ssh2');
 
+// Load sensitive credentials from .env.production (NOT from hardcoded values)
+const CONFIG = require('./secureConfig.js');
 const conn = new Client();
 
 const COMMANDS = [
@@ -42,9 +44,4 @@ conn.on('ready', () => {
         });
     }
     runCmd();
-}).connect({
-    host: '62.72.25.117',
-    port: 65002,
-    username: 'u256167180',
-    password: '4_m_XMkgux@.AgC'
-});
+}).connect(CONFIG.SSH);
