@@ -5,8 +5,11 @@ namespace Noble\BudgetPlanner\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class BudgetMonitoring extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'budget_id',
         'monitoring_date',

@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
+use App\Traits\TenantBound;
+
 class Payroll extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'title',

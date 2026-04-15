@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+use App\Traits\TenantBound;
+
 class Job extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'title',

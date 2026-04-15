@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Noble\Hrm\Models\Employee;
 
+use App\Traits\TenantBound;
+
 class ProjectTimeLog extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $table = 'project_time_logs';
 

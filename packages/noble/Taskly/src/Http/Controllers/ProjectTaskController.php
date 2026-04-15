@@ -37,7 +37,7 @@ class ProjectTaskController extends Controller
                 $project = Project::with(['teamMembers:id,name'])->findOrFail($projectId);
             }
 
-            $query = ProjectTask::select('project_tasks.id', 'project_id', 'milestone_id', 'title', 'priority', 'assigned_to', 'duration', 'description', 'stage_id', 'created_at')
+            $query = ProjectTask::select('project_tasks.id', 'project_id', 'milestone_id', 'title', 'priority', 'assigned_to', 'duration', 'start_date', 'end_date', 'is_complete', 'description', 'stage_id', 'created_at')
                 ->with(['project:id,name', 'milestone:id,title', 'assignedUser:id,name,avatar'])
                 ->where(function ($q) {
                     if (Auth::user()->can('manage-any-project-task')) {
@@ -59,15 +59,13 @@ class ProjectTaskController extends Controller
                 ->paginate(request('per_page', 10))
                 ->withQueryString();
 
-            // Parse duration and add assignedUsers
+            // Transform and add assignedUsers
             $tasks->getCollection()->transform(function ($task) {
-                if ($task->duration && strpos($task->duration, ' - ') !== false) {
+                // If start_date/end_date are null but duration exists, parse duration (fallback)
+                if (!$task->start_date && $task->duration && strpos($task->duration, ' - ') !== false) {
                     $dateRange = explode(' - ', $task->duration);
                     $task->start_date = trim($dateRange[0]);
                     $task->end_date = trim($dateRange[1]);
-                } else {
-                    $task->start_date = null;
-                    $task->end_date = null;
                 }
 
                 // Add assignedUsers array with proper avatar
@@ -117,6 +115,17 @@ class ProjectTaskController extends Controller
             $task->priority = $validated['priority'];
             $task->assigned_to = is_array($validated['assigned_to']) ? json_encode($validated['assigned_to']) : $validated['assigned_to'];
             $task->duration = $validated['duration'];
+            $task->start_date = $validated['start_date'] ?? null;
+            $task->end_date = $validated['end_date'] ?? null;
+            $task->is_complete = $validated['is_complete'] ?? false;
+
+            // If start/end dates are null but duration exists, auto-parse
+            if (!$task->start_date && $task->duration && strpos($task->duration, ' - ') !== false) {
+                $dateRange = explode(' - ', $task->duration);
+                $task->start_date = trim($dateRange[0]);
+                $task->end_date = trim($dateRange[1]);
+            }
+
             $task->description = $validated['description'];
             if (isset($validated['stage_id']) && is_numeric($validated['stage_id'])) {
                 $task->stage_id = (int) $validated['stage_id'];
@@ -193,6 +202,7 @@ class ProjectTaskController extends Controller
                         'assigned_users' => $assignedUsers,
                         'milestone' => $task->milestone ? $task->milestone->title : null,
                         'due_date' => $task->duration,
+                        'is_complete' => $task->is_complete,
                         'created_at' => $task->created_at->format('Y-m-d')
                     ];
                 })->values()->toArray();
@@ -331,6 +341,17 @@ class ProjectTaskController extends Controller
             $task->assigned_to = isset($validated['assigned_to']) ? (is_array($validated['assigned_to']) ? json_encode($validated['assigned_to']) : $validated['assigned_to']) : null;
             $task->description = $validated['description'];
             $task->duration = $validated['duration'];
+            $task->start_date = $validated['start_date'] ?? null;
+            $task->end_date = $validated['end_date'] ?? null;
+            $task->is_complete = $validated['is_complete'] ?? false;
+
+            // If start/end dates are null but duration exists, auto-parse
+            if (!$task->start_date && $task->duration && strpos($task->duration, ' - ') !== false) {
+                $dateRange = explode(' - ', $task->duration);
+                $task->start_date = trim($dateRange[0]);
+                $task->end_date = trim($dateRange[1]);
+            }
+
             $task->stage_id = $validated['stage_id'];
             $task->save();
 
@@ -385,6 +406,7 @@ class ProjectTaskController extends Controller
                         'assigned_users' => $assignedUsers,
                         'milestone' => $task->milestone ? $task->milestone->title : null,
                         'due_date' => $task->duration,
+                        'is_complete' => $task->is_complete,
                         'created_at' => $task->created_at->format('Y-m-d')
                     ];
                 })->values()->toArray();
@@ -431,8 +453,9 @@ class ProjectTaskController extends Controller
                     'description' => $task->description,
                     'priority' => $task->priority,
                     'duration' => $task->duration,
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
+                    'start_date' => $task->start_date ?? $startDate,
+                    'end_date' => $task->end_date ?? $endDate,
+                    'is_complete' => $task->is_complete,
                     'stage_id' => $task->stage_id,
                     'project_id' => $task->project_id,
                     'milestone_id' => $task->milestone_id,
@@ -576,6 +599,24 @@ class ProjectTaskController extends Controller
                 ->get();
 
             return response()->json($tasks);
+        }
+        return response()->json(['error' => __('Permission denied')], 403);
+    }
+
+    public function toggleComplete(ProjectTask $task)
+    {
+        // Check if user can edit task OR is assigned to the task
+        $assignedUserIds = $task->assigned_to ? (is_array($task->assigned_to) ? $task->assigned_to : json_decode($task->assigned_to, true)) : [];
+        $canEdit = Auth::user()->can('edit-project-task') ||
+            in_array((string) Auth::id(), $assignedUserIds) ||
+            $task->creator_id == Auth::id();
+
+        if ($canEdit) {
+            $task->update([
+                'is_complete' => !$task->is_complete
+            ]);
+
+            return response()->json(['success' => true, 'is_complete' => $task->is_complete]);
         }
         return response()->json(['error' => __('Permission denied')], 403);
     }

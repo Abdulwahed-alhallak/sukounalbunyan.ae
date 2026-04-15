@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Traits\TenantBound;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class MediaDirectory extends Model
 {
+    use HasFactory, TenantBound;
     protected $fillable = [
         'name',
         'slug',

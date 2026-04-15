@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Noble\Hrm\Models\AnnouncementCategory;
 use Noble\Hrm\Models\Department;
 
+use App\Traits\TenantBound;
+
 class Announcement extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'title',

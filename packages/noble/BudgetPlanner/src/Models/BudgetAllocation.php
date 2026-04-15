@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Noble\Account\Models\ChartOfAccount;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class BudgetAllocation extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'budget_id',

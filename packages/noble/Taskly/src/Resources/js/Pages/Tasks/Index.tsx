@@ -24,6 +24,7 @@ import {
     Grid,
     List as ListIcon,
     MoreVertical,
+    CheckCircle,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Pagination } from '@/components/ui/pagination';
@@ -99,6 +100,16 @@ export default function Index() {
         }
     };
 
+    const toggleComplete = async (taskId: number) => {
+        try {
+            await axios.patch(route('project.tasks.toggle-complete', taskId));
+            router.reload({ preserveScroll: true });
+            toast.success(t('Task status updated'));
+        } catch (error) {
+            toast.error(t('Failed to update task status'));
+        }
+    };
+
     const googleDriveButtons = usePageButtons('googleDriveBtn', { module: 'Task', settingKey: 'GoogleDrive Task' });
     const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Task', settingKey: 'OneDrive Task' });
     const dropboxBtn = usePageButtons('dropboxBtn', { module: 'Project Task', settingKey: 'Dropbox Project Task' });
@@ -142,6 +153,23 @@ export default function Index() {
     };
 
     const tableColumns = [
+        {
+            key: 'is_complete',
+            header: '',
+            render: (_: any, task: ProjectTask) => (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleComplete(task.id)}
+                    className={cn(
+                        "h-6 w-6 p-0 rounded-full transition-all",
+                        task.is_complete ? "bg-foreground text-background" : "text-muted-foreground border border-white/10 hover:border-foreground/30"
+                    )}
+                >
+                    <CheckCircle className={cn("h-4 w-4", task.is_complete ? "fill-current" : "")} />
+                </Button>
+            ),
+        },
         {
             key: 'title',
             header: t('Task Name'),
@@ -522,8 +550,21 @@ export default function Index() {
                                             <Card className="premium-card relative flex h-full flex-col overflow-hidden border-white/5 bg-foreground/40 shadow-xl backdrop-blur-3xl transition-all duration-500 hover:border-foreground/30 hover:bg-card/[0.05]">
                                                 <div className="flex flex-1 flex-col p-5">
                                                     <div className="mb-4 flex items-start justify-between">
-                                                        <div className="rounded-lg border border-foreground/20 bg-foreground/10 p-2 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
-                                                            <Target className="h-4 w-4 text-foreground" />
+                                                        <div className="flex gap-2">
+                                                            <div className="rounded-lg border border-foreground/20 bg-foreground/10 p-2 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
+                                                                <Target className="h-4 w-4 text-foreground" />
+                                                            </div>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => toggleComplete(task.id)}
+                                                                className={cn(
+                                                                    "h-8 w-8 p-0 rounded-lg transition-all",
+                                                                    task.is_complete ? "bg-foreground text-background" : "text-muted-foreground border border-white/5 hover:bg-card/10"
+                                                                )}
+                                                            >
+                                                                <CheckCircle className={cn("h-4 w-4", task.is_complete ? "fill-current" : "")} />
+                                                            </Button>
                                                         </div>
                                                         <DropdownMenu>
                                                             <DropdownMenuTrigger asChild>

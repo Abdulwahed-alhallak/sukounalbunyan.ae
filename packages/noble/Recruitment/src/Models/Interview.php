@@ -10,9 +10,11 @@ use Noble\Recruitment\Models\InterviewRound;
 use Noble\Recruitment\Models\InterviewType;
 use Noble\Recruitment\Models\InterviewFeedback;
 
+use App\Traits\TenantBound;
+
 class Interview extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'scheduled_date',

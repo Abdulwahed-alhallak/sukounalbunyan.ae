@@ -52,6 +52,8 @@ npm run dev                # في نافذة ثانية
 | 18 | 📊 التحليلات | [`18-Data_Visualization_and_Analytics.md`](./18-Data_Visualization_and_Analytics.md) | Dashboards، الرسوم البيانية، KPIs |
 | 19 | ✅ قائمة النشر | [`19-Final_Deployment_Checklist.md`](./19-Final_Deployment_Checklist.md) | Checklist النشر النهائي |
 | 20 | 🔍 دليل الفحص | [`20-Application_Audit_Playbook.md`](./20-Application_Audit_Playbook.md) | فحص العلاقات، النتائج، الثيم، RTL، الربط، والمسارات |
+| 21 | ✨ صقل الواجهات | [`21-Professional_Polish_and_Geofence_Integration.md`](./21-Professional_Polish_and_Geofence_Integration.md) | إلغاء المصطلحات التقنية، دعم RTL كامل، وتوحيد الواجهات |
+| 22 | 🛡️ تثبيت الإنتاج | [`22-Production_Stabilization_and_Tenancy_Hardening.md`](./22-Production_Stabilization_and_Tenancy_Hardening.md) | فحص عزل البيانات (SaaS)، وإصلاح فجوات نموذج المهام |
 
 ---
 

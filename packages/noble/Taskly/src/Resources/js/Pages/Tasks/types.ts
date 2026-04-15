@@ -30,6 +30,7 @@ export interface ProjectTask {
     }>;
     start_date?: string;
     end_date?: string;
+    is_complete?: boolean;
     stage_id?: number;
     attachments?: Array<{
         id: number;
@@ -53,6 +54,9 @@ export interface CreateProjectTaskFormData {
     priority: 'High' | 'Medium' | 'Low';
     assigned_to?: number[];
     duration?: string;
+    start_date?: string;
+    end_date?: string;
+    is_complete?: boolean;
     description?: string;
     stage_id?: number;
     sync_to_google_calendar?: boolean;

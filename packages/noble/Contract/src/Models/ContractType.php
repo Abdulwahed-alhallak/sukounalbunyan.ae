@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
+use App\Traits\TenantBound;
+
 class ContractType extends Model
 {
+    use TenantBound;
     use HasFactory;
 
     protected $fillable = [

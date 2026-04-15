@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Noble\Hrm\Models\Branch;
 use Noble\Hrm\Models\Department;
 
+use App\Traits\TenantBound;
+
 class Trainer extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'name',

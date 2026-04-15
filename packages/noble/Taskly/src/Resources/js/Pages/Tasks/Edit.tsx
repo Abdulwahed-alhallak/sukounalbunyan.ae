@@ -39,6 +39,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
         priority: 'Medium',
         assigned_to: [] as string[],
         duration: '',
+        is_complete: false,
         description: '',
         stage_id: undefined as number | undefined,
         media_paths: [] as string[],
@@ -77,6 +78,7 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                     priority: fetchedTask.priority || 'Medium',
                     assigned_to: assignedIds,
                     duration: fetchedTask.duration || '',
+                    is_complete: !!fetchedTask.is_complete,
                     description: fetchedTask.description || '',
                     stage_id: fetchedTask.stage_id || (taskStages.length > 0 ? taskStages[0].id : undefined),
                     media_paths: [],
@@ -127,18 +129,22 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
     };
 
     return (
-        <DialogContent>
+        <DialogContent className="glass-effect-dark">
             <DialogHeader>
-                <DialogTitle>{t('Edit Task')}</DialogTitle>
+                <DialogTitle className="text-xl font-black uppercase tracking-widest text-background">
+                    {t('Edit Task')}
+                </DialogTitle>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-4">
                 <div>
-                    <Label htmlFor="project">{t('Project')}</Label>
+                    <Label htmlFor="project" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                        {t('Project')}
+                    </Label>
                     <Input
                         id="project"
                         value={taskData?.project?.name || project?.name || ''}
                         disabled
-                        className="bg-muted/50"
+                        className="bg-card/5 border-white/5 opacity-50"
                         required
                     />
                 </div>
@@ -146,13 +152,16 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                 <div>
                     <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Label htmlFor="title">{t('Title')}</Label>
+                            <Label htmlFor="title" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                {t('Title')}
+                            </Label>
                             <Input
                                 id="title"
                                 value={data.title}
                                 onChange={(e) => updateData('title', e.target.value)}
                                 placeholder={t('Enter task title')}
                                 required
+                                className="bg-card/5 border-white/10"
                             />
                         </div>
                         {titleAI?.map((field) => (
@@ -161,41 +170,49 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                     </div>
                 </div>
 
-                <div>
-                    <Label htmlFor="priority">{t('Priority')}</Label>
-                    <Select value={data.priority} onValueChange={(value) => updateData('priority', value)}>
-                        <SelectTrigger>
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="High">{t('High')}</SelectItem>
-                            <SelectItem value="Medium">{t('Medium')}</SelectItem>
-                            <SelectItem value="Low">{t('Low')}</SelectItem>
-                        </SelectContent>
-                    </Select>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <Label htmlFor="priority" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                            {t('Priority')}
+                        </Label>
+                        <Select value={data.priority} onValueChange={(value) => updateData('priority', value)}>
+                            <SelectTrigger className="bg-card/5 border-white/10">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="glass-effect-dark border-white/10">
+                                <SelectItem value="High">{t('High')}</SelectItem>
+                                <SelectItem value="Medium">{t('Medium')}</SelectItem>
+                                <SelectItem value="Low">{t('Low')}</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div>
+                        <Label htmlFor="stage_id" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                            {t('Stage')}
+                        </Label>
+                        <Select
+                            value={data.stage_id?.toString() || ''}
+                            onValueChange={(value) => updateData('stage_id', value ? parseInt(value) : undefined)}
+                        >
+                            <SelectTrigger className="bg-card/5 border-white/10">
+                                <SelectValue placeholder={t('Select stage')} />
+                            </SelectTrigger>
+                            <SelectContent className="glass-effect-dark border-white/10">
+                                {taskStages?.map((stage) => (
+                                    <SelectItem key={stage.id} value={stage.id.toString()}>
+                                        {stage.name}
+                                    </SelectItem>
+                                )) || []}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 <div>
-                    <Label htmlFor="stage_id">{t('Stage')}</Label>
-                    <Select
-                        value={data.stage_id?.toString() || ''}
-                        onValueChange={(value) => updateData('stage_id', value ? parseInt(value) : undefined)}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder={t('Select stage')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {taskStages?.map((stage) => (
-                                <SelectItem key={stage.id} value={stage.id.toString()}>
-                                    {stage.name}
-                                </SelectItem>
-                            )) || []}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div>
-                    <Label required>{t('Assign To')}</Label>
+                    <Label required className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                        {t('Assign To')}
+                    </Label>
                     <MultiSelect
                         options={teamMembers?.map((member) => ({
                             value: member.id.toString(),
@@ -205,21 +222,40 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                         onValueChange={(values) => updateData('assigned_to', values)}
                         placeholder={t('Select team members')}
                         searchable={true}
+                        className="bg-card/5 border-white/10"
                     />
                 </div>
 
                 <div>
-                    <Label required>{t('Duration')}</Label>
+                    <Label required className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                        {t('Duration')}
+                    </Label>
                     <DateRangePicker
                         value={data.duration || ''}
                         onChange={(value) => updateData('duration', value)}
                         placeholder={t('Select duration dates')}
+                        className="bg-card/5 border-white/10"
                     />
+                </div>
+
+                <div className="flex items-center gap-2 rounded-lg border border-white/5 bg-card/5 p-3">
+                    <input
+                        type="checkbox"
+                        id="is_complete"
+                        checked={data.is_complete}
+                        onChange={(e) => updateData('is_complete', e.target.checked)}
+                        className="h-4 w-4 rounded border-white/10 bg-card accent-foreground cursor-pointer"
+                    />
+                    <Label htmlFor="is_complete" className="cursor-pointer text-[10px] font-black uppercase tracking-widest text-background">
+                        {t('Mark as Complete')}
+                    </Label>
                 </div>
 
                 <div>
                     <div className="mb-2 flex items-center justify-between">
-                        <Label htmlFor="description">{t('Description')}</Label>
+                        <Label htmlFor="description" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                            {t('Description')}
+                        </Label>
                         <div className="flex gap-2">
                             {descriptionAI?.map((field) => (
                                 <div key={field.id}>{field.component}</div>
@@ -233,11 +269,14 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                         onChange={(e) => updateData('description', e.target.value)}
                         placeholder={t('Enter task description')}
                         required
+                        className="bg-card/5 border-white/10 text-xs"
                     />
                 </div>
 
                 <div>
-                    <Label>{t('Attachments')}</Label>
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                        {t('Attachments')}
+                    </Label>
                     <MediaPicker
                         value={data.media_paths || []}
                         onChange={(v) => updateData('media_paths', v)}
@@ -245,12 +284,12 @@ export default function Edit({ onSuccess, task, project, milestones, teamMembers
                     />
                 </div>
 
-                <div className="flex justify-end gap-2">
-                    <Button type="button" variant="outline" onClick={() => onSuccess()}>
+                <div className="flex justify-end gap-2 border-t border-white/5 pt-4">
+                    <Button type="button" variant="ghost" onClick={() => onSuccess()} className="text-[10px] font-black uppercase tracking-widest">
                         {t('Cancel')}
                     </Button>
-                    <Button type="submit" disabled={processing}>
-                        {processing ? t('Updating...') : t('Update')}
+                    <Button type="submit" disabled={processing} className="premium-button min-w-[120px]">
+                        {processing ? t('Updating...') : t('Update Task')}
                     </Button>
                 </div>
             </form>

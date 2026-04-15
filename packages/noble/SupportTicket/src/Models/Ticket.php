@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\TenantBound;
+
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
     protected $fillable = [
         'ticket_id',
         'name',

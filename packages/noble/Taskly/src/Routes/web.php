@@ -28,6 +28,7 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Taskly'])->group(
     Route::get('/project/tasks/calendar/{project}', [ProjectTaskController::class, 'calendar'])->name('project.tasks.calendar');
     Route::patch('/project/tasks/{task}/move', [ProjectTaskController::class, 'move'])->name('project.tasks.move');
     Route::put('/project/tasks/{task}', [ProjectTaskController::class, 'update'])->name('project.tasks.update');
+    Route::patch('/project/tasks/{task}/toggle-complete', [ProjectTaskController::class, 'toggleComplete'])->name('project.tasks.toggle-complete');
     Route::delete('/project/tasks/{task}', [ProjectTaskController::class, 'destroy'])->name('project.tasks.destroy');
     Route::get('/project/{project}/tasks/api', [ProjectTaskController::class, 'getTasks'])->name('project.tasks.api');
     Route::delete('/project/tasks/attachments/{attachment}', [ProjectTaskController::class, 'destroyAttachment'])->name('project.tasks.attachments.destroy');

@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class ContractNote extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'contract_id',
         'note',

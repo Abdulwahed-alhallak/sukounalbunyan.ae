@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Crypt;
 use Noble\Recruitment\Models\JobType;
 use Noble\Recruitment\Models\JobLocation;
 
+use App\Traits\TenantBound;
+
 class JobPosting extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $table = 'job_postings';
 

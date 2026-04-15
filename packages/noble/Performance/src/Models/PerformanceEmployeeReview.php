@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use Noble\Hrm\Models\Employee;
 
+use App\Traits\TenantBound;
+
 class PerformanceEmployeeReview extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $table = 'performance_employee_reviews';
 

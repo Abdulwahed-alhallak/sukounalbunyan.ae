@@ -19,6 +19,9 @@ class UpdateProjectTaskRequest extends FormRequest
             'assigned_to' => 'required|array',
             'assigned_to.*' => 'exists:users,id',
             'duration' => 'required|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'is_complete' => 'nullable|boolean',
             'description' => 'required|string',
             'stage_id' => 'nullable|integer|exists:task_stages,id',
         ];

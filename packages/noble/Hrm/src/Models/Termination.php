@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use Noble\Hrm\Models\TerminationType;
 
+use App\Traits\TenantBound;
+
 class Termination extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'notice_date',

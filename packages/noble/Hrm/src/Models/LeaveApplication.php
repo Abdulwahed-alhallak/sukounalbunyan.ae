@@ -9,9 +9,11 @@ use Noble\Hrm\Models\LeaveType;
 use Noble\Taskly\Traits\InteractsWithMedia;
 use Noble\Taskly\Models\TaskAttachment;
 
+use App\Traits\TenantBound;
+
 class LeaveApplication extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, TenantBound;
 
     protected $fillable = [
         'start_date',

@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use Noble\Hrm\Models\WarningType;
 
+use App\Traits\TenantBound;
+
 class Warning extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'subject',

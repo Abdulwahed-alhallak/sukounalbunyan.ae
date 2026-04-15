@@ -10,9 +10,11 @@ use Noble\Hrm\Models\EventType;
 use Noble\Hrm\Models\Department;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'title',

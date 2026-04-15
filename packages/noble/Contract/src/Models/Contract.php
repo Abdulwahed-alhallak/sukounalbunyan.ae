@@ -12,9 +12,11 @@ use Noble\Contract\Models\ContractNote;
 use Noble\Contract\Models\ContractRenewal;
 use Noble\Contract\Models\ContractSignature;
 
+use App\Traits\TenantBound;
+
 class Contract extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'subject',

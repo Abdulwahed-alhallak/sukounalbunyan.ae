@@ -9,9 +9,11 @@ use Noble\Recruitment\Models\InterviewFeedback;
 use Noble\Recruitment\Models\Interview;
 use Noble\Recruitment\Models\CandidateAssessment;
 
+use App\Traits\TenantBound;
+
 class Candidate extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'first_name',

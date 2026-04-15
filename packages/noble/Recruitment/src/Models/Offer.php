@@ -8,9 +8,11 @@ use Noble\Recruitment\Models\Candidate;
 use Noble\Recruitment\Models\JobPosting;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class Offer extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'candidate_id',

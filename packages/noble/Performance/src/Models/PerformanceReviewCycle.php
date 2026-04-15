@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class PerformanceReviewCycle extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $table = 'performance_review_cycles';
 

@@ -5,9 +5,11 @@ namespace Noble\Hrm\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\TenantBound;
+
 class CompanyAsset extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'asset_name',
