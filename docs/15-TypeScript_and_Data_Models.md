@@ -1,22 +1,226 @@
-# 🏷️ دليل تعريفات الأنواع ونماذج البيانات (TypeScript & Models)
+# 🏷️ TypeScript والنماذج البرمجية
 
-بما أن النظام يعتمد بكثافة على لغة `TypeScript` في الواجهة الأمامية، فقد تم عزل تعريفات الأنواع (Type Definitions) في ملفات مركزية لضمان تطابق البيانات القادمة من الـ Backend (Laravel Models) مع الـ Frontend (React Props).
+> **آخر تحديث:** أبريل 2026
 
-## 1. التعريفات المركزية (`index.d.ts`)
-يقع الملف الرئيسي للأنواع في `resources/js/types/index.d.ts`. يحتوي هذا الملف على الواجهات (Interfaces) التي تصف كائنات النظام. أمثلة:
-- `User`: تعريف لمعلومات المستخدم، الصلاحيات، والصور الشخصية.
-- `Employee`: واجهة تصف بيانات بطاقة الموظف (الراتب، القسم، وتاريخ الانضمام)، مطابقة لما يرجعه الـ `EmployeeController`.
-- `Company`: بيانات المؤسسة المالكية للمساحة.
-- `PaginatedData<T>`: واجهة برمجية للتعامل مع الـ Pagination القادم من Laravel بشكل ديناميكي وقابل لإعادة الاستخدام.
+---
 
-## 2. أهمية التطابق (Type Safety)
-عند استدعاء أي بيانات من السيرفر باستخدام `usePage<PageProps>()`، يتم التأكد من أن الكائن المتوفر يمتلك نفس الخصائص المعرفة في الـ Backend. هذا يمنع أخطاء مثل `undefined property` التي تظهر أثناء التنقل السريع بين الصفحات.
+## 1. إعداد tsconfig.json
 
-## 3. تعريفات صفحات الإعدادات (Settings Types)
-صفحات مثل `settings/index.tsx` و `components/brand-settings.tsx` تعتمد على أنواع بيانات (Types) مخزنة مسبقاً، مثل تعليق واجهات `BrandSettingsContextType` الخاصة بـ `brand-context.tsx`. 
-تتيح هذه الأنواع لمحرر الأكواد (VS Code / Cursor) استكمال الكود تلقائياً وتقديم تنبيهات في حال محاولة استخدام متغير غير مسجل في إعدادات المنصة.
+`tsconfig.json` في جذر المشروع مُعدّ ليشمل **جميع** ملفات النظام:
 
-## 4. نصائح للمطورين (TypeScript Best Practices)
-1. **لا تستخدم `any`:** تجنب استخدام نوع `any` في المكونات الجديدة. إذا كان العائد من السيرفر غير واضح، قم بإنشاء `Interface` مصغرة تشرح البيانات المتوقعة.
-2. **استخدام `Partial<T>`:** عند إنشاء نماذج التحديث (Update Forms) استخدم `Partial<Employee>` لأنك غالباً لا تمرر كافة البيانات بل أجزاء منها فقط.
-3. **تحديث الـ Types دورياً:** إذا أضفت عموداً جديداً في الـ Database Migrations الخاص بـ (HRM) مثلاً، لا تنسَ إضافته لملف `index.d.ts` ليتمكن مطورو الواجهة من قراءته بلا أخطاء.
+```json
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./resources/js/*"]
+    }
+  },
+  "include": [
+    "resources/js/**/*.ts",
+    "resources/js/**/*.tsx",
+    "resources/js/**/*.d.ts",
+    "packages/dionone/**/*.ts",
+    "packages/dionone/**/*.tsx",
+    "packages/noble/**/*.ts",
+    "packages/noble/**/*.tsx"
+  ]
+}
+```
+
+> ⚠️ بدون `packages/noble/**` في `include`، سيظهر IDE خطأ لكل `@/` import داخل الوحدات.
+
+---
+
+## 2. الأنواع المشتركة (Common Types)
+
+ملف `resources/js/types/common.ts` يحتوي على الأنواع العامة لكل الوحدات:
+
+```ts
+// بيانات مرقّمة (Paginated API response)
+export interface PaginatedData<T> {
+    data: T[];
+    links: any[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    from: number;
+    to: number;
+    [key: string]: any;
+}
+
+// حالة النوافذ المنبثقة
+export interface ModalState<T = any> {
+    isOpen: boolean;
+    mode: 'add' | 'edit' | 'view' | '';
+    data: T | null;
+}
+
+// المستخدم المصادق عليه
+export interface AuthUser {
+    id: number;
+    type?: string;
+    permissions: string[];
+    [key: string]: any;
+}
+
+export interface AuthContext {
+    user: AuthUser;
+    [key: string]: any;
+}
+```
+
+---
+
+## 3. نمط types.ts لكل وحدة
+
+كل صفحة لها ملف `types.ts` مجاور. النمط القياسي:
+
+```ts
+// packages/noble/Hrm/src/Resources/js/Pages/Attendances/types.ts
+
+import { PaginatedData, ModalState, AuthContext } from '@/types/common';
+
+// نموذج البيانات الأساسي
+export interface Attendance {
+    id: number;
+    employee_id: number;
+    date: string;
+    clock_in: string;
+    clock_out?: string;
+    status: 'present' | 'half_day' | 'absent';  // ← union type محدد
+    total_hour?: number;
+    notes?: string;
+    [key: string]: any;
+}
+
+// بيانات النموذج (Create)
+export interface CreateAttendanceFormData {
+    employee_id: string;
+    date: string;
+    clock_in: string;
+    clock_out: string;
+    notes: string;
+    [key: string]: any;
+}
+
+// أنواع مشتقة
+export type PaginatedAttendances = PaginatedData<Attendance>;
+export type AttendanceModalState = ModalState<Attendance>;
+
+// Props للصفحة الرئيسية
+export interface AttendancesIndexProps {
+    attendances: PaginatedAttendances;
+    auth: AuthContext;
+    employees: any[];
+    [key: string]: any;
+}
+```
+
+---
+
+## 4. استخدام Props في الصفحة
+
+```tsx
+// Index.tsx
+import { usePage } from '@inertiajs/react';
+import { AttendancesIndexProps } from './types';
+
+export default function Index() {
+    const { attendances, auth, employees } = usePage<AttendancesIndexProps>().props;
+    //      ↑ TypeScript يعرف الأنواع الدقيقة الآن
+}
+```
+
+---
+
+## 5. مكوّن Pagination
+
+`Pagination` من `@/components/ui/pagination` يقبل:
+
+```ts
+interface PaginationProps {
+    data: {
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+        from: number;
+        to: number;
+    };
+    routeName?: string;
+    filters?: Record<string, any>;
+    onPageChange?: (page: number) => void;
+}
+```
+
+> `PaginatedData<T>` يلتزم بهذه الواجهة تلقائياً (يحتوي على كل الحقول المطلوبة).
+
+**الاستخدام الصحيح:**
+```tsx
+<Pagination
+    data={attendances}
+    routeName="hrm.attendances.index"
+    filters={{ ...filters, per_page: perPage }}
+/>
+```
+
+---
+
+## 6. الأنواع الشائعة الأخرى
+
+### `global.d.ts` — دوال عالمية
+
+```ts
+// resources/js/types/global.d.ts
+import { route as ziggyRoute } from 'ziggy-js';
+
+declare global {
+    var route: typeof ziggyRoute;  // ← متاح عالمياً بدون import
+}
+```
+
+### أنواع فلاتر
+
+```ts
+export interface AttendanceFilters {
+    search: string;
+    status: string;         // string وليس union - لأنه قد يكون ''
+    employee_id: string;
+    date_from: string;
+    date_to: string;
+    [key: string]: any;
+}
+```
+
+---
+
+## 7. أخطاء TypeScript الشائعة وحلولها
+
+| الخطأ | السبب | الحل |
+|-------|-------|------|
+| `Cannot find module '@/...'` | `packages/noble/**` غير مدرج في tsconfig | تمت إضافته — أعد تشغيل TS Server |
+| `Cannot find name 'route'` | نفس السبب أعلاه | إعادة تشغيل TS Server بعد tsconfig fix |
+| `has no overlap` | مقارنة `'half day'` بدل `'half_day'` | استخدم القيمة الدقيقة من union type |
+| `Type X is not assignable to Y` | تمرير `PaginatedData` كاملاً لـ `Pagination` | `data={attendances}` مباشرة (متوافق) |
+| `Property 'total' does not exist` | default value خاطئ `holidays = []` | احذف `= []` إذا كان النوع `PaginatedHolidays` |
+
+---
+
+## 8. التحقق من الأنواع
+
+```bash
+# فحص TypeScript بدون بناء
+npx tsc --noEmit
+
+# بناء كامل (يمر عبر Vite/esbuild - لا يفحص الأنواع)
+npm run build
+```
+
+> **ملاحظة:** `npm run build` يستخدم esbuild الذي يستقلّ بتجريد الأنواع ولا يتحقق منها. استخدم `tsc --noEmit` للتحقق الكامل.
