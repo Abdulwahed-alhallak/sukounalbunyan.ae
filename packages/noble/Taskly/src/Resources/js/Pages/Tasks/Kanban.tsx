@@ -30,6 +30,9 @@ import {
     ShieldAlert,
     Zap,
     Target,
+    Play,
+    Square,
+    Clock
 } from 'lucide-react';
 import { getImagePath } from '@/utils/helpers';
 import KanbanBoard, { KanbanTask, KanbanColumn } from '@/components/kanban-board';
@@ -167,6 +170,39 @@ export default function Kanban() {
     };
 
     const TaskCard = ({ task }: { task: KanbanTask }) => {
+        const [isTimerLoading, setIsTimerLoading] = useState(false);
+        const [timerRunning, setTimerRunning] = useState<boolean>(task.timer_running || false);
+
+        const handleStartTimer = async (e: React.MouseEvent) => {
+            e.stopPropagation();
+            setIsTimerLoading(true);
+            try {
+                const response = await axios.post(route('project.tasks.timers.start', task.id));
+                toast.success(t(response.data.message || 'Timer started Successfully'));
+                setTimerRunning(true);
+                refreshTasks();
+            } catch (error: any) {
+                toast.error(t(error.response?.data?.message || 'Failed to start timer.'));
+            } finally {
+                setIsTimerLoading(false);
+            }
+        };
+
+        const handleStopTimer = async (e: React.MouseEvent) => {
+            e.stopPropagation();
+            setIsTimerLoading(true);
+            try {
+                const response = await axios.post(route('project.tasks.timers.stop', task.id));
+                toast.success(t(response.data.message || 'Timer stopped Successfully'));
+                setTimerRunning(false);
+                refreshTasks();
+            } catch (error: any) {
+                toast.error(t('Failed to stop timer.'));
+            } finally {
+                setIsTimerLoading(false);
+            }
+        };
+
         const handleDragStart = (e: React.DragEvent) => {
             e.dataTransfer.setData('application/json', JSON.stringify({ taskId: task.id }));
             e.dataTransfer.effectAllowed = 'move';
@@ -287,6 +323,52 @@ export default function Kanban() {
                                     +{task.assigned_users.length - 3}
                                 </span>
                             </div>
+                        )}
+                    </div>
+
+                    <div className="flex items-center gap-1 opacity-60 transition-opacity group-hover:opacity-100">
+                        {timerRunning ? (
+                            <TooltipProvider>
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={handleStopTimer}
+                                            disabled={isTimerLoading}
+                                            className="h-6 w-6 rounded-md p-0 text-destructive hover:bg-destructive/10"
+                                        >
+                                            <Square className="h-3 w-3 fill-current mt-0" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent className="glass-effect-dark border-white/10">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-destructive">
+                                            {t('Stop Timer')}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        ) : (
+                            <TooltipProvider>
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={handleStartTimer}
+                                            disabled={isTimerLoading}
+                                            className="h-6 w-6 rounded-md p-0 text-green-500 hover:bg-green-500/10"
+                                        >
+                                            <Play className="h-3 w-3 fill-current mt-0" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent className="glass-effect-dark border-white/10">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-green-500">
+                                            {t('Start Timer')}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         )}
                     </div>
 
@@ -470,20 +552,3 @@ export default function Kanban() {
     );
 }
 
-const Clock = ({ className }: { className?: string }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-    >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-    </svg>
-);

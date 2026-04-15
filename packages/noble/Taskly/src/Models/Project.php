@@ -124,7 +124,15 @@ class Project extends Model
 
             if ($role) {
                 foreach ($permissions as $permission_name) {
-                    $permission = Permission::firstOrCreate(['name' => $permission_name]);
+                    $permission = Permission::firstOrCreate(
+                        ['name' => $permission_name],
+                        [
+                            'add_on' => 'Taskly',
+                            'module' => 'Project',
+                            'label' => ucwords(str_replace('-', ' ', $permission_name)),
+                            'guard_name' => 'web'
+                        ]
+                    );
                     if (!$role->hasPermissionTo($permission_name)) {
                         $role->givePermissionTo($permission);
                     }
