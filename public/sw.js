@@ -1,4 +1,4 @@
-const CACHE_NAME = 'noble-pwa-cache-v8';
+const CACHE_NAME = 'noble-pwa-cache-v11';
 const urlsToCache = [
   '/favicon.ico',
   '/manifest.json'
@@ -49,10 +49,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Navigation requests: Network First, or simply don't intercept to avoid redirect issues
+  // Navigation requests: Bypass Service Worker to handle redirects correctly
   if (event.request.mode === 'navigate') {
-    // We let navigation requests go to the network directly to handle redirects properly
-    // This fixes "redirected response was used for a request whose redirect mode is not 'follow'"
     return;
   }
 
@@ -66,10 +64,13 @@ self.addEventListener('fetch', event => {
         const fetchRequest = event.request.clone();
 
         return fetch(fetchRequest).then(
-          function(response) {
+            // If the response is redirected, do NOT cache it and return it as is
+            // This prevents "redirected response was used for a request whose redirect mode is not 'follow'"
+            if (response.redirected) {
+              return response;
+            }
+
             // Check if we received a valid response.
-            // basic = same origin, cors = cross origin with CORS headers
-            // we avoid caching opaque responses for anything other than images/fonts to prevent CORB issues.
             if(!response || response.status !== 200 || (response.type !== 'basic' && response.type !== 'cors')) {
               return response;
             }
