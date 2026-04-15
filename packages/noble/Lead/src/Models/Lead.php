@@ -10,9 +10,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia as SpatieInteractsWithMedia;
 use Noble\Taskly\Traits\InteractsWithMedia;
 
+use App\Traits\TenantBound;
+
 class Lead extends Model
 {
-    use HasFactory, SpatieInteractsWithMedia, InteractsWithMedia;
+    use HasFactory, SpatieInteractsWithMedia, InteractsWithMedia, TenantBound;
 
     protected $fillable = [
         'name',

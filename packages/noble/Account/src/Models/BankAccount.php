@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Noble\Account\Models\ChartOfAccount;
 
+use App\Traits\TenantBound;
+
 class BankAccount extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'account_number',

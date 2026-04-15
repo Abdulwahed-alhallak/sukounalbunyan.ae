@@ -31,8 +31,17 @@ class ProjectTask extends Model implements HasMedia
         'duration',
         'description',
         'stage_id',
+        'start_date',
+        'end_date',
+        'is_complete',
         'creator_id',
         'created_by',
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'is_complete' => 'boolean',
     ];
 
     public function project()

@@ -9,9 +9,11 @@ use Noble\Lead\Models\Stage;
 use Noble\Lead\Models\Group;
 use App\Models\User;
 
+use App\Traits\TenantBound;
+
 class Deal extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'name',
