@@ -15,6 +15,21 @@ class Employee extends Model
 {
     use HasFactory, InteractsWithMedia;
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->created_by) && auth()->check()) {
+                $model->created_by = creatorId();
+            }
+            if (empty($model->creator_id) && auth()->check()) {
+                $model->creator_id = auth()->id();
+            }
+            if (empty($model->employee_id)) {
+                $model->employee_id = self::generateEmployeeId();
+            }
+        });
+    }
+
     protected $fillable = [
         'employee_id',
         'application_id',
@@ -164,6 +179,7 @@ class Employee extends Model
         $prefix = 'EMP';
         $year = date('Y');
         $lastEmployee = self::where('employee_id', 'like', $prefix . $year . '%')
+            ->where('created_by', creatorId())
             ->orderBy('employee_id', 'desc')
             ->first();
 
