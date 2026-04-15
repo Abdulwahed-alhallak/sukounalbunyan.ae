@@ -27,7 +27,21 @@ run("/opt/alt/php82/usr/bin/php artisan optimize:clear");
 // 3. Migrate
 run("/opt/alt/php82/usr/bin/php artisan migrate --force");
 
-// 4. Custom Restructure (If needed)
+// 4. Asset Extraction (if uploaded via FTP/SFTP)
+if (file_exists("build.tar.gz")) {
+    echo "<b>▸ Extracting Build Assets...</b><br>";
+    run("tar -xzf build.tar.gz && rm build.tar.gz");
+}
+if (file_exists("resources.tar.gz")) {
+    echo "<b>▸ Extracting Resources...</b><br>";
+    run("tar -xzf resources.tar.gz && rm resources.tar.gz");
+}
+if (file_exists("packages.tar.gz")) {
+    echo "<b>▸ Extracting Packages...</b><br>";
+    run("tar -xzf packages.tar.gz && rm packages.tar.gz");
+}
+
+// 5. Custom Restructure (If needed)
 run("/opt/alt/php82/usr/bin/php artisan noble:restructure-users");
 
 echo "<h2>Deployment Complete!</h2>";
