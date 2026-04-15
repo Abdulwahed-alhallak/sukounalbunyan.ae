@@ -23,7 +23,7 @@ export default defineConfig({
     env: {
       // Use runtime environment variables for live credentials.
       adminEmail: process.env.CYPRESS_ADMIN_EMAIL || 'admin@noblearchitecture.net',
-      adminPassword: process.env.CYPRESS_ADMIN_PASSWORD || '',
+      adminPassword: process.env.CYPRESS_ADMIN_PASSWORD || '1234',
       baseApiUrl: 'https://noble.dion.sy',
     }
   },
