@@ -1,1 +1,0 @@
-import{r as i,j as u}from"./vendor-DJjzF8sm.js";import{c}from"./utils-BkfiQ9Th.js";const a=i.forwardRef(({className:e,type:r,error:t,...s},o)=>u.jsx("input",{type:r,className:c("vercel-input flex h-10 w-full text-label-14",t&&"border-destructive focus-[&:not(:focus-visible)]:border-destructive focus-visible:ring-destructive",e),ref:o,...s}));a.displayName="Input";export{a as I};
