@@ -63,13 +63,16 @@ npm run dev                # في نافذة ثانية
 
 | المؤشر | الحالة |
 |--------|--------|
-| البناء (`npm run build`) | ✅ يعمل |
+| البناء (`npm run build`) | ✅ يعمل (883 ملف، ~16s) |
 | TypeScript IDE errors | ✅ محلول (tsconfig يشمل packages/noble/**) |
 | RTL/LTR | ✅ Logical Properties كاملة |
 | مصطلحات الواجهة | ✅ محترفة (لا sci-fi/military) |
 | ملفات الترجمة العربية | ✅ ar.json محدّث |
 | `.gitignore` | ✅ منظّم (archives, temp, build مستبعدة) |
 | `_scripts/` | ✅ منظّم في 9 مجلدات فرعية |
+| الإنتاج `noble.dion.sy` | ✅ منشور (HTTP 200 — 16 أبريل 2026) |
+| قاعدة البيانات | ✅ Migration 100% — 71 جدول |
+| GitHub | ✅ مرفوع — فرع `master` |
 
 ### مسارات مهمة
 

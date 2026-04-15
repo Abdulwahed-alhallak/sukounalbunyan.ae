@@ -34,8 +34,8 @@ function run($cmd, $dir) {
 }
 
 // Find PHP binary
-$php = '/usr/local/bin/php';
-if (!file_exists($php)) $php = '/opt/alt/php82/usr/bin/php';
+$php = '/opt/alt/php82/usr/bin/php';
+if (!file_exists($php)) $php = '/usr/bin/php';
 if (!file_exists($php)) $php = 'php';
 
 echo "PHP: $php\n\n";
