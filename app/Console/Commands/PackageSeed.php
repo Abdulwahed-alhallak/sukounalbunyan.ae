@@ -44,9 +44,16 @@ class PackageSeed extends Command
 
     protected function getSeederClass($packageName)
     {
-        $seederClass = "Noble\\{$packageName}\\Database\\Seeders\\{$packageName}DatabaseSeeder";
-        if (class_exists($seederClass)) {
-            return $seederClass;
+        // Primary: PackageNameDatabaseSeeder
+        $primary = "Noble\\{$packageName}\\Database\\Seeders\\{$packageName}DatabaseSeeder";
+        if (class_exists($primary)) {
+            return $primary;
+        }
+
+        // Secondary: PermissionTableSeeder
+        $secondary = "Noble\\{$packageName}\\Database\\Seeders\\PermissionTableSeeder";
+        if (class_exists($secondary)) {
+            return $secondary;
         }
 
         return null;
@@ -55,11 +62,12 @@ class PackageSeed extends Command
     protected function getAllPackages()
     {
         $packages = [];
-        $vendorDir = base_path('packages/Noble Architecture');
+        $vendorDir = base_path('packages/noble');
         
         if (File::exists($vendorDir)) {
             $directories = File::directories($vendorDir);
             foreach ($directories as $directory) {
+                // Ensure only Noble modules are picked
                 $packages[] = basename($directory);
             }
         }
