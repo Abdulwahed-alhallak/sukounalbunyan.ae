@@ -23,7 +23,7 @@ class DemoUserSeeder extends Seeder
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'mobile_no' => '+1' . sprintf('%010d', 3000000000 + $index),
-                'password' => Hash::make('1234'),
+                'password' => Hash::make('Nn@!23456'),
                 'type' => 'company',
                 'lang' => 'en',
                 'email_verified_at' => now(),

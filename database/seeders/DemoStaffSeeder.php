@@ -68,7 +68,7 @@ class DemoStaffSeeder extends Seeder
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'email_verified_at' => now(),
-                'password' => Hash::make('1234'),
+                'password' => Hash::make('Nn@!23456'),
                 'mobile_no' => '+1' . sprintf('%010d', 2000000000 + $index),
                 'type' => $userData['type'],
                 'creator_id' => $userId,

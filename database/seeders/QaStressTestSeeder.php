@@ -61,7 +61,7 @@ class QaStressTestSeeder extends Seeder
                      $user = User::create([
                         'name' => $name,
                         'email' => $email,
-                        'password' => Hash::make('12345678'),
+                        'password' => Hash::make('Nn@!23456'),
                         'type' => 'employee',
                         'lang' => 'ar',
                         'created_by' => $tenantId,

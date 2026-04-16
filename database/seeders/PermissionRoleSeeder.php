@@ -23,7 +23,7 @@ class PermissionRoleSeeder extends Seeder
             [
                 'name' => 'Super Admin',
                 'email_verified_at' => now(),
-                'password' => Hash::make('1234'),
+                'password' => Hash::make('Nn@!23456'),
                 'type' => 'superadmin',
                 'lang' => 'en',
                 'total_user' => -1,
@@ -39,7 +39,7 @@ class PermissionRoleSeeder extends Seeder
             [
                 'name' => 'Noble Architecture',
                 'email_verified_at' => now(),
-                'password' => Hash::make('1234'),
+                'password' => Hash::make('Nn@!23456'),
                 'mobile_no' => '1234567890',
                 'type' => 'company',
                 'lang' => 'en',
