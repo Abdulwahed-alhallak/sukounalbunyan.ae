@@ -77,8 +77,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             <Link href={route('dashboard')} className="flex h-auto items-center justify-center !py-3">
                                 {/* Brand Logo - Uses SVG component for consistency */}
                                 <div className="flex items-center px-2 group-data-[collapsible=icon]:hidden">
-                                    <ApplicationLogo className="premium-shimmer h-8 w-auto text-primary" />
-                                    <span className="ms-2 text-label-13 font-semibold tracking-tight text-foreground">
+                                    <ApplicationLogo className="premium-shimmer h-8 w-auto text-primary transition-transform duration-300 group-hover/logo:scale-105" />
+                                    <span className="ms-2 text-label-13 font-bold tracking-tight text-foreground transition-colors duration-200 group-hover/logo:text-primary">
                                          {settings?.titleText || 'Noble Architecture'}
                                      </span>
                                 </div>

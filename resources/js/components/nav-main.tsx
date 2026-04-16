@@ -105,10 +105,10 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                 tooltip={t(item.title)}
                                                 isActive={shouldBeActive}
                                                 className={cn(
-                                                    'group relative h-9 rounded-md px-2.5 transition-all duration-150 ease-in-out',
+                                                    'group relative h-9 rounded-md px-2.5 transition-all duration-200 ease-in-out',
                                                     shouldBeActive
-                                                        ? 'bg-primary/5 font-bold text-primary ring-1 ring-primary/10'
-                                                        : 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'
+                                                        ? 'bg-primary/5 font-bold text-primary ring-1 ring-primary/10 shadow-[0_0_15px_rgba(0,0,0,0.02)]'
+                                                        : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground'
                                                 )}
                                             >
                                                 {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
@@ -197,10 +197,10 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                 isActive={shouldBeActive}
                                 tooltip={t(item.title)}
                                 className={cn(
-                                    'h-8 rounded-md transition-all duration-150 ease-out',
+                                    'h-8 rounded-md transition-all duration-200 ease-out',
                                     shouldBeActive
-                                        ? 'bg-primary/5 font-semibold text-primary'
-                                        : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'
+                                        ? 'bg-primary/5 font-bold text-primary ring-1 ring-primary/5 shadow-sm'
+                                        : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
                                 )}
                             >
                                 <Link href={item.href!}>
