@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasRoles, HasFactory, Notifiable, HasApiTokens;
 

@@ -41,7 +41,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::middleware(['auth', 'verified', 'PlanModuleCheck'])->group(function () {
+Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     // Route::get('/dashboard', function () {
     //     return Inertia::render('dashboard');
     // })->name('dashboard');
