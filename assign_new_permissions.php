@@ -33,13 +33,15 @@ echo "Registering " . count($permissions) . " new permissions...\n";
 
 foreach ($permissions as $p => $moduleName) {
     if (!Permission::where('name', $p)->exists()) {
+        $label = ucwords(str_replace(['manage-', '-'], ['', ' '], $p));
         Permission::create([
             'name' => $p,
             'guard_name' => 'web',
             'add_on' => $moduleName,
-            'module' => $moduleName
+            'module' => $moduleName,
+            'label' => $label
         ]);
-        echo "✅ Registered: $p ($moduleName)\n";
+        echo "✅ Registered: $p ($moduleName) [$label]\n";
     } else {
         echo "⏭️ Exists: $p\n";
     }
