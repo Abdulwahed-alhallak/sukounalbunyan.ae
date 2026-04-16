@@ -49,11 +49,11 @@ class LandingPageSettingSeeder extends Seeder
             'hero' => [
                 'variant' => 'hero1',
                 'title' => 'The Complete Cloud ERP Platform for Modern Enterprises',
-                'subtitle' => 'Streamline your entire business lifecycle, from finance to operations, withNobleArchitecture. One platform, infinite possibilities.',
+                'subtitle' => 'Streamline your entire business lifecycle, from finance to operations, with Noble Architecture. One platform, infinite possibilities.',
                 'primary_button_text' => 'Start Free Trial',
-                'primary_button_link' => route('register'),
+                'primary_button_link' => \Route::has('register') ? route('register') : '/register',
                 'secondary_button_text' => 'Login',
-                'secondary_button_link' => route('login'),
+                'secondary_button_link' => \Route::has('login') ? route('login') : '/login',
                 'highlight_text' => 'Noble Architecture',
                 'image' => 'packages/noble/LandingPage/src/Resources/assets/img/hero.png'
             ],
@@ -63,7 +63,7 @@ class LandingPageSettingSeeder extends Seeder
                 'cta_text' => 'Get Started',
                 'enable_pricing_link' => true,
                 'navigation_items' => [
-                    ['text' => 'Home', 'href' => route('landing.page')]
+                    ['text' => 'Home', 'href' => \Route::has('landing_page.index') ? route('landing_page.index') : '/']
                 ]
             ],
             'stats' => [
