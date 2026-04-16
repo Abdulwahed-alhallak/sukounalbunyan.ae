@@ -43,11 +43,14 @@ class CandidateAssessmentController extends Controller
                         // Search in candidate names
                         $query->orWhereHas('candidate', function($candidateQuery) use ($searchTerm) {
                             $candidateQuery->where('first_name', 'like', '%' . $searchTerm . '%')
-                                          ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
-                                          ->orWhereRaw('CONCAT(first_name, " ", last_name) like ?', ['%' . $searchTerm . '%']);
+                                          ->orWhere('last_name', 'like', '%' . $searchTerm . '%');
+                                          $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                                          if ($isSqlite) {
+                                              $candidateQuery->orWhereRaw('first_name || " " || last_name like ?', ['%' . $searchTerm . '%']);
+                                          } else {
+                                              $candidateQuery->orWhereRaw('CONCAT(first_name, " ", last_name) like ?', ['%' . $searchTerm . '%']);
+                                          }
                         });
-                        
-                        // Search in conducted by names
                         $query->orWhereHas('conductedBy', function($conductedByQuery) use ($searchTerm) {
                             $conductedByQuery->where('name', 'like', '%' . $searchTerm . '%');
                         });

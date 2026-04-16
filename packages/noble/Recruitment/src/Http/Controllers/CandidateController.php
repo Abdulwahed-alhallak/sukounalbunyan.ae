@@ -38,8 +38,13 @@ class CandidateController extends Controller
                               ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
                               ->orWhere('email', 'like', '%' . $searchTerm . '%')
                               ->orWhere('tracking_id', 'like', '%' . $searchTerm . '%')
-                              ->orWhere('skills', 'like', '%' . $searchTerm . '%')
-                              ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                              ->orWhere('skills', 'like', '%' . $searchTerm . '%');
+                              $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+                              if ($isSqlite) {
+                                  $query->orWhereRaw("first_name || ' ' || last_name LIKE ?", ['%' . $searchTerm . '%']);
+                              } else {
+                                  $query->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                              }
                     });
                 })
                 ->when(request('job_id') && request('job_id') !== 'all', fn($q) => $q->where('job_id', request('job_id')))

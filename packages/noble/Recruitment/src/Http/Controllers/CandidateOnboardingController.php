@@ -44,8 +44,13 @@ class CandidateOnboardingController extends Controller
                         $query->whereHas('candidate', function ($subQuery) use ($searchTerm) {
                             $subQuery->where('first_name', 'like', '%' . $searchTerm . '%')
                                 ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
-                                ->orWhere('email', 'like', '%' . $searchTerm . '%')
-                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                                ->orWhere('email', 'like', '%' . $searchTerm . '%');
+                                $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                                if ($isSqlite) {
+                                    $subQuery->orWhereRaw('first_name || " " || last_name LIKE ?', ['%' . $searchTerm . '%']);
+                                } else {
+                                    $subQuery->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                                }
                         })->orWhereHas('checklist', function ($subQuery) use ($searchTerm) {
                             $subQuery->where('name', 'like', '%' . $searchTerm . '%');
                         })->orWhereHas('buddy', function ($subQuery) use ($searchTerm) {

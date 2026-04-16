@@ -48,7 +48,12 @@ class InterviewController extends Controller
                     $q->where(function ($query) use ($searchTerm) {
                         $query->where('interviews.location', 'like', '%' . $searchTerm . '%')
                             ->orWhereHas('candidate', function ($candidateQuery) use ($searchTerm) {
-                                $candidateQuery->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                                $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                                if ($isSqlite) {
+                                    $candidateQuery->whereRaw("first_name || ' ' || last_name LIKE ?", ['%' . $searchTerm . '%']);
+                                } else {
+                                    $candidateQuery->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                                }
                             })
                             ->orWhereHas('jobPosting', function ($jobQuery) use ($searchTerm) {
                                 $jobQuery->where('title', 'like', '%' . $searchTerm . '%');
@@ -80,8 +85,10 @@ class InterviewController extends Controller
 
                     switch ($sort) {
                         case 'candidate_name':
+                            $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                            $concatStr = $isSqlite ? "candidates.first_name || ' ' || candidates.last_name" : "CONCAT(candidates.first_name, ' ', candidates.last_name)";
                             $q->leftJoin('candidates', 'interviews.candidate_id', '=', 'candidates.id')
-                                ->select('interviews.*', \DB::raw("CONCAT(candidates.first_name, ' ', candidates.last_name) as candidate_name"))
+                                ->select('interviews.*', \DB::raw("$concatStr as candidate_name"))
                                 ->orderBy('candidate_name', $direction);
                             break;
                         case 'round_name':

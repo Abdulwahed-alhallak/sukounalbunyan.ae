@@ -43,7 +43,12 @@ class InterviewFeedbackController extends Controller
 
                         // Search in candidate names
                         $query->orWhereHas('interview.candidate', function($candidateQuery) use ($searchTerm) {
-                            $candidateQuery->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                            $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                            if ($isSqlite) {
+                                $candidateQuery->whereRaw("first_name || ' ' || last_name LIKE ?", ['%' . $searchTerm . '%']);
+                            } else {
+                                $candidateQuery->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchTerm . '%']);
+                            }
                         });
 
                         // Search in job titles
@@ -66,10 +71,12 @@ class InterviewFeedbackController extends Controller
 
             $sort = request('sort');
             if ($sort === 'candidate') {
+                $isSqlite = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite';
+                $concatStr = $isSqlite ? "candidates.first_name || ' ' || candidates.last_name" : "CONCAT(candidates.first_name, ' ', candidates.last_name)";
                 $query->join('interviews', 'interview_feedbacks.interview_id', '=', 'interviews.id')
                       ->join('candidates', 'interviews.candidate_id', '=', 'candidates.id')
                       ->select('interview_feedbacks.*')
-                      ->orderByRaw("CONCAT(candidates.first_name, ' ', candidates.last_name) " . request('direction', 'asc'));
+                      ->orderByRaw("$concatStr " . request('direction', 'asc'));
             } elseif ($sort === 'interviewer_names') {
                 $query->orderBy('interviewer_ids', request('direction', 'asc'));
             } elseif ($sort) {
