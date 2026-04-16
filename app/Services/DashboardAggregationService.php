@@ -43,8 +43,11 @@ class DashboardAggregationService
             $currentYear = now()->year;
             $lastMonth = now()->subMonth();
 
+            $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+            $monthSelect = $isSqlite ? "CAST(strftime('%m', created_at) AS INTEGER) as month" : "MONTH(created_at) as month";
+
             // Monthly revenue trend
-            $orderData = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as count, SUM(price) as total')
+            $orderData = Order::selectRaw("{$monthSelect}, COUNT(*) as count, SUM(price) as total")
                 ->whereYear('created_at', $currentYear)
                 ->groupBy('month')
                 ->orderBy('month')
@@ -254,12 +257,26 @@ class DashboardAggregationService
         // Upcoming birthdays
         $upcomingBirthdays = [];
         if (Schema::hasColumn('employees', 'date_of_birth')) {
+            $thirtyDaysFromNow = now()->addDays(30);
+            
+            // Using Eloquent collection filter to be DB agnostic
             $upcomingBirthdays = \Noble\Hrm\Models\Employee::where('created_by', $this->companyId)
                 ->whereNotNull('date_of_birth')
-                ->whereRaw("DATE_FORMAT(date_of_birth, '%m-%d') BETWEEN DATE_FORMAT(NOW(), '%m-%d') AND DATE_FORMAT(NOW() + INTERVAL 30 DAY, '%m-%d')")
                 ->with('user:id,name')
-                ->limit(5)
                 ->get(['id', 'user_id', 'date_of_birth'])
+                ->filter(function($emp) use ($thirtyDaysFromNow) {
+                    try {
+                        $dob = \Carbon\Carbon::parse($emp->date_of_birth);
+                        $dobThisYear = $dob->copy()->year(now()->year);
+                        if ($dobThisYear->isPast()) {
+                            $dobThisYear->addYear();
+                        }
+                        return $dobThisYear->between(now(), $thirtyDaysFromNow);
+                    } catch (\Exception $e) {
+                        return false;
+                    }
+                })
+                ->take(5)
                 ->toArray();
         }
 
@@ -433,10 +450,17 @@ class DashboardAggregationService
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $year = now()->year;
 
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthFields = [
+            'invoice_date' => $isSqlite ? "CAST(strftime('%m', invoice_date) AS INTEGER) as month" : "MONTH(invoice_date) as month",
+            'revenue_date' => $isSqlite ? "CAST(strftime('%m', revenue_date) AS INTEGER) as month" : "MONTH(revenue_date) as month",
+            'expense_date' => $isSqlite ? "CAST(strftime('%m', expense_date) AS INTEGER) as month" : "MONTH(expense_date) as month",
+        ];
+
         // Sales Invoice monthly data
         $salesData = SalesInvoice::where('created_by', $this->companyId)
             ->whereYear('invoice_date', $year)
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total')
+            ->selectRaw("{$monthFields['invoice_date']}, SUM(total_amount) as total")
             ->groupBy('month')
             ->get()
             ->keyBy('month');
@@ -444,7 +468,7 @@ class DashboardAggregationService
         // Purchase Invoice monthly data
         $purchaseData = PurchaseInvoice::where('created_by', $this->companyId)
             ->whereYear('invoice_date', $year)
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total')
+            ->selectRaw("{$monthFields['invoice_date']}, SUM(total_amount) as total")
             ->groupBy('month')
             ->get()
             ->keyBy('month');
@@ -456,7 +480,7 @@ class DashboardAggregationService
             if (class_exists(\Noble\Account\Models\Revenue::class) && Schema::hasTable('revenues')) {
                 $revenueData = \Noble\Account\Models\Revenue::where('created_by', $this->companyId)
                     ->whereYear('revenue_date', $year)
-                    ->selectRaw('MONTH(revenue_date) as month, SUM(amount) as total')
+                    ->selectRaw("{$monthFields['revenue_date']}, SUM(amount) as total")
                     ->groupBy('month')
                     ->get()
                     ->keyBy('month');
@@ -464,7 +488,7 @@ class DashboardAggregationService
             if (class_exists(\Noble\Account\Models\Expense::class) && Schema::hasTable('expenses')) {
                 $expenseData = \Noble\Account\Models\Expense::where('created_by', $this->companyId)
                     ->whereYear('expense_date', $year)
-                    ->selectRaw('MONTH(expense_date) as month, SUM(amount) as total')
+                    ->selectRaw("{$monthFields['expense_date']}, SUM(amount) as total")
                     ->groupBy('month')
                     ->get()
                     ->keyBy('month');

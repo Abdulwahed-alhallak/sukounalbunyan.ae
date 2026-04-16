@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\SalesInvoice;
 use App\Models\PurchaseInvoice;
 
@@ -20,14 +21,21 @@ class PredictiveFinanceController extends Controller
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         
         // Base Sales & Purchases
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthFields = [
+            'invoice_date' => $isSqlite ? "CAST(strftime('%m', invoice_date) AS INTEGER) as month" : "MONTH(invoice_date) as month",
+            'revenue_date' => $isSqlite ? "CAST(strftime('%m', revenue_date) AS INTEGER) as month" : "MONTH(revenue_date) as month",
+            'expense_date' => $isSqlite ? "CAST(strftime('%m', expense_date) AS INTEGER) as month" : "MONTH(expense_date) as month"
+        ];
+
         $salesData = SalesInvoice::where('created_by', $companyId)
             ->whereYear('invoice_date', $currentYear)
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total')
+            ->selectRaw("{$monthFields['invoice_date']}, SUM(total_amount) as total")
             ->groupBy('month')->get()->keyBy('month');
             
         $purchaseData = PurchaseInvoice::where('created_by', $companyId)
             ->whereYear('invoice_date', $currentYear)
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total')
+            ->selectRaw("{$monthFields['invoice_date']}, SUM(total_amount) as total")
             ->groupBy('month')->get()->keyBy('month');
             
         // Module checks
@@ -36,13 +44,13 @@ class PredictiveFinanceController extends Controller
         if (class_exists(\Noble\Account\Models\Revenue::class)) {
             $revenueData = \Noble\Account\Models\Revenue::where('created_by', $companyId)
                 ->whereYear('revenue_date', $currentYear)
-                ->selectRaw('MONTH(revenue_date) as month, SUM(amount) as total')
+                ->selectRaw("{$monthFields['revenue_date']}, SUM(amount) as total")
                 ->groupBy('month')->get()->keyBy('month');
         }
         if (class_exists(\Noble\Account\Models\Expense::class)) {
             $expenseData = \Noble\Account\Models\Expense::where('created_by', $companyId)
                 ->whereYear('expense_date', $currentYear)
-                ->selectRaw('MONTH(expense_date) as month, SUM(amount) as total')
+                ->selectRaw("{$monthFields['expense_date']}, SUM(amount) as total")
                 ->groupBy('month')->get()->keyBy('month');
         }
 

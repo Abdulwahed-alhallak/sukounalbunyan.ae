@@ -170,14 +170,17 @@ class ReportingService
 
     private function profitLossReport(string $dateFrom, string $dateTo): array
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? "CAST(strftime('%m', invoice_date) AS INTEGER) as month" : "MONTH(invoice_date) as month";
+
         $sales = SalesInvoice::when($this->companyId, fn($q) => $q->where('created_by', $this->companyId))
             ->whereBetween('invoice_date', [$dateFrom, $dateTo])
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total, SUM(tax_amount) as tax')
+            ->selectRaw("{$monthSelect}, SUM(total_amount) as total, SUM(tax_amount) as tax")
             ->groupBy('month')->orderBy('month')->get();
 
         $purchases = PurchaseInvoice::when($this->companyId, fn($q) => $q->where('created_by', $this->companyId))
             ->whereBetween('invoice_date', [$dateFrom, $dateTo])
-            ->selectRaw('MONTH(invoice_date) as month, SUM(total_amount) as total, SUM(tax_amount) as tax')
+            ->selectRaw("{$monthSelect}, SUM(total_amount) as total, SUM(tax_amount) as tax")
             ->groupBy('month')->orderBy('month')->get();
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -750,8 +753,11 @@ class ReportingService
 
     private function subscriptionAnalyticsReport(string $dateFrom, string $dateTo): array
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? "CAST(strftime('%m', created_at) AS INTEGER) as month" : "MONTH(created_at) as month";
+
         $data = \App\Models\Order::whereBetween('created_at', [$dateFrom, "$dateTo 23:59:59"])
-            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count, SUM(price) as revenue')
+            ->selectRaw("{$monthSelect}, COUNT(*) as count, SUM(price) as revenue")
             ->groupBy('month')->orderBy('month')->get();
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -781,9 +787,12 @@ class ReportingService
 
     private function companyGrowthReport(string $dateFrom, string $dateTo): array
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? "CAST(strftime('%m', created_at) AS INTEGER) as month" : "MONTH(created_at) as month";
+
         $data = User::where('type', 'company')
             ->whereBetween('created_at', [$dateFrom, "$dateTo 23:59:59"])
-            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->selectRaw("{$monthSelect}, COUNT(*) as count")
             ->groupBy('month')->orderBy('month')->get();
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
