@@ -9,38 +9,46 @@ $app = require_once __DIR__ . '/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
 $permissions = [
-    'manage-ai-assistant', 
-    'manage-ai-assistant-settings', 
-    'manage-slack-integration', 
-    'manage-slack-settings', 
-    'manage-telegram-integration', 
-    'manage-telegram-settings', 
-    'manage-twilio-integration', 
-    'manage-twilio-settings', 
-    'manage-webhook-integration', 
-    'manage-webhook-settings', 
-    'manage-google-captcha', 
-    'manage-google-captcha-settings', 
-    'manage-landing-page', 
-    'manage-landing-page-settings', 
-    'manage-stripe-integration', 
-    'manage-stripe-settings', 
-    'manage-paypal-integration', 
-    'manage-paypal-settings'
+    'manage-ai-assistant' => 'AIAssistant', 
+    'manage-ai-assistant-settings' => 'AIAssistant', 
+    'manage-slack-integration' => 'Slack', 
+    'manage-slack-settings' => 'Slack', 
+    'manage-telegram-integration' => 'Telegram', 
+    'manage-telegram-settings' => 'Telegram', 
+    'manage-twilio-integration' => 'Twilio', 
+    'manage-twilio-settings' => 'Twilio', 
+    'manage-webhook-integration' => 'Webhook', 
+    'manage-webhook-settings' => 'Webhook', 
+    'manage-google-captcha' => 'GoogleCaptcha', 
+    'manage-google-captcha-settings' => 'GoogleCaptcha', 
+    'manage-landing-page' => 'LandingPage', 
+    'manage-landing-page-settings' => 'LandingPage', 
+    'manage-stripe-integration' => 'Stripe', 
+    'manage-stripe-settings' => 'Stripe', 
+    'manage-paypal-integration' => 'Paypal', 
+    'manage-paypal-settings' => 'Paypal'
 ];
 
 echo "Registering " . count($permissions) . " new permissions...\n";
 
-foreach ($permissions as $p) {
-    Permission::findOrCreate($p, 'web');
-    echo "✅ Registered: $p\n";
+foreach ($permissions as $p => $module) {
+    if (!Permission::where('name', $p)->exists()) {
+        Permission::create([
+            'name' => $p,
+            'guard_name' => 'web',
+            'add_on' => $module
+        ]);
+        echo "✅ Registered: $p ($module)\n";
+    } else {
+        echo "⏭️ Exists: $p\n";
+    }
 }
 
 $roles = ['company', 'superadmin'];
 foreach ($roles as $roleName) {
     $role = Role::where('name', $roleName)->first();
     if ($role) {
-        $role->givePermissionTo($permissions);
+        $role->givePermissionTo(array_keys($permissions));
         echo "⭐️ Assigned to role: $roleName\n";
     }
 }
