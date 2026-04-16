@@ -95,15 +95,16 @@ const getPackageMenuItems = (
                         // Inject moduleName and handle potential route crashes
                         const processedItems = items.map((nItem: any) => {
                             const injectModule = (node: any): any => {
-                                // Basic route sanity check to prevent "route not found" crashes
-                                let safeHref = node.href;
-                                if (node.href && typeof node.href === 'string' && node.href.includes('route(')) {
-                                     // If we extract route name here it might be complex, 
-                                     // but the try-catch around item(t) already catches most things.
+                                // ─── GLOBAL SETTINGS REDIRECT ───
+                                // Any setting link is automatically rerouted to the unified visual hub
+                                let finalHref = node.href;
+                                if (node.href && (node.href.includes('settings') || node.permission?.includes('settings'))) {
+                                    finalHref = `/settings#${packageName.toLowerCase()}-settings`;
                                 }
-                                
+
                                 return {
                                     ...node,
+                                    href: finalHref,
                                     moduleName: packageName.toLowerCase(),
                                     children: node.children ? node.children.map(injectModule) : undefined,
                                 };
