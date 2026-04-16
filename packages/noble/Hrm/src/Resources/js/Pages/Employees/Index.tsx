@@ -573,102 +573,100 @@ export default function Index() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                <div>
-                                    {employees?.data?.map((employee, idx) => (
-                                        <div
-                                            key={employee.id}
-                                            className="mb-4 flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card p-5 transition-shadow hover:shadow-md dark:border-border dark:bg-foreground"
-                                        >
-                                            <div className="mb-4 flex items-start justify-between">
-                                                <div className="h-12 w-12 overflow-hidden rounded-full border border-border dark:border-border">
-                                                    <img
-                                                        src={getImagePath(employee.user?.avatar || 'avatar.png')}
-                                                        alt="Personnel"
-                                                        className="h-full w-full object-cover"
-                                                    />
-                                                </div>
-                                                <Badge
-                                                    variant="secondary"
-                                                    className="rounded-full px-2 py-0.5 text-[10px] font-bold"
-                                                >
-                                                    {t(employee.employee_status) || employee.employee_status}
-                                                </Badge>
+                                {employees?.data?.map((employee, idx) => (
+                                    <div
+                                        key={employee.id}
+                                        className="mb-4 flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card p-5 transition-shadow hover:shadow-md dark:border-border dark:bg-foreground"
+                                    >
+                                        <div className="mb-4 flex items-start justify-between">
+                                            <div className="h-12 w-12 overflow-hidden rounded-full border border-border dark:border-border">
+                                                <img
+                                                    src={getImagePath(employee.user?.avatar || 'avatar.png')}
+                                                    alt="Personnel"
+                                                    className="h-full w-full object-cover"
+                                                />
                                             </div>
+                                            <Badge
+                                                variant="secondary"
+                                                className="rounded-full px-2 py-0.5 text-[10px] font-bold"
+                                            >
+                                                {t(employee.employee_status) || employee.employee_status}
+                                            </Badge>
+                                        </div>
 
-                                            <div className="mb-4 flex-1 space-y-1">
-                                                <h3 className="text-sm font-bold text-foreground dark:text-foreground">
-                                                    {employee.user?.name}
-                                                </h3>
-                                                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                                                    {employee.job_title || t('Unassigned')}
+                                        <div className="mb-4 flex-1 space-y-1">
+                                            <h3 className="text-sm font-bold text-foreground dark:text-foreground">
+                                                {employee.user?.name}
+                                            </h3>
+                                            <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                                                {employee.job_title || t('Unassigned')}
+                                            </p>
+                                            <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                                                {employee.employee_id}
+                                            </p>
+                                        </div>
+
+                                        <div className="mb-4 grid grid-cols-2 gap-4 border-y border-border py-4 dark:border-border/50">
+                                            <div className="space-y-0.5">
+                                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                                                    {t('Department')}
                                                 </p>
-                                                <p className="mt-1 font-mono text-[10px] text-muted-foreground">
-                                                    {employee.employee_id}
+                                                <p className="truncate text-[11px] font-semibold">
+                                                    {employee.department?.name || '-'}
                                                 </p>
                                             </div>
-
-                                            <div className="mb-4 grid grid-cols-2 gap-4 border-y border-border py-4 dark:border-border/50">
-                                                <div className="space-y-0.5">
-                                                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                                                        {t('Department')}
-                                                    </p>
-                                                    <p className="truncate text-[11px] font-semibold">
-                                                        {employee.department?.name || '-'}
-                                                    </p>
-                                                </div>
-                                                <div className="space-y-0.5">
-                                                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                                                        {t('Salary')}
-                                                    </p>
-                                                    <p className="text-[11px] font-semibold">
-                                                        {employee.basic_salary
-                                                            ? formatCurrency(employee.basic_salary)
-                                                            : '-'}
-                                                    </p>
-                                                </div>
+                                            <div className="space-y-0.5">
+                                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                                                    {t('Salary')}
+                                                </p>
+                                                <p className="text-[11px] font-semibold">
+                                                    {employee.basic_salary
+                                                        ? formatCurrency(employee.basic_salary)
+                                                        : '-'}
+                                                </p>
                                             </div>
+                                        </div>
 
-                                            <div className="flex items-center justify-between pt-1">
-                                                <div className="flex items-center gap-1">
-                                                    {auth.user?.permissions?.includes('view-employees') && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() =>
-                                                                router.get(route('hrm.employees.show', employee.id))
-                                                            }
-                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
-                                                        >
-                                                            <Eye className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
-                                                    {auth.user?.permissions?.includes('edit-employees') && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() =>
-                                                                router.visit(route('hrm.employees.edit', employee.id))
-                                                            }
-                                                            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
-                                                        >
-                                                            <EditIcon className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
-                                                </div>
-                                                {auth.user?.permissions?.includes('delete-employees') && (
+                                        <div className="flex items-center justify-between pt-1">
+                                            <div className="flex items-center gap-1">
+                                                {auth.user?.permissions?.includes('view-employees') && (
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => openDeleteDialog(employee.id)}
-                                                        className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                                        onClick={() =>
+                                                            router.get(route('hrm.employees.show', employee.id))
+                                                        }
+                                                        className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
                                                     >
-                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                        <Eye className="h-3.5 w-3.5" />
+                                                    </Button>
+                                                )}
+                                                {auth.user?.permissions?.includes('edit-employees') && (
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            router.visit(route('hrm.employees.edit', employee.id))
+                                                        }
+                                                        className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground dark:hover:text-foreground"
+                                                    >
+                                                        <EditIcon className="h-3.5 w-3.5" />
                                                     </Button>
                                                 )}
                                             </div>
+                                            {auth.user?.permissions?.includes('delete-employees') && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => openDeleteDialog(employee.id)}
+                                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                                >
+                                                    <Trash2 className="h-3.5 w-3.5" />
+                                                </Button>
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>
