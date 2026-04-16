@@ -31,14 +31,15 @@ $permissions = [
 
 echo "Registering " . count($permissions) . " new permissions...\n";
 
-foreach ($permissions as $p => $module) {
+foreach ($permissions as $p => $moduleName) {
     if (!Permission::where('name', $p)->exists()) {
         Permission::create([
             'name' => $p,
             'guard_name' => 'web',
-            'add_on' => $module
+            'add_on' => $moduleName,
+            'module' => $moduleName
         ]);
-        echo "✅ Registered: $p ($module)\n";
+        echo "✅ Registered: $p ($moduleName)\n";
     } else {
         echo "⏭️ Exists: $p\n";
     }
