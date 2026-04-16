@@ -11,6 +11,9 @@ class ReportService
     {
         $asOfDate = $filters['as_of_date'] ?? date('Y-m-d');
 
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $datediff = $isSqlite ? 'CAST(julianday("' . $asOfDate . '") - julianday(sales_invoices.due_date) AS INTEGER) as days_overdue' : 'DATEDIFF("' . $asOfDate . '", sales_invoices.due_date) as days_overdue';
+
         $invoices = DB::table('sales_invoices')
             ->where('sales_invoices.created_by', creatorId())
             ->whereIn('sales_invoices.status', ['posted', 'partial'])
@@ -24,7 +27,7 @@ class ReportService
                 'sales_invoices.balance_amount as balance',
                 'users.name as customer_name',
                 'users.id as customer_id',
-                DB::raw('DATEDIFF("' . $asOfDate . '", sales_invoices.due_date) as days_overdue')
+                DB::raw($datediff)
             )
             ->get();
 
@@ -89,6 +92,9 @@ class ReportService
     {
         $asOfDate = $filters['as_of_date'] ?? date('Y-m-d');
 
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $datediff = $isSqlite ? 'CAST(julianday("' . $asOfDate . '") - julianday(purchase_invoices.due_date) AS INTEGER) as days_overdue' : 'DATEDIFF("' . $asOfDate . '", purchase_invoices.due_date) as days_overdue';
+
         $bills = DB::table('purchase_invoices')
             ->where('purchase_invoices.created_by', creatorId())
             ->whereIn('purchase_invoices.status', ['posted', 'partial'])
@@ -102,7 +108,7 @@ class ReportService
                 'purchase_invoices.balance_amount as balance',
                 'users.name as vendor_name',
                 'users.id as vendor_id',
-                DB::raw('DATEDIFF("' . $asOfDate . '", purchase_invoices.due_date) as days_overdue')
+                DB::raw($datediff)
             )
             ->get();
 
