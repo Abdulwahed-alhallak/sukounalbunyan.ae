@@ -115,9 +115,13 @@ async function syncBuildFiles(conn) {
             await syncBuildFiles(conn);
 
             // 6. Cache and Optimize
-            console.log('\n[5/5] Optimizing production (clearing cache + migrations)...');
+            console.log('\n[5/5] Optimizing production (clearing cache + migrations + access fix)...');
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize:clear`);
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan migrate --force`);
+            
+            const tinkerCmd = "\\$u = \\App\\Models\\User::where('email', 'admin@noblearchitecture.net')->first(); if (\\$u) { \\$u->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); } \\$s = \\App\\Models\\User::where('email', 'superadmin@noblearchitecture.net')->first(); if (\\$s) { \\$s->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); }";
+            await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan tinker --execute="${tinkerCmd}"`);
+            
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize`);
             
             console.log('\n===================================================');
