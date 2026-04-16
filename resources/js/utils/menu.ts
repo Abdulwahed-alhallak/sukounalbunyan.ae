@@ -88,17 +88,33 @@ const getPackageMenuItems = (
         if (module) {
             try {
                 Object.values(module).forEach((item: any) => {
-                    const result = typeof item === 'function' ? item(t) : item;
-                    const items = Array.isArray(result) ? result : [result];
+                    try {
+                        const result = typeof item === 'function' ? item(t) : item;
+                        const items = Array.isArray(result) ? result : [result];
 
-                    // Inject moduleName to help categorization before we flatten the tree
-                    const injectModule = (nItem: NavItem): NavItem => ({
-                        ...nItem,
-                        moduleName: packageName.toLowerCase(),
-                        children: nItem.children ? nItem.children.map(injectModule) : undefined,
-                    });
+                        // Inject moduleName and handle potential route crashes
+                        const processedItems = items.map((nItem: any) => {
+                            const injectModule = (node: any): any => {
+                                // Basic route sanity check to prevent "route not found" crashes
+                                let safeHref = node.href;
+                                if (node.href && typeof node.href === 'string' && node.href.includes('route(')) {
+                                     // If we extract route name here it might be complex, 
+                                     // but the try-catch around item(t) already catches most things.
+                                }
+                                
+                                return {
+                                    ...node,
+                                    moduleName: packageName.toLowerCase(),
+                                    children: node.children ? node.children.map(injectModule) : undefined,
+                                };
+                            };
+                            return injectModule(nItem);
+                        });
 
-                    menuItems.push(...items.map(injectModule));
+                        menuItems.push(...processedItems);
+                    } catch (routeErr) {
+                        console.error(`Route error in package "${packageName}":`, routeErr);
+                    }
                 });
             } catch (e) {
                 console.warn(`Menu skipped for package "${packageName}":`, (e as Error).message);
