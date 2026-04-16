@@ -53,11 +53,6 @@ foreach ($employees as $employee) {
     $employee->branch_id = $branch->id;
     $employee->department_id = $dept->id;
     $employee->designation_id = $desig->id;
-    
-    // Also use name_ar if it was imported into a different column or if name is empty
-    if(empty($employee->name) && !empty($employee->name_ar)) {
-        $employee->name = $employee->name_ar;
-    }
 
     if ($employee->isDirty()) {
         $employee->save();
