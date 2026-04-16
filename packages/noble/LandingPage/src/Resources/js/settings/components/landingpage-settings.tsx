@@ -2,6 +2,9 @@ import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Head, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Save, Eye } from 'lucide-react';
 import { useState } from 'react';
@@ -9,20 +12,20 @@ import { router, useForm } from '@inertiajs/react';
 import { toast } from 'sonner';
 
 // Import section components
-import General from './components/settings/General';
-import Hero from './components/settings/Hero';
-import Header from './components/settings/Header';
-import Features from './components/settings/Features';
-import Stats from './components/settings/Stats';
-import Modules from './components/settings/Modules';
-import Benefits from './components/settings/Benefits';
-import Gallery from './components/settings/Gallery';
-import CTA from './components/settings/CTA';
-import Footer from './components/settings/Footer';
-import Order from './components/settings/Order';
-import Colors from './components/settings/Colors';
-import Pricing from './components/settings/Pricing';
-import { LandingPreview } from './components/LandingPreview';
+import General from './cms/General';
+import Hero from './cms/Hero';
+import Header from './cms/Header';
+import Features from './cms/Features';
+import Stats from './cms/Stats';
+import Modules from './cms/Modules';
+import Benefits from './cms/Benefits';
+import Gallery from './cms/Gallery';
+import CTA from './cms/CTA';
+import Footer from './cms/Footer';
+import Order from './cms/Order';
+import Colors from './cms/Colors';
+import Pricing from './cms/Pricing';
+import { LandingPreview } from './cms/LandingPreview';
 
 interface LandingPageSetting {
     id?: number;
@@ -51,15 +54,9 @@ export default function Settings({ settings, customPages }: SettingsProps) {
 
     if (!auth.user?.permissions?.includes('manage-landing-page')) {
         return (
-            <AuthenticatedLayout
-                breadcrumbs={[{ label: t('Landing Page Settings') }]}
-                pageTitle={t('Landing Page Settings')}
-            >
-                <Head title={t('Landing Page Settings')} />
-                <div className="py-12 text-center">
-                    <p className="text-muted-foreground">{t('You do not have permission to access this page.')}</p>
-                </div>
-            </AuthenticatedLayout>
+            <div className="py-12 text-center">
+                <p className="text-muted-foreground">{t('You do not have permission to access this page.')}</p>
+            </div>
         );
     }
 
@@ -151,10 +148,12 @@ export default function Settings({ settings, customPages }: SettingsProps) {
     };
 
     return (
-        <AuthenticatedLayout
-            breadcrumbs={[{ label: t('Landing Page Settings') }]}
-            pageTitle={t('Landing Page Settings')}
-            pageActions={
+        <div className="space-y-6">
+            <Head title={t('Landing Page Settings')} />
+            <div className="flex items-center justify-between mb-8">
+                <div>
+                   {/* Header text removed as it is handled by the unified settings label */}
+                </div>
                 <div className="flex gap-2">
                     <Button
                         variant="outline"
@@ -184,7 +183,7 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         <Button
                             onClick={saveSettings}
                             disabled={isLoading}
-                            className="text-background"
+                            className="text-white"
                             style={{ backgroundColor: 'hsl(var(--primary))' }}
                         >
                             <Save className="me-2 h-4 w-4" />
@@ -192,9 +191,7 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                         </Button>
                     )}
                 </div>
-            }
-        >
-            <Head title={t('Landing Page Settings')} />
+            </div>
 
             <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
@@ -409,6 +406,6 @@ export default function Settings({ settings, customPages }: SettingsProps) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </div>
     );
 }
