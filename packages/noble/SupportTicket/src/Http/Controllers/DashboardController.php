@@ -175,13 +175,17 @@ class DashboardController extends Controller
 
     private function getMonthlyData($createdBy)
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER) as month' : 'MONTH(created_at) as month';
+        $monthGroup = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER)' : 'MONTH(created_at)';
+
         $monthlyData = Ticket::select([
-            DB::raw('MONTH(created_at) as month'),
+            DB::raw($monthSelect),
             DB::raw('count(*) as total'),
         ])
-            ->where('created_at', '>', DB::raw('DATE_SUB(NOW(),INTERVAL 1 YEAR)'))
+            ->where('created_at', '>', now()->subYear())
             ->where('created_by', $createdBy)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->groupBy(DB::raw($monthGroup))
             ->pluck('total', 'month')
             ->toArray();
 
@@ -392,13 +396,17 @@ class DashboardController extends Controller
 
     private function getMonthlyDataByUser($userId, $field)
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER) as month' : 'MONTH(created_at) as month';
+        $monthGroup = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER)' : 'MONTH(created_at)';
+
         $barChart = Ticket::select([
-            DB::raw('MONTH(created_at) as month'),
+            DB::raw($monthSelect),
             DB::raw('count(*) as total'),
         ])
-            ->where('created_at', '>', DB::raw('DATE_SUB(NOW(),INTERVAL 1 YEAR)'))
+            ->where('created_at', '>', now()->subYear())
             ->where($field, $userId)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->groupBy(DB::raw($monthGroup))
             ->get();
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -529,16 +537,20 @@ class DashboardController extends Controller
 
     private function getStaffMonthlyDataByUser($userId)
     {
+        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+        $monthSelect = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER) as month' : 'MONTH(created_at) as month';
+        $monthGroup = $isSqlite ? 'CAST(strftime("%m", created_at) AS INTEGER)' : 'MONTH(created_at)';
+
         $barChart = Ticket::select([
-            DB::raw('MONTH(created_at) as month'),
+            DB::raw($monthSelect),
             DB::raw('count(*) as total'),
         ])
-            ->where('created_at', '>', DB::raw('DATE_SUB(NOW(),INTERVAL 1 YEAR)'))
+            ->where('created_at', '>', now()->subYear())
             ->where(function ($q) use ($userId) {
                 $q->where('creator_id', $userId)
                     ->orWhere('user_id', $userId);
             })
-            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->groupBy(DB::raw($monthGroup))
             ->get();
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

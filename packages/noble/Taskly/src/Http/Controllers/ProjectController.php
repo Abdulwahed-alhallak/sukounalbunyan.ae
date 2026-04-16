@@ -192,11 +192,15 @@ class ProjectController extends Controller
                 $monthData = ['name' => $date->format('M')];
 
                 foreach ($taskStages as $stage) {
+                    $isSqlite = DB::connection()->getDriverName() === 'sqlite';
+                    $yearQuery = $isSqlite ? 'CAST(substr(duration, 1, 4) AS INTEGER) = ?' : 'YEAR(STR_TO_DATE(SUBSTRING_INDEX(duration, " - ", 1), "%Y-%m-%d")) = ?';
+                    $monthQuery = $isSqlite ? 'CAST(substr(duration, 6, 2) AS INTEGER) = ?' : 'MONTH(STR_TO_DATE(SUBSTRING_INDEX(duration, " - ", 1), "%Y-%m-%d")) = ?';
+
                     $stageTaskCount = ProjectTask::where('project_id', $project->id)
                         ->where('created_by', creatorId())
                         ->where('stage_id', $stage->id)
-                        ->whereRaw('YEAR(STR_TO_DATE(SUBSTRING_INDEX(duration, " - ", 1), "%Y-%m-%d")) = ?', [$date->year])
-                        ->whereRaw('MONTH(STR_TO_DATE(SUBSTRING_INDEX(duration, " - ", 1), "%Y-%m-%d")) = ?', [$date->month])
+                        ->whereRaw($yearQuery, [$date->year])
+                        ->whereRaw($monthQuery, [$date->month])
                         ->count();
                     $monthData[$stage->name] = $stageTaskCount;
                 }
