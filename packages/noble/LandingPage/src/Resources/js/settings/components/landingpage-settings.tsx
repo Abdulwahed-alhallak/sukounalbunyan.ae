@@ -48,7 +48,7 @@ interface SettingsProps {
     customPages: CustomPage[];
 }
 
-export default function Settings({ settings, customPages }: SettingsProps) {
+export default function Settings({ settings = {}, customPages = [] }: SettingsProps) {
     const { t } = useTranslation();
     const { auth } = usePage<{ auth: { user: any } }>().props;
 
@@ -80,12 +80,15 @@ export default function Settings({ settings, customPages }: SettingsProps) {
     >('general');
     const [isLoading, setIsLoading] = useState(false);
 
+    // Ensure settings is never undefined to prevent crashes
+    const safeSettings = settings || {};
+
     const { data, setData, post, put, processing, reset } = useForm({
-        company_name: settings.company_name || '',
-        contact_email: settings.contact_email || '',
-        contact_phone: settings.contact_phone || '',
-        contact_address: settings.contact_address || '',
-        config_sections: settings.config_sections || {
+        company_name: safeSettings.company_name || '',
+        contact_email: safeSettings.contact_email || '',
+        contact_phone: safeSettings.contact_phone || '',
+        contact_address: safeSettings.contact_address || '',
+        config_sections: safeSettings.config_sections || {
             sections: {},
             section_visibility: {
                 header: true,
