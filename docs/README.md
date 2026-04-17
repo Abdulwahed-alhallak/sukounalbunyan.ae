@@ -54,6 +54,7 @@ npm run dev                # في نافذة ثانية
 | 20 | 🔍 دليل الفحص | [`20-Application_Audit_Playbook.md`](./20-Application_Audit_Playbook.md) | فحص العلاقات، النتائج، الثيم، RTL، الربط، والمسارات |
 | 21 | ✨ صقل الواجهات | [`21-Professional_Polish_and_Geofence_Integration.md`](./21-Professional_Polish_and_Geofence_Integration.md) | إلغاء المصطلحات التقنية، دعم RTL كامل، وتوحيد الواجهات |
 | 22 | 🛡️ تثبيت الإنتاج | [`22-Production_Stabilization_and_Tenancy_Hardening.md`](./22-Production_Stabilization_and_Tenancy_Hardening.md) | فحص عزل البيانات (SaaS)، وإصلاح فجوات نموذج المهام |
+| 23 | 🌟 النضج الشامل | [`23-Platinum_Master_and_HRM_Lifecycle_Simulation.md`](./23-Platinum_Master_and_HRM_Lifecycle_Simulation.md) | مرحلة البلاتينوم (Platinum Master)، استقرار PWA، وتوليد دورة حياة HRM بـ 3000 سطر زمني |
 
 ---
 

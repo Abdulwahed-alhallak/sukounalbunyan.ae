@@ -1,4 +1,4 @@
-# 🌐 Noble Architecture ERP Ecosystem (v4.0.1 Stable)
+# 🌐 Noble Architecture ERP Ecosystem (v5.0.0 Platinum Master)
 
 > **Master Repository** - The fully integrated enterprise resource planning system for Noble Architecture.
 
@@ -24,8 +24,8 @@ This platform has been modernized in **April 2026** to ensure **Zero Disconnecte
 
 - **Global Case-Sensitive Translation:** 100% Coverage of over 1,200 translation keys across all 31+ enterprise modules.
 - **RTL-Logical Alignment:** All UI components use `start/end` properties instead of `left/right`, ensuring perfect layout mirroring without CSS duplication.
-- **Automated Time-to-Cost Engine:** When an employee clocks out of a project physically, the Tracker converts their elapsed time directly into a valid `Expense` bound to the Project's budget ledger.
-- **Unified Component System:** Standardized Shadcn-inspired components with high-fidelity Vercel aesthetics.
+- **Data Lifecycle Supplementation:** Active generation algorithm simulating 30+ days of operational data (Attendance, Payroll, Leaves) for visual analytics testing.
+- **Unified Component System:** Standardized Shadcn-inspired components with high-fidelity Vercel aesthetics and perfect `manifest.json` PWA connectivity.
 
 ---
 
@@ -78,6 +78,6 @@ The platform is fully synchronized with Noble's live production server via a hig
 | :--- | :--- |
 | `.\_scripts\fixes\accounting_polish.php` | Standardizes breadcrumbs and localizes chart labels. |
 | `.\_scripts\fixes\crm_taskly_polish.php` | Fixes white screen issues and localizes Taskly metrics. |
-| `.\_scripts\fixes\stabilize-tsx.js` | Bulk updates TSX components for RTL and Geist 2026 compatibility. |
+| `.\_scripts\sync\simulate_hrm_lifecycle.cjs` | **[Core Base]** Engages SSH to generate ~3000 biometric log entries safely representing 1 month of operations for 133 Platinum users. |
 
-_Engineered with precision for Noble Architecture 2026 — Total Operational Sovereignty._
+_Engineered with precision for Noble Architecture 2026 — Total Operational Sovereignty (Platinum Master)._
