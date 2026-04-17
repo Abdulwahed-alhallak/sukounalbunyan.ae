@@ -17,7 +17,7 @@ import { PerPageSelector } from '@/components/ui/per-page-selector';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import NoRecordsFound from '@/components/no-records-found';
 import { Employee, EmployeesIndexProps, EmployeeFilters } from './types';
-import { formatDate, getImagePath } from '@/utils/helpers';
+import { formatDate, getImagePath, formatCurrency } from '@/utils/helpers';
 import { usePageButtons } from '@/hooks/usePageButtons';
 import { Badge } from '@/components/ui/badge';
 
