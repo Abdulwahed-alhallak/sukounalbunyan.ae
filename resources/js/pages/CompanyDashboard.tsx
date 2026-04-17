@@ -481,27 +481,32 @@ export default function CompanyDashboard({
 
                                 {/* Department distribution */}
                                 {hrm.departments.length > 0 && (
-                                    <PieChart
-                                        data={hrm.departments.map((d, i) => ({
-                                            name: d.name,
-                                            value: d.count,
-                                            color: [
-                                                'hsl(var(--foreground))',
-                                                'hsl(var(--muted-foreground))',
-                                                'hsl(var(--foreground) / 0.7)',
-                                                'hsl(var(--foreground) / 0.5)',
-                                                'hsl(var(--muted-foreground) / 0.8)',
-                                                'hsl(var(--foreground) / 0.4)',
-                                                'hsl(var(--muted-foreground) / 0.6)',
-                                                'hsl(var(--foreground) / 0.3)',
-                                            ][i % 8],
-                                        }))}
-                                        dataKey="value"
-                                        nameKey="name"
-                                        height={180}
-                                        showTooltip={true}
-                                        showLegend={true}
-                                    />
+                                    <div className="mt-4 pt-4 border-t border-border">
+                                        <div className="text-xs text-muted-foreground mb-4 font-medium px-1">
+                                            {t('Department Distribution')}
+                                        </div>
+                                        <PieChart
+                                            data={hrm.departments.map((d, i) => ({
+                                                name: d.name,
+                                                value: d.count,
+                                                color: [
+                                                    'hsl(var(--foreground))',
+                                                    'hsl(var(--muted-foreground))',
+                                                    'hsl(var(--foreground) / 0.7)',
+                                                    'hsl(var(--foreground) / 0.5)',
+                                                    'hsl(var(--muted-foreground) / 0.8)',
+                                                    'hsl(var(--foreground) / 0.4)',
+                                                    'hsl(var(--muted-foreground) / 0.6)',
+                                                    'hsl(var(--foreground) / 0.3)',
+                                                ][i % 8],
+                                            }))}
+                                            dataKey="value"
+                                            nameKey="name"
+                                            height={280}
+                                            showTooltip={true}
+                                            showLegend={true}
+                                        />
+                                    </div>
                                 )}
                             </CardContent>
                         </Card>

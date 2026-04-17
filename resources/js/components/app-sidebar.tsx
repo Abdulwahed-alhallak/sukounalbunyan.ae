@@ -110,7 +110,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             placeholder={t('Search modules...')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                             className="h-8 rounded-md border-border/60 bg-muted/20 pe-2 ps-8 text-label-13 transition-all placeholder:text-muted-foreground/50 focus-visible:bg-muted/40 focus-visible:ring-1 focus-visible:ring-primary/20"
+                             className="h-8 rounded-md border-border/60 bg-muted/20 pr-2 pl-8 rtl:pr-8 rtl:pl-2 text-label-13 transition-all placeholder:text-muted-foreground/50 focus-visible:bg-muted/40 focus-visible:ring-1 focus-visible:ring-primary/20"
                          />
                         <div className="pointer-events-none absolute end-2.5 top-1/2 -translate-y-1/2 rounded border border-border/60 bg-background px-1.5 py-0.5 font-mono text-[9px] font-bold text-muted-foreground shadow-sm">
                             ⌘K
