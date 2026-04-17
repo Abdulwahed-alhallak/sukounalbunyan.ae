@@ -20,6 +20,7 @@ import { Employee, EmployeesIndexProps, EmployeeFilters } from './types';
 import { formatDate, getImagePath, formatCurrency } from '@/utils/helpers';
 import { usePageButtons } from '@/hooks/usePageButtons';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 export default function Index() {
     const { t } = useTranslation();
