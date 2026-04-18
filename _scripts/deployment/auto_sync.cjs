@@ -83,8 +83,10 @@ async function syncBuildFiles(conn) {
             for (const file of swFiles) {
                 const localPath = path.join(LOCAL_DIR, 'public', file);
                 if (fs.existsSync(localPath)) {
+                    // Upload to BOTH public root and domain root to be safe
                     await new Promise(res => sftp.fastPut(localPath, `${APP_DIR}/public/${file}`, res));
-                    console.log(`   ✅ Uploaded ${file}`);
+                    await new Promise(res => sftp.fastPut(localPath, `${APP_DIR}/${file}`, res));
+                    console.log(`   ✅ Uploaded ${file} to public/ and root/`);
                 }
             }
 
