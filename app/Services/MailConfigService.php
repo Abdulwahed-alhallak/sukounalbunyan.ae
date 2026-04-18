@@ -14,12 +14,12 @@ class MailConfigService
         
         $settings = [
             'driver' => company_setting('email_driver', $userId) ?: admin_setting('email_driver') ?: 'smtp',
-            'host' => company_setting('email_host', $userId) ?: admin_setting('email_host') ?: 'smtp.example.com',
+            'host' => company_setting('email_host', $userId) ?: admin_setting('email_host') ?: 'smtp.noble.dion.sy',
             'port' => company_setting('email_port', $userId) ?: admin_setting('email_port') ?: '587',
             'username' => company_setting('email_username', $userId) ?: admin_setting('email_username') ?: '',
             'password' => company_setting('email_password', $userId) ?: admin_setting('email_password') ?: '',
             'encryption' => company_setting('email_encryption', $userId) ?: admin_setting('email_encryption') ?: 'tls',
-            'fromAddress' => company_setting('email_fromAddress', $userId) ?: admin_setting('email_fromAddress') ?: 'noreply@example.com',
+            'fromAddress' => company_setting('email_fromAddress', $userId) ?: admin_setting('email_fromAddress') ?: 'noreply@noble.dion.sy',
             'fromName' => company_setting('email_fromName', $userId) ?: admin_setting('email_fromName') ?: config('app.name', 'APP_NAME')
         ];
 

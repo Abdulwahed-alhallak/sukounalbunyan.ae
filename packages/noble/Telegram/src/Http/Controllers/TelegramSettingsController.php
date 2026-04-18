@@ -7,15 +7,21 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class TelegramSettingsController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->can('manage-telegram-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
         $telegramNotifications = Notification::where('type', 'Telegram')->get()->groupBy('module');
 
-        return response()->json([
-            'telegramNotifications' => $telegramNotifications
+        return Inertia::render('Telegram/Settings/Index', [
+            'globalSettings'          => getCompanyAllSetting(),
+            'telegramNotifications'   => $telegramNotifications,
         ]);
     }
 

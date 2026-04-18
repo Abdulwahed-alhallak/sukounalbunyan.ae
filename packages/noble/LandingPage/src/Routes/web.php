@@ -16,19 +16,19 @@ Route::middleware(['web'])->group(function () {
 });
 
 // CMS Management Routes
-Route::middleware(['web', 'auth'])->prefix('landing-page')->name('landing-page.')->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:LandingPage'])->prefix('landing-page')->name('landing-page.')->group(function () {
     Route::get('/', [LandingPageController::class, 'settings'])->name('index');
     Route::post('/store', [LandingPageController::class, 'store'])->name('store');
 });
 
 // Marketplace Management Routes
-Route::middleware(['web', 'auth'])->prefix('marketplace')->name('marketplace.')->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:LandingPage'])->prefix('marketplace')->name('marketplace.')->group(function () {
     Route::get('/settings', [MarketplaceController::class, 'settings'])->name('settings');
     Route::post('/settings', [MarketplaceController::class, 'storeSettings'])->name('settings.store');
 });
 
 // Custom Pages Management Routes
-Route::middleware(['web', 'auth'])->prefix('custom-pages')->name('custom-pages.')->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:LandingPage'])->prefix('custom-pages')->name('custom-pages.')->group(function () {
     Route::get('/', [CustomPageController::class, 'index'])->name('index');
     Route::get('/create', [CustomPageController::class, 'create'])->name('create');
     Route::post('/', [CustomPageController::class, 'store'])->name('store');
@@ -38,7 +38,7 @@ Route::middleware(['web', 'auth'])->prefix('custom-pages')->name('custom-pages.'
 });
 
 // Newsletter Subscribers Management Routes
-Route::middleware(['web', 'auth'])->prefix('newsletter-subscribers')->name('newsletter-subscribers.')->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:LandingPage'])->prefix('newsletter-subscribers')->name('newsletter-subscribers.')->group(function () {
     Route::get('/', [NewsletterSubscriberController::class, 'index'])->name('index');
     Route::delete('/{subscriber}', [NewsletterSubscriberController::class, 'destroy'])->name('destroy');
     Route::get('/export', [NewsletterSubscriberController::class, 'export'])->name('export');

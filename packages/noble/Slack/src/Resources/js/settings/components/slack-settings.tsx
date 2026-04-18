@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slack, Save } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getPackageAlias } from '@/utils/helpers';
@@ -22,13 +22,14 @@ interface Notification {
 interface SlackSettingsProps {
     [key: string]: any;
     userSettings?: Record<string, string>;
+    slackNotifications?: Record<string, Notification[]>;
     auth?: any;
 }
 
-export default function SlackSettings({ userSettings = {}, auth }: SlackSettingsProps) {
+export default function SlackSettings({ userSettings = {}, slackNotifications = {}, auth }: SlackSettingsProps) {
     const { t } = useTranslation();
     const activatedPackages = auth?.user?.activatedPackages || [];
-    const [slackNotifications, setSlackNotifications] = useState<Record<string, any>>({});
+    const [availableSlackNotifications, setAvailableSlackNotifications] = useState<Record<string, Notification[]>>({});
 
     const [isLoading, setIsLoading] = useState(false);
     const canEdit = auth?.user?.permissions?.includes('edit-slack-settings');
@@ -46,22 +47,17 @@ export default function SlackSettings({ userSettings = {}, auth }: SlackSettings
             slack_webhook_url: userSettings?.slack_webhook_url || '',
         });
 
-        fetch(route('slack.settings.index'))
-            .then((response) => response.json())
-            .then((data) => {
-                setSlackNotifications(data.slackNotifications || {});
+        setAvailableSlackNotifications(slackNotifications || {});
 
-                const initial: Record<string, string> = {};
-                Object.values(data.slackNotifications || {}).forEach((moduleNotifications: any) => {
-                    moduleNotifications.forEach((notification: Notification) => {
-                        const key = `Slack ${notification.action}`;
-                        initial[key] = userSettings?.[key] || 'off';
-                    });
-                });
-                setNotificationSettings(initial);
-            })
-            .catch((error) => console.error('Error fetching slack notifications:', error));
-    }, [userSettings]);
+        const initial: Record<string, string> = {};
+        Object.values(slackNotifications || {}).forEach((moduleNotifications: any) => {
+            moduleNotifications.forEach((notification: Notification) => {
+                const key = `Slack ${notification.action}`;
+                initial[key] = userSettings?.[key] || 'off';
+            });
+        });
+        setNotificationSettings(initial);
+    }, [slackNotifications, userSettings]);
 
     const handleSettingsChange = (field: string, value: string | boolean) => {
         setSlackSettings((prev) => ({
@@ -154,7 +150,7 @@ export default function SlackSettings({ userSettings = {}, auth }: SlackSettings
                             </div>
 
                             {(() => {
-                                const filteredModules = Object.keys(slackNotifications || {}).filter(
+                                const filteredModules = Object.keys(availableSlackNotifications || {}).filter(
                                     (module) => module.toLowerCase() === 'general' || activatedPackages.includes(module)
                                 );
                                 return (
@@ -172,7 +168,7 @@ export default function SlackSettings({ userSettings = {}, auth }: SlackSettings
                                                 {filteredModules?.map((module) => (
                                                     <TabsContent key={module} value={module}>
                                                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                                            {(slackNotifications[module] || [])?.map(
+                                                            {(availableSlackNotifications[module] || [])?.map(
                                                                 (notification: Notification) => (
                                                                     <div
                                                                         key={notification.id}

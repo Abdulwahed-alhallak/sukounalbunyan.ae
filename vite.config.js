@@ -52,9 +52,14 @@ export default defineConfig({
             output: {
                 manualChunks(id) {
                     if (id.includes('node_modules')) {
-                        if (id.includes('lucide')) return 'icons';
-                        if (id.includes('recharts') || id.includes('d3')) return 'charts';
-                        if (id.includes('@radix-ui')) return 'radix';
+                        // Keep React and its dependents in the same shared chunk.
+                        // Splitting React/Inertia/Radix apart created a circular vendor bootstrap at runtime.
+                        if (id.includes('lucide')) {
+                            return 'icons';
+                        }
+                        if (id.includes('recharts') || id.includes('d3')) {
+                            return 'charts';
+                        }
                         return 'vendor';
                     }
                 }

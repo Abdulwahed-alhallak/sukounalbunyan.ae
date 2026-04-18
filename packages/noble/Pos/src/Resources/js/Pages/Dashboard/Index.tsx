@@ -59,53 +59,41 @@ export default function PosIndex({
     const { t } = useTranslation();
 
     const StatCard = ({ title, value, subtitle, color = 'blue', icon: Icon }: any) => {
-        const colorClasses = {
-            blue: 'bg-gradient-to-r from-muted/50 to-muted border-border',
-            green: 'bg-gradient-to-r from-muted/50 to-muted border-border',
-            red: 'bg-gradient-to-r from-muted/50 to-muted border-border',
-            purple: 'bg-gradient-to-r from-muted/50 to-muted border-border',
-            orange: 'bg-gradient-to-r from-muted/50 to-muted border-border',
+        const glowColors = {
+            blue: 'text-blue-500',
+            green: 'text-emerald-500',
+            red: 'text-rose-500',
+            purple: 'text-purple-500',
+            orange: 'text-amber-500',
         };
-        const textColors = {
-            blue: 'text-foreground',
-            green: 'text-foreground',
-            red: 'text-destructive',
-            purple: 'text-foreground',
-            orange: 'text-foreground',
-        };
-        const iconColors = {
-            blue: 'text-foreground',
-            green: 'text-foreground',
-            red: 'text-destructive',
-            purple: 'text-foreground',
-            orange: 'text-foreground',
-        };
+        const currentGlow = glowColors[color as keyof typeof glowColors] || glowColors.blue;
+
         return (
-            <Card className={`relative overflow-hidden ${colorClasses[color as keyof typeof colorClasses]}`}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className={`text-sm font-medium ${textColors[color as keyof typeof textColors]}`}>
+            <div className="premium-card group relative overflow-hidden border border-border p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl dark:border-white/5">
+                <div className={`absolute -bottom-6 -end-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.1] ${currentGlow}`}>
+                    <Icon className="h-24 w-24" />
+                </div>
+                <div className="relative z-10 mb-4 flex items-center justify-between">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-muted shadow-inner transition-transform duration-500 group-hover:scale-110 ${currentGlow.replace('text-', 'text- opacity-10 bg-')}`}>
+                        <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
                         {title}
-                    </CardTitle>
-                    <Icon className={`h-5 w-5 ${iconColors[color as keyof typeof iconColors]}`} />
-                </CardHeader>
-                <CardContent>
-                    <div className={`text-2xl font-bold ${textColors[color as keyof typeof textColors]}`}>{value}</div>
+                    </span>
+                </div>
+                <div className="relative z-10">
+                    <h3 className="tabular-nums origin-left text-3xl font-black tracking-tighter transition-transform duration-500 group-hover:scale-105">
+                        {value}
+                    </h3>
                     {subtitle && (
-                        <p className={`text-xs ${textColors[color as keyof typeof textColors]} mt-1 opacity-80`}>
+                        <p className="mt-1 text-[10px] font-bold tracking-tight text-muted-foreground opacity-80">
                             {subtitle}
                         </p>
                     )}
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         );
     };
-
-    // Prepare chart data
-    const salesTrendData = [
-        { period: t('Today'), sales: stats.today_sales },
-        { period: t('Week'), sales: stats.week_sales },
-        { period: t('Month'), sales: stats.month_sales },
-    ];
 
     const statusChartData = Object.entries(salesByStatus || {})?.map(([status, count]) => ({
         name: status.charAt(0).toUpperCase() + status.slice(1),
@@ -144,7 +132,7 @@ export default function PosIndex({
                 </div>
 
                 {/* Last 10 Days Sales Report */}
-                <Card>
+                <Card className="premium-card">
                     <CardHeader>
                         <CardTitle>{t('Last 10 Days Sales Report')}</CardTitle>
                     </CardHeader>
@@ -162,7 +150,7 @@ export default function PosIndex({
                 </Card>
 
                 {/* Out of Stock Products Warehouse Wise */}
-                <Card>
+                <Card className="premium-card">
                     <CardHeader>
                         <CardTitle className="flex items-center">
                             <AlertTriangle className="me-2 h-5 w-5 text-destructive" />
@@ -175,24 +163,24 @@ export default function PosIndex({
                                 outOfStockProductsList?.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center justify-between rounded-lg border p-3"
+                                        className="flex items-center justify-between rounded-lg border bg-muted/20 p-3 transition-colors hover:bg-muted/40"
                                     >
                                         <div className="flex items-center space-x-3">
-                                            <div className="bg-muted/500 h-3 w-3 rounded-full"></div>
+                                            <div className="h-3 w-3 rounded-full bg-destructive animate-pulse"></div>
                                             <div>
                                                 <h4 className="font-medium text-foreground">
                                                     {item.product_name} ({item.sku})
                                                 </h4>
-                                                <p className="text-xs text-foreground">
+                                                <p className="text-xs text-muted-foreground">
                                                     {t('Warehouse')}: {item.warehouse_name}
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="text-end">
-                                            <Badge variant="destructive">
+                                            <Badge variant="destructive" className="font-bold">
                                                 {item.stock} {t('units')}
                                             </Badge>
-                                            <p className="mt-1 text-xs text-muted-foreground">{t('Out of Stock')}</p>
+                                            <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{t('Out of Stock')}</p>
                                         </div>
                                     </div>
                                 ))
@@ -209,29 +197,29 @@ export default function PosIndex({
                 {/* Recent Activity */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Top Selling Products */}
-                    <Card>
-                        <CardHeader>
+                    <Card className="premium-card overflow-hidden">
+                        <CardHeader className="bg-muted/30 pb-4">
                             <CardTitle className="flex items-center gap-2">
                                 <Package className="h-5 w-5 text-foreground" />
                                 {t('Top Selling Products')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             {topProducts && topProducts.length > 0 ? (
                                 <div className="max-h-80 space-y-3 overflow-y-auto">
                                     {topProducts.slice(0, 5)?.map((product, index) => (
                                         <div
                                             key={index}
-                                            className="flex items-center justify-between rounded-lg bg-muted/50 p-3 transition-colors hover:bg-muted"
+                                            className="flex items-center justify-between rounded-lg bg-muted/30 p-4 transition-all hover:bg-muted/60 hover:translate-x-1"
                                         >
                                             <div className="flex-1">
-                                                <h4 className="text-sm font-medium text-foreground">{product.name}</h4>
-                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                <h4 className="text-sm font-bold text-foreground">{product.name}</h4>
+                                                <p className="mt-1 text-xs text-muted-foreground font-medium">
                                                     {product.total_quantity} {t('units sold')}
                                                 </p>
                                             </div>
                                             <div className="text-end">
-                                                <p className="text-sm font-bold text-foreground">
+                                                <p className="text-sm font-black text-foreground">
                                                     {formatCurrency(product.total_revenue)}
                                                 </p>
                                             </div>
@@ -249,32 +237,32 @@ export default function PosIndex({
                     </Card>
 
                     {/* Recent Transactions */}
-                    <Card>
-                        <CardHeader>
+                    <Card className="premium-card overflow-hidden">
+                        <CardHeader className="bg-muted/30 pb-4">
                             <CardTitle className="flex items-center gap-2">
                                 <ShoppingCart className="h-5 w-5 text-foreground" />
                                 {t('Recent Transactions')}
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="pt-6">
                             {recentSales && recentSales.length > 0 ? (
                                 <div className="max-h-80 space-y-3 overflow-y-auto">
                                     {recentSales.slice(0, 5)?.map((sale) => (
                                         <div
                                             key={sale.id}
-                                            className="flex items-center justify-between rounded-lg bg-muted/50 p-3 transition-colors hover:bg-muted"
+                                            className="flex items-center justify-between rounded-lg bg-muted/30 p-4 transition-all hover:bg-muted/60 hover:translate-x-1"
                                         >
                                             <div className="flex-1">
-                                                <h4 className="text-sm font-medium text-foreground">
+                                                <h4 className="text-sm font-bold text-foreground">
                                                     {sale.sale_number}
                                                 </h4>
-                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                <p className="mt-1 text-xs text-muted-foreground font-medium">
                                                     {sale.customer?.name || t('Walk-in')}
                                                 </p>
                                             </div>
                                             <div className="text-end">
-                                                <p className="text-sm font-bold">{formatCurrency(sale.total)}</p>
-                                                <p className="text-xs text-muted-foreground">
+                                                <p className="text-sm font-black text-blue-500">{formatCurrency(sale.total)}</p>
+                                                <p className="text-[10px] font-bold text-muted-foreground uppercase mt-1">
                                                     {formatDate(sale.created_at)}
                                                 </p>
                                             </div>

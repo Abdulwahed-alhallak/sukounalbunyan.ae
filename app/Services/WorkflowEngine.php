@@ -112,6 +112,7 @@ class WorkflowEngine
             'email' => self::actionEmail($action, $model, $companyId, $rule),
             'create_task' => self::actionCreateTask($action, $model, $companyId),
             'change_status' => self::actionChangeStatus($action, $model),
+            'generate_pdf_invoice' => self::actionGeneratePdfInvoice($action, $model),
             'webhook' => self::actionWebhook($action, $model),
             'whatsapp' => self::actionWhatsapp($action, $model, $companyId, $rule),
             default => false,
@@ -247,6 +248,22 @@ class WorkflowEngine
             Log::warning("Workflow webhook failed: {$e->getMessage()}");
             return false;
         }
+    }
+
+    /**
+     * Placeholder action for PDF generation workflows.
+     * We keep this inside the shared engine so NobleFlow and Workflow Automation
+     * can use the same action vocabulary without diverging again.
+     */
+    private static function actionGeneratePdfInvoice(array $action, Model $model): bool
+    {
+        Log::info('Workflow PDF generation requested.', [
+            'model' => get_class($model),
+            'model_id' => $model->id ?? null,
+            'configuration' => $action,
+        ]);
+
+        return true;
     }
 
     /**

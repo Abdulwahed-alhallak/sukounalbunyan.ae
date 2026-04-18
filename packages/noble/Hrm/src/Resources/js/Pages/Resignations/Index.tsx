@@ -39,11 +39,13 @@ import ResignationView from './View';
 import NoRecordsFound from '@/components/no-records-found';
 import { Resignation, ResignationsIndexProps, ResignationFilters, ResignationModalState } from './types';
 import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } from '@/utils/helpers';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 export default function Index() {
     const { t } = useTranslation();
     const { resignations, auth, employees = [] } = usePage<ResignationsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
+    const isMultiTierApproval = isMultiTierApprovalEnabled(auth.user?.company_settings);
 
     const [filters, setFilters] = useState<ResignationFilters>({
         name: urlParams.get('name') || '',
@@ -161,8 +163,6 @@ export default function Index() {
                     rejected: 'bg-destructive/20 text-destructive',
                 };
 
-                const isMultiTier = auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true;
-
                 return (
                     <div className="flex flex-col gap-1">
                         <span
@@ -170,7 +170,7 @@ export default function Index() {
                         >
                             {t(value?.charAt(0).toUpperCase() + value?.slice(1) || 'Unknown')}
                         </span>
-                        {isMultiTier && row.manager_status && (
+                        {isMultiTierApproval && row.manager_status && (
                             <span
                                 className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${managerStatusColors[row.manager_status as keyof typeof managerStatusColors] || 'bg-muted'}`}
                             >
@@ -468,9 +468,7 @@ export default function Index() {
                                                                         resignation.status?.slice(1) || 'Unknown'
                                                                 )}
                                                             </span>
-                                                            {(auth.user?.company_settings
-                                                                ?.enable_multi_tier_approval === 'on' ||
-                                                                true) &&
+                                                            {isMultiTierApproval &&
                                                                 resignation.manager_status && (
                                                                     <span
                                                                         className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${

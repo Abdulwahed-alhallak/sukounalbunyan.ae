@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Traits\TenantBound;
+use Illuminate\Support\Facades\Auth;
 
 class AuditLog extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'user_id',
         'user_type',
@@ -67,7 +70,7 @@ class AuditLog extends Model
         ?array $newValues = null,
         ?string $comment = null
     ): self {
-        $user = auth()->user();
+        $user = Auth::user();
         $request = request();
 
         // Calculate changed fields

@@ -45,10 +45,10 @@ class InstallerController extends Controller
                 'app_url' => 'required|url',
                 'app_timezone' => 'required|string|timezone',
                 'db_connection' => 'required|string',
-                'db_host' => 'required_unless:db_connection,sqlite|string',
-                'db_port' => 'required_unless:db_connection,sqlite|numeric',
+                'db_host' => 'required|string',
+                'db_port' => 'required|numeric',
                 'db_database' => 'required|string',
-                'db_username' => 'required_unless:db_connection,sqlite|string',
+                'db_username' => 'required|string',
                 'db_password' => 'nullable|string',
             ], [
                 'app_name.required' => __('Application name is required.'),
@@ -60,13 +60,13 @@ class InstallerController extends Controller
                 'app_timezone.timezone' => __('Please select a valid timezone.'),
                 'db_connection.required' => __('Database connection type is required.'),
                 'db_connection.string' => __('Database connection must be a valid string.'),
-                'db_host.required_unless' => __('Database host is required for non-SQLite connections.'),
+                'db_host.required' => __('Database host is required.'),
                 'db_host.string' => __('Database host must be a valid string.'),
-                'db_port.required_unless' => __('Database port is required for non-SQLite connections.'),
+                'db_port.required' => __('Database port is required.'),
                 'db_port.numeric' => __('Database port must be a valid number.'),
                 'db_database.required' => __('Database name is required.'),
                 'db_database.string' => __('Database name must be a valid string.'),
-                'db_username.required_unless' => __('Database username is required for non-SQLite connections.'),
+                'db_username.required' => __('Database username is required.'),
                 'db_username.string' => __('Database username must be a valid string.'),
                 'db_password.string' => __('Database password must be a valid string.'),
             ]);
@@ -78,9 +78,7 @@ class InstallerController extends Controller
             $data = $validator->validated();
 
             // Test database connection before saving
-            if ($data['db_connection'] !== 'sqlite') {
-                $this->testDatabaseConnection($data);
-            }
+            $this->testDatabaseConnection($data);
 
             $this->createEnvFile($data);
 
@@ -169,11 +167,11 @@ class InstallerController extends Controller
 
         $credentials = [
             'admin' => [
-                'email' => 'superadmin@example.com',
+                'email' => 'superadmin@noble.dion.sy',
                 'password' => '1234'
             ],
             'company' => [
-                'email' => 'company@example.com',
+                'email' => 'company@noble.dion.sy',
                 'password' => '1234'
             ]
         ];
@@ -268,12 +266,10 @@ class InstallerController extends Controller
         $envContent .= "LOG_LEVEL=error\n\n";
 
         $envContent .= "DB_CONNECTION={$data['db_connection']}\n";
-        if ($data['db_connection'] !== 'sqlite') {
-            $envContent .= "DB_HOST={$data['db_host']}\n";
-            $envContent .= "DB_PORT={$data['db_port']}\n";
-            $envContent .= "DB_USERNAME={$data['db_username']}\n";
-            $envContent .= "DB_PASSWORD={$data['db_password']}\n";
-        }
+        $envContent .= "DB_HOST={$data['db_host']}\n";
+        $envContent .= "DB_PORT={$data['db_port']}\n";
+        $envContent .= "DB_USERNAME={$data['db_username']}\n";
+        $envContent .= "DB_PASSWORD={$data['db_password']}\n";
         $envContent .= "DB_DATABASE={$data['db_database']}\n\n";
 
         $envContent .= "SESSION_DRIVER=file\n";
@@ -283,7 +279,7 @@ class InstallerController extends Controller
         $envContent .= "QUEUE_CONNECTION=database\n\n";
 
         $envContent .= "MAIL_MAILER=log\n";
-        $envContent .= "MAIL_FROM_ADDRESS=\"noreply@example.com\"\n";
+        $envContent .= "MAIL_FROM_ADDRESS=\"noreply@noble.dion.sy\"\n";
         $envContent .= "MAIL_FROM_NAME=\"\${APP_NAME}\"\n\n";
 
         $envContent .= "VITE_APP_NAME=\"\${APP_NAME}\"\n";
@@ -317,7 +313,7 @@ class InstallerController extends Controller
     private function getAllAvailableModules()
     {
         $modules = [];
-        $packagesPath = base_path('packages/Noble Architecture');
+        $packagesPath = base_path('packages/noble');
 
         if (!File::exists($packagesPath)) {
             return $modules;
@@ -370,7 +366,7 @@ class InstallerController extends Controller
 
         $addon = AddOn::where('module', $moduleName)->first();
         if (empty($addon)) {
-            $filePath = base_path('packages/Noble Architecture/' . $moduleName . '/module.json');
+            $filePath = base_path('packages/noble/' . $moduleName . '/module.json');
 
             if (!file_exists($filePath)) {
                 throw new \Exception('Module configuration not found');

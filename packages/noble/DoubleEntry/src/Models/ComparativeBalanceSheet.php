@@ -4,10 +4,11 @@ namespace Noble\DoubleEntry\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\TenantBound;
 
 class ComparativeBalanceSheet extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'current_period_id',

@@ -105,7 +105,7 @@ createInertiaApp({
         } else {
             customTitle = pageProps?.adminAllSetting?.titleText;
         }
-        const appName = customTitle || import.meta.env.VITE_APP_NAME || 'Laravel';
+        const appName = customTitle || import.meta.env.VITE_APP_NAME || 'Noble Architecture';
         return `${title} - ${appName}`;
     },
     resolve: (name) => {

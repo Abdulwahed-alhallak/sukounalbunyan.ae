@@ -9,13 +9,14 @@ use App\Models\Plan;
 use App\Models\Order;
 use App\Models\OrderExtraRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 echo "=================================================\n";
 echo "🚀 SETTING UP LIFETIME MASTER PLAN FOR USER NOBLE 🚀\n";
 echo "=================================================\n\n";
 
 // 1. Find the target user
-$user = User::where('name', 'NOBLE')->orWhere('email', 'admin@example.com')->first();
+$user = User::where('name', 'NOBLE')->orWhere('email', 'admin@noble.dion.sy')->first();
 if (!$user) {
     die("ERROR: User NOBLE not found.\n");
 }

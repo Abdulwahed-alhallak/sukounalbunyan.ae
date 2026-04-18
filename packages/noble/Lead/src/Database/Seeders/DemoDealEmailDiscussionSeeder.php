@@ -468,7 +468,7 @@ class DemoDealEmailDiscussionSeeder extends Seeder
                     $templateIndex = $i % count($emailTemplates['subjects']);
 
                     // Use client email if available, otherwise use a user email
-                    $recipientEmail = $clients->isNotEmpty() ? $clients->random()->email : 'client@example.com';
+                    $recipientEmail = $clients->isNotEmpty() ? $clients->random()->email : 'client@noble.dion.sy';
 
                     if (!$deal->id || !$recipientEmail) {
                         continue;

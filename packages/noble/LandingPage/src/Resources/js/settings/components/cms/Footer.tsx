@@ -220,7 +220,7 @@ export default function Footer({
                                                         link: {
                                                             type: 'text',
                                                             placeholder: t(
-                                                                'Enter URL (e.g., #features, https://example.com)'
+                                                                'Enter URL (e.g., #features, https://noble.dion.sy)'
                                                             ),
                                                         },
                                                         page: {

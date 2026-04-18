@@ -33,7 +33,7 @@ class CreateReactPackage extends Command
         $this->namespace = "Noble\\{$name}";
         $this->tableName = $this->packageLower . '_items';
 
-        $packagePath = base_path("packages/Noble Architecture/{$name}");
+        $packagePath = base_path("packages/noble/{$name}");
 
         if (File::exists($packagePath)) {
             $this->error("Package {$name} already exists!");

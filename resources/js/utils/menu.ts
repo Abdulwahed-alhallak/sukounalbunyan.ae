@@ -25,6 +25,12 @@ import {
     Wrench,
 } from 'lucide-react';
 
+const toSettingsAnchor = (packageName: string): string =>
+    packageName
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .replace(/_/g, '-')
+        .toLowerCase();
+
 // Get role-based core menu items
 const getCoreMenuItems = (userRoles: string[], t: (key: string) => string): NavItem[] => {
     if (userRoles.includes('superadmin')) {
@@ -93,13 +99,13 @@ const getPackageMenuItems = (
                         const items = Array.isArray(result) ? result : [result];
 
                         // Inject moduleName and handle potential route crashes
-                        const processedItems = items.map((nItem: any) => {
-                            const injectModule = (node: any): any => {
+                        const processedItems = items.map((nItem: NavItem) => {
+                            const injectModule = (node: NavItem): NavItem => {
                                 // ─── GLOBAL SETTINGS REDIRECT ───
                                 // Any setting link is automatically rerouted to the unified visual hub
                                 let finalHref = node.href;
                                 if (node.href && (node.href.includes('settings') || node.permission?.includes('settings'))) {
-                                    finalHref = `/settings#${packageName.toLowerCase()}-settings`;
+                                    finalHref = `/settings#${toSettingsAnchor(packageName)}-settings`;
                                 }
 
                                 return {
@@ -128,13 +134,13 @@ const getPackageMenuItems = (
 
 // Get custom menu items from database
 const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): NavItem[] => {
-    const { auth } = usePage().props as any;
+    const { auth } = usePage().props as PageProps;
     const customMenus = auth?.customMenus || [];
 
-    return customMenus.map((menu: any) => {
+    return customMenus.map((menu: CustomMenu) => {
         let iconComponent = null;
         if (menu.icon && typeof menu.icon === 'string') {
-            const IconComponent = (LucideIcons as any)[menu.icon];
+            const IconComponent = (LucideIcons as Record<string, React.ComponentType<any>>)[menu.icon];
             if (IconComponent) {
                 iconComponent = IconComponent;
             }
@@ -227,7 +233,7 @@ const unifiedCategories = [
 ];
 
 // Helper: check if an item matches a category
-const itemMatchesCategory = (item: NavItem, category: any): boolean => {
+const itemMatchesCategory = (item: NavItem, category: string): boolean => {
     // Check injected module name
     if (item.moduleName && category.matches?.includes(item.moduleName)) {
         return true;

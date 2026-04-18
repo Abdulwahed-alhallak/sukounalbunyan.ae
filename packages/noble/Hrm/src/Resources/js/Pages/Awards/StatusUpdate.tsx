@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { router } from '@inertiajs/react';
 import { ShieldAlert, CheckCircle2, XCircle, Clock, AlertTriangle } from 'lucide-react';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 interface Award {
     id: number;
@@ -35,7 +36,7 @@ export function StatusUpdate({ open, onOpenChange, award, auth, globalSettings, 
     const [status, setStatus] = useState<string>('pending');
     const [comment, setComment] = useState('');
 
-    const isMultiTierEnabled = globalSettings?.enable_multi_tier_approval === 'on';
+    const isMultiTierEnabled = isMultiTierApprovalEnabled(globalSettings);
     const isHrApproval = auth.user.permissions?.includes('edit-awards');
 
     useEffect(() => {

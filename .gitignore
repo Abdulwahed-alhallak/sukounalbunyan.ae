@@ -21,6 +21,9 @@
 # Logs
 npm-debug.log
 yarn-error.log
+artisan_serve.log
+npm_dev.log
+tsc_output.txt
 
 # Build artifacts
 /public/build

@@ -36,6 +36,8 @@ class Attendance extends Model
             'employee_id' => 'integer',
             'shift_id' => 'integer',
             'date' => 'date',
+            'clock_in' => 'datetime',
+            'clock_out' => 'datetime',
             'break_hour' => 'decimal:2',
             'total_hour' => 'decimal:2',
             'overtime_hours' => 'decimal:2',

@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { toast } from 'sonner';
 import { Phone, Save, Eye, EyeOff } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getPackageAlias } from '@/utils/helpers';
@@ -23,13 +22,20 @@ interface Notification {
 interface TwilioSettingsProps {
     [key: string]: any;
     userSettings?: Record<string, string>;
+    twilioNotifications?: Record<string, Notification[]>;
     auth?: any;
 }
 
-export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettingsProps) {
+export default function TwilioSettings({
+    userSettings = {},
+    twilioNotifications = {},
+    auth,
+}: TwilioSettingsProps) {
     const { t } = useTranslation();
     const activatedPackages = auth?.user?.activatedPackages || [];
-    const [twilioNotifications, setTwilioNotifications] = useState<Record<string, any>>({});
+    const [availableTwilioNotifications, setAvailableTwilioNotifications] = useState<Record<string, Notification[]>>(
+        {}
+    );
     const [isLoading, setIsLoading] = useState(false);
     const canEdit = auth?.user?.permissions?.includes('edit-twilio-settings');
 
@@ -51,22 +57,17 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
             twilio_from: userSettings?.twilio_from || '',
         });
 
-        fetch(route('twilio.settings.index'))
-            .then((response) => response.json())
-            .then((data) => {
-                setTwilioNotifications(data.twilioNotifications || {});
+        setAvailableTwilioNotifications(twilioNotifications || {});
 
-                const initial: Record<string, string> = {};
-                Object.values(data.twilioNotifications || {}).forEach((moduleNotifications: any) => {
-                    moduleNotifications.forEach((notification: Notification) => {
-                        const key = `Twilio ${notification.action}`;
-                        initial[key] = userSettings?.[key] || 'off';
-                    });
-                });
-                setNotificationSettings(initial);
-            })
-            .catch((error) => console.error('Error fetching twilio notifications:', error));
-    }, [userSettings]);
+        const initial: Record<string, string> = {};
+        Object.values(twilioNotifications || {}).forEach((moduleNotifications: any) => {
+            moduleNotifications.forEach((notification: Notification) => {
+                const key = `Twilio ${notification.action}`;
+                initial[key] = userSettings?.[key] || 'off';
+            });
+        });
+        setNotificationSettings(initial);
+    }, [twilioNotifications, userSettings]);
 
     const handleSettingsChange = (field: string, value: string | boolean) => {
         setTwilioSettings((prev) => ({
@@ -192,7 +193,7 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                             </div>
 
                             {(() => {
-                                const filteredModules = Object.keys(twilioNotifications || {}).filter(
+                                const filteredModules = Object.keys(availableTwilioNotifications || {}).filter(
                                     (module) => module.toLowerCase() === 'general' || activatedPackages.includes(module)
                                 );
                                 return (
@@ -210,7 +211,7 @@ export default function TwilioSettings({ userSettings = {}, auth }: TwilioSettin
                                                 {filteredModules?.map((module) => (
                                                     <TabsContent key={module} value={module}>
                                                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                                            {(twilioNotifications[module] || [])?.map(
+                                                            {(availableTwilioNotifications[module] || [])?.map(
                                                                 (notification: Notification) => (
                                                                     <div
                                                                         key={notification.id}

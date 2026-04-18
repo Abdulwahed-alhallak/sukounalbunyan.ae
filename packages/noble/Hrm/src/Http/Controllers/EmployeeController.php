@@ -121,7 +121,7 @@ class EmployeeController extends Controller
             
             $employee = new Employee();
             $employee->fill($employeeData);
-            $employee->shift = $validated['shift_id'];
+            $employee->shift_id = $validated['shift_id'];
             $employee->creator_id = Auth::id();
             $employee->created_by = creatorId();
             $employee->save();
@@ -167,7 +167,7 @@ class EmployeeController extends Controller
             $employeeData = collect($validated)->except(['documents'])->toArray();
             
             $employee->fill($employeeData);
-            $employee->shift = $validated['shift_id'];
+            $employee->shift_id = $validated['shift_id'];
             $employee->save();
 
             UpdateEmployee::dispatch($request, $employee);

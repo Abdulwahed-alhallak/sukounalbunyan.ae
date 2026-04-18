@@ -4,12 +4,28 @@ namespace Noble\GoogleCaptcha\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class GoogleCaptchaSettingsController extends Controller
 {
+    public function index()
+    {
+        if (!Auth::user()->can('manage-google-captcha-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
+        return Inertia::render('GoogleCaptcha/Settings/Index', [
+            'globalSettings' => getCompanyAllSetting(),
+        ]);
+    }
+
     public function update(Request $request)
     {
+        if (!Auth::user()->can('edit-google-captcha-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
         $request->validate([
             'settings.recaptcha_version' => 'required|in:v2,v3',
             'settings.recaptcha_site_key' => 'required_if:settings.recaptcha_enabled,on|string|max:255',

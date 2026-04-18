@@ -591,6 +591,20 @@
         @apply opacity-100;
     }
 
+    /* ─── HRM Surface System ─── */
+    .hrm-panel {
+        @apply rounded-2xl border border-border/30 bg-card/60 backdrop-blur-xl;
+        box-shadow: var(--shadow-surface);
+    }
+
+    .hrm-toolbar {
+        @apply border-b border-border/20 bg-muted/30;
+    }
+
+    .hrm-stat-card {
+        @apply premium-card border border-border/30 bg-card/60 backdrop-blur-md;
+    }
+
     /* ─── Grain Texture Overlay ─── */
     .grain-overlay {
         position: fixed;
@@ -753,6 +767,13 @@
         background-color: hsl(var(--pink-1));
         color: hsl(var(--pink-7));
         border: 1px solid hsl(var(--pink-7) / 0.2);
+    }
+
+    .vercel-badge-premium {
+        background: linear-gradient(135deg, hsl(var(--geist-blue) / 0.1), hsl(var(--geist-purple) / 0.1));
+        color: hsl(var(--primary));
+        border: 1px solid hsl(var(--geist-blue) / 0.3);
+        font-weight: 700;
     }
 
     /* ─── Vercel Table Row Hover ─── */
@@ -974,4 +995,3 @@
 .glass-separator {
     @apply h-px w-full bg-gradient-to-r from-transparent via-border/50 to-transparent;
 }
-

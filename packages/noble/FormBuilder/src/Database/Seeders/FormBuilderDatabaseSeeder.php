@@ -16,8 +16,10 @@ class FormBuilderDatabaseSeeder extends Seeder
         $this->call(MarketplaceSettingSeeder::class);
 
         if (config('app.run_demo_seeder')) {
-            $user = User::where('email', 'company@example.com')->first();
-            (new FormDataSeeder())->run($user->id);
+            $user = User::resolveDemoCompany();
+            if ($user) {
+                (new FormDataSeeder())->run($user->id);
+            }
         }
     }
 }

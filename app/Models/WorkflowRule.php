@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\TenantBound;
 
 class WorkflowRule extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'company_id', 'name', 'description', 'is_active', 'priority',
         'trigger_module', 'trigger_event', 'trigger_conditions',
@@ -75,6 +77,7 @@ class WorkflowRule extends Model
         'whatsapp' => 'Send WhatsApp Message',
         'create_task' => 'Create Task',
         'change_status' => 'Change Status',
+        'generate_pdf_invoice' => 'Generate PDF Invoice',
         'webhook' => 'Call Webhook URL',
     ];
 

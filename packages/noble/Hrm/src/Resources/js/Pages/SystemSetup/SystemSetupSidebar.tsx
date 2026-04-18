@@ -173,31 +173,43 @@ export default function SystemSetupSidebar({ activeItem, onSectionChange }: Syst
 
     return (
         <div className="sticky top-4">
-            <ScrollArea className="h-[calc(100vh-8rem)]">
-                <div className="space-y-1 pe-4">
-                    {filteredItems?.map((item) => {
-                        const Icon = item.icon;
-                        const isActive = activeItem === item.key || currentRoute === item.route;
-
-                        return (
-                            <Button
-                                key={item.key}
-                                variant="ghost"
-                                className={cn('w-full justify-start', {
-                                    'bg-muted font-medium': isActive,
-                                })}
-                                onClick={() => {
-                                    router.get(route(item.route));
-                                    onSectionChange?.(item.key);
-                                }}
-                            >
-                                <Icon className="me-2 h-4 w-4" />
-                                {item.label}
-                            </Button>
-                        );
-                    })}
+            <div className="hrm-panel overflow-hidden">
+                <div className="hrm-toolbar px-4 py-4">
+                    <p className="text-sm font-semibold text-foreground">{t('HR Setup')}</p>
+                    <p className="text-xs text-muted-foreground">
+                        {t('Manage departments, documents, leave rules, and payroll settings.')}
+                    </p>
                 </div>
-            </ScrollArea>
+
+                <ScrollArea className="h-[calc(100vh-14rem)]">
+                    <div className="space-y-1 p-3">
+                        {filteredItems?.map((item) => {
+                            const Icon = item.icon;
+                            const isActive = activeItem === item.key || currentRoute === item.route;
+
+                            return (
+                                <Button
+                                    key={item.key}
+                                    variant="ghost"
+                                    className={cn(
+                                        'w-full justify-start rounded-xl px-3 py-2.5 text-sm font-medium transition-all',
+                                        isActive
+                                            ? 'bg-foreground text-background shadow-sm hover:bg-foreground/90 hover:text-background'
+                                            : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
+                                    )}
+                                    onClick={() => {
+                                        router.get(route(item.route));
+                                        onSectionChange?.(item.key);
+                                    }}
+                                >
+                                    <Icon className="me-2 h-4 w-4" />
+                                    {item.label}
+                                </Button>
+                            );
+                        })}
+                    </div>
+                </ScrollArea>
+            </div>
         </div>
     );
 }

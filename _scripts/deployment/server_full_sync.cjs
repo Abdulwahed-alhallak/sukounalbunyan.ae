@@ -119,7 +119,7 @@ conn.on('ready', async () => {
         console.log(`  ✅ Old sessions cleaned`);
 
         // Clean old logs (keep last 3 days)
-        r = await exec(conn, `find ${APP}/storage/logs/ -name 'laravel-*.log' -mtime +3 -delete 2>/dev/null; echo "Old logs cleaned"`);
+        r = await exec(conn, `find ${APP}/storage/logs/ -name 'noble-*.log' -mtime +3 -delete 2>/dev/null; echo "Old logs cleaned"`);
         console.log(`  ✅ Old logs cleaned\n`);
         results.success.push('Junk files removed');
 
@@ -294,7 +294,7 @@ conn.on('ready', async () => {
         console.log(`  HTTP /:      ${r}`);
 
         // Any errors in today's log?
-        r = await exec(conn, `grep -c "ERROR" ${APP}/storage/logs/laravel-$(date +%Y-%m-%d).log 2>/dev/null || echo "0"`);
+        r = await exec(conn, `grep -c "ERROR" ${APP}/storage/logs/noble-$(date +%Y-%m-%d).log 2>/dev/null || echo "0"`);
         console.log(`  Errors today: ${r}`);
 
         console.log('\n═══════════════════════════════════════════════════════');

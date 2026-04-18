@@ -16,7 +16,7 @@ class ZeroTrustAuditService
             $user = auth()->user();
             
             DionAuditLog::create([
-                'company_id'   => $user ? $user->creatorId() : null,
+                'company_id'   => $user ? creatorId() : null,
                 'user_id'      => $user ? $user->id : null,
                 'action'       => $action,
                 'entity_type'  => $entityType,

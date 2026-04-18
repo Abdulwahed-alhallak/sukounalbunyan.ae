@@ -12,6 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
 import { usePageButtons } from '@/hooks/usePageButtons';
 
+const DEMO_COMPANY_EMAIL = 'admin@noblearchitecture.net';
+const DEMO_SUPER_ADMIN_EMAIL = 'superadmin@noblearchitecture.net';
+const DEMO_PASSWORD = 'Nn@!23456';
+
 export default function Login({
     status,
     canResetPassword,
@@ -38,8 +42,8 @@ export default function Login({
         if (isDemo) {
             setData((prevData) => ({
                 ...prevData,
-                email: 'admin@noblearchitecture.net',
-                password: '1234',
+                email: DEMO_COMPANY_EMAIL,
+                password: DEMO_PASSWORD,
             }));
         }
     }, [isDemo]);
@@ -97,7 +101,7 @@ export default function Login({
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            placeholder={t('email@example.com')}
+                            placeholder={t('email@noble.dion.sy')}
                             className="mt-1 w-full"
                         />
                         <InputError message={errors.email} />
@@ -235,7 +239,7 @@ export default function Login({
                         <div className="grid grid-cols-2 gap-3">
                              <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('admin@noblearchitecture.net', '1234')}
+                                onClick={() => handleQuickLogin(DEMO_COMPANY_EMAIL, DEMO_PASSWORD)}
                                 disabled={processing}
                                 className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
                             >
@@ -253,7 +257,7 @@ export default function Login({
 
                              <Button
                                 type="button"
-                                onClick={() => handleQuickLogin('samad34557788@noblearchitecture.net', '1234')}
+                                onClick={() => handleQuickLogin(DEMO_SUPER_ADMIN_EMAIL, DEMO_PASSWORD)}
                                 disabled={processing}
                                 className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
                             >
@@ -264,8 +268,8 @@ export default function Login({
                                     <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
                                 </div>
                                 <div className="mt-2 min-w-0 text-start">
-                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Employee')}</p>
-                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Operational Access')}</p>
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Super Admin')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Platform Root Access')}</p>
                                 </div>
                             </Button>
                         </div>

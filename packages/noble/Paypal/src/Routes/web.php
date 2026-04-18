@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Noble\Paypal\Http\Controllers\PaypalController;
 use Noble\Paypal\Http\Controllers\PaypalSettingsController;
 
-Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Paypal'])->group(function () {
-    Route::post('/paypal/settings', [PaypalSettingsController::class, 'update'])->name('paypal.settings.update');
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Paypal'])->prefix('paypal')->name('paypal.')->group(function () {
+    Route::get('/settings', [PaypalSettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [PaypalSettingsController::class, 'update'])->name('settings.update');
 });
 Route::middleware(['web'])->group(function() {
     Route::prefix('paypal')->group(function() {

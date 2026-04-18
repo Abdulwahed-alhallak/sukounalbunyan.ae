@@ -4,7 +4,7 @@ return [
     'smtp' => [
         'name' => 'SMTP',
         'driver' => 'smtp',
-        'host' => 'smtp.example.com',
+        'host' => 'smtp.noble.dion.sy',
         'port' => '587',
         'encryption' => 'tls',
     ],

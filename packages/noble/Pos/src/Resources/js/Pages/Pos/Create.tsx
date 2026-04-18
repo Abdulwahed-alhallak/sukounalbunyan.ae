@@ -426,46 +426,47 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                 ) : filteredProducts.length > 0 ? (
                                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
                                         {filteredProducts?.map((product) => (
-                                            <Card
+                                            <div
                                                 key={product.id}
-                                                className="cursor-pointer hover:shadow-md"
+                                                className="premium-card group relative cursor-pointer overflow-hidden border border-border bg-card/40 p-3 transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl dark:border-white/5 dark:bg-foreground/10"
                                                 onClick={() => addToCart(product)}
                                             >
-                                                <CardContent className="p-4">
-                                                    <div className="mb-3 flex aspect-square items-center justify-center rounded bg-muted">
-                                                        {product.image ? (
-                                                            <img
-                                                                src={getImagePath(product.image)}
-                                                                alt={product.name}
-                                                                className="h-full w-full rounded object-cover"
-                                                                onError={(e) => {
-                                                                    const target = e.target as HTMLImageElement;
-                                                                    target.style.display = 'none';
-                                                                    const parent = target.parentElement;
-                                                                    if (parent) {
-                                                                        parent.innerHTML =
-                                                                            '<div class="flex items-center justify-center w-full h-full"><svg class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>';
-                                                                    }
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <Image className="h-8 w-8 text-muted-foreground" />
-                                                        )}
-                                                    </div>
-                                                    <h3 className="truncate font-medium">{product.name}</h3>
-                                                    <p className="text-sm text-muted-foreground">{product.sku}</p>
-                                                    <div className="mt-2 flex items-center justify-between">
-                                                        <span className="font-bold text-foreground">
-                                                            {formatCurrency(product.price)}
-                                                        </span>
-                                                        <Badge
-                                                            variant={product.stock > 0 ? 'secondary' : 'destructive'}
-                                                        >
-                                                            {Math.floor(product.stock)}
-                                                        </Badge>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
+                                                <div className="mb-3 flex aspect-square items-center justify-center rounded-xl bg-muted/50 p-2 shadow-inner transition-transform duration-500 group-hover:scale-105">
+                                                    {product.image ? (
+                                                        <img
+                                                            src={getImagePath(product.image)}
+                                                            alt={product.name}
+                                                            className="h-full w-full rounded-lg object-cover shadow-sm"
+                                                            onError={(e) => {
+                                                                const target = e.target as HTMLImageElement;
+                                                                target.style.display = 'none';
+                                                                const parent = target.parentElement;
+                                                                if (parent) {
+                                                                    parent.innerHTML =
+                                                                        '<div class="flex items-center justify-center w-full h-full"><svg class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>';
+                                                                }
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <Image className="h-8 w-8 text-muted-foreground opacity-50" />
+                                                    )}
+                                                </div>
+                                                <h3 className="truncate text-[11px] font-black uppercase tracking-tight text-foreground transition-colors group-hover:text-foreground">
+                                                    {product.name}
+                                                </h3>
+                                                <p className="text-[10px] font-bold tracking-tighter text-muted-foreground">{product.sku}</p>
+                                                <div className="mt-2 flex items-center justify-between">
+                                                    <span className="text-sm font-black tracking-tighter text-foreground">
+                                                        {formatCurrency(product.price)}
+                                                    </span>
+                                                    <Badge
+                                                        variant={product.stock > 0 ? 'secondary' : 'destructive'}
+                                                        className="rounded-lg border-none px-1.5 py-0 text-[9px] font-black uppercase tracking-widest shadow-sm"
+                                                    >
+                                                        {Math.floor(product.stock)}
+                                                    </Badge>
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
                                 ) : (
@@ -517,71 +518,71 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                     {cart?.map((item) => (
                                         <div
                                             key={item.id}
-                                            className="rounded-lg border border-border bg-muted/50 p-4 transition-shadow hover:shadow-md"
+                                            className="premium-card group relative overflow-hidden rounded-2xl border border-border bg-muted/40 p-4 transition-all duration-300 hover:shadow-lg dark:bg-foreground/10"
                                         >
                                             <div className="mb-3 flex items-center space-x-3">
-                                                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded bg-muted">
+                                                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-background/50 shadow-inner group-hover:scale-105 transition-transform duration-300">
                                                     {item.image ? (
                                                         <img
                                                             src={getImagePath(item.image)}
                                                             alt={item.name}
-                                                            className="h-full w-full rounded object-cover"
+                                                            className="h-full w-full rounded-lg object-cover"
                                                             onError={(e) => {
                                                                 const target = e.target as HTMLImageElement;
                                                                 target.style.display = 'none';
                                                                 const parent = target.parentElement;
                                                                 if (parent) {
                                                                     parent.innerHTML =
-                                                                        '<svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
+                                                                        '<svg class="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
                                                                 }
                                                             }}
                                                         />
                                                     ) : (
-                                                        <Image className="h-4 w-4 text-muted-foreground" />
+                                                        <Image className="h-5 w-5 text-muted-foreground opacity-30" />
                                                     )}
                                                 </div>
                                                 <div className="min-w-0 flex-1">
-                                                    <h4 className="truncate text-sm font-semibold text-foreground">
+                                                    <h4 className="truncate text-xs font-black uppercase tracking-tight text-foreground">
                                                         {item.name}
                                                     </h4>
-                                                    <p className="text-sm font-medium text-foreground">
-                                                        {formatCurrency(item.price)} {t('each')}
+                                                    <p className="text-[10px] font-black tracking-tighter text-blue-500">
+                                                        {formatCurrency(item.price)}
                                                     </p>
                                                 </div>
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => updateQuantity(item.id, 0)}
-                                                    className="p-2 text-destructive hover:bg-muted/50 hover:text-destructive"
+                                                    className="h-8 w-8 rounded-lg p-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             </div>
-                                            <div className="flex items-center justify-between">
+                                            <div className="flex items-center justify-between border-t border-border/50 pt-3 dark:border-white/5">
                                                 <div className="flex items-center space-x-3">
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="h-7 w-7 border-border p-0"
+                                                        className="h-8 w-8 rounded-lg border-border bg-background/50 p-0 shadow-sm"
                                                     >
                                                         <Minus className="h-3 w-3" />
                                                     </Button>
-                                                    <span className="w-8 text-center text-sm font-semibold">
+                                                    <span className="w-6 text-center text-xs font-black tabular-nums">
                                                         {item.quantity}
                                                     </span>
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                        className="h-7 w-7 border-border p-0"
+                                                        className="h-8 w-8 rounded-lg border-border bg-background/50 p-0 shadow-sm"
                                                         disabled={item.quantity >= item.stock}
                                                     >
                                                         <Plus className="h-3 w-3" />
                                                     </Button>
                                                 </div>
                                                 <div className="text-end">
-                                                    <div className="text-lg font-bold text-foreground">
+                                                    <div className="text-sm font-black tracking-tighter text-foreground">
                                                         {formatCurrency(item.price * item.quantity)}
                                                     </div>
                                                 </div>
@@ -628,14 +629,14 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                         />
                                     </div>
 
-                                    <div className="flex items-center justify-between border-t border-border py-1">
-                                        <span className="text-lg font-bold text-foreground">{t('Total')}</span>
-                                        <span className="text-xl font-bold text-foreground">
+                                    <div className="flex items-center justify-between border-t border-border/50 py-3 dark:border-white/5">
+                                        <span className="text-lg font-black tracking-tighter text-foreground">{t('Total')}</span>
+                                        <span className="text-2xl font-black tracking-tighter text-blue-500">
                                             {formatCurrency(getTotal())}
                                         </span>
                                     </div>
                                     <Button
-                                        className="h-10 w-full bg-foreground text-sm font-semibold hover:bg-foreground/80"
+                                        className="h-12 w-full bg-foreground text-[10px] font-black uppercase tracking-[0.2em] text-background transition-all hover:bg-foreground/90 active:scale-[0.98]"
                                         onClick={() => {
                                             setPaidAmount(getTotal().toString());
                                             setShowPaymentModal(true);
@@ -654,14 +655,15 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
 
             {/* Payment Modal */}
             <Dialog open={showPaymentModal} onOpenChange={(open) => !processing && setShowPaymentModal(open)}>
-                <DialogContent className="max-h-[90vh] max-w-[95vw] overflow-y-auto backdrop-blur-none sm:max-w-2xl">
-                    <DialogHeader className="border-b pb-4">
-                        <div className="flex items-center gap-3">
-                            <div className="rounded-lg bg-foreground/10 p-2">
-                                <CreditCard className="h-5 w-5 text-foreground" />
+                <DialogContent className="max-h-[90vh] max-w-[95vw] overflow-y-auto border-border/50 bg-card/60 backdrop-blur-3xl dark:border-white/10 dark:bg-foreground/40 sm:max-w-2xl">
+                    <DialogHeader className="border-b border-border/50 pb-6 dark:border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="rounded-2xl bg-foreground/5 p-3 shadow-inner">
+                                <CreditCard className="h-6 w-6 text-foreground" />
                             </div>
                             <div>
-                                <DialogTitle className="text-xl font-semibold">{t('Process Payment')}</DialogTitle>
+                                <DialogTitle className="text-xl font-black uppercase tracking-tight">{t('Process Payment')}</DialogTitle>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{t('Tactical Checkout Interface')}</p>
                             </div>
                         </div>
                     </DialogHeader>

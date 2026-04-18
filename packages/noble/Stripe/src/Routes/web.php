@@ -6,8 +6,9 @@ use Noble\Stripe\Http\Controllers\StripeItemController;
 use Noble\Stripe\Http\Controllers\StripeSettingsController;
 use Noble\Stripe\Http\Controllers\StripeController;
 
-Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Stripe'])->group(function () {
-    Route::post('/stripe/settings', [StripeSettingsController::class, 'update'])->name('stripe.settings.update');
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Stripe'])->prefix('stripe')->name('stripe.')->group(function () {
+    Route::get('/settings', [StripeSettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [StripeSettingsController::class, 'update'])->name('settings.update');
 });
 
 Route::middleware(['web'])->group(function() {

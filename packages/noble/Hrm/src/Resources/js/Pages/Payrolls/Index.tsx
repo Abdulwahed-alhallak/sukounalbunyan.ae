@@ -290,7 +290,7 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Payrolls') }]}
-            pageTitle={t('Manage Payrolls')}
+            pageTitle={t('Payroll Runs')}
             pageActions={
                 <TooltipProvider>
                     {auth.user?.permissions?.includes('create-payrolls') && (
@@ -311,15 +311,14 @@ export default function Index() {
             <Head title={t('Payrolls')} />
 
             <div className="space-y-8 duration-1000 animate-in fade-in">
-                {/* Financial Intelligence Board */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="premium-card from-muted/500/10 bg-gradient-to-br via-transparent to-transparent p-6">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-info/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="bg-muted/500/20 flex h-10 w-10 items-center justify-center rounded-xl text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-info/20 text-info">
                                 <CalculatorIcon className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Total Liquidity')}
+                                {t('Total Net Pay')}
                             </span>
                         </div>
                         <div className="space-y-1">
@@ -328,11 +327,11 @@ export default function Index() {
                                     payrolls?.data?.reduce((acc, curr) => acc + (curr.total_net_pay || 0), 0) || 0
                                 )}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Total Payout Vector')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Total payout in the current view')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-info/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted-foreground/20 text-muted-foreground">
                                 <Play className="h-5 w-5" />
@@ -345,13 +344,13 @@ export default function Index() {
                             <h3 className="text-3xl font-black tracking-tight">
                                 {payrolls?.data?.filter((p) => p.status === 'processing').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Active Compute Cycles')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Payrolls currently being processed')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card bg-gradient-to-br from-foreground/10 via-transparent to-transparent p-6">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-success/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-success/20 text-success">
                                 <Download className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
@@ -362,40 +361,38 @@ export default function Index() {
                             <h3 className="text-3xl font-black tracking-tight">
                                 {payrolls?.data?.filter((p) => p.status === 'completed').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Archived Transactions')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Completed payroll runs')}</p>
                         </div>
                     </div>
 
-                    <div className="premium-card from-muted/500/10 bg-gradient-to-br via-transparent to-transparent p-6">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-warning/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/20 text-warning">
                                 <EditIcon className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Drafting')}
+                                {t('Draft')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {payrolls?.data?.filter((p) => p.status === 'draft').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Unstaged Assets')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Payrolls awaiting review')}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Main Command Interface */}
-                <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
-                    {/* Tactical Control Bar */}
-                    <div className="border-b border-white/5 bg-card/5 p-6">
+                <Card className="hrm-panel overflow-hidden">
+                    <div className="hrm-toolbar p-6">
                         <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
                             <div className="w-full max-w-xl lg:flex-1">
                                 <SearchInput
                                     value={filters.title}
                                     onChange={(value) => setFilters({ ...filters, title: value })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Search financial registers...')}
-                                    className="border-white/10 bg-background/20 placeholder:text-muted-foreground/30"
+                                    placeholder={t('Search payrolls...')}
+                                    className="border-border/30 bg-background/30 placeholder:text-muted-foreground/50"
                                 />
                             </div>
                             <div className="flex w-full items-center gap-4 lg:w-auto">
@@ -424,21 +421,20 @@ export default function Index() {
                             </div>
                         </div>
 
-                        {/* Advanced Vectors Drawer */}
                         {showFilters && (
-                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-white/5 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-3">
+                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-border/20 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-3">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Payout Frequency')}
+                                        {t('Payroll Frequency')}
                                     </label>
                                     <Select
                                         value={filters.payroll_frequency}
                                         onValueChange={(value) => setFilters({ ...filters, payroll_frequency: value })}
                                     >
-                                        <SelectTrigger className="h-11 border-white/5 bg-background/20 text-xs">
+                                        <SelectTrigger className="h-11 border-border/30 bg-background/30 text-xs">
                                             <SelectValue placeholder={t('All Frequencies')} />
                                         </SelectTrigger>
-                                        <SelectContent className="border-white/10 bg-foreground text-[10px] font-black uppercase tracking-widest">
+                                        <SelectContent className="border-border/30 bg-card text-[10px] font-black uppercase tracking-widest">
                                             <SelectItem value="weekly">{t('Weekly')}</SelectItem>
                                             <SelectItem value="biweekly">{t('Bi-Weekly')}</SelectItem>
                                             <SelectItem value="monthly">{t('Monthly')}</SelectItem>
@@ -447,16 +443,16 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Register Status')}
+                                        {t('Status')}
                                     </label>
                                     <Select
                                         value={filters.status}
                                         onValueChange={(value) => setFilters({ ...filters, status: value })}
                                     >
-                                        <SelectTrigger className="h-11 border-white/5 bg-background/20 text-xs">
+                                        <SelectTrigger className="h-11 border-border/30 bg-background/30 text-xs">
                                             <SelectValue placeholder={t('All States')} />
                                         </SelectTrigger>
-                                        <SelectContent className="border-white/10 bg-foreground text-[10px] font-black uppercase tracking-widest">
+                                        <SelectContent className="border-border/30 bg-card text-[10px] font-black uppercase tracking-widest">
                                             <SelectItem value="draft">{t('Draft')}</SelectItem>
                                             <SelectItem value="processing">{t('Processing')}</SelectItem>
                                             <SelectItem value="completed">{t('Completed')}</SelectItem>
@@ -469,7 +465,7 @@ export default function Index() {
                                         onClick={handleFilter}
                                         className="h-11 rounded-xl bg-foreground px-8 text-xs font-black uppercase tracking-widest hover:bg-foreground/80"
                                     >
-                                        {t('Sync Matrix')}
+                                        {t('Apply Filters')}
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -483,7 +479,6 @@ export default function Index() {
                         )}
                     </div>
 
-                    {/* Financial Data Sector */}
                     <div className="p-0">
                         <div className="w-full">
                             <DataTable
@@ -496,13 +491,13 @@ export default function Index() {
                                 emptyState={
                                     <NoRecordsFound
                                         icon={CalculatorIcon}
-                                        title={t('No Payroll Registers Found')}
-                                        description={t('System clear. No active financial payout vectors detected.')}
+                                        title={t('No payroll runs found')}
+                                        description={t('Payroll runs will appear here once they are created.')}
                                         hasFilters={!!(filters.title || filters.payroll_frequency || filters.status)}
                                         onClearFilters={clearFilters}
                                         createPermission="create-payrolls"
                                         onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Initiate New Payroll')}
+                                        createButtonText={t('New Payroll')}
                                         className="h-96"
                                     />
                                 }
@@ -510,8 +505,7 @@ export default function Index() {
                         </div>
                     </div>
 
-                    {/* Matrix Pagination */}
-                    <div className="border-t border-white/5 bg-card/5 px-6 py-4">
+                    <div className="border-t border-border/20 bg-muted/30 px-6 py-4">
                         <Pagination
                             data={payrolls || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }}
                             routeName="hrm.payrolls.index"

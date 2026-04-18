@@ -8,7 +8,7 @@ use App\Models\Plan;
 use App\Models\UserActiveModule;
 use App\Models\AddOn;
 
-$email = 'company@example.com';
+$email = 'company@noble.dion.sy';
 $user = User::where('email', $email)->first();
 
 if (!$user) {

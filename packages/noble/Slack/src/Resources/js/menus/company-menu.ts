@@ -4,12 +4,12 @@ export const slackCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Slack Integration'),
         icon: Slack,
-        permission: 'manage-slack-integration',
+        permission: 'manage-slack-settings',
         order: 910,
         children: [
             {
                 title: t('Slack Settings'),
-                href: route('slack.settings.index'),
+                href: '/settings#slack-settings',
                 permission: 'manage-slack-settings',
             },
         ],

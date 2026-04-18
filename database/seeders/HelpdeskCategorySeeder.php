@@ -10,7 +10,7 @@ class HelpdeskCategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $userId = User::where('email', 'superadmin@example.com')->first()->id;
+        $userId = User::where('email', 'superadmin@noble.dion.sy')->first()->id;
 
         $categories = [
             ['name' => 'Technical Support', 'description' => 'Technical issues and troubleshooting', 'color' => '#3B82F6'],

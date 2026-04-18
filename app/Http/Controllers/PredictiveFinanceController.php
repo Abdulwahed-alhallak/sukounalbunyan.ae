@@ -21,11 +21,10 @@ class PredictiveFinanceController extends Controller
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         
         // Base Sales & Purchases
-        $isSqlite = DB::connection()->getDriverName() === 'sqlite';
         $monthFields = [
-            'invoice_date' => $isSqlite ? "CAST(strftime('%m', invoice_date) AS INTEGER) as month" : "MONTH(invoice_date) as month",
-            'revenue_date' => $isSqlite ? "CAST(strftime('%m', revenue_date) AS INTEGER) as month" : "MONTH(revenue_date) as month",
-            'expense_date' => $isSqlite ? "CAST(strftime('%m', expense_date) AS INTEGER) as month" : "MONTH(expense_date) as month"
+            'invoice_date' => "MONTH(invoice_date) as month",
+            'revenue_date' => "MONTH(revenue_date) as month",
+            'expense_date' => "MONTH(expense_date) as month"
         ];
 
         $salesData = SalesInvoice::where('created_by', $companyId)

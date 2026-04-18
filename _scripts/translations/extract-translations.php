@@ -13,7 +13,7 @@ $baseDirectories = [
 ];
 
 $outputFile = __DIR__ . '/resources/lang/en.json';
-$packagesPath = __DIR__ . '/packages/dionone';
+$packagesPath = __DIR__ . '/packages/noble';
 
 // Initialize arrays to store translations
 $translations = [];

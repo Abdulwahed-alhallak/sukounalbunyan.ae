@@ -6,28 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class AIAssistantSettingsController extends Controller
 {
     public function index()
     {
-        $providers = [
-            'openai'    => [
-                'name'   => 'OpenAI',
-                'models' => ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo']
-            ],
-            'anthropic' => [
-                'name'   => 'Anthropic (Claude)',
-                'models' => ['claude-sonnet-4-5', 'claude-opus-4-1', 'claude-3-5-haiku-latest']
-            ],
-            'google'    => [
-                'name'   => 'Google (Gemini)',
-                'models' => ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-lite']
-            ]
-        ];
+        if (!Auth::user()->can('manage-ai-assistant-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
 
-        return response()->json([
-            'providers' => $providers
+        return Inertia::render('AIAssistant/Settings/Index', [
+            'globalSettings' => getCompanyAllSetting(),
+            'providers'      => $this->providers(),
         ]);
     }
 
@@ -49,7 +40,7 @@ class AIAssistantSettingsController extends Controller
             $settings = $request->input('settings', []);
             try {
                 foreach ($settings as $key => $value) {
-                    setSetting($key, $value);
+                    setSetting($key, $value, creatorId());
                 }
 
                 return redirect()->back()->with('success', __('AI Assistant settings saved successfully.'));
@@ -59,5 +50,23 @@ class AIAssistantSettingsController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied'));
         }
+    }
+
+    private function providers(): array
+    {
+        return [
+            'openai'    => [
+                'name'   => 'OpenAI',
+                'models' => ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo'],
+            ],
+            'anthropic' => [
+                'name'   => 'Anthropic (Claude)',
+                'models' => ['claude-sonnet-4-5', 'claude-opus-4-1', 'claude-3-5-haiku-latest'],
+            ],
+            'google'    => [
+                'name'   => 'Google (Gemini)',
+                'models' => ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-lite'],
+            ],
+        ];
     }
 }

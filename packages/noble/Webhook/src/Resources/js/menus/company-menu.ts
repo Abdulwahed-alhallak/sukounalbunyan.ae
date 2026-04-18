@@ -9,7 +9,7 @@ export const webhookCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Webhook Settings'),
-                href: route('webhook.settings.index'),
+                href: '/settings#webhook-settings',
                 permission: 'manage-webhook-settings',
             },
         ],

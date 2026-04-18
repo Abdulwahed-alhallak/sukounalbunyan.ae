@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { router } from '@inertiajs/react';
 import { ShieldAlert, CheckCircle2, XCircle, Clock, AlertTriangle } from 'lucide-react';
 import { Resignation } from './types';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 interface StatusUpdateProps {
     [key: string]: any;
@@ -26,7 +27,7 @@ export function StatusUpdate({ open, onOpenChange, resignation, auth, globalSett
     const [status, setStatus] = useState<string>('pending');
     const [comment, setComment] = useState('');
 
-    const isMultiTierEnabled = globalSettings?.enable_multi_tier_approval === 'on';
+    const isMultiTierEnabled = isMultiTierApprovalEnabled(globalSettings);
     const isHrApproval = auth.user.permissions?.includes('manage-resignation-status');
 
     useEffect(() => {

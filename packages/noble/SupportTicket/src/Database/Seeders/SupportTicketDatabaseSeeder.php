@@ -18,7 +18,10 @@ class SupportTicketDatabaseSeeder extends Seeder
 
         if (config('app.run_demo_seeder')) {
             // Add here your demo data seeders
-            $userId = User::where('email', 'company@example.com')->first()->id;
+            $userId = User::resolveDemoCompanyId();
+            if (!$userId) {
+                return;
+            }
             (new DemoSystemSetupSeeder())->run($userId);
             (new DemoTicketSeeder())->run($userId);
             (new DemoKnowledgeBaseSeeder())->run($userId);

@@ -29,7 +29,8 @@ interface CookieSettingsProps {
 const getInitialSettings = (userSettings?: Record<string, string>): CookieSettings => ({
     enableCookiePopup: userSettings?.enableCookiePopup === '1' || false,
     enableLogging: userSettings?.enableLogging === '1' || false,
-    strictlyNecessaryCookies: userSettings?.strictlyNecessaryCookies === '1' || true,
+    strictlyNecessaryCookies:
+        userSettings?.strictlyNecessaryCookies == null ? true : userSettings.strictlyNecessaryCookies === '1',
     cookieTitle: userSettings?.cookieTitle || 'Cookie Consent',
     strictlyCookieTitle: userSettings?.strictlyCookieTitle || 'Strictly Necessary Cookies',
     cookieDescription:
@@ -39,7 +40,7 @@ const getInitialSettings = (userSettings?: Record<string, string>): CookieSettin
         userSettings?.strictlyCookieDescription || 'These cookies are essential for the website to function properly.',
     contactUsDescription:
         userSettings?.contactUsDescription || 'If you have any questions about our cookie policy, please contact us.',
-    contactUsUrl: userSettings?.contactUsUrl || 'https://example.com/contact',
+    contactUsUrl: userSettings?.contactUsUrl || 'https://noble.dion.sy/contact',
 });
 
 export default function CookieSettings({ userSettings, auth }: CookieSettingsProps) {

@@ -17,7 +17,10 @@ class PosDatabaseSeeder extends Seeder
 
         if(config('app.run_demo_seeder'))
         {
-            $userId = User::where('email', 'company@example.com')->first()->id;
+            $userId = User::resolveDemoCompanyId();
+            if (!$userId) {
+                return;
+            }
             (new DemoPosSeeder())->run($userId);
 
         }

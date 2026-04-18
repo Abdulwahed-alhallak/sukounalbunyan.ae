@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Models\Permission as ModelsPermission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Noble\Hrm\Models\Employee;
 
 class User extends Authenticatable
 {
@@ -95,6 +97,23 @@ class User extends Authenticatable
         return $slug;
     }
 
+    public static function resolveDemoCompany(): ?self
+    {
+        return self::where('email', 'admin@noblearchitecture.net')->first()
+            ?? self::where('type', 'company')->orderBy('id')->first();
+    }
+
+    public static function resolveDemoCompanyId(): ?int
+    {
+        return optional(self::resolveDemoCompany())->id;
+    }
+
+    public static function resolvePlatformOwner(): ?self
+    {
+        return self::where('type', 'superadmin')->orderBy('id')->first()
+            ?? self::where('email', 'superadmin@noblearchitecture.net')->first();
+    }
+
     public static $superadmin_activated_module = [];
 
     public  $not_emp_type = [
@@ -116,6 +135,11 @@ class User extends Authenticatable
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class, 'user_id');
     }
 
     public static function CompanySetting($user_id)

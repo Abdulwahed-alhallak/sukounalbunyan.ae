@@ -17,7 +17,10 @@ class TrainingDatabaseSeeder extends Seeder
 
         if(config('app.run_demo_seeder'))
         {
-            $userId = User::where('email', 'company@example.com')->first()->id;
+            $userId = User::resolveDemoCompanyId();
+            if (!$userId) {
+                return;
+            }
 
             (new TrainingTypeDemoSeeder())->run($userId);
             (new TrainerDemoSeeder())->run($userId);

@@ -37,12 +37,12 @@ interface EmailSettingsProps {
 const getInitialSettings = (userSettings?: Record<string, string>): EmailSettings => ({
     provider: userSettings?.email_provider || 'smtp',
     driver: userSettings?.email_driver || 'smtp',
-    host: userSettings?.email_host || 'smtp.example.com',
+    host: userSettings?.email_host || 'smtp.noble.dion.sy',
     port: userSettings?.email_port || '587',
-    username: userSettings?.email_username || 'user@example.com',
+    username: userSettings?.email_username || 'user@noble.dion.sy',
     password: userSettings?.email_password || '',
     encryption: userSettings?.email_encryption || 'tls',
-    fromAddress: userSettings?.email_fromAddress || 'noreply@example.com',
+    fromAddress: userSettings?.email_fromAddress || 'noreply@noble.dion.sy',
 });
 
 export default function EmailSettings({ userSettings, auth, emailProviders = {} }: EmailSettingsProps) {
@@ -218,7 +218,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         value={settings.host}
                                         onChange={(e) => handleChange('host', e.target.value)}
                                         disabled={!canEdit}
-                                        placeholder="smtp.example.com"
+                                        placeholder="smtp.noble.dion.sy"
                                     />
                                 </div>
 
@@ -246,7 +246,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         value={settings.username}
                                         onChange={(e) => handleChange('username', e.target.value)}
                                         disabled={!canEdit}
-                                        placeholder="user@example.com"
+                                        placeholder="user@noble.dion.sy"
                                     />
                                 </div>
 
@@ -314,7 +314,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                         value={settings.fromAddress}
                                         onChange={(e) => handleChange('fromAddress', e.target.value)}
                                         disabled={!canEdit}
-                                        placeholder="noreply@example.com"
+                                        placeholder="noreply@noble.dion.sy"
                                     />
                                 </div>
                             </div>
@@ -341,7 +341,7 @@ export default function EmailSettings({ userSettings, auth, emailProviders = {} 
                                             type="email"
                                             value={testEmail}
                                             onChange={(e) => setTestEmail(e.target.value)}
-                                            placeholder="test@example.com"
+                                            placeholder="test@noble.dion.sy"
                                             required
                                         />
                                         <p className="text-xs text-muted-foreground">

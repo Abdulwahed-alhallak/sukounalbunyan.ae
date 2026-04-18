@@ -75,10 +75,13 @@ interface HrmProps {
         }>;
         employees_on_leave_today: Array<{
             name: string;
+            profile: string;
             leave_type: string;
             days: number;
         }>;
         employees_without_attendance: Array<{
+            employee_id: string;
+            profile: string;
             name: string;
             department: string;
         }>;
@@ -130,7 +133,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                 <div className="tabular-nums text-3xl font-bold text-foreground">{stats.present_today}</div>
                                 <div className="mt-1 flex items-center text-xs text-foreground">
                                     <span>
-                                        {((stats.present_today / stats.total_employees) * 100).toFixed(1)}%{' '}
+                                        {stats.total_employees > 0 ? ((stats.present_today / stats.total_employees) * 100).toFixed(1) : "0.0"}%{' '}
                                         {t('attendance rate')}
                                     </span>
                                 </div>
@@ -475,9 +478,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
-                                                        {employee.avatar ? (
+                                                        {employee.profile ? (
                                                             <img
-                                                                src={getImagePath(employee.avatar)}
+                                                                src={getImagePath(employee.profile)}
                                                                 alt={employee.name}
                                                                 className="h-full w-full object-cover"
                                                             />
@@ -542,9 +545,9 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
-                                                        {employee.avatar ? (
+                                                        {employee.profile ? (
                                                             <img
-                                                                src={getImagePath(employee.avatar)}
+                                                                src={getImagePath(employee.profile)}
                                                                 alt={employee.name}
                                                                 className="h-full w-full object-cover"
                                                             />
@@ -592,7 +595,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <CalendarView events={stats.calendar_events} height={400} />
+                            <CalendarView events={stats.calendar_events} />
                         </CardContent>
                     </Card>
 

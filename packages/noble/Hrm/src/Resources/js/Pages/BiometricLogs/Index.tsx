@@ -104,7 +104,7 @@ export default function Index() {
                         variant="outline"
                         className={`w-fit text-[10px] font-black uppercase ${value ? 'border-foreground/20 bg-foreground/10 text-foreground' : 'border-border/20 bg-muted-foreground/10 text-muted-foreground'}`}
                     >
-                        {value ? t('Processed') : t('Pending Engine')}
+                        {value ? t('Processed') : t('Pending')}
                     </Badge>
                     {log.error_message && (
                         <div className="flex items-center gap-1 text-[10px] font-bold text-destructive">
@@ -120,7 +120,7 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Biometric Logs') }]}
-            pageTitle={t('ADMS Biometric Logs')}
+            pageTitle={t('Biometric Logs')}
             pageActions={
                 <TooltipProvider>
                     {auth.user?.permissions?.includes('manage-attendances') && (
@@ -134,12 +134,12 @@ export default function Index() {
                                 >
                                     <Cpu className={`h-4 w-4 ${processing ? 'animate-pulse text-primary' : ''}`} />
                                     <span className="hidden sm:inline">
-                                        {processing ? t('Crunching Data...') : t('Force Processor Engine')}
+                                        {processing ? t('Processing...') : t('Process Logs')}
                                     </span>
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>{t('Run mapping CRON job manually to generate attendances')}</p>
+                                <p>{t('Process incoming logs and generate attendance records')}</p>
                             </TooltipContent>
                         </Tooltip>
                     )}
@@ -149,7 +149,6 @@ export default function Index() {
             <Head title={t('Biometric Logs')} />
 
             <div className="space-y-6 duration-1000 animate-in fade-in">
-                {/* Stats Header */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <div className="premium-card bg-gradient-to-br from-foreground/5 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
@@ -157,14 +156,12 @@ export default function Index() {
                                 <Fingerprint className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Total Pushes')}
+                                {t('Total Logs')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{logs?.total || 0}</h3>
-                            <p className="text-xs font-medium text-muted-foreground">
-                                {t('All-Time Recorded Vectors')}
-                            </p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Logs received from biometric devices')}</p>
                         </div>
                     </div>
 
@@ -181,23 +178,21 @@ export default function Index() {
                             <h3 className="text-3xl font-black tracking-tight">
                                 {logs?.data?.filter((l: any) => l.error_message).length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">
-                                {t('Requires Manual Mapping in Employees')}
-                            </p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Employee mapping is required')}</p>
                         </div>
                     </div>
                 </div>
 
-                <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
-                    <div className="border-b border-white/5 bg-card/5 p-6">
+                <Card className="hrm-panel overflow-hidden">
+                    <div className="hrm-toolbar p-6">
                         <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
                             <div className="w-full max-w-xl lg:flex-1">
                                 <SearchInput
                                     value={filters.search}
                                     onChange={(value) => setFilters({ ...filters, search: value })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Search Machine ID...')}
-                                    className="border-white/10 bg-background/20"
+                                    placeholder={t('Search machine ID...')}
+                                    className="border-border/30 bg-background/30"
                                 />
                             </div>
                             <div className="flex items-center gap-2">
@@ -209,7 +204,7 @@ export default function Index() {
                                         setTimeout(handleFilter, 100);
                                     }}
                                 >
-                                    {t('All Streams')}
+                                    {t('All')}
                                 </Badge>
                                 <Badge
                                     variant="outline"
@@ -229,7 +224,7 @@ export default function Index() {
                                         setTimeout(handleFilter, 100);
                                     }}
                                 >
-                                    {t('Raw Data')}
+                                    {t('Pending')}
                                 </Badge>
                             </div>
                         </div>
@@ -246,8 +241,8 @@ export default function Index() {
                             emptyState={
                                 <NoRecordsFound
                                     icon={Fingerprint}
-                                    title={t('No ADMS Vectors Found')}
-                                    description={t('System clear. Waiting for biometric device push payload.')}
+                                    title={t('No biometric logs found')}
+                                    description={t('Biometric logs will appear here once devices start syncing.')}
                                     hasFilters={!!(filters.search || filters.status)}
                                     onClearFilters={clearFilters}
                                 />
@@ -255,7 +250,7 @@ export default function Index() {
                         />
                     </div>
 
-                    <div className="border-t border-white/5 bg-card/5 px-6 py-4">
+                    <div className="border-t border-border/20 bg-muted/30 px-6 py-4">
                         <Pagination
                             data={
                                 logs || {

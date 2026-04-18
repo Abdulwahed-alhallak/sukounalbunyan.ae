@@ -51,8 +51,9 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const [isLoading, setIsLoading] = useState(false);
-    const canEdit = auth?.user?.permissions?.includes('edit-system-settings') || auth?.user?.roles?.includes('superadmin') || true;
-    const isSuperAdmin = auth?.user?.type === 'superadmin' || true;
+    const canEdit =
+        auth?.user?.permissions?.includes('edit-system-settings') || auth?.user?.roles?.includes('superadmin');
+    const isSuperAdmin = auth?.user?.type === 'superadmin';
 
     const [settings, setSettings] = useState<SystemSettings>({
         defaultLanguage: userSettings?.defaultLanguage || 'en',

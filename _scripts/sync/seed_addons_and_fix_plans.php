@@ -11,7 +11,7 @@ config([
     'database.connections.mysql.password' => 'm:&!u>Do!P3',
 ]);
 
-$modules_path = base_path('packages/dionone');
+$modules_path = base_path('packages/noble');
 $directories = array_map('basename', \File::directories($modules_path));
 
 echo "Seeding Addons...\n";

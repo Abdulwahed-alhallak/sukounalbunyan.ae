@@ -9,15 +9,15 @@ conn.on('ready', () => {
     const remoteBackupPath = `${CONFIG.APP_DIR}/database_gold_master_v1.1.sql`;
     
     // Explicitly using Hostinger's standard DB backup command structure
-    const dumpCmd = `mysqldump -u ${CONFIG.DB_USER} -p"${CONFIG.DB_PASS}" ${CONFIG.DB_NAME} > ${remoteBackupPath}`;
+    const dumpCmd = `mysqldump -u ${CONFIG.DATABASE.username} -p"${CONFIG.DATABASE.password}" ${CONFIG.DATABASE.name} > ${remoteBackupPath}`;
     
-    conn.exec(dumpCmd, (err, stream) => {
+    conn.exec(dumpCmd, (/** @type {any} */ err, /** @type {any} */ stream) => {
         if (err) throw err;
         stream.on('close', () => {
             console.log('✅ Backup created on production server!');
             console.log('⬇️ Downloading backup locally...');
             
-            conn.sftp((err, sftp) => {
+            conn.sftp((/** @type {any} */ err, /** @type {any} */ sftp) => {
                 if (err) throw err;
                 const localBackupDir = path.join(__dirname, '../../docs/Archive/backups');
                 if (!fs.existsSync(localBackupDir)) {
@@ -25,7 +25,7 @@ conn.on('ready', () => {
                 }
                 const localBackupPath = path.join(localBackupDir, 'database_gold_master_v1.1.sql');
                 
-                sftp.fastGet(remoteBackupPath, localBackupPath, (err) => {
+                sftp.fastGet(remoteBackupPath, localBackupPath, (/** @type {any} */ err) => {
                     if (err) {
                         console.error('❌ Failed to download:', err);
                     } else {

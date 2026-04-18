@@ -39,7 +39,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                             autoComplete="email"
                             autoFocus
                             required
-                            placeholder="email@example.com"
+                            placeholder="email@noble.dion.sy"
                             className="w-full rounded-md border border-border px-3 py-2 text-sm placeholder-gray-400 transition-colors focus:outline-none dark:border-border dark:bg-muted dark:text-foreground"
                         />
                         <InputError message={errors.email} />

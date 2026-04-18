@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GamificationRule;
 use App\Models\GamificationPoint;
+use App\Services\GamificationService;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class GamificationController extends Controller
@@ -53,5 +55,21 @@ class GamificationController extends Controller
         GamificationRule::create($data);
 
         return redirect()->back()->with('success', 'New loyalty rule established.');
+    }
+
+    public function testAward(Request $request)
+    {
+        $data = $request->validate([
+            'event_name' => 'required|string|exists:gamification_rules,event_name',
+            'user_id' => 'nullable|integer|exists:users,id',
+        ]);
+
+        $user = Auth::user();
+        $userId = $data['user_id'] ?? $user->id;
+        $companyId = $user->type === 'company' ? $user->id : $user->created_by;
+
+        GamificationService::awardPoints($userId, $data['event_name'], $companyId);
+
+        return redirect()->back()->with('success', 'Gamification points awarded successfully.');
     }
 }

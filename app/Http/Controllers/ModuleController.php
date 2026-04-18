@@ -59,7 +59,7 @@ class ModuleController extends Controller
                     Artisan::call('migrate --path=/packages/noble/' . $request->name . '/src/Database/Migrations --force');
                     Artisan::call('package:seed ' . $request->name);
 
-                    $filePath = base_path('packages/Noble Architecture/' . $request->name . '/module.json');
+                    $filePath = base_path('packages/noble/' . $request->name . '/module.json');
                     $jsonContent = file_get_contents($filePath);
                     $data = json_decode($jsonContent, true);
 
@@ -143,7 +143,7 @@ class ModuleController extends Controller
     private function getAllModules()
     {
         $modules = [];
-        $packagesPath = base_path('packages/Noble Architecture');
+        $packagesPath = base_path('packages/noble');
 
         if (!File::exists($packagesPath)) {
             return $modules;
@@ -241,7 +241,7 @@ class ModuleController extends Controller
             throw new \Exception("Unable to open ZIP file: {$file->getClientOriginalName()}");
         }
 
-        $tempPath = base_path('packages/Noble Architecture/tmp_' . uniqid());
+        $tempPath = base_path('packages/noble/tmp_' . uniqid());
         $zip->extractTo($tempPath);
         $zip->close();
 
@@ -265,7 +265,7 @@ class ModuleController extends Controller
             throw new \Exception("Invalid module.json: {$file->getClientOriginalName()}");
         }
 
-        $extractPath = base_path('packages/Noble Architecture/' . $moduleData['name']);
+        $extractPath = base_path('packages/noble/' . $moduleData['name']);
         $this->createDirectory($extractPath);
         $this->moveExtractedFiles($tempPath . '/' . $rootFolderName, $extractPath);
         $this->deleteDirectory($tempPath);

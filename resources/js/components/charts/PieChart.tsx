@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LabelList } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 interface PieChartProps {
     data: any[];
@@ -40,9 +41,11 @@ export const PieChart: React.FC<PieChartProps> = ({
     showLegend = false,
     showTooltip = false,
 }) => {
+    const { t } = useTranslation();
+
     // Handle empty or invalid data
     if (!data || !Array.isArray(data) || data.length === 0) {
-        return <div className="flex h-full items-center justify-center text-muted-foreground">No data available</div>;
+        return <div className="flex h-full items-center justify-center text-muted-foreground">{t('charts.no_data_available')}</div>;
     }
 
     return (

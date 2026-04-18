@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ShieldAlert, AlertTriangle } from 'lucide-react';
 import { Complaint } from './types';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 interface ComplaintStatusProps {
     [key: string]: any;
@@ -28,7 +29,7 @@ export default function ComplaintStatus({
     const { t } = useTranslation();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const isMultiTierEnabled = globalSettings?.enable_multi_tier_approval === 'on';
+    const isMultiTierEnabled = isMultiTierApprovalEnabled(globalSettings);
     const isHrApproval = auth.user.permissions?.includes('manage-complaint-status');
 
     const { data, setData, put, errors, processing } = useForm({

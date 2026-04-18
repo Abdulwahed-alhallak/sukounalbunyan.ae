@@ -9,7 +9,7 @@ use Noble\Performance\Http\Controllers\ReviewCycleController;
 use Noble\Performance\Http\Controllers\EmployeeReviewController;
 use Noble\Performance\Http\Controllers\DashboardController;
 
-Route::middleware(['web', 'auth', 'verified'])->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Performance'])->group(function () {
     
     // Performance Indicators
     Route::prefix('performance/indicators')->name('performance.indicators.')->group(function () {

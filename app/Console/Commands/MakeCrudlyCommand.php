@@ -34,10 +34,10 @@ Example: --fields="title:textbox:required,content:textarea:required" --relations
 
         // Validate package if provided
         if ($package) {
-            $packagePath = base_path("packages/Noble Architecture/{$package}");
+            $packagePath = base_path("packages/noble/{$package}");
             if (!is_dir($packagePath)) {
                 $availablePackages = [];
-                $packagesDir = base_path('packages/Noble Architecture');
+                $packagesDir = base_path('packages/noble');
                 if (is_dir($packagesDir)) {
                     $availablePackages = array_filter(scandir($packagesDir), function($item) use ($packagesDir) {
                         return $item !== '.' && $item !== '..' && is_dir($packagesDir . '/' . $item);

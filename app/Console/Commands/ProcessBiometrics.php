@@ -3,6 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use Noble\Hrm\Models\BiometricLog;
+use Noble\Hrm\Models\Employee;
+use Noble\Hrm\Models\Attendance;
+use Noble\Hrm\Models\Shift;
 
 class ProcessBiometrics extends Command
 {
@@ -26,32 +32,33 @@ class ProcessBiometrics extends Command
     public function handle()
     {
         $this->info("Starting biometric processing...");
+        Log::info("HRM: Biometric processing started.");
 
-        $unprocessedLogs = \Noble\Hrm\Models\BiometricLog::where('is_processed', false)
+        $unprocessedLogs = BiometricLog::where('is_processed', false)
             ->orderBy('punch_time', 'asc')
             ->get()
             ->groupBy(function($log) {
-                // Group by employee AND date to process day by day
-                $date = \Carbon\Carbon::parse($log->punch_time)->format('Y-m-d');
-                return $log->emp_id . '_' . $date;
+                // Group by Company, Employee AND date to process day by day securely
+                $date = Carbon::parse($log->punch_time)->format('Y-m-d');
+                return $log->created_by . '_' . $log->emp_id . '_' . $date;
             });
 
         $processedCount = 0;
 
         foreach ($unprocessedLogs as $groupKey => $logs) {
             $firstLog = $logs->first();
-            $date = \Carbon\Carbon::parse($firstLog->punch_time)->format('Y-m-d');
+            $date = Carbon::parse($firstLog->punch_time)->format('Y-m-d');
             $empId = $firstLog->emp_id;
             $companyId = $firstLog->created_by;
 
             // Find Employee
-            $employee = \Noble\Hrm\Models\Employee::with('shift')
+            $employee = Employee::with('shift')
                 ->where('employee_id', $empId)
                 ->where('created_by', $companyId)
                 ->first();
 
             if (!$employee) {
-                // Mark logs as processed with error to avoid repeated failed processing
+                Log::warning("HRM: Employee not found for ID: {$empId} in Company: {$companyId}");
                 foreach($logs as $log) {
                     $log->is_processed = true;
                     $log->error_message = 'Employee not found in system.';
@@ -60,14 +67,14 @@ class ProcessBiometrics extends Command
                 continue;
             }
 
-            // Determine IN and OUT
-            $clockInTime = $logs->min('punch_time');
-            $clockOutTime = $logs->max('punch_time');
+            // Simple Logic: First-In / Last-Out
+            $clockInTimeStr = $logs->min('punch_time');
+            $clockOutTimeStr = $logs->max('punch_time');
             
-            // If only one punch exists, we might treat it as clock_in, but for a complete day we usually need two. 
-            // In a real system, the command runs at the end of the day or frequently. 
-            // We can just update the existing attendance if it exists.
-            $attendance = \Noble\Hrm\Models\Attendance::firstOrNew([
+            $clockInTime = Carbon::parse($clockInTimeStr);
+            $clockOutTime = Carbon::parse($clockOutTimeStr);
+
+            $attendance = Attendance::firstOrNew([
                 'employee_id' => $employee->user_id,
                 'date' => $date,
                 'created_by' => $companyId
@@ -75,26 +82,70 @@ class ProcessBiometrics extends Command
 
             $attendance->shift_id = $employee->shift_id;
             
-            // Only update clock in if not set or if new punch is earlier
-            if (!$attendance->clock_in || $clockInTime < $attendance->clock_in) {
-                $attendance->clock_in = \Carbon\Carbon::parse($clockInTime)->format('H:i');
+            // Update clock in if earlier than existing
+            if (!$attendance->clock_in || $clockInTime->lt($attendance->clock_in)) {
+                $attendance->clock_in = $clockInTime;
             }
 
-            // If we have distinct punches, highest is clock out
-            if ($clockInTime !== $clockOutTime) {
-                $attendance->clock_out = \Carbon\Carbon::parse($clockOutTime)->format('H:i');
+            // Update clock out if later than existing
+            if ($clockInTimeStr !== $clockOutTimeStr) {
+                if (!$attendance->clock_out || $clockOutTime->gt($attendance->clock_out)) {
+                    $attendance->clock_out = $clockOutTime;
+                }
             }
 
-            // Basic hour calculation
+            // Calculation Logic
             if ($attendance->clock_in && $attendance->clock_out) {
-                $cIn = \Carbon\Carbon::parse($date . ' ' . $attendance->clock_in);
-                $cOut = \Carbon\Carbon::parse($date . ' ' . $attendance->clock_out);
+                $shift = $employee->shift;
                 
-                $diffInMinutes = $cIn->diffInMinutes($cOut);
-                $attendance->total_hour = round($diffInMinutes / 60, 2);
-                $attendance->status = 'present';
+                // Standard Hours (Default 8 if no shift)
+                $standardHours = 8;
+                $shiftStartTimeStr = null;
+                
+                if ($shift) {
+                    $sStart = Carbon::parse($date . ' ' . $shift->start_time);
+                    $sEnd = Carbon::parse($date . ' ' . $shift->end_time);
+                    if ($sEnd->lt($sStart)) $sEnd->addDay();
+                    
+                    $shiftStartTimeStr = $sStart;
+
+                    $breakMinutes = 0;
+                    if ($shift->break_start_time && $shift->break_end_time) {
+                        $bStart = Carbon::parse($date . ' ' . $shift->break_start_time);
+                        $bEnd = Carbon::parse($date . ' ' . $shift->break_end_time);
+                        if ($bEnd->lt($bStart)) $bEnd->addDay();
+                        $breakMinutes = $bStart->diffInMinutes($bEnd);
+                    }
+                    
+                    $standardHours = round(($sStart->diffInMinutes($sEnd) - $breakMinutes) / 60, 2);
+                }
+
+                $totalMinutes = $attendance->clock_in->diffInMinutes($attendance->clock_out);
+                $totalHours = round($totalMinutes / 60, 2);
+                
+                $attendance->total_hour = $totalHours;
+                $attendance->overtime_hours = max(0, $totalHours - $standardHours);
+                
+                if ($attendance->overtime_hours > 0 && $employee->rate_per_hour) {
+                    $attendance->overtime_amount = round($attendance->overtime_hours * $employee->rate_per_hour, 2);
+                }
+
+                // Enhanced Status logic
+                $isLate = false;
+                if ($shiftStartTimeStr && $attendance->clock_in->gt($shiftStartTimeStr->addMinutes(15))) {
+                    $isLate = true;
+                }
+
+                if ($totalHours >= $standardHours) {
+                    $attendance->status = $isLate ? 'late' : 'present';
+                } elseif ($totalHours >= ($standardHours / 2)) {
+                    $attendance->status = 'half day';
+                } else {
+                    $attendance->status = 'absent';
+                }
             } else {
-                $attendance->status = 'present'; // partial present
+                // If only one punch is recorded today
+                $attendance->status = 'present'; 
             }
 
             $attendance->creator_id = $companyId;
@@ -110,5 +161,6 @@ class ProcessBiometrics extends Command
         }
 
         $this->info("Successfully processed {$processedCount} records.");
+        Log::info("HRM: Biometric processing completed. Processed {$processedCount} records.");
     }
 }

@@ -10,10 +10,10 @@ const config = {
     readyTimeout: 60000
 };
 
-// Project Root is C:\Users\DION-SERVER\Desktop\DionONE\main-file
-const projectRoot = 'c:/Users/DION-SERVER/Desktop/DionONE/main-file';
+// Project Root (Local environment)
+const projectRoot = path.join(__dirname, '..', '..');
 const files = [
-    { local: '../nobel Employee S Data.csv', remote: 'nobel_Employee_S_Data.csv' },
+    { local: 'nobel_Employee_S_Data.csv', remote: 'nobel_Employee_S_Data.csv' },
     { local: '_scripts/execute_import_v2.php', remote: 'execute_import_v2.php' }
 ];
 

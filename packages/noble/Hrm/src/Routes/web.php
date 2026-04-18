@@ -521,36 +521,4 @@ Route::middleware(['web', 'auth', 'verified', 'PlanModuleCheck:Hrm'])->group(fun
         Route::delete('/{iprestrict}', [IpRestrictController::class, 'destroy'])->name('destroy');
         Route::post('/toggle-setting', [IpRestrictController::class, 'toggleSetting'])->name('toggle-setting');
     });
-
-    // Company Assets
-    Route::prefix('hrm/assets')->name('hrm.assets.')->group(function () {
-        Route::get('/', [CompanyAssetController::class, 'index'])->name('index');
-        Route::post('/', [CompanyAssetController::class, 'store'])->name('store');
-        Route::put('/{asset}', [CompanyAssetController::class, 'update'])->name('update');
-        Route::delete('/{asset}', [CompanyAssetController::class, 'destroy'])->name('destroy');
-    });
-
-    // Employee Onboarding
-    Route::prefix('hrm/onboarding')->name('hrm.onboarding.')->group(function () {
-        Route::get('/', [OnboardingController::class, 'index'])->name('index');
-        Route::post('/', [OnboardingController::class, 'store'])->name('store');
-        Route::put('/{onboarding}', [OnboardingController::class, 'update'])->name('update');
-        Route::delete('/{onboarding}', [OnboardingController::class, 'destroy'])->name('destroy');
-    });
-
-    // Vacation Settlement
-    Route::prefix('hrm/vacation-settlement')->name('hrm.vacation-settlement.')->group(function () {
-        Route::get('/', [VacationSettlementController::class, 'index'])->name('index');
-        Route::post('/', [VacationSettlementController::class, 'store'])->name('store');
-        Route::put('/{vacationSettlement}', [VacationSettlementController::class, 'update'])->name('update');
-        Route::delete('/{vacationSettlement}', [VacationSettlementController::class, 'destroy'])->name('destroy');
-    });
-
-    // Final Settlement
-    Route::prefix('hrm/final-settlement')->name('hrm.final-settlement.')->group(function () {
-        Route::get('/', [FinalSettlementController::class, 'index'])->name('index');
-        Route::post('/', [FinalSettlementController::class, 'store'])->name('store');
-        Route::put('/{finalSettlement}', [FinalSettlementController::class, 'update'])->name('update');
-        Route::delete('/{finalSettlement}', [FinalSettlementController::class, 'destroy'])->name('destroy');
-    });
 });

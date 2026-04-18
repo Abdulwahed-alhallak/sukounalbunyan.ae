@@ -3,7 +3,9 @@ import { PaginatedData, ModalState, AuthContext } from '@/types/common';
 export interface User {
     id: number;
     name: string;
-    [key: string]: any;
+    email?: string;
+    avatar?: string;
+    role?: string;
 }
 
 export interface BudgetPeriod {
@@ -12,10 +14,11 @@ export interface BudgetPeriod {
     financial_year: string;
     start_date: string;
     end_date: string;
-    status: string;
+    status: 'draft' | 'submitted' | 'approved' | 'rejected';
     approved_by?: {
         name: string;
-        [key: string]: any;
+        email?: string;
+        id?: number;
     };
     created_at: string;
 }
@@ -25,7 +28,6 @@ export interface CreateBudgetPeriodFormData {
     financial_year: string;
     start_date: string;
     end_date: string;
-    [key: string]: any;
 }
 
 export interface EditBudgetPeriodFormData {
@@ -33,16 +35,14 @@ export interface EditBudgetPeriodFormData {
     financial_year: string;
     start_date: string;
     end_date: string;
-    status: string;
-    [key: string]: any;
+    status: 'draft' | 'submitted' | 'approved' | 'rejected';
 }
 
 export interface BudgetPeriodFilters {
-    period_name: string;
-    financial_year: string;
-    status: string;
-    date_range: string;
-    [key: string]: any;
+    period_name?: string;
+    financial_year?: string;
+    status?: 'draft' | 'submitted' | 'approved' | 'rejected';
+    date_range?: string;
 }
 
 export type PaginatedBudgetPeriods = PaginatedData<BudgetPeriod>;
@@ -51,21 +51,17 @@ export type BudgetPeriodModalState = ModalState<BudgetPeriod>;
 export interface BudgetPeriodsIndexProps {
     budgetperiods: PaginatedBudgetPeriods;
     auth: AuthContext;
-    [key: string]: any;
 }
 
 export interface CreateBudgetPeriodProps {
     onSuccess: () => void;
-    [key: string]: any;
 }
 
 export interface EditBudgetPeriodProps {
     budgetperiod: BudgetPeriod;
     onSuccess: () => void;
-    [key: string]: any;
 }
 
 export interface BudgetPeriodShowProps {
     budgetperiod: BudgetPeriod;
-    [key: string]: any;
 }

@@ -365,7 +365,7 @@ export default function WorkflowIndex({ rules, modules, events, actionTypes, ope
                                     )}
                                     {action.type === 'webhook' && (
                                         <input
-                                            placeholder="https://example.com/webhook"
+                                            placeholder="https://noble.dion.sy/webhook"
                                             value={action.url || ''}
                                             onChange={(e) => updateAction(i, 'url', e.target.value)}
                                             className="w-full rounded-lg border border-border bg-muted px-2 py-1.5 text-xs text-foreground"

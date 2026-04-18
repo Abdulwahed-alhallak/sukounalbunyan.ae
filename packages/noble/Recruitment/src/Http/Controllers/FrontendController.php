@@ -356,7 +356,7 @@ class FrontendController extends Controller
                 'jobTitle' => $candidate && $candidate->job_posting ? $candidate->job_posting->title : 'Demo Position',
                 'appliedDate' => $candidate ? $candidate->application_date->format('M d, Y') : now()->format('M d, Y'),
                 'applicantName' => $candidate ? $candidate->first_name . ' ' . $candidate->last_name : 'Demo User',
-                'email' => $candidate ? $candidate->email : 'demo@example.com'
+                'email' => $candidate ? $candidate->email : 'demo@noble.dion.sy'
             ];
 
             // Get what happens next steps

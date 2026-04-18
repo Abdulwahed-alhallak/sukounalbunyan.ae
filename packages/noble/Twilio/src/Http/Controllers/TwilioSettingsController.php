@@ -8,15 +8,21 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class TwilioSettingsController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->can('manage-twilio-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
         $twilioNotifications = Notification::where('type', 'Twilio')->get()->groupBy('module');
 
-        return response()->json([
-            'twilioNotifications' => $twilioNotifications
+        return Inertia::render('Twilio/Settings/Index', [
+            'globalSettings'        => getCompanyAllSetting(),
+            'twilioNotifications'   => $twilioNotifications,
         ]);
     }
 

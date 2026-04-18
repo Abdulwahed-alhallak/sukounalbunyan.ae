@@ -19,6 +19,8 @@ use Noble\Taskly\Events\ProjectInviteMember;
 use Noble\Taskly\Events\ProjectShareToClient;
 use Noble\Taskly\Events\UpdateProject;
 use Noble\Taskly\Events\UpdateProjectMilestone;
+use App\Models\PurchaseInvoiceItem;
+use App\Models\SalesInvoice;
 use Noble\Taskly\Models\Project;
 use Noble\Taskly\Http\Requests\UpdateMilestoneRequest;
 use Noble\Taskly\Http\Requests\StoreMilestoneRequest;
@@ -31,6 +33,7 @@ use Noble\Taskly\Models\ProjectBug;
 use Noble\Taskly\Models\ProjectClient;
 use Noble\Taskly\Models\ProjectUser;
 use Noble\Taskly\Models\ProjectFile;
+use Illuminate\Support\Facades\Schema;
 
 class ProjectController extends Controller
 {
@@ -234,6 +237,89 @@ class ProjectController extends Controller
             // Project Expenses
             $projectExpenses = \Noble\Taskly\Models\ProjectExpense::where('project_id', $project->id)->orderBy('date', 'desc')->get();
             $totalExpense = $projectExpenses->sum('amount');
+            $salesInvoices = SalesInvoice::query()
+                ->with('customer:id,name')
+                ->where('project_id', $project->id)
+                ->where('created_by', creatorId())
+                ->orderByDesc('invoice_date')
+                ->get()
+                ->map(function (SalesInvoice $invoice) {
+                    return [
+                        'id' => $invoice->id,
+                        'invoice_number' => $invoice->invoice_number,
+                        'invoice_date' => optional($invoice->invoice_date)->toDateString(),
+                        'status' => $invoice->status,
+                        'customer_name' => $invoice->customer?->name,
+                        'total_amount' => (float) $invoice->total_amount,
+                        'paid_amount' => (float) $invoice->paid_amount,
+                        'balance_amount' => (float) $invoice->balance_amount,
+                    ];
+                })
+                ->values();
+
+            $revenues = collect();
+            if (Schema::hasTable('revenues')) {
+                $revenues = \Noble\Account\Models\Revenue::query()
+                    ->where('project_id', $project->id)
+                    ->where('created_by', creatorId())
+                    ->orderByDesc('revenue_date')
+                    ->get()
+                    ->map(function ($revenue) {
+                        return [
+                            'id' => $revenue->id,
+                            'revenue_number' => $revenue->revenue_number,
+                            'revenue_date' => optional($revenue->revenue_date)->toDateString(),
+                            'status' => $revenue->status,
+                            'amount' => (float) $revenue->amount,
+                            'description' => $revenue->description,
+                        ];
+                    })
+                    ->values();
+            }
+
+            $accountExpenses = collect();
+            if (Schema::hasTable('expenses')) {
+                $accountExpenses = \Noble\Account\Models\Expense::query()
+                    ->where('project_id', $project->id)
+                    ->where('created_by', creatorId())
+                    ->orderByDesc('expense_date')
+                    ->get()
+                    ->map(function ($expense) {
+                        return [
+                            'id' => $expense->id,
+                            'expense_number' => $expense->expense_number,
+                            'expense_date' => optional($expense->expense_date)->toDateString(),
+                            'status' => $expense->status,
+                            'amount' => (float) $expense->amount,
+                            'description' => $expense->description,
+                        ];
+                    })
+                    ->values();
+            }
+
+            $purchaseItems = collect();
+            if (Schema::hasTable('purchase_invoice_items') && Schema::hasTable('purchase_invoices')) {
+                $purchaseItems = PurchaseInvoiceItem::query()
+                    ->with(['invoice:id,invoice_number,invoice_date,status', 'product:id,name'])
+                    ->where('project_id', $project->id)
+                    ->whereHas('invoice', function ($query) {
+                        $query->where('created_by', creatorId());
+                    })
+                    ->orderByDesc('id')
+                    ->get()
+                    ->map(function (PurchaseInvoiceItem $item) {
+                        return [
+                            'id' => $item->id,
+                            'invoice_number' => $item->invoice?->invoice_number,
+                            'invoice_date' => optional($item->invoice?->invoice_date)->toDateString(),
+                            'status' => $item->invoice?->status,
+                            'product_name' => $item->product?->name,
+                            'quantity' => (int) $item->quantity,
+                            'total_amount' => (float) $item->total_amount,
+                        ];
+                    })
+                    ->values();
+            }
 
             return Inertia::render('Taskly/Project/View', [
                 'project' => $project,
@@ -248,6 +334,22 @@ class ProjectController extends Controller
                 ],
                 'chartData' => $chartData,
                 'chartLines' => $chartLines,
+                'projectFinance' => [
+                    'summary' => [
+                        'salesInvoicedTotal' => (float) $salesInvoices->sum('total_amount'),
+                        'salesCollectedTotal' => (float) $salesInvoices->sum('paid_amount'),
+                        'salesOutstandingTotal' => (float) $salesInvoices->sum('balance_amount'),
+                        'trackedRevenueTotal' => (float) $revenues->sum('amount'),
+                        'accountExpenseTotal' => (float) $accountExpenses->sum('amount'),
+                        'tasklyExpenseTotal' => (float) $totalExpense,
+                        'purchaseCommitmentTotal' => (float) $purchaseItems->sum('total_amount'),
+                        'trackedCostTotal' => (float) ($accountExpenses->sum('amount') + $totalExpense + $purchaseItems->sum('total_amount')),
+                    ],
+                    'salesInvoices' => $salesInvoices,
+                    'revenues' => $revenues,
+                    'accountExpenses' => $accountExpenses,
+                    'purchaseItems' => $purchaseItems,
+                ],
                 'activityLogs' => $activityLogs,
                 'projectFiles' => ProjectFile::where('project_id', $project->id)->get(),
                 'projectExpenses' => $projectExpenses,

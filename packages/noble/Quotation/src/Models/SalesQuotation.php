@@ -11,10 +11,11 @@ use App\Models\Warehouse;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Noble\Account\Models\Customer;
+use App\Traits\TenantBound;
 
 class SalesQuotation extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantBound;
 
     protected $fillable = [
         'quotation_number',

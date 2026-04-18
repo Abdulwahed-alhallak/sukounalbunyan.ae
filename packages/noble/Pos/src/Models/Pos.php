@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Warehouse;
+use App\Traits\TenantBound;
 
 class Pos extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'sale_number',
         'customer_id',

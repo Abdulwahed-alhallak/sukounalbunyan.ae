@@ -57,6 +57,26 @@ class AttendanceController extends Controller
         }
     }
 
+    public function getShiftsByEmployee($employeeId)
+    {
+        if (!Auth::user()->can('manage-attendances')) {
+            return response()->json([], 403);
+        }
+
+        $employee = Employee::with('shift:id,shift_name')
+            ->where('user_id', $employeeId)
+            ->where('created_by', creatorId())
+            ->first();
+
+        if ($employee?->shift) {
+            return response()->json([$employee->shift]);
+        }
+
+        return response()->json(
+            Shift::where('created_by', creatorId())->select('id', 'shift_name')->get()
+        );
+    }
+
     public function tracker()
     {
         if (Auth::user()->can('manage-attendances')) {
@@ -485,7 +505,7 @@ class AttendanceController extends Controller
 
                 Attendance::create([
                     'employee_id' => $employeeId,
-                    'shift_id' => $shift,
+                    'shift_id' => $shift ? $shift->id : null,
                     'date' => $today,
                     'clock_in' => $clockInTime,
                     'creator_id' => Auth::id(),

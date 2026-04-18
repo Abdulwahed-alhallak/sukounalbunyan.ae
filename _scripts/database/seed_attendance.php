@@ -4,7 +4,7 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-$companyUser = App\Models\User::where('type', 'company')->where('email', 'admin@example.com')->first();
+$companyUser = App\Models\User::where('type', 'company')->where('email', 'admin@noble.dion.sy')->first();
 $employees = Noble\Hrm\Models\Employee::where('created_by', $companyUser->id)->get();
 $shift = Noble\Hrm\Models\Shift::where('created_by', $companyUser->id)->first();
 

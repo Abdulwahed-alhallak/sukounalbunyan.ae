@@ -629,14 +629,14 @@ class CrudlyGenerator
         // Store Request
         $stub = File::get($this->stubPath . '/backend/store-request.stub');
         $content = $this->replacePlaceholders($stub, $data);
-        $path = base_path("packages/dionone/{$data['package']}/src/Http/Requests/Store{$data['name']}Request.php");
+        $path = base_path("packages/noble/{$data['package']}/src/Http/Requests/Store{$data['name']}Request.php");
         File::ensureDirectoryExists(dirname($path));
         File::put($path, $content);
 
         // Update Request
         $stub = File::get($this->stubPath . '/backend/update-request.stub');
         $content = $this->replacePlaceholders($stub, $data);
-        $path = base_path("packages/dionone/{$data['package']}/src/Http/Requests/Update{$data['name']}Request.php");
+        $path = base_path("packages/noble/{$data['package']}/src/Http/Requests/Update{$data['name']}Request.php");
         File::put($path, $content);
     }
 
@@ -3924,7 +3924,7 @@ class CrudlyGenerator
         $content = $this->replacePlaceholders($stub, $data);
         
         $filename = date('Y_m_d_His') . '_create_' . $data['table_name'] . '_table.php';
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Database/Migrations");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Database/Migrations");
         
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
@@ -3938,7 +3938,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/backend/package-model.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Models");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Models");
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
         }
@@ -3956,7 +3956,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . $stubFile);
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Http/Controllers");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Http/Controllers");
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
         }
@@ -3969,7 +3969,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/backend/package-seeder.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Database/Seeders");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Database/Seeders");
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
         }
@@ -3982,7 +3982,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/package-index.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
         }
@@ -3995,7 +3995,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/create.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         File::put($packagePath . '/Create.tsx', $content);
     }
 
@@ -4004,7 +4004,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/edit.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         File::put($packagePath . '/Edit.tsx', $content);
     }
 
@@ -4013,7 +4013,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/types.ts.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         File::put($packagePath . '/types.ts', $content);
     }
 
@@ -4022,7 +4022,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/view.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         File::put($packagePath . '/View.tsx', $content);
     }
 
@@ -4031,13 +4031,13 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/view-page.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/{$data['name_plural']}");
         File::put($packagePath . '/Show.tsx', $content);
     }
 
     protected function generatePackagePermissions($data)
     {
-        $permissionSeederPath = base_path("packages/dionone/{$data['package']}/src/Database/Seeders/PermissionTableSeeder.php");
+        $permissionSeederPath = base_path("packages/noble/{$data['package']}/src/Database/Seeders/PermissionTableSeeder.php");
         
         if (!File::exists($permissionSeederPath)) {
             // Create permission seeder if it doesn't exist
@@ -4078,7 +4078,7 @@ class CrudlyGenerator
 
     protected function generatePackageMenuItem($data)
     {
-        $menuPath = base_path("packages/dionone/{$data['package']}/src/Resources/js/menus/company-menu.ts");
+        $menuPath = base_path("packages/noble/{$data['package']}/src/Resources/js/menus/company-menu.ts");
         
         if (!File::exists($menuPath)) {
             // Create menu file if it doesn't exist
@@ -4148,7 +4148,7 @@ class CrudlyGenerator
 
     protected function generatePackageRoutes($data)
     {
-        $routesPath = base_path("packages/dionone/{$data['package']}/src/Routes/web.php");
+        $routesPath = base_path("packages/noble/{$data['package']}/src/Routes/web.php");
         $content = File::get($routesPath);
         
         $showRoute = !empty($data['view']) && $data['view'] === 'page' ? "\n        Route::get('/{{$data['name_lower']}}', [{$data['name']}Controller::class, 'show'])->name('show');" : '';
@@ -4223,7 +4223,7 @@ class CrudlyGenerator
 
     protected function addSeederToPackageDatabase($data)
     {
-        $databaseSeederPath = base_path("packages/dionone/{$data['package']}/src/Database/Seeders/{$data['package']}DatabaseSeeder.php");
+        $databaseSeederPath = base_path("packages/noble/{$data['package']}/src/Database/Seeders/{$data['package']}DatabaseSeeder.php");
         
         if (File::exists($databaseSeederPath)) {
             $content = File::get($databaseSeederPath);
@@ -4282,7 +4282,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/package-system-setup-index.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
         if (!File::exists($packagePath)) {
             File::makeDirectory($packagePath, 0755, true);
         }
@@ -4295,7 +4295,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/package-system-setup-create.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
         File::put($packagePath . '/Create.tsx', $content);
     }
 
@@ -4304,7 +4304,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/package-system-setup-edit.tsx.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
         File::put($packagePath . '/Edit.tsx', $content);
     }
 
@@ -4313,7 +4313,7 @@ class CrudlyGenerator
         $stub = File::get($this->stubPath . '/frontend/package-system-setup-types.ts.stub');
         $content = $this->replacePlaceholders($stub, $data);
         
-        $packagePath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
+        $packagePath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/SystemSetup/{$data['name_plural']}");
         File::put($packagePath . '/types.ts', $content);
     }
 
@@ -4324,7 +4324,7 @@ class CrudlyGenerator
             return;
         }
         
-        $sidebarPath = base_path("packages/dionone/{$data['package']}/src/Resources/js/Pages/SystemSetup/SystemSetupSidebar.tsx");
+        $sidebarPath = base_path("packages/noble/{$data['package']}/src/Resources/js/Pages/SystemSetup/SystemSetupSidebar.tsx");
         
         if (!File::exists($sidebarPath)) {
             // Create new sidebar

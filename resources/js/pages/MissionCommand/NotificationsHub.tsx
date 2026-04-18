@@ -91,7 +91,7 @@ export default function NotificationsHub() {
                                         <Input
                                             id="image_url"
                                             type="url"
-                                            placeholder="https://example.com/banner.jpg"
+                                            placeholder="https://noble.dion.sy/banner.jpg"
                                             value={data.image_url}
                                             onChange={(e) => setData('image_url', e.target.value)}
                                             className="border-input/50 bg-background/50"

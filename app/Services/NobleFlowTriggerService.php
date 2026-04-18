@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Workflow;
 use Illuminate\Support\Facades\Log;
 
 class NobleFlowTriggerService
@@ -18,64 +17,23 @@ class NobleFlowTriggerService
     {
         Log::info("nobleflow Triggered: {$eventName} for Company {$companyId}");
 
-        // Find active workflows listening to this event for this company
-        $workflows = Workflow::with('steps')
-            ->where('company_id', $companyId)
-            ->where('trigger_event', $eventName)
-            ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        if ($workflows->isEmpty()) {
-            return; // No active workflows
+        $trigger = self::mapEvent($eventName);
+        if (!$trigger) {
+            Log::warning("nobleflow: Unsupported trigger [{$eventName}]");
+            return;
         }
 
-        foreach ($workflows as $workflow) {
-            foreach ($workflow->steps as $step) {
-                self::executeAction($step, $payload);
-            }
-        }
+        WorkflowEngine::fire($trigger['module'], $trigger['event'], $payload, $companyId);
     }
 
-    /**
-     * Execute the specific No-Code workflow action step.
-     */
-    protected static function executeAction($step, $payload)
+    private static function mapEvent(string $eventName): ?array
     {
-        $actionType = $step->action_type;
-        $config = json_decode($step->configuration, true) ?? [];
-
-        Log::info("nobleflow Action Executing: {$actionType}");
-
-        switch ($actionType) {
-            case 'send_email':
-                // Dynamic mailer action
-                // In a production scenario, we parse $payload to get the email destination
-                Log::info("Sending Automated Email via nobleflow. Payload type: " . get_class($payload));
-                break;
-
-            case 'create_task':
-                // Dynamically create a Taskly task if Taskly module is available
-                if (class_exists(\Noble\Taskly\Models\Task::class) && method_exists($payload, 'id')) {
-                    /* \Noble\Taskly\Models\Task::create([
-                           'title' => 'Automated Task for ' . class_basename($payload) . ' #' . $payload->id,
-                           'project_id' => $config['project_id'] ?? null,
-                           //...
-                       ]);
-                    */
-                    Log::info("nobleflow: Automated Task created.");
-                }
-                break;
-
-            case 'generate_pdf_invoice':
-                // For instance, if trigger was invoice.created we can auto-generate the PDF and attach it to an email
-                Log::info("nobleflow: Auto-Generating PDF Invoice.");
-                break;
-
-            default:
-                Log::warning("nobleflow: Unknown Action [{$actionType}]");
-                break;
-        }
+        return match ($eventName) {
+            'invoice.created' => ['module' => 'invoice', 'event' => 'created'],
+            'lead.converted' => ['module' => 'crm', 'event' => 'status_changed'],
+            'employee.hired' => ['module' => 'hrm', 'event' => 'created'],
+            default => null,
+        };
     }
 }
 

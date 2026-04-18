@@ -487,7 +487,7 @@ class DashboardController extends Controller
 
         // Get employee shift information
         $employee = Employee::where('user_id', $userId)->where('created_by', $creatorId)->first();
-        $shift = $employee ? Shift::find($employee->shift) : null;
+        $shift = $employee ? Shift::find($employee->shift_id) : null;
         // Check for pending attendance (including night shifts)
         $pendingAttendance = Attendance::where('created_by', $creatorId)
             ->where('employee_id', $userId)

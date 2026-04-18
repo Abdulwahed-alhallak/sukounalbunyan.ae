@@ -15,8 +15,8 @@ class NobleFlowObserver
         $className = class_basename($model);
         $companyId = $model->created_by ?? null;
 
-        if (!$companyId && method_exists($model, 'creatorId')) {
-            $companyId = $model->creatorId();
+        if (!$companyId && function_exists('creatorId')) {
+            $companyId = creatorId();
         }
 
         if (!$companyId) {
@@ -40,7 +40,7 @@ class NobleFlowObserver
 
         if ($eventName) {
             Log::info("nobleflow Observer: Triggering [{$eventName}] for {$className}");
-            nobleflowTriggerService::handleEvent($eventName, $model, $companyId);
+            NobleFlowTriggerService::handleEvent($eventName, $model, $companyId);
         }
     }
 
@@ -60,7 +60,7 @@ class NobleFlowObserver
 
         switch ($className) {
             case 'Lead':
-                if ($model->isDirty('is_converted') && $model->is_converted) {
+                if ($model->wasChanged('is_converted') && $model->is_converted) {
                     $eventName = 'lead.converted';
                 }
                 break;
@@ -68,7 +68,7 @@ class NobleFlowObserver
 
         if ($eventName) {
             Log::info("nobleflow Observer: Triggering [{$eventName}] for {$className}");
-            nobleflowTriggerService::handleEvent($eventName, $model, $companyId);
+            NobleFlowTriggerService::handleEvent($eventName, $model, $companyId);
         }
     }
 }

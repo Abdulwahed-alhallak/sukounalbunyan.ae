@@ -46,7 +46,7 @@ class DemoEmployeeSeeder extends Seeder
         $usersToProcess = array_slice($availableUsers, 0, min(15, count($availableUsers)));
 
         foreach ($usersToProcess as $index => $userId_staff) {
-            $employeeId = Employee::generateEmployeeId();
+            $employeeId = Employee::generateEmployeeId($userId);
             
             // Select a random branch
             $branchId = $branches[array_rand($branches)];
@@ -91,7 +91,7 @@ class DemoEmployeeSeeder extends Seeder
                     'employee_id' => $employeeId,
                     'date_of_birth' => now()->subYears(rand(25, 55))->subDays(rand(1, 365))->format('Y-m-d'),
                     'gender' => $genders[array_rand($genders)],
-                    'shift' => $shifts[array_rand($shifts)],
+                    'shift_id' => $shifts[array_rand($shifts)],
                     'date_of_joining' => now()->subDays(rand(30, 1095))->format('Y-m-d'),
                     'employment_type' => $employmentTypes[array_rand($employmentTypes)],
                     'address_line_1' => (rand(100, 9999)) . ' ' . ['Main St', 'Oak Ave', 'Park Blvd', 'First St', 'Second Ave'][array_rand(['Main St', 'Oak Ave', 'Park Blvd', 'First St', 'Second Ave'])],

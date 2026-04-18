@@ -151,7 +151,7 @@ export default function Header({
                                     conditions: {
                                         link: {
                                             type: 'text',
-                                            placeholder: t('Enter URL (e.g., #features, https://example.com)'),
+                                            placeholder: t('Enter URL (e.g., #features, https://noble.dion.sy)'),
                                         },
                                         page: {
                                             type: 'select',

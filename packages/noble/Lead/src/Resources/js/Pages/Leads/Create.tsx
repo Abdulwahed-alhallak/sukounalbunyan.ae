@@ -131,7 +131,7 @@ export default function Create({ pipelines, stages, sources, products, users, on
                                     type="email"
                                     value={data.email}
                                     onChange={(e) => setData('email', e.target.value)}
-                                    placeholder={t('contact@example.com')}
+                                    placeholder={t('contact@noble.dion.sy')}
                                     className="border-border bg-transparent focus:ring-foreground dark:border-border dark:focus:ring-border"
                                     required
                                 />

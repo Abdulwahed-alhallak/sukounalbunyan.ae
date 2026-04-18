@@ -22,12 +22,12 @@ conn.on('ready', () => {
 
             conn.exec(cmd, (err, stream) => {
                 if (err) throw err;
-                stream.on('close', (code, signal) => {
+                stream.on('close', (/** @type {any} */ code, /** @type {any} */ signal) => {
                     console.log(`Noble Master Plan Synchronization Completed with Code: ${code}.`);
                     conn.end();
-                }).on('data', (data) => {
+                }).on('data', (/** @type {any} */ data) => {
                     process.stdout.write(data);
-                }).stderr.on('data', (data) => {
+                }).stderr.on('data', (/** @type {any} */ data) => {
                     process.stderr.write(data);
                 });
             });

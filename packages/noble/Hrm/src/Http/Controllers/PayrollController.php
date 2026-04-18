@@ -191,7 +191,25 @@ class PayrollController extends Controller
                         ->first();
 
                     if (!$existingEntry) {
-                        $this->processEmployeePayroll($payroll, $employee, $workingDaysCount, $startDate, $endDate);
+                        // Calculate actual working days based on joining date
+                        $employeeJoiningDate = $employee->date_of_joining;
+                        $effectiveStartDate = ($employeeJoiningDate && $employeeJoiningDate->gt($payroll->pay_period_start)) 
+                            ? $employeeJoiningDate 
+                            : \Carbon\Carbon::parse($payroll->pay_period_start);
+                        
+                        $employeeEndDate = \Carbon\Carbon::parse($payroll->pay_period_end);
+                        
+                        $employeeWorkingDaysCount = 0;
+                        if ($effectiveStartDate->lte($employeeEndDate)) {
+                            $period = \Carbon\CarbonPeriod::create($effectiveStartDate, $employeeEndDate);
+                            foreach ($period as $date) {
+                                if (in_array((int)$date->format('w'), $workingDaysIndices)) {
+                                    $employeeWorkingDaysCount++;
+                                }
+                            }
+                        }
+
+                        $this->processEmployeePayroll($payroll, $employee, $employeeWorkingDaysCount, $effectiveStartDate, $employeeEndDate);
                         $newEntriesCount++;
                     }
                 }

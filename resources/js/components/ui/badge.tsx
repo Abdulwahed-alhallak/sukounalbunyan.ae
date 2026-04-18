@@ -16,7 +16,7 @@ const badgeVariants = cva(
                 purple: 'vercel-badge vercel-badge-purple',
                 cyan: 'vercel-badge vercel-badge-cyan',
                 pink: 'vercel-badge vercel-badge-pink',
-                premium: 'vercel-badge vercel-badge-premium',
+                premium: 'vercel-badge vercel-badge-premium font-bold',
             },
         },
         defaultVariants: {

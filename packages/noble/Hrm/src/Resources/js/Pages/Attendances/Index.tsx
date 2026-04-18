@@ -165,6 +165,7 @@ export default function Index() {
             header: t('Status'),
             sortable: false,
             render: (value: string) => {
+                const normalizedStatus = value?.toString().replace('_', ' ').toLowerCase() || 'unknown';
                 const statusColors = {
                     present: 'bg-foreground/10 text-foreground border-foreground/20',
                     'half day': 'bg-muted-foreground/10 text-muted-foreground border-border/20',
@@ -179,11 +180,11 @@ export default function Index() {
                         variant="outline"
                         className={cn(
                             'text-[10px] font-black tracking-widest',
-                            statusColors[value as keyof typeof statusColors] ||
+                            statusColors[normalizedStatus as keyof typeof statusColors] ||
                                 'border-muted/20 bg-muted/10 text-muted-foreground'
                         )}
                     >
-                        {t(formatStatus(value || 'Unknown'))}
+                        {t(formatStatus(normalizedStatus))}
                     </Badge>
                 );
             },
@@ -260,7 +261,7 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('Attendances') }]}
-            pageTitle={t('Manage Attendances')}
+            pageTitle={t('Attendance Management')}
             pageActions={
                 <TooltipProvider>
                     {auth.user?.permissions?.includes('create-attendances') && (
@@ -285,49 +286,48 @@ export default function Index() {
             <Head title={t('Attendances')} />
 
             <div className="space-y-8 duration-1000 animate-in fade-in">
-                {/* Duty Presence Board */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-success/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/20 text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-success/20 text-success">
                                 <ClockIcon className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Attendance Rate')}
+                                {t('Present Today')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="tabular-nums text-3xl font-black tracking-tight">
                                 {attendances?.data?.filter((a) => a.status === 'present').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Present Employees')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Employees marked present')}</p>
                         </div>
                     </div>
 
-                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-info/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted-foreground/20 text-muted-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-info/20 text-info">
                                 <ClockIcon className="h-5 w-5 rotate-45" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Partial Duty')}
+                                {t('Half Day')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="tabular-nums text-3xl font-black tracking-tight">
-                                {attendances?.data?.filter((a: any) => a.status === 'half_day').length || 0}
+                                {attendances?.data?.filter((a: any) => ['half day', 'half_day'].includes(a.status)).length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Half-Day Attendance')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Employees with partial attendance')}</p>
                         </div>
                     </div>
 
-                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-primary/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/20 text-foreground">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary">
                                 <TrendingUp className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Working Hours')}
+                                {t('Total Hours')}
                             </span>
                         </div>
                         <div className="space-y-1">
@@ -336,32 +336,30 @@ export default function Index() {
                                     ?.reduce((acc, curr) => acc + (parseFloat(curr.total_hour?.toString()) || 0), 0)
                                     .toFixed(1)}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Total Hours Worked')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Hours logged in the current view')}</p>
                         </div>
                     </div>
 
-                    <div className="border-border/50 bg-gradient-to-br from-background via-muted/50 to-muted p-6 shadow-xl rounded-xl border">
+                    <div className="premium-card relative overflow-hidden bg-gradient-to-br from-destructive/10 via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/20 text-destructive">
                                 <XCircle className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Absence Delta')}
+                                {t('Absent Today')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="tabular-nums text-3xl font-black tracking-tight">
                                 {attendances?.data?.filter((a) => a.status === 'absent').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Absent Employees')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Employees marked absent')}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Main Command Dashboard */}
-                <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
-                    {/* Tactical Control Bar */}
-                    <div className="border-b border-white/5 bg-card/5 p-6">
+                <Card className="hrm-panel overflow-hidden">
+                    <div className="hrm-toolbar p-6">
                         <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
                             <div className="w-full max-w-xl lg:flex-1">
                                 {auth.user?.permissions?.includes('manage-employees') && (
@@ -406,21 +404,20 @@ export default function Index() {
                             </div>
                         </div>
 
-                        {/* Tactical Filter Projection */}
                         {showFilters && (
-                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-white/5 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-2 lg:grid-cols-4">
+                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-border/20 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-2 lg:grid-cols-4">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Personnel Unit')}
+                                        {t('Employee')}
                                     </label>
                                     <Select
                                         value={filters.employee_id}
                                         onValueChange={(value) => setFilters({ ...filters, employee_id: value })}
                                     >
-                                        <SelectTrigger className="h-11 border-white/5 bg-background/20 text-xs">
-                                            <SelectValue placeholder={t('Assign Unit')} />
+                                        <SelectTrigger className="h-11 border-border/30 bg-background/30 text-xs">
+                                            <SelectValue placeholder={t('Select Employee')} />
                                         </SelectTrigger>
-                                        <SelectContent className="border-white/10 bg-foreground">
+                                        <SelectContent className="border-border/30 bg-card">
                                             {employees?.map((employee: any) => (
                                                 <SelectItem key={employee.id} value={employee.id.toString()}>
                                                     {employee.user?.name || employee.name}
@@ -431,16 +428,16 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                        {t('Operational State')}
+                                        {t('Status')}
                                     </label>
                                     <Select
                                         value={filters.status}
                                         onValueChange={(value) => setFilters({ ...filters, status: value })}
                                     >
-                                        <SelectTrigger className="h-11 border-white/5 bg-background/20 text-xs">
-                                            <SelectValue placeholder={t('All States')} />
+                                        <SelectTrigger className="h-11 border-border/30 bg-background/30 text-xs">
+                                            <SelectValue placeholder={t('All Statuses')} />
                                         </SelectTrigger>
-                                        <SelectContent className="border-white/10 bg-foreground text-[10px] font-black uppercase tracking-widest">
+                                        <SelectContent className="border-border/30 bg-card text-[10px] font-black uppercase tracking-widest">
                                             <SelectItem value="present">{t('Present')}</SelectItem>
                                             <SelectItem value="half day">{t('Half Day')}</SelectItem>
                                             <SelectItem value="absent">{t('Absent')}</SelectItem>
@@ -455,7 +452,7 @@ export default function Index() {
                                         type="date"
                                         value={filters.date_from}
                                         onChange={(e) => setFilters({ ...filters, date_from: e.target.value })}
-                                        className="h-11 border-white/5 bg-background/20"
+                                        className="h-11 border-border/30 bg-background/30"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -466,7 +463,7 @@ export default function Index() {
                                         type="date"
                                         value={filters.date_to}
                                         onChange={(e) => setFilters({ ...filters, date_to: e.target.value })}
-                                        className="h-11 border-white/5 bg-background/20"
+                                        className="h-11 border-border/30 bg-background/30"
                                     />
                                 </div>
                                 <div className="flex items-center gap-3 pt-4 lg:col-span-4">
@@ -488,7 +485,6 @@ export default function Index() {
                         )}
                     </div>
 
-                    {/* Data Matrix Sector */}
                     <div className="p-0">
                         <div className="custom-scrollbar max-h-[60vh] w-full overflow-y-auto">
                             <DataTable
@@ -501,10 +497,8 @@ export default function Index() {
                                 emptyState={
                                     <NoRecordsFound
                                         icon={ClockIcon}
-                                        title={t('No Attendance Vectors')}
-                                        description={t(
-                                            'System clear. No personnel movement detected in the current matrix.'
-                                        )}
+                                        title={t('No attendance records found')}
+                                        description={t('Attendance records will appear here once they are available.')}
                                         hasFilters={
                                             !!(
                                                 filters.search ||
@@ -517,7 +511,7 @@ export default function Index() {
                                         onClearFilters={clearFilters}
                                         createPermission="create-attendances"
                                         onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Register Manual Unit')}
+                                        createButtonText={t('Add Attendance')}
                                         className="h-96"
                                     />
                                 }
@@ -525,8 +519,7 @@ export default function Index() {
                         </div>
                     </div>
 
-                    {/* Matrix Pagination */}
-                    <div className="border-t border-white/5 bg-card/5 px-6 py-4">
+                    <div className="border-t border-border/20 bg-muted/30 px-6 py-4">
                         <Pagination
                             data={(attendances || { current_page: 1, last_page: 1, per_page: 10, total: 0, from: 0, to: 0 }) as any}
                             routeName="hrm.attendances.index"

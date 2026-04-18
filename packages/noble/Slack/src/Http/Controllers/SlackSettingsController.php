@@ -13,10 +13,15 @@ class SlackSettingsController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->can('manage-slack-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
         $slackNotifications = Notification::where('type', 'Slack')->get()->groupBy('module');
 
-        return response()->json([
-            'slackNotifications' => $slackNotifications
+        return Inertia::render('Slack/Settings/Index', [
+            'globalSettings'      => getCompanyAllSetting(),
+            'slackNotifications'  => $slackNotifications,
         ]);
     }
 

@@ -5,10 +5,22 @@ namespace Noble\Stripe\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Noble\Stripe\Http\Requests\UpdateStripeSettingsRequest;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 
 class StripeSettingsController extends Controller
 {
+    public function index()
+    {
+        if (!Auth::user()->can('manage-stripe-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
+        return Inertia::render('Stripe/Settings/Index', [
+            'globalSettings' => getCompanyAllSetting(),
+        ]);
+    }
+
     public function update(UpdateStripeSettingsRequest $request)
     {
         if (Auth::user()->can('edit-stripe-settings')) {

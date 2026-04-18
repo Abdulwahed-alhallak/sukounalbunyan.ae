@@ -25,7 +25,7 @@ class AccountDatabaseSeeder extends Seeder
 
         if(config('app.run_demo_seeder'))
         {
-            $user = User::where('email', 'company@example.com')->first();
+            $user = User::resolveDemoCompany();
             if($user)
             {
                 $userId = $user->id;

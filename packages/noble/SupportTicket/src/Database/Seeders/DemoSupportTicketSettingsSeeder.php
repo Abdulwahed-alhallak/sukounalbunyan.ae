@@ -55,7 +55,7 @@ class DemoSupportTicketSettingsSeeder extends Seeder
                     <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
 
                     <h3>Contact Us</h3>
-                    <p>If you have questions about this Privacy Policy, please contact us at privacy@example.com</p>',
+                    <p>If you have questions about this Privacy Policy, please contact us at privacy@noble.dion.sy</p>',
                     'enabled' => true
                 ]),
 

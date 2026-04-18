@@ -341,7 +341,7 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             breadcrumbs={[{ label: t('Hrm'), url: route('hrm.index') }, { label: t('LeaveApplications') }]}
-            pageTitle={t('Manage Leave Applications')}
+            pageTitle={t('Leave Applications')}
             pageActions={
                 <TooltipProvider>
                     {auth.user?.permissions?.includes('create-leave-applications') && (
@@ -359,10 +359,9 @@ export default function Index() {
                 </TooltipProvider>
             }
         >
-            <Head title={t('LeaveApplications')} />
+            <Head title={t('Leave Applications')} />
 
             <div className="space-y-8 duration-1000 animate-in fade-in">
-                {/* Tactical KPI Board */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     <div className="premium-card from-muted/500/10 bg-gradient-to-br via-transparent to-transparent p-6">
                         <div className="mb-4 flex items-center justify-between">
@@ -375,7 +374,7 @@ export default function Index() {
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">{leaveapplications?.total || 0}</h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('All-Time Vectors')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Visible leave requests')}</p>
                         </div>
                     </div>
 
@@ -385,14 +384,14 @@ export default function Index() {
                                 <Play className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Pending Ops')}
+                                {t('Pending')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {leaveapplications?.data?.filter((l) => l.status === 'pending').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Awaiting Authorization')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Awaiting review')}</p>
                         </div>
                     </div>
 
@@ -402,16 +401,14 @@ export default function Index() {
                                 <CheckCircle className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Authorized')}
+                                {t('Approved')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {leaveapplications?.data?.filter((l) => l.status === 'approved').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">
-                                {t('Active Personnel Absences')}
-                            </p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Approved requests')}</p>
                         </div>
                     </div>
 
@@ -421,30 +418,28 @@ export default function Index() {
                                 <XCircle className="h-5 w-5" />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                {t('Terminated')}
+                                {t('Rejected')}
                             </span>
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-3xl font-black tracking-tight">
                                 {leaveapplications?.data?.filter((l) => l.status === 'rejected').length || 0}
                             </h3>
-                            <p className="text-xs font-medium text-muted-foreground">{t('Declined Requests')}</p>
+                            <p className="text-xs font-medium text-muted-foreground">{t('Rejected requests')}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Main Content Interface */}
-                <Card className="premium-card overflow-hidden border-none bg-foreground/40 backdrop-blur-3xl">
-                    {/* Tactical Filter Bar */}
-                    <div className="border-b border-white/5 bg-card/5 p-6">
+                <Card className="hrm-panel overflow-hidden">
+                    <div className="hrm-toolbar p-6">
                         <div className="flex flex-col items-center justify-between gap-6 lg:flex-row">
                             <div className="w-full max-w-xl lg:flex-1">
                                 <SearchInput
                                     value={filters.reason}
                                     onChange={(value) => setFilters({ ...filters, reason: value })}
                                     onSearch={handleFilter}
-                                    placeholder={t('Search mission dossiers...')}
-                                    className="border-white/10 bg-background/20"
+                                    placeholder={t('Search leave applications...')}
+                                    className="border-border/30 bg-background/30"
                                 />
                             </div>
                             <div className="flex w-full items-center gap-4 overflow-x-auto pb-2 lg:w-auto lg:pb-0">
@@ -486,22 +481,21 @@ export default function Index() {
                             </div>
                         </div>
 
-                        {/* Advanced Filters Drawer */}
                         {showFilters && (
-                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-white/5 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-2 lg:grid-cols-4">
+                            <div className="mt-6 grid grid-cols-1 gap-6 border-t border-border/20 pt-6 duration-500 animate-in slide-in-from-top md:grid-cols-2 lg:grid-cols-4">
                                 {auth.user?.permissions?.includes('manage-employees') && (
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                            {t('Personnel Unit')}
+                                            {t('Employee')}
                                         </label>
                                         <Select
                                             value={filters.employee_id}
                                             onValueChange={(value) => setFilters({ ...filters, employee_id: value })}
                                         >
-                                            <SelectTrigger className="h-11 border-white/5 bg-background/20">
+                                            <SelectTrigger className="h-11 border-border/30 bg-background/30">
                                                 <SelectValue placeholder={t('Select Employee')} />
                                             </SelectTrigger>
-                                            <SelectContent className="border-white/10 bg-foreground">
+                                            <SelectContent className="border-border/30 bg-card">
                                                 {employees?.map((employee) => (
                                                     <SelectItem key={employee.id} value={employee.id.toString()}>
                                                         {employee.name}
@@ -519,10 +513,10 @@ export default function Index() {
                                         value={filters.status}
                                         onValueChange={(value) => setFilters({ ...filters, status: value })}
                                     >
-                                        <SelectTrigger className="h-11 border-white/5 bg-background/20 text-xs">
-                                            <SelectValue placeholder={t('All States')} />
+                                        <SelectTrigger className="h-11 border-border/30 bg-background/30 text-xs">
+                                            <SelectValue placeholder={t('All Statuses')} />
                                         </SelectTrigger>
-                                        <SelectContent className="border-white/10 bg-foreground text-[10px] font-black uppercase tracking-widest">
+                                        <SelectContent className="border-border/30 bg-card text-[10px] font-black uppercase tracking-widest">
                                             <SelectItem value="pending">{t('Pending')}</SelectItem>
                                             <SelectItem value="approved">{t('Approved')}</SelectItem>
                                             <SelectItem value="rejected">{t('Rejected')}</SelectItem>
@@ -537,7 +531,7 @@ export default function Index() {
                                         type="date"
                                         value={filters.start_date}
                                         onChange={(e) => setFilters({ ...filters, start_date: e.target.value })}
-                                        className="h-11 border-white/5 bg-background/20"
+                                        className="h-11 border-border/30 bg-background/30"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -548,7 +542,7 @@ export default function Index() {
                                         type="date"
                                         value={filters.end_date}
                                         onChange={(e) => setFilters({ ...filters, end_date: e.target.value })}
-                                        className="h-11 border-white/5 bg-background/20"
+                                        className="h-11 border-border/30 bg-background/30"
                                     />
                                 </div>
                                 <div className="flex items-center gap-3 pt-4 lg:col-span-4">
@@ -563,14 +557,13 @@ export default function Index() {
                                         onClick={clearFilters}
                                         className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-background"
                                     >
-                                        {t('Reset Matrix')}
+                                        {t('Reset')}
                                     </Button>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Data Vector Projection */}
                     <div className="p-0">
                         {viewMode === 'list' ? (
                             <div className="w-full">
@@ -584,8 +577,8 @@ export default function Index() {
                                     emptyState={
                                         <NoRecordsFound
                                             icon={FileTextIcon}
-                                            title={t('No Leave Dossiers Found')}
-                                            description={t('System clear. No active absence vectors detected.')}
+                                            title={t('No leave applications found')}
+                                            description={t('Leave applications will appear here once they are created.')}
                                             hasFilters={
                                                 !!(
                                                     filters.reason ||
@@ -598,7 +591,7 @@ export default function Index() {
                                             onClearFilters={clearFilters}
                                             createPermission="create-leave-applications"
                                             onCreateClick={() => openModal('add')}
-                                            createButtonText={t('Authorize New Leave')}
+                                            createButtonText={t('New Leave Request')}
                                             className="h-96"
                                         />
                                     }
@@ -611,9 +604,8 @@ export default function Index() {
                                         {(leaveapplications as any)?.data?.map((leave: LeaveApplication) => (
                                             <div
                                                 key={leave.id}
-                                                className="premium-card group flex h-full flex-col overflow-hidden border border-white/5 bg-background/20 backdrop-blur-xl transition-all duration-500 hover:scale-[1.02]"
+                                                className="premium-card group flex h-full flex-col overflow-hidden border border-border/30 bg-card/60 backdrop-blur-xl transition-all duration-500 hover:scale-[1.02]"
                                             >
-                                                {/* Card Signal Bar */}
                                                 <div
                                                     className={`h-1 w-full ${leave.status === 'approved' ? 'bg-foreground' : leave.status === 'pending' ? 'bg-muted-foreground' : 'bg-destructive'}`}
                                                 />
@@ -659,29 +651,29 @@ export default function Index() {
                                                     </div>
 
                                                     <div className="mb-8 grid grid-cols-2 gap-6">
-                                                        <div className="space-y-1">
-                                                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                                {t('Start Window')}
-                                                            </p>
+                                                            <div className="space-y-1">
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                                    {t('Start Date')}
+                                                                </p>
                                                             <p className="text-xs font-bold">
                                                                 {formatDate(leave.start_date)}
                                                             </p>
                                                         </div>
-                                                        <div className="space-y-1">
-                                                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                                                                {t('End Window')}
-                                                            </p>
+                                                            <div className="space-y-1">
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                                                                    {t('End Date')}
+                                                                </p>
                                                             <p className="text-xs font-bold">
                                                                 {formatDate(leave.end_date)}
                                                             </p>
                                                         </div>
                                                     </div>
 
-                                                    <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-6">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                                                                {leave.total_days} {t('Cycles')}
-                                                            </span>
+                                                        <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-6">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
+                                                                    {leave.total_days} {t('Days')}
+                                                                </span>
                                                             <span
                                                                 className={`rounded px-1.5 py-0.5 text-[8px] font-black uppercase ${leave.leave_type?.is_paid ? 'bg-foreground/20 text-foreground' : 'bg-muted-foreground/20 text-muted-foreground'}`}
                                                             >
@@ -744,8 +736,8 @@ export default function Index() {
                                 ) : (
                                     <NoRecordsFound
                                         icon={FileTextIcon}
-                                        title={t('No Leave Dossiers Found')}
-                                        description={t('System clear. No active absence vectors detected.')}
+                                        title={t('No leave applications found')}
+                                        description={t('Leave applications will appear here once they are created.')}
                                         hasFilters={
                                             !!(
                                                 filters.reason ||
@@ -758,15 +750,14 @@ export default function Index() {
                                         onClearFilters={clearFilters}
                                         createPermission="create-leave-applications"
                                         onCreateClick={() => openModal('add')}
-                                        createButtonText={t('Authorize New Leave')}
+                                        createButtonText={t('New Leave Request')}
                                     />
                                 )}
                             </div>
                         )}
                     </div>
 
-                    {/* Matrix Pagination */}
-                    <div className="border-t border-white/5 bg-card/5 px-6 py-4">
+                    <div className="border-t border-border/20 bg-muted/30 px-6 py-4">
                         <Pagination
                             data={
                                 (leaveapplications as any) || {

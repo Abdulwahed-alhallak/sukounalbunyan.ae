@@ -13,7 +13,7 @@ class UnifiedInboxController extends Controller
      */
     public function index()
     {
-        $companyId = Auth::user()->creatorId();
+        $companyId = creatorId();
         
         // Pass configurations down to the interface so it knows what platforms are active
         $settings = getCompanyAllSetting($companyId);
@@ -40,7 +40,7 @@ class UnifiedInboxController extends Controller
             'content'  => 'required|string'
         ]);
 
-        $companyId = Auth::user()->creatorId();
+        $companyId = creatorId();
         $service = new \App\Services\UnifiedInboxService($companyId);
 
         $result = $service->sendMessage($validated['platform'], $validated['to'], $validated['content']);

@@ -4,7 +4,7 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-$companyUser = App\Models\User::where('type', 'company')->where('email', 'admin@example.com')->first();
+$companyUser = App\Models\User::where('type', 'company')->where('email', 'admin@noble.dion.sy')->first();
 echo "Company User: {$companyUser->id} - {$companyUser->name}" . PHP_EOL;
 
 // 1. Branch (branch_name)

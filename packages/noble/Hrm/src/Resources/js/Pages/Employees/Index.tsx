@@ -181,6 +181,10 @@ export default function Index() {
                             src={getImagePath(row.user.avatar)}
                             alt="Avatar"
                             className="h-8 w-8 flex-shrink-0 rounded-full object-cover"
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = getImagePath('avatar.png');
+                            }}
                         />
                     ) : (
                         <img
@@ -233,17 +237,17 @@ export default function Index() {
             sortable: false,
             render: (value: any) => {
                 const colors: any = {
-                    Active: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-                    Resigned: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-                    Terminated: 'bg-destructive/10 text-destructive border-destructive/20',
-                    Transferred: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+                    Active: 'vercel-badge-success',
+                    Resigned: 'vercel-badge-warning',
+                    Terminated: 'vercel-badge-error',
+                    Transferred: 'vercel-badge-info',
                 };
                 return (
                     <Badge
                         variant="outline"
                         className={cn(
                             'rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-tight',
-                            colors[value] || 'bg-muted text-foreground border-border'
+                            colors[value] || 'vercel-badge-neutral'
                         )}
                     >
                         {t(value) || '-'}
@@ -398,9 +402,9 @@ export default function Index() {
 
                 {/* Metrics Board */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-lg border border-border bg-card p-6 shadow-sm dark:border-border dark:bg-foreground">
+                    <div className="premium-card p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground dark:bg-card dark:text-muted-foreground">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
                                 <UsersIcon className="h-4 w-4" />
                             </div>
                             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -410,9 +414,9 @@ export default function Index() {
                         <h3 className="text-2xl font-bold tracking-tight">{employees?.total || 0}</h3>
                     </div>
 
-                    <div className="rounded-lg border border-border bg-card p-6 shadow-sm dark:border-border dark:bg-foreground">
+                    <div className="premium-card p-6">
                         <div className="mb-4 flex items-center justify-between">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground dark:bg-card dark:text-muted-foreground">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
                                 <Plus className="h-4 w-4" />
                             </div>
                             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -428,7 +432,7 @@ export default function Index() {
                 {/* Main Content Area */}
                 <div className="space-y-4">
                     {/* Filter Bar */}
-                    <div className="rounded-lg border border-border bg-card p-4 shadow-sm dark:border-border dark:bg-foreground">
+                    <div className="premium-card p-4">
                         <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
                             <div className="w-full max-w-lg lg:flex-1">
                                 <SearchInput
@@ -562,7 +566,7 @@ export default function Index() {
                     {/* Content View */}
                     <div className="duration-500 animate-in fade-in">
                         {viewMode === 'list' ? (
-                            <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm dark:border-border dark:bg-foreground">
+                            <div className="premium-card overflow-hidden">
                                 <DataTable
                                     data={employees?.data || []}
                                     columns={tableColumns}
@@ -577,7 +581,7 @@ export default function Index() {
                                 {employees?.data?.map((employee, idx) => (
                                     <div
                                         key={employee.id}
-                                        className="mb-4 flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card p-5 transition-shadow hover:shadow-md dark:border-border dark:bg-foreground"
+                                        className="premium-card mb-4 flex h-full flex-col p-5"
                                     >
                                         <div className="mb-4 flex items-start justify-between">
                                             <div className="h-12 w-12 overflow-hidden rounded-full border border-border dark:border-border">
@@ -585,6 +589,10 @@ export default function Index() {
                                                     src={getImagePath(employee.user?.avatar || 'avatar.png')}
                                                     alt="Personnel"
                                                     className="h-full w-full object-cover"
+                                                    onError={(e) => {
+                                                        e.currentTarget.onerror = null;
+                                                        e.currentTarget.src = getImagePath('avatar.png');
+                                                    }}
                                                 />
                                             </div>
                                             <Badge

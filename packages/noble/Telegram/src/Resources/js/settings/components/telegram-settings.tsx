@@ -22,13 +22,20 @@ interface Notification {
 interface TelegramSettingsProps {
     [key: string]: any;
     userSettings?: Record<string, string>;
+    telegramNotifications?: Record<string, Notification[]>;
     auth?: any;
 }
 
-export default function TelegramSettings({ userSettings = {}, auth }: TelegramSettingsProps) {
+export default function TelegramSettings({
+    userSettings = {},
+    telegramNotifications = {},
+    auth,
+}: TelegramSettingsProps) {
     const { t } = useTranslation();
     const activatedPackages = auth?.user?.activatedPackages || [];
-    const [telegramNotifications, setTelegramNotifications] = useState<Record<string, any>>({});
+    const [availableTelegramNotifications, setAvailableTelegramNotifications] = useState<
+        Record<string, Notification[]>
+    >({});
     const [isLoading, setIsLoading] = useState(false);
     const canEdit = auth?.user?.permissions?.includes('edit-telegram-settings');
 
@@ -47,22 +54,17 @@ export default function TelegramSettings({ userSettings = {}, auth }: TelegramSe
             telegram_chat_id: userSettings?.telegram_chat_id || '',
         });
 
-        fetch(route('telegram.settings.index'))
-            .then((response) => response.json())
-            .then((data) => {
-                setTelegramNotifications(data.telegramNotifications || {});
+        setAvailableTelegramNotifications(telegramNotifications || {});
 
-                const initial: Record<string, string> = {};
-                Object.values(data.telegramNotifications || {}).forEach((moduleNotifications: any) => {
-                    moduleNotifications.forEach((notification: Notification) => {
-                        const key = `Telegram ${notification.action}`;
-                        initial[key] = userSettings?.[key] || 'off';
-                    });
-                });
-                setNotificationSettings(initial);
-            })
-            .catch((error) => console.error('Error fetching telegram notifications:', error));
-    }, [userSettings]);
+        const initial: Record<string, string> = {};
+        Object.values(telegramNotifications || {}).forEach((moduleNotifications: any) => {
+            moduleNotifications.forEach((notification: Notification) => {
+                const key = `Telegram ${notification.action}`;
+                initial[key] = userSettings?.[key] || 'off';
+            });
+        });
+        setNotificationSettings(initial);
+    }, [telegramNotifications, userSettings]);
 
     const handleSettingsChange = (field: string, value: string | boolean) => {
         setTelegramSettings((prev) => ({
@@ -170,14 +172,14 @@ export default function TelegramSettings({ userSettings = {}, auth }: TelegramSe
                                 />
                             </div>
 
-                            {Object.keys(telegramNotifications || {}).filter(
+                            {Object.keys(availableTelegramNotifications || {}).filter(
                                 (module) => module.toLowerCase() === 'general' || activatedPackages.includes(module)
                             ).length > 0 && (
                                 <div className="space-y-3">
                                     <Label>{t('Notification Settings')}</Label>
-                                    <Tabs defaultValue={Object.keys(telegramNotifications || {})[0]}>
+                                    <Tabs defaultValue={Object.keys(availableTelegramNotifications || {})[0]}>
                                         <TabsList className="h-auto flex-wrap">
-                                            {Object.keys(telegramNotifications || {})
+                                            {Object.keys(availableTelegramNotifications || {})
                                                 .filter(
                                                     (module) =>
                                                         module.toLowerCase() === 'general' ||
@@ -189,7 +191,7 @@ export default function TelegramSettings({ userSettings = {}, auth }: TelegramSe
                                                     </TabsTrigger>
                                                 ))}
                                         </TabsList>
-                                        {Object.keys(telegramNotifications || {})
+                                        {Object.keys(availableTelegramNotifications || {})
                                             .filter(
                                                 (module) =>
                                                     module.toLowerCase() === 'general' ||
@@ -198,7 +200,7 @@ export default function TelegramSettings({ userSettings = {}, auth }: TelegramSe
                                             ?.map((module) => (
                                                 <TabsContent key={module} value={module}>
                                                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                                        {(telegramNotifications[module] || [])?.map(
+                                                        {(availableTelegramNotifications[module] || [])?.map(
                                                             (notification: Notification) => (
                                                                 <div
                                                                     key={notification.id}

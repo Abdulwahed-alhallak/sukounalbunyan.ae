@@ -49,7 +49,8 @@ export default function CompanySettings({ userSettings, auth }: CompanySettingsP
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const [isLoading, setIsLoading] = useState(false);
-    const canEdit = auth?.user?.permissions?.includes('edit-company-settings') || auth?.user?.roles?.includes('superadmin') || true;
+    const canEdit =
+        auth?.user?.permissions?.includes('edit-company-settings') || auth?.user?.roles?.includes('superadmin');
 
     const [settings, setSettings] = useState<CompanySettings>({
         company_name: userSettings?.company_name || '',

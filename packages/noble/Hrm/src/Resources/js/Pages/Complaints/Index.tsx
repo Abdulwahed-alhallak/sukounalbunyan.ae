@@ -32,11 +32,13 @@ import Show from './Show';
 import NoRecordsFound from '@/components/no-records-found';
 import { Complaint, ComplaintsIndexProps, ComplaintFilters, ComplaintModalState } from './types';
 import { formatDate, getImagePath } from '@/utils/helpers';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 export default function Index() {
     const { t } = useTranslation();
     const { complaints, auth, employees = [], complaintTypes } = usePage<ComplaintsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
+    const isMultiTierApproval = isMultiTierApprovalEnabled(auth.user?.company_settings);
 
     const [filters, setFilters] = useState<ComplaintFilters>({
         subject: urlParams.get('subject') || '',
@@ -154,7 +156,6 @@ export default function Index() {
                 const normalizedStatus = value?.toLowerCase() || '';
                 const displayValue = value ? value.charAt(0).toUpperCase() + value.slice(1) : '-';
 
-                const isMultiTier = auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true;
                 const managerNormalized = row.manager_status?.toLowerCase() || '';
 
                 return (
@@ -164,7 +165,7 @@ export default function Index() {
                         >
                             {t(displayValue)}
                         </span>
-                        {isMultiTier && row.manager_status && (
+                        {isMultiTierApproval && row.manager_status && (
                             <span
                                 className={`w-fit whitespace-nowrap rounded-full px-2 py-1 text-[10px] font-medium ${statusColors[managerNormalized as keyof typeof statusColors] || 'bg-muted text-foreground'}`}
                             >
@@ -220,7 +221,7 @@ export default function Index() {
                                           </TooltipContent>
                                       </Tooltip>
                                   )}
-                                  {(auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true) && (
+                                  {isMultiTierApproval && (
                                       <Tooltip delayDuration={300}>
                                           <TooltipTrigger asChild>
                                               <Button
@@ -563,9 +564,7 @@ export default function Index() {
                                                                         : '-'
                                                                 )}
                                                             </span>
-                                                            {(auth.user?.company_settings
-                                                                ?.enable_multi_tier_approval === 'on' ||
-                                                                true) &&
+                                                            {isMultiTierApproval &&
                                                                 complaint.manager_status && (
                                                                     <span
                                                                         className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${
@@ -644,9 +643,7 @@ export default function Index() {
                                                             </TooltipContent>
                                                         </Tooltip>
                                                     )}
-                                                    {(auth.user?.company_settings?.enable_multi_tier_approval ===
-                                                        'on' ||
-                                                        true) && (
+                                                    {isMultiTierApproval && (
                                                         <Tooltip delayDuration={300}>
                                                             <TooltipTrigger asChild>
                                                                 <Button

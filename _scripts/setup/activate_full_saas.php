@@ -23,7 +23,7 @@ $allModuleNames = AddOn::pluck('module')->toArray();
 echo "✅ " . count($allModuleNames) . " modules enabled in the system.\n\n";
 
 // 2. Find the target users
-$emails = ['superadmin@noblearchitecture.net', 'superadmin@example.com', 'admin@example.com'];
+$emails = ['superadmin@noblearchitecture.net', 'superadmin@noble.dion.sy', 'admin@noble.dion.sy'];
 $users = User::whereIn('email', $emails)->get();
 
 if ($users->isEmpty()) {

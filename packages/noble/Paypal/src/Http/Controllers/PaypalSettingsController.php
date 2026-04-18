@@ -5,9 +5,21 @@ namespace Noble\Paypal\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Noble\Paypal\Http\Requests\UpdatePaypalSettingsRequest;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PaypalSettingsController extends Controller
 {
+    public function index()
+    {
+        if (!Auth::user()->can('manage-paypal-settings')) {
+            return redirect()->route('dashboard')->with('error', __('Permission denied'));
+        }
+
+        return Inertia::render('Paypal/Settings/Index', [
+            'globalSettings' => getCompanyAllSetting(),
+        ]);
+    }
+
     public function update(UpdatePaypalSettingsRequest $request)
     {
         if (Auth::user()->can('edit-paypal-settings')) {

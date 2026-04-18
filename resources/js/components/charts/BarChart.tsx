@@ -13,7 +13,7 @@ import {
 
 interface BarChartProps {
     data: any[];
-    dataKey: string;
+    dataKey?: string;
     xAxisKey: string;
     color?: string;
     horizontal?: boolean;

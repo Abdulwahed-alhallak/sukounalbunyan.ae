@@ -18,7 +18,10 @@ class GoalDatabaseSeeder extends Seeder
         if(config('app.run_demo_seeder'))
         {
             // Add here your demo data seeders
-            $userId = User::where('email', 'company@example.com')->first()->id;
+            $userId = User::resolveDemoCompanyId();
+            if (!$userId) {
+                return;
+            }
             (new DemoCategorySeeder())->run($userId);
             (new DemoGoalSeeder())->run($userId);
             (new DemoMilestoneSeeder())->run($userId);

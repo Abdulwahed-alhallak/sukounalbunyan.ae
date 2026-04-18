@@ -106,6 +106,15 @@
 
         }
 
+        public function allEnabledCompany(): array
+        {
+            return AddOn::where('is_enable', 1)
+                ->where('for_admin', 0)
+                ->orderBy('priority')
+                ->pluck('module')
+                ->toArray() ?? [];
+        }
+
         public function allEnabledAdmin(): array
         {
             return AddOn::where('for_admin', 1)->where('is_enable', 1)->orderBy('priority')->pluck('module')->toArray() ?? [];

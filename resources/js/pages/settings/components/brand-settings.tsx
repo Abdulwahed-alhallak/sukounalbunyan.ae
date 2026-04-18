@@ -57,7 +57,8 @@ const TABS = [
 export default function BrandSettings({ userSettings, auth }: BrandSettingsProps) {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
-    const canEdit = auth?.user?.permissions?.includes('edit-brand-settings') || auth?.user?.roles?.includes('superadmin') || true; // Making it editable for demo if roles mismatch
+    const canEdit =
+        auth?.user?.permissions?.includes('edit-brand-settings') || auth?.user?.roles?.includes('superadmin');
     const [activeSection, setActiveSection] = useState<'logos' | 'text' | 'theme'>('logos');
     
     const [settings, setSettings] = useState<BrandSettings>({

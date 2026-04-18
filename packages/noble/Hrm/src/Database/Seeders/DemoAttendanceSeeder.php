@@ -32,16 +32,10 @@ class DemoAttendanceSeeder extends Seeder
             return;
         }
 
-        $months = [7, 8, 9, 10]; // July, August, September, October
-        $year = 2025;
+        $startDate = now()->subMonths(3)->startOfMonth();
+        $endDate = now()->subDay()->endOfDay();
 
-        // Process month-wise for better organization
-        foreach ($months as $month) {
-            $startDate = Carbon::create($year, $month, 1);
-            $endDate = $startDate->copy()->endOfMonth();
-
-            // Iterate through each day of the month
-            for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
                 // Skip weekends (Saturday = 6, Sunday = 0)
                 if ($date->dayOfWeek == 0 || $date->dayOfWeek == 6) {
                     continue;
@@ -68,7 +62,7 @@ class DemoAttendanceSeeder extends Seeder
                     }
 
                     // Get employee's shift
-                    $shift = Shift::where('id', $employee->shift)
+                    $shift = Shift::where('id', $employee->shift_id)
                         ->where('created_by', $userId)
                         ->first();
 
@@ -102,7 +96,7 @@ class DemoAttendanceSeeder extends Seeder
                         $clockIn,
                         $clockOut,
                         0, // break_hour
-                        $employee->shift,
+                        $employee->shift_id,
                         $employee,
                         $userId
                     );
@@ -115,7 +109,7 @@ class DemoAttendanceSeeder extends Seeder
                             'created_by' => $userId
                         ],
                         [
-                            'shift_id' => $employee->shift,
+                            'shift_id' => $employee->shift_id,
                             'clock_in' => $date->format('Y-m-d') . ' ' . $clockIn,
                             'clock_out' => $date->format('Y-m-d') . ' ' . $clockOut,
                             'break_hour' => $calculatedData['total_hour']['total_break_hours'],
@@ -129,7 +123,6 @@ class DemoAttendanceSeeder extends Seeder
                     );
                 }
             }
-        }
     }
 
     private function calculateTotalHours($clockIn, $clockOut, $shift)

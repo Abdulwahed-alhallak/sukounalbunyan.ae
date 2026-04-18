@@ -20,7 +20,10 @@ class LeadDatabaseSeeder extends Seeder
         if(config('app.run_demo_seeder'))
         {
             // Add here your demo data seeders
-            $userId = User::where('email', 'company@example.com')->first()->id;
+            $userId = User::resolveDemoCompanyId();
+            if (!$userId) {
+                return;
+            }
             (new DemoPipelineSeeder())->run($userId);
             (new DemoLeadStageSeeder())->run($userId);
             (new DemoDealStageSeeder())->run($userId);

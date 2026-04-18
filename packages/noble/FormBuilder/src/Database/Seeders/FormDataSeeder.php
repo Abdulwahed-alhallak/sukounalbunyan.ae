@@ -51,7 +51,7 @@ class FormDataSeeder extends Seeder
                 'layout' => 'two-column',
                 'fields' => [
                     ['label' => 'Full Name', 'type' => 'text', 'required' => true, 'placeholder' => 'Your full name'],
-                    ['label' => 'Email', 'type' => 'email', 'required' => true, 'placeholder' => 'email@example.com'],
+                    ['label' => 'Email', 'type' => 'email', 'required' => true, 'placeholder' => 'email@noble.dion.sy'],
                     ['label' => 'Phone', 'type' => 'tel', 'required' => true, 'placeholder' => '+1234567890'],
                     ['label' => 'Position', 'type' => 'select', 'required' => true, 'options' => ['Software Engineer', 'Product Manager', 'Designer', 'Marketing Manager']],
                     ['label' => 'Experience (years)', 'type' => 'number', 'required' => true, 'placeholder' => '0'],
@@ -105,7 +105,7 @@ class FormDataSeeder extends Seeder
                 'layout' => 'single',
                 'fields' => [
                     ['label' => 'Name', 'type' => 'text', 'required' => true, 'placeholder' => 'Your name'],
-                    ['label' => 'Email Address', 'type' => 'email', 'required' => true, 'placeholder' => 'email@example.com'],
+                    ['label' => 'Email Address', 'type' => 'email', 'required' => true, 'placeholder' => 'email@noble.dion.sy'],
                     ['label' => 'Interests', 'type' => 'checkbox', 'required' => false, 'options' => ['Technology', 'Business', 'Marketing', 'Design']],
                     ['label' => 'Frequency', 'type' => 'radio', 'required' => true, 'options' => ['Daily', 'Weekly', 'Monthly']],
                 ],
@@ -129,7 +129,7 @@ class FormDataSeeder extends Seeder
                 'layout' => 'two-column',
                 'fields' => [
                     ['label' => 'Full Name', 'type' => 'text', 'required' => true, 'placeholder' => 'John Doe'],
-                    ['label' => 'Email', 'type' => 'email', 'required' => true, 'placeholder' => 'john@example.com'],
+                    ['label' => 'Email', 'type' => 'email', 'required' => true, 'placeholder' => 'john@noble.dion.sy'],
                     ['label' => 'Phone Number', 'type' => 'tel', 'required' => false, 'placeholder' => '+1234567890'],
                     ['label' => 'Subject', 'type' => 'select', 'required' => true, 'options' => ['General Inquiry', 'Support', 'Sales', 'Partnership']],
                     ['label' => 'Message', 'type' => 'textarea', 'required' => true, 'placeholder' => 'Your message here'],

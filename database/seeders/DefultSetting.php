@@ -56,9 +56,9 @@ class DefultSetting extends Seeder
             'currencySymbolPosition' => 'right',
 
             // SEO Settings
-            'metaKeywords' => 'dionone, dionone, dashboard, admin, panel, management',
+            'metaKeywords' => 'Noble Architecture, noble, dashboard, admin, panel, management',
             'metaTitle' => !empty(env('APP_NAME')) ? env('APP_NAME') . ' - Dashboard' : 'Noble Architecture SaaS - Dashboard',
-            'metaDescription' => 'Modern dashboard and management system built with Laravel and React',
+            'metaDescription' => 'Enterprise-grade management ecosystem for modern corporate governance.',
             'metaImage' => 'meta_image.png',
 
             // Cookie Settings
@@ -70,7 +70,7 @@ class DefultSetting extends Seeder
             'cookieDescription' => 'We use cookies to enhance your browsing experience and provide personalized content.',
             'strictlyCookieDescription' => 'These cookies are essential for the website to function properly.',
             'contactUsDescription' => 'If you have any questions about our cookie policy, please contact us.',
-            'contactUsUrl' => 'https://example.com/contact',
+            'contactUsUrl' => 'https://noble.dion.sy/contact',
 
             // storage Settings
             'storageType' => 'local',

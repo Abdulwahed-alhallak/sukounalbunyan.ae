@@ -26,8 +26,8 @@ class DashboardApiController extends Controller
             $creatorId = creatorId();
             $date      = Carbon::today();
 
-            $employee = Employee::where('user_id', $userId)->where('created_by', $creatorId)->first();
-            $shift    = $employee ? Shift::find($employee->shift) : null;
+            $employee = Employee::with('shift')->where('user_id', $userId)->where('created_by', $creatorId)->first();
+            $shift    = $employee ? $employee->shift : null;
 
             // Check for pending attendance (including night shifts)
             $pendingAttendance = Attendance::where('created_by', $creatorId)
@@ -148,12 +148,12 @@ class DashboardApiController extends Controller
                         "description" => $announcement->description,
                     ];
                 });
-            $shiftData =  [
+            $shiftData = $shift ? [
                 'id'         => $shift->id,
                 'shift_name' => $shift->shift_name,
                 'start_time' => $shift->start_time,
                 'end_time'   => $shift->end_time,
-            ];
+            ] : null;
 
             // Get working day names as key:value pairs
             $workingDayNames = [];

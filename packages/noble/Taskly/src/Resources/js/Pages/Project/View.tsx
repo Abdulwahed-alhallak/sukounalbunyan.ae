@@ -51,6 +51,9 @@ interface Project {
     id: number;
     name: string;
     description?: string;
+    status?: string;
+    start_date?: string;
+    end_date?: string;
     user: { id: number; name: string };
     creator: { id: number; name: string };
     team_members: Array<{ id: number; name: string }>;
@@ -78,6 +81,53 @@ interface ShowProps {
         daysLeft: number;
         budget: number;
         totalExpense?: number;
+    };
+    projectFinance: {
+        summary: {
+            salesInvoicedTotal: number;
+            salesCollectedTotal: number;
+            salesOutstandingTotal: number;
+            trackedRevenueTotal: number;
+            accountExpenseTotal: number;
+            tasklyExpenseTotal: number;
+            purchaseCommitmentTotal: number;
+            trackedCostTotal: number;
+        };
+        salesInvoices: Array<{
+            id: number;
+            invoice_number: string;
+            invoice_date?: string;
+            status?: string;
+            customer_name?: string;
+            total_amount: number;
+            paid_amount: number;
+            balance_amount: number;
+        }>;
+        revenues: Array<{
+            id: number;
+            revenue_number: string;
+            revenue_date?: string;
+            status?: string;
+            amount: number;
+            description?: string;
+        }>;
+        accountExpenses: Array<{
+            id: number;
+            expense_number: string;
+            expense_date?: string;
+            status?: string;
+            amount: number;
+            description?: string;
+        }>;
+        purchaseItems: Array<{
+            id: number;
+            invoice_number?: string;
+            invoice_date?: string;
+            status?: string;
+            product_name?: string;
+            quantity: number;
+            total_amount: number;
+        }>;
     };
     chartData: Array<{ name: string; [key: string]: any }>;
     chartLines: Array<{ dataKey: string; color: string; name: string }>;
@@ -116,6 +166,7 @@ export default function Show() {
         teamMembers,
         available_clients,
         projectStats,
+        projectFinance,
         chartData,
         chartLines,
         activityLogs,
@@ -373,6 +424,20 @@ export default function Show() {
 
     const deleteExpense = (expenseId: number) => {
         router.delete(route('project.expenses.destroy', expenseId));
+    };
+
+    const renderFinanceStatus = (status?: string) => {
+        const normalized = (status || '').toLowerCase();
+        const badgeClass =
+            normalized === 'paid' || normalized === 'posted' || normalized === 'approved'
+                ? 'bg-muted text-foreground'
+                : normalized === 'draft' || normalized === 'pending'
+                  ? 'bg-muted text-muted-foreground'
+                  : normalized === 'overdue' || normalized === 'rejected'
+                    ? 'bg-muted text-destructive'
+                    : 'bg-muted text-muted-foreground';
+
+        return <span className={`rounded-full px-2 py-1 text-xs font-medium ${badgeClass}`}>{status || '-'}</span>;
     };
 
     const openEditMilestone = (milestone: any) => {
@@ -962,17 +1027,17 @@ export default function Show() {
                 </Card>
             )}
 
-            {/* Project Expenses */}
+            {/* Project Finance */}
             {auth.user?.permissions?.includes('manage-project') && (
                 <Card className="mt-6 shadow-sm">
                     <CardHeader className="bg-muted/50/50 flex flex-row items-center justify-between border-b p-6">
                         <CardTitle className="flex flex-col gap-2 text-xl sm:flex-row sm:items-center">
-                            <span>{t('Project Expenses')}</span>
-                            {projectStats.totalExpense > 0 && (
+                            <span>{t('Project Finance')}</span>
+                            {projectFinance.summary.trackedCostTotal > 0 && (
                                 <span className="rounded bg-muted px-2 py-1 text-sm font-normal text-muted-foreground">
-                                    {t('Total:')}{' '}
+                                    {t('Tracked Costs:')}{' '}
                                     <span className="font-semibold text-foreground">
-                                        {formatCurrency(projectStats.totalExpense)}
+                                        {formatCurrency(projectFinance.summary.trackedCostTotal)}
                                     </span>
                                 </span>
                             )}
@@ -1058,9 +1123,235 @@ export default function Show() {
                             </TooltipProvider>
                         )}
                     </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 max-h-[70vh] w-full overflow-y-auto rounded-none">
-                            <div className="min-w-[800px]">
+                    <CardContent className="space-y-6 p-6">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                            <div className="rounded-lg border border-border bg-muted/50 p-4">
+                                <div className="mb-1 text-sm font-medium text-muted-foreground">
+                                    {t('Sales Invoiced')}
+                                </div>
+                                <div className="text-2xl font-bold text-foreground">
+                                    {formatCurrency(projectFinance.summary.salesInvoicedTotal)}
+                                </div>
+                                <div className="mt-1 text-xs text-muted-foreground">
+                                    {projectFinance.salesInvoices.length} {t('linked invoices')}
+                                </div>
+                            </div>
+                            <div className="rounded-lg border border-border bg-muted/50 p-4">
+                                <div className="mb-1 text-sm font-medium text-muted-foreground">
+                                    {t('Collected')}
+                                </div>
+                                <div className="text-2xl font-bold text-foreground">
+                                    {formatCurrency(projectFinance.summary.salesCollectedTotal)}
+                                </div>
+                                <div className="mt-1 text-xs text-muted-foreground">
+                                    {t('Outstanding:')} {formatCurrency(projectFinance.summary.salesOutstandingTotal)}
+                                </div>
+                            </div>
+                            <div className="rounded-lg border border-border bg-muted/50 p-4">
+                                <div className="mb-1 text-sm font-medium text-muted-foreground">
+                                    {t('Revenue Ledger')}
+                                </div>
+                                <div className="text-2xl font-bold text-foreground">
+                                    {formatCurrency(projectFinance.summary.trackedRevenueTotal)}
+                                </div>
+                                <div className="mt-1 text-xs text-muted-foreground">
+                                    {projectFinance.revenues.length} {t('revenue entries')}
+                                </div>
+                            </div>
+                            <div className="rounded-lg border border-border bg-muted/50 p-4">
+                                <div className="mb-1 text-sm font-medium text-muted-foreground">
+                                    {t('Tracked Costs')}
+                                </div>
+                                <div className="text-2xl font-bold text-foreground">
+                                    {formatCurrency(projectFinance.summary.trackedCostTotal)}
+                                </div>
+                                <div className="mt-1 text-xs text-muted-foreground">
+                                    {t('Account:')} {formatCurrency(projectFinance.summary.accountExpenseTotal)} •{' '}
+                                    {t('Taskly:')} {formatCurrency(projectFinance.summary.tasklyExpenseTotal)} •{' '}
+                                    {t('Commitments:')}{' '}
+                                    {formatCurrency(projectFinance.summary.purchaseCommitmentTotal)}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold text-foreground">{t('Sales Invoices')}</h3>
+                                    <span className="text-sm text-muted-foreground">
+                                        {projectFinance.salesInvoices.length} {t('records')}
+                                    </span>
+                                </div>
+                                <div className="overflow-hidden rounded-lg border border-border">
+                                    <DataTable
+                                        data={projectFinance.salesInvoices || []}
+                                        columns={[
+                                            { key: 'invoice_number', header: t('Invoice') },
+                                            {
+                                                key: 'invoice_date',
+                                                header: t('Date'),
+                                                render: (value: string) => (value ? formatDate(value) : '-'),
+                                            },
+                                            { key: 'customer_name', header: t('Customer') },
+                                            {
+                                                key: 'status',
+                                                header: t('Status'),
+                                                render: (value: string) => renderFinanceStatus(value),
+                                            },
+                                            {
+                                                key: 'total_amount',
+                                                header: t('Total'),
+                                                render: (value: number) => formatCurrency(value),
+                                            },
+                                            {
+                                                key: 'balance_amount',
+                                                header: t('Balance'),
+                                                render: (value: number) => formatCurrency(value),
+                                            },
+                                        ]}
+                                        emptyState={
+                                            <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
+                                                <FileText className="mx-auto mb-2 h-10 w-10 opacity-40" />
+                                                <p>{t('No sales invoices linked to this project')}</p>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold text-foreground">{t('Revenue Ledger')}</h3>
+                                    <span className="text-sm text-muted-foreground">
+                                        {projectFinance.revenues.length} {t('records')}
+                                    </span>
+                                </div>
+                                <div className="overflow-hidden rounded-lg border border-border">
+                                    <DataTable
+                                        data={projectFinance.revenues || []}
+                                        columns={[
+                                            { key: 'revenue_number', header: t('Revenue') },
+                                            {
+                                                key: 'revenue_date',
+                                                header: t('Date'),
+                                                render: (value: string) => (value ? formatDate(value) : '-'),
+                                            },
+                                            {
+                                                key: 'status',
+                                                header: t('Status'),
+                                                render: (value: string) => renderFinanceStatus(value),
+                                            },
+                                            {
+                                                key: 'amount',
+                                                header: t('Amount'),
+                                                render: (value: number) => formatCurrency(value),
+                                            },
+                                            { key: 'description', header: t('Description') },
+                                        ]}
+                                        emptyState={
+                                            <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
+                                                <Activity className="mx-auto mb-2 h-10 w-10 opacity-40" />
+                                                <p>{t('No revenue entries linked to this project')}</p>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold text-foreground">{t('Account Expenses')}</h3>
+                                    <span className="text-sm text-muted-foreground">
+                                        {projectFinance.accountExpenses.length} {t('records')}
+                                    </span>
+                                </div>
+                                <div className="overflow-hidden rounded-lg border border-border">
+                                    <DataTable
+                                        data={projectFinance.accountExpenses || []}
+                                        columns={[
+                                            { key: 'expense_number', header: t('Expense') },
+                                            {
+                                                key: 'expense_date',
+                                                header: t('Date'),
+                                                render: (value: string) => (value ? formatDate(value) : '-'),
+                                            },
+                                            {
+                                                key: 'status',
+                                                header: t('Status'),
+                                                render: (value: string) => renderFinanceStatus(value),
+                                            },
+                                            {
+                                                key: 'amount',
+                                                header: t('Amount'),
+                                                render: (value: number) => formatCurrency(value),
+                                            },
+                                            { key: 'description', header: t('Description') },
+                                        ]}
+                                        emptyState={
+                                            <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
+                                                <List className="mx-auto mb-2 h-10 w-10 opacity-40" />
+                                                <p>{t('No account expenses linked to this project')}</p>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold text-foreground">
+                                        {t('Purchase Commitments')}
+                                    </h3>
+                                    <span className="text-sm text-muted-foreground">
+                                        {projectFinance.purchaseItems.length} {t('items')}
+                                    </span>
+                                </div>
+                                <div className="overflow-hidden rounded-lg border border-border">
+                                    <DataTable
+                                        data={projectFinance.purchaseItems || []}
+                                        columns={[
+                                            { key: 'invoice_number', header: t('Purchase Invoice') },
+                                            { key: 'product_name', header: t('Item') },
+                                            {
+                                                key: 'invoice_date',
+                                                header: t('Date'),
+                                                render: (value: string) => (value ? formatDate(value) : '-'),
+                                            },
+                                            {
+                                                key: 'status',
+                                                header: t('Status'),
+                                                render: (value: string) => renderFinanceStatus(value),
+                                            },
+                                            { key: 'quantity', header: t('Qty') },
+                                            {
+                                                key: 'total_amount',
+                                                header: t('Amount'),
+                                                render: (value: number) => formatCurrency(value),
+                                            },
+                                        ]}
+                                        emptyState={
+                                            <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
+                                                <CheckSquare className="mx-auto mb-2 h-10 w-10 opacity-40" />
+                                                <p>{t('No purchase commitments linked to this project')}</p>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-lg font-semibold text-foreground">{t('Taskly Project Expenses')}</h3>
+                                {projectStats.totalExpense > 0 && (
+                                    <span className="text-sm text-muted-foreground">
+                                        {t('Total:')} {formatCurrency(projectStats.totalExpense)}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="overflow-hidden rounded-lg border border-border">
                                 <DataTable
                                     data={projectExpenses || []}
                                     columns={[

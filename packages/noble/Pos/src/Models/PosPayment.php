@@ -4,9 +4,11 @@ namespace Noble\Pos\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\TenantBound;
 
 class PosPayment extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'pos_id',
         'discount',

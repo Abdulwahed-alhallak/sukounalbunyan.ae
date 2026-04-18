@@ -4,12 +4,12 @@ export const stripeCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Stripe Payments'),
         icon: CreditCard,
-        permission: 'manage-stripe-integration',
+        permission: 'manage-stripe-settings',
         order: 930,
         children: [
             {
                 title: t('Stripe Settings'),
-                href: route('stripe.settings.update'),
+                href: '/settings#stripe-settings',
                 permission: 'manage-stripe-settings',
             },
         ],

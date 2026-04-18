@@ -27,6 +27,7 @@ import { StatusUpdate as LoanStatusUpdate } from './Loans/StatusUpdate';
 import CreateOvertime from './Overtimes/Create';
 import EditOvertime from './Overtimes/Edit';
 import ViewOvertime from './Overtimes/View';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 interface Allowance {
     id: number;
@@ -133,6 +134,7 @@ export default function Show() {
     const [deductions, setDeductions] = useState<Deduction[]>(initialDeductions || []);
     const [loans, setLoans] = useState<Loan[]>(initialLoans || []);
     const [overtimes, setOvertimes] = useState<Overtime[]>(initialOvertimes || []);
+    const isMultiTierApproval = isMultiTierApprovalEnabled(employee.company);
 
     // Update local state when props change (after redirect)
     useEffect(() => {
@@ -669,9 +671,6 @@ export default function Show() {
                                                     color: 'bg-destructive/20 text-destructive',
                                                 },
                                             };
-                                            const isMultiTier =
-                                                employee.company?.enable_multi_tier_approval === 'on' || true;
-
                                             return (
                                                 <div className="flex flex-col gap-1">
                                                     <span
@@ -679,7 +678,7 @@ export default function Show() {
                                                     >
                                                         {statusInfo.label}
                                                     </span>
-                                                    {isMultiTier && row.manager_status && (
+                                                    {isMultiTierApproval && row.manager_status && (
                                                         <span
                                                             className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${managerStatusMap[row.manager_status]?.color || 'bg-muted'}`}
                                                         >

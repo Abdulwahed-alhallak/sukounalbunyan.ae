@@ -4,7 +4,7 @@ export interface SettingMenuItem {
     order: number;
     title: string;
     href: string;
-    icon: any;
+    icon: React.ComponentType<any>;
     permission: string;
     component: string;
 }

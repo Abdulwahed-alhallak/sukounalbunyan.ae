@@ -78,29 +78,6 @@ Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
         Route::get('/contracts', [ClientPortalController::class, 'contracts'])->name('portal.contracts');
     });
 
-    // Mission Command (Global Theme Overrides)
-    Route::middleware(['auth'])->prefix('mission-command')->group(function() {
-        Route::get('/gamification', [\App\Http\Controllers\MissionCommand\GamificationController::class, 'index'])->name('mission-command.gamification');
-        Route::post('/gamification/test-award', [\App\Http\Controllers\MissionCommand\GamificationController::class, 'testAward']);
-
-        // DionFlow No-Code Engine Routes
-        Route::get('/dionflow', [\App\Http\Controllers\NobleFlowController::class, 'index'])->name('mission-command.dionflow');
-        Route::post('/dionflow', [\App\Http\Controllers\NobleFlowController::class, 'store'])->name('mission-command.dionflow.store');
-
-        // Omnichannel Unified Inbox Routes
-        Route::get('/unified-inbox', [\App\Http\Controllers\UnifiedInboxController::class, 'index'])->name('mission-command.unified-inbox');
-        Route::post('/unified-inbox/send', [\App\Http\Controllers\UnifiedInboxController::class, 'sendMessage'])->name('mission-command.unified-inbox.send');
-
-        // Predictive Finance AI Telemetry Routes
-        Route::get('/predictive-finance', [\App\Http\Controllers\PredictiveFinanceController::class, 'index'])->name('mission-command.predictive-finance');
-
-        // Zero-Trust Security Audit Routes
-        Route::get('/security-audit', [\App\Http\Controllers\SecurityAuditController::class, 'index'])->name('mission-command.security-audit');
-
-        // Affiliate & Retention Engine Routes
-        Route::get('/affiliate-engine', [\App\Http\Controllers\AffiliateEngineController::class, 'index'])->name('mission-command.affiliate-engine');
-    });
-
     // Profile management routes
     // Noble Architecture SaaS: PDF Invoicing Engine
     Route::get('/invoices/{id}/download', [\App\Http\Controllers\InvoicePdfController::class, 'downloadPdf'])->name('invoice.download');

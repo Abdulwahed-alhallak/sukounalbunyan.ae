@@ -11,7 +11,7 @@ declare global {
 /**
  * Get company setting value
  */
-const getCompanySetting = (key: string, pageProps?: any) => {
+const getCompanySetting = (key: string, pageProps?: PageProps) => {
     try {
         // If pageProps is provided, use it; otherwise get from usePage
         let companySettings;
@@ -31,7 +31,7 @@ const getCompanySetting = (key: string, pageProps?: any) => {
 /**
  * Get admin setting value
  */
-const getAdminSetting = (key: string, pageProps?: any) => {
+const getAdminSetting = (key: string, pageProps?: PageProps): string | null => {
     try {
         // If pageProps is provided, use it; otherwise get from usePage
         let adminSettings;
@@ -51,7 +51,7 @@ const getAdminSetting = (key: string, pageProps?: any) => {
 /**
  * Format date to readable format
  */
-const formatDate = (date: string | Date, pageProps?: any): string => {
+const formatDate = (date: string | Date, pageProps?: PageProps): string => {
     if (!date) return '';
     const format = getCompanySetting('dateFormat', pageProps) || 'Y-m-d';
     const d = new Date(date);
@@ -114,7 +114,14 @@ const formatDateTime = (date: string | Date, pageProps?: any): string => {
  * Get full image path
  */
 const getImagePath = (path: string, pageProps?: any): string => {
-    if (!path || typeof path !== 'string') return '';
+    const defaultAvatarSvg = () =>
+        `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none"><rect width="96" height="96" rx="24" fill="#E5E7EB"/><circle cx="48" cy="36" r="18" fill="#94A3B8"/><path d="M22 78c4-13.333 12.667-20 26-20s22 6.667 26 20" fill="#94A3B8"/></svg>'
+        )}`;
+
+    if (!path || typeof path !== 'string' || path === 'avatar.png') {
+        return defaultAvatarSvg();
+    }
     if (path.startsWith('http')) return path;
 
     // If path already contains storage/media, just prepend domain (unless it's Noble Architecture path)

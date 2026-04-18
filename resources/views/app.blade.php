@@ -1,6 +1,7 @@
 @php
     $lang = $page['props']['auth']['lang'] ?? substr(app()->getLocale(), 0, 2);
     $dir = in_array(substr($lang, 0, 2), ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
+    $isViteHot = file_exists(public_path('hot'));
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $lang) }}" dir="{{ $dir }}" class="{{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }} {{ $dir === 'rtl' ? 'rtl' : '' }}">
@@ -47,14 +48,52 @@
                 }
             })();
 
-            // Register Service Worker for PWA
+            // Register Service Worker for PWA only when Vite HMR is not active.
+            // When `public/hot` exists, Laravel will emit localhost Vite assets and the PWA
+            // service worker must be disabled/unregistered to avoid intercepting HMR requests.
+            window.__NOBLE_VITE_HOT__ = @json($isViteHot);
+
+            async function clearNoblePwaArtifacts() {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(
+                        registrations
+                            .filter((registration) => registration.scope.startsWith(window.location.origin))
+                            .map((registration) => registration.unregister())
+                    );
+                }
+
+                if ('caches' in window) {
+                    const cacheKeys = await caches.keys();
+                    await Promise.all(
+                        cacheKeys
+                            .filter((key) => key.startsWith('noble-pwa-cache-'))
+                            .map((key) => caches.delete(key))
+                    );
+                }
+            }
+
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                window.addEventListener('load', async function() {
+                    if (window.__NOBLE_VITE_HOT__) {
+                        try {
+                            await clearNoblePwaArtifacts();
+                            console.log('PWA ServiceWorker disabled while Vite HMR is active.');
+                        } catch (err) {
+                            console.log('PWA ServiceWorker cleanup failed: ', err);
+                        }
+                        return;
+                    }
+
+                    try {
+                        const registration = await navigator.serviceWorker.register('/sw.js', {
+                            updateViaCache: 'none',
+                        });
+                        registration.update().catch(() => {});
                         console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
-                    }, function(err) {
+                    } catch (err) {
                         console.log('PWA ServiceWorker registration failed: ', err);
-                    });
+                    }
                 });
             }
         </script>

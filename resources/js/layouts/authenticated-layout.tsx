@@ -179,7 +179,7 @@ function AuthenticatedLayoutContent({
                         </header>
 
                         {/* ─── Main Content ─── */}
-                        <main className="relative h-full min-h-[calc(100vh-3rem)] overflow-hidden p-4 md:p-6">
+                        <main className="relative h-full min-h-[calc(100vh-3rem)] overflow-x-hidden overflow-y-auto p-4 md:p-6">
                             {/* Vercel 2026 — Subtle dot pattern */}
                             <div className="vercel-dots absolute inset-0 -z-10" />
 

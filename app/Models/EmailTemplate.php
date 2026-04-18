@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\EmailTemplateLang;
 use App\Mail\CommonEmailTemplate;
+use App\Traits\TenantBound;
 
 class EmailTemplate extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'name',
         'from',

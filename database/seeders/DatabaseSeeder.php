@@ -20,12 +20,21 @@ class DatabaseSeeder extends Seeder
         (new EmailTemplatesSeeder())->run();
         (new NotificationsTableSeeder())->run();
 
-        $userId = User::where('email', 'admin@noblearchitecture.net')->first()->id;
-        User::CompanySetting($userId);
+        $company = User::where('email', 'admin@noblearchitecture.net')->first()
+            ?? User::where('type', 'company')->orderBy('id')->first();
+
+        if ($company) {
+            User::CompanySetting($company->id);
+        }
 
         if(config('app.run_demo_seeder'))
         {
             // // Pass $userId to your custom seeder
+            if (!$company) {
+                return;
+            }
+
+            $userId = $company->id;
 
 
             (new CouponSeeder())->run();

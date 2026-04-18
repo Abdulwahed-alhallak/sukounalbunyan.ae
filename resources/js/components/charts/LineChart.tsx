@@ -12,7 +12,7 @@ import {
 
 interface LineChartProps {
     data: any[];
-    dataKey: string;
+    dataKey?: string;
     xAxisKey: string;
     color?: string;
     type?: 'monotone' | 'linear' | 'step' | 'stepBefore' | 'stepAfter';
@@ -29,6 +29,12 @@ interface LineChartProps {
     }>;
     customDots?: boolean;
     strokeWidth?: number;
+    margin?: {
+        left?: number;
+        right?: number;
+        top?: number;
+        bottom?: number;
+    };
 }
 
 export const LineChart: React.FC<LineChartProps> = ({
@@ -45,10 +51,11 @@ export const LineChart: React.FC<LineChartProps> = ({
     lines = [],
     customDots = false,
     strokeWidth = 2,
+    margin = { left: 12, right: 12 },
 }) => {
     return (
         <ResponsiveContainer width="100%" height={height} minWidth={0}>
-            <RechartsLineChart data={data} margin={{ left: 12, right: 12 }}>
+            <RechartsLineChart data={data} margin={margin}>
                 {showGrid && <CartesianGrid vertical={false} />}
                 <XAxis dataKey={xAxisKey} tickLine={false} axisLine={false} tickMargin={8} />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />

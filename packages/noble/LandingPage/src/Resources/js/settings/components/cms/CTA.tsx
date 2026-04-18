@@ -105,7 +105,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                             <Input
                                 value={getSectionData('cta').primary_button_link || ''}
                                 onChange={(e) => updateSectionData('cta', { primary_button_link: e.target.value })}
-                                placeholder="https://example.com/signup"
+                                placeholder="https://noble.dion.sy/signup"
                             />
                         </div>
                         <div className="space-y-2">
@@ -113,7 +113,7 @@ export default function CTA({ data, getSectionData, updateSectionData, updateSec
                             <Input
                                 value={getSectionData('cta').secondary_button_link || ''}
                                 onChange={(e) => updateSectionData('cta', { secondary_button_link: e.target.value })}
-                                placeholder="https://example.com/contact"
+                                placeholder="https://noble.dion.sy/contact"
                             />
                         </div>
                     </div>

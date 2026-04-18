@@ -13,26 +13,27 @@ use App\Models\AddOn;
 use Spatie\Permission\Models\Role;
 use App\Services\DynamicStorageService;
 use App\Services\StorageConfigService;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('creatorId')) {
     function creatorId()
     {
-        if (Auth::user()->type == 'superadmin' || Auth::user()->type == 'company') {
-            return Auth::user()->id;
-        } else {
-            return Auth::user()->created_by;
+        if (Auth::check()) {
+            return (Auth::user()->type == 'superadmin' || Auth::user()->type == 'company') ? Auth::user()->id : Auth::user()->created_by;
         }
+        return null;
     }
 }
 
 if (!function_exists('creatorUser')) {
     function creatorUser()
     {
-        if (Auth::user() && (Auth::user()->type == 'superadmin' || Auth::user()->type == 'company')) {
-            return Auth::user();
-        } else {
-            return Auth::user()->createdBy();
+        if (Auth::check()) {
+            return (Auth::user()->type == 'superadmin' || Auth::user()->type == 'company') ? Auth::user() : User::find(Auth::user()->created_by);
         }
+        return null;
     }
 }
 
@@ -84,8 +85,8 @@ if (!function_exists('getAdminAllSetting')) {
             $superadmin = User::where('type', 'superadmin')->first();
             $cookieName = 'theme_settings_' . ($superadmin ? $superadmin->id : 1);
             
-            if (\Cookie::get($cookieName)) {
-                $cookieData = json_decode(\Cookie::get($cookieName), true);
+            if (Cookie::get($cookieName)) {
+                $cookieData = json_decode(Cookie::get($cookieName), true);
                 if (is_array($cookieData)) {
                     foreach ($themeKeys as $cookieKey => $settingKey) {
                         if (isset($cookieData[$cookieKey])) {
@@ -108,7 +109,7 @@ if (!function_exists('getAdminAllSetting')) {
 if (!function_exists('getCompanyAllSetting')) {
     function getCompanyAllSetting($user_id = null, $publicOnly = false)
     {
-        $user = $user_id ? User::find($user_id) : auth()->user();
+        $user = $user_id ? User::find($user_id) : Auth::user();
 
         if (!$user) return [];
 
@@ -137,8 +138,8 @@ if (!function_exists('getCompanyAllSetting')) {
                 ];
                 
                 $cookieName = 'theme_settings_' . creatorId();
-                if (\Cookie::get($cookieName)) {
-                    $cookieData = json_decode(\Cookie::get($cookieName), true);
+                if (Cookie::get($cookieName)) {
+                    $cookieData = json_decode(Cookie::get($cookieName), true);
                     if (is_array($cookieData)) {
                         foreach ($themeKeys as $cookieKey => $settingKey) {
                             if (isset($cookieData[$cookieKey])) {
@@ -216,8 +217,9 @@ if (!function_exists('getImageUrlPrefix')) {
 if (!function_exists('ActivatedModule')) {
     function ActivatedModule($user_id = null)
     {
-        $activated_module = user::$superadmin_activated_module;
+        $activated_module = User::$superadmin_activated_module;
         $user_active_module = [];
+        $moduleService = new Module();
 
         if ($user_id != null) {
             $user = User::find($user_id);
@@ -228,11 +230,11 @@ if (!function_exists('ActivatedModule')) {
         }
 
         if (!empty($user)) {
-            $available_modules = array_values((new Module())->allEnabled());
-
             if ($user->type == 'superadmin') {
+                $available_modules = array_values($moduleService->allEnabled());
                 $user_active_module = $available_modules;
             } else {
+                $available_modules = array_values($moduleService->allEnabledCompany());
                 $active_module = [];
                 if ($user->type != 'company') {
                     $user = User::find($user->created_by);
@@ -302,6 +304,11 @@ if (!function_exists('assignPlan')) {
         }
 
         if ($plan && $user) {
+            $moduleService = new Module();
+            $allowedModules = $user->type === 'superadmin'
+                ? $moduleService->allEnabled()
+                : $moduleService->allEnabledCompany();
+
             $user->active_plan = $plan->id;
             if (!empty($duration)) {
                 $durationStr = (string)$duration;
@@ -329,11 +336,15 @@ if (!function_exists('assignPlan')) {
             } else {
                 $modules_array = is_array($plan->modules) ? $plan->modules : [];
             }
-           if(!empty($modules))
+
+            $modules_array = array_values(array_unique(array_filter(array_map('trim', $modules_array))));
+            $modules_array = array_values(array_intersect($allowedModules, $modules_array));
+            $modules = implode(',', $modules_array);
+
+           if(!empty($modules_array))
             {
                 UserActiveModule::where('user_id', $user->id)->delete();
 
-                $modules_array = explode(',',$modules);
                 $currentActiveModules = UserActiveModule::where('user_id', $user->id)->pluck('module')->toArray();
                 
                 $user_module = $currentActiveModules;
@@ -351,9 +362,13 @@ if (!function_exists('assignPlan')) {
                     ]);
                 }
                 DefaultData::dispatch($user->id, $modules);
+                $company_role = $user->roles()->where('name', 'company')->first();
                 $client_role = Role::where('name', 'client')->where('created_by', $user->id)->first();
                 $staff_role = Role::where('name', 'staff')->where('created_by', $user->id)->first();
 
+                if (!empty($company_role)) {
+                    GivePermissionToRole::dispatch($company_role->id, 'company', $modules);
+                }
                 if (!empty($client_role)) {
                     GivePermissionToRole::dispatch($client_role->id, 'client', $modules);
                 }
@@ -374,6 +389,7 @@ if (!function_exists('assignPlan')) {
             if ($plan->number_of_users == -1) {
                 $users = User::where('created_by', $user->id)->get();
                 foreach ($users as $item) {
+                    /** @var User $item */
                     $item->is_disable = 0;
                     $item->is_enable_login = 1;
                     $item->save();
@@ -387,6 +403,7 @@ if (!function_exists('assignPlan')) {
                         ->take($count)
                         ->get();
                     foreach ($usersToDisable as $userItem) {
+                        /** @var User $userItem */
                         $userItem->is_disable = 1;
                         $userItem->is_enable_login = 0;
                         $userItem->save();
@@ -399,6 +416,7 @@ if (!function_exists('assignPlan')) {
                         ->get();
 
                     foreach ($usersToEnable as $userItem) {
+                        /** @var User $userItem */
                         $userItem->is_disable = 0;
                         $userItem->is_enable_login = 1;
                         $userItem->save();
@@ -553,7 +571,7 @@ if (!function_exists('SetConfigEmail')) {
                 'mail.mailers.smtp.encryption' => $company_settings['email_encryption'] ?? 'tls',
                 'mail.mailers.smtp.username' => $company_settings['email_username'] ?? '',
                 'mail.mailers.smtp.password' => $company_settings['email_password'] ?? '',
-                'mail.from.address' => $company_settings['email_fromAddress'] ?? 'noreply@example.com',
+                'mail.from.address' => $company_settings['email_fromAddress'] ?? 'noreply@noble.dion.sy',
             ]);
             return true;
         } catch (\Exception $e) {
@@ -592,7 +610,7 @@ if (!function_exists('upload_file')) {
                 'max:' . $config['max_file_size_kb'],
             ];
 
-            $validator = \Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 $key_name => $validation
             ]);
 
@@ -675,7 +693,7 @@ if (!function_exists('upload_base64_file')) {
                 $finalName = pathinfo($name, PATHINFO_EXTENSION) ? $name : $name . '.' . $extension;
 
                 // Store file
-                \Storage::disk($activeDisk)->put('media/' . $path . '/' . $finalName, $data);
+                Storage::disk($activeDisk)->put('media/' . $path . '/' . $finalName, $data);
 
                 return ['flag' => 1, 'msg' => 'success', 'url' => $path . '/' . $finalName];
             }
@@ -697,8 +715,8 @@ if (!function_exists('delete_file')) {
 
             $filePath = 'media/' . $url;
 
-            if (\Storage::disk($activeDisk)->exists($filePath)) {
-                \Storage::disk($activeDisk)->delete($filePath);
+            if (Storage::disk($activeDisk)->exists($filePath)) {
+                Storage::disk($activeDisk)->delete($filePath);
                 return [
                     'flag' => 1,
                     'msg' => 'File deleted successfully'

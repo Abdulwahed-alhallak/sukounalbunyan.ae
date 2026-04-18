@@ -25,11 +25,13 @@ import { StatusUpdate } from './StatusUpdate';
 import NoRecordsFound from '@/components/no-records-found';
 import { Award, AwardsIndexProps, AwardFilters, AwardModalState } from './types';
 import { formatDate, formatTime, formatDateTime, formatCurrency, getImagePath } from '@/utils/helpers';
+import { isMultiTierApprovalEnabled } from '../../utils/multi-tier-approval';
 
 export default function Index() {
     const { t } = useTranslation();
     const { awards, auth, employees = [], awardTypes } = usePage<AwardsIndexProps>().props;
     const urlParams = new URLSearchParams(window.location.search);
+    const isMultiTierApproval = isMultiTierApprovalEnabled(auth.user?.company_settings);
 
     const [filters, setFilters] = useState<AwardFilters>({
         name: urlParams.get('name') || '',
@@ -146,15 +148,12 @@ export default function Index() {
                     approved: { label: t('Mgr Approved'), color: 'bg-success/20 text-success' },
                     rejected: { label: t('Mgr Rejected'), color: 'bg-destructive/20 text-destructive' },
                 };
-                // Assuming isMultiTierEnabled can be checked here, or just render it if it's available
-                const isMultiTier = auth.user?.company_settings?.enable_multi_tier_approval === 'on' || true;
-
                 return (
                     <div className="flex flex-col gap-1">
                         <span className={`w-fit rounded-full px-2 py-1 text-xs font-medium ${statusInfo.color}`}>
                             {statusInfo.label}
                         </span>
-                        {isMultiTier && row.manager_status && (
+                        {isMultiTierApproval && row.manager_status && (
                             <span
                                 className={`w-fit rounded-full px-2 py-1 text-[10px] font-medium ${managerStatusMap[row.manager_status]?.color || 'bg-muted'}`}
                             >

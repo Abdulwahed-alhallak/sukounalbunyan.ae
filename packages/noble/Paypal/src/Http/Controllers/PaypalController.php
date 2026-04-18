@@ -66,6 +66,7 @@ class PaypalController extends Controller
         $user_module = !empty($request->user_module_input) ? $request->user_module_input : '';
         $duration = !empty($request->time_period) ? $request->time_period : 'Month';
         $user_module_price = 0;
+        $paypalMode = $admin_settings['paypal_mode'] ?? 'sandbox';
 
         if (!empty($user_module)) {
             $user_module_array = explode(',', $user_module);
@@ -80,12 +81,12 @@ class PaypalController extends Controller
             'user_counter' => -1,
             'storage_counter' => 0,
         ];
-        if ($admin_settings['paypal_mode'] == 'live') {
+        if ($paypalMode == 'live') {
             config(
                 [
                     'paypal.live.client_id' => isset($admin_settings['paypal_client_id']) ? $admin_settings['paypal_client_id'] : '',
                     'paypal.live.client_secret' => isset($admin_settings['paypal_secret_key']) ? $admin_settings['paypal_secret_key'] : '',
-                    'paypal.mode' => isset($admin_settings['paypal_mode']) ? $admin_settings['paypal_mode'] : '',
+                    'paypal.mode' => $paypalMode,
                 ]
             );
         } else {
@@ -93,7 +94,7 @@ class PaypalController extends Controller
                 [
                     'paypal.sandbox.client_id' => isset($admin_settings['paypal_client_id']) ? $admin_settings['paypal_client_id'] : '',
                     'paypal.sandbox.client_secret' => isset($admin_settings['paypal_secret_key']) ? $admin_settings['paypal_secret_key'] : '',
-                    'paypal.mode' => isset($admin_settings['paypal_mode']) ? $admin_settings['paypal_mode'] : '',
+                    'paypal.mode' => $paypalMode,
                 ]
             );
         }
@@ -158,12 +159,18 @@ class PaypalController extends Controller
         $plan = Plan::find($plan_id);
         if ($plan) {
             $admin_settings = getAdminAllSetting();
-            if ($admin_settings['paypal_mode'] == 'live') {
+            $paypalMode = $admin_settings['paypal_mode'] ?? 'sandbox';
+
+            if (!$request->filled('token')) {
+                return redirect()->route('plans.index')->with('error', __('PayPal approval token is missing.'));
+            }
+
+            if ($paypalMode == 'live') {
                 config(
                     [
                         'paypal.live.client_id' => isset($admin_settings['paypal_client_id']) ? $admin_settings['paypal_client_id'] : '',
                         'paypal.live.client_secret' => isset($admin_settings['paypal_secret_key']) ? $admin_settings['paypal_secret_key'] : '',
-                        'paypal.mode' => isset($admin_settings['paypal_mode']) ? $admin_settings['paypal_mode'] : '',
+                        'paypal.mode' => $paypalMode,
                     ]
                 );
             } else {
@@ -171,7 +178,7 @@ class PaypalController extends Controller
                     [
                         'paypal.sandbox.client_id' => isset($admin_settings['paypal_client_id']) ? $admin_settings['paypal_client_id'] : '',
                         'paypal.sandbox.client_secret' => isset($admin_settings['paypal_secret_key']) ? $admin_settings['paypal_secret_key'] : '',
-                        'paypal.mode' => isset($admin_settings['paypal_mode']) ? $admin_settings['paypal_mode'] : '',
+                        'paypal.mode' => $paypalMode,
                     ]
                 );
             }

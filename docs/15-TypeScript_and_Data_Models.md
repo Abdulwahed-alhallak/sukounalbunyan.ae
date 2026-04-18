@@ -25,8 +25,6 @@
     "resources/js/**/*.ts",
     "resources/js/**/*.tsx",
     "resources/js/**/*.d.ts",
-    "packages/dionone/**/*.ts",
-    "packages/dionone/**/*.tsx",
     "packages/noble/**/*.ts",
     "packages/noble/**/*.tsx"
   ]

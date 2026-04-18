@@ -89,8 +89,8 @@ class AttendanceApiController extends Controller
 
             if ($pendingClockOuts) {
                 foreach ($pendingClockOuts as $pendingClockOut) {
-                    $employee = Employee::where('user_id', $employeeId)->where('created_by', $creatorId)->first();
-                    $shift    = $employee ? Shift::find($employee->shift) : null;
+                    $employee = Employee::with('shift')->where('user_id', $employeeId)->where('created_by', $creatorId)->first();
+                    $shift    = $employee ? $employee->shift : null;
 
                     if ($shift) {
                         $clockInDate      = Carbon::parse($pendingClockOut->clock_in)->format('Y-m-d');
@@ -138,12 +138,9 @@ class AttendanceApiController extends Controller
                 $attendance = $existingAttendance;
             } else {
                 $employee = Employee::where('user_id', $employeeId)->where('created_by', $creatorId)->first();
-                $shift    = $employee ? $employee->shift : null;
-
-
                 $attendance = Attendance::create([
                     'employee_id' => $employeeId,
-                    'shift_id'    => $shift,
+                    'shift_id'    => $employee?->shift_id,
                     'date'        => $today,
                     'clock_in'    => $clockInTime,
                     'creator_id'  => Auth::id(),
@@ -319,7 +316,9 @@ class AttendanceApiController extends Controller
 
     private function calculateAttendanceData($clockIn, $clockOut, $breakHour, $shift, $employee)
     {
-        $shift = Shift::where('id', $shift)->where('created_by', creatorId())->first();
+        $shift = $shift instanceof Shift
+            ? $shift
+            : Shift::where('id', $shift)->where('created_by', creatorId())->first();
         // Step 1: Calculate total working hours
         $totalHourData = $this->calculateTotalHours($clockIn, $clockOut, $shift);
         $totalHour     = $totalHourData['total_working_hours'];

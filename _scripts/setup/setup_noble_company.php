@@ -23,9 +23,9 @@ $admin->type = 'super admin';
 $admin->name = 'noble architecture';
 $admin->save();
 
-// Ensure company@example.com exists and is super admin or company
+// Ensure company@noble.dion.sy exists and is super admin or company
 $company = User::firstOrCreate(
-    ['email' => 'company@example.com'],
+    ['email' => 'company@noble.dion.sy'],
     [
         'name' => 'Company',
         'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
@@ -43,7 +43,7 @@ DB::table('employees')->update(['created_by' => $admin->id]);
 // Now, remove any other users that are "super admin" or "company" except our two allowed accounts.
 DB::table('users')
     ->whereIn('type', ['super admin', 'company'])
-    ->whereNotIn('email', ['admin@noblearchitecture.net', 'company@example.com'])
+    ->whereNotIn('email', ['admin@noblearchitecture.net', 'company@noble.dion.sy'])
     ->delete();
 
 echo "Transferred all users/employees to admin@noblearchitecture.net (ID: {$admin->id}).\n";

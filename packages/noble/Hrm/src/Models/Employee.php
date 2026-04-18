@@ -21,7 +21,7 @@ class Employee extends Model
     {
         static::creating(function ($model) {
             if (empty($model->employee_id)) {
-                $model->employee_id = self::generateEmployeeId();
+                $model->employee_id = self::generateEmployeeId($model->created_by ?? $model->creator_id);
             }
         });
     }
@@ -170,14 +170,18 @@ class Employee extends Model
             ->where('created_by', $this->created_by ?? creatorId());
     }
 
-    public static function generateEmployeeId()
+    public static function generateEmployeeId(?int $createdBy = null)
     {
         $prefix = 'EMP';
         $year = date('Y');
-        $lastEmployee = self::where('employee_id', 'like', $prefix . $year . '%')
-            ->where('created_by', creatorId())
-            ->orderBy('employee_id', 'desc')
-            ->first();
+        $resolvedCreatedBy = $createdBy ?: creatorId();
+        $query = self::where('employee_id', 'like', $prefix . $year . '%');
+
+        if (!empty($resolvedCreatedBy)) {
+            $query->where('created_by', $resolvedCreatedBy);
+        }
+
+        $lastEmployee = $query->orderBy('employee_id', 'desc')->first();
 
         if ($lastEmployee) {
             $lastNumber = (int) substr($lastEmployee->employee_id, -4);

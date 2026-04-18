@@ -23,7 +23,7 @@ conn.on('ready', () => {
     // 2. Activate Lifetime Plan via Tinker
     const tinkerCmd = `
         /opt/alt/php82/usr/bin/php domains/noble.dion.sy/public_html/artisan tinker --execute="
-            \\$u = \\\\App\\\\Models\\\\User::where('name', 'NOBLE')->orWhere('email', 'admin@example.com')->first();
+            \\$u = \\\\App\\\\Models\\\\User::where('name', 'NOBLE')->orWhere('email', 'admin@noble.dion.sy')->first();
             if (\\$u) {
                 \\$p = \\\\App\\\\Models\\\\Plan::updateOrCreate(
                     ['name' => 'Legacy Master Plan'],

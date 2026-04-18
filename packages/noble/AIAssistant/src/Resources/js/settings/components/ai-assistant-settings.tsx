@@ -12,6 +12,7 @@ import { router } from '@inertiajs/react';
 interface AIAssistantSettingsProps {
     [key: string]: any;
     userSettings?: Record<string, string>;
+    providers?: Record<string, Provider>;
     auth?: any;
 }
 
@@ -20,10 +21,13 @@ interface Provider {
     models: string[];
 }
 
-export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssistantSettingsProps) {
+export default function AIAssistantSettings({
+    userSettings = {},
+    providers = {},
+    auth,
+}: AIAssistantSettingsProps) {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
-    const [providers, setProviders] = useState<Record<string, Provider>>({});
     const [showApiKey, setShowApiKey] = useState(false);
     const canEdit = auth?.user?.permissions?.includes('edit-ai-assistant-settings');
 
@@ -40,15 +44,6 @@ export default function AIAssistantSettings({ userSettings = {}, auth }: AIAssis
             ai_api_key: userSettings?.ai_api_key || '',
         });
     }, [userSettings]);
-
-    useEffect(() => {
-        fetch(route('ai-assistant.settings.index'))
-            .then((response) => response.json())
-            .then((data) => {
-                setProviders(data.providers || {});
-            })
-            .catch((error) => console.error('Error fetching AI providers:', error));
-    }, []);
 
     const handleSettingsChange = (field: string, value: string) => {
         setAiSettings((prev) => ({

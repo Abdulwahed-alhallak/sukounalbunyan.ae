@@ -5,9 +5,11 @@ namespace Noble\Pos\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Noble\ProductService\Models\ProductServiceItem;
+use App\Traits\TenantBound;
 
 class PosItem extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'pos_id',
         'product_id',

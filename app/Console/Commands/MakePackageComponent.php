@@ -6,6 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
+/**
+ * @module MakePackageComponent
+ * @description Command for creating package components (controllers, models, etc.)
+ * @author DION System
+ * @lastModified 2026-04-18
+ * @status stable
+ * @dependencies Illuminate\Console\Command, File, Artisan, ComponentCreators trait
+ */
 class MakePackageComponent extends Command
 {
     /**
@@ -25,9 +33,9 @@ class MakePackageComponent extends Command
     /**
      * Execute the console command.
      */
-    public $packageName;
+    public string $packageName;
 
-    public function handle()
+    public function handle(): void
     {
         $type = $this->argument('type');
         $name = $this->argument('name');
@@ -36,15 +44,16 @@ class MakePackageComponent extends Command
 
         $this->packageName = $this->camelToKebab($package);
 
-        $baseDir = base_path("packages/Noble Architecture/$package/src");
+        $baseDir = base_path("packages/noble/$package/src");
         $namespace = "Noble\\$package\\";
 
+        // EXCEPTION: Complex switch statement for multiple component types
         switch ($type) {
             case 'controller':
                 $this->createController($name, $baseDir, $namespace);
                 break;
             case 'model':
-                $this->createModel($name, $baseDir, $namespace, $createMigration,$package);
+                $this->createModel($name, $baseDir, $namespace, $createMigration, $package);
                 break;
             case 'migration':
                 $this->createMigration($name, $package);
@@ -79,18 +88,26 @@ class MakePackageComponent extends Command
         }
     }
 
-    function camelToKebab($name)
+    /**
+     * Convert camelCase to kebab-case
+     */
+    private function camelToKebab(string $name): string
     {
-        $packageName = preg_replace('/([a-z])([A-Z])/', '$1-$2', $name);
-        return strtolower($packageName);
-    }
-    function camelToSnake($name)
-    {
-        $packageName = preg_replace('/([a-z])([A-Z])/', '$1_$2', $name);
-        return strtolower($packageName);
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name));
     }
 
-    function pluralize($word)
+    /**
+     * Convert camelCase to snake_case
+     */
+    private function camelToSnake(string $name): string
+    {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name));
+    }
+
+    /**
+     * Pluralize a word
+     */
+    private function pluralize(string $word): string
     {
         $plural = [
             '/(quiz)$/i' => '\1zes',
@@ -120,300 +137,6 @@ class MakePackageComponent extends Command
         return $word;
     }
 
-
-    protected function createController($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Http/Controllers/{$name}.php";
-        $namespace .= "Http\\Controllers";
-
-        if (File::exists($path)) {
-            $this->error("Controller already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/controller.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$CLASS_NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-        $stub = str_replace('$PACKAGE_NAME$', $this->packageName, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Controller $name created successfully.");
-    }
-
-    protected function createModel($name, $baseDir, $namespace, $createMigration,$package)
-    {
-        $path = "$baseDir/Models/{$name}.php";
-        $namespace .= "Models";
-
-        if (File::exists($path)) {
-            $this->error("Model already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/model.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-
-        File::put($path, $stub);
-        $this->info("Model $name Created Successfully!");
-
-        if ($createMigration) {
-            $this->createMigration("create_{$this->camelToSnake($this->pluralize($name))}_table", $package);
-        }
-    }
-
-    protected function createMigration($name, $package)
-    {
-        $migrationPath = base_path("packages/Noble Architecture/$package/src/Database/Migrations");
-        $timestamp = date('Y_m_d_His');
-        $fileName = "{$timestamp}_{$name}.php";
-        $fullPath = "$migrationPath/$fileName";
-
-        if (File::exists($fullPath)) {
-            $this->error("Migration already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/migrations/migration.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Migration stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-
-        // Extract table name from migration name
-        $tableName = str_replace(['create_', '_table'], '', $name);
-        $stub = str_replace('$TABLE_NAME$', $tableName, $stub);
-
-        File::ensureDirectoryExists($migrationPath);
-        File::put($fullPath, $stub);
-
-        $this->info("Migration $name created successfully.");
-    }
-
-    protected function createMiddleware($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Http/Middleware/{$name}.php";
-        $namespace .= "Http\\Middleware";
-
-        if (File::exists($path)) {
-            $this->error("Middleware already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/middleware.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Middleware $name Created Successfully!");
-    }
-
-    protected function createEvent($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Events/{$name}.php";
-        $namespace .= "Events";
-
-        if (File::exists($path)) {
-            $this->error("Event already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/event.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Event $name Created Successfully!");
-    }
-
-    protected function createListener($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Listeners/{$name}.php";
-        $namespace .= "Listeners";
-
-        if (File::exists($path)) {
-            $this->error("Listener already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/listener.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Listener $name Created Successfully!");
-    }
-
-    protected function createProvider($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Providers/{$name}.php";
-        $namespace .= "Providers";
-
-        if (File::exists($path)) {
-            $this->error("Provider already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/provider.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Provider $name Created Successfully!");
-    }
-
-    protected function createSeeder($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Database/Seeders/{$name}DatabaseSeeder.php";
-        $namespace .= "Database\\Seeders";
-
-        if (File::exists($path)) {
-            $this->error("Seeder already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/seeder.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Seeder $name Created Successfully!");
-    }
-
-    protected function createRequest($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Http/Requests/{$name}.php";
-        $namespace .= "Http\\Requests";
-
-        if (File::exists($path)) {
-            $this->error("Request already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/request.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Request stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Request $name Created Successfully!");
-    }
-
-    protected function createTrait($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Traits/{$name}.php";
-        $namespace .= "Traits";
-
-        if (File::exists($path)) {
-            $this->error("Trait already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/trait.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Trait stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Trait $name Created Successfully!");
-    }
-
-    protected function createHelper($name, $baseDir, $namespace)
-    {
-        $path = "$baseDir/Helpers/{$name}.php";
-        $namespace .= "Helpers";
-
-        if (File::exists($path)) {
-            $this->error("Helper already exists!");
-            return;
-        }
-
-        $stubPath = base_path('stubs/react-package-stubs/helper.stub');
-        if (!File::exists($stubPath)) {
-            $this->error("Helper stub file does not exist!");
-            return;
-        }
-
-        $stub = File::get($stubPath);
-        $stub = str_replace('$NAMESPACE$', $namespace, $stub);
-        $stub = str_replace('$CLASS$', $name, $stub);
-
-        File::ensureDirectoryExists(dirname($path));
-        File::put($path, $stub);
-
-        $this->info("Helper $name Created Successfully!");
-    }
+    // Include component creation methods from separate trait
+    use ComponentCreators;
 }
-

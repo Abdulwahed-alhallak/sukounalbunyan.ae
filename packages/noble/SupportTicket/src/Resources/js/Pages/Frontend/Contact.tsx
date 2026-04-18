@@ -204,7 +204,7 @@ export default function Contact({ settings, brandSettings, titleSections, contac
                                     type="email"
                                     value={data.email}
                                     onChange={(e) => setData('email', e.target.value)}
-                                    placeholder="john.doe@example.com"
+                                    placeholder="info@noble.dion.sy"
                                     required
                                 />
                                 {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email}</p>}

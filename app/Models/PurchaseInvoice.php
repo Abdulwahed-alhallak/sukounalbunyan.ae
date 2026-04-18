@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\TenantBound;
 
 class PurchaseInvoice extends Model
 {
+    use TenantBound;
     protected $fillable = [
         'invoice_number',
         'invoice_date',

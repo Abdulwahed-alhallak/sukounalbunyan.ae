@@ -431,37 +431,39 @@ export default function Index() {
                 {/* Tactical Metrics Layer */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
-                        { label: t('All Projects'), value: items?.total || 0, icon: Package, color: 'blue' },
+                        { label: t('All Projects'), value: items?.total || 0, icon: Package, color: 'text-blue-500', bgColor: 'bg-blue-500/10' },
                         {
                             label: t('Ongoing'),
                             value: items?.data?.filter((p) => p.status === 'Ongoing').length || 0,
                             icon: Plus,
-                            color: 'emerald',
+                            color: 'text-emerald-500',
+                            bgColor: 'bg-emerald-500/10',
                         },
                         {
                             label: t('On Hold'),
                             value: items?.data?.filter((p) => p.status === 'Onhold').length || 0,
                             icon: Trash2,
-                            color: 'rose',
+                            color: 'text-rose-500',
+                            bgColor: 'bg-rose-500/10',
                         },
-                        { label: t('Team Members'), value: users?.length || 0, icon: Users, color: 'amber' },
+                        { label: t('Team Members'), value: users?.length || 0, icon: Users, color: 'text-amber-500', bgColor: 'bg-amber-500/10' },
                     ]?.map((kpi, i) => (
                         <div
                             key={i}
                             className="premium-card group relative overflow-hidden border border-border p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl dark:border-white/5"
                         >
                             <div
-                                className={`absolute -bottom-6 -end-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.08] text-${kpi.color}-500`}
+                                className={`absolute -bottom-6 -end-6 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.1] ${kpi.color}`}
                             >
                                 <kpi.icon className="h-24 w-24" />
                             </div>
                             <div className="relative z-10 mb-4 flex items-center justify-between">
                                 <div
-                                    className={`h-10 w-10 rounded-xl bg-${kpi.color}-500/10 flex items-center justify-center text-${kpi.color}-500 shadow-inner transition-transform duration-500 group-hover:scale-110`}
+                                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${kpi.bgColor} ${kpi.color} shadow-inner transition-transform duration-500 group-hover:scale-110`}
                                 >
                                     <kpi.icon className="h-5 w-5" />
                                 </div>
-                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
                                     {kpi.label}
                                 </span>
                             </div>
@@ -614,12 +616,12 @@ export default function Index() {
                                         {items.data?.map((project, idx) => (
                                             <div
                                                 key={project.id}
-                                                className="premium-card group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-white/5 dark:bg-foreground"
+                                                className="premium-card group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card/40 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-2xl dark:border-white/5 dark:bg-foreground/10"
                                             >
                                                 <div className="flex flex-1 flex-col p-6">
                                                     <div className="mb-4 flex items-start justify-between">
                                                         <div className="min-w-0 flex-1">
-                                                            <h3 className="truncate text-sm font-black uppercase tracking-tight transition-colors group-hover:text-foreground">
+                                                            <h3 className="truncate text-sm font-black uppercase tracking-tight text-foreground transition-colors group-hover:text-foreground">
                                                                 {project.name}
                                                             </h3>
                                                             <p className="mt-0.5 text-[10px] font-bold tracking-tighter text-muted-foreground">
@@ -628,7 +630,7 @@ export default function Index() {
                                                         </div>
                                                         <Badge
                                                             variant="secondary"
-                                                            className="rounded-lg border-none px-2 py-0.5 text-[9px] font-black uppercase tracking-widest shadow-sm"
+                                                            className="rounded-lg border-none bg-muted px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-foreground shadow-sm"
                                                         >
                                                             {t(project.status)}
                                                         </Badge>

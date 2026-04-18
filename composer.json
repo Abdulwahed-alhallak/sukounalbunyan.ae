@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "noble/architecture",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Noble Architecture Central Command & Enterprise Modular Ecosystem",
+    "keywords": ["noble", "erp", "saas", "modular", "laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -67,7 +67,16 @@
             "Noble\\Training\\": "packages/noble/Training/src/",
             "Noble\\Recruitment\\": "packages/noble/Recruitment/src/",
             "Noble\\Quotation\\": "packages/noble/Quotation/src/",
-            "Noble\\Timesheet\\": "packages/noble/Timesheet/src/"
+            "Noble\\Timesheet\\": "packages/noble/Timesheet/src/",
+            "Noble\\GoogleCaptcha\\": "packages/noble/GoogleCaptcha/src/",
+            "Noble\\Stripe\\": "packages/noble/Stripe/src/",
+            "Noble\\Paypal\\": "packages/noble/Paypal/src/",
+            "Noble\\Slack\\": "packages/noble/Slack/src/",
+            "Noble\\Telegram\\": "packages/noble/Telegram/src/",
+            "Noble\\Twilio\\": "packages/noble/Twilio/src/",
+            "Noble\\Webhook\\": "packages/noble/Webhook/src/",
+            "Noble\\ZoomMeeting\\": "packages/noble/ZoomMeeting/src/",
+            "Noble\\Goal\\": "packages/noble/Goal/src/"
         },
         "files": [
             "app/Helpers/Helper.php"

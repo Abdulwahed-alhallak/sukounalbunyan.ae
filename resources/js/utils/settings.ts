@@ -27,10 +27,10 @@ const getPackageSettingsItems = (
 
     (Array.isArray(activatedPackages) ? activatedPackages : []).forEach((packageName) => {
         const settingPath = `../../../packages/noble/${packageName}/src/Resources/js/settings/${settingType}.ts`;
-        const module = allModules[settingPath] as any;
+        const module = allModules[settingPath] as Record<string, unknown>;
 
         if (module) {
-            Object.values(module).forEach((item: any) => {
+            Object.values(module).forEach((item: unknown) => {
                 const result = typeof item === 'function' ? item(t) : item;
                 const items = Array.isArray(result) ? result : [result];
                 menuItems.push(...items);

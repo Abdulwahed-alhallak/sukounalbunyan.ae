@@ -1,83 +1,46 @@
-# 🌐 Noble Architecture ERP Ecosystem (v5.0.0 Platinum Master)
+# Noble Architecture - Enterprise SaaS Ecosystem
 
-> **Master Repository** - The fully integrated enterprise resource planning system for Noble Architecture.
+Noble Architecture is a high-performance, modular SaaS platform designed for comprehensive corporate management. Built on a Zero-Trust Multi-Tenancy architecture, it integrates 28+ enterprise modules into a unified, high-end ecosystem.
 
-Welcome to the central repository of Noble Architecture's SaaS Platform. This robust, **100% Fully Localized (Arabic & English)** application fuses Sales, Execution, Administration, and Finance into a single mathematically bound engine.
+## 🚀 Technology Stack
+- **Backend**: Laravel 12 (PHP 8.2+)
+- **Frontend**: React 18 + Inertia.js + Vite
+- **Styling**: Vanilla CSS + Vercel Geist 2026 Design System
+- **Database**: MySQL (Optimized for Large Datasets)
+- **Deployment**: Automated CI/CD via SSH/SFTP
 
----
+## 📁 System Architecture & Organization
+The repository has been deeply organized into a clean, "Gold Master" structure:
 
-## 🎯 Architecture & Elite Modules
+### ⚙️ Core Layers
+- `app/Services/`: Modular service gateway.
+- `app/Traits/`: Domain-specific logic traits (Financial, HRM, CRM, etc.) for high maintainability.
+- `packages/noble/`: The heart of the platform, containing 28+ Enterprise Modules.
+- `_scripts/`: Centralized automation scripts (Deployment, Backups, Sync).
+- `_archive/`: Secure location for redundant or legacy artifacts.
 
-The system is built on **Laravel 12.x (Inertia.js)** and **React 18 (Vite+TypeScript)**, utilizing the **Vercel Geist 2026 Engine** design system. The platform is designed around 5 core pillars:
+### 🛡️ Security & Hygiene
+- **Zero-Trust Multi-Tenancy**: All data access is scoped via `creatorId()`.
+- **Clean Public-Surface**: Static assets and public entries are strictly managed.
+- **Optimized Framework**: Automated log management and cache optimization scripts included.
 
-1. **CRM & Leads Management:** Tracks potential deals and converts them to legally binding contracts.
-2. **Taskly (Project Management):** Translates Sales contracts directly into executable Projects with dynamic charting and milestone tracking.
-3. **HRM (Human Resources):** Manages all employee data, including base salaries, leaves, and roles.
-4. **Intelligent Geolocation Tracker:** A multi-shift tracker utilizing Haversine formulas to verify employee GPS coordinates mathematically against Project geofence boundaries.
-5. **Account & Finance (Master Ledger):** Features "Smart Auto-Accounting" where labor costs and procurement costs automatically hit the Project's Profit & Loss ledgers.
-
----
-
-## 🛠️ The "Smarter Ecosystem" (Localization Update)
-
-This platform has been modernized in **April 2026** to ensure **Zero Disconnected Data Points** and follows **RTL-first Logical Properties** for seamless multi-language support.
-
-- **Global Case-Sensitive Translation:** 100% Coverage of over 1,200 translation keys across all 31+ enterprise modules.
-- **RTL-Logical Alignment:** All UI components use `start/end` properties instead of `left/right`, ensuring perfect layout mirroring without CSS duplication.
-- **Data Lifecycle Supplementation:** Active generation algorithm simulating 30+ days of operational data (Attendance, Payroll, Leaves) for visual analytics testing.
-- **Unified Component System:** Standardized Shadcn-inspired components with high-fidelity Vercel aesthetics and perfect `manifest.json` PWA connectivity.
-
----
-
-## 🚀 Getting Started (Installation)
-
-### Prerequisites
-
-- PHP 8.2+ (Recommended: 8.3)
-- Composer 2.x
-- Node.js 20+ & NPM
-- MySQL 8.0+
-
-### Setup Commands
-
-1. **Clone & Install Dependencies**
+## 🛠️ Operational Commands
+### Module Synchronization
+To synchronize and enable all enterprise modules in the local environment:
 ```bash
-composer install
-npm install
+php _scripts/deployment/sync_noble_modules.php
 ```
 
-2. **Environment & Keys**
+### Production Deployment
+To build assets, commit changes, and sync with the production server (`noble.dion.sy`):
 ```bash
-cp .env.example .env
-php artisan key:generate
+node _scripts/deployment/auto_sync.cjs
 ```
 
-3. **Database Preparation**
-```bash
-php artisan migrate --seed
-```
-
-4. **Booting the Application**
-```bash
-# Terminal 1 - Backend
-php artisan serve
-
-# Terminal 2 - Frontend
-npm run dev
-```
+## 📜 Documentation Reference
+Integrated project intelligence can be found in `.dionagent/outputs/`:
+- `detected-architecture-map.md`: Complete service-layer mapping.
+- `detected-project-profile.md`: Evolution and maintenance history.
 
 ---
-
-## 🚀 Deployment Pipeline (Production)
-
-The platform is fully synchronized with Noble's live production server via a highly secure, one-click deployment pipeline.
-
-### Deployment Scripts Catalog (`_scripts/`)
-
-| Script | Purpose |
-| :--- | :--- |
-| `.\_scripts\fixes\accounting_polish.php` | Standardizes breadcrumbs and localizes chart labels. |
-| `.\_scripts\fixes\crm_taskly_polish.php` | Fixes white screen issues and localizes Taskly metrics. |
-| `.\_scripts\sync\simulate_hrm_lifecycle.cjs` | **[Core Base]** Engages SSH to generate ~3000 biometric log entries safely representing 1 month of operations for 133 Platinum users. |
-
-_Engineered with precision for Noble Architecture 2026 — Total Operational Sovereignty (Platinum Master)._
+**© 2026 Noble Architecture. All Rights Reserved.**
