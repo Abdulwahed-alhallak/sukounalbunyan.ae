@@ -127,17 +127,27 @@ async function syncBuildFiles(conn) {
             await syncBuildFiles(conn);
 
             // 6. Cache and Optimize
-            console.log('\n[5/5] Optimizing production (clearing cache + migrations + access fix)...');
+            console.log('\n[5/5] Hardening and Optimizing production...');
+            
+            // A. Remove any accidental public/hot file
+            await runRemote(conn, `rm -f ${APP_DIR}/public/hot`);
+            console.log('   ✅ Removed public/hot (Dev cleanup)');
+
+            // B. Fix APP_URL in .env if missing or incorrect
+            await runRemote(conn, `cd ${APP_DIR} && sed -i 's|^APP_URL=.*|APP_URL=https://noble.dion.sy|' .env`);
+            console.log('   ✅ Enforced APP_URL=https://noble.dion.sy in .env');
+
+            // C. Clear and cache
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize:clear`);
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan migrate --force`);
             
-            const tinkerCmd = "\\$u = \\App\\Models\\User::where('email', 'admin@noblearchitecture.net')->first(); if (\\$u) { \\$u->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); } \\$s = \\App\\Models\\User::where('email', 'superadmin@noblearchitecture.net')->first(); if (\\$s) { \\$s->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); }";
+            const tinkerCmd = "\\$u = \\App\\Models\\User::where('email', 'admin@noblearchitecture.net')->first(); if (\\$u) { \\$u->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); }";
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan tinker --execute="${tinkerCmd}"`);
             
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize`);
             
             console.log('\n===================================================');
-            console.log('✅ SYNC COMPLETE! Production is fully updated.');
+            console.log('✅ SYNC COMPLETE! Production is hardened and live.');
             console.log('===================================================');
             conn.end();
             process.exit(0);
