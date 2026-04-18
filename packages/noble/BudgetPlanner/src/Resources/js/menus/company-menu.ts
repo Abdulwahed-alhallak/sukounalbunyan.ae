@@ -9,22 +9,22 @@ export const budgetplannerCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Budget Periods'),
-                href: route('budget-planner.budget-periods.index'),
+                href: '/budget-planner/budget-periods',
                 permission: 'manage-budget-periods',
             },
             {
                 title: t('Budget'),
-                href: route('budget-planner.budgets.index'),
+                href: '/budget-planner/budgets',
                 permission: 'manage-budgets',
             },
             {
                 title: t('Budget Allocations'),
-                href: route('budget-planner.budget-allocations.index'),
+                href: '/budget-planner/budget-allocations',
                 permission: 'manage-budget-allocations',
             },
             {
                 title: t('Budget Monitoring'),
-                href: route('budget-planner.budget-monitorings.index'),
+                href: '/budget-planner/budget-monitoring',
                 permission: 'manage-budget-monitoring',
             },
         ],

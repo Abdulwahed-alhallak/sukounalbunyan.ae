@@ -10,27 +10,27 @@ export const performanceCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Performance Indicators'),
-                href: route('performance.indicators.index'),
+                href: '/performance/indicators',
                 permission: 'manage-performance-indicators',
             },
             {
                 title: t('Employee Goals'),
-                href: route('performance.employee-goals.index'),
+                href: '/performance/employee-goals',
                 permission: 'manage-employee-goals',
             },
             {
                 title: t('Review Cycles'),
-                href: route('performance.review-cycles.index'),
+                href: '/performance/review-cycles',
                 permission: 'manage-review-cycles',
             },
             {
                 title: t('Employee Reviews'),
-                href: route('performance.employee-reviews.index'),
+                href: '/performance/employee-reviews',
                 permission: 'manage-employee-reviews',
             },
             {
                 title: t('System Setup'),
-                href: route('performance.indicator-categories.index'),
+                href: '/performance/indicator-categories',
                 permission: 'manage-performance-system-setup',
             },
         ],

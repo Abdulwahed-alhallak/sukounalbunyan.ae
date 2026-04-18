@@ -9,27 +9,27 @@ export const goalCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Goals'),
-                href: route('goal.goals.index'),
+                href: '/goal/goals',
                 permission: 'manage-goals',
             },
             {
                 title: t('Milestones'),
-                href: route('goal.milestones.index'),
+                href: '/goal/milestones',
                 permission: 'manage-goal-milestones',
             },
             {
                 title: t('Contributions'),
-                href: route('goal.contributions.index'),
+                href: '/goal/contributions',
                 permission: 'manage-goal-contributions',
             },
             {
                 title: t('Tracking'),
-                href: route('goal.tracking.index'),
+                href: '/goal/tracking',
                 permission: 'manage-goal-tracking',
             },
             {
                 title: t('Category'),
-                href: route('goal.categories.index'),
+                href: '/goal/categories',
                 permission: 'manage-categories',
             },
         ],

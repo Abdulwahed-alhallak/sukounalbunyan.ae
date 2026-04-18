@@ -3,7 +3,7 @@ import { Contact } from 'lucide-react';
 export const leadCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('CRM Dashboard'),
-        href: route('lead.index'),
+        href: '/crm',
         permission: 'manage-crm-dashboard',
         parent: 'dashboard',
         order: 50,
@@ -16,32 +16,32 @@ export const leadCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Leads'),
-                href: route('lead.leads.index'),
+                href: '/crm/leads',
                 permission: 'manage-leads',
             },
             {
                 title: t('Deals'),
-                href: route('lead.deals.index'),
+                href: '/crm/deals',
                 permission: 'manage-deals',
             },
             {
                 title: t('System Setup'),
-                href: route('lead.pipelines.index'),
+                href: '/crm/pipelines',
                 permission: 'manage-pipelines',
             },
             {
                 title: t('Reports'),
-                href: route('lead.reports.index'),
+                href: '/crm/reports',
                 permission: 'view-reports',
                 children: [
                     {
                         title: t('Lead Reports'),
-                        href: route('lead.reports.leads'),
+                        href: '/crm/reports/leads',
                         permission: 'view-reports',
                     },
                     {
                         title: t('Deal Reports'),
-                        href: route('lead.reports.deals'),
+                        href: '/crm/reports/deals',
                         permission: 'view-reports',
                     },
                 ],

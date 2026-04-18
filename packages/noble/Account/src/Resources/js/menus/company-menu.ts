@@ -3,7 +3,7 @@ import { Calculator, Building2, CreditCard, FileText, Landmark, BarChart3 } from
 export const accountCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Account Dashboard'),
-        href: route('account.index'),
+        href: '/account',
         permission: 'manage-account-dashboard',
         parent: 'dashboard',
         order: 20,
@@ -16,12 +16,12 @@ export const accountCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Customers'),
-                href: route('account.customers.index'),
+                href: '/account/customers',
                 permission: 'manage-customers',
             },
             {
                 title: t('Vendors'),
-                href: route('account.vendors.index'),
+                href: '/account/vendors',
                 permission: 'manage-vendors',
             },
             {
@@ -30,64 +30,64 @@ export const accountCompanyMenu = (t: (key: string) => string) => [
                 children: [
                     {
                         title: t('Bank Accounts'),
-                        href: route('account.bank-accounts.index'),
+                        href: '/account/bank-accounts',
                         permission: 'manage-bank-accounts',
                     },
                     {
                         title: t('Bank Transactions'),
-                        href: route('account.bank-transactions.index'),
+                        href: '/account/bank-transactions',
                         permission: 'manage-bank-transactions',
                     },
                     {
                         title: t('Bank Transfers'),
-                        href: route('account.bank-transfers.index'),
+                        href: '/account/bank-transfers',
                         permission: 'manage-bank-transfers',
                     },
                 ],
             },
             {
                 title: t('Chart Of Accounts'),
-                href: route('account.chart-of-accounts.index'),
+                href: '/account/chart-of-accounts',
                 permission: 'manage-chart-of-accounts',
             },
             {
                 title: t('Vendor Payments'),
-                href: route('account.vendor-payments.index'),
+                href: '/account/vendor-payments',
                 permission: 'manage-vendor-payments',
             },
             {
                 title: t('Customer Payments'),
-                href: route('account.customer-payments.index'),
+                href: '/account/customer-payments',
                 permission: 'manage-customer-payments',
             },
             {
                 title: t('Revenue'),
-                href: route('account.revenues.index'),
+                href: '/account/revenues',
                 permission: 'manage-revenues',
             },
             {
                 title: t('Expense'),
-                href: route('account.expenses.index'),
+                href: '/account/expenses',
                 permission: 'manage-expenses',
             },
             {
                 title: t('Debit Notes'),
-                href: route('account.debit-notes.index'),
+                href: '/account/debit-notes',
                 permission: 'manage-debit-notes',
             },
             {
                 title: t('Credit Notes'),
-                href: route('account.credit-notes.index'),
+                href: '/account/credit-notes',
                 permission: 'manage-credit-notes',
             },
             {
                 title: t('Reports'),
-                href: route('account.reports.index'),
+                href: '/account/reports',
                 permission: 'manage-account-reports',
             },
             {
                 title: t('System Setup'),
-                href: route('account.account-types.index'),
+                href: '/account/account-types',
                 permission: 'manage-account-types',
             },
         ],

@@ -10,13 +10,13 @@ export const contractCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Contracts'),
-                href: route('contract.index'),
+                href: '/contract',
                 permission: 'manage-contracts',
                 order: 10,
             },
             {
                 title: t('Contract Types'),
-                href: route('contract-types.index'),
+                href: '/contract/contract-types',
                 permission: 'manage-contract-types',
                 order: 30,
             },

@@ -9,7 +9,7 @@ export const landingPageCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('CMS Settings'),
-                href: route('landing-page.index'),
+                href: '/landing-page',
                 permission: 'manage-landing-page-settings',
             },
         ],

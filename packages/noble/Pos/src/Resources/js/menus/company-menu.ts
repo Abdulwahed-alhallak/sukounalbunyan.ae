@@ -3,7 +3,7 @@ import { Store } from 'lucide-react';
 export const posCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('POS Dashboard'),
-        href: route('pos.index'),
+        href: '/pos',
         permission: 'manage-pos-dashboard',
         parent: 'dashboard',
         order: 40,
@@ -16,17 +16,17 @@ export const posCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Add POS'),
-                href: route('pos.create'),
+                href: '/pos/create',
                 permission: 'create-pos',
             },
             {
                 title: t('POS Orders'),
-                href: route('pos.orders'),
+                href: '/pos/orders',
                 permission: 'manage-pos-orders',
             },
             {
                 title: t('Print Barcode'),
-                href: route('pos.barcode'),
+                href: '/pos/barcode',
                 permission: 'manage-pos-barcodes',
             },
             {
@@ -35,17 +35,17 @@ export const posCompanyMenu = (t: (key: string) => string) => [
                 children: [
                     {
                         title: t('Sales Report'),
-                        href: route('pos.reports.sales'),
+                        href: '/pos/reports/sales',
                         permission: 'view-pos-reports',
                     },
                     {
                         title: t('Product Report'),
-                        href: route('pos.reports.products'),
+                        href: '/pos/reports/products',
                         permission: 'view-pos-reports',
                     },
                     {
                         title: t('Customer Report'),
-                        href: route('pos.reports.customers'),
+                        href: '/pos/reports/customers',
                         permission: 'view-pos-reports',
                     },
                 ],

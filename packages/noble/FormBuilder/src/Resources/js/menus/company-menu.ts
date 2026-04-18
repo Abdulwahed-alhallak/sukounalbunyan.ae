@@ -6,6 +6,6 @@ export const formbuilderCompanyMenu = (t: (key: string) => string) => [
         icon: FormInput,
         permission: 'manage-formbuilder',
         order: 510,
-        href: route('formbuilder.forms.index'),
+        href: '/form-builder/forms',
     },
 ];

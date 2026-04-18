@@ -3,7 +3,7 @@ import { FolderKanban } from 'lucide-react';
 export const projectCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Project Dashboard'),
-        href: route('project.dashboard.index'),
+        href: '/project/dashboard',
         permission: 'manage-project-dashboard',
         parent: 'dashboard',
         order: 20,
@@ -17,19 +17,19 @@ export const projectCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Projects'),
-                href: route('project.index'),
+                href: '/project',
                 permission: 'manage-project',
                 order: 5,
             },
             {
                 title: t('Projects Report'),
-                href: route('project.report.index'),
+                href: '/project/report',
                 permission: 'manage-project-report',
                 order: 10,
             },
             {
                 title: t('System Setup'),
-                href: route('project.task-stages.index'),
+                href: '/project/task-stages/index',
                 permission: 'manage-task-stages',
                 order: 20,
             },

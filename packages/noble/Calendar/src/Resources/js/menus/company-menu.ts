@@ -4,7 +4,7 @@ export const calendarCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Calendar'),
         icon: Calendar,
-        href: route('calendar.view.index'),
+        href: '/calendar-view',
         permission: 'manage-calendar',
         order: 925,
     },

@@ -5,7 +5,7 @@ export const quotationCompanyMenu = (t: (key: string) => string) => [
         title: t('Quotation'),
         icon: FileCheck,
         permission: 'manage-quotations',
-        href: route('quotations.index'),
+        href: '/quotations',
         order: 260,
     },
 ];

@@ -6,6 +6,6 @@ export const timesheetCompanyMenu = (t: (key: string) => string) => [
         icon: Clock,
         permission: 'manage-timesheet',
         order: 1450,
-        href: route('timesheet.index'),
+        href: '/timesheet',
     },
 ];

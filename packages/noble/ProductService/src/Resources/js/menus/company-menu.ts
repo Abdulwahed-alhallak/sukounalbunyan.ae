@@ -10,12 +10,12 @@ export const productserviceCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Items'),
-                href: route('product-service.items.index'),
+                href: '/product-service/items',
                 permission: 'manage-product-service-item',
             },
             {
                 title: t('System Setup'),
-                href: route('product-service.item-categories.index'),
+                href: '/product-service/item-categories',
                 permission: 'manage-product-service-item',
             },
         ],

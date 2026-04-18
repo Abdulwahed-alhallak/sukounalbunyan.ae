@@ -5,7 +5,7 @@ export const zoommeetingCompanyMenu = (t: (key: string) => string) => [
         title: t('Zoom Meetings'),
         icon: Video,
         permission: 'manage-zoom-meetings',
-        href: route('zoommeeting.zoom-meetings.index'),
+        href: '/zoom-meetings',
         order: 950,
     },
 ];

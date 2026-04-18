@@ -9,17 +9,17 @@ export const trainingCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Training Types'),
-                href: route('training.training-types.index'),
+                href: '/training/training-types',
                 permission: 'manage-training-types',
             },
             {
                 title: t('Trainers'),
-                href: route('training.trainers.index'),
+                href: '/training/trainers',
                 permission: 'manage-trainers',
             },
             {
                 title: t('Training List'),
-                href: route('training.trainings.index'),
+                href: '/training/trainings',
                 permission: 'manage-trainings',
             },
         ],

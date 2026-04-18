@@ -3,7 +3,7 @@ import { Headphones } from 'lucide-react';
 export const supportticketCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Support Dashboard'),
-        href: route('dashboard.support-tickets'),
+        href: '/dashboard/support-ticket',
         permission: 'manage-support-tickets',
         parent: 'dashboard',
         order: 140,
@@ -16,27 +16,27 @@ export const supportticketCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Tickets'),
-                href: route('support-tickets.index'),
+                href: '/support-tickets',
                 permission: 'manage-support-tickets',
             },
             {
                 title: t('Knowledge Base'),
-                href: route('support-ticket-knowledge.index'),
+                href: '/support-ticket-knowledge',
                 permission: 'manage-knowledge-base',
             },
             {
                 title: t('FAQ'),
-                href: route('support-ticket-faq.index'),
+                href: '/support-ticket-faq',
                 permission: 'manage-faq',
             },
             {
                 title: t('Contact'),
-                href: route('support-ticket-contact.index'),
+                href: '/support-ticket-contact',
                 permission: 'manage-contact',
             },
             {
                 title: t('System Setup'),
-                href: route('ticket-category.index'),
+                href: '/support-ticket/ticket-categories',
                 permission: 'manage-ticket-categories',
             },
         ],

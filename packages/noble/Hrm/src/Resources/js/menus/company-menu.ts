@@ -21,7 +21,7 @@ import {
 export const hrmCompanyMenu = (t: (key: string) => string) => [
     {
         title: t('Hrm Dashboard'),
-        href: route('hrm.index'),
+        href: '/hrm',
         permission: 'manage-hrm-dashboard',
         parent: 'dashboard',
         order: 30,
@@ -34,32 +34,32 @@ export const hrmCompanyMenu = (t: (key: string) => string) => [
         children: [
             {
                 title: t('Employees'),
-                href: route('hrm.employees.index'),
+                href: '/hrm/employees',
                 permission: 'manage-employees',
             },
             {
                 title: t('Document Expiries'),
-                href: route('hrm.employees.expiries'),
+                href: '/hrm/employees/expiries',
                 permission: 'manage-employees',
             },
             {
                 title: t('Onboarding'),
-                href: route('hrm.onboarding.index'),
+                href: '/hrm/onboarding',
                 permission: 'manage-hrm',
             },
             {
                 title: t('Org Chart'),
-                href: route('hrm.org-chart'),
+                href: '/hrm/org-chart',
                 permission: 'manage-employees',
             },
             {
                 title: t('Assets'),
-                href: route('hrm.assets.index'),
+                href: '/hrm/assets',
                 permission: 'manage-hrm',
             },
             {
                 title: t('Contracts'),
-                href: route('hrm.employee-contracts.index'),
+                href: '/hrm/employee-contracts',
                 permission: 'manage-employees',
             },
             {
@@ -68,22 +68,22 @@ export const hrmCompanyMenu = (t: (key: string) => string) => [
                 children: [
                     {
                         title: t('Set Salary'),
-                        href: route('hrm.set-salary.index'),
+                        href: '/hrm/set-salary',
                         permission: 'manage-set-salary',
                     },
                     {
                         title: t('Payroll'),
-                        href: route('hrm.payrolls.index'),
+                        href: '/hrm/payrolls',
                         permission: 'manage-payrolls',
                     },
                     {
                         title: t('Vacation Settlement'),
-                        href: route('hrm.vacation-settlement.index'),
+                        href: '/hrm/vacation-settlement',
                         permission: 'manage-hrm',
                     },
                     {
                         title: t('Final Settlement'),
-                        href: route('hrm.final-settlement.index'),
+                        href: '/hrm/final-settlement',
                         permission: 'manage-hrm',
                     },
                 ],
@@ -94,27 +94,27 @@ export const hrmCompanyMenu = (t: (key: string) => string) => [
                 children: [
                     {
                         title: t('Tracker'),
-                        href: route('hrm.attendances.tracker'),
+                        href: '/hrm/attendances/tracker',
                         permission: 'manage-attendances',
                     },
                     {
                         title: t('Scheduler'),
-                        href: route('hrm.shifts.scheduler'),
+                        href: '/hrm/shifts/scheduler',
                         permission: 'manage-shifts',
                     },
                     {
                         title: t('Shifts'),
-                        href: route('hrm.shifts.index'),
+                        href: '/hrm/shifts',
                         permission: 'manage-shifts',
                     },
                     {
                         title: t('Attendances'),
-                        href: route('hrm.attendances.index'),
+                        href: '/hrm/attendances',
                         permission: 'manage-attendances',
                     },
                     {
                         title: t('Biometric Logs'),
-                        href: route('hrm.biometric-logs.index'),
+                        href: '/hrm/biometric-logs',
                         permission: 'manage-attendances',
                     },
                 ],
@@ -125,94 +125,94 @@ export const hrmCompanyMenu = (t: (key: string) => string) => [
                 children: [
                     {
                         title: t('Leave Types'),
-                        href: route('hrm.leave-types.index'),
+                        href: '/hrm/leave-types',
                         permission: 'manage-leave-types',
                     },
                     {
                         title: t('Leave Timeline'),
-                        href: route('hrm.leave-applications.timeline'),
+                        href: '/hrm/leave-applications/timeline',
                         permission: 'manage-leave-applications',
                     },
                     {
                         title: t('Leave Applications'),
-                        href: route('hrm.leave-applications.index'),
+                        href: '/hrm/leave-applications',
                         permission: 'manage-leave-applications',
                     },
                     {
                         title: t('Leave Balance'),
-                        href: route('hrm.leave-balance.index'),
+                        href: '/hrm/leave-balance',
                         permission: 'manage-leave-balance',
                     },
                 ],
             },
             {
                 title: t('Holidays'),
-                href: route('hrm.holidays.index'),
+                href: '/hrm/holidays',
                 permission: 'manage-holidays',
             },
             {
                 title: t('Awards'),
-                href: route('hrm.awards.index'),
+                href: '/hrm/awards',
                 permission: 'manage-awards',
             },
             {
                 title: t('Promotions'),
-                href: route('hrm.promotions.index'),
+                href: '/hrm/promotions',
                 permission: 'manage-promotions',
             },
             {
                 title: t('Resignations'),
-                href: route('hrm.resignations.index'),
+                href: '/hrm/resignations',
                 permission: 'manage-resignations',
             },
             {
                 title: t('Terminations'),
-                href: route('hrm.terminations.index'),
+                href: '/hrm/terminations',
                 permission: 'manage-terminations',
             },
             {
                 title: t('Warnings'),
-                href: route('hrm.warnings.index'),
+                href: '/hrm/warnings',
                 permission: 'manage-warnings',
             },
             {
                 title: t('Violations'),
-                href: route('hrm.violations.index'),
+                href: '/hrm/violations',
                 permission: 'manage-employees',
             },
             {
                 title: t('Complaints'),
-                href: route('hrm.complaints.index'),
+                href: '/hrm/complaints',
                 permission: 'manage-complaints',
             },
             {
                 title: t('Transfers'),
-                href: route('hrm.employee-transfers.index'),
+                href: '/hrm/employee-transfers',
                 permission: 'manage-employee-transfers',
             },
             {
                 title: t('Documents'),
-                href: route('hrm.documents.index'),
+                href: '/hrm/documents',
                 permission: 'manage-hrm-documents',
             },
             {
                 title: t('Acknowledgments'),
-                href: route('hrm.acknowledgments.index'),
+                href: '/hrm/acknowledgments',
                 permission: 'manage-acknowledgments',
             },
             {
                 title: t('Announcements'),
-                href: route('hrm.announcements.index'),
+                href: '/hrm/announcements',
                 permission: 'manage-announcements',
             },
             {
                 title: t('Events'),
-                href: route('hrm.events.index'),
+                href: '/hrm/events',
                 permission: 'manage-events',
             },
             {
                 title: t('System Setup'),
-                href: route('hrm.branches.index'),
+                href: '/hrm/branches',
                 permission: 'manage-hrm',
             },
         ],
