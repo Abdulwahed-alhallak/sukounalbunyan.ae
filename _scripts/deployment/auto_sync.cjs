@@ -78,17 +78,21 @@ async function syncBuildFiles(conn) {
             console.log(`\n   ✅ Uploaded ${uploaded} build files.`);
 
             // 3. Sync Service Worker and Manifest from public root
-            console.log('\n📦 Syncing PWA assets (sw.js, manifest.json)...');
-            const swFiles = ['sw.js', 'sw-v17.js', 'manifest.json'];
+            console.log('\n📦 Syncing PWA assets (sw-v18.js, manifest.json)...');
+            const swFiles = ['sw-v18.js', 'manifest.json'];
             for (const file of swFiles) {
-                const localPath = path.join(LOCAL_DIR, 'public', file);
-                if (fs.existsSync(localPath)) {
+                const localFilePath = path.join(LOCAL_DIR, 'public', file);
+                if (fs.existsSync(localFilePath)) {
                     // Upload to BOTH public root and domain root to be safe
-                    await new Promise(res => sftp.fastPut(localPath, `${APP_DIR}/public/${file}`, res));
-                    await new Promise(res => sftp.fastPut(localPath, `${APP_DIR}/${file}`, res));
+                    await new Promise(res => sftp.fastPut(localFilePath, `${APP_DIR}/public/${file}`, res));
+                    await new Promise(res => sftp.fastPut(localFilePath, `${APP_DIR}/${file}`, res));
                     console.log(`   ✅ Uploaded ${file} to public/ and root/`);
                 }
             }
+
+            // 4. Cleanup legacy workers
+            console.log('📦 Cleaning up legacy workers (sw.js, sw-v17.js)...');
+            await new Promise(res => conn.exec(`rm -f ${APP_DIR}/public/sw.js ${APP_DIR}/public/sw-v17.js ${APP_DIR}/sw.js ${APP_DIR}/sw-v17.js`, res));
 
             resolve();
         });
@@ -139,12 +143,14 @@ async function syncBuildFiles(conn) {
 
             // C. Clear and cache
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize:clear`);
+            await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan view:clear && ${PHP} artisan config:clear`);
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan migrate --force`);
             
             const tinkerCmd = "\\$u = \\App\\Models\\User::where('email', 'admin@noblearchitecture.net')->first(); if (\\$u) { \\$u->update(['password' => \\Illuminate\\Support\\Facades\\Hash::make('Nn@!23456'), 'is_disable' => 0, 'is_enable_login' => 1]); }";
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan tinker --execute="${tinkerCmd}"`);
             
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize`);
+            await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan event:cache`);
             
             console.log('\n===================================================');
             console.log('✅ SYNC COMPLETE! Production is hardened and live.');

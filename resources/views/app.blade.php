@@ -79,17 +79,27 @@
                         return;
                     }
 
-                    // Delay registration to ensure page stability and avoid collision with initial loads
+                    // Forceful cleanup of any non-v18 workers to prevent boot loops and old syntax errors
                     setTimeout(async function() {
                         try {
-                            const registration = await navigator.serviceWorker.register('/sw-v17.js', {
+                            const registrations = await navigator.serviceWorker.getRegistrations();
+                            for (let reg of registrations) {
+                                const swUrl = reg.active?.scriptURL || reg.installing?.scriptURL || reg.waiting?.scriptURL;
+                                if (swUrl && !swUrl.endsWith('/sw-v18.js')) {
+                                    console.log('PWA: Purging legacy ServiceWorker:', swUrl);
+                                    await reg.unregister();
+                                }
+                            }
+
+                            const registration = await navigator.serviceWorker.register('/sw-v18.js', {
                                 updateViaCache: 'none',
+                                scope: '/'
                             });
-                            console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
+                            console.log('PWA ServiceWorker v18 registration successful with scope: ', registration.scope);
                         } catch (err) {
                             console.log('PWA ServiceWorker registration failed: ', err);
                         }
-                    }, 3000);
+                    }, 2000);
                 });
             }
         </script>
