@@ -128,6 +128,17 @@ class SettingController extends Controller
         }
     }
 
+    public function updateTheme(Request $request)
+    {
+        $request->validate([
+            'theme' => 'required|string|in:light,dark'
+        ]);
+
+        setSetting('themeMode', $request->theme);
+
+        return response()->json(['success' => true]);
+    }
+
     public function updateCompanySettings(Request $request)
     {
         if(Auth::user()->can('edit-company-settings'))

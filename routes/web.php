@@ -159,6 +159,7 @@ Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     // Settings management routes
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings/brand', [SettingController::class, 'updateBrandSettings'])->name('settings.brand.update');
+    Route::post('settings/theme', [SettingController::class, 'updateTheme'])->name('settings.theme.update');
     Route::post('settings/company', [SettingController::class, 'updateCompanySettings'])->name('settings.company.update');
     Route::post('settings/system', [SettingController::class, 'updateSystemSettings'])->name('settings.system.update');
     Route::post('settings/currency', [SettingController::class, 'updateCurrencySettings'])->name('settings.currency.update');
