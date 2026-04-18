@@ -1,6 +1,7 @@
 # Definition of Done
 
 A task is done only if:
+
 - discovery assumptions were respected
 - stack boundaries were preserved or explicitly updated
 - implementation is complete for the requested scope

@@ -49,7 +49,7 @@
             // Register Service Worker for PWA only when Vite HMR is not active.
             // When `public/hot` exists, Laravel will emit localhost Vite assets and the PWA
             // service worker must be disabled/unregistered to avoid intercepting HMR requests.
-            window.__NOBLE_VITE_HOT__ = {!! json_encode($isViteHot) !!};
+            window.__NOBLE_VITE_HOT__ = @json($isViteHot);
 
             async function clearNoblePwaArtifacts() {
                 if ('serviceWorker' in navigator) {
