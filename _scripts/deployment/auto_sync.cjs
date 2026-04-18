@@ -41,14 +41,15 @@ async function runRemote(conn, cmd) {
 }
 
 async function syncBuildFiles(conn) {
-    console.log('\n📦 Syncing public/build folder via SFTP (Git-ignored)...');
     return new Promise((resolve, reject) => {
         conn.sftp(async (err, sftp) => {
             if (err) return reject(err);
             
-            // Wipe remote build assets
+            // 1. Wipe remote build assets
             await new Promise(r => conn.exec(`rm -rf ${APP_DIR}/public/build/assets/*`, r));
 
+            // 2. Upload build assets
+            console.log('\n📦 Syncing public/build folder via SFTP (Git-ignored)...');
             const buildDir = path.join(LOCAL_DIR, 'public', 'build');
             let uploaded = 0;
             const files = [];
@@ -61,10 +62,7 @@ async function syncBuildFiles(conn) {
                     else files.push({ local: full, rel });
                 }
             }
-            walkDir(buildDir);
-            
-            // Create directories recursively isn't strictly needed for default vite structure
-            // since vite puts everything in build/assets, but we will use fastPut directly
+            if (fs.existsSync(buildDir)) walkDir(buildDir);
             
             const batchSize = 10;
             for (let i = 0; i < files.length; i += batchSize) {
@@ -72,12 +70,24 @@ async function syncBuildFiles(conn) {
                 await Promise.all(batch.map(f => new Promise(res => {
                     sftp.fastPut(f.local, `${APP_DIR}/public/build/${f.rel}`, () => {
                         uploaded++;
-                        if (uploaded % 50 === 0) process.stdout.write(`...${uploaded}`);
+                        if (uploaded % 100 === 0) process.stdout.write(`...${uploaded}`);
                         res();
                     });
                 })));
             }
-            console.log(`\n✅ Uploaded ${uploaded} build files.`);
+            console.log(`\n   ✅ Uploaded ${uploaded} build files.`);
+
+            // 3. Sync Service Worker and Manifest from public root
+            console.log('\n📦 Syncing PWA assets (sw.js, manifest.json)...');
+            const swFiles = ['sw.js', 'sw-v17.js', 'manifest.json'];
+            for (const file of swFiles) {
+                const localPath = path.join(LOCAL_DIR, 'public', file);
+                if (fs.existsSync(localPath)) {
+                    await new Promise(res => sftp.fastPut(localPath, `${APP_DIR}/public/${file}`, res));
+                    console.log(`   ✅ Uploaded ${file}`);
+                }
+            }
+
             resolve();
         });
     });

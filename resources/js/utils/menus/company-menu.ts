@@ -27,7 +27,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     // ─── DASHBOARD ───
     {
         title: t('Dashboard'),
-        href: route('dashboard'),
+        href: '/dashboard',
         icon: LayoutGrid,
         permission: 'manage-dashboard',
         name: 'dashboard',
@@ -44,12 +44,12 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
         children: [
             {
                 title: t('Roles'),
-                href: route('roles.index'),
+                href: '/roles',
                 permission: 'manage-roles',
             },
             {
                 title: t('Users'),
-                href: route('users.index'),
+                href: '/users',
                 permission: 'manage-users',
             },
         ],
@@ -58,7 +58,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     // ─── CRM & SALES ───
     {
         title: t('Proposal'),
-        href: route('sales-proposals.index'),
+        href: '/sales-proposals',
         icon: Replace,
         permission: 'manage-sales-proposals',
         name: 'proposal',
@@ -75,12 +75,12 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
         children: [
             {
                 title: t('Sales Invoice'),
-                href: route('sales-invoices.index'),
+                href: '/sales-invoices',
                 permission: 'manage-sales-invoices',
             },
             {
                 title: t('Sales Invoice Returns'),
-                href: route('sales-returns.index'),
+                href: '/sales-returns',
                 permission: 'manage-sales-return-invoices',
             },
         ],
@@ -94,22 +94,22 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
         children: [
             {
                 title: t('Purchase Invoice'),
-                href: route('purchase-invoices.index'),
+                href: '/purchase-invoices',
                 permission: 'manage-purchase-invoices',
             },
             {
                 title: t('Purchase Returns'),
-                href: route('purchase-returns.index'),
+                href: '/purchase-returns',
                 permission: 'manage-purchase-return-invoices',
             },
             {
                 title: t('Warehouses'),
-                href: route('warehouses.index'),
+                href: '/warehouses',
                 permission: 'manage-warehouses',
             },
             {
                 title: t('Transfers'),
-                href: route('transfers.index'),
+                href: '/transfers',
                 permission: 'manage-transfers',
             },
         ],
@@ -118,7 +118,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     // ─── COLLABORATION ───
     {
         title: t('Messenger'),
-        href: route('messenger.index'),
+        href: '/messenger',
         icon: MessageCircle,
         permission: 'manage-messenger',
         name: 'messenger',
@@ -126,7 +126,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     },
     {
         title: t('Helpdesk'),
-        href: route('helpdesk-tickets.index'),
+        href: '/helpdesk-tickets',
         icon: Headphones,
         permission: 'manage-helpdesk-tickets',
         name: 'helpdesk',
@@ -136,7 +136,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     // ─── REPORTS ───
     {
         title: t('Report Center'),
-        href: route('reports.index'),
+        href: '/reports',
         icon: BarChart3,
         permission: 'manage-dashboard',
         name: 'report-center',
@@ -144,7 +144,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     },
     {
         title: t('Workflow Automation'),
-        href: route('workflows.index'),
+        href: '/workflows',
         icon: Zap,
         permission: 'manage-dashboard',
         name: 'workflows',
@@ -161,24 +161,24 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
         children: [
             {
                 title: t('Setup Subscription Plan'),
-                href: route('plans.index'),
+                href: '/plans',
                 permission: 'manage-plans',
             },
             {
                 title: t('Bank Transfer Requests'),
-                href: route('bank-transfer.index'),
+                href: '/bank-transfer',
                 permission: 'manage-bank-transfer-requests',
             },
             {
                 title: t('Orders'),
-                href: route('orders.index'),
+                href: '/orders',
                 permission: 'manage-orders',
             },
         ],
     },
     {
         title: t('Audit Logs'),
-        href: route('audit-logs.index'),
+        href: '/audit-logs',
         icon: Shield,
         permission: 'manage-dashboard',
         name: 'audit-logs',
@@ -186,7 +186,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     },
     {
         title: t('Media Library'),
-        href: route('media-library'),
+        href: '/media-library',
         icon: Image,
         permission: 'manage-media',
         name: 'media-library',
@@ -194,7 +194,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     },
     {
         title: t('Settings'),
-        href: route('settings.index'),
+        href: '/settings',
         icon: Settings,
         permission: 'manage-settings',
         name: 'settings',

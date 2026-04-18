@@ -198,7 +198,7 @@ const unifiedCategories = [
     {
         label: 'Projects & Tasks',
         icon: FolderKanban,
-        matches: ['taskly', 'goal', 'calendar'],
+        matches: ['taskly', 'goal', 'calendar', 'project'],
     },
     {
         label: 'Products & Services',
