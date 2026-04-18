@@ -1,4 +1,4 @@
-import { NavItem } from '@/types';
+import { NavItem, PageProps, CustomMenu } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { getSuperAdminMenu } from './menus/superadmin-menu';
@@ -140,7 +140,7 @@ const getCustomMenuItems = (userRoles: string[], t: (key: string) => string): Na
     return customMenus.map((menu: CustomMenu) => {
         let iconComponent = null;
         if (menu.icon && typeof menu.icon === 'string') {
-            const IconComponent = (LucideIcons as Record<string, React.ComponentType<any>>)[menu.icon];
+            const IconComponent = (LucideIcons as any)[menu.icon];
             if (IconComponent) {
                 iconComponent = IconComponent;
             }
@@ -233,7 +233,7 @@ const unifiedCategories = [
 ];
 
 // Helper: check if an item matches a category
-const itemMatchesCategory = (item: NavItem, category: string): boolean => {
+const itemMatchesCategory = (item: NavItem, category: any): boolean => {
     // Check injected module name
     if (item.moduleName && category.matches?.includes(item.moduleName)) {
         return true;
@@ -247,8 +247,7 @@ const itemMatchesCategory = (item: NavItem, category: string): boolean => {
 
 // Main hook to get filtered menu items
 export const useAllMenuItems = (): NavItem[] => {
-    const pageProps = usePage().props as any;
-    const auth = pageProps?.auth;
+    const { auth } = usePage().props as PageProps;
     const { t } = useTranslation();
 
     const userPermissions = auth?.user?.permissions || [];

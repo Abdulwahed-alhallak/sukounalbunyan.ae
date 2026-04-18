@@ -25,11 +25,21 @@ export interface NavItem {
     moduleName?: string;
 }
 
+export interface CustomMenu {
+    title: string;
+    href: string;
+    icon?: string;
+    permission?: string;
+}
+
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
-        user: User;
+        user: User & {
+            activatedPackages?: string[];
+        };
         permissions?: string[];
         roles?: string[];
+        customMenus?: CustomMenu[];
         impersonating?: boolean;
     };
 };
