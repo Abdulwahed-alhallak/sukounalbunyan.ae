@@ -374,7 +374,7 @@ export default function HrmIndex({ message, stats }: HrmProps) {
                                         variant="outline"
                                         size="sm"
                                         className="h-9 rounded-xl border-border/40 bg-card/50 px-4 text-[10px] font-black uppercase tracking-widest"
-                                        onClick={() => (window.location.href = route('hrm.calendar.index'))}
+                                        onClick={() => (window.location.href = route('hrm.events.calendar'))}
                                     >
                                         {t('Open Calendar')}
                                     </Button>
