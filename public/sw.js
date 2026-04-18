@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 const CACHE_PREFIX = 'noble-pwa-cache-';
-const CACHE_NAME = CACHE_PREFIX + 'v15';
+const CACHE_NAME = CACHE_PREFIX + 'v16';
 const urlsToCache = [
   '/favicon.ico',
   '/manifest.json'
@@ -65,8 +65,8 @@ self.addEventListener('fetch', (event) => {
         }
 
         const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+        caches.open(CACHE_NAME).then((pwaCache) => {
+          pwaCache.put(event.request, responseToCache);
         });
 
         return networkResponse;

@@ -84,7 +84,7 @@
                     // Delay registration to ensure page stability and avoid collision with initial loads
                     setTimeout(async function() {
                         try {
-                            const registration = await navigator.serviceWorker.register('/sw.js', {
+                            const registration = await navigator.serviceWorker.register('/sw.js?v=16', {
                                 updateViaCache: 'none',
                             });
                             console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
