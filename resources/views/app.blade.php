@@ -74,26 +74,24 @@
             }
 
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', async function() {
+                window.addEventListener('load', function() {
                     if (window.__NOBLE_VITE_HOT__) {
-                        try {
-                            await clearNoblePwaArtifacts();
-                            console.log('PWA ServiceWorker disabled while Vite HMR is active.');
-                        } catch (err) {
-                            console.log('PWA ServiceWorker cleanup failed: ', err);
-                        }
+                        clearNoblePwaArtifacts().catch(() => {});
+                        console.log('PWA ServiceWorker disabled while Vite HMR is active.');
                         return;
                     }
 
-                    try {
-                        const registration = await navigator.serviceWorker.register('/sw.js', {
-                            updateViaCache: 'none',
-                        });
-                        registration.update().catch(() => {});
-                        console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
-                    } catch (err) {
-                        console.log('PWA ServiceWorker registration failed: ', err);
-                    }
+                    // Delay registration to ensure page stability and avoid collision with initial loads
+                    setTimeout(async function() {
+                        try {
+                            const registration = await navigator.serviceWorker.register('/sw.js', {
+                                updateViaCache: 'none',
+                            });
+                            console.log('PWA ServiceWorker registration successful with scope: ', registration.scope);
+                        } catch (err) {
+                            console.log('PWA ServiceWorker registration failed: ', err);
+                        }
+                    }, 3000);
                 });
             }
         </script>
