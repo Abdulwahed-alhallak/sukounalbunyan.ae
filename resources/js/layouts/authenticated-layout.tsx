@@ -54,7 +54,10 @@ function AuthenticatedLayoutContent({
                 {companyAllSetting?.metaImage && <meta property="og:image" content={companyAllSetting.metaImage} />}
             </Head>
             <div
-                className={currentDir === 'rtl' ? 'rtl' : 'ltr'}
+                className={cn(
+                    'flex h-screen w-full flex-col overflow-hidden',
+                    currentDir === 'rtl' ? 'rtl' : 'ltr'
+                )}
                 data-theme={settings.themeMode}
                 dir={currentDir}
                 style={{
@@ -62,11 +65,11 @@ function AuthenticatedLayoutContent({
                     fontFamily: settings.fontFamily || undefined,
                 }}
             >
-                <SidebarProvider defaultOpen={true}>
+                <SidebarProvider defaultOpen={true} className="flex-1 overflow-hidden">
                     <AppSidebar />
 
                     <SidebarInset
-                        className="overflow-visible"
+                        className="flex flex-1 flex-col overflow-hidden bg-background"
                         style={{ direction: currentDir }}
                         dir={currentDir}
                     >
@@ -178,26 +181,28 @@ function AuthenticatedLayoutContent({
                             </div>
                         </header>
 
-                        {/* ─── Main Content ─── */}
-                        <main className="relative h-full min-h-[calc(100vh-3rem)] overflow-x-hidden overflow-y-auto p-4 md:p-6">
-                            {/* Vercel 2026 — Subtle dot pattern */}
-                            <div className="vercel-dots absolute inset-0 -z-10" />
+                        {/* ─── Main Content (The Scrollable Area) ─── */}
+                        <div className="relative flex-1 overflow-y-auto">
+                            <main className="relative min-h-full p-4 md:p-6">
+                                {/* Vercel 2026 — Subtle dot pattern */}
+                                <div className="vercel-dots absolute inset-0 -z-10" />
 
-                            {pageTitle && (
-                                <div
-                                    className="mb-8 flex flex-col gap-3 md:flex-row md:items-center"
-                                    dir={currentDir}
-                                >
-                                    <div className="flex-1">
-                                        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                                            {pageTitle}
-                                        </h1>
+                                {pageTitle && (
+                                    <div
+                                        className="mb-8 flex flex-col gap-3 md:flex-row md:items-center"
+                                        dir={currentDir}
+                                    >
+                                        <div className="flex-1">
+                                            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                                                {pageTitle}
+                                            </h1>
+                                        </div>
+                                        <div className="flex flex-shrink-0 items-center gap-2">{pageActions}</div>
                                     </div>
-                                    <div className="flex flex-shrink-0 items-center gap-2">{pageActions}</div>
-                                </div>
-                            )}
-                            <div className="animate-fade-in">{children}</div>
-                        </main>
+                                )}
+                                <div className="animate-fade-in">{children}</div>
+                            </main>
+                        </div>
                     </SidebarInset>
                 </SidebarProvider>
                 <CookieConsent settings={adminAllSetting || {}} />

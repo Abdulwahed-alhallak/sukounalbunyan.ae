@@ -370,6 +370,8 @@
 
     html, body {
         color-scheme: light;
+        height: 100vh;
+        overflow: hidden;
     }
 
     html.dark, html.dark body {
