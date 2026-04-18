@@ -20,7 +20,12 @@ export function SearchInput({
     className = 'w-full max-w-[320px]',
 }: SearchInputProps) {
     const { t } = useTranslation();
-    const initialRender = useRef(true);
+    const onSearchRef = useRef(onSearch);
+    
+    // Always keep the ref updated with the latest function
+    useEffect(() => {
+        onSearchRef.current = onSearch;
+    }, [onSearch]);
 
     // Auto-search debounce
     useEffect(() => {
@@ -29,10 +34,10 @@ export function SearchInput({
             return;
         }
         const timer = setTimeout(() => {
-            onSearch();
+            onSearchRef.current();
         }, 400);
         return () => clearTimeout(timer);
-    }, [value, onSearch]);
+    }, [value]); // Only trigger on value change
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {

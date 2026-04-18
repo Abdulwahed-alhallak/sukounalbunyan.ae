@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteHandler } from '@/hooks/useDeleteHandler';
@@ -68,7 +68,7 @@ export default function Index() {
             setFilteredDepartments(departments || []);
             setFilters((prev) => ({ ...prev, department_id: 'all' }));
         }
-    }, [filters.branch_id]);
+    }, [filters.branch_id, departments]);
 
     // Handle dependent dropdown for designation filters
     useEffect(() => {
@@ -80,7 +80,7 @@ export default function Index() {
         } else {
             setFilteredDesignations(designations || []);
         }
-    }, [filters.department_id]);
+    }, [filters.department_id, designations]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -109,14 +109,13 @@ export default function Index() {
     };
 
     const pageButtons = usePageButtons('googleDriveBtn', { module: 'Employee', settingKey: 'GoogleDrive Employee' });
-    const oneDriveButtons = usePageButtons('oneDriveBtn', { module: 'Employee', settingKey: 'OneDrive Employee' });
 
     const { deleteState, openDeleteDialog, closeDeleteDialog, confirmDelete } = useDeleteHandler({
         routeName: 'hrm.employees.destroy',
         defaultMessage: t('Are you sure you want to delete this employee?'),
     });
 
-    const handleFilter = () => {
+    const handleFilter = useCallback(() => {
         router.get(
             route('hrm.employees.index'),
             { ...filters, per_page: perPage, sort: sortField, direction: sortDirection, view: viewMode },
@@ -125,9 +124,9 @@ export default function Index() {
                 replace: true,
             }
         );
-    };
+    }, [filters, perPage, sortField, sortDirection, viewMode]);
 
-    const handleSort = (field: string) => {
+    const handleSort = useCallback((field: string) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
         setSortField(field);
         setSortDirection(direction);
@@ -139,9 +138,9 @@ export default function Index() {
                 replace: true,
             }
         );
-    };
+    }, [filters, perPage, sortField, sortDirection, viewMode]);
 
-    const clearFilters = () => {
+    const clearFilters = useCallback(() => {
         setFilters({
             employee_id: '',
             user_name: '',
@@ -151,7 +150,7 @@ export default function Index() {
             gender: '',
         });
         router.get(route('hrm.employees.index'), { per_page: perPage, view: viewMode });
-    };
+    }, [perPage, viewMode]);
 
     const tableColumns = [
         {
