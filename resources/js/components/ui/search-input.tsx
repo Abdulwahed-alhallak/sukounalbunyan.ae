@@ -27,6 +27,8 @@ export function SearchInput({
         onSearchRef.current = onSearch;
     }, [onSearch]);
 
+    const initialRender = useRef(true);
+
     // Auto-search debounce
     useEffect(() => {
         if (initialRender.current) {
