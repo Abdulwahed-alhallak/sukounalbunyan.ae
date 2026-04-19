@@ -9,6 +9,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="vite-hot" content="{{ $isViteHot ? 'true' : 'false' }}">
 
         <title inertia>{{ config('app.name', 'Noble Architecture') }}</title>
 
@@ -49,7 +50,7 @@
             // Register Service Worker for PWA only when Vite HMR is not active.
             // When `public/hot` exists, Laravel will emit localhost Vite assets and the PWA
             // service worker must be disabled/unregistered to avoid intercepting HMR requests.
-            window.__NOBLE_VITE_HOT__ = {!! \Illuminate\Support\Js::from($isViteHot) !!};
+            window.__NOBLE_VITE_HOT__ = document.querySelector('meta[name="vite-hot"]')?.content === 'true';
 
             async function clearNoblePwaArtifacts() {
                 if ('serviceWorker' in navigator) {
