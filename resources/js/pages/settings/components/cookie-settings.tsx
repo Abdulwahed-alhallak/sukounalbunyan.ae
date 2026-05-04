@@ -40,7 +40,7 @@ const getInitialSettings = (userSettings?: Record<string, string>): CookieSettin
         userSettings?.strictlyCookieDescription || 'These cookies are essential for the website to function properly.',
     contactUsDescription:
         userSettings?.contactUsDescription || 'If you have any questions about our cookie policy, please contact us.',
-    contactUsUrl: userSettings?.contactUsUrl || 'https://noble.dion.sy/contact',
+    contactUsUrl: userSettings?.contactUsUrl || 'https://sukon.dion.sy/contact',
 });
 
 export default function CookieSettings({ userSettings, auth }: CookieSettingsProps) {

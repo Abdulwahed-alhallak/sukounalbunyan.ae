@@ -11,7 +11,7 @@ use App\Models\UserActiveModule;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
-echo "--- NOBLE ARCHITECTURE - DEEP AUDIT & SUBSCRIPTION SYNCHRONIZATION STARTED ---\n";
+echo "--- Sukoun Albunyan - DEEP AUDIT & SUBSCRIPTION SYNCHRONIZATION STARTED ---\n";
 
 // Phase 1: Sync all Noble Modules
 echo "1. Scanning packages/noble...\n";

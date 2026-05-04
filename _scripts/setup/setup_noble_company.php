@@ -11,7 +11,7 @@ use App\Models\User;
 $admin = User::firstOrCreate(
     ['email' => 'admin@noblearchitecture.net'],
     [
-        'name' => 'noble architecture',
+        'name' => 'Sukoun Albunyan',
         'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
         'type' => 'super admin',
         'lang' => 'ar'
@@ -20,7 +20,7 @@ $admin = User::firstOrCreate(
 
 // Ensure it has the correct name and type
 $admin->type = 'super admin';
-$admin->name = 'noble architecture';
+$admin->name = 'Sukoun Albunyan';
 $admin->save();
 
 // Ensure company@noble.dion.sy exists and is super admin or company

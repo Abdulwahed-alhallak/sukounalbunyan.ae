@@ -39,7 +39,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         } catch (\Exception $e) {
@@ -50,7 +50,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -125,7 +125,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         } catch (\Exception $e) {
@@ -136,7 +136,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -156,7 +156,7 @@ class FrontendController extends Controller
                         'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                         'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                         'titleText' => $settings['title_text'] ?? 'Careers',
-                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                     ]
                 ]);
             }
@@ -198,7 +198,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ],
                 'companyInfo' => [
                     'ourMission' => $companySettings['our_mission'] ?? '',
@@ -214,7 +214,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -234,7 +234,7 @@ class FrontendController extends Controller
                         'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                         'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                         'titleText' => $settings['title_text'] ?? 'Careers',
-                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                     ]
                 ]);
             }
@@ -291,7 +291,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ],
                 'applicationTips' => $tips,
                 'storageSettings' => [
@@ -312,7 +312,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -380,7 +380,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ],
                 'applicationData' => $applicationData,
                 'errorMessage' => $errorMessage,
@@ -395,7 +395,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -417,7 +417,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ],
                 'trackingFaq' => $trackingFaq
             ]);
@@ -429,7 +429,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -538,7 +538,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ],
                 'jobDetails' => $jobDetails,
                 'candidateDetails' => $candidateDetails,
@@ -555,7 +555,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }
@@ -706,7 +706,7 @@ class FrontendController extends Controller
                         'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                         'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                         'titleText' => $settings['title_text'] ?? 'Careers',
-                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                        'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                     ]
                 ]);
             }
@@ -726,7 +726,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         } catch (\Exception $e) {
@@ -737,7 +737,7 @@ class FrontendController extends Controller
                     'logo' => $settings['logo_dark'] ?? 'packages/noble/Recruitment/src/Resources/images/logo.png',
                     'favicon' => $settings['favicon'] ?? 'packages/noble/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? 'Careers',
-                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Noble Architecture. All rights reserved.'
+                    'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Sukoun Albunyan. All rights reserved.'
                 ]
             ]);
         }

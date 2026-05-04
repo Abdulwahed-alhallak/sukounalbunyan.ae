@@ -44,7 +44,7 @@ export function LandingPreview({ settings }: LandingPreviewProps) {
                 return (
                     <div key={sectionKey} className="flex items-center justify-between border-b bg-card p-3 shadow-sm">
                         <div className="text-sm font-bold" style={{ color: colors.primary }}>
-                            {sectionData.company_name || settings?.company_name || 'Noble Architecture'}
+                            {sectionData.company_name || settings?.company_name || 'Sukoun Albunyan'}
                         </div>
                         <div
                             className="rounded-full px-3 py-1 text-xs text-background shadow-sm transition-colors"
@@ -214,7 +214,7 @@ export function LandingPreview({ settings }: LandingPreviewProps) {
                         <div className="grid grid-cols-1 gap-3 text-xs">
                             <div className="border-b border-border pb-2 text-center">
                                 <div className="text-sm font-bold" style={{ color: colors.accent }}>
-                                    {settings?.company_name || t('Noble Architecture')}
+                                    {settings?.company_name || t('Sukoun Albunyan')}
                                 </div>
                                 <div className="mt-1 text-xs text-muted-foreground">
                                     {sectionData.description?.substring(0, 30) || t('Business solution')}...

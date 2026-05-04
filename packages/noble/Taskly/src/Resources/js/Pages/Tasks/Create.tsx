@@ -122,7 +122,7 @@ export default function Create({
                             {t('Create Task')}
                         </h2>
                         <p className="mt-1 text-[10px] font-bold uppercase tracking-tighter text-muted-foreground opacity-60">
-                            Noble Architecture
+                            Sukoun Albunyan
                         </p>
                     </div>
 

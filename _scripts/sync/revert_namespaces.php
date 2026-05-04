@@ -26,10 +26,10 @@ function processDirectory($dir) {
                 $original = $content;
 
                 // Pattern 1: namespace/useNobleArchitecture\
-                $content = str_replace('Noble Architecture\\', 'ERPGO\\', $content);
+                $content = str_replace('Sukoun Albunyan\\', 'ERPGO\\', $content);
                 
-                // Pattern 2: "Noble Architecture\\" (JSON/Strings)
-                $content = str_replace('Noble Architecture\\\\', 'ERPGO\\\\', $content);
+                // Pattern 2: "Sukoun Albunyan\\" (JSON/Strings)
+                $content = str_replace('Sukoun Albunyan\\\\', 'ERPGO\\\\', $content);
 
                 if ($content !== $original) {
                     file_put_contents($path, $content);
@@ -46,6 +46,6 @@ foreach ($targets as $target) {
     }
 }
 
-echo "Namespace reversal complete. Branding text (Noble Architecture) should remain intact where backslashes were not used.\n";
+echo "Namespace reversal complete. Branding text (Sukoun Albunyan) should remain intact where backslashes were not used.\n";
 
 

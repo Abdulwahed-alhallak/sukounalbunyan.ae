@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-// Add global fail-safe for Noble Architecture Production stability
+// Add global fail-safe for Sukoun Albunyan Production stability
 if (typeof window !== 'undefined') {
     (window as any).cn = cn;
 }

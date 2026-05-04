@@ -230,7 +230,7 @@ export default function SeoSettings({ userSettings, auth }: SeoSettingsProps) {
                                     {/* Search Result Preview */}
                                     <div className="space-y-4">
                                         <div className="rounded-md border bg-card p-3">
-                                            <div className="mb-1 text-xs text-foreground">noble.dion.sy</div>
+                                            <div className="mb-1 text-xs text-foreground">sukon.dion.sy</div>
                                             <div className="line-clamp-1 cursor-pointer text-sm font-medium text-foreground hover:underline">
                                                 {settings.metaTitle || t('Your page title will appear here')}
                                             </div>

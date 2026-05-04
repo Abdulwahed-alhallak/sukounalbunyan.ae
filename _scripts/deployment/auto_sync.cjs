@@ -11,7 +11,7 @@ const LOCAL_DIR = path.join(__dirname, '..', '..');
 const PHP = CONFIG.PHP;
 
 console.log('===================================================');
-console.log('🚀 NOBLE ARCHITECTURE - FULL CI/CD AUTOMATION SCRIPT');
+console.log('🚀 Sukoun Albunyan - FULL CI/CD AUTOMATION SCRIPT');
 console.log('===================================================\n');
 
 function runLocal(cmd, cwd = LOCAL_DIR) {

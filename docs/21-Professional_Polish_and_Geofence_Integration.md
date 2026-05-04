@@ -1,9 +1,9 @@
-# Noble Architecture — Professional Polish & Geofence Integration
+# Sukoun Albunyan — Professional Polish & Geofence Integration
 **Date:** April 16, 2026
 **Status:** Build Verified & Production Ready
 
 ## 1. Executive Summary
-This update marks the final transition of the Noble Architecture platform from a "visionary/sci-fi" prototype to a "Professional Enterprise ERP" environment. Key efforts focused on de-sci-fi-ing terminology, ensuring RTL/Logical property compliance, and hardening the Geofencing/Clock-in logic.
+This update marks the final transition of the Sukoun Albunyan platform from a "visionary/sci-fi" prototype to a "Professional Enterprise ERP" environment. Key efforts focused on de-sci-fi-ing terminology, ensuring RTL/Logical property compliance, and hardening the Geofencing/Clock-in logic.
 
 ## 2. Terminology Migration (De-Sci-Fi)
 All modules have been audited to remove non-professional language.
@@ -50,4 +50,4 @@ The main localization file received a "Premium Polish" to match the new professi
 - **Production Path:** Changes are staged for `auto_sync.cjs` execution to `noble.dion.sy`.
 
 ---
-*End of Documentation — Noble Architecture Core Team*
+*End of Documentation — Sukoun Albunyan Core Team*

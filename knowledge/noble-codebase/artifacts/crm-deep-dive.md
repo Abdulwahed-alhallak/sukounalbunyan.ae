@@ -1,4 +1,4 @@
-# Noble Architecture — Lead (CRM) Module Deep Dive
+# Sukoun Albunyan — Lead (CRM) Module Deep Dive
 
 ## 1. CRM Model Hierarchy (25 Models)
 

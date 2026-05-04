@@ -10,7 +10,7 @@ class PackageServiceProvider extends ServiceProvider
     {
         $loader = require base_path('vendor/autoload.php');
 
-        // Robust manifest-driven discovery for the 28 Noble Architecture Enterprise Suites
+        // Robust manifest-driven discovery for the 28 Sukoun Albunyan Enterprise Suites
         $noblePackages = [
             'AIAssistant' => 'Noble\AIAssistant\Providers\AIAssistantServiceProvider',
             'Account' => 'Noble\Account\Providers\AccountServiceProvider',
@@ -29,6 +29,7 @@ class PackageServiceProvider extends ServiceProvider
             'Pos' => 'Noble\Pos\Providers\PosServiceProvider',
             'ProductService' => 'Noble\ProductService\Providers\ProductServiceServiceProvider',
             'Quotation' => 'Noble\Quotation\Providers\QuotationServiceProvider',
+            'Rental' => 'Noble\Rental\Providers\RentalServiceProvider',
             'Recruitment' => 'Noble\Recruitment\Providers\RecruitmentServiceProvider',
             'Slack' => 'Noble\Slack\Providers\SlackServiceProvider',
             'Stripe' => 'Noble\Stripe\Providers\StripeServiceProvider',

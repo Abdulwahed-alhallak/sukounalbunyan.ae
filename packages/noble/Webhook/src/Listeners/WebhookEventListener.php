@@ -87,7 +87,7 @@ class WebhookEventListener
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json',
-                'User-Agent: Noble Architecture-Webhook/1.0'
+                'User-Agent: Sukoun Albunyan-Webhook/1.0'
             ],
             CURLOPT_TIMEOUT => 30,
             CURLOPT_RETURNTRANSFER => true,

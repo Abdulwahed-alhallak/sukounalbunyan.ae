@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 /**
- * Noble Architecture — Module Verification Suite (Production)
+ * Sukoun Albunyan — Module Verification Suite (Production)
  * Verifies that all 31+ enterprise modules are accessible after authentication
  */
 describe('Core Module Accessibility', () => {

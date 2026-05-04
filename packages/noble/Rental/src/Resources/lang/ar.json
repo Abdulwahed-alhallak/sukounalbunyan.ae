@@ -1,0 +1,23 @@
+{
+    "Items returned successfully. Rent calculation updated.": "تم إرجاع المواد بنجاح. تم تحديث حساب الإيجار.",
+    "All materials returned. Contract has been closed.": "تم إرجاع جميع المواد. تم إغلاق العقد.",
+    "All remaining items returned successfully. Contract closed.": "تم إرجاع جميع المواد المتبقية بنجاح. تم إغلاق العقد.",
+    "Contract renewed successfully. Billing cycle reset.": "تم تجديد العقد بنجاح. تم إعادة ضبط دورة الفوترة.",
+    "Only draft contracts can be activated.": "يمكن تفعيل العقود المسودة فقط.",
+    "Contract activated and inventory deducted.": "تم تفعيل العقد وخصم المخزون.",
+    "Quotation converted to rental contract successfully.": "تم تحويل عرض السعر إلى عقد إيجار بنجاح.",
+    "Rental contract deleted successfully.": "تم حذف عقد الإيجار بنجاح.",
+    "Return quantity exceeds remaining custody quantity (:qty).": "كمية الإرجاع تتجاوز الكمية المتبقية في العهدة (:qty).",
+    "Scan QR": "مسح رمز QR",
+    "Process Scan": "معالجة المسح",
+    "Nothing to invoice (Rent: 0, Damage Fees: 0).": "لا يوجد ما يتم فوترته (إيجار: 0، رسوم أضرار: 0).",
+    "Invoice generated from rental contract. Balance updated.": "تم إنشاء الفاتورة من عقد الإيجار. تم تحديث الرصيد.",
+    "Invalid QR code or contract not found.": "رمز QR غير صالح أو العقد غير موجود.",
+    "Return Receipt": "إيصال إرجاع",
+    "Logistics Note": "مذكرة لوجستية",
+    "Rental Contract": "عقد إيجار",
+    "Print Labels": "طباعة الملصقات",
+    "Download PDF": "تحميل PDF",
+    "Download Return PDF": "تحميل إيصال الإرجاع",
+    "Download Logistics PDF": "تحميل المذكرة اللوجستية"
+}

@@ -240,7 +240,7 @@ export default function GamificationEngine({ rules, leaderboard }: { rules: Rule
                                     <TrendingUp className="h-5 w-5 text-foreground" /> Global Leaderboard
                                 </CardTitle>
                                 <CardDescription>
-                                    Top 10 highest ranking users in theNobleArchitecture ecosystem.
+                                    Top 10 highest ranking users in theSukounArchitecture ecosystem.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="p-0">

@@ -139,7 +139,7 @@ export default function Dashboard() {
                                         <div className="flex-1 space-y-1">
                                             <div className="flex items-center justify-between">
                                                 <p className="text-[13px] font-bold text-foreground">
-                                                    Noble Architecture Engineering
+                                                    Sukoun Albunyan Engineering
                                                     <span className="ms-2 text-[11px] font-medium text-muted-foreground/40">
                                                         {t('committed to production')}
                                                     </span>
@@ -190,7 +190,7 @@ export default function Dashboard() {
                             <div className="mt-4 rounded-2xl bg-gradient-to-br from-geist-blue to-geist-cyan p-6 text-white shadow-xl shadow-blue-500/10">
                                 <h4 className="text-sm font-bold tracking-tight">{t('Enterprise Ready')}</h4>
                                 <p className="mt-2 text-[12px] font-medium opacity-80 leading-relaxed">
-                                    {t('Noble Architecture is now running on Vercel Geist 2026 Engine. All systems fully optimized.')}
+                                    {t('Sukoun Albunyan is now running on Vercel Geist 2026 Engine. All systems fully optimized.')}
                                 </p>
                                 <Button className="mt-4 w-full bg-white text-black hover:bg-white/90 text-xs font-bold uppercase tracking-widest h-9">
                                     {t('View Insights')}

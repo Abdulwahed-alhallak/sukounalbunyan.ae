@@ -72,8 +72,8 @@ try {
 
     // 5. Update system name in settings table too
     echo "Updating system name toNobleArchitecture in remote settings...\n";
-    DB::table('settings')->where('key', 'titleText')->update(['value' => 'Noble Architecture']);
-    DB::table('settings')->where('key', 'footerText')->update(['value' => 'Copyright © 2026 Noble Architecture SaaS']);
+    DB::table('settings')->where('key', 'titleText')->update(['value' => 'Sukoun Albunyan']);
+    DB::table('settings')->where('key', 'footerText')->update(['value' => 'Copyright © 2026 Sukoun Albunyan SaaS']);
 
     echo "\nSUCCESS: Remote production database updated. Lifetime access granted for " . $email . ".\n";
     echo "Please clear the server cache manually or wait for next cache cycle.\n";

@@ -14,7 +14,7 @@ function setupSMTP($user) {
     setSetting('email_username', 'admin@noblearchitecture.net', $user->id, false);
     setSetting('email_encryption', 'ssl', $user->id, false);
     setSetting('email_fromAddress', 'admin@noblearchitecture.net', $user->id, false);
-    setSetting('email_fromName', 'Noble Architecture ERP', $user->id, false);
+    setSetting('email_fromName', 'Sukoun Albunyan ERP', $user->id, false);
     
     echo "✅ SMTP Default Settings applied for: " . $user->email . "\n";
 }

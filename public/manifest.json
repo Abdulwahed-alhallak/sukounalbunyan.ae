@@ -1,7 +1,7 @@
 {
-  "name": "Noble Architecture Enterprise ERP",
+  "name": "Sukoun Albunyan Enterprise ERP",
   "short_name": "Noble",
-  "description": "Noble Architecture Central Command & Enterprise Modular Ecosystem",
+  "description": "Sukoun Albunyan Central Command & Enterprise Modular Ecosystem",
   "start_url": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],

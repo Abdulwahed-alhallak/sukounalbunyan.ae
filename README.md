@@ -1,6 +1,6 @@
-# Noble Architecture - Enterprise SaaS Ecosystem
+# Sukoun Albunyan - Enterprise SaaS Ecosystem
 
-Noble Architecture is a high-performance, modular SaaS platform designed for comprehensive corporate management. Built on a Zero-Trust Multi-Tenancy architecture, it integrates 28+ enterprise modules into a unified, high-end ecosystem.
+Sukoun Albunyan is a high-performance, modular SaaS platform designed for comprehensive corporate management. Built on a Zero-Trust Multi-Tenancy architecture, it integrates 28+ enterprise modules into a unified, high-end ecosystem.
 
 ## 🚀 Technology Stack
 - **Backend**: Laravel 12 (PHP 8.2+)
@@ -43,4 +43,4 @@ Integrated project intelligence can be found in `.dionagent/outputs/`:
 - `detected-project-profile.md`: Evolution and maintenance history.
 
 ---
-**© 2026 Noble Architecture. All Rights Reserved.**
+**© 2026 Sukoun Albunyan. All Rights Reserved.**

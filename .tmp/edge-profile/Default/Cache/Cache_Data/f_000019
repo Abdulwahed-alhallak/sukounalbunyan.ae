@@ -74,7 +74,7 @@ const formatDateTime = (date, pageProps) => {
 const getImagePath = (path, pageProps) => {
   if (!path || typeof path !== "string") return "";
   if (path.startsWith("http")) return path;
-  if (path.includes("storage/media") && !path.includes("packages/Noble Architecture/")) {
+  if (path.includes("storage/media") && !path.includes("packages/Sukoun Albunyan/")) {
     return path.startsWith("/") ? `${window.location.origin}${path}` : `${window.location.origin}/${path}`;
   }
   try {
@@ -91,7 +91,7 @@ const getImagePath = (path, pageProps) => {
     if (!imageUrlPrefix.includes("storage/media")) {
       imageUrlPrefix = imageUrlPrefix.endsWith("/") ? imageUrlPrefix + "storage/media/" : imageUrlPrefix + "/storage/media/";
     }
-    const isNobleArchitecturePath = path.startsWith("packages/Noble Architecture/") || path.startsWith("/packages/noble/");
+    const isNobleArchitecturePath = path.startsWith("packages/Sukoun Albunyan/") || path.startsWith("/packages/noble/");
     if (isNobleArchitecturePath) {
       imageUrlPrefix = imageUrlPrefix.replace(/\/?storage\/media\/?$/, "");
     } else if (!imageUrlPrefix.includes("storage/media")) {
@@ -108,7 +108,7 @@ const getImagePath = (path, pageProps) => {
     }
   } catch {
     let fallbackPrefix;
-    const isNobleArchitecturePath = path.startsWith("packages/Noble Architecture/") || path.startsWith("/packages/noble/");
+    const isNobleArchitecturePath = path.startsWith("packages/Sukoun Albunyan/") || path.startsWith("/packages/noble/");
     const segments = window.location.pathname.split("/").filter(Boolean);
     const basePath = segments.slice(0, -1).join("/");
     if (isNobleArchitecturePath) {

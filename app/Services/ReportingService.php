@@ -12,7 +12,7 @@ use App\Traits\PlatformReportingTrait;
 /**
  * ReportingService
  *
- * Centralized reporting engine for Noble Architecture.
+ * Centralized reporting engine for Sukoun Albunyan.
  * Generates structured report data from any module.
  * Module-aware: checks class_exists() and Schema before querying.
  */

@@ -33,7 +33,7 @@ export default function MarketplaceNotFound({ landingPageSettings }: Marketplace
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
-            <Head title="Package Not Found - Noble Architecture Marketplace" />
+            <Head title="Package Not Found - Sukoun Albunyan Marketplace" />
 
             <Header key="header" settings={updatedLandingPageSettings} />
 

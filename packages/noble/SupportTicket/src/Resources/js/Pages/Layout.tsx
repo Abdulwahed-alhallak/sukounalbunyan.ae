@@ -69,7 +69,7 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                                                 brandSettings?.logo_dark ||
                                                 '/packages/noble/SupportTicket/src/Resources/assets/images/logo.png'
                                             }
-                                            alt="Noble Architecture Support"
+                                            alt="Sukoun Albunyan Support"
                                             className="h-8"
                                         />
                                     </a>
@@ -194,7 +194,7 @@ export default function Layout({ children, title = 'Support Ticket', brandSettin
                     {/* Footer */}
                     <footer className="mt-8 text-center text-sm text-muted-foreground md:mt-12">
                         <p>
-                            {t(`© ${new Date().getFullYear()} Noble Architecture Support System. All rights reserved.`)}
+                            {t(`© ${new Date().getFullYear()} Sukoun Albunyan Support System. All rights reserved.`)}
                         </p>
                         <div className="mt-2 flex flex-wrap justify-center space-x-4">
                             <a href="#" className="transition-colors duration-200 hover:text-foreground">

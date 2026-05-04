@@ -1,5 +1,5 @@
 /**
- * Noble Architecture - Gold Master v1.1
+ * Sukoun Albunyan - Gold Master v1.1
  * Total Document & Employee Data Synchronization
  * 
  * Strategy: Local PHP Generation + Remote Execution

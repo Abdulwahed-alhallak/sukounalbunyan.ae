@@ -70,7 +70,7 @@ if (!empty($staff_role)) {
     event(new \\App\\Events\\GivePermissionToRole($staff_role->id, 'staff', $modulesStr));
 }
 
-echo "✅ SUCCESS! All " . count($finalModules) . " modules forcibly unlocked and assigned to Noble Architecture.\\n";
+echo "✅ SUCCESS! All " . count($finalModules) . " modules forcibly unlocked and assigned to Sukoun Albunyan.\\n";
 
 EOF
 /opt/alt/php82/usr/bin/php run_unlock_modules.php &&

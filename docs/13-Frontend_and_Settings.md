@@ -7,7 +7,7 @@
 
 ## 1. محرك التصميم (Tailwind Config)
 
-يُعد ملف `tailwind.config.js` بمثابة العصب المرئي للنظام. لا نعتمد في Noble Architecture على المقاسات الافتراضية بالكامل، بل تم توسيعه (Extend) ليشمل:
+يُعد ملف `tailwind.config.js` بمثابة العصب المرئي للنظام. لا نعتمد في Sukoun Albunyan على المقاسات الافتراضية بالكامل، بل تم توسيعه (Extend) ليشمل:
 
 - **نظام الألوان الدلالي المتغير (CSS Variables):** بدلاً من ألوان Hex، يتم سحب الألوان من ملف `app.css` (مثال: `hsl(var(--background))`) ليسمح بتبديل دقيق وسريع بين الوضع الليلي والنهاري (Dark/Light Mode).
 - **ألوان دلالية مُوسّعة:** تشمل `success`, `warning`, `info` بالإضافة إلى الأساسيات (`primary`, `secondary`, `destructive`, `muted`, `accent`).

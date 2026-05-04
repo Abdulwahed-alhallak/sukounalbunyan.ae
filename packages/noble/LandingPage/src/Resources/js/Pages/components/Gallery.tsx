@@ -9,7 +9,7 @@ export default function Gallery({ settings }: GalleryProps) {
     const title = sectionData.title || 'Built for Scale';
     const subtitle =
         sectionData.subtitle ||
-        'Noble Architecture architecture handles everything from small teams to enterprise deployments seamlessly.';
+        'Sukoun Albunyan architecture handles everything from small teams to enterprise deployments seamlessly.';
 
     return (
         <section className="border-b border-neutral-800 bg-black py-32 text-white">

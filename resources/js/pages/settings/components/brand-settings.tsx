@@ -60,14 +60,14 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
     const canEdit =
         auth?.user?.permissions?.includes('edit-brand-settings') || auth?.user?.roles?.includes('superadmin');
     const [activeSection, setActiveSection] = useState<'logos' | 'text' | 'theme'>('logos');
-    
+
     const [settings, setSettings] = useState<BrandSettings>({
         logo_dark: userSettings?.logo_dark || '',
         logo_light: userSettings?.logo_light || '',
         favicon: userSettings?.favicon || '',
-        titleText: userSettings?.titleText || 'Noble Architecture',
+        titleText: userSettings?.titleText || 'Sukoun Albunyan',
         footerText:
-            userSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
+            userSettings?.footerText || `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`,
         layoutDirection: userSettings?.layoutDirection || 'ltr',
         themeMode: userSettings?.themeMode || 'light',
         fontFamily: userSettings?.fontFamily || 'Geist Sans',
@@ -80,10 +80,10 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                 logo_dark: userSettings?.logo_dark || '',
                 logo_light: userSettings?.logo_light || '',
                 favicon: userSettings?.favicon || '',
-                titleText: userSettings?.titleText || 'Noble Architecture',
+                titleText: userSettings?.titleText || 'Sukoun Albunyan',
                 footerText:
                     userSettings?.footerText ||
-                    `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
+                    `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`,
                 layoutDirection: userSettings?.layoutDirection || 'ltr',
                 themeMode: userSettings?.themeMode || 'light',
                 fontFamily: userSettings?.fontFamily || 'Geist Sans',
@@ -131,7 +131,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
             <Card variant="premium" className="overflow-visible border-border/40 bg-background/50 backdrop-blur-3xl shadow-sm transition-all duration-500 hover:shadow-lg dark:bg-black/20">
                 <div className="absolute inset-x-0 -top-px h-[2px] w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-40" />
-                
+
                 <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 px-8 py-6 pb-4">
                     <div className="space-y-1">
                         <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
@@ -146,9 +146,9 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                     </div>
                     {canEdit && (
                         <div className="pt-2 sm:pt-0">
-                            <Button 
-                                onClick={saveSettings} 
-                                disabled={isLoading} 
+                            <Button
+                                onClick={saveSettings}
+                                disabled={isLoading}
                                 size="default"
                                 className="shadow-lg active:scale-95 transition-all"
                             >
@@ -158,13 +158,13 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                         </div>
                     )}
                 </CardHeader>
-                
+
                 <div className="glass-separator opacity-40" />
 
                 <CardContent className="p-8 pb-12">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
                         <div className="lg:col-span-8 flex flex-col space-y-8">
-                            
+
                             {/* Premium Tab Navigation */}
                             <div className="relative inline-flex h-12 items-center justify-start rounded-full bg-muted/40 p-1 text-muted-foreground ring-1 ring-border/50 backdrop-blur-sm self-start">
                                 {TABS.map((tab) => {
@@ -198,7 +198,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                 <AnimatePresence mode="wait">
                                     {/* Logos Section */}
                                     {activeSection === 'logos' && (
-                                        <motion.div 
+                                        <motion.div
                                             key="logos"
                                             initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.3 }}
                                             className="space-y-8"
@@ -299,7 +299,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
                                     {/* Text Section */}
                                     {activeSection === 'text' && (
-                                        <motion.div 
+                                        <motion.div
                                             key="text"
                                             initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.3 }}
                                             className="space-y-8 max-w-2xl"
@@ -311,7 +311,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                     name="titleText"
                                                     value={settings.titleText}
                                                     onChange={handleInputChange}
-                                                    placeholder="Noble Architecture"
+                                                    placeholder="Sukoun Albunyan"
                                                     disabled={!canEdit}
                                                     className="h-11 bg-background/50 focus-visible:ring-primary/50"
                                                 />
@@ -328,7 +328,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                     name="footerText"
                                                     value={settings.footerText}
                                                     onChange={handleInputChange}
-                                                    placeholder={t(`© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`)}
+                                                    placeholder={t(`© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`)}
                                                     disabled={!canEdit}
                                                     className="h-11 bg-background/50 focus-visible:ring-primary/50"
                                                 />
@@ -341,7 +341,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
                                     {/* Theme Section */}
                                     {activeSection === 'theme' && (
-                                        <motion.div 
+                                        <motion.div
                                             key="theme"
                                             initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.3 }}
                                             className={`grid grid-cols-1 md:grid-cols-2 gap-10 ${!canEdit ? 'pointer-events-none opacity-60' : ''}`}
@@ -401,7 +401,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                                     ))}
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Typography Section */}
                                             <div className="space-y-5 col-span-1 md:col-span-2">
                                                 <div className="flex items-center gap-2">
@@ -447,21 +447,21 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
 
                                                 <div className="flex items-center gap-4">
                                                     <div className="relative group">
-                                                        <div 
+                                                        <div
                                                             className="h-14 w-14 rounded-full border-4 border-background shadow-lg ring-1 ring-border cursor-pointer transition-transform hover:scale-110 active:scale-95 overflow-hidden"
                                                             style={{ backgroundColor: settings.themeColor }}
                                                             onClick={() => document.getElementById('themeColorPicker')?.click()}
                                                         />
-                                                        <input 
+                                                        <input
                                                             id="themeColorPicker"
-                                                            type="color" 
+                                                            type="color"
                                                             className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                                             value={settings.themeColor}
                                                             onChange={(e) => handleSelectChange('themeColor', e.target.value)}
                                                         />
                                                     </div>
                                                     <div className="flex flex-col gap-1">
-                                                        <Input 
+                                                        <Input
                                                             value={settings.themeColor}
                                                             onChange={(e) => handleSelectChange('themeColor', e.target.value)}
                                                             className="h-10 w-32 font-mono text-sm uppercase"
@@ -487,7 +487,7 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                                 <div className="rounded-xl border border-border/50 bg-card/40 backdrop-blur-md p-5 shadow-lg relative overflow-hidden">
                                     <div className="absolute top-0 end-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
                                     <div className="absolute bottom-0 start-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
-                                    
+
                                     <div className="mb-5 flex items-center gap-2 relative z-10">
                                         <div className="relative flex h-2 w-2">
                                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

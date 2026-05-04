@@ -41,7 +41,7 @@ class PackageSeeder extends Seeder
                     'name' => $data['alias'],
                     'monthly_price' => $data['monthly_price'] ?? 0,
                     'yearly_price' => $data['yearly_price'] ?? 0,
-                    'package_name' => $data['package_name'],
+                    'package_name' => $data['package_name'] ?? $data['name'],
                     'is_enable' => true,
                     'for_admin' => $data['for_admin'] ?? false,
                     'priority' => $data['priority'] ?? 0,

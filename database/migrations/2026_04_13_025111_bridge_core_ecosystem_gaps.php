@@ -46,7 +46,7 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             if (!Schema::hasColumn('projects', 'contract_id')) {
                 $table->unsignedBigInteger('contract_id')->nullable()->after('status');
-                // Note: assuming contracts table exists from typical Noble Architecture ecosystem
+                // Note: assuming contracts table exists from typical Sukoun Albunyan ecosystem
                 if (Schema::hasTable('contracts')) {
                     $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('set null');
                 }

@@ -15,29 +15,14 @@ class InvoicePdfController extends Controller
      */
     public function downloadPdf($id)
     {
-        // For development/demonstration, we fetch the first User as customer if SalesInvoice is empty
-        // In actual production, replace with `$invoice = SalesInvoice::findOrFail($id);`
-        $invoice = new \stdClass();
-        $invoice->invoice_id = 'INV-' . str_pad($id, 6, "0", STR_PAD_LEFT);
-        $invoice->issue_date = date('Y-m-d');
-        $invoice->due_date = date('Y-m-d', strtotime('+7 days'));
-        $invoice->status = 'PAID';
-        $invoice->sub_total = 1599.00;
-        $invoice->tax_amount = 159.90;
-        $invoice->discount_amount = 0;
-        $invoice->total_amount = 1758.90;
-
-        $customer = User::where('type', '!=', 'superadmin')->first() ?? new \stdClass();
-        $customer->name = $customer->name ?? 'John Doe LLC';
-        $customer->billing_address = '123 Tech Boulevard';
-        $customer->billing_city = 'Damascus';
-        $customer->billing_zip = '10011';
-        $customer->email = $customer->email ?? 'contact@johndoe.com';
+        $invoice = SalesInvoice::with(['customer', 'items'])->findOrFail($id);
+        $customer = $invoice->customer;
 
         $data = [
             'invoice' => $invoice,
             'customer' => $customer,
-            'company_name' => 'Noble Architecture SaaS Platform',
+            'items' => $invoice->items,
+            'company_name' => 'Sukoun Albunyan SaaS Platform',
             'company_address' => 'Floor 15, Enterprise Tower, Damascus, Syria',
             'company_email' => 'billing@dion.sy'
         ];
@@ -54,18 +39,13 @@ class InvoicePdfController extends Controller
      */
     public function streamPdf($id)
     {
-        $invoice = new \stdClass();
-        $invoice->invoice_id = 'INV-' . str_pad($id, 6, "0", STR_PAD_LEFT);
-        $invoice->issue_date = date('Y-m-d');
-        $invoice->due_date = date('Y-m-d', strtotime('+30 days'));
-        $invoice->status = 'PARTIAL';
-        
-        $customer = User::first() ?? new \stdClass();
-        $customer->name = $customer->name ?? 'Generic Company';
+        $invoice = SalesInvoice::with(['customer', 'items'])->findOrFail($id);
+        $customer = $invoice->customer;
 
         $data = [
             'invoice' => $invoice,
-            'customer' => $customer
+            'customer' => $customer,
+            'items' => $invoice->items,
         ];
 
         $pdf = Pdf::loadView('invoices.premium_template', $data);

@@ -4,13 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CopyPlus, Play, Settings2, Trash2 } from 'lucide-react';
 
-interface nobleflowProps {
+interface SukounflowProps {
     workflows: any[];
     triggers: Record<string, string>;
     actions: Record<string, string>;
 }
 
-export default function nobleflowIndex({ workflows, triggers, actions }: nobleflowProps) {
+export default function SukounflowIndex({ workflows, triggers, actions }: SukounflowProps) {
     const [isCreating, setIsCreating] = useState(false);
 
     return (
@@ -18,8 +18,8 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight text-foreground dark:text-foreground">
-                        <Settings2 className="text-noble-cyan h-8 w-8" />
-                        nobleflow Studio
+                        <Settings2 className="text-Sukoun-cyan h-8 w-8" />
+                        Sukounflow Studio
                     </h1>
                     <p className="mt-2 text-muted-foreground dark:text-muted-foreground">
                         Visual No-Code Automation Engine. Turn your business logic into autonomous execution.
@@ -27,7 +27,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                 </div>
                 <Button
                     onClick={() => setIsCreating(true)}
-                    className="bg-noble-cyan hover:bg-noble-cyan/90 font-bold text-foreground"
+                    className="bg-Sukoun-cyan hover:bg-Sukoun-cyan/90 font-bold text-foreground"
                 >
                     <CopyPlus className="me-2 h-4 w-4" />
                     Create Workflow
@@ -48,14 +48,14 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                                 </CardTitle>
                                 <Badge
                                     variant={flow.is_active ? 'default' : 'secondary'}
-                                    className={flow.is_active ? 'bg-noble-cyan text-foreground' : ''}
+                                    className={flow.is_active ? 'bg-Sukoun-cyan text-foreground' : ''}
                                 >
                                     {flow.is_active ? 'ACTIVE' : 'DRAFT'}
                                 </Badge>
                             </div>
                             <div className="mt-2 font-mono text-sm text-muted-foreground">
                                 TRIGGER:{' '}
-                                <span className="text-noble-amber">
+                                <span className="text-Sukoun-amber">
                                     {triggers[flow.trigger_event] || flow.trigger_event}
                                 </span>
                             </div>
@@ -80,7 +80,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="border-noble-amber text-noble-amber hover:bg-noble-amber hover:text-foreground"
+                                    className="border-Sukoun-amber text-Sukoun-amber hover:bg-Sukoun-amber hover:text-foreground"
                                 >
                                     <Play className="me-1 h-4 w-4" /> Test Run
                                 </Button>
@@ -114,7 +114,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/60 p-4 backdrop-blur-sm">
                     <Card className="w-full max-w-4xl border-border bg-muted/50 shadow-2xl dark:border-border dark:bg-foreground">
                         <CardHeader>
-                            <CardTitle>Deploy New nobleflow</CardTitle>
+                            <CardTitle>Deploy New Sukounflow</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p className="py-20 text-center text-muted-foreground">
@@ -124,7 +124,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
                                 <Button variant="outline" onClick={() => setIsCreating(false)}>
                                     Cancel
                                 </Button>
-                                <Button className="bg-noble-cyan text-foreground">Save Workflow</Button>
+                                <Button className="bg-Sukoun-cyan text-foreground">Save Workflow</Button>
                             </div>
                         </CardContent>
                     </Card>
@@ -137,7 +137,7 @@ export default function nobleflowIndex({ workflows, triggers, actions }: noblefl
 import AuthenticatedLayout from '@/layouts/authenticated-layout';
 
 // Ensure the page utilizes the authenticated layout
-nobleflowIndex.layout = (page: any) => {
+SukounflowIndex.layout = (page: any) => {
     return <AuthenticatedLayout>{page}</AuthenticatedLayout>;
 };
 

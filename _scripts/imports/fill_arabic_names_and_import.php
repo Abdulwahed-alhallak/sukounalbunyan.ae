@@ -183,7 +183,7 @@ echo "════════════════════════�
 
 $companyUser = User::where('type', 'company')->first();
 if (!$companyUser) {
-    echo "⚠️ No company user found. Creating Noble Architecture company account...\n";
+    echo "⚠️ No company user found. Creating Sukoun Albunyan company account...\n";
     
     // Create superadmin first
     $superadmin = User::create([
@@ -204,7 +204,7 @@ if (!$companyUser) {
     
     // Create company user
     $companyUser = User::create([
-        'name' => 'Noble Architecture',
+        'name' => 'Sukoun Albunyan',
         'email' => 'admin@noble.dion.sy',
         'password' => Hash::make('Noble@2026'),
         'type' => 'company',

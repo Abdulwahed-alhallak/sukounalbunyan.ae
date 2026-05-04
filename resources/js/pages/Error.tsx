@@ -61,7 +61,7 @@ export default function Error({ status }: ErrorProps) {
 
                 <div className="flex items-center justify-between border-t border-border bg-muted/50 px-8 py-4">
                     <div className="text-xs font-medium tracking-wide text-muted-foreground">
-                        {t('Noble Architecture ECOSYSTEM')}
+                        {t('Sukoun Albunyan ECOSYSTEM')}
                     </div>
                     <div className="flex space-x-2">
                         <div className="h-2 w-2 rounded-full bg-foreground/20"></div>

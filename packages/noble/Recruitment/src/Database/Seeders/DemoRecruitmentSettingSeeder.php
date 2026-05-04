@@ -18,7 +18,7 @@ class DemoRecruitmentSettingSeeder extends Seeder
             ],
             [
                 'key' => 'footer_text',
-                'value' => '© ' . date('Y') . ' Noble Architecture Technologies. All rights reserved. Building the future together.',
+                'value' => '© ' . date('Y') . ' Sukoun Albunyan Technologies. All rights reserved. Building the future together.',
                 'created_by' => $userId,
             ],
         ];

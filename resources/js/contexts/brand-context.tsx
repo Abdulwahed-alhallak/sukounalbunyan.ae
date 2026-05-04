@@ -43,9 +43,9 @@ export function BrandProvider({ children }: { children: ReactNode }) {
         logo_light: globalSettings?.logo_light || '',
         favicon: globalSettings?.favicon || '',
         fontFamily: globalSettings?.fontFamily || globalSettings?.font_family || '',
-        titleText: globalSettings?.titleText || 'Noble Architecture',
+        titleText: globalSettings?.titleText || 'Sukoun Albunyan',
         footerText:
-            globalSettings?.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`,
+            globalSettings?.footerText || `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`,
         layoutDirection: isLanguageRtl ? 'rtl' : 'ltr',
         themeMode: globalSettings?.themeMode || 'light',
         themeColor: globalSettings?.themeColor || globalSettings?.theme_color || '',

@@ -102,7 +102,7 @@ export default function Marketplace({ packages = [], settings, landingPageSettin
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
-            <Head title={`${settings?.title || 'Noble Architecture Marketplace'} - Premium Packages`}>
+            <Head title={`${settings?.title || 'Sukoun Albunyan Marketplace'} - Premium Packages`}>
                 {faviconUrl && <link rel="icon" type="image/x-icon" href={faviconUrl} />}
             </Head>
 

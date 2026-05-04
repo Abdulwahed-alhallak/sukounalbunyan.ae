@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 /**
- * Noble Architecture — Production Health & Availability Suite
+ * Sukoun Albunyan — Production Health & Availability Suite
  * Tests the live domain https://noble.dion.sy for critical infrastructure health
  */
 describe('Production Infrastructure Health', () => {

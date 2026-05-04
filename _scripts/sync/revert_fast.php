@@ -17,11 +17,11 @@ foreach ($targets as $t) {
             $content = file_get_contents($path);
             $count = 0;
             
-            // Standard namespace: Noble Architecture\
-            $content = str_replace('Noble Architecture\\', 'ERPGO\\', $content, $c1);
+            // Standard namespace: Sukoun Albunyan\
+            $content = str_replace('Sukoun Albunyan\\', 'ERPGO\\', $content, $c1);
             
-            // JSON/escaped: Noble Architecture\\
-            $content = str_replace('Noble Architecture\\\\', 'ERPGO\\\\', $content, $c2);
+            // JSON/escaped: Sukoun Albunyan\\
+            $content = str_replace('Sukoun Albunyan\\\\', 'ERPGO\\\\', $content, $c2);
             
             if ($c1 > 0 || $c2 > 0) {
                 file_put_contents($path, $content);

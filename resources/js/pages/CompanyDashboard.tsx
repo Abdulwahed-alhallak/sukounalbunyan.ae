@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/layouts/authenticated-layout';
 import { Head, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { AreaChart, BarChart, PieChart } from '@/components/charts';
 import { formatCurrency } from '@/utils/helpers';
 import {
@@ -29,6 +30,7 @@ import {
     BarChart3,
     RefreshCw,
 } from 'lucide-react';
+import RentalPredictiveChart from '../../../packages/noble/Rental/src/Resources/js/Pages/components/RentalPredictiveChart';
 
 // ==================== TYPES ====================
 interface FinancialKPIs {
@@ -52,7 +54,7 @@ interface HrmKPIs {
     attendance_rate: number;
     pending_leaves: number;
     departments: { name: string; count: number }[];
-    upcoming_birthdays: { id: number; name: string; date_of_birth: string }[];
+    upcoming_birthdays: { id: number; user: { id: number; name: string }; date_of_birth: string }[];
 }
 
 interface CrmKPIs {
@@ -90,6 +92,17 @@ interface SupportKPIs {
     resolution_rate: number;
 }
 
+interface RentalKPIs {
+    active_contracts: number;
+    total_accrued: number;
+    total_deposits: number;
+    total_balance_due: number;
+    total_damage_fees: number;
+    expiring_soon: number;
+    pending_logistics: number;
+    pending_installments: number;
+}
+
 interface CashflowData {
     month: string;
     income: number;
@@ -120,6 +133,7 @@ interface Props {
     project: ProjectKPIs | null;
     pos: PosKPIs | null;
     support: SupportKPIs | null;
+    rental: RentalKPIs | null;
     cashflow: CashflowData[];
     recentActivity: ActivityItem[];
     upcomingEvents: UpcomingEvent[];
@@ -147,8 +161,8 @@ function StatCard({
 }) {
     return (
         <div
-            className="premium-card group p-3 sm:p-4 duration-500 animate-in fade-in slide-in-from-bottom-4 border-border/40 bg-card/60 backdrop-blur-md hover:bg-card transition-all"
-            style={{ animationDelay: `${index * 50}ms` }}
+            className="premium-card group p-3 sm:p-4 duration-500 animate-in fade-in slide-in-from-bottom-4 border-border/40 bg-card/60 backdrop-blur-md hover:bg-card transition-all animate-delay"
+            style={{ '--delay': `${index * 50}ms` } as React.CSSProperties}
         >
             <div className="flex items-start justify-between gap-2">
                 <div className="space-y-1 min-w-0">
@@ -199,6 +213,7 @@ export default function CompanyDashboard({
     project,
     pos,
     support,
+    rental,
     cashflow,
     recentActivity,
     upcomingEvents,
@@ -312,12 +327,11 @@ export default function CompanyDashboard({
                                         <span>{t('Sales Efficiency')}</span>
                                         <span className="font-bold text-foreground">{crm.conversion_rate}%</span>
                                     </div>
-                                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
-                                        <div
-                                            className="h-full rounded-full bg-foreground"
-                                            style={{ width: `${crm.conversion_rate}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={crm.conversion_rate}
+                                        className="h-1.5"
+                                        indicatorClassName="bg-foreground"
+                                    />
                                     <p className="text-[10px] italic leading-tight text-muted-foreground">
                                         {crm.conversion_rate > 20
                                             ? t('Higher than industry average. Scale lead generation.')
@@ -332,12 +346,11 @@ export default function CompanyDashboard({
                                         <span>{t('Operational Intensity')}</span>
                                         <span className="font-bold text-foreground">{hrm.attendance_rate}%</span>
                                     </div>
-                                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
-                                        <div
-                                            className="h-full rounded-full bg-foreground/70"
-                                            style={{ width: `${hrm.attendance_rate}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={hrm.attendance_rate}
+                                        className="h-1.5"
+                                        indicatorClassName="bg-foreground/70"
+                                    />
                                     <p className="text-[10px] italic leading-tight text-muted-foreground">
                                         {hrm.attendance_rate > 90
                                             ? t('Optimal workforce participation. Performance levels stable.')
@@ -354,12 +367,11 @@ export default function CompanyDashboard({
                                             {project.task_completion_rate}%
                                         </span>
                                     </div>
-                                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
-                                        <div
-                                            className="h-full rounded-full bg-foreground/60"
-                                            style={{ width: `${project.task_completion_rate}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={project.task_completion_rate}
+                                        className="h-1.5"
+                                        indicatorClassName="bg-foreground/60"
+                                    />
                                     <p className="text-[10px] italic leading-tight text-muted-foreground">
                                         {project.task_completion_rate > 80
                                             ? t('Velocity is high. Team delivering consistent results.')
@@ -378,16 +390,38 @@ export default function CompanyDashboard({
                                             {financial.sales_growth}%
                                         </span>
                                     </div>
-                                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
-                                        <div
-                                            className={`h-full ${financial.sales_growth >= 0 ? 'bg-foreground/70' : 'bg-muted-foreground'} rounded-full`}
-                                            style={{ width: `${Math.min(Math.abs(financial.sales_growth), 100)}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={Math.min(Math.abs(financial.sales_growth), 100)}
+                                        className="h-1.5"
+                                        indicatorClassName={financial.sales_growth >= 0 ? 'bg-foreground/70' : 'bg-muted-foreground'}
+                                    />
                                     <p className="text-[10px] italic leading-tight text-muted-foreground">
                                         {financial.sales_growth > 0
                                             ? t('Revenue trending up. Reinvest in growth modules.')
                                             : t('Review sales funnel to address current trajectory.')}
+                                    </p>
+                                </div>
+                            )}
+
+                            {rental && (
+                                <div className="space-y-3 rounded-xl border border-white/5 bg-card/5 p-4 transition-colors hover:bg-card/10">
+                                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                        <span>{t('Rental Efficiency')}</span>
+                                        <span className="font-bold text-foreground">
+                                            {rental.active_contracts > 0 ? t('Optimal') : t('Idle')}
+                                        </span>
+                                    </div>
+                                    <Progress
+                                        value={rental.active_contracts > 0 ? 85 : 10}
+                                        className="h-1.5"
+                                        indicatorClassName="bg-foreground/50"
+                                    />
+                                    <p className="text-[10px] italic leading-tight text-muted-foreground">
+                                        {rental.total_balance_due > 5000
+                                            ? t('High pending balances. Action required on collections.')
+                                            : rental.active_contracts > 5
+                                              ? t('High asset turnover. Review inventory levels.')
+                                              : t('Assets available for new rental contracts.')}
                                     </p>
                                 </div>
                             )}
@@ -464,18 +498,38 @@ export default function CompanyDashboard({
                                         <span className="text-muted-foreground">{t('Attendance Rate')}</span>
                                         <span className="font-medium text-foreground">{hrm.attendance_rate}%</span>
                                     </div>
-                                    <div className="h-2 overflow-hidden rounded-full bg-muted">
-                                        <div
-                                            className="h-full rounded-full bg-foreground transition-all"
-                                            style={{ width: `${hrm.attendance_rate}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={hrm.attendance_rate}
+                                        indicatorClassName="bg-foreground"
+                                    />
                                 </div>
 
                                 {hrm.pending_leaves > 0 && (
                                     <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/50 p-2 text-xs text-muted-foreground">
                                         <Clock className="h-4 w-4" />
                                         {hrm.pending_leaves} {t('pending leave requests')}
+                                    </div>
+                                )}
+
+                                {hrm.upcoming_birthdays.length > 0 && (
+                                    <div className="mt-2 space-y-2">
+                                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground/70 font-bold px-1">
+                                            {t('Upcoming Birthdays')}
+                                        </div>
+                                        {hrm.upcoming_birthdays.map((emp) => (
+                                            <div key={emp.id} className="flex items-center justify-between rounded-lg bg-foreground/5 p-2 text-xs">
+                                                <div className="flex items-center gap-2">
+                                                    <Cake className="h-3 w-3 text-muted-foreground" />
+                                                    <span className="font-medium text-foreground">{emp.user?.name}</span>
+                                                </div>
+                                                <span className="text-muted-foreground">
+                                                    {new Date(emp.date_of_birth).toLocaleDateString('en-GB', {
+                                                        month: 'short',
+                                                        day: '2-digit',
+                                                    })}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
 
@@ -611,12 +665,10 @@ export default function CompanyDashboard({
                                             {project.task_completion_rate}%
                                         </span>
                                     </div>
-                                    <div className="h-2 overflow-hidden rounded-full bg-muted">
-                                        <div
-                                            className="h-full rounded-full bg-foreground transition-all"
-                                            style={{ width: `${project.task_completion_rate}%` }}
-                                        />
-                                    </div>
+                                    <Progress
+                                        value={project.task_completion_rate}
+                                        indicatorClassName="bg-foreground"
+                                    />
                                 </div>
 
                                 {project.overdue_tasks > 0 && (
@@ -665,6 +717,71 @@ export default function CompanyDashboard({
                             </CardContent>
                         </Card>
                     )}
+
+                    {/* RENTAL MODULE */}
+                    {rental && (
+                        <Card>
+                            <CardHeader className="pb-2">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <Briefcase className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                                    {t('Scaffolding Rental')}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="rounded-lg bg-muted p-3">
+                                        <div className="text-xl font-bold text-foreground">{rental.active_contracts}</div>
+                                        <div className="text-[10px] text-muted-foreground">{t('Active Contracts')}</div>
+                                    </div>
+                                    <div className="rounded-lg bg-muted p-3">
+                                        <div className="text-xl font-bold text-foreground">
+                                            {formatCurrency(rental.total_accrued)}
+                                        </div>
+                                        <div className="text-[10px] text-muted-foreground">{t('Accrued Rent')}</div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between text-xs">
+                                        <span className="text-muted-foreground">{t('Pending Balance')}</span>
+                                        <span className="font-bold text-foreground">{formatCurrency(rental.total_balance_due)}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-xs">
+                                        <span className="text-muted-foreground">{t('Held Deposits')}</span>
+                                        <span className="font-medium text-foreground">{formatCurrency(rental.total_deposits)}</span>
+                                    </div>
+                                </div>
+
+                                {rental.expiring_soon > 0 && (
+                                    <div className="flex items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 text-xs text-foreground">
+                                        <Clock className="h-4 w-4" />
+                                        {rental.expiring_soon} {t('contracts expiring soon')}
+                                    </div>
+                                )}
+
+                                {rental.pending_installments > 0 && (
+                                    <div className="flex items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 text-xs text-foreground">
+                                        <AlertTriangle className="h-4 w-4" />
+                                        {rental.pending_installments} {t('installments due soon')}
+                                    </div>
+                                )}
+
+                                {rental.pending_logistics > 0 && (
+                                    <div className="flex items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 text-xs text-foreground">
+                                        <Briefcase className="h-4 w-4" />
+                                        {rental.pending_logistics} {t('pending logistics tasks')}
+                                    </div>
+                                )}
+
+                                {rental.total_damage_fees > 0 && (
+                                    <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/50 p-2 text-xs text-muted-foreground">
+                                        <AlertTriangle className="h-4 w-4" />
+                                        {t('Damage Fees')}: {formatCurrency(rental.total_damage_fees)}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
 
                 {/* ============ BOTTOM ROW ============ */}
@@ -699,6 +816,8 @@ export default function CompanyDashboard({
                                                         className="h-4 w-4 text-foreground"
                                                         strokeWidth={1.5}
                                                     />
+                                                ) : item.type === 'rental_contract' ? (
+                                                    <Briefcase className="h-4 w-4 text-foreground" strokeWidth={1.5} />
                                                 ) : (
                                                     <FileText className="h-4 w-4 text-foreground" strokeWidth={1.5} />
                                                 )}
@@ -717,7 +836,7 @@ export default function CompanyDashboard({
                                                                   : 'bg-muted text-muted-foreground'
                                                         }`}
                                                     >
-                                                        {item.status}
+                                                        {t(item.status)}
                                                     </span>
                                                 </div>
                                                 <div className="text-xs text-muted-foreground">
@@ -773,7 +892,7 @@ export default function CompanyDashboard({
                                         >
                                             <div className="flex items-start gap-2">
                                                 <AlertTriangle
-                                                    className={`mt-0.5 h-4 w-4 shrink-0 text-muted-foreground`}
+                                                    className={`mt-0.5 h-4 w-4 shrink-0 ${event.type === 'rental_expiry' ? 'text-foreground' : 'text-muted-foreground'}`}
                                                     strokeWidth={1.5}
                                                 />
                                                 <div className="min-w-0 flex-1">
@@ -800,12 +919,11 @@ export default function CompanyDashboard({
                                                 {support.open_tickets} {t('open')}
                                             </span>
                                         </div>
-                                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
-                                            <div
-                                                className="h-full rounded-full bg-foreground"
-                                                style={{ width: `${support.resolution_rate}%` }}
-                                            />
-                                        </div>
+                                        <Progress
+                                            value={support.resolution_rate}
+                                            className="h-1.5"
+                                            indicatorClassName="bg-foreground"
+                                        />
                                         <div className="mt-1 text-[10px] text-muted-foreground">
                                             {support.resolution_rate}% {t('resolved')}
                                         </div>
@@ -816,6 +934,13 @@ export default function CompanyDashboard({
                     </Card>
                 </div>
 
+                {/* Rental Predictive Chart */}
+                {rental && (
+                    <div className="mt-6 mb-6">
+                        <RentalPredictiveChart data={[]} />
+                    </div>
+                )}
+
                 {/* Active Modules Footer */}
                 <div className="rounded-xl border border-border bg-card p-3">
                     <div className="flex flex-wrap items-center gap-2">
@@ -825,7 +950,7 @@ export default function CompanyDashboard({
                                 key={mod}
                                 className="rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-medium text-foreground"
                             >
-                                {mod}
+                                {t(mod)}
                             </span>
                         ))}
                     </div>

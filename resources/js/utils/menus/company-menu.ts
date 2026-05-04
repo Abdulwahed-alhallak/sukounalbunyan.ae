@@ -17,9 +17,11 @@ import {
     MessageCircle,
     Replace,
     Receipt,
+    RotateCcw,
     BarChart3,
     Bell,
     Zap,
+    Briefcase,
 } from 'lucide-react';
 import { NavItem } from '@/types';
 
@@ -27,11 +29,17 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
     // ─── DASHBOARD ───
     {
         title: t('Dashboard'),
-        href: '/dashboard',
         icon: LayoutGrid,
         permission: 'manage-dashboard',
         name: 'dashboard',
         order: 100,
+        children: [
+            {
+                title: t('Overview'),
+                href: '/dashboard',
+                permission: 'manage-dashboard',
+            },
+        ],
     },
 
     // ─── HRM ───
@@ -114,6 +122,27 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
             },
         ],
     },
+    // ─── RENTAL MANAGEMENT ───
+    {
+        title: t('Rental Management'),
+        icon: Briefcase,
+        permission: 'manage-rentals',
+        name: 'rental',
+        order: 600,
+        children: [
+            {
+                title: t('Contracts'),
+                href: '/rental',
+                permission: 'manage-rentals',
+            },
+            {
+                title: t('Rental Reports'),
+                href: '/reports/rental',
+                permission: 'manage-rentals',
+            },
+        ],
+    },
+
 
     // ─── COLLABORATION ───
     {

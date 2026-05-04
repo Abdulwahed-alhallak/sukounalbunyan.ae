@@ -7,7 +7,7 @@ $kernel->bootstrap();
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-echo "🛡️  Noble Architecture Automated Backup Protocol Initiated...\n";
+echo "🛡️  Sukoun Albunyan Automated Backup Protocol Initiated...\n";
 
 $dbName = env('DB_DATABASE');
 $dbUser = env('DB_USERNAME');

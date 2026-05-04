@@ -20,7 +20,7 @@ export default function MarketplaceHero({
     const { t } = useTranslation();
     const sectionData = settings?.config_sections?.sections?.hero || {};
 
-    const title = propTitle || sectionData.title || 'Noble Architecture Marketplace';
+    const title = propTitle || sectionData.title || 'Sukoun Albunyan Marketplace';
     const subtitle =
         propSubtitle ||
         sectionData.subtitle ||

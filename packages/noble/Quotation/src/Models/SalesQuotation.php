@@ -31,6 +31,7 @@ class SalesQuotation extends Model
         'total_amount',
         'status',
         'converted_to_invoice',
+        'converted_to_rental',
         'invoice_id',
         'payment_terms',
         'notes',
@@ -48,6 +49,7 @@ class SalesQuotation extends Model
             'discount_amount' => 'decimal:2',
             'total_amount' => 'decimal:2',
             'converted_to_invoice' => 'boolean',
+            'converted_to_rental' => 'boolean',
         ];
     }
 

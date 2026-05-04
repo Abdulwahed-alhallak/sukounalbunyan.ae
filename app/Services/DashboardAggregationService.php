@@ -15,6 +15,7 @@ use App\Traits\CrmDashboardTrait;
 use App\Traits\ProjectDashboardTrait;
 use App\Traits\PosDashboardTrait;
 use App\Traits\SupportDashboardTrait;
+use Noble\Rental\Traits\RentalDashboardTrait;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +34,8 @@ class DashboardAggregationService
         CrmDashboardTrait,
         ProjectDashboardTrait,
         PosDashboardTrait,
-        SupportDashboardTrait;
+        SupportDashboardTrait,
+        RentalDashboardTrait;
 
     private int $companyId;
     private int $cacheTTL = 300; // 5 minutes
@@ -119,6 +121,7 @@ class DashboardAggregationService
                 'project' => $this->getProjectKPIs(),
                 'pos' => $this->getPosKPIs(),
                 'support' => $this->getSupportKPIs(),
+                'rental' => $this->moduleActive('Rental') ? $this->getRentalKPIs() : null,
                 'cashflow' => $this->getCashflowChart(),
                 'recentActivity' => $this->getRecentActivity(),
                 'upcomingEvents' => $this->getUpcomingEvents(),
@@ -137,6 +140,14 @@ class DashboardAggregationService
             $activities[] = ['type' => 'sales_invoice', 'label' => $sale->invoice_number, 'amount' => (float) $sale->total_amount, 'status' => $sale->status, 'date' => $sale->created_at->toISOString()];
         }
 
+        // Recent rental contracts
+        if ($this->moduleActive('Rental') && class_exists(\Noble\Rental\Models\RentalContract::class)) {
+            $recentRentals = \Noble\Rental\Models\RentalContract::where('created_by', $this->companyId)->orderByDesc('created_at')->limit(3)->get();
+            foreach ($recentRentals as $rental) {
+                $activities[] = ['type' => 'rental_contract', 'label' => $rental->contract_number, 'amount' => (float) $rental->total_invoiced, 'status' => $rental->status, 'date' => $rental->created_at->toISOString()];
+            }
+        }
+
         // Recent purchase invoices
         $recentPurchases = PurchaseInvoice::where('created_by', $this->companyId)->orderByDesc('created_at')->limit(3)->get();
         foreach ($recentPurchases as $purchase) {
@@ -152,7 +163,63 @@ class DashboardAggregationService
         $events = [];
         $overdueInvoices = SalesInvoice::where('created_by', $this->companyId)->where('due_date', '<', now())->where('status', '!=', 'paid')->orderBy('due_date')->limit(3)->get();
         foreach ($overdueInvoices as $inv) {
-            $events[] = ['type' => 'overdue_invoice', 'title' => "Overdue: {$inv->invoice_number}", 'amount' => (float) $inv->total_amount, 'date' => $inv->due_date->toISOString(), 'urgency' => 'high'];
+            $events[] = ['type' => 'overdue_invoice', 'title' => __('Overdue') . ": {$inv->invoice_number}", 'amount' => (float) $inv->total_amount, 'date' => $inv->due_date->toISOString(), 'urgency' => 'high'];
+        }
+
+        // Rental contracts ending soon
+        if ($this->moduleActive('Rental') && class_exists(\Noble\Rental\Models\RentalContract::class)) {
+            $endingRentals = \Noble\Rental\Models\RentalContract::where('created_by', $this->companyId)
+                ->where('status', 'active')
+                ->whereNotNull('end_date')
+                ->where('end_date', '<=', now()->addDays(7))
+                ->orderBy('end_date')
+                ->limit(3)
+                ->get();
+            foreach ($endingRentals as $rental) {
+                $events[] = ['type' => 'rental_expiry', 'title' => __('Rental Ending') . ": {$rental->contract_number}", 'amount' => (float)$rental->balance_due, 'date' => $rental->end_date->toISOString(), 'urgency' => 'medium'];
+            }
+
+            // Rental Installments
+            if (class_exists(\Noble\Rental\Models\RentalInstallment::class)) {
+                $dueInstallments = \Noble\Rental\Models\RentalInstallment::with('contract')
+                    ->whereHas('contract', function ($q) {
+                        $q->where('created_by', $this->companyId);
+                    })
+                    ->where('status', 'pending')
+                    ->where('due_date', '<=', now()->addDays(7))
+                    ->orderBy('due_date')
+                    ->limit(3)
+                    ->get();
+                
+                foreach ($dueInstallments as $installment) {
+                    $urgency = $installment->due_date < now() ? 'high' : 'medium';
+                    $events[] = [
+                        'type' => 'rental_installment',
+                        'title' => __('Installment Due') . " - " . ($installment->contract->contract_number ?? ''),
+                        'amount' => (float)$installment->amount,
+                        'date' => $installment->due_date->toISOString(),
+                        'urgency' => $urgency
+                    ];
+                }
+            }
+
+            // Rental Logistics
+            $pendingLogistics = \Noble\Rental\Models\RentalContract::where('created_by', $this->companyId)
+                ->whereIn('logistics_status', ['pending_delivery', 'pending_pickup'])
+                ->orderBy('updated_at', 'desc')
+                ->limit(3)
+                ->get();
+            
+            foreach ($pendingLogistics as $logistics) {
+                $action = $logistics->logistics_status === 'pending_delivery' ? __('Pending Delivery') : __('Pending Pickup');
+                $events[] = [
+                    'type' => 'rental_logistics',
+                    'title' => "{$action}: {$logistics->contract_number}",
+                    'amount' => null,
+                    'date' => $logistics->updated_at->toISOString(), // Not a perfect date for event, but works
+                    'urgency' => 'high'
+                ];
+            }
         }
         usort($events, fn($a, $b) => strcmp($a['date'], $b['date']));
         return array_slice($events, 0, 6);
@@ -163,7 +230,7 @@ class DashboardAggregationService
         try {
             $user = User::find($this->companyId);
             if (!$user || !function_exists('Module_is_active')) return [];
-            $allModules = ['Account', 'Hrm', 'Lead', 'Taskly', 'Pos', 'Contract', 'SupportTicket'];
+            $allModules = ['Account', 'Hrm', 'Lead', 'Taskly', 'Pos', 'Contract', 'SupportTicket', 'Rental'];
             return array_filter($allModules, fn($mod) => Module_is_active($mod, $this->companyId));
         } catch (\Exception $e) { return []; }
     }

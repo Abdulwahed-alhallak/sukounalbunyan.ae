@@ -84,7 +84,7 @@ export default function SupportTicketLayout({
     const siteTitle = brandSettings?.titleText || 'Support Ticket System';
     const footerText =
         brandSettings?.footerText ||
-        `© ${new Date().getFullYear()} Noble Architecture Support System. All rights reserved.`;
+        `© ${new Date().getFullYear()} Sukoun Albunyan Support System. All rights reserved.`;
 
     const navigationItems = [
         { name: t('Create Ticket'), href: route('support-ticket.index', [slug]), icon: Ticket },

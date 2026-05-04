@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Noble Architecture'),
+    'name' => env('APP_NAME', 'Sukoun Albunyan'),
 
     /*
     |--------------------------------------------------------------------------

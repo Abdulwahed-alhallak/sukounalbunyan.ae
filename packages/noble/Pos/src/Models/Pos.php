@@ -66,10 +66,10 @@ class Pos extends Model
 
         if (function_exists('getCompanyAllSetting')) {
             $settings = getCompanyAllSetting($this->created_by);
-            $companyName = $settings['company_name'] ?? 'Noble Architecture';
+            $companyName = $settings['company_name'] ?? 'Sukoun Albunyan';
             $vatNumber = $settings['vat_number'] ?? '310122393500003';
         } else {
-            $companyName = 'Noble Architecture';
+            $companyName = 'Sukoun Albunyan';
             $vatNumber = '310122393500003';
         }
 

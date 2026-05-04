@@ -1,6 +1,4 @@
-'use client';
-
-import * as React from 'react';
+import React, { useState, useMemo, useTransition } from 'react';
 import { Search } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -34,7 +32,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const getCompleteSidebarProps = brandData?.getCompleteSidebarProps;
     const getPreviewUrl = brandData?.getPreviewUrl || ((s: string) => s);
 
-    const [searchQuery, setSearchQuery] = React.useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Safely access theme context to prevent crashes if Provider is missing
     let resolvedTheme = 'light';
@@ -79,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 <div className="flex items-center px-2 group-data-[collapsible=icon]:hidden">
                                     <ApplicationLogo className="premium-shimmer h-8 w-auto text-primary transition-transform duration-300 group-hover/logo:scale-105" />
                                     <span className="ms-2 text-label-13 font-bold tracking-tight text-foreground transition-colors duration-200 group-hover/logo:text-primary">
-                                         {settings?.titleText || 'Noble Architecture'}
+                                         {settings?.titleText || 'Sukoun Albunyan'}
                                      </span>
                                 </div>
 
@@ -93,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                         />
                                     ) : (
                                         <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-geist-gray-10 text-xs font-semibold text-background">
-                                             {settings?.titleText ? settings.titleText.charAt(0).toUpperCase() : 'N'}
+                                             {settings?.titleText ? settings.titleText.charAt(0).toUpperCase() : 'S'}
                                          </div>
                                     )}
                                 </div>

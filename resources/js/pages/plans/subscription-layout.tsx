@@ -441,7 +441,7 @@ function SubscriptionLayout({
                                             <RadioGroupItem value="cash_on_hand" id="cash_on_hand" />
                                             <Label htmlFor="cash_on_hand" className="cursor-pointer">
                                                 <div className="font-medium text-foreground dark:text-foreground">
-                                                    {t('Cash on Hand (الدفع داخل شركة noble)')}
+                                                    {t('Cash on Hand (الدفع داخل شركة Sukoun)')}
                                                 </div>
                                                 <div className="text-sm text-muted-foreground dark:text-muted-foreground">
                                                     {t(

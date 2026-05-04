@@ -15,7 +15,7 @@ export default function FrontendFooter({ userSlug, brandSettings }: FrontendFoot
                 <div className="text-center">
                     <p className="text-sm text-muted-foreground">
                         {brandSettings?.footerText ||
-                            `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
+                            `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`}
                     </p>
                 </div>
             </div>

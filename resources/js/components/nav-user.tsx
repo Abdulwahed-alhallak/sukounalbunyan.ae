@@ -41,11 +41,11 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                     <DropdownMenuTrigger asChild>
                         <button className="group relative flex items-center justify-center rounded-full p-0.5 ring-1 ring-border transition-all duration-300 hover:ring-foreground/30 active:scale-95">
                             <Avatar className="h-8 w-8 rounded-full border-2 border-background shadow-sm">
-                                {(user as any).avatar && (
-                                    <AvatarImage src={getImagePath((user as any).avatar)} alt={user.name} />
+                                {user?.avatar && (
+                                    <AvatarImage src={getImagePath(user.avatar)} alt={user.name} />
                                 )}
                                 <AvatarFallback className="rounded-full bg-muted text-[10px] font-bold">
-                                    {user.name?.charAt(0)?.toUpperCase()}
+                                    {user?.name?.charAt(0)?.toUpperCase() || '?'}
                                 </AvatarFallback>
                             </Avatar>
                             <span className="absolute -bottom-0.5 -end-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-emerald-500" />
@@ -54,13 +54,13 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                     <DropdownMenuContent align="end" sideOffset={8} className="w-64 p-1.5 shadow-2xl animate-in zoom-in-95 duration-200">
                         <DropdownMenuLabel className="px-3 py-2.5">
                             <div className="flex flex-col space-y-0.5">
-                                <p className="text-[13px] font-bold tracking-tight text-foreground">{t(user.name)}</p>
-                                <p className="truncate text-[11px] font-medium text-muted-foreground/70">{user.email}</p>
+                                <p className="text-[13px] font-bold tracking-tight text-foreground">{t(user?.name || '')}</p>
+                                <p className="truncate text-[11px] font-medium text-muted-foreground/70">{user?.email || ''}</p>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator className="mx-1" />
                         <DropdownMenuGroup className="p-1">
-                            {auth.user?.permissions?.includes('manage-profile') && (
+                            {auth?.user?.permissions?.includes('manage-profile') && (
                                 <DropdownMenuItem asChild className="rounded-md px-3 py-2 text-[12px] font-medium transition-colors focus:bg-accent cursor-pointer">
                                     <Link href={route('profile.edit')} className="flex w-full items-center">
                                         <BadgeCheck className="me-2 h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
@@ -97,6 +97,8 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
         );
     }
 
+    if (!user) return null;
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -107,8 +109,8 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             <Avatar className="h-8 w-8 rounded-md">
-                                {(user as any).avatar && (
-                                    <AvatarImage src={getImagePath((user as any).avatar)} alt={user.name} />
+                                {user.avatar && (
+                                    <AvatarImage src={getImagePath(user.avatar)} alt={user.name} />
                                 )}
                                 <AvatarFallback className="rounded-md">
                                     {user.name?.charAt(0)?.toUpperCase()}
@@ -130,8 +132,8 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
                                 <Avatar className="h-8 w-8 rounded-md">
-                                    {(user as any).avatar && (
-                                        <AvatarImage src={getImagePath((user as any).avatar)} alt={user.name} />
+                                    {user.avatar && (
+                                        <AvatarImage src={getImagePath(user.avatar)} alt={user.name} />
                                     )}
                                     <AvatarFallback className="rounded-md">
                                         {user.name?.charAt(0)?.toUpperCase()}

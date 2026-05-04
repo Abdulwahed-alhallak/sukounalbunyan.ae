@@ -56,7 +56,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                         <Link href={route('dashboard')} className="relative z-50 inline-block">
                             <div className="flex items-center gap-2">
                                 <ApplicationLogo className="h-8 w-auto text-primary-foreground" />
-                                <span className="font-semibold tracking-tight text-background">{settings.titleText || 'Noble Architecture'}</span>
+                                <span className="font-semibold tracking-tight text-background">{settings.titleText || 'Sukoun Albunyan'}</span>
                             </div>
                         </Link>
                     </div>
@@ -152,7 +152,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
 
                     <div className="flex w-full items-center gap-3 pb-2 text-[13px] font-medium text-neutral-400">
                         <p>
-                            {settings.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
+                            {settings.footerText || `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`}
                         </p>
                         <span className="opacity-30">·</span>
                         <a href="#" className="transition-colors hover:text-white">
@@ -177,7 +177,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                         <Link href={route('dashboard')}>
                             <div className="flex items-center gap-2">
                                 <ApplicationLogo className="h-7 w-auto text-primary" />
-                                <span className="font-semibold tracking-tight text-foreground">{settings.titleText || 'Noble Architecture'}</span>
+                                <span className="font-semibold tracking-tight text-foreground">{settings.titleText || 'Sukoun Albunyan'}</span>
                             </div>
                         </Link>
                     </div>
@@ -199,7 +199,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                     {/* Mobile Footer */}
                     <div className="mt-10 text-center text-[13px] font-medium text-muted-foreground lg:hidden">
                         <p>
-                            {settings.footerText || `© ${new Date().getFullYear()} Noble Architecture. All rights reserved.`}
+                            {settings.footerText || `© ${new Date().getFullYear()} Sukoun Albunyan. All rights reserved.`}
                         </p>
                         <div className="mt-2 flex justify-center gap-3">
                             <a href="#" className="transition-colors hover:text-foreground">

@@ -25,8 +25,8 @@ class DefultSetting extends Seeder
             'logo_light' => 'logo_light.png',
             'logo_dark' => 'logo_dark.png',
             'favicon' => 'favicon.png',
-            'titleText' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'Noble Architecture SaaS',
-            'footerText' => 'Copyright © ' . (!empty(env('APP_NAME')) ? env('APP_NAME') : 'Noble Architecture SaaS'),
+            'titleText' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'Sukoun Albunyan',
+            'footerText' => 'Copyright © ' . (!empty(env('APP_NAME')) ? env('APP_NAME') : 'Sukoun Albunyan'),
             'sidebarVariant' => 'inset',
             'sidebarStyle' => 'plain',
             'layoutDirection' => 'rtl',
@@ -56,8 +56,8 @@ class DefultSetting extends Seeder
             'currencySymbolPosition' => 'right',
 
             // SEO Settings
-            'metaKeywords' => 'Noble Architecture, noble, dashboard, admin, panel, management',
-            'metaTitle' => !empty(env('APP_NAME')) ? env('APP_NAME') . ' - Dashboard' : 'Noble Architecture SaaS - Dashboard',
+            'metaKeywords' => 'Sukoun Albunyan, sukou, dashboard, admin, panel, management',
+            'metaTitle' => !empty(env('APP_NAME')) ? env('APP_NAME') . ' - Dashboard' : 'Sukoun Albunyan - Dashboard',
             'metaDescription' => 'Enterprise-grade management ecosystem for modern corporate governance.',
             'metaImage' => 'meta_image.png',
 
@@ -70,7 +70,7 @@ class DefultSetting extends Seeder
             'cookieDescription' => 'We use cookies to enhance your browsing experience and provide personalized content.',
             'strictlyCookieDescription' => 'These cookies are essential for the website to function properly.',
             'contactUsDescription' => 'If you have any questions about our cookie policy, please contact us.',
-            'contactUsUrl' => 'https://noble.dion.sy/contact',
+            'contactUsUrl' => 'https://sukounalbunyan.net/contact',
 
             // storage Settings
             'storageType' => 'local',

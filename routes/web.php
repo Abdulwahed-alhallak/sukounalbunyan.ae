@@ -79,7 +79,7 @@ Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     });
 
     // Profile management routes
-    // Noble Architecture SaaS: PDF Invoicing Engine
+    // Sukoun Albunyan SaaS: PDF Invoicing Engine
     Route::get('/invoices/{id}/download', [\App\Http\Controllers\InvoicePdfController::class, 'downloadPdf'])->name('invoice.download');
     Route::get('/invoices/{id}/stream', [\App\Http\Controllers\InvoicePdfController::class, 'streamPdf'])->name('invoice.stream');
 

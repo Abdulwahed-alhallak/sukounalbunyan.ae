@@ -8,7 +8,7 @@ const token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.getAttribute('content');
 } else {
-    console.error('CSRF token not found: https://noble.dion.sy/docs/security');
+    console.error('CSRF token not found: https://sukon.dion.sy/docs/security');
 }
 
 // CSRF token refresh with auto-retry

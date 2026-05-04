@@ -167,11 +167,11 @@ class InstallerController extends Controller
 
         $credentials = [
             'admin' => [
-                'email' => 'superadmin@noble.dion.sy',
+                'email' => 'superadmin@sukon.dion.sy',
                 'password' => '1234'
             ],
             'company' => [
-                'email' => 'company@noble.dion.sy',
+                'email' => 'company@sukon.dion.sy',
                 'password' => '1234'
             ]
         ];
@@ -279,7 +279,7 @@ class InstallerController extends Controller
         $envContent .= "QUEUE_CONNECTION=database\n\n";
 
         $envContent .= "MAIL_MAILER=log\n";
-        $envContent .= "MAIL_FROM_ADDRESS=\"noreply@noble.dion.sy\"\n";
+        $envContent .= "MAIL_FROM_ADDRESS=\"noreply@sukon.dion.sy\"\n";
         $envContent .= "MAIL_FROM_NAME=\"\${APP_NAME}\"\n\n";
 
         $envContent .= "VITE_APP_NAME=\"\${APP_NAME}\"\n";

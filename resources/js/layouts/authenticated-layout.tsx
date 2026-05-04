@@ -95,7 +95,7 @@ function AuthenticatedLayoutContent({
                                                     className="flex items-center gap-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
                                                 >
                                                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                                                    {t('Noble Core')}
+                                                    {t('Sukoun Albunyan Core')}
                                                 </Link>
                                             </BreadcrumbLink>
                                         </BreadcrumbItem>

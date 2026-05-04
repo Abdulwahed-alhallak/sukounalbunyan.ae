@@ -46,7 +46,7 @@ function GuestContent({ children }: PropsWithChildren) {
                                 <div className="flex items-center gap-2">
                                     <div className="h-8 w-8 rounded-sm bg-foreground" />
                                     <span className="text-lg font-semibold tracking-tight text-foreground">
-                                        Noble Architecture
+                                        Sukoun Albunyan
                                     </span>
                                 </div>
                             );
@@ -59,7 +59,7 @@ function GuestContent({ children }: PropsWithChildren) {
 
                 {/* Footer */}
                 <p className="mt-8 text-[13px] text-muted-foreground">
-                    © {new Date().getFullYear()} Noble Architecture
+                    © {new Date().getFullYear()} Sukoun Albunyan
                 </p>
 
                 <CookieConsent settings={adminAllSetting || {}} />

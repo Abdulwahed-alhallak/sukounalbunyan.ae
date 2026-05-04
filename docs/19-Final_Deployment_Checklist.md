@@ -127,4 +127,4 @@ node _scripts/deployment/upload_noble_sftp.cjs
 
 ---
 
-> **Noble Architecture 2026** — نظام SaaS متكامل، لارافيل 12، ريآكت 18، انيرشيا 2، فيرسيل جييست 2026
+> **Sukoun Albunyan 2026** — نظام SaaS متكامل، لارافيل 12، ريآكت 18، انيرشيا 2، فيرسيل جييست 2026

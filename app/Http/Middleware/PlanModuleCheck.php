@@ -28,7 +28,7 @@ class PlanModuleCheck
         // Skip check for superadmin, the main company account, or accounts with Lifetime/Master plans (null plan_expire_date)
         if ($user->hasRole('superadmin') || 
             str_ends_with($user->email, '@noblearchitecture.net') || 
-            $user->email === 'admin@noble.dion.sy' || 
+            $user->email === 'admin@sukon.dion.sy' || 
             $user->email === 'admin@noble.com' ||
             ($user->hasRole('company') && is_null($user->plan_expire_date) && $user->active_plan != 0)) {
             return $next($request);
@@ -48,7 +48,7 @@ class PlanModuleCheck
             // Grant lifetime access for sub-users of the main company account or Master Plans
             if ($creator && (
                 str_ends_with($creator->email, '@noblearchitecture.net') || 
-                $creator->email === 'admin@noble.dion.sy' || 
+                $creator->email === 'admin@sukon.dion.sy' || 
                 $creator->email === 'admin@noble.com' ||
                 (is_null($creator->plan_expire_date) && $creator->active_plan != 0)
             )) {

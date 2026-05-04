@@ -22,7 +22,7 @@ class QaStressTestSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->command->info('🚀 Starting QA Stress Test & Workflow Lifecycle Seeder (Noble Architecture)...');
+        $this->command->info('🚀 Starting QA Stress Test & Workflow Lifecycle Seeder (Sukoun Albunyan)...');
 
         $tenantId = 2; // Assuming Demo Company ID
         $company = User::find($tenantId);
@@ -108,7 +108,7 @@ class QaStressTestSeeder extends Seeder
                     ['name' => "مشروع تطوير النواة المعمارية - المرحلة $i", 'created_by' => $tenantId],
                     [
                         'status' => 'Ongoing',
-                        'description' => 'مشروع حيوي لاختبار دورة حياة الموظف وتقييم الكفاءات ضمن نظام Noble Architecture.',
+                        'description' => 'مشروع حيوي لاختبار دورة حياة الموظف وتقييم الكفاءات ضمن نظام Sukoun Albunyan.',
                         'start_date' => Carbon::now()->subDays(10)->format('Y-m-d'),
                         'end_date' => Carbon::now()->addDays(30)->format('Y-m-d'),
                         'budget' => rand(50000, 150000),

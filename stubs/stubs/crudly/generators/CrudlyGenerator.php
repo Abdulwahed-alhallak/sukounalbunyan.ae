@@ -72,7 +72,7 @@ class CrudlyGenerator
         if ($package) {
             $data['package_lower'] = Str::lower($package);
             $data['package_kebab'] = Str::kebab($package);
-            $data['package_namespace'] = "Noble Architecture\\{$package}";
+            $data['package_namespace'] = "Sukoun Albunyan\\{$package}";
             $data['table_name'] = $data['name_snake'];
             
             if ($isSystemSetup) {

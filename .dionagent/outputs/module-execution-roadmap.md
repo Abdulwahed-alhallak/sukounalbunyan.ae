@@ -1,6 +1,6 @@
 # Module Execution Roadmap
 
-Wave-based delivery plan for Noble Architecture stabilization and expansion.
+Wave-based delivery plan for Sukoun Albunyan stabilization and expansion.
 
 ## Wave 0: Foundation and Blockers
 **Objective:** Stabilize core services and unify delivery mechanisms.

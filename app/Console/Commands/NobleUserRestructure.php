@@ -28,7 +28,7 @@ class NobleUserRestructure extends Command
      */
     public function handle()
     {
-        $this->info('🚀 Starting Noble Architecture User Restructure Sequence...');
+        $this->info('🚀 Starting Sukoun Albunyan User Restructure Sequence...');
         
         DB::beginTransaction();
         try {
@@ -51,11 +51,11 @@ class NobleUserRestructure extends Command
             }
             $this->info('✅ Super Admin verified: superadmin@noblearchitecture.net');
 
-            // STEP 2: CREATE OR VERIFY MASTER COMPANY (Noble Architecture)
+            // STEP 2: CREATE OR VERIFY MASTER COMPANY (Sukoun Albunyan)
             $masterCompany = User::firstOrCreate(
                 ['email' => 'admin@noblearchitecture.net'],
                 [
-                    'name' => 'Noble Architecture',
+                    'name' => 'Sukoun Albunyan',
                     'email_verified_at' => now(),
                     'password' => Hash::make('1234'),
                     'mobile_no' => '1234567890',
@@ -69,7 +69,7 @@ class NobleUserRestructure extends Command
                 $masterCompany->assignRole('company');
                 User::MakeRole($masterCompany->id);
             }
-            $this->info('✅ Master Company verified: Noble Architecture (admin@noblearchitecture.net)');
+            $this->info('✅ Master Company verified: Sukoun Albunyan (admin@noblearchitecture.net)');
 
             // STEP 3: MIGRATE DOMAINS (noble.sy -> noblearchitecture.net)
             $usersWithOldDomain = User::where('email', 'like', '%@noble.sy')->get();
@@ -106,7 +106,7 @@ class NobleUserRestructure extends Command
                 $emp->save();
                 $employeeCount++;
             }
-            $this->info("✅ Safely mapped {$employeeCount} real employees to Noble Architecture.");
+            $this->info("✅ Safely mapped {$employeeCount} real employees to Sukoun Albunyan.");
 
             // STEP 5: PRUNE DEMO COMPANIES
             // We want to delete every user of type 'company' EXCEPT our master Company.

@@ -34,7 +34,7 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
             case 'CRITICAL':
                 return <Badge className="border-destructive bg-muted text-destructive">CRITICAL</Badge>;
             case 'MEDIUM':
-                return <Badge className="bg-noble-amber/10 text-noble-amber border-noble-amber">MEDIUM</Badge>;
+                return <Badge className="bg-Sukoun-amber/10 text-Sukoun-amber border-Sukoun-amber">MEDIUM</Badge>;
             default:
                 return <Badge className="border-border bg-muted text-foreground">LOW</Badge>;
         }
@@ -149,7 +149,7 @@ export default function SecurityAuditIndex({ initialLogs = [] }: { initialLogs?:
                             <tr className="border-b border-border bg-card transition-colors hover:bg-muted/50 dark:border-border dark:bg-foreground dark:hover:bg-foreground/50">
                                 <td className="px-6 py-4 font-mono text-muted-foreground">2 mins ago</td>
                                 <td className="flex items-center gap-2 px-6 py-4 font-semibold">
-                                    <div className="bg-noble-cyan/10 text-noble-cyan flex h-6 w-6 items-center justify-center rounded-full">
+                                    <div className="bg-Sukoun-cyan/10 text-Sukoun-cyan flex h-6 w-6 items-center justify-center rounded-full">
                                         E
                                     </div>
                                     Employee John

@@ -52,12 +52,12 @@ file_put_contents($arFile, json_encode($arData, JSON_PRETTY_PRINT | JSON_UNESCAP
 
 echo "Arabic Localization Injector Complete: Added $count new structural terms directly to ar.json arrays safely.\n";
 
-// Replace 'Dion' with 'Noble Architecture' strictly using PHP's UTF-8 Safe Regex without BOM issues
+// Replace 'Dion' with 'Sukoun Albunyan' strictly using PHP's UTF-8 Safe Regex without BOM issues
 $files = glob(__DIR__ . '/../resources/lang/*.json');
 foreach ($files as $f) {
     $c = file_get_contents($f);
     if(strpos($c, 'Dion') !== false) {
-        $c = str_replace(['Dion', 'DION', 'dion'], ['Noble Architecture', 'Noble Architecture', 'noble architecture'], $c);
+        $c = str_replace(['Dion', 'DION', 'dion'], ['Sukoun Albunyan', 'Sukoun Albunyan', 'Sukoun Albunyan'], $c);
         file_put_contents($f, $c);
     }
 }
@@ -65,10 +65,10 @@ $pkgFiles = glob(__DIR__ . '/../packages/noble/*/src/Resources/lang/*.json');
 foreach ($pkgFiles as $f) {
     $c = file_get_contents($f);
     if(strpos($c, 'Dion') !== false) {
-        $c = str_replace(['Dion', 'DION', 'dion'], ['Noble Architecture', 'Noble Architecture', 'noble architecture'], $c);
+        $c = str_replace(['Dion', 'DION', 'dion'], ['Sukoun Albunyan', 'Sukoun Albunyan', 'Sukoun Albunyan'], $c);
         file_put_contents($f, $c);
     }
 }
-echo "Branding Alignment (Dion => Noble Architecture) natively applied across JSON structures maintaining precise UTF-8 buffer integrity.\n";
+echo "Branding Alignment (Dion => Sukoun Albunyan) natively applied across JSON structures maintaining precise UTF-8 buffer integrity.\n";
 
 ?>

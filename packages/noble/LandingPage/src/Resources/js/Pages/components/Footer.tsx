@@ -11,7 +11,7 @@ export default function Footer({ settings }: FooterProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const sectionData = settings?.config_sections?.sections?.footer || {};
-    const companyName = settings?.company_name || 'Noble Architecture';
+    const companyName = settings?.company_name || 'Sukoun Albunyan';
     const description = sectionData.description || 'The complete business management solution for modern enterprises.';
     const contactEmail = settings?.contact_email || 'support@dion.sy';
     const newsletterButtonText = sectionData.newsletter_button_text || 'Subscribe';

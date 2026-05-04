@@ -6,21 +6,25 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import InputError from '@/components/ui/input-error';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Crown, Building2 } from 'lucide-react';
+import { Crown, Building2, Key, Calculator, Package } from 'lucide-react';
 
 import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
 import { usePageButtons } from '@/hooks/usePageButtons';
 
-const DEMO_COMPANY_EMAIL = 'admin@noblearchitecture.net';
-const DEMO_SUPER_ADMIN_EMAIL = 'superadmin@noblearchitecture.net';
+const DEMO_COMPANY_EMAIL = 'admin@sukounalbunyan.net';
+const DEMO_SUPER_ADMIN_EMAIL = 'superadmin@sukounalbunyan.net';
+const DEMO_RENTAL_EMAIL = 'rental@sukounalbunyan.net';
+const DEMO_ACCOUNTANT_EMAIL = 'accountant@sukounalbunyan.net';
+const DEMO_WAREHOUSE_EMAIL = 'warehouse@sukounalbunyan.net';
+const DEMO_HRM_EMAIL = 'hrm@sukounalbunyan.net';
 const DEMO_PASSWORD = 'Nn@!23456';
 
 export default function Login({
     status,
     canResetPassword,
     enableRegistration,
-    isDemo = false,
+    isDemo = true,
 }: {
     status?: string;
     canResetPassword: boolean;
@@ -78,7 +82,7 @@ export default function Login({
 
     return (
         <AuthLayout
-            title={t('Noble Architecture Enterprise Platform')}
+            title={t('Sukoun Albunyan Enterprise Platform')}
             description={t('Enter your securely governed credentials to access the digital architecture')}
         >
             <Head title={t('Log in')} />
@@ -101,7 +105,7 @@ export default function Login({
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            placeholder={t('email@noble.dion.sy')}
+                            placeholder={t('email@sukoun.dion.sy')}
                             className="mt-1 w-full"
                         />
                         <InputError message={errors.email} />
@@ -216,18 +220,15 @@ export default function Login({
                     </div>
                 )}
 
-                {isDemo && (
-                    <div className="mt-5">
-                        <div className="flex items-center">
-                            <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
-                            <div className="mx-4 h-2 w-2 rotate-45 bg-foreground"></div>
-                            <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
-                        </div>
+                <div className="mt-5">
+                    <div className="flex items-center">
+                        <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
+                        <div className="mx-4 h-2 w-2 rotate-45 bg-foreground"></div>
+                        <div className="h-px flex-1 bg-muted dark:bg-muted"></div>
                     </div>
-                )}
+                </div>
 
-                {isDemo && (
-                    <div className="mt-8">
+                <div className="mt-8">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="h-px flex-1 bg-border/60"></div>
                             <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 whitespace-nowrap">
@@ -250,7 +251,7 @@ export default function Login({
                                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                                 </div>
                                 <div className="mt-2 min-w-0 text-start">
-                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Noble Commander')}</p>
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Sukoun Commander')}</p>
                                     <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Full Governance')}</p>
                                 </div>
                             </Button>
@@ -272,9 +273,80 @@ export default function Login({
                                     <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Platform Root Access')}</p>
                                 </div>
                             </Button>
-                        </div>
+
+                            <Button
+                                type="button"
+                                onClick={() => handleQuickLogin(DEMO_RENTAL_EMAIL, DEMO_PASSWORD)}
+                                disabled={processing}
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
+                            >
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Key className="h-3.5 w-3.5 text-amber-500" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-amber-500/50" />
+                                </div>
+                                <div className="mt-2 min-w-0 text-start">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Rental Manager')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Operations & Billing')}</p>
+                                </div>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                onClick={() => handleQuickLogin(DEMO_ACCOUNTANT_EMAIL, DEMO_PASSWORD)}
+                                disabled={processing}
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
+                            >
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Calculator className="h-3.5 w-3.5 text-blue-500" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500/50" />
+                                </div>
+                                <div className="mt-2 min-w-0 text-start">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Accountant')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Ledger & Finance')}</p>
+                                </div>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                onClick={() => handleQuickLogin(DEMO_WAREHOUSE_EMAIL, DEMO_PASSWORD)}
+                                disabled={processing}
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
+                            >
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Package className="h-3.5 w-3.5 text-emerald-500" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500/50" />
+                                </div>
+                                <div className="mt-2 min-w-0 text-start">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Warehouse Lead')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Stock & Logistics')}</p>
+                                </div>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                onClick={() => handleQuickLogin(DEMO_HRM_EMAIL, DEMO_PASSWORD)}
+                                disabled={processing}
+                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
+                            >
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
+                                        <Building2 className="h-3.5 w-3.5 text-rose-500" />
+                                    </div>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-rose-500/50" />
+                                </div>
+                                <div className="mt-2 min-w-0 text-start">
+                                    <p className="text-[12px] font-bold text-foreground truncate">{t('HRM Manager')}</p>
+                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('People & Payroll')}</p>
+                                </div>
+                            </Button>
                     </div>
-                )}
+                </div>
             </form>
         </AuthLayout>
     );

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Noble Architecture — Root Entry Point
+ * Sukoun Albunyan — Root Entry Point
  * Redirects all requests to public/index.php (Laravel entry point)
  * Required for Hostinger shared hosting where document root = public_html/
  */

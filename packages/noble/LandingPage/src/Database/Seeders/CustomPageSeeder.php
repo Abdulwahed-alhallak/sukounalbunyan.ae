@@ -16,7 +16,7 @@ class CustomPageSeeder extends Seeder
                 'content' => '<div class="space-y-8">
                     <div class="text-center">
                         <h2 class="text-3xl font-bold text-gray-900 mb-4">Empowering Business Growth</h2>
-                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Noble Architecture is dedicated to providing robust business solutions that help companies streamline their operations and achieve sustainable growth.</p>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Sukoun Albunyan is dedicated to providing robust business solutions that help companies streamline their operations and achieve sustainable growth.</p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -149,7 +149,7 @@ class CustomPageSeeder extends Seeder
                     <div class="space-y-6">
                         <div class="bg-white border rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-3">What isNobleArchitecture?</h3>
-                            <p class="text-gray-600 leading-relaxed">Noble Architecture is a comprehensive business management platform that helps companies streamline their operations, manage projects, and improve productivity through integrated tools and modules.</p>
+                            <p class="text-gray-600 leading-relaxed">Sukoun Albunyan is a comprehensive business management platform that helps companies streamline their operations, manage projects, and improve productivity through integrated tools and modules.</p>
                         </div>
                         
                         <div class="bg-white border rounded-lg p-6">
@@ -164,7 +164,7 @@ class CustomPageSeeder extends Seeder
                         
                         <div class="bg-white border rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-3">Can I customize the platform?</h3>
-                            <p class="text-gray-600 leading-relaxed">Yes! Noble Architecture offers extensive customization options including custom fields, workflows, dashboards, and integrations with third-party tools.</p>
+                            <p class="text-gray-600 leading-relaxed">Yes! Sukoun Albunyan offers extensive customization options including custom fields, workflows, dashboards, and integrations with third-party tools.</p>
                         </div>
                     </div>
                     

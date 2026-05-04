@@ -1,6 +1,6 @@
 # Recommended Workflows and Skills
 
-Execution guide for the Noble Architecture roadmap.
+Execution guide for the Sukoun Albunyan roadmap.
 
 ## Wave 0 (Foundation)
 - **Workflow:** `architecture-stabilization`

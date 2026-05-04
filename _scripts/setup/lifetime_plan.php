@@ -34,7 +34,7 @@ if ($user && $plan) {
         $workspace->save();
     }
 
-    echo "✅ Success: Noble Architecture Company upgraded to LIFETIME PLAN with ALL MODULES.\n";
+    echo "✅ Success: Sukoun Albunyan Company upgraded to LIFETIME PLAN with ALL MODULES.\n";
 } else {
     echo "❌ Error: Could not find user or plan.\n";
 }

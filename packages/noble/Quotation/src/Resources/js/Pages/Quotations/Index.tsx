@@ -24,6 +24,7 @@ import {
     RefreshCw,
     Copy,
     PlusCircle,
+    Briefcase,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FilterButton } from '@/components/ui/filter-button';
@@ -353,6 +354,27 @@ export default function Index() {
                                               </TooltipContent>
                                           </Tooltip>
                                       )
+                                  )}
+                                  {quotation.status === 'accepted' && !quotation.converted_to_rental && (
+                                      <Tooltip delayDuration={0}>
+                                          <TooltipTrigger asChild>
+                                              <Button
+                                                  variant="ghost"
+                                                  size="sm"
+                                                  onClick={() => {
+                                                      if (confirm(t('Are you sure you want to convert this quotation to a rental contract?'))) {
+                                                          router.post(route('rental.from-quotation', quotation.id));
+                                                      }
+                                                  }}
+                                                  className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700"
+                                              >
+                                                  <Briefcase className="h-4 w-4" />
+                                              </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                              <p>{t('Convert to Rental')}</p>
+                                          </TooltipContent>
+                                      </Tooltip>
                                   )}
                                   {auth.user?.permissions?.includes('duplicate-quotations') && (
                                       <Tooltip delayDuration={0}>

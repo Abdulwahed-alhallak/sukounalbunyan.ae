@@ -1,0 +1,23 @@
+{
+    "Items returned successfully. Rent calculation updated.": "Items returned successfully. Rent calculation updated.",
+    "All materials returned. Contract has been closed.": "All materials returned. Contract has been closed.",
+    "All remaining items returned successfully. Contract closed.": "All remaining items returned successfully. Contract closed.",
+    "Contract renewed successfully. Billing cycle reset.": "Contract renewed successfully. Billing cycle reset.",
+    "Only draft contracts can be activated.": "Only draft contracts can be activated.",
+    "Contract activated and inventory deducted.": "Contract activated and inventory deducted.",
+    "Quotation converted to rental contract successfully.": "Quotation converted to rental contract successfully.",
+    "Rental contract deleted successfully.": "Rental contract deleted successfully.",
+    "Return quantity exceeds remaining custody quantity (:qty).": "Return quantity exceeds remaining custody quantity (:qty).",
+    "Scan QR": "Scan QR",
+    "Process Scan": "Process Scan",
+    "Nothing to invoice (Rent: 0, Damage Fees: 0).": "Nothing to invoice (Rent: 0, Damage Fees: 0).",
+    "Invoice generated from rental contract. Balance updated.": "Invoice generated from rental contract. Balance updated.",
+    "Invalid QR code or contract not found.": "Invalid QR code or contract not found.",
+    "Return Receipt": "Return Receipt",
+    "Logistics Note": "Logistics Note",
+    "Rental Contract": "Rental Contract",
+    "Print Labels": "Print Labels",
+    "Download PDF": "Download PDF",
+    "Download Return PDF": "Download Return PDF",
+    "Download Logistics PDF": "Download Logistics PDF"
+}

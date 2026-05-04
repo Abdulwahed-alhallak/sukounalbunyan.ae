@@ -96,7 +96,7 @@ export default function Header({
                         <Input
                             value={getSectionData('header').company_name || ''}
                             onChange={(e) => updateSectionData('header', { company_name: e.target.value })}
-                            placeholder={t('Noble Architecture')}
+                            placeholder={t('Sukoun Albunyan')}
                         />
                     </div>
                     <div className="space-y-2">

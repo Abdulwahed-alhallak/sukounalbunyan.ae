@@ -10,7 +10,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from 'sonner';
 import { Suspense } from 'react';
 import axios from 'axios';
-import { NobleLoader } from '@/components/NobleLoader';
+import { SukounLoader } from '@/components/SukounLoader';
 
 // Silent CSRF token refresh
 const refreshToken = async () => {
@@ -105,7 +105,7 @@ createInertiaApp({
         } else {
             customTitle = pageProps?.adminAllSetting?.titleText;
         }
-        const appName = customTitle || import.meta.env.VITE_APP_NAME || 'Noble Architecture';
+        const appName = customTitle || import.meta.env.VITE_APP_NAME || 'Sukoun Albunyan';
         return `${title} - ${appName}`;
     },
     resolve: (name) => {
@@ -136,7 +136,7 @@ createInertiaApp({
 
         root.render(
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-                <Suspense fallback={<NobleLoader />}>
+                <Suspense fallback={<SukounLoader />}>
                     <App {...props} />
                 </Suspense>
                 <Toaster position="top-center" richColors dir="auto" />

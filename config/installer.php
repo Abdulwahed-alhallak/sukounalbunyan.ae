@@ -6,7 +6,7 @@ return [
     | Server Requirements
     |--------------------------------------------------------------------------
     |
-    | This is the default Noble Architecture server requirements, you can add as many
+    | This is the default Sukoun Albunyan server requirements, you can add as many
     | as your application needs.
     |
     */
@@ -35,7 +35,7 @@ return [
     | Folders Permissions
     |--------------------------------------------------------------------------
     |
-    | This is the default Noble Architecture folders permissions, if your application
+    | This is the default Sukoun Albunyan folders permissions, if your application
     | requires more permissions just add them to the list below.
     |
     */
@@ -52,7 +52,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This are the default form field validation rules. Available Rules:
-    | https://noble.dion.sy/docs/validation#available-validation-rules
+    | https://sukon.dion.sy/docs/validation#available-validation-rules
     |
     */
     'environment' => [

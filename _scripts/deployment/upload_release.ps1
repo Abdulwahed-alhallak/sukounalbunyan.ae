@@ -1,5 +1,5 @@
 # ============================================================
-# NOBLE ARCHITECTURE - DIRECT SFTP BYPASS UPLOAD
+# Sukoun Albunyan - DIRECT SFTP BYPASS UPLOAD
 # ============================================================
 # Use this when GitHub PAT tokens fail and you need a direct physical upload.
 

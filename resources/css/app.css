@@ -555,7 +555,7 @@
         background: hsl(var(--background));
     }
     
-    /* Noble Glass — Premium Glassmorphism */
+    /* Sukoun Glass — Premium Glassmorphism */
     .geist-glass {
         @apply bg-background/90 backdrop-blur-xl border-border/50;
         box-shadow: var(--shadow-surface);
@@ -996,4 +996,9 @@
 /* ─── Premium Glass Separator ─── */
 .glass-separator {
     @apply h-px w-full bg-gradient-to-r from-transparent via-border/50 to-transparent;
+}
+
+/* ─── Custom Dynamic Utilities ─── */
+.animate-delay {
+    animation-delay: var(--delay, 0ms) !important;
 }

@@ -1,5 +1,5 @@
 // ***********************************************************
-// Noble Architecture — Cypress E2E Support File
+// Sukoun Albunyan — Cypress E2E Support File
 // Global commands and utilities for production testing
 // ***********************************************************
 

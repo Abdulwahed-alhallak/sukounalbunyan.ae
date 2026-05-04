@@ -15,6 +15,7 @@ import {
     ShieldCheck,
     BarChart3,
     Globe,
+    RotateCcw,
 } from 'lucide-react';
 import { NavItem } from '@/types';
 
@@ -22,11 +23,22 @@ export const getSuperAdminMenu = (t: (key: string) => string): NavItem[] => [
     // ─── DASHBOARD ───
     {
         title: t('Dashboard'),
-        href: route('dashboard'),
         icon: LayoutGrid,
         permission: 'manage-dashboard',
         name: 'dashboard',
         order: 100,
+        children: [
+            {
+                title: t('Overview'),
+                href: route('dashboard'),
+                permission: 'manage-dashboard',
+            },
+            {
+                title: t('Rental Management'),
+                href: '/rental',
+                permission: 'manage-rentals',
+            },
+        ],
     },
 
     // ─── MANAGEMENT ───

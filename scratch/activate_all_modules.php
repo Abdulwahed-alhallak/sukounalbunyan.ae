@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-// Noble Architecture — Full Module & Plan Activation Script v2
+// Sukoun Albunyan — Full Module & Plan Activation Script v2
 // ============================================================
 
 use App\Models\User;

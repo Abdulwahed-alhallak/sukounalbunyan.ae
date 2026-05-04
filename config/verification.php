@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'system' => 'Noble Architecture',
+    'system' => 'Sukoun Albunyan',
     'system_version' => '9.0',
 ];
 

@@ -25,7 +25,7 @@ class LandingPageSettingSeeder extends Seeder
     private function getDefaultSettings(): array
     {
         return [
-            'company_name' => 'Noble Architecture',
+            'company_name' => 'Sukoun Albunyan',
             'contact_email' => 'support@dion.sy',
             'contact_phone' => '+1 (555) 123-4567',
             'contact_address' => '123 Business Ave, City, State 12345',
@@ -49,17 +49,17 @@ class LandingPageSettingSeeder extends Seeder
             'hero' => [
                 'variant' => 'hero1',
                 'title' => 'The Complete Cloud ERP Platform for Modern Enterprises',
-                'subtitle' => 'Streamline your entire business lifecycle, from finance to operations, with Noble Architecture. One platform, infinite possibilities.',
+                'subtitle' => 'Streamline your entire business lifecycle, from finance to operations, with Sukoun Albunyan. One platform, infinite possibilities.',
                 'primary_button_text' => 'Start Free Trial',
                 'primary_button_link' => \Route::has('register') ? route('register') : '/register',
                 'secondary_button_text' => 'Login',
                 'secondary_button_link' => \Route::has('login') ? route('login') : '/login',
-                'highlight_text' => 'Noble Architecture',
+                'highlight_text' => 'Sukoun Albunyan',
                 'image' => 'packages/noble/LandingPage/src/Resources/assets/img/hero.png'
             ],
             'header' => [
                 'variant' => 'header1',
-                'company_name' => 'Noble Architecture',
+                'company_name' => 'Sukoun Albunyan',
                 'cta_text' => 'Get Started',
                 'enable_pricing_link' => true,
                 'navigation_items' => [
@@ -168,7 +168,7 @@ class LandingPageSettingSeeder extends Seeder
             'footer' => [
                 'variant' => 'footer1',
                 'description' => 'The complete business management solution for modern enterprises.',
-                'email' => 'support@Noble Architecturesaas.com',
+                'email' => 'support@Sukoun Albunyansaas.com',
                 'phone' => '+1 (555) 123-4567',
                 'newsletter_title' => 'Join Our Community',
                 'newsletter_description' => 'Subscribe to our newsletter for the latest business insights and updates.',

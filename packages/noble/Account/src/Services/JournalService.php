@@ -52,8 +52,15 @@ class JournalService
         $totalCredit = $salesInvoice->subtotal - $salesInvoice->discount_amount + ($salesInvoice->tax_amount ?? 0);
         $this->validateBalance($totalDebit, $totalCredit);
 
+        $revenueAccountCode = $salesInvoice->rental_contract_id ? '4120' : '4100';
+        $salesAccount = ChartOfAccount::where('account_code', $revenueAccountCode)->where('created_by', creatorId())->first();
+        
+        // Fallback to 4100 if 4120 doesn't exist
+        if (!$salesAccount && $revenueAccountCode === '4120') {
+            $salesAccount = ChartOfAccount::where('account_code', '4100')->where('created_by', creatorId())->first();
+        }
+
         $arAccount = ChartOfAccount::where('account_code', '1100')->where('created_by', creatorId())->first();
-        $salesAccount = ChartOfAccount::where('account_code', '4100')->where('created_by', creatorId())->first();
         $taxAccount = ChartOfAccount::where('account_code', '2210')->where('created_by', creatorId())->first();
 
         $journalEntry = JournalEntry::create([

@@ -28,6 +28,7 @@ class SalesInvoice extends Model
         'payment_terms',
         'notes',
         'project_id',
+        'rental_contract_id',
         'creator_id',
         'created_by'
     ];
@@ -43,7 +44,7 @@ class SalesInvoice extends Model
         'balance_amount' => 'decimal:2'
     ];
 
-    protected $appends = ['display_status'];
+    protected $appends = ['display_status', 'zatca_qr'];
 
     public function items(): HasMany
     {
@@ -70,6 +71,11 @@ class SalesInvoice extends Model
         return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
     }
 
+    public function rentalContract(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Rental\Models\RentalContract::class, 'rental_contract_id');
+    }
+
     public function paymentAllocations(): HasMany
     {
         return $this->hasMany(\Noble\Account\Models\CustomerPaymentAllocation::class, 'invoice_id');
@@ -91,6 +97,31 @@ class SalesInvoice extends Model
             return 'overdue';
         }
         return $this->status;
+    }
+
+    public function getZatcaQrAttribute()
+    {
+        if (!class_exists(\App\Services\ZatcaQRService::class)) {
+            return '';
+        }
+
+        if (function_exists('getCompanyAllSetting')) {
+            $settings = getCompanyAllSetting($this->created_by);
+            $companyName = $settings['company_name'] ?? 'Sukoun Albunyan';
+            $vatNumber = $settings['vat_number'] ?? '310122393500003';
+        } else {
+            $companyName = 'Sukoun Albunyan';
+            $vatNumber = '310122393500003';
+        }
+
+        return \App\Services\ZatcaQRService::generate(
+            $companyName,
+            $vatNumber,
+            $this->invoice_date ?? $this->created_at,
+            $this->total_amount,
+            $this->tax_amount,
+            true // return base64 string for img src
+        );
     }
 
     protected static function boot()

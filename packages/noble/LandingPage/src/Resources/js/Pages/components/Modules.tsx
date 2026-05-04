@@ -4,7 +4,7 @@ export default function Modules({ settings }: ModulesProps) {
     const title = sectionData.title || 'Core Modules';
     const subtitle =
         sectionData.subtitle ||
-        'Noble Architecture is built with a modular architecture, allowing you to activate only what you need.';
+        'Sukoun Albunyan is built with a modular architecture, allowing you to activate only what you need.';
 
     const defaultModules = [
         {

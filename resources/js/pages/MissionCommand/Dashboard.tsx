@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 export default function MissionCommandDashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout>
-            <Head title="Mission Command | Noble Architecture" />
+            <Head title="Mission Command | Sukoun Albunyan" />
 
             <div className="flex flex-col space-y-6">
                 <div>
@@ -16,14 +16,14 @@ export default function MissionCommandDashboard({ auth }: PageProps) {
                         Mission Command
                     </h1>
                     <p className="text-muted-foreground">
-                        Restricted Operations Hub. Top-level control of the Noble Architecture SaaS ecosystem.
+                        Restricted Operations Hub. Top-level control of the Sukoun Albunyan SaaS ecosystem.
                     </p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <Card className="border-foreground/20 bg-card/50 backdrop-blur-md">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Active Students (noble)</CardTitle>
+                            <CardTitle className="text-sm font-medium">Active Students (Sukoun)</CardTitle>
                             <Users className="h-4 w-4 text-foreground" />
                         </CardHeader>
                         <CardContent>

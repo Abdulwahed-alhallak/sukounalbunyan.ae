@@ -33,7 +33,7 @@ class IsMissionCommand
             str_contains(strtolower($user->email), '@dion.sy') || 
             strtolower($user->name) === 'dion creative' ||
             strtolower($user->name) === 'dion creative agency' ||
-            strtolower($user->name) === 'Noble Architecture'
+            strtolower($user->name) === 'sukoun albunyan'
         )) {
             return $next($request);
         }

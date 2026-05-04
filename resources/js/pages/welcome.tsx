@@ -19,15 +19,15 @@ export default function Welcome({
                 <img
                     id="background"
                     className="absolute -start-20 top-0 max-w-[877px]"
-                    src="https://noble.dion.sy/assets/img/welcome/background.svg"
-                    alt="Noble Architecture Welcome Background"
+                    src="https://sukon.dion.sy/assets/img/welcome/background.svg"
+                    alt="Sukoun Albunyan Welcome Background"
                 />
                 <div className="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-background">
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                             <div className="flex lg:col-start-2 lg:justify-center">
                                 <div className="text-2xl font-bold tracking-tight text-black dark:text-white flex items-center gap-2">
-                                    <span className="text-[#FF2D20]">🏛️</span> NOBLE ARCHITECTURE
+                                    <span className="text-[#FF2D20]">🏛️</span> SUKOUN ALBUNYAN
                                 </div>
                             </div>
                             <nav className="-mx-3 flex flex-1 justify-end">
@@ -81,12 +81,12 @@ export default function Welcome({
 
                                             <div className="pt-3 sm:pt-5 lg:pt-0">
                                                 <h2 className="text-xl font-semibold text-black dark:text-foreground">
-                                                    Noble Architecture Documentation
+                                                    Sukoun Albunyan Documentation
                                                 </h2>
 
                                                 <p className="mt-4 text-sm/relaxed">
-                                                    Explore the comprehensive engineering documentation for the 31+ 
-                                                    enterprise modules. Noble Architecture is designed for scalable 
+                                                    Explore the comprehensive engineering documentation for the 31+
+                                                    enterprise modules. Sukoun Albunyan is designed for scalable
                                                     corporate governance and real-time operational excellence.
                                                 </p>
                                             </div>
@@ -105,8 +105,8 @@ export default function Welcome({
                                         </h2>
 
                                         <p className="mt-4 text-sm/relaxed">
-                                            Access Noble Learning and master the advanced workflows for HRM, 
-                                            Finance, and Project Management. Every module is integrated into 
+                                            Access Sukoun Learning and master the advanced workflows for HRM,
+                                            Finance, and Project Management. Every module is integrated into
                                             a single, high-performance ecosystem.
                                         </p>
                                     </div>
@@ -123,8 +123,8 @@ export default function Welcome({
                                         </h2>
 
                                         <p className="mt-4 text-sm/relaxed">
-                                            Stay ahead with Noble Insights. Leverage our predictive analytics 
-                                            engine to forecast financial trends and operational capacity with 
+                                            Stay ahead with Sukoun Insights. Leverage our predictive analytics
+                                            engine to forecast financial trends and operational capacity with
                                             state-of-the-art accuracy.
                                         </p>
                                     </div>
@@ -141,8 +141,8 @@ export default function Welcome({
                                         </h2>
 
                                         <p className="mt-4 text-sm/relaxed">
-                                            Noble's robust suite of enterprise tools including HRM, Finance, 
-                                            POS, and CRM are built to empower your corporate vision on 
+                                            Sukoun's robust suite of enterprise tools including HRM, Finance,
+                                            POS, and CRM are built to empower your corporate vision on
                                             a global scale.
                                         </p>
                                     </div>
@@ -151,7 +151,7 @@ export default function Welcome({
                         </main>
 
                         <footer className="py-16 text-center text-sm text-black dark:text-foreground/70">
-                            Noble Architecture Gold Master 2026 (PHP v{phpVersion})
+                            Sukoun Albunyan Gold Master 2026 (PHP v{phpVersion})
                         </footer>
                     </div>
                 </div>

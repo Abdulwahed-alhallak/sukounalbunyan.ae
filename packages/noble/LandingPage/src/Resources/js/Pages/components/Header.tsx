@@ -13,7 +13,7 @@ export default function Header({ settings }: HeaderProps) {
     const sectionData = settings?.config_sections?.sections?.header || {};
 
     // AlwaysNobleArchitecture
-    const companyName = 'Noble Architecture';
+    const companyName = 'Sukoun Albunyan';
     const isAuthenticated = settings?.is_authenticated;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

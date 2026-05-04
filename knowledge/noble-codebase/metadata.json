@@ -1,6 +1,6 @@
 {
-  "title": "Noble Architecture - Complete Codebase Map",
-  "summary": "Full structural audit of the Noble Architecture SaaS platform. Covers tech stack, 49+ core models, 50+ events, 12 services, 28 SaaS packages, 60 UI primitives, and 37 core pages. Includes deep dives into Models, Infrastructure, Services, Frontend, CRM, and the newly added AIAssistant (AI-First multi-provider gateway) with database-driven prompt management.",
+  "title": "Sukoun Albunyan - Complete Codebase Map",
+  "summary": "Full structural audit of the Sukoun Albunyan SaaS platform. Covers tech stack, 49+ core models, 50+ events, 12 services, 28 SaaS packages, 60 UI primitives, and 37 core pages. Includes deep dives into Models, Infrastructure, Services, Frontend, CRM, and the newly added AIAssistant (AI-First multi-provider gateway) with database-driven prompt management.",
   "created": "2024-04-14T02:30:00Z",
   "updated": "2026-04-15T21:52:45Z",
   "references": [

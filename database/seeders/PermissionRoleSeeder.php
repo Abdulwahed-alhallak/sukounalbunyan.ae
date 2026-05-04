@@ -37,7 +37,7 @@ class PermissionRoleSeeder extends Seeder
         $company = User::firstOrCreate(
             ['email' => 'admin@noblearchitecture.net'],
             [
-                'name' => 'Noble Architecture',
+                'name' => 'Sukoun Albunyan',
                 'email_verified_at' => now(),
                 'password' => Hash::make('Nn@!23456'),
                 'mobile_no' => '1234567890',
@@ -264,6 +264,13 @@ class PermissionRoleSeeder extends Seeder
             ['name' => 'accept-sales-proposals', 'module' => 'sales-proposals', 'label' => 'Accept Sales Proposals'],
             ['name' => 'convert-sales-proposals', 'module' => 'sales-proposals', 'label' => 'Convert Sales Proposals'],
             ['name' => 'reject-sales-proposals', 'module' => 'sales-proposals', 'label' => 'Reject Sales Proposals'],
+
+            // Rental management
+            ['name' => 'manage-rentals', 'module' => 'rental', 'label' => 'Manage Rental Contracts'],
+            ['name' => 'create-rentals', 'module' => 'rental', 'label' => 'Create Rental Contracts'],
+            ['name' => 'edit-rentals', 'module' => 'rental', 'label' => 'Edit Rental Contracts'],
+            ['name' => 'delete-rentals', 'module' => 'rental', 'label' => 'Delete Rental Contracts'],
+            ['name' => 'view-rentals', 'module' => 'rental', 'label' => 'View Rental Contracts'],
         ];
 
         $roles = [
@@ -310,6 +317,7 @@ class PermissionRoleSeeder extends Seeder
                     'manage-sales-invoices', 'manage-any-sales-invoices', 'manage-own-sales-invoices', 'view-sales-invoices', 'create-sales-invoices', 'edit-sales-invoices', 'delete-sales-invoices', 'post-sales-invoices', 'print-sales-invoices',
                     'manage-sales-return-invoices','manage-any-sales-return-invoices','manage-own-sales-return-invoices','view-sales-return-invoices','create-sales-return-invoices','delete-sales-return-invoices','approve-sales-returns-invoices', 'complete-sales-returns-invoices',
                     'manage-sales-proposals','manage-any-sales-proposals','manage-own-sales-proposals','view-sales-proposals','create-sales-proposals','edit-sales-proposals','delete-sales-proposals','print-sales-proposals','sent-sales-proposals','accept-sales-proposals','convert-sales-proposals','reject-sales-proposals',
+                    'manage-rentals', 'create-rentals', 'edit-rentals', 'delete-rentals', 'view-rentals',
                 ]
             ]
         ];

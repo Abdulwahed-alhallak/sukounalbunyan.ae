@@ -1,6 +1,6 @@
 # Module Priority Matrix
 
-Classification and prioritization of the 28 Noble Architecture Enterprise Suites and core services.
+Classification and prioritization of the 28 Sukoun Albunyan Enterprise Suites and core services.
 
 | Module | State | Priority | Next Action | Technical Risk | Reason |
 | :--- | :--- | :--- | :--- | :--- | :--- |

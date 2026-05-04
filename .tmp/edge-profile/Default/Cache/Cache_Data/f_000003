@@ -1,4 +1,4 @@
-import.meta.env = {"BASE_URL": "/", "DEV": true, "MODE": "development", "PROD": false, "SSR": false, "VITE_APP_NAME": "Noble Architecture"};import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=9184b225"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import.meta.env = {"BASE_URL": "/", "DEV": true, "MODE": "development", "PROD": false, "SSR": false, "VITE_APP_NAME": "Sukoun Albunyan"};import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=9184b225"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
 import "/resources/js/bootstrap.ts";
 import "/resources/css/app.css";
 import "/resources/css/rtl.css";
@@ -86,7 +86,7 @@ createInertiaApp({
     } else {
       customTitle = pageProps?.adminAllSetting?.titleText;
     }
-    const appName = customTitle || import.meta.env.VITE_APP_NAME || "Noble Architecture";
+    const appName = customTitle || import.meta.env.VITE_APP_NAME || "Sukoun Albunyan";
     return `${title} - ${appName}`;
   },
   resolve: (name) => {

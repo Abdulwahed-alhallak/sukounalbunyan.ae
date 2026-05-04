@@ -141,13 +141,19 @@
             </td>
             <td class="invoice-details">
                 <h1 class="invoice-title">INVOICE</h1>
-                <strong># {{ $invoice->invoice_id ?? 'INV-0000000' }}</strong><br><br>
-                Date: {{ $invoice->issue_date ?? date('Y-m-d') }}<br>
+                <strong># {{ $invoice->invoice_id ?? $invoice->invoice_number ?? 'INV-0000000' }}</strong><br><br>
+                Date: {{ $invoice->invoice_date ?? $invoice->issue_date ?? date('Y-m-d') }}<br>
                 Due Date: {{ $invoice->due_date ?? date('Y-m-d') }}<br>
                 <br>
                 <div class="status-badge status-{{ strtolower($invoice->status ?? 'unpaid') }}">
                     {{ strtoupper($invoice->status ?? 'UNPAID') }}
                 </div>
+                
+                @if(isset($invoice->zatca_qr) && !empty($invoice->zatca_qr))
+                    <div style="margin-top: 20px;">
+                        <img src="{{ $invoice->zatca_qr }}" style="width: 100px; height: 100px;" alt="ZATCA QR Code">
+                    </div>
+                @endif
             </td>
         </tr>
     </table>

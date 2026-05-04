@@ -4,7 +4,7 @@ const { Client } = require('ssh2');
 const CONFIG = require('../deployment/secureConfig.cjs');
 
 console.log('===================================================');
-console.log('🔍 NOBLE ARCHITECTURE - PRODUCTION SANITY CHECK');
+console.log('🔍 Sukoun Albunyan - PRODUCTION SANITY CHECK');
 console.log('===================================================\n');
 
 async function checkUrl(url) {

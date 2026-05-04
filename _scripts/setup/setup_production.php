@@ -14,7 +14,7 @@ $kernel->bootstrap();
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-echo "--- Noble Architecture Production Setup ---\n";
+echo "--- Sukoun Albunyan Production Setup ---\n";
 
 $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 

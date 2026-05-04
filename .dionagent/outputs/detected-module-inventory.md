@@ -1,6 +1,6 @@
 # Detected Module Inventory
 
-The Noble Architecture ecosystem consists of 28 enterprise modules, each functioning as a self-contained suite within the `packages/noble/` directory.
+The Sukoun Albunyan ecosystem consists of 28 enterprise modules, each functioning as a self-contained suite within the `packages/noble/` directory.
 
 ## Core Suites
 

@@ -1,4 +1,4 @@
-# Noble Architecture — AIAssistant Module Deep Dive
+# Sukoun Albunyan — AIAssistant Module Deep Dive
 
 ## 1. AI Orchestration (`AIService.php`)
 

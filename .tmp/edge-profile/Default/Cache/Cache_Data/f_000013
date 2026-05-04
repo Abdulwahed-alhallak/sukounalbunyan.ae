@@ -80,7 +80,7 @@ export default function Login({
   return /* @__PURE__ */ jsxDEV(
     AuthLayout,
     {
-      title: t("Noble Architecture Enterprise Platform"),
+      title: t("Sukoun Albunyan Enterprise Platform"),
       description: t("Enter your securely governed credentials to access the digital architecture"),
       children: [
         /* @__PURE__ */ jsxDEV(Head, { title: t("Log in") }, void 0, false, {

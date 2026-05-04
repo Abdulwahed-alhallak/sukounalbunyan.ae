@@ -12,10 +12,10 @@ $settings = [
     'logo_dark' => 'logo_dark.png',
     'logo_light' => 'logo_light.png',
     'favicon' => 'favicon.png',
-    'titleText' => 'Noble Architecture',
-    'footerText' => 'Copyright © 2026 Noble Architecture SaaS',
-    'metaTitle' => 'Noble Architecture - All-in-One Business Management',
-    'metaKeywords' => 'Noble Architecture, ERP, CRM, HRM, Accounting, POS, Project Management',
+    'titleText' => 'Sukoun Albunyan',
+    'footerText' => 'Copyright © 2026 Sukoun Albunyan SaaS',
+    'metaTitle' => 'Sukoun Albunyan - All-in-One Business Management',
+    'metaKeywords' => 'Sukoun Albunyan, ERP, CRM, HRM, Accounting, POS, Project Management',
     'metaDescription' => 'Modern all-in-one business management platform.',
 ];
 

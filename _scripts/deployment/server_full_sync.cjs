@@ -1,5 +1,5 @@
 /**
- * Noble Architecture — Professional Server Sync & Cleanup
+ * Sukoun Albunyan — Professional Server Sync & Cleanup
  * Comprehensive script that:
  *  1. Syncs git to latest
  *  2. Verifies & uploads public/build (883 files)
@@ -47,7 +47,7 @@ const conn = new Client();
 const buildFiles = walkDir(LOCAL_BUILD);
 
 console.log('═══════════════════════════════════════════════════════');
-console.log('  🏛️  NOBLE ARCHITECTURE — FULL SERVER SYNC & CLEANUP');
+console.log('  🏛️  Sukoun Albunyan — FULL SERVER SYNC & CLEANUP');
 console.log('═══════════════════════════════════════════════════════\n');
 console.log(`📦 Local build: ${buildFiles.length} files`);
 console.log(`🔗 Connecting to 62.72.25.117:65002...\n`);

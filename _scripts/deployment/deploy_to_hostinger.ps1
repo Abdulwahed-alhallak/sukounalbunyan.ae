@@ -1,5 +1,5 @@
 # ============================================================
-# NOBLE ARCHITECTURE ERP - PRODUCTION DEPLOYMENT & SYNC PIPELINE
+# Sukoun Albunyan ERP - PRODUCTION DEPLOYMENT & SYNC PIPELINE
 # ============================================================
 # TARGET: noble.dion.sy (Hostinger)
 # MySQL Remote Push: srv1142.hstgr.io
@@ -30,7 +30,7 @@ if (!$PAT) {
 $REPO_URL = "https://x-access-token:$PAT@github.com/Abdulwahed-alhallak/nobel.dion.sy.git"
 
 git add .
-git commit -m "Auto-Deploy: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Noble Architecture Master Sync"
+git commit -m "Auto-Deploy: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Sukoun Albunyan Master Sync"
 git push $REPO_URL HEAD:main --force
 
 if ($LASTEXITCODE -ne 0) {

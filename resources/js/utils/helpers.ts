@@ -124,8 +124,8 @@ const getImagePath = (path: string, pageProps?: any): string => {
     }
     if (path.startsWith('http')) return path;
 
-    // If path already contains storage/media, just prepend domain (unless it's Noble Architecture path)
-    if (path.includes('storage/media') && !path.includes('packages/Noble Architecture/')) {
+    // If path already contains storage/media, just prepend domain (unless it's Sukoun Albunyan path)
+    if (path.includes('storage/media') && !path.includes('packages/noble Albunyan/')) {
         return path.startsWith('/') ? `${window.location.origin}${path}` : `${window.location.origin}/${path}`;
     }
 
@@ -147,11 +147,11 @@ const getImagePath = (path: string, pageProps?: any): string => {
                 ? imageUrlPrefix + 'storage/media/'
                 : imageUrlPrefix + '/storage/media/';
         }
-        // Detect Noble Architecture path
-        const isNobleArchitecturePath =
-            path.startsWith('packages/Noble Architecture/') || path.startsWith('/packages/noble/');
+        // Detect Sukoun Albunyan path
+        const isSukounArchitecturePath =
+            path.startsWith('packages/noble Albunyan/') || path.startsWith('/packages/noble/');
 
-        if (isNobleArchitecturePath) {
+        if (isSukounArchitecturePath) {
             // Strip storage/media if present in prefix
             imageUrlPrefix = imageUrlPrefix.replace(/\/?storage\/media\/?$/, '');
         } else if (!imageUrlPrefix.includes('storage/media')) {
@@ -174,14 +174,14 @@ const getImagePath = (path: string, pageProps?: any): string => {
         }
     } catch {
         let fallbackPrefix;
-        const isNobleArchitecturePath =
-            path.startsWith('packages/Noble Architecture/') || path.startsWith('/packages/noble/');
+        const isSukounArchitecturePath =
+            path.startsWith('packages/noble Albunyan/') || path.startsWith('/packages/noble/');
 
         // Split path and drop the last segment (current page)
         const segments = window.location.pathname.split('/').filter(Boolean);
         const basePath = segments.slice(0, -1).join('/'); // everything except the last part
 
-        if (isNobleArchitecturePath) {
+        if (isSukounArchitecturePath) {
             fallbackPrefix = `${window.location.origin}/${basePath}/`;
         } else {
             fallbackPrefix = `${window.location.origin}/${basePath}/storage/media/`;

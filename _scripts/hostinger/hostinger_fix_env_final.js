@@ -2,7 +2,7 @@ import { Client } from 'ssh2';
 
 const conn = new Client();
 
-const CORRECT_ENV = `APP_NAME="Noble Architecture"
+const CORRECT_ENV = `APP_NAME="Sukoun Albunyan"
 APP_ENV=production
 APP_KEY=base64:l/0a7fA6FBBACDOShPl7G1CjfZOQli7qF1g0B2mPcIc=
 APP_DEBUG=false

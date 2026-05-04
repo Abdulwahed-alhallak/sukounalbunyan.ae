@@ -1,6 +1,6 @@
 {
     "name": "noble-architecture",
-    "description": "Noble Architecture Central Command & Enterprise Modular Ecosystem",
+    "description": "Sukoun Albunyan Central Command & Enterprise Modular Ecosystem",
     "private": true,
     "type": "module",
     "scripts": {
@@ -76,6 +76,7 @@
         "date-fns": "^3.6.0",
         "framer-motion": "^12.38.0",
         "html2pdf.js": "^0.14.0",
+        "html5-qrcode": "^2.3.8",
         "i18next": "^25.3.6",
         "i18next-browser-languagedetector": "^8.2.0",
         "i18next-http-backend": "^3.0.2",

@@ -571,7 +571,7 @@ if (!function_exists('SetConfigEmail')) {
                 'mail.mailers.smtp.encryption' => $company_settings['email_encryption'] ?? 'tls',
                 'mail.mailers.smtp.username' => $company_settings['email_username'] ?? '',
                 'mail.mailers.smtp.password' => $company_settings['email_password'] ?? '',
-                'mail.from.address' => $company_settings['email_fromAddress'] ?? 'noreply@noble.dion.sy',
+                'mail.from.address' => $company_settings['email_fromAddress'] ?? 'noreply@sukon.dion.sy',
             ]);
             return true;
         } catch (\Exception $e) {

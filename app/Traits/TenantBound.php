@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Noble Architecture — Tenant Boundaries Trait
+ * Sukoun Albunyan — Tenant Boundaries Trait
  * Automatically assigns creator_id and created_by to models upon creation.
  * Ensures data isolation across the enterprise ecosystem via TenantScope.
  */

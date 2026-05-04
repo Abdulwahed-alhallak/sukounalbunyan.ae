@@ -1,0 +1,25 @@
+{
+    "name": "noble/rental",
+    "description": "Smart Scaffolding Rental Module for Sukoun Albunyan",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Noble\\Rental\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sukoun Albunyan",
+            "email": "support@noble.io"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noble\\Rental\\Providers\\RentalServiceProvider"
+            ]
+        }
+    }
+}

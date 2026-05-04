@@ -33,7 +33,7 @@ if ($user && $plan) {
         $workspace->save();
     }
 
-    echo "✅ Success: NOBLE ARCHITECTURE HAS LIFETIME ACCESS TO ALL MODULES.\\n";
+    echo "✅ Success: Sukoun Albunyan HAS LIFETIME ACCESS TO ALL MODULES.\\n";
 } else {
     echo "❌ Error: User or Plan not found.\\n";
 }
@@ -43,7 +43,7 @@ rm run_lifetime.php
 `;
 
 conn.on('ready', () => {
-    console.log('Hostinger SSH Connected. Upgrading Noble Architecture Workspace to LIFETIME...');
+    console.log('Hostinger SSH Connected. Upgrading Sukoun Albunyan Workspace to LIFETIME...');
     conn.exec(deployCommands, (err, stream) => {
         if (err) throw err;
         stream.on('close', (code, signal) => {

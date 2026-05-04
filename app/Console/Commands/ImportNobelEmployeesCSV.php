@@ -140,7 +140,7 @@ class ImportNobelEmployeesCSV extends Command
             }
             fclose($handle);
             DB::commit();
-            $this->info("Successfully imported {$count} distinct employee records into the Noble Architecture Database!");
+            $this->info("Successfully imported {$count} distinct employee records into the Sukoun Albunyan Database!");
 
         } catch (\Exception $e) {
             DB::rollBack();

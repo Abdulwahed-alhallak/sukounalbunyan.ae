@@ -323,7 +323,7 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                         id="termsConditionsUrl"
                                         value={settings.termsConditionsUrl}
                                         onChange={(e) => handleInputChange('termsConditionsUrl', e.target.value)}
-                                        placeholder="https://noble.dion.sy/legal-terms"
+                                        placeholder="https://sukon.dion.sy/legal-terms"
                                         disabled={!canEdit}
                                         className="vercel-input ps-10"
                                     />

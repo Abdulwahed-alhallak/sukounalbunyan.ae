@@ -18,9 +18,9 @@ $brand_settings = [
     'logo_dark' => 'logo_dark.png',
     'logo_light' => 'logo_light.png',
     'favicon' => 'favicon.png',
-    'titleText' => 'Noble Architecture',
-    'footerText' => 'Copyright © 2026 Noble Architecture SaaS',
-    'metaTitle' => 'Noble Architecture - All-in-One Business Management',
+    'titleText' => 'Sukoun Albunyan',
+    'footerText' => 'Copyright © 2026 Sukoun Albunyan SaaS',
+    'metaTitle' => 'Sukoun Albunyan - All-in-One Business Management',
 ];
 
 foreach ($brand_settings as $key => $value) {

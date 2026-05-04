@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 header('Content-Type: text/plain');
-echo "--- Noble Architecture Universal Fixer (Hostinger) ---\n\n";
+echo "--- Sukoun Albunyan Universal Fixer (Hostinger) ---\n\n";
 
 // 1. Fix .env values in memory
 echo "1. Validating DB settings... \n";

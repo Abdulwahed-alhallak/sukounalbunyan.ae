@@ -1,7 +1,7 @@
 # Detected Project Profile
 
 ## 1. Project Type
-Enterprise Modular SaaS Ecosystem (Noble Architecture).
+Enterprise Modular SaaS Ecosystem (Sukoun Albunyan).
 
 ## 2. Primary Languages
 - PHP (Backend)

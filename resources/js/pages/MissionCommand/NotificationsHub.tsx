@@ -56,7 +56,7 @@ export default function NotificationsHub() {
                                         </Label>
                                         <Input
                                             id="title"
-                                            placeholder="e.g. Welcome toNobleArchitecture"
+                                            placeholder="e.g. Welcome toSukounArchitecture"
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
                                             required
@@ -91,7 +91,7 @@ export default function NotificationsHub() {
                                         <Input
                                             id="image_url"
                                             type="url"
-                                            placeholder="https://noble.dion.sy/banner.jpg"
+                                            placeholder="https://sukon.dion.sy/banner.jpg"
                                             value={data.image_url}
                                             onChange={(e) => setData('image_url', e.target.value)}
                                             className="border-input/50 bg-background/50"
@@ -153,7 +153,7 @@ export default function NotificationsHub() {
                                                 D
                                             </div>
                                             <div className="text-xs font-medium tracking-wide text-muted-foreground/60">
-                                                Noble Architecture
+                                                Sukoun Albunyan
                                             </div>
                                             <div className="ms-auto text-[10px] text-muted-foreground">now</div>
                                         </div>

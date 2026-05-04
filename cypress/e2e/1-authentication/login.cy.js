@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 /**
- * Noble Architecture — Authentication Flow Tests (Production)
+ * Sukoun Albunyan — Authentication Flow Tests (Production)
  * Tests login, session management, and access control against the live domain
  */
 describe('Authentication — Login Flow', () => {

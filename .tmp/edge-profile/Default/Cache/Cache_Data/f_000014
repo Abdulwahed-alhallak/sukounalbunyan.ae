@@ -72,7 +72,7 @@ export default function AuthSimpleLayout({ children, title, description }) {
                     lineNumber: 77,
                     columnNumber: 33
                   }, this),
-                  /* @__PURE__ */ jsxDEV("span", { className: "font-semibold tracking-tight text-background", children: settings.titleText || "Noble Architecture" }, void 0, false, {
+                  /* @__PURE__ */ jsxDEV("span", { className: "font-semibold tracking-tight text-background", children: settings.titleText || "Sukoun Albunyan" }, void 0, false, {
                     fileName: "C:/Users/DION-SERVER/Desktop/noble.dion.sy_new/noble.dion.sy_new/resources/js/layouts/auth/auth-simple-layout.tsx",
                     lineNumber: 78,
                     columnNumber: 33
@@ -293,7 +293,7 @@ export default function AuthSimpleLayout({ children, title, description }) {
                   columnNumber: 21
                 }, this),
                 /* @__PURE__ */ jsxDEV("div", { className: "flex w-full items-center gap-3 pb-2 text-[13px] font-medium text-neutral-400", children: [
-                  /* @__PURE__ */ jsxDEV("p", { children: settings.footerText || `© ${(/* @__PURE__ */ new Date()).getFullYear()} Noble Architecture. All rights reserved.` }, void 0, false, {
+                  /* @__PURE__ */ jsxDEV("p", { children: settings.footerText || `© ${(/* @__PURE__ */ new Date()).getFullYear()} Sukoun Albunyan. All rights reserved.` }, void 0, false, {
                     fileName: "C:/Users/DION-SERVER/Desktop/noble.dion.sy_new/noble.dion.sy_new/resources/js/layouts/auth/auth-simple-layout.tsx",
                     lineNumber: 173,
                     columnNumber: 25
@@ -352,7 +352,7 @@ export default function AuthSimpleLayout({ children, title, description }) {
                     lineNumber: 198,
                     columnNumber: 33
                   }, this),
-                  /* @__PURE__ */ jsxDEV("span", { className: "font-semibold tracking-tight text-foreground", children: settings.titleText || "Noble Architecture" }, void 0, false, {
+                  /* @__PURE__ */ jsxDEV("span", { className: "font-semibold tracking-tight text-foreground", children: settings.titleText || "Sukoun Albunyan" }, void 0, false, {
                     fileName: "C:/Users/DION-SERVER/Desktop/noble.dion.sy_new/noble.dion.sy_new/resources/js/layouts/auth/auth-simple-layout.tsx",
                     lineNumber: 199,
                     columnNumber: 33
@@ -414,7 +414,7 @@ export default function AuthSimpleLayout({ children, title, description }) {
                   columnNumber: 21
                 }, this),
                 /* @__PURE__ */ jsxDEV("div", { className: "mt-10 text-center text-[13px] font-medium text-muted-foreground lg:hidden", children: [
-                  /* @__PURE__ */ jsxDEV("p", { children: settings.footerText || `© ${(/* @__PURE__ */ new Date()).getFullYear()} Noble Architecture. All rights reserved.` }, void 0, false, {
+                  /* @__PURE__ */ jsxDEV("p", { children: settings.footerText || `© ${(/* @__PURE__ */ new Date()).getFullYear()} Sukoun Albunyan. All rights reserved.` }, void 0, false, {
                     fileName: "C:/Users/DION-SERVER/Desktop/noble.dion.sy_new/noble.dion.sy_new/resources/js/layouts/auth/auth-simple-layout.tsx",
                     lineNumber: 220,
                     columnNumber: 25

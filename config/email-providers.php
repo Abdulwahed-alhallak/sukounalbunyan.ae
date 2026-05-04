@@ -4,7 +4,7 @@ return [
     'smtp' => [
         'name' => 'SMTP',
         'driver' => 'smtp',
-        'host' => 'smtp.noble.dion.sy',
+        'host' => 'smtp.sukon.dion.sy',
         'port' => '587',
         'encryption' => 'tls',
     ],

@@ -58,7 +58,7 @@ export default function Edit() {
     const [editorKey, setEditorKey] = useState(0);
 
     const templateForm = useForm({
-        from: emailTemplate.from || 'Noble Architecture',
+        from: emailTemplate.from || 'Sukoun Albunyan',
     });
 
     const contentForm = useForm({

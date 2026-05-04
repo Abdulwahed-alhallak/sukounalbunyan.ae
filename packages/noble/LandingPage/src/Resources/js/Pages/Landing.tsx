@@ -99,7 +99,7 @@ export default function Landing({ settings }: LandingProps) {
 
     return (
         <div className="min-h-screen bg-card">
-            <Head title={`${settings?.company_name || 'Noble Architecture'} - All-in-One Business Management Solution`}>
+            <Head title={`${settings?.company_name || 'Sukoun Albunyan'} - All-in-One Business Management Solution`}>
                 {faviconUrl && <link rel="icon" type="image/x-icon" href={faviconUrl} />}
             </Head>
 

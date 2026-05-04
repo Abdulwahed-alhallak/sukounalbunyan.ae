@@ -9,20 +9,15 @@ export function ApplicationLogo(props: SVGAttributes<SVGElement>) {
                     <stop offset="100%" stopColor="currentColor" stopOpacity="0.7" />
                 </linearGradient>
             </defs>
-            {/* Abstract Premium 'N' — Geometric Precision */}
-            <path 
-                d="M20 80L50 20L80 80" 
-                stroke="url(#geist-logo-gradient)" 
-                strokeWidth="12" 
-                strokeLinecap="square" 
+            {/* Geometric Sukoun 'S' — Stability & Flow */}
+            <path
+                d="M75 25H35C26.7157 25 20 31.7157 20 40C20 48.2843 26.7157 55 35 55H65C73.2843 55 80 61.7157 80 70C80 78.2843 73.2843 85 65 85H25"
+                stroke="url(#geist-logo-gradient)"
+                strokeWidth="12"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
-            <path 
-                d="M35 50H65" 
-                stroke="currentColor" 
-                strokeWidth="8" 
-                strokeOpacity="0.3"
-                className="animate-pulse"
-            />
+            <circle cx="50" cy="55" r="4" fill="currentColor" className="animate-pulse" />
         </svg>
     );
 }

@@ -226,6 +226,11 @@ const unifiedCategories = [
         matches: ['report-center', 'audit-logs'],
     },
     {
+        label: 'Rental Management',
+        icon: Briefcase,
+        matches: ['rental'],
+    },
+    {
         label: 'Settings & System',
         icon: Settings,
         matches: ['plan', 'subscription', 'media-library', 'settings', 'landingpage', 'googlecaptcha', 'add-ons'],
@@ -247,9 +252,14 @@ const itemMatchesCategory = (item: NavItem, category: any): boolean => {
 
 // Main hook to get filtered menu items
 export const useAllMenuItems = (): NavItem[] => {
-    const { auth } = usePage().props as PageProps;
+    const pageProps = usePage().props as PageProps;
     const { t } = useTranslation();
 
+    if (!pageProps || !pageProps.auth) {
+        return [];
+    }
+
+    const { auth } = pageProps;
     const userPermissions = auth?.user?.permissions || [];
     const userRoles = auth?.user?.roles || [];
     const activatedPackages = auth?.user?.activatedPackages || [];
