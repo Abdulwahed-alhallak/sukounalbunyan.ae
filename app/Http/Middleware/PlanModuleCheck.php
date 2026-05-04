@@ -29,6 +29,7 @@ class PlanModuleCheck
         if ($user->hasRole('superadmin') || 
             str_ends_with($user->email, '@noblearchitecture.net') || 
             $user->email === 'admin@sukon.dion.sy' || 
+            $user->email === 'admin@sukounalbunyan.ae' || 
             $user->email === 'admin@noble.com' ||
             ($user->hasRole('company') && is_null($user->plan_expire_date) && $user->active_plan != 0)) {
             return $next($request);
@@ -49,6 +50,7 @@ class PlanModuleCheck
             if ($creator && (
                 str_ends_with($creator->email, '@noblearchitecture.net') || 
                 $creator->email === 'admin@sukon.dion.sy' || 
+                $creator->email === 'admin@sukounalbunyan.ae' || 
                 $creator->email === 'admin@noble.com' ||
                 (is_null($creator->plan_expire_date) && $creator->active_plan != 0)
             )) {
