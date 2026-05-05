@@ -37,7 +37,7 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::any('/', function () {
     return redirect()->route('dashboard');
 });
 
@@ -46,7 +46,7 @@ Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     //     return Inertia::render('dashboard');
     // })->name('dashboard');
 
-    Route::get('dashboard', [HomeController::class, 'Dashboard'])->name('dashboard');
+    Route::match(['get', 'post'], 'dashboard', [HomeController::class, 'Dashboard'])->name('dashboard');
     Route::post('dashboard/cache-clear', [HomeController::class, 'clearDashboardCache'])->name('dashboard.cache.clear');
 
     // Notification Center routes

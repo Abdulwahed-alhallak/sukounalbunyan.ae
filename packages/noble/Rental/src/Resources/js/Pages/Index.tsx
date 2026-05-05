@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Eye, Search, FileText, RotateCcw, CheckCircle, Trash2, BarChart3, CheckCheck, ScanBarcode } from 'lucide-react';
+import { Plus, Eye, Search, FileText, RotateCcw, CheckCircle, Trash2, BarChart3, CheckCheck, ScanBarcode, LayoutDashboard } from 'lucide-react';
 import { formatDate, formatCurrency } from '@/utils/helpers';
 import RentalScannerModal from './components/RentalScannerModal';
 
@@ -124,6 +124,11 @@ export default function Index() {
                         </Select>
                         <Button variant="outline" onClick={() => setIsScannerOpen(true)}>
                             <ScanBarcode className="mr-2 h-4 w-4" /> {t('Scan QR')}
+                        </Button>
+                        <Button variant="outline" asChild>
+                            <Link href={route('rental.dashboard')}>
+                                <LayoutDashboard className="mr-2 h-4 w-4" /> {t('Dashboard')}
+                            </Link>
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href={route('rental.reports.index')}>
