@@ -19,6 +19,8 @@ class RentalContract extends Model
         'customer_id',
         'warehouse_id',
         'project_id',
+        'rental_project_id',
+        'quotation_id',
         'start_date',
         'end_date',
         'billing_cycle',
@@ -112,6 +114,41 @@ class RentalContract extends Model
     public function installments(): HasMany
     {
         return $this->hasMany(RentalInstallment::class, 'contract_id');
+    }
+
+    public function rentalProject(): BelongsTo
+    {
+        return $this->belongsTo(RentalProject::class, 'rental_project_id');
+    }
+
+    public function addons(): HasMany
+    {
+        return $this->hasMany(RentalAddon::class, 'contract_id');
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(RentalContractEvent::class, 'contract_id')
+            ->orderBy('occurred_at', 'desc');
+    }
+
+    public function quotation(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Quotation\Models\SalesQuotation::class, 'quotation_id');
+    }
+
+    /**
+     * Log a contract lifecycle event.
+     */
+    public function logEvent(string $eventType, array $details = [], float $amount = null, int $createdBy = null): RentalContractEvent
+    {
+        return $this->events()->create([
+            'event_type'  => $eventType,
+            'details'     => $details,
+            'amount'      => $amount,
+            'occurred_at' => now(),
+            'created_by'  => $createdBy ?? auth()->id(),
+        ]);
     }
 
     protected static function boot()

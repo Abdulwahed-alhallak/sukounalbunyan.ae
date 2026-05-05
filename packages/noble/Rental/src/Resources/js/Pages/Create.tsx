@@ -15,19 +15,24 @@ import { formatCurrency } from '@/utils/helpers';
 import MediaPicker from '@/components/MediaPicker';
 
 interface CreateProps {
-    customers: Array<{ id: number; name: string }>;
-    projects: Array<{ id: number; name: string; status: string; contact_name?: string; contact_phone?: string; calendar_color?: string; start_date?: string; end_date?: string }>;
+    customers: Array<{ id: number; name: string; color?: string }>;
+    rentalProjects: Array<{
+        id: number; name: string; code?: string; color?: string;
+        customer_id: number; site_name?: string; site_address?: string;
+        site_contact_person?: string; site_contact_phone?: string;
+        customer?: { id: number; name: string; color?: string };
+    }>;
     products: Array<{ id: number; name: string; sale_price: number }>;
     warehouses: Array<{ id: number; name: string }>;
 }
 
 export default function Create() {
     const { t } = useTranslation();
-    const { customers, projects, products, warehouses } = usePage<CreateProps>().props;
+    const { customers, rentalProjects, products, warehouses } = usePage<CreateProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         customer_id: '',
-        project_id: '',
+        rental_project_id: '',
         warehouse_id: '',
         start_date: new Date().toISOString().split('T')[0],
         billing_cycle: 'daily',
@@ -57,13 +62,14 @@ export default function Create() {
     });
 
     const handleProjectChange = (projectId: string) => {
-        setData('project_id', projectId === 'none' ? '' : projectId);
+        setData('rental_project_id', projectId === 'none' ? '' : projectId);
         if (projectId && projectId !== 'none') {
-            const project = projects.find(p => p.id.toString() === projectId);
+            const project = rentalProjects.find(p => p.id.toString() === projectId);
             if (project) {
-                if (project.contact_name) setData('site_contact_person', project.contact_name);
-                if (project.contact_phone) setData('site_contact_phone', project.contact_phone);
-                if (project.start_date) setData('start_date', project.start_date);
+                if (project.site_name)            setData('site_name', project.site_name);
+                if (project.site_address)         setData('site_address', project.site_address);
+                if (project.site_contact_person)  setData('site_contact_person', project.site_contact_person);
+                if (project.site_contact_phone)   setData('site_contact_phone', project.site_contact_phone);
             }
         }
     };
@@ -145,31 +151,20 @@ export default function Create() {
                             <InputError message={errors.customer_id} />
                         </div>
                         <div>
-                            <Label htmlFor="project_id">{t('Project')} <span className="text-muted-foreground text-xs">({t('optional')})</span></Label>
-                            <Select value={data.project_id} onValueChange={handleProjectChange}>
-                                <SelectTrigger><SelectValue placeholder={t('Select Project (Optional)')} /></SelectTrigger>
+                            <Label htmlFor="rental_project_id">{t('Rental Project')} <span className="text-muted-foreground text-xs">({t('optional')})</span></Label>
+                            <Select value={data.rental_project_id} onValueChange={handleProjectChange}>
+                                <SelectTrigger><SelectValue placeholder={t('Link to Project (Optional)')} /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="none">{t('None')}</SelectItem>
-                                    {projects?.map(p => (
+                                    <SelectItem value="none">{t('No Project')}</SelectItem>
+                                    {rentalProjects?.map(p => (
                                         <SelectItem key={p.id} value={p.id.toString()}>
-                                            <div className="flex items-center justify-between w-full gap-4">
-                                                <div className="flex items-center gap-2">
-                                                    {p.calendar_color && (
-                                                        <span 
-                                                            className="inline-block w-3 h-3 rounded-full border border-white/20 shadow-sm" 
-                                                            style={{ backgroundColor: p.calendar_color }} 
-                                                        />
-                                                    )}
-                                                    <span className="font-medium">{p.name}</span>
-                                                    {p.contact_name && <span className="text-muted-foreground text-xs opacity-70">· {p.contact_name}</span>}
-                                                </div>
-                                                <span className={`text-[10px] uppercase px-1.5 py-0.5 rounded-full border ${
-                                                    p.status === 'Ongoing' 
-                                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800' 
-                                                        : 'bg-slate-50 text-slate-500 border-slate-200'
-                                                }`}>
-                                                    {t(p.status)}
-                                                </span>
+                                            <div className="flex items-center gap-2">
+                                                <span
+                                                    className="inline-block w-3 h-3 rounded-full border border-white/20 shadow-sm shrink-0"
+                                                    style={{ backgroundColor: p.color ?? '#6366F1' }}
+                                                />
+                                                <span className="font-medium">{p.name}</span>
+                                                {p.code && <span className="text-muted-foreground text-xs opacity-70">· {p.code}</span>}
                                             </div>
                                         </SelectItem>
                                     ))}

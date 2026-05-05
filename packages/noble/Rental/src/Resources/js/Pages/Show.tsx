@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import { formatCurrency, formatDate } from '@/utils/helpers';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
-import { FileText, RotateCcw, XCircle, Trash2, CheckCheck, Download, Clock, Paperclip, ReceiptText, Eye, Printer, MapPin, CreditCard, Truck, QrCode } from 'lucide-react';
+import { FileText, RotateCcw, XCircle, Trash2, CheckCheck, Download, Clock, Paperclip, ReceiptText, Eye, Printer, MapPin, CreditCard, Truck, QrCode, PackagePlus, ShoppingCart, Activity } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ModuleAttachments from '@/components/ModuleAttachments';
 import MediaPicker from '@/components/MediaPicker';
@@ -39,12 +39,16 @@ function paymentVariant(status: string): 'default' | 'secondary' | 'destructive'
 export default function Show() {
     const { t } = useTranslation();
     const { contract, accruedRent, currentDailyRate, custodySummary } = usePage<any>().props;
+    const addons: any[] = contract.addons ?? [];
+    const events: any[] = contract.events ?? [];
 
     const [returnOpen, setReturnOpen]   = useState(false);
     const [renewOpen, setRenewOpen]     = useState(false);
     const [paymentOpen, setPaymentOpen] = useState(false);
     const [settleOpen, setSettleOpen]   = useState(false);
     const [attachmentOpen, setAttachmentOpen] = useState(false);
+    const [addMaterialsOpen, setAddMaterialsOpen] = useState(false);
+    const [leaseToOwnOpen, setLeaseToOwnOpen] = useState(false);
 
     // Return form
     const { data, setData, post, processing } = useForm({
@@ -70,6 +74,20 @@ export default function Show() {
     const settleForm = useForm({
         status: 'refunded',
         amount: contract.security_deposit,
+        notes: '',
+    });
+
+    // Add Materials form
+    const addMaterialsForm = useForm({
+        effective_date: new Date().toISOString().split('T')[0],
+        notes: '',
+        items: [{ product_id: '', quantity: '', price_per_cycle: '' }] as any[],
+    });
+
+    // Lease-to-Own form
+    const leaseToOwnForm = useForm({
+        purchase_price: '',
+        conversion_date: new Date().toISOString().split('T')[0],
         notes: '',
     });
 
@@ -159,6 +177,37 @@ export default function Show() {
         }
     };
 
+    const handleAddMaterials = (e: React.FormEvent) => {
+        e.preventDefault();
+        addMaterialsForm.post(route('rental.add-materials', contract.id), {
+            onSuccess: () => { setAddMaterialsOpen(false); addMaterialsForm.reset(); },
+        });
+    };
+
+    const handleLeaseToOwn = (e: React.FormEvent) => {
+        e.preventDefault();
+        leaseToOwnForm.post(route('rental.lease-to-own', contract.id), {
+            onSuccess: () => setLeaseToOwnOpen(false),
+        });
+    };
+
+    const addAddonRow = () => {
+        addMaterialsForm.setData('items', [
+            ...addMaterialsForm.data.items,
+            { product_id: '', quantity: '', price_per_cycle: '' },
+        ]);
+    };
+
+    const removeAddonRow = (idx: number) => {
+        addMaterialsForm.setData('items', addMaterialsForm.data.items.filter((_: any, i: number) => i !== idx));
+    };
+
+    const updateAddonItem = (idx: number, field: string, value: string) => {
+        const items = [...addMaterialsForm.data.items];
+        items[idx] = { ...items[idx], [field]: value };
+        addMaterialsForm.setData('items', items);
+    };
+
     const totalInCustody = custodySummary.reduce((s: number, i: any) => s + i.remaining_qty, 0);
     const isActive = contract.status === 'active';
 
@@ -218,13 +267,20 @@ export default function Show() {
                 <div className="md:col-span-2 space-y-6">
                     <Tabs defaultValue="materials" className="w-full">
                         <TabsList className="flex flex-wrap h-auto w-full justify-start gap-1 p-1 bg-muted/50 rounded-lg mb-4">
-                            <TabsTrigger value="materials" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Materials')}</TabsTrigger>
-                            <TabsTrigger value="logistics" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Logistics')}</TabsTrigger>
-                            <TabsTrigger value="installments" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Installments')}</TabsTrigger>
-                            <TabsTrigger value="history" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Return History')}</TabsTrigger>
-                            <TabsTrigger value="attachments" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Attachments')}</TabsTrigger>
-                            <TabsTrigger value="timeline" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Timeline')}</TabsTrigger>
-                            <TabsTrigger value="invoices" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Invoices')}</TabsTrigger>
+                            <TabsTrigger value="materials" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Materials')}</TabsTrigger>
+                            <TabsTrigger value="addons" className="flex-grow min-w-[100px] whitespace-nowrap">
+                                <PackagePlus className="h-3.5 w-3.5 me-1" />{t('Addons')}
+                                {addons.length > 0 && <span className="ms-1 bg-violet-500 text-white text-[10px] rounded-full px-1.5">{addons.length}</span>}
+                            </TabsTrigger>
+                            <TabsTrigger value="logistics" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Logistics')}</TabsTrigger>
+                            <TabsTrigger value="installments" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Installments')}</TabsTrigger>
+                            <TabsTrigger value="history" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Returns')}</TabsTrigger>
+                            <TabsTrigger value="attachments" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Files')}</TabsTrigger>
+                            <TabsTrigger value="events" className="flex-grow min-w-[100px] whitespace-nowrap">
+                                <Activity className="h-3.5 w-3.5 me-1" />{t('Events')}
+                            </TabsTrigger>
+                            <TabsTrigger value="timeline" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Timeline')}</TabsTrigger>
+                            <TabsTrigger value="invoices" className="flex-grow min-w-[100px] whitespace-nowrap">{t('Invoices')}</TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="materials">
@@ -240,6 +296,17 @@ export default function Show() {
                                             >
                                                 <CheckCheck className="h-4 w-4" />
                                                 {t('Activate Contract')}
+                                            </Button>
+                                        )}
+                                        {isActive && (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="gap-2 text-orange-600 border-orange-200 hover:bg-orange-50"
+                                                onClick={() => setLeaseToOwnOpen(true)}
+                                            >
+                                                <ShoppingCart className="h-4 w-4" />
+                                                {t('Lease to Own')}
                                             </Button>
                                         )}
                                         {isActive && (
@@ -560,6 +627,137 @@ export default function Show() {
                             </Card>
                         </TabsContent>
 
+                        {/* ── Addons Tab ── */}
+                        <TabsContent value="addons">
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between">
+                                    <CardTitle className="flex items-center gap-2">
+                                        <PackagePlus className="h-5 w-5 text-violet-500" />
+                                        {t('Additional Materials Added During Contract')}
+                                    </CardTitle>
+                                    {isActive && (
+                                        <Dialog open={addMaterialsOpen} onOpenChange={setAddMaterialsOpen}>
+                                            <DialogTrigger asChild>
+                                                <Button size="sm" className="gap-2 bg-violet-600 hover:bg-violet-700">
+                                                    <PackagePlus className="h-4 w-4" />
+                                                    {t('Add Materials')}
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-2xl">
+                                                <DialogHeader>
+                                                    <DialogTitle>{t('Add Extra Materials to Contract')}</DialogTitle>
+                                                </DialogHeader>
+                                                <form onSubmit={handleAddMaterials} className="space-y-4">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <Label>{t('Effective From Date')} *</Label>
+                                                            <Input
+                                                                type="date"
+                                                                value={addMaterialsForm.data.effective_date}
+                                                                onChange={e => addMaterialsForm.setData('effective_date', e.target.value)}
+                                                            />
+                                                            <p className="text-xs text-muted-foreground mt-1">{t('Billing starts from this date')}</p>
+                                                        </div>
+                                                        <div>
+                                                            <Label>{t('Notes')}</Label>
+                                                            <Input
+                                                                value={addMaterialsForm.data.notes}
+                                                                onChange={e => addMaterialsForm.setData('notes', e.target.value)}
+                                                                placeholder={t('Reason for addition...')}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>{t('Materials')} *</Label>
+                                                        {addMaterialsForm.data.items.map((item: any, idx: number) => (
+                                                            <div key={idx} className="grid grid-cols-[1fr_80px_100px_36px] gap-2 items-center">
+                                                                <Select
+                                                                    value={item.product_id}
+                                                                    onValueChange={v => updateAddonItem(idx, 'product_id', v)}
+                                                                >
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder={t('Select material...')} />
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        {custodySummary.map((cs: any) => (
+                                                                            <SelectItem key={cs.product_id} value={cs.product_id.toString()}>
+                                                                                {cs.product_name}
+                                                                            </SelectItem>
+                                                                        ))}
+                                                                    </SelectContent>
+                                                                </Select>
+                                                                <Input
+                                                                    type="number" min="0.01" step="0.01" placeholder={t('Qty')}
+                                                                    value={item.quantity}
+                                                                    onChange={e => updateAddonItem(idx, 'quantity', e.target.value)}
+                                                                />
+                                                                <Input
+                                                                    type="number" min="0" step="0.01" placeholder={t('Rate')}
+                                                                    value={item.price_per_cycle}
+                                                                    onChange={e => updateAddonItem(idx, 'price_per_cycle', e.target.value)}
+                                                                />
+                                                                <Button type="button" size="icon" variant="ghost"
+                                                                    className="text-destructive" onClick={() => removeAddonRow(idx)}
+                                                                    disabled={addMaterialsForm.data.items.length === 1}>
+                                                                    <XCircle className="h-4 w-4" />
+                                                                </Button>
+                                                            </div>
+                                                        ))}
+                                                        <Button type="button" variant="outline" size="sm" onClick={addAddonRow} className="gap-2">
+                                                            <PackagePlus className="h-3.5 w-3.5" />{t('Add Row')}
+                                                        </Button>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button type="button" variant="outline" onClick={() => setAddMaterialsOpen(false)}>{t('Cancel')}</Button>
+                                                        <Button type="submit" disabled={addMaterialsForm.processing} className="bg-violet-600 hover:bg-violet-700">
+                                                            {addMaterialsForm.processing ? t('Adding...') : t('Add to Contract')}
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </DialogContent>
+                                        </Dialog>
+                                    )}
+                                </CardHeader>
+                                <CardContent>
+                                    {addons.length === 0 ? (
+                                        <div className="text-center py-10 text-muted-foreground border border-dashed rounded-lg">
+                                            <PackagePlus className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                                            <p>{t('No additional materials added yet.')}</p>
+                                        </div>
+                                    ) : (
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>{t('Material')}</TableHead>
+                                                    <TableHead className="text-center">{t('Quantity')}</TableHead>
+                                                    <TableHead>{t('Rate/Cycle')}</TableHead>
+                                                    <TableHead>{t('Effective From')}</TableHead>
+                                                    <TableHead>{t('Status')}</TableHead>
+                                                    <TableHead>{t('Notes')}</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {addons.map((addon: any) => (
+                                                    <TableRow key={addon.id}>
+                                                        <TableCell className="font-medium">{addon.product?.name ?? `#${addon.product_id}`}</TableCell>
+                                                        <TableCell className="text-center">{addon.quantity}</TableCell>
+                                                        <TableCell>{addon.price_per_cycle}</TableCell>
+                                                        <TableCell className="text-sm">{addon.effective_date}</TableCell>
+                                                        <TableCell>
+                                                            <Badge variant={addon.status === 'approved' ? 'default' : 'secondary'} className="capitalize">
+                                                                {addon.status}
+                                                            </Badge>
+                                                        </TableCell>
+                                                        <TableCell className="text-xs text-muted-foreground">{addon.notes ?? '—'}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+
                         <TabsContent value="installments">
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between">
@@ -717,6 +915,60 @@ export default function Show() {
                                         deleteRoute="rental.attachment.destroy"
                                         onRefresh={() => router.reload()}
                                     />
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+
+                        {/* ── Events Tab ── */}
+                        <TabsContent value="events">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Activity className="h-5 w-5 text-primary" />
+                                        {t('Contract Event Log')}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    {events.length === 0 ? (
+                                        <div className="text-center py-10 text-muted-foreground border border-dashed rounded-lg">
+                                            <Activity className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                                            <p>{t('No events recorded yet.')}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            {events.map((ev: any) => (
+                                                <div key={ev.id} className="flex gap-4 p-3 rounded-xl border border-border bg-muted/20 hover:bg-muted/40 transition-colors">
+                                                    <div className={`h-9 w-9 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${ev.color_class ?? 'bg-gray-100 text-gray-600'}`}>
+                                                        <Activity className="h-4 w-4" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center justify-between gap-2">
+                                                            <p className="font-medium text-sm">{ev.label ?? ev.event_type}</p>
+                                                            {ev.amount && (
+                                                                <span className="text-sm font-bold text-primary shrink-0">
+                                                                    {parseFloat(ev.amount).toLocaleString('ar-AE', { style: 'currency', currency: 'AED' })}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {new Date(ev.occurred_at).toLocaleString('ar-AE')}
+                                                            {ev.created_by_user?.name && ` · ${ev.created_by_user.name}`}
+                                                        </p>
+                                                        {ev.details && Object.keys(ev.details).length > 0 && (
+                                                            <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                                                {Object.entries(ev.details).map(([k, v]: any) => (
+                                                                    <span key={k} className="text-xs bg-background border border-border rounded-full px-2 py-0.5">
+                                                                        <span className="text-muted-foreground">{k}: </span>
+                                                                        <span className="font-medium">{typeof v === 'object' ? JSON.stringify(v) : String(v)}</span>
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         </TabsContent>
@@ -994,6 +1246,71 @@ export default function Show() {
                     </Card>
                 </div>
             </div>
+
+            {/* ── Lease-to-Own Dialog ── */}
+            <Dialog open={leaseToOwnOpen} onOpenChange={setLeaseToOwnOpen}>
+                <DialogContent className="max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-orange-600">
+                            <ShoppingCart className="h-5 w-5" />
+                            {t('Convert Contract to Sale (Lease-to-Own)')}
+                        </DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleLeaseToOwn} className="space-y-4">
+                        <div className="rounded-lg bg-orange-50 border border-orange-200 p-4 text-sm text-orange-800">
+                            <p className="font-semibold mb-2">{t('What happens when you confirm:')}</p>
+                            <ul className="list-disc list-inside space-y-1 text-xs">
+                                <li>{t('Contract status → Closed')}</li>
+                                <li>{t('Remaining accrued rent is invoiced')}</li>
+                                <li>{t('Purchase price is added to the final invoice')}</li>
+                                <li>{t('Materials ownership transferred — no return needed')}</li>
+                            </ul>
+                        </div>
+                        <div className="space-y-1">
+                            <Label>{t('Purchase Price (AED)')} *</Label>
+                            <Input
+                                type="number" min="0" step="0.01"
+                                value={leaseToOwnForm.data.purchase_price}
+                                onChange={e => leaseToOwnForm.setData('purchase_price', e.target.value)}
+                                placeholder="0.00"
+                            />
+                            {leaseToOwnForm.errors.purchase_price && (
+                                <p className="text-destructive text-xs">{leaseToOwnForm.errors.purchase_price}</p>
+                            )}
+                        </div>
+                        <div className="space-y-1">
+                            <Label>{t('Conversion Date')}</Label>
+                            <Input
+                                type="date"
+                                value={leaseToOwnForm.data.conversion_date}
+                                onChange={e => leaseToOwnForm.setData('conversion_date', e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <Label>{t('Notes (optional)')}</Label>
+                            <textarea
+                                rows={3}
+                                className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 bg-background"
+                                value={leaseToOwnForm.data.notes}
+                                onChange={e => leaseToOwnForm.setData('notes', e.target.value)}
+                                placeholder={t('Reason or terms of sale...')}
+                            />
+                        </div>
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={() => setLeaseToOwnOpen(false)}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={leaseToOwnForm.processing || !leaseToOwnForm.data.purchase_price}
+                                className="bg-orange-600 hover:bg-orange-700 text-white"
+                            >
+                                {leaseToOwnForm.processing ? t('Processing...') : t('Convert & Generate Invoice')}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </AuthenticatedLayout>
     );
 }

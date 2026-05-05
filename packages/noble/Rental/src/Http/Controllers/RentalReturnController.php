@@ -61,35 +61,59 @@ class RentalReturnController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'contract_id' => 'required|exists:rental_contracts,id',
-            'returns' => 'required|array',
-            'returns.*.product_id' => 'required',
-            'returns.*.quantity' => 'required|numeric|min:0.01',
-            'return_date' => 'required|date',
+            'contract_id'          => 'required|exists:rental_contracts,id',
+            'return_date'          => 'required|date',
+            'returns'              => 'required|array',
+            'returns.*.product_id' => 'required|integer',
+            'returns.*.quantity'   => 'required|numeric|min:0',
+            'returns.*.condition'  => 'nullable|string|in:good,damaged,lost',
+            'returns.*.damage_fee' => 'nullable|numeric|min:0',
+            'returns.*.damage_notes' => 'nullable|string|max:1000',
         ]);
 
-        DB::transaction(function() use ($validated) {
-            foreach ($validated['returns'] as $returnData) {
+        // Only process lines where quantity > 0
+        $activeReturns = array_filter($validated['returns'], fn($r) => (float) $r['quantity'] > 0);
+
+        if (empty($activeReturns)) {
+            return back()->withErrors(['returns' => __('Please enter a quantity for at least one item.')]);
+        }
+
+        DB::transaction(function () use ($validated, $activeReturns) {
+            $totalNewDamageFees = 0;
+
+            foreach ($activeReturns as $returnData) {
                 RentalReturn::create([
-                    'contract_id' => $validated['contract_id'],
-                    'product_id' => $returnData['product_id'],
+                    'contract_id'       => $validated['contract_id'],
+                    'product_id'        => $returnData['product_id'],
                     'returned_quantity' => $returnData['quantity'],
-                    'return_date' => $validated['return_date'],
-                    'condition' => $returnData['condition'] ?? 'Good',
-                    'damage_fee' => $returnData['damage_fee'] ?? 0,
-                    'damage_notes' => $returnData['damage_notes'] ?? null,
+                    'return_date'       => $validated['return_date'],
+                    'condition'         => $returnData['condition'] ?? 'good',
+                    'damage_fee'        => $returnData['damage_fee'] ?? 0,
+                    'damage_notes'      => $returnData['damage_notes'] ?? null,
                 ]);
 
-                // Logic for inventory adjustment can be added here
+                $totalNewDamageFees += (float) ($returnData['damage_fee'] ?? 0);
             }
 
-            // Send notification to the customer
+            // Update contract damage fee total
             $contract = RentalContract::find($validated['contract_id']);
-            if ($contract && $contract->customer) {
-                $contract->customer->notify(new RentalReturnRegisteredNotification(RentalReturn::where('contract_id', $contract->id)->latest()->first()));
+            if ($contract) {
+                $contract->increment('total_damage_fees', $totalNewDamageFees);
+
+                // Notify customer
+                if ($contract->customer) {
+                    $latestReturn = RentalReturn::where('contract_id', $contract->id)->latest()->first();
+                    if ($latestReturn) {
+                        try {
+                            $contract->customer->notify(new RentalReturnRegisteredNotification($latestReturn));
+                        } catch (\Exception $e) {
+                            \Illuminate\Support\Facades\Log::warning('Rental return notification failed: ' . $e->getMessage());
+                        }
+                    }
+                }
             }
         });
 
-        return redirect()->route('rental.index')->with('success', 'Return registered successfully.');
+        return redirect()->route('rental.index')->with('success', __('Return registered successfully.'));
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Noble\Rental\Models\RentalContract;
 use Noble\Rental\Models\RentalContractItem;
 use Noble\Rental\Models\RentalReturn;
+use Noble\Rental\Models\RentalAddon;
+use Noble\Rental\Models\RentalContractEvent;
 use Noble\Rental\Services\RentalBillingService;
 use Noble\ProductService\Models\ProductServiceItem;
 use Noble\ProductService\Models\WarehouseStock;
@@ -15,6 +17,7 @@ use App\Models\SalesInvoice;
 use App\Models\SalesInvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -67,18 +70,31 @@ class RentalController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $customers  = User::where('type', 'client')->get(['id', 'name']);
+        $customers  = User::where('type', 'client')
+            ->where('created_by', creatorId())
+            ->get(['id', 'name', 'color']);
         $products   = ProductServiceItem::where('created_by', creatorId())->get(['id', 'name', 'sale_price']);
         $warehouses = Warehouse::where('created_by', creatorId())->get(['id', 'name']);
-        $projects   = \Noble\Taskly\Models\Project::where('created_by', creatorId())->get(['id', 'name', 'contact_name', 'contact_phone', 'calendar_color', 'status', 'start_date', 'end_date']);
+
+        // Use new RentalProject model — filter by customer if provided
+        $projectsQuery = \Noble\Rental\Models\RentalProject::where('created_by', creatorId())
+            ->where('status', 'active')
+            ->with('customer:id,name,color')
+            ->orderBy('name');
+
+        if ($request->filled('customer_id')) {
+            $projectsQuery->where('customer_id', $request->customer_id);
+        }
+
+        $rentalProjects = $projectsQuery->get(['id', 'name', 'code', 'color', 'customer_id', 'site_name', 'site_address', 'site_contact_person', 'site_contact_phone']);
 
         return Inertia::render('Rental/Create', [
-            'customers'  => $customers,
-            'projects'   => $projects,
-            'products'   => $products,
-            'warehouses' => $warehouses,
+            'customers'      => $customers,
+            'rentalProjects' => $rentalProjects,
+            'products'       => $products,
+            'warehouses'     => $warehouses,
         ]);
     }
 
@@ -86,7 +102,7 @@ class RentalController extends Controller
     {
         $request->validate([
             'customer_id'                => 'required',
-            'project_id'                 => 'nullable',
+            'rental_project_id'          => 'nullable|exists:rental_projects,id',
             'start_date'                 => 'required|date',
             'billing_cycle'              => 'required|in:daily,monthly',
             'items'                      => 'required|array|min:1',
@@ -109,8 +125,8 @@ class RentalController extends Controller
         ]);
 
         $contract = RentalContract::create([
-            'customer_id'      => $request->customer_id,
-            'project_id'       => $request->project_id,
+            'customer_id'         => $request->customer_id,
+            'rental_project_id'   => $request->rental_project_id ?: null,
             'warehouse_id'     => $request->warehouse_id ?? 1,
             'start_date'       => $request->start_date,
             'billing_cycle'    => $request->billing_cycle,
@@ -236,9 +252,20 @@ class RentalController extends Controller
 
     public function show(RentalContract $contract)
     {
-        $contract->load(['customer', 'items.product', 'returns.product', 'warehouse', 'attachments.uploader', 'invoices', 'installments']);
+        $contract->load([
+            'customer',
+            'items.product',
+            'returns.product',
+            'warehouse',
+            'attachments.uploader',
+            'invoices',
+            'installments.invoice',
+            'rentalProject',
+            'addons.product',
+            'events' => fn($q) => $q->with('createdByUser:id,name')->orderBy('occurred_at', 'desc'),
+        ]);
 
-        $accruedRent     = $this->billingService->calculateAccruedRent($contract);
+        $accruedRent      = $this->billingService->calculateAccruedRent($contract);
         $currentDailyRate = $this->billingService->getCurrentDailyRate($contract);
 
         // Per-item custody summary for the Show page
@@ -258,12 +285,13 @@ class RentalController extends Controller
         });
 
         return Inertia::render('Rental/Show', [
-            'contract'        => $contract,
-            'accruedRent'     => $accruedRent,
+            'contract'         => $contract,
+            'accruedRent'      => $accruedRent,
             'currentDailyRate' => $currentDailyRate,
-            'custodySummary'  => $custodySummary,
+            'custodySummary'   => $custodySummary,
         ]);
     }
+
 
     public function returnItems(Request $request, RentalContract $contract)
     {
@@ -464,7 +492,216 @@ class RentalController extends Controller
             ->with('success', __('Invoice generated from rental contract. Balance updated.'));
     }
 
+    /**
+     * Generate a sales invoice for a specific installment.
+     */
+    public function invoiceInstallment(RentalContract $rental, \Noble\Rental\Models\RentalInstallment $installment)
+    {
+        if ($installment->contract_id !== $rental->id) {
+            return back()->with('error', __('Installment does not belong to this contract.'));
+        }
+
+        if ($installment->status !== 'pending') {
+            return back()->with('error', __('This installment has already been invoiced.'));
+        }
+
+        $invoice = \App\Models\SalesInvoice::create([
+            'customer_id'        => $rental->customer_id,
+            'invoice_date'       => now(),
+            'due_date'           => $installment->due_date,
+            'subtotal'           => $installment->amount,
+            'tax_amount'         => 0,
+            'discount_amount'    => 0,
+            'total_amount'       => $installment->amount,
+            'paid_amount'        => 0,
+            'balance_amount'     => $installment->amount,
+            'status'             => 'posted',
+            'type'               => 'service',
+            'notes'              => __('Installment invoice for Rental Contract: ') . $rental->contract_number,
+            'rental_contract_id' => $rental->id,
+            'created_by'         => Auth::id() ?? $rental->created_by,
+        ]);
+
+        \App\Models\SalesInvoiceItem::create([
+            'invoice_id'   => $invoice->id,
+            'description'  => __('Rental Installment — :contract (Due: :date)', [
+                'contract' => $rental->contract_number,
+                'date'     => $installment->due_date->format('Y-m-d'),
+            ]),
+            'quantity'     => 1,
+            'unit_price'   => $installment->amount,
+            'total_amount' => $installment->amount,
+            'created_by'   => Auth::id() ?? $rental->created_by,
+        ]);
+
+        $installment->update([
+            'status'     => 'invoiced',
+            'invoice_id' => $invoice->id,
+        ]);
+
+        return redirect()->route('sales-invoices.show', $invoice->id)
+            ->with('success', __('Invoice generated for installment. Redirect to invoice.'));
+    }
+
+    /**
+     * Add extra materials to a running contract (billing from effective_date).
+     */
+    public function addMaterials(Request $request, RentalContract $contract)
+    {
+        if ($contract->status !== 'active') {
+            return back()->with('error', __('Cannot add materials to a non-active contract.'));
+        }
+
+        $request->validate([
+            'items'                  => 'required|array|min:1',
+            'items.*.product_id'     => 'required|integer',
+            'items.*.quantity'       => 'required|numeric|min:0.01',
+            'items.*.price_per_cycle'=> 'required|numeric|min:0',
+            'effective_date'         => 'required|date|after_or_equal:' . $contract->start_date->format('Y-m-d'),
+            'notes'                  => 'nullable|string|max:500',
+        ]);
+
+        $effectiveDate = Carbon::parse($request->effective_date);
+        $addedItems = [];
+
+        DB::transaction(function () use ($request, $contract, $effectiveDate, &$addedItems) {
+            foreach ($request->items as $item) {
+                $addon = RentalAddon::create([
+                    'contract_id'     => $contract->id,
+                    'product_id'      => $item['product_id'],
+                    'quantity'        => $item['quantity'],
+                    'price_per_cycle' => $item['price_per_cycle'],
+                    'effective_date'  => $effectiveDate,
+                    'notes'           => $request->notes,
+                    'status'          => 'approved',
+                    'created_by'      => Auth::id(),
+                ]);
+
+                // Deduct from warehouse stock
+                WarehouseStock::where('product_id', $item['product_id'])
+                    ->where('warehouse_id', $contract->warehouse_id)
+                    ->decrement('quantity', $item['quantity']);
+
+                $addedItems[] = [
+                    'product_id' => $item['product_id'],
+                    'quantity'   => $item['quantity'],
+                ];
+            }
+
+            // Log event
+            $contract->logEvent('addon', [
+                'items'          => $addedItems,
+                'effective_date' => $effectiveDate->format('Y-m-d'),
+                'notes'          => $request->notes,
+            ]);
+        });
+
+        return back()->with('success', __('Materials added to contract from :date.', [
+            'date' => $effectiveDate->format('d/m/Y'),
+        ]));
+    }
+
+    /**
+     * Convert a rental contract to a sale (Lease-to-Own).
+     * Generates a final invoice: accrued rent + purchase price of items.
+     */
+    public function leaseToOwn(Request $request, RentalContract $contract)
+    {
+        if ($contract->status !== 'active') {
+            return back()->with('error', __('Only active contracts can be converted to a sale.'));
+        }
+
+        $request->validate([
+            'purchase_price' => 'required|numeric|min:0',
+            'notes'          => 'nullable|string|max:1000',
+            'conversion_date'=> 'nullable|date',
+        ]);
+
+        $conversionDate = $request->filled('conversion_date')
+            ? Carbon::parse($request->conversion_date)
+            : now();
+
+        $purchasePrice  = (float) $request->purchase_price;
+        $accruedRent    = $this->billingService->calculateAccruedRent($contract);
+        $alreadyPaid    = (float) $contract->paid_amount;
+        $alreadyInvoiced= (float) $contract->total_invoiced;
+
+        $rentDue     = max(0, $accruedRent - $alreadyInvoiced);
+        $totalDue    = $rentDue + $purchasePrice;
+
+        DB::transaction(function () use ($contract, $conversionDate, $purchasePrice, $rentDue, $totalDue, $request) {
+            // Build the final consolidated invoice
+            $invoice = SalesInvoice::create([
+                'customer_id'        => $contract->customer_id,
+                'invoice_date'       => $conversionDate,
+                'due_date'           => $conversionDate->copy()->addDays(15),
+                'subtotal'           => round($totalDue, 2),
+                'tax_amount'         => 0,
+                'discount_amount'    => 0,
+                'total_amount'       => round($totalDue, 2),
+                'paid_amount'        => 0,
+                'balance_amount'     => round($totalDue, 2),
+                'status'             => 'posted',
+                'type'               => 'service',
+                'notes'              => __('Lease-to-Own Conversion — Contract: :num', ['num' => $contract->contract_number])
+                    . ($request->notes ? "\n" . $request->notes : ''),
+                'rental_contract_id' => $contract->id,
+                'created_by'         => Auth::id(),
+            ]);
+
+            // Line 1: Accrued rent (if any outstanding)
+            if ($rentDue > 0) {
+                SalesInvoiceItem::create([
+                    'invoice_id'   => $invoice->id,
+                    'description'  => __('Rental Period — :from to :to', [
+                        'from' => $contract->start_date->format('d/m/Y'),
+                        'to'   => $conversionDate->format('d/m/Y'),
+                    ]),
+                    'quantity'     => 1,
+                    'unit_price'   => round($rentDue, 2),
+                    'total_amount' => round($rentDue, 2),
+                    'created_by'   => Auth::id(),
+                ]);
+            }
+
+            // Line 2: Purchase price of scaffolding
+            SalesInvoiceItem::create([
+                'invoice_id'   => $invoice->id,
+                'description'  => __('Purchase of Scaffolding Materials — Contract: :num', ['num' => $contract->contract_number]),
+                'quantity'     => 1,
+                'unit_price'   => round($purchasePrice, 2),
+                'total_amount' => round($purchasePrice, 2),
+                'created_by'   => Auth::id(),
+            ]);
+
+            // Update contract
+            $contract->update([
+                'status'         => 'closed',
+                'is_lease_to_own'=> true,
+                'purchase_price' => $purchasePrice,
+                'total_invoiced' => (float) $contract->total_invoiced + $rentDue,
+                'last_billed_at' => $conversionDate,
+            ]);
+
+            // Log event
+            $contract->logEvent('lease_to_own', [
+                'purchase_price'  => $purchasePrice,
+                'accrued_rent'    => $rentDue,
+                'total_invoice'   => $totalDue,
+                'invoice_id'      => $invoice->id,
+                'conversion_date' => $conversionDate->format('Y-m-d'),
+            ], $totalDue);
+
+            // Don't return inventory — it's sold
+        });
+
+        return redirect()
+            ->route('rental.show', $contract->id)
+            ->with('success', __('Contract converted to sale. Final invoice generated.'));
+    }
+
     public function createFromQuotation(Request $request, $quotationId)
+
     {
         $quotation = \Noble\Quotation\Models\SalesQuotation::with('items')->findOrFail($quotationId);
 

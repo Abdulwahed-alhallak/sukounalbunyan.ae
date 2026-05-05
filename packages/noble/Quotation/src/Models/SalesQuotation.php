@@ -24,6 +24,7 @@ class SalesQuotation extends Model
         'quotation_date',
         'customer_id',
         'warehouse_id',
+        'rental_project_id',
         'due_date',
         'subtotal',
         'tax_amount',
@@ -81,6 +82,22 @@ class SalesQuotation extends Model
     public function revisions(): HasMany
     {
         return $this->hasMany(SalesQuotation::class, 'parent_quotation_id');
+    }
+
+    /**
+     * The Rental Project this quotation belongs to.
+     */
+    public function rentalProject(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Rental\Models\RentalProject::class, 'rental_project_id');
+    }
+
+    /**
+     * The Rental Contract created from this quotation.
+     */
+    public function rentalContract(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\Noble\Rental\Models\RentalContract::class, 'quotation_id');
     }
 
     protected static function boot()

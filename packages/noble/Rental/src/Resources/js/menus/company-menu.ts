@@ -1,5 +1,5 @@
 import { NavItem } from '@/types';
-import { Briefcase, FileSignature, PackageCheck, LayoutDashboard } from 'lucide-react';
+import { Briefcase, FileSignature, PackageCheck, LayoutDashboard, FolderOpen, FileText } from 'lucide-react';
 
 export const getCompanyMenu = (t: (key: string) => string): NavItem[] => {
     return [
@@ -7,6 +7,12 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => {
             title: t('Rental Dashboard'),
             icon: LayoutDashboard,
             href: route('rental.dashboard'),
+            moduleName: 'rental',
+        },
+        {
+            title: t('Rental Projects'),
+            icon: FolderOpen,
+            href: route('rental-projects.index'),
             moduleName: 'rental',
         },
         {

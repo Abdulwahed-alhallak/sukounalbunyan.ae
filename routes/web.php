@@ -42,14 +42,24 @@ Route::get('/debug-routes', function () {
     return \Illuminate\Support\Facades\Artisan::output();
 });
 
-Route::match(['get', 'post', 'head'], '/', function () {
-    return "ROOT MATCH WORKING: " . request()->method();
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->intended(route('dashboard'));
+    }
+    
+    if (function_exists('isLandingPageEnabled') && isLandingPageEnabled()) {
+        return Inertia::render('welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'phpVersion' => PHP_VERSION,
+        ]);
+    }
+
+    return redirect()->route('login');
 })->name('root');
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
-    // Route::get('/dashboard', function () {
-    //     return Inertia::render('dashboard');
-    // })->name('dashboard');
+    // Basic dashboard route (HomeController handles sub-dashboards)
 
     Route::match(['get', 'post'], 'dashboard', [HomeController::class, 'Dashboard'])->name('dashboard');
     Route::post('dashboard/cache-clear', [HomeController::class, 'clearDashboardCache'])->name('dashboard.cache.clear');
