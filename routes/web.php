@@ -37,7 +37,7 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
-Route::any('/', function () {
+Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
