@@ -28,9 +28,9 @@ class RentalTestDataSeeder extends Seeder
         $warehouse = Warehouse::firstOrCreate(
             ['name' => 'مستودع التأجير - دبي'],
             [
-                'location' => 'دبي الصناعية',
-                'type' => 'physical',
-                'status' => 'active',
+                'address' => 'دبي الصناعية',
+                'city' => 'دبي',
+                'is_active' => true,
             ]
         );
 
@@ -38,7 +38,7 @@ class RentalTestDataSeeder extends Seeder
         $category = ProductServiceCategory::firstOrCreate(
             ['name' => 'معدات التأجير'],
             [
-                'type' => 'product',
+                // Category fields
             ]
         );
 
@@ -74,7 +74,7 @@ class RentalTestDataSeeder extends Seeder
                     'sale_price' => $prodData['price'],
                     'purchase_price' => $prodData['price'] * 0.8,
                     'description' => $prodData['description'],
-                    'status' => 'active',
+                    'is_active' => true,
                 ]
             );
 
@@ -84,7 +84,6 @@ class RentalTestDataSeeder extends Seeder
                 [
                     'quantity' => 100, // Large quantity for testing
                     'rented_quantity' => 0,
-                    'damaged_quantity' => 0,
                 ]
             );
         }
