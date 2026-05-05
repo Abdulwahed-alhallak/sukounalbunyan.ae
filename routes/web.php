@@ -262,5 +262,5 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return "ROOT GET WORKING";
 });
