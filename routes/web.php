@@ -42,8 +42,8 @@ Route::get('/debug-routes', function () {
     return \Illuminate\Support\Facades\Artisan::output();
 });
 
-Route::get('/', function () {
-    return "ROOT IS DEFINITELY WORKING";
+Route::match(['get', 'post', 'head'], '/', function () {
+    return "ROOT MATCH WORKING: " . request()->method();
 })->name('root');
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
