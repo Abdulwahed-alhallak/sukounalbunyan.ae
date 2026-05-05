@@ -180,6 +180,7 @@ class DemoRentalDataSeeder extends Seeder
                     'shipping_address' => 'الإمارات العربية المتحدة',
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
+                    'workspace' => $workspaceId,
                 ]
             );
 
@@ -194,6 +195,7 @@ class DemoRentalDataSeeder extends Seeder
                     'budget' => rand(100000, 500000),
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
+                    'workspace' => $workspaceId,
                 ]
             );
 
