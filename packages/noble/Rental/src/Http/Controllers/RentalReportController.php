@@ -19,7 +19,7 @@ class RentalReportController extends Controller
         // 1. Material Utilization
         // Total Stock vs Total in Custody
         $products = ProductServiceItem::where('created_by', creatorId())
-            ->whereHas('warehouseStock')
+            ->whereHas('warehouseStocks')
             ->get();
 
         $utilizationData = $products->map(function($product) {
