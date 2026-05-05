@@ -41,7 +41,8 @@ class RentalTestDataSeeder extends Seeder
         $category = ProductServiceCategory::firstOrCreate(
             ['name' => 'معدات التأجير'],
             [
-                // Category fields
+                'color' => '#f97316',
+                'type' => 'product',
             ]
         );
 
