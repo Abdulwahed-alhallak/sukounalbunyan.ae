@@ -29,7 +29,7 @@ class RentalReportController extends Controller
                 ->get()
                 ->sum(function($item) {
                     $returned = RentalReturn::where('product_id', $item->product_id)
-                        ->where('rental_contract_id', $item->rental_contract_id)
+                        ->where('contract_id', $item->contract_id)
                         ->sum('returned_quantity');
                     return max(0, $item->quantity - $returned);
                 });
@@ -67,7 +67,7 @@ class RentalReportController extends Controller
             ->get()
             ->map(function($item) {
                 $returned = RentalReturn::where('product_id', $item->product_id)
-                    ->where('rental_contract_id', $item->rental_contract_id)
+                    ->where('contract_id', $item->contract_id)
                     ->sum('returned_quantity');
                 
                 $remaining = $item->quantity - $returned;
