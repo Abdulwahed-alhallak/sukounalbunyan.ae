@@ -37,9 +37,6 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
-Route::any('/', function () {
-    return "ROOT WORKING";
-});
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     // Route::get('/dashboard', function () {
@@ -263,3 +260,7 @@ require __DIR__.'/updater.php';
 require __DIR__.'/auth.php';
 
 
+
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
