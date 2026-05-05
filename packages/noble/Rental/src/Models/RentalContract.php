@@ -83,7 +83,7 @@ class RentalContract extends Model
 
     public function project(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Project::class, 'project_id');
+        return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
     }
 
     public function items(): HasMany

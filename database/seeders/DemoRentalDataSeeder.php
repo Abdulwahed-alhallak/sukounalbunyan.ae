@@ -10,6 +10,8 @@ use Noble\ProductService\Models\ProductServiceCategory;
 use Noble\ProductService\Models\ProductServiceUnit;
 use Noble\Rental\Models\RentalContract;
 use Noble\Rental\Models\RentalContractItem;
+use Noble\Account\Models\Customer;
+use Noble\Taskly\Models\Project;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
@@ -167,11 +169,40 @@ class DemoRentalDataSeeder extends Seeder
                 ]
             );
 
+            // Create corresponding Customer in Account module
+            Customer::withoutGlobalScopes()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'company_name' => $cData['name'],
+                    'contact_person_name' => $cData['name'],
+                    'contact_person_email' => $cData['email'],
+                    'billing_address' => 'الإمارات العربية المتحدة',
+                    'shipping_address' => 'الإمارات العربية المتحدة',
+                    'creator_id' => $createdBy,
+                    'created_by' => $createdBy,
+                ]
+            );
+
+            // Create corresponding Project in Taskly module
+            $project = Project::withoutGlobalScopes()->updateOrCreate(
+                ['name' => $cData['site']],
+                [
+                    'description' => 'مشروع مرتبط بعقد تأجير السقالات',
+                    'status' => 'In Progress',
+                    'start_date' => now()->subDays(rand(1, 30)),
+                    'end_date' => now()->addMonths(rand(2, 6)),
+                    'budget' => rand(100000, 500000),
+                    'creator_id' => $createdBy,
+                    'created_by' => $createdBy,
+                ]
+            );
+
             // Create a contract for each
             echo "Creating Contract for {$cData['name']}...\n";
             $contract = RentalContract::withoutGlobalScopes()->create([
                 'contract_number' => RentalContract::generateContractNumber(),
                 'customer_id' => $user->id,
+                'project_id' => $project->id,
                 'warehouse_id' => $warehouse->id,
                 'start_date' => now()->subDays(rand(1, 30)),
                 'end_date' => now()->addMonths(rand(2, 6)),
