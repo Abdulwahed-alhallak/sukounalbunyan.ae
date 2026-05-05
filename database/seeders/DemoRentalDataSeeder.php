@@ -188,7 +188,7 @@ class DemoRentalDataSeeder extends Seeder
                 ['name' => $cData['site']],
                 [
                     'description' => 'مشروع مرتبط بعقد تأجير السقالات',
-                    'status' => 'In Progress',
+                    'status' => 'Ongoing',
                     'start_date' => now()->subDays(rand(1, 30)),
                     'end_date' => now()->addMonths(rand(2, 6)),
                     'budget' => rand(100000, 500000),
