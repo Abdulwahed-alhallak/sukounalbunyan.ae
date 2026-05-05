@@ -30,6 +30,9 @@ class RentalTestDataSeeder extends Seeder
             [
                 'address' => 'دبي الصناعية',
                 'city' => 'دبي',
+                'zip_code' => '00000',
+                'phone' => '00971000000000',
+                'email' => 'warehouse@noble.com',
                 'is_active' => true,
             ]
         );
