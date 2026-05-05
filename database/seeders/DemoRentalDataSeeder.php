@@ -19,17 +19,11 @@ class DemoRentalDataSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Find or Create Superadmin
-        $admin = User::where('type', 'superadmin')->first();
+        // 1. Find or Create Company User (Sukoun Commander)
+        $admin = User::where('name', 'Sukoun Commander')->first() ?? User::where('type', 'company')->first();
         if (!$admin) {
-             echo "Superadmin not found. Creating one...\n";
-             $admin = User::create([
-                 'name' => 'Sukoun Admin',
-                 'email' => 'admin@sukoun.ae',
-                 'password' => Hash::make('Sukoun@2024'),
-                 'type' => 'superadmin',
-                 'lang' => 'ar',
-             ]);
+             echo "Company user not found. Falling back to superadmin...\n";
+             $admin = User::where('type', 'superadmin')->first() ?? User::first();
         }
 
         $workspaceId = $admin->workspace ?? 1; 
@@ -180,7 +174,6 @@ class DemoRentalDataSeeder extends Seeder
                     'shipping_address' => 'الإمارات العربية المتحدة',
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
-                    'workspace' => $workspaceId,
                 ]
             );
 
@@ -195,7 +188,6 @@ class DemoRentalDataSeeder extends Seeder
                     'budget' => rand(100000, 500000),
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
-                    'workspace' => $workspaceId,
                 ]
             );
 
