@@ -10,13 +10,13 @@ conn.on('ready', () => {
         'cp public/manifest.json ./manifest.json',
         'cp public/sw.js ./sw.js',
         'echo "=== Manifest Test ==="',
-        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://noble.dion.sy/manifest.json',
+        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://sukounalbunyan.ae/backend/manifest.json',
         'echo ""',
         'echo "=== SW Test ==="',
-        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://noble.dion.sy/sw.js',
+        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://sukounalbunyan.ae/backend/sw.js',
         'echo ""',
         'echo "=== Login Test ==="',
-        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://noble.dion.sy/login',
+        'curl -sk -o /dev/null -w "HTTP:%{http_code}" https://sukounalbunyan.ae/backend/login',
     ].join(' && ');
     
     conn.exec(cmd, (err, stream) => {

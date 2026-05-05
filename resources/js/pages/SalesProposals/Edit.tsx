@@ -24,6 +24,7 @@ interface SalesProposal {
     warehouse_id?: number;
     payment_terms?: string;
     notes?: string;
+    project_id?: number;
     items: any[];
 }
 
@@ -31,12 +32,13 @@ interface EditProps {
     proposal: SalesProposal;
     customers: Array<{ id: number; name: string; email: string }>;
     warehouses: Array<{ id: number; name: string; address: string }>;
+    projects: Array<{ id: number; name: string }>;
     [key: string]: any;
 }
 
 export default function Edit() {
     const { t } = useTranslation();
-    const { proposal, customers, warehouses } = usePage<EditProps>().props;
+    const { proposal, customers, warehouses, projects } = usePage<EditProps>().props;
     const [availableProducts, setAvailableProducts] = useState([]);
 
     const { data, setData, put, processing, errors } = useForm({
@@ -44,6 +46,7 @@ export default function Edit() {
         due_date: proposal.due_date,
         customer_id: proposal.customer_id.toString(),
         warehouse_id: proposal.warehouse_id?.toString() || '',
+        project_id: proposal.project_id?.toString() || '',
         payment_terms: proposal.payment_terms || '',
         notes: proposal.notes || '',
         items: (proposal.items || []).map((item) => {
@@ -181,6 +184,28 @@ export default function Edit() {
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.warehouse_id} />
+                                </div>
+
+                                <div>
+                                    <Label htmlFor="project_id">
+                                        {t('Project')}
+                                    </Label>
+                                    <Select
+                                        value={data.project_id}
+                                        onValueChange={(value) => setData('project_id', value)}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder={t('Select Project (Optional)')} />
+                                        </SelectTrigger>
+                                        <SelectContent searchable>
+                                            {projects?.map((project) => (
+                                                <SelectItem key={project.id} value={project.id.toString()}>
+                                                    {project.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.project_id} />
                                 </div>
                             </div>
 

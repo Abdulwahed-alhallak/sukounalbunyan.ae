@@ -109,8 +109,8 @@ export default function Tracker() {
                     </Card>
                     <Card className="border">
                         <CardContent className="flex flex-col items-center justify-center p-4 text-center">
-                            <div className="mb-2 rounded-xl bg-emerald-500/10 p-3">
-                                <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                            <div className="mb-2 rounded-xl bg-success/10 p-3">
+                                <CheckCircle2 className="h-6 w-6 text-success dark:text-emerald-400" />
                             </div>
                             <p className="text-2xl font-bold">{stats.present}</p>
                             <p className="text-sm text-muted-foreground">{t('Present')}</p>
@@ -127,8 +127,8 @@ export default function Tracker() {
                     </Card>
                     <Card className="border">
                         <CardContent className="flex flex-col items-center justify-center p-4 text-center">
-                            <div className="mb-2 rounded-xl bg-amber-500/10 p-3">
-                                <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                            <div className="mb-2 rounded-xl bg-warning/10 p-3">
+                                <AlertCircle className="h-6 w-6 text-warning dark:text-amber-400" />
                             </div>
                             <p className="text-2xl font-bold">{stats.half_day}</p>
                             <p className="text-sm text-muted-foreground">{t('Half Day')}</p>
@@ -136,8 +136,8 @@ export default function Tracker() {
                     </Card>
                     <Card className="border">
                         <CardContent className="flex flex-col items-center justify-center p-4 text-center">
-                            <div className="mb-2 rounded-xl bg-red-500/10 p-3">
-                                <XCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
+                            <div className="mb-2 rounded-xl bg-destructive/10 p-3">
+                                <XCircle className="h-6 w-6 text-destructive dark:text-red-400" />
                             </div>
                             <p className="text-2xl font-bold">{stats.absent}</p>
                             <p className="text-sm text-muted-foreground">{t('Absent')}</p>

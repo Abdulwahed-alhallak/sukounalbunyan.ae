@@ -49,7 +49,7 @@ conn.on('ready', async () => {
                         console.log(`   Current User Count: ${count.trim()}`);
                         
                         // 3. Final URL Check
-                        await checkUrl('https://noble.dion.sy/login');
+                        await checkUrl('https://sukounalbunyan.ae/backend/login');
                         
                         console.log('\n===================================================');
                         console.log('✅ AUDIT COMPLETE');

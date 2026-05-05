@@ -198,7 +198,7 @@ export default function ContractsIndex() {
                                                 <Badge
                                                     className={
                                                         contract.status === 'Active'
-                                                            ? 'bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-600'
+                                                            ? 'bg-success shadow-success/20 hover:bg-success'
                                                             : contract.status === 'Expired'
                                                               ? 'bg-rose-500 shadow-rose-500/20 hover:bg-rose-600'
                                                               : 'bg-muted-foreground'

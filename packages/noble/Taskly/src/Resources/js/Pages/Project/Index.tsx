@@ -255,9 +255,9 @@ export default function Index() {
             header: t('Status'),
             render: (value: string) => {
                 const statusColors = {
-                    Ongoing: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-                    Onhold: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-                    Finished: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+                    Ongoing: 'bg-success/10 text-success dark:text-emerald-400 border-success/20',
+                    Onhold: 'bg-warning/10 text-warning dark:text-amber-400 border-warning/20',
+                    Finished: 'bg-info/10 text-info dark:text-blue-400 border-info/20',
                 };
                 return (
                     <Badge
@@ -431,13 +431,13 @@ export default function Index() {
                 {/* Tactical Metrics Layer */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {[
-                        { label: t('All Projects'), value: items?.total || 0, icon: Package, color: 'text-blue-500', bgColor: 'bg-blue-500/10' },
+                        { label: t('All Projects'), value: items?.total || 0, icon: Package, color: 'text-info', bgColor: 'bg-info/10' },
                         {
                             label: t('Ongoing'),
                             value: items?.data?.filter((p) => p.status === 'Ongoing').length || 0,
                             icon: Plus,
-                            color: 'text-emerald-500',
-                            bgColor: 'bg-emerald-500/10',
+                            color: 'text-success',
+                            bgColor: 'bg-success/10',
                         },
                         {
                             label: t('On Hold'),
@@ -446,7 +446,7 @@ export default function Index() {
                             color: 'text-rose-500',
                             bgColor: 'bg-rose-500/10',
                         },
-                        { label: t('Team Members'), value: users?.length || 0, icon: Users, color: 'text-amber-500', bgColor: 'bg-amber-500/10' },
+                        { label: t('Team Members'), value: users?.length || 0, icon: Users, color: 'text-warning', bgColor: 'bg-warning/10' },
                     ]?.map((kpi, i) => (
                         <div
                             key={i}

@@ -548,7 +548,7 @@ export default function Show() {
                                             </table>
                                         </div>
                                     ) : (
-                                        <p className="text-emerald-600 text-muted-foreground">
+                                        <p className="text-success text-muted-foreground">
                                             {t('No violations found. Excellent record!')}
                                         </p>
                                     )}

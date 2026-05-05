@@ -49,7 +49,7 @@ router.on('error', async (event) => {
 router.on('navigate', (event) => {
     // Priority: 1. LocalStorage (User choice), 2. Server Prop (DB Preference), 3. Browser/Fallback
     const serverLang = (event.detail.page.props.auth as any)?.lang;
-    const currentLang = localStorage.getItem('i18nextLng') || serverLang || 'en';
+    const currentLang = localStorage.getItem('i18nextLng') || serverLang || 'ar';
     const isRtl = ['ar', 'he', 'fa', 'ur', 'ku'].includes(currentLang.split('-')[0]);
 
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
@@ -139,7 +139,7 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
                 <Suspense fallback={<SukounLoader />}>
                     <App {...props} />
                 </Suspense>

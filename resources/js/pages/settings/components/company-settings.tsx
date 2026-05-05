@@ -248,7 +248,7 @@ export default function CompanySettings({ userSettings, auth }: CompanySettingsP
                                         disabled={!canEdit}
                                         className="vercel-input ps-10"
                                     />
-                                    <Mail className={cn("absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors", isRtl ? "right-3" : "left-3")} />
+                                    <Mail className={cn("absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors", isRtl ? "end-3" : "start-3")} />
                                 </div>
                             </div>
                         </div>
@@ -305,7 +305,7 @@ export default function CompanySettings({ userSettings, auth }: CompanySettingsP
                                 <div className="flex items-center justify-between gap-4">
                                     <div className="space-y-1">
                                         <div className="flex items-center gap-2">
-                                            <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                                            <ShieldCheck className="h-4 w-4 text-success" />
                                             <Label className="text-[14px] font-bold">{t('Advanced Payroll Automation')}</Label>
                                         </div>
                                         <p className="text-[11px] font-medium text-muted-foreground/60 leading-relaxed max-w-[480px]">

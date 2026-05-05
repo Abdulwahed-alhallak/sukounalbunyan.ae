@@ -119,7 +119,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                             </SidebarMenuButton>
                                         </CollapsibleTrigger>
                                         <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                                            <SidebarMenuSub className="ms-4 mt-1 border-s border-border/40 ps-0 rtl:ms-0 rtl:me-4 rtl:border-s-0 rtl:border-e rtl:pe-0">
+                                            <SidebarMenuSub className="ms-4 mt-1 border-s border-border/40 ps-0">
                                                 {item.children.map((subItem, subIndex) => {
                                                     const subItemActive = !!(
                                                         subItem.href &&

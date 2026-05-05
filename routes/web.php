@@ -113,6 +113,15 @@ Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     Route::get('sales-invoices/warehouse/products', [SalesInvoiceController::class, 'getWarehouseProducts'])->name('sales-invoices.warehouse.products');
     Route::get('sales-invoices/services/list', [SalesInvoiceController::class, 'getServices'])->name('sales-invoices.services');
 
+    // consolidated billing
+    Route::get('consolidated-billing', [\App\Http\Controllers\ConsolidatedBillingController::class, 'index'])->name('consolidated-billing.index');
+    Route::get('consolidated-billing/customer/{customer}/contracts', [\App\Http\Controllers\ConsolidatedBillingController::class, 'getCustomerContracts'])->name('consolidated-billing.customer-contracts');
+    Route::post('consolidated-billing', [\App\Http\Controllers\ConsolidatedBillingController::class, 'store'])->name('consolidated-billing.store');
+
+    // rental contract pdf
+    Route::get('rental-contracts/{id}/download', [\App\Http\Controllers\RentalContractPdfController::class, 'download'])->name('rental.download');
+    Route::get('rental-contracts/{id}/stream', [\App\Http\Controllers\RentalContractPdfController::class, 'stream'])->name('rental.stream');
+
     // purchase returns
     Route::get('purchase-returns', [PurchaseReturnController::class, 'index'])->name('purchase-returns.index');
     Route::get('purchase-returns/create', [PurchaseReturnController::class, 'create'])->name('purchase-returns.create');

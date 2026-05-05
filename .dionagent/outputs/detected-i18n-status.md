@@ -7,8 +7,9 @@
 - **Merging Strategy:** `TranslationController@getTranslations` fetches the core JSON and dynamically merges JSON from all `AddOn::is_enable(true)` packages.
 
 ## Multi-Language Support
-- **Current Coverage:** Arabic (ar), English (en), Danish, German, Spanish, French, Hebrew, Italian, Japanese, Dutch, Polish, Portuguese, Russian, Turkish, Chinese.
-- **Primary Locales:** Arabic (RTL) and English (LTR).
+- **Current Coverage:** Arabic (ar), English (en), and 13 other secondary languages.
+- **Primary Locales:** Arabic (ar) - **DEFAULT**, English (en).
+- **Initialization:** `i18n.js` and `app.tsx` are now hardcoded to fallback to `ar` and initialize RTL by default.
 
 ## RTL / LTR Handling
 - **Logic:** `app.tsx` and `i18n.js` look for `'ar', 'he', 'fa', 'ur', 'ku'` codes.

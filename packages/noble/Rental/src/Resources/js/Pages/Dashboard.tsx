@@ -41,7 +41,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                 <div className="flex items-center space-x-2">
                     <Button asChild>
                         <Link href={route('rental.create')}>
-                            <Plus className="mr-2 h-4 w-4" /> {t('New Contract')}
+                            <Plus className="me-2 h-4 w-4" /> {t('New Contract')}
                         </Link>
                     </Button>
                 </div>
@@ -92,7 +92,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                         <CardTitle>{t('Revenue Overview')}</CardTitle>
                         <CardDescription>{t('Monthly paid revenue for the last 6 months.')}</CardDescription>
                     </CardHeader>
-                    <CardContent className="pl-2">
+                    <CardContent className="ps-2">
                         <ResponsiveContainer width="100%" height={350}>
                             <BarChart data={monthlyRevenue}>
                                 <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
@@ -114,7 +114,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                             {topRentedItems.map((item, index) => (
                                 <div key={index} className="space-y-2">
                                     <div className="flex items-center justify-between text-sm">
-                                        <div className="font-medium truncate pr-4">{item.product?.name || t('Unknown Product')}</div>
+                                        <div className="font-medium truncate pe-4">{item.product?.name || t('Unknown Product')}</div>
                                         <div className="text-muted-foreground whitespace-nowrap">{item.rented_quantity} {t('out')}</div>
                                     </div>
                                     <Progress value={Math.min(100, (item.rented_quantity / (item.quantity + item.rented_quantity)) * 100)} className="h-2" />
@@ -152,7 +152,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                                     <div className="text-right">
                                         <div className="text-sm text-destructive font-medium">{formatDate(contract.end_date)}</div>
                                         <Button variant="ghost" size="sm" className="h-7 mt-1" asChild>
-                                            <Link href={route('rental.show', contract.id)}>{t('View')} <ArrowRight className="h-3 w-3 ml-1" /></Link>
+                                            <Link href={route('rental.show', contract.id)}>{t('View')} <ArrowRight className="h-3 w-3 ms-1" /></Link>
                                         </Button>
                                     </div>
                                 </div>
@@ -167,7 +167,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0">
                         <div>
-                            <CardTitle className="text-base text-amber-500 flex items-center gap-2">
+                            <CardTitle className="text-base text-warning flex items-center gap-2">
                                 <Clock className="h-4 w-4" /> {t('Ending Soon (Next 7 Days)')}
                             </CardTitle>
                             <CardDescription>{t('Contracts scheduled to end shortly.')}</CardDescription>
@@ -186,7 +186,7 @@ export default function Dashboard({ stats, endingSoon, overdueContracts, topRent
                                     <div className="text-right">
                                         <div className="text-sm font-medium">{formatDate(contract.end_date)}</div>
                                         <Button variant="ghost" size="sm" className="h-7 mt-1" asChild>
-                                            <Link href={route('rental.show', contract.id)}>{t('Manage')} <ArrowRight className="h-3 w-3 ml-1" /></Link>
+                                            <Link href={route('rental.show', contract.id)}>{t('Manage')} <ArrowRight className="h-3 w-3 ms-1" /></Link>
                                         </Button>
                                     </div>
                                 </div>

@@ -545,7 +545,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
                                                     <h4 className="truncate text-xs font-black uppercase tracking-tight text-foreground">
                                                         {item.name}
                                                     </h4>
-                                                    <p className="text-[10px] font-black tracking-tighter text-blue-500">
+                                                    <p className="text-[10px] font-black tracking-tighter text-info">
                                                         {formatCurrency(item.price)}
                                                     </p>
                                                 </div>
@@ -631,7 +631,7 @@ function CreateContent({ customers = [], warehouses = [], categories = [] }: Cre
 
                                     <div className="flex items-center justify-between border-t border-border/50 py-3 dark:border-white/5">
                                         <span className="text-lg font-black tracking-tighter text-foreground">{t('Total')}</span>
-                                        <span className="text-2xl font-black tracking-tighter text-blue-500">
+                                        <span className="text-2xl font-black tracking-tighter text-info">
                                             {formatCurrency(getTotal())}
                                         </span>
                                     </div>

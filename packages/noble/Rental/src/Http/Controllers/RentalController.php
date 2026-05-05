@@ -72,7 +72,7 @@ class RentalController extends Controller
         $customers  = User::where('type', 'client')->get(['id', 'name']);
         $products   = ProductServiceItem::where('created_by', creatorId())->get(['id', 'name', 'sale_price']);
         $warehouses = Warehouse::where('created_by', creatorId())->get(['id', 'name']);
-        $projects   = \App\Models\Project::where('created_by', creatorId())->get(['id', 'name']);
+        $projects   = \Noble\Taskly\Models\Project::where('created_by', creatorId())->get(['id', 'name', 'contact_name', 'contact_phone', 'calendar_color', 'status', 'start_date', 'end_date']);
 
         return Inertia::render('Rental/Create', [
             'customers'  => $customers,
@@ -103,6 +103,9 @@ class RentalController extends Controller
             'installments'               => 'required_if:payment_method,installments|array',
             'installments.*.amount'      => 'required_with:installments|numeric|min:0.01',
             'installments.*.due_date'    => 'required_with:installments|date',
+            'security_deposit_check'     => 'nullable|string|max:100',
+            'security_deposit_amount'    => 'nullable|numeric|min:0',
+            'security_deposit_notes'     => 'nullable|string',
         ]);
 
         $contract = RentalContract::create([
@@ -122,6 +125,9 @@ class RentalController extends Controller
             'site_contact_phone'  => $request->site_contact_phone,
             'delivery_fee'     => $request->delivery_fee ?? 0,
             'pickup_fee'       => $request->pickup_fee ?? 0,
+            'security_deposit_check'  => $request->security_deposit_check,
+            'security_deposit_amount' => $request->security_deposit_amount ?? 0,
+            'security_deposit_notes'  => $request->security_deposit_notes,
             'created_by'       => Auth::id(),
             'workspace'        => creatorId(),
         ]);
@@ -170,7 +176,7 @@ class RentalController extends Controller
     public function edit(RentalContract $contract)
     {
         $contract->load(['customer', 'items.product', 'project']);
-        $projects = \App\Models\Project::where('created_by', creatorId())->get(['id', 'name']);
+        $projects = \Noble\Taskly\Models\Project::where('created_by', creatorId())->get(['id', 'name', 'contact_name', 'contact_phone', 'calendar_color', 'status']);
         
         return Inertia::render('Rental/Edit', [
             'contract' => $contract,
@@ -200,7 +206,8 @@ class RentalController extends Controller
         $contract->update($request->only([
             'notes', 'terms', 'security_deposit', 'min_days', 'end_date', 'project_id',
             'payment_method', 'site_name', 'site_address', 'site_contact_person',
-            'site_contact_phone', 'delivery_fee', 'pickup_fee', 'logistics_status'
+            'site_contact_phone', 'delivery_fee', 'pickup_fee', 'logistics_status',
+            'security_deposit_check', 'security_deposit_amount', 'security_deposit_notes'
         ]));
 
         if ($request->payment_method === 'installments' && $request->has('installments')) {

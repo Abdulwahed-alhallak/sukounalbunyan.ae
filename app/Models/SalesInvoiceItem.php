@@ -10,6 +10,8 @@ class SalesInvoiceItem extends Model
 {
     protected $fillable = [
         'invoice_id',
+        'project_id',
+        'rental_contract_id',
         'product_id',
         'description',
         'quantity',
@@ -22,6 +24,16 @@ class SalesInvoiceItem extends Model
         'creator_id',
         'created_by'
     ];
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
+    }
+
+    public function rentalContract(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Rental\Models\RentalContract::class, 'rental_contract_id');
+    }
 
     protected $casts = [
         'quantity' => 'integer',

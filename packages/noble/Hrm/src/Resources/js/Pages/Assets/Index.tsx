@@ -320,25 +320,25 @@ export default function Index() {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <Card className="border-blue-200/50 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:border-blue-800/30 dark:from-blue-950/20 dark:to-blue-900/10">
                         <CardContent className="flex items-center gap-4 p-4">
-                            <div className="rounded-xl bg-blue-500/10 p-3">
-                                <Package className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                            <div className="rounded-xl bg-info/10 p-3">
+                                <Package className="h-6 w-6 text-info dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{totalAssets}</p>
-                                <p className="text-sm text-blue-600/70">{t('Total Assets')}</p>
+                                <p className="text-sm text-info/70">{t('Total Assets')}</p>
                             </div>
                         </CardContent>
                     </Card>
                     <Card className="border-emerald-200/50 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:border-emerald-800/30 dark:from-emerald-950/20 dark:to-emerald-900/10">
                         <CardContent className="flex items-center gap-4 p-4">
-                            <div className="rounded-xl bg-emerald-500/10 p-3">
-                                <Package className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                            <div className="rounded-xl bg-success/10 p-3">
+                                <Package className="h-6 w-6 text-success dark:text-emerald-400" />
                             </div>
                             <div>
                                 <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
                                     {availableCount}
                                 </p>
-                                <p className="text-sm text-emerald-600/70">{t('Available')}</p>
+                                <p className="text-sm text-success/70">{t('Available')}</p>
                             </div>
                         </CardContent>
                     </Card>

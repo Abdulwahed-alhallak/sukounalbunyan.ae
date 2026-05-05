@@ -1,0 +1,22 @@
+const { Client } = require('ssh2');
+const config = {
+    host: '62.72.25.117',
+    port: 65002,
+    username: 'u256167180',
+    password: '4_m_XMkgux@.AgC'
+};
+const conn = new Client();
+conn.on('ready', () => {
+    console.log('SSH Connected! Pulling and Seeding...');
+    conn.exec('cd domains/sukounalbunyan.ae/public_html/backend && git pull origin master && /opt/alt/php82/usr/bin/php artisan db:seed --class=RentalTestDataSeeder --force', (err, stream) => {
+        if (err) throw err;
+        stream.on('close', (code) => {
+            console.log('Done with code ' + code);
+            conn.end();
+        }).on('data', (data) => {
+            process.stdout.write(data);
+        }).stderr.on('data', (data) => {
+            process.stderr.write(data);
+        });
+    });
+}).connect(config);

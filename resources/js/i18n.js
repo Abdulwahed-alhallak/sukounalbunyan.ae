@@ -52,7 +52,7 @@ i18n
     .use(customBackend)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'en',
+        fallbackLng: 'ar',
         detection: {
             order: ['localStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
             caches: ['localStorage', 'cookie'],

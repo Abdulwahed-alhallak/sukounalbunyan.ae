@@ -20,12 +20,13 @@ import { CalendarDays, Package } from 'lucide-react';
 interface CreateProps {
     customers: Array<{ id: number; name: string; email: string }>;
     warehouses: Array<{ id: number; name: string; address: string }>;
+    projects: Array<{ id: number; name: string }>;
     [key: string]: any;
 }
 
 export default function Create() {
     const { t } = useTranslation();
-    const { customers, warehouses } = usePage<CreateProps>().props;
+    const { customers, warehouses, projects } = usePage<CreateProps>().props;
     const [availableProducts, setAvailableProducts] = useState([]);
 
     const { data, setData, post, processing, errors } = useForm({
@@ -33,6 +34,7 @@ export default function Create() {
         due_date: '',
         customer_id: '',
         warehouse_id: '',
+        project_id: '',
         payment_terms: '',
         notes: '',
         items: [
@@ -175,6 +177,28 @@ export default function Create() {
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.warehouse_id} />
+                                </div>
+
+                                <div>
+                                    <Label htmlFor="project_id">
+                                        {t('Project')}
+                                    </Label>
+                                    <Select
+                                        value={data.project_id}
+                                        onValueChange={(value) => setData('project_id', value)}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder={t('Select Project (Optional)')} />
+                                        </SelectTrigger>
+                                        <SelectContent searchable>
+                                            {projects?.map((project) => (
+                                                <SelectItem key={project.id} value={project.id.toString()}>
+                                                    {project.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.project_id} />
                                 </div>
                             </div>
 

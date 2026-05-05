@@ -28,14 +28,19 @@ Hostinger Production Environment (connected via `HOSTINGER_DB_*` and custom SSH 
 ## 7. Data Layer
 MySQL (default DB connection in `.env.example`).
 
-## 8. Entry Points
+## 8. Theme & UX Baseline
+- **Design System**: Vercel Geist 2026 (Strict implementation).
+- **Default Theme**: Light Mode (Forced).
+- **Default Language**: Arabic (ar).
+- **UX Strategy**: Mobile-first, Responsive Grid, RTL-Native.
+
+## 9. Entry Points
 - Web Routes: `routes/web.php`
 - SPA Entry: `resources/js/app.tsx` and dynamically loaded packages in Vite config.
 
-## 9. Risk Areas
-- Circular dependencies in Node modules (mitigated via manual Vite chunking).
-- Complex module inter-dependencies (SaaS modules).
+## 10. Risk Areas
 - Hostinger SSH connectivity for automated deployments.
+- Complex module inter-dependencies.
 
-## 10. Recommended Execution Mode
+## 11. Recommended Execution Mode
 Brownfield mode (`existing-project-intake.md`).

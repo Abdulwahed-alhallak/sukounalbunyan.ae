@@ -243,7 +243,7 @@ export default function EditReply({
                 {/* Main Content */}
                 <div className="space-y-6 lg:col-span-2">
                     {/* Ticket Header */}
-                    <Card className="border-s-4 border-s-blue-500">
+                    <Card className="border-s-4 border-s-info">
                         <CardHeader className="pb-4">
                             <div className="flex items-start justify-between">
                                 <div className="space-y-2">

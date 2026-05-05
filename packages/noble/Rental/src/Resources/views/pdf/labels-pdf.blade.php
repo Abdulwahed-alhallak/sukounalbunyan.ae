@@ -80,7 +80,7 @@
             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(route('rental.show', $contract->id))) !!} ">
         </div>
     </div>
-    <div class="footer">{{ now()->format('Y-m-d H:i') }} | Noble Rental System</div>
+    <div class="footer">{{ now()->format('Y-m-d H:i') }} | Sukoun Rental System</div>
 </div>
 
 {{-- Item Labels --}}
@@ -98,7 +98,7 @@
             <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(route('rental.scan-qr', ['contract' => $contract->id, 'product' => $item->product_id]))) !!} ">
         </div>
     </div>
-    <div class="footer">Noble Scaffolding Logic</div>
+    <div class="footer">Sukoun Scaffolding Logic</div>
 </div>
 @endforeach
 

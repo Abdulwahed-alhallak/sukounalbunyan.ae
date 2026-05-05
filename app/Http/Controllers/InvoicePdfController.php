@@ -15,23 +15,28 @@ class InvoicePdfController extends Controller
      */
     public function downloadPdf($id)
     {
-        $invoice = SalesInvoice::with(['customer', 'items'])->findOrFail($id);
+        $invoice = SalesInvoice::with(['customer', 'items.product', 'items.project', 'items.rentalContract'])->findOrFail($id);
         $customer = $invoice->customer;
+
+        // Group items by project
+        $groupedItems = $invoice->items->groupBy(function($item) {
+            return $item->project ? $item->project->name : 'General';
+        });
 
         $data = [
             'invoice' => $invoice,
             'customer' => $customer,
-            'items' => $invoice->items,
-            'company_name' => 'Sukoun Albunyan SaaS Platform',
-            'company_address' => 'Floor 15, Enterprise Tower, Damascus, Syria',
-            'company_email' => 'billing@dion.sy'
+            'groupedItems' => $groupedItems,
+            'company_name' => 'Sukoun Albunyan Scaffolding & Trading',
+            'company_address' => 'Industrial Area, Dubai, UAE',
+            'company_email' => 'billing@sukounalbunyan.ae'
         ];
 
         // Generate PDF
         $pdf = Pdf::loadView('invoices.premium_template', $data);
         
         // Return for direct download
-        return $pdf->download($invoice->invoice_id . '.pdf');
+        return $pdf->download($invoice->invoice_number . '.pdf');
     }
     
     /**
@@ -39,17 +44,25 @@ class InvoicePdfController extends Controller
      */
     public function streamPdf($id)
     {
-        $invoice = SalesInvoice::with(['customer', 'items'])->findOrFail($id);
+        $invoice = SalesInvoice::with(['customer', 'items.product', 'items.project', 'items.rentalContract'])->findOrFail($id);
         $customer = $invoice->customer;
+
+        // Group items by project
+        $groupedItems = $invoice->items->groupBy(function($item) {
+            return $item->project ? $item->project->name : 'General';
+        });
 
         $data = [
             'invoice' => $invoice,
             'customer' => $customer,
-            'items' => $invoice->items,
+            'groupedItems' => $groupedItems,
+            'company_name' => 'Sukoun Albunyan Scaffolding & Trading',
+            'company_address' => 'Industrial Area, Dubai, UAE',
+            'company_email' => 'billing@sukounalbunyan.ae'
         ];
 
         $pdf = Pdf::loadView('invoices.premium_template', $data);
-        return $pdf->stream($invoice->invoice_id . '.pdf');
+        return $pdf->stream($invoice->invoice_number . '.pdf');
     }
 }
 

@@ -33,6 +33,9 @@ class Project extends Model
         'job_location_id',
         'creator_id',
         'created_by',
+        'contact_name',
+        'contact_phone',
+        'calendar_color',
     ];
 
     public function teamMembers()

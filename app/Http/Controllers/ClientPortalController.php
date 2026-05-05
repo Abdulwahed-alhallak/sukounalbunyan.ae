@@ -15,6 +15,8 @@ use Noble\Account\Models\Bill;
 use Noble\Taskly\Models\Project;
 /** @psalm-suppress UndefinedClass */
 use Noble\Contract\Models\Contract;
+/** @psalm-suppress UndefinedClass */
+use Noble\Rental\Models\RentalContract;
 
 /**
  * ClientPortalController
@@ -188,6 +190,40 @@ class ClientPortalController extends Controller
                 ->where('client_id', $user->id)
                 ->where('status', 'active')
                 ->count();
+        }
+
+        // Rental Contracts & Assets (Scaffolding Specific)
+        if (class_exists(\Noble\Rental\Models\RentalContract::class)) {
+            $rentalContracts = \Noble\Rental\Models\RentalContract::where('customer_id', $user->id)
+                ->where('status', 'active')
+                ->with(['items'])
+                ->get();
+
+            $data['stats']['active_rental_contracts'] = $rentalContracts->count();
+            $data['stats']['security_deposits_total'] = (float) $rentalContracts->sum('security_deposit_amount');
+            
+            // Calculate current scaffolding units on site (Quantity - Returned)
+            $totalUnits = 0;
+            foreach ($rentalContracts as $rc) {
+                foreach ($rc->items as $item) {
+                    $returnedCount = \Noble\Rental\Models\RentalReturn::where('contract_id', $rc->id)
+                        ->where('product_id', $item->product_id)
+                        ->sum('returned_quantity');
+                    
+                    $totalUnits += max(0, $item->quantity - $returnedCount);
+                }
+            }
+            $data['stats']['scaffolding_units_on_site'] = (float) $totalUnits;
+
+            $data['recentRentalActivity'] = $rentalContracts->sortByDesc('created_at')
+                ->take(3)
+                ->map(fn($rc) => [
+                    'id' => $rc->id,
+                    'number' => $rc->contract_number,
+                    'project' => $rc->project?->name ?? 'Direct Rental',
+                    'start_date' => $rc->start_date,
+                    'status' => $rc->status,
+                ])->values()->toArray();
         }
 
         return $data;

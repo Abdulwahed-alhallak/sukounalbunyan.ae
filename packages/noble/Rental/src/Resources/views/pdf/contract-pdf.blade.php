@@ -69,7 +69,7 @@
         <table>
             <tr>
                 <td class="brand-section">
-                    <h1>NOBLE <span class="text-gold">ARCHITECTURE</span></h1>
+                    <h1>SUKOUN <span class="text-gold">RENTAL</span></h1>
                     <p style="margin: 5px 0 0 0; opacity: 0.8;">PREMIUM RENTAL ECOSYSTEM</p>
                 </td>
                 <td class="contract-label">

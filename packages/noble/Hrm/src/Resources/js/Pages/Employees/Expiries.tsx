@@ -43,7 +43,7 @@ export default function Expiries() {
                     const daysLeft = differenceInDays(dateObj, new Date());
 
                     let badgeColor = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-400';
-                    if (daysLeft < 0) badgeColor = 'bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400';
+                    if (daysLeft < 0) badgeColor = 'bg-red-100 text-red-800 dark:bg-destructive/20 dark:text-red-400';
                     else if (daysLeft <= 14)
                         badgeColor = 'bg-orange-100 text-orange-800 dark:bg-orange-500/20 dark:text-orange-400';
 
@@ -54,7 +54,7 @@ export default function Expiries() {
                         >
                             <div className="flex items-center gap-4">
                                 <div
-                                    className={`flex h-10 w-10 items-center justify-center rounded-full ${daysLeft < 0 ? 'bg-red-100 text-red-600' : 'bg-primary/10 text-primary'}`}
+                                    className={`flex h-10 w-10 items-center justify-center rounded-full ${daysLeft < 0 ? 'bg-red-100 text-destructive' : 'bg-primary/10 text-primary'}`}
                                 >
                                     <FileText className="h-5 w-5" />
                                 </div>
@@ -131,7 +131,7 @@ export default function Expiries() {
                         <div className="h-1 w-full bg-blue-400"></div>
                         <CardHeader>
                             <CardTitle className="flex items-center text-lg">
-                                <Briefcase className="me-2 h-5 w-5 text-blue-500" />
+                                <Briefcase className="me-2 h-5 w-5 text-info" />
                                 {t('Passport Expiries')}
                                 <Badge variant="secondary" className="ms-auto">
                                     {expiringPassports.length}

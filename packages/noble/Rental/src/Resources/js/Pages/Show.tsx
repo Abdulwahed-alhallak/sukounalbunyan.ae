@@ -193,11 +193,11 @@ export default function Show() {
                 </Card>
                 <Card className="bg-blue-50 border-blue-100">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-blue-600">{t('Total Invoiced')}</CardTitle>
+                        <CardTitle className="text-sm font-medium text-info">{t('Total Invoiced')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-blue-700">{formatCurrency(contract.total_invoiced)}</div>
-                        <p className="text-xs text-blue-600/70 mt-1">{t('Official billing documents')}</p>
+                        <p className="text-xs text-info/70 mt-1">{t('Official billing documents')}</p>
                     </CardContent>
                 </Card>
                 <Card className={Number(contract.balance_due) > 0 ? "bg-red-50 border-red-100" : "bg-green-50 border-green-100"}>
@@ -205,7 +205,7 @@ export default function Show() {
                         <CardTitle className="text-sm font-medium text-muted-foreground">{t('Balance Due')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className={`text-2xl font-bold ${Number(contract.balance_due) > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                        <div className={`text-2xl font-bold ${Number(contract.balance_due) > 0 ? 'text-destructive' : 'text-green-600'}`}>
                             {formatCurrency(contract.balance_due)}
                         </div>
                         <p className="text-xs text-muted-foreground mt-1">{t('Outstanding amount to pay')}</p>
@@ -403,7 +403,7 @@ export default function Show() {
                                                 {/* Renew Dialog */}
                                                 <Dialog open={renewOpen} onOpenChange={setRenewOpen}>
                                                     <DialogTrigger asChild>
-                                                        <Button variant="outline" className="gap-2 text-blue-600 border-blue-200">
+                                                        <Button variant="outline" className="gap-2 text-info border-blue-200">
                                                             {t('Renew Contract')}
                                                         </Button>
                                                     </DialogTrigger>
@@ -589,7 +589,7 @@ export default function Show() {
                                                         <TableCell className={new Date(inst.due_date) < new Date() && inst.status === 'pending' ? 'text-destructive font-bold' : ''}>
                                                             {formatDate(inst.due_date)}
                                                             {new Date(inst.due_date) < new Date() && inst.status === 'pending' && (
-                                                                <span className="ml-2 text-xs text-destructive">({t('Overdue')})</span>
+                                                                <span className="ms-2 text-xs text-destructive">({t('Overdue')})</span>
                                                             )}
                                                         </TableCell>
                                                         <TableCell className="font-bold">{formatCurrency(inst.amount)}</TableCell>
@@ -600,7 +600,7 @@ export default function Show() {
                                                         </TableCell>
                                                         <TableCell>
                                                             {inst.invoice_id ? (
-                                                                <Link href={route('sales-invoices.show', inst.invoice_id)} className="text-blue-600 hover:underline">
+                                                                <Link href={route('sales-invoices.show', inst.invoice_id)} className="text-info hover:underline">
                                                                     #{inst.invoice?.invoice_number || inst.invoice_id}
                                                                 </Link>
                                                             ) : '—'}
@@ -608,7 +608,7 @@ export default function Show() {
                                                         <TableCell className="text-right">
                                                             {inst.status === 'pending' && (
                                                                 <Button variant="outline" size="sm" onClick={() => handleInvoiceInstallment(inst.id)}>
-                                                                    <FileText className="h-4 w-4 mr-2" />
+                                                                    <FileText className="h-4 w-4 me-2" />
                                                                     {t('Invoice Now')}
                                                                 </Button>
                                                             )}
@@ -731,15 +731,15 @@ export default function Show() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8">
+                                    <div className="relative border-l-2 border-primary/20 ms-3 ps-6 space-y-8">
                                         <div className="relative">
-                                            <div className="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-primary border-4 border-white"></div>
+                                            <div className="absolute -start-[31px] top-1 h-4 w-4 rounded-full bg-primary border-4 border-white"></div>
                                             <div className="font-bold text-sm">{t('Contract Started')}</div>
                                             <div className="text-xs text-muted-foreground">{formatDate(contract.start_date)}</div>
                                         </div>
                                         {contract.returns.map((ret: any) => (
                                             <div key={ret.id} className="relative">
-                                                <div className="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-orange-500 border-4 border-white"></div>
+                                                <div className="absolute -start-[31px] top-1 h-4 w-4 rounded-full bg-orange-500 border-4 border-white"></div>
                                                 <div className="font-bold text-sm">{t('Items Returned')}: {ret.product?.name}</div>
                                                 <div className="text-xs text-muted-foreground">{formatDate(ret.return_date)} — {ret.returned_quantity} {t('units')}</div>
                                                 {ret.damage_fee > 0 && <div className="text-xs text-destructive font-medium">+{t('Damage Fee')}: {formatCurrency(ret.damage_fee)}</div>}
@@ -747,7 +747,7 @@ export default function Show() {
                                         ))}
                                         {contract.status === 'closed' && (
                                             <div className="relative">
-                                                <div className="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-secondary border-4 border-white"></div>
+                                                <div className="absolute -start-[31px] top-1 h-4 w-4 rounded-full bg-secondary border-4 border-white"></div>
                                                 <div className="font-bold text-sm">{t('Contract Closed')}</div>
                                                 <div className="text-xs text-muted-foreground">{formatDate(contract.updated_at)}</div>
                                             </div>
@@ -792,7 +792,7 @@ export default function Show() {
                                                         <TableCell className="text-right">
                                                             <Button variant="ghost" size="sm" asChild>
                                                                 <Link href={route('sales-invoices.show', inv.id)}>
-                                                                    <Eye className="h-4 w-4 mr-2" />
+                                                                    <Eye className="h-4 w-4 me-2" />
                                                                     {t('View Invoice')}
                                                                 </Link>
                                                             </Button>
@@ -913,11 +913,11 @@ export default function Show() {
                             </div>
                             <div>
                                 <span className="text-muted-foreground">{t('Security Deposit')}: </span>
-                                <span className="font-medium text-blue-600">{formatCurrency(contract.security_deposit)}</span>
+                                <span className="font-medium text-info">{formatCurrency(contract.security_deposit)}</span>
                                 {contract.deposit_status === 'held' && Number(contract.security_deposit) > 0 && (
                                     <Dialog open={settleOpen} onOpenChange={setSettleOpen}>
                                         <DialogTrigger asChild>
-                                            <Button variant="link" className="h-auto p-0 ml-2 text-[10px] uppercase font-bold text-primary hover:no-underline">
+                                            <Button variant="link" className="h-auto p-0 ms-2 text-[10px] uppercase font-bold text-primary hover:no-underline">
                                                 [{t('Settle')}]
                                             </Button>
                                         </DialogTrigger>
@@ -967,7 +967,7 @@ export default function Show() {
                                     </Dialog>
                                 )}
                                 {contract.deposit_status !== 'held' && (
-                                    <Badge variant="outline" className="ml-2 text-[10px] capitalize bg-green-50">
+                                    <Badge variant="outline" className="ms-2 text-[10px] capitalize bg-green-50">
                                         {t(contract.deposit_status)}: {formatCurrency(contract.deposit_settled_amount)}
                                     </Badge>
                                 )}

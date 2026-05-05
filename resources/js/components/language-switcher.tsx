@@ -67,7 +67,7 @@ export function LanguageSwitcher() {
                     <span className="text-xs opacity-80">{currentLang.flag}</span>
                 </div>
             </SelectTrigger>
-            <SelectContent align="end" className="min-w-[160px] p-1 shadow-menu-material">
+            <SelectContent align="end" className="min-w-[160px] p-1">
                 <div className="mb-1 px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
                     {t('Select Language')}
                 </div>

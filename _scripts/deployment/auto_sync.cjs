@@ -138,8 +138,8 @@ async function syncBuildFiles(conn) {
             console.log('   ✅ Removed public/hot (Dev cleanup)');
 
             // B. Fix APP_URL in .env if missing or incorrect
-            await runRemote(conn, `cd ${APP_DIR} && sed -i 's|^APP_URL=.*|APP_URL=https://noble.dion.sy|' .env`);
-            console.log('   ✅ Enforced APP_URL=https://noble.dion.sy in .env');
+            await runRemote(conn, `cd ${APP_DIR} && sed -i 's|^APP_URL=.*|APP_URL=https://sukounalbunyan.ae/backend|' .env`);
+            console.log('   ✅ Enforced APP_URL=https://sukounalbunyan.ae/backend in .env');
 
             // C. Clear and cache
             await runRemote(conn, `cd ${APP_DIR} && ${PHP} artisan optimize:clear`);

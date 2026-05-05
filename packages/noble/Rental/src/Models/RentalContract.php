@@ -46,6 +46,11 @@ class RentalContract extends Model
         'delivery_fee',
         'pickup_fee',
         'logistics_status',
+        'is_lease_to_own',
+        'purchase_price',
+        'security_deposit_check',
+        'security_deposit_amount',
+        'security_deposit_notes',
     ];
 
     protected function casts(): array
@@ -63,6 +68,9 @@ class RentalContract extends Model
             'deposit_settled_amount' => 'decimal:2',
             'delivery_fee'     => 'decimal:2',
             'pickup_fee'       => 'decimal:2',
+            'is_lease_to_own'  => 'boolean',
+            'purchase_price'   => 'decimal:2',
+            'security_deposit_amount' => 'decimal:2',
         ];
     }
 

@@ -3,9 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Noble\Rental\Http\Controllers\RentalController;
 use Noble\Rental\Http\Controllers\RentalDashboardController;
+use Noble\Rental\Http\Controllers\RentalReturnController;
 
 Route::middleware(['web', 'auth', 'can:manage-rentals'])->group(function () {
     Route::get('rental-dashboard', [RentalDashboardController::class, 'index'])->name('rental.dashboard');
+    // Rental Returns
+    Route::get('rental-returns/create', [RentalReturnController::class, 'create'])->name('rental-returns.create');
+    Route::get('rental-returns/contract/{id}/items', [RentalReturnController::class, 'getContractItems'])->name('rental-returns.items');
+    Route::post('rental-returns', [RentalReturnController::class, 'store'])->name('rental-returns.store');
+
     Route::resource('rental', RentalController::class);
     Route::post('rental/{contract}/return', [RentalController::class, 'returnItems'])->name('rental.return');
     Route::post('rental/{contract}/return-all', [RentalController::class, 'returnAllItems'])->name('rental.returnAll');

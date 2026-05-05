@@ -22,6 +22,9 @@ import {
     Bell,
     Zap,
     Briefcase,
+    FileText,
+    Building2,
+    ClipboardList,
 } from 'lucide-react';
 import { NavItem } from '@/types';
 
@@ -91,6 +94,11 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
                 href: '/sales-returns',
                 permission: 'manage-sales-return-invoices',
             },
+            {
+                title: t('Consolidated Billing'),
+                href: '/consolidated-billing',
+                permission: 'manage-sales-invoices',
+            },
         ],
     },
     {
@@ -122,16 +130,16 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
             },
         ],
     },
-    // ─── RENTAL MANAGEMENT ───
+    // ─── RENTAL & SALES MANAGEMENT (إدارة التأجير والمبيع) ───
     {
-        title: t('Rental Management'),
-        icon: Briefcase,
+        title: t('Rental & Sales Management'),
+        icon: Building2,
         permission: 'manage-rentals',
         name: 'rental',
         order: 600,
         children: [
             {
-                title: t('Contracts'),
+                title: t('Rental Contracts'),
                 href: '/rental',
                 permission: 'manage-rentals',
             },
@@ -139,6 +147,21 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
                 title: t('Rental Reports'),
                 href: '/reports/rental',
                 permission: 'manage-rentals',
+            },
+            {
+                title: t('Sales Proposals'),
+                href: '/sales-proposals',
+                permission: 'manage-sales-proposals',
+            },
+            {
+                title: t('Sales Invoice'),
+                href: '/sales-invoices',
+                permission: 'manage-sales-invoices',
+            },
+            {
+                title: t('Consolidated Billing'),
+                href: '/consolidated-billing',
+                permission: 'manage-sales-invoices',
             },
         ],
     },

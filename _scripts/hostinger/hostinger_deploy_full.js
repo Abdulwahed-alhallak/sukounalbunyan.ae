@@ -37,7 +37,7 @@ conn.on('ready', () => {
                 'head -c 200 resources/lang/ar.json',
                 'echo ""',
                 'echo "=== Site HTTP Status ==="',
-                'curl -sk -o /dev/null -w "%{http_code}" https://noble.dion.sy/login',
+                'curl -sk -o /dev/null -w "%{http_code}" https://sukounalbunyan.ae/backend/login',
             ].join(' && ');
             
             conn.exec(deployCmd, (err, stream) => {

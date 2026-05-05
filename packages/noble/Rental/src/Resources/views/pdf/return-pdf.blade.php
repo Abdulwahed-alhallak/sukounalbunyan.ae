@@ -75,7 +75,7 @@
         <table>
             <tr>
                 <td class="brand-section">
-                    <h1>NOBLE <span style="opacity: 0.8;">RENTAL</span></h1>
+                    <h1>SUKOUN <span style="opacity: 0.8;">RENTAL</span></h1>
                     <p style="margin: 5px 0 0 0; opacity: 0.9;">WAREHOUSE RETURN RECEIPT</p>
                 </td>
                 <td class="receipt-label">

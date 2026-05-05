@@ -1,0 +1,20 @@
+﻿const fs = require('fs');
+const data = JSON.parse(fs.readFileSync('resources/lang/ar.json', 'utf8'));
+data['Contracts'] = "العقود";
+data['Rental Reports'] = "تقارير التأجير";
+data['On Site'] = "في الموقع";
+data['Product'] = "المنتج";
+data['Efficiency'] = "الكفاءة";
+data['Total Revenue'] = "إجمالي الإيرادات";
+data['Revenue by Customer'] = "الإيرادات حسب العميل";
+data['Active Customers'] = "العملاء النشطون";
+data['Average Efficiency'] = "متوسط الكفاءة";
+data['Items on Site'] = "المواد في المواقع";
+data['Material Efficiency'] = "كفاءة المواد";
+data['Total invoiced over contract lifecycle'] = "إجمالي مبالغ الإيجار المفوترة خلال دورة العقد";
+data['Number of customers with active contracts'] = "عدد العملاء الذين لديهم عقود إيجار نشطة";
+data['Total units currently deployed to customers'] = "إجمالي الوحدات الموجودة لدى العملاء حالياً";
+data['Tracking scaffolding availability vs. on-site deployment'] = "تتبع توفر السقالات مقابل التوزيع في المواقع";
+
+fs.writeFileSync('resources/lang/ar.json', JSON.stringify(data, null, 2));
+console.log('Translations Added!');

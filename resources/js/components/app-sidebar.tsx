@@ -75,7 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             <Link href={route('dashboard')} className="flex h-auto items-center justify-center !py-3">
                                 {/* Brand Logo - Uses SVG component for consistency */}
                                 <div className="flex items-center px-2 group-data-[collapsible=icon]:hidden">
-                                    <ApplicationLogo className="premium-shimmer h-8 w-auto text-primary transition-transform duration-300 group-hover/logo:scale-105" />
+                                    <ApplicationLogo className="h-8 w-auto text-primary transition-transform duration-300 group-hover/logo:scale-105" />
                                     <span className="ms-2 text-label-13 font-bold tracking-tight text-foreground transition-colors duration-200 group-hover/logo:text-primary">
                                          {settings?.titleText || 'Sukoun Albunyan'}
                                      </span>
@@ -90,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             className="h-7 w-7 transition-all duration-150"
                                         />
                                     ) : (
-                                        <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-geist-gray-10 text-xs font-semibold text-background">
+                                        <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-foreground text-xs font-semibold text-background">
                                              {settings?.titleText ? settings.titleText.charAt(0).toUpperCase() : 'S'}
                                          </div>
                                     )}
@@ -108,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             placeholder={t('Search modules...')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                             className="h-8 rounded-md border-border/60 bg-muted/20 pr-2 pl-8 rtl:pr-8 rtl:pl-2 text-label-13 transition-all placeholder:text-muted-foreground/50 focus-visible:bg-muted/40 focus-visible:ring-1 focus-visible:ring-primary/20"
+                             className="h-8 rounded-md border-border/60 bg-muted/20 ps-8 pe-2 text-label-13 transition-all placeholder:text-muted-foreground/50 focus-visible:bg-muted/40 focus-visible:ring-1 focus-visible:ring-primary/20"
                          />
                         <div className="pointer-events-none absolute end-2.5 top-1/2 -translate-y-1/2 rounded border border-border/60 bg-background px-1.5 py-0.5 font-mono text-[9px] font-bold text-muted-foreground shadow-sm">
                             ⌘K

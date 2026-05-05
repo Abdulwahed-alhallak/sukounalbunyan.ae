@@ -10,13 +10,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InputError } from '@/components/ui/input-error';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
-import { CalendarDays, Package, Trash2, MapPin, CreditCard, Plus } from 'lucide-react';
+import { CalendarDays, Package, Trash2, MapPin, CreditCard, Plus, Shield } from 'lucide-react';
 import { formatCurrency } from '@/utils/helpers';
 import MediaPicker from '@/components/MediaPicker';
 
 interface CreateProps {
     customers: Array<{ id: number; name: string }>;
-    projects: Array<{ id: number; name: string }>;
+    projects: Array<{ id: number; name: string; status: string; contact_name?: string; contact_phone?: string; calendar_color?: string; start_date?: string; end_date?: string }>;
     products: Array<{ id: number; name: string; sale_price: number }>;
     warehouses: Array<{ id: number; name: string }>;
 }
@@ -32,6 +32,9 @@ export default function Create() {
         start_date: new Date().toISOString().split('T')[0],
         billing_cycle: 'daily',
         security_deposit: 0,
+        security_deposit_check: '',
+        security_deposit_amount: 0,
+        security_deposit_notes: '',
         min_days: 0,
         notes: '',
         payment_method: 'cash',
@@ -52,6 +55,18 @@ export default function Create() {
         status: 'active',
         attachments: [] as string[],
     });
+
+    const handleProjectChange = (projectId: string) => {
+        setData('project_id', projectId === 'none' ? '' : projectId);
+        if (projectId && projectId !== 'none') {
+            const project = projects.find(p => p.id.toString() === projectId);
+            if (project) {
+                if (project.contact_name) setData('site_contact_person', project.contact_name);
+                if (project.contact_phone) setData('site_contact_phone', project.contact_phone);
+                if (project.start_date) setData('start_date', project.start_date);
+            }
+        }
+    };
 
     const addItem = () => {
         setData('items', [...data.items, { product_id: '', quantity: 1, price_per_cycle: 0 }]);
@@ -131,11 +146,33 @@ export default function Create() {
                         </div>
                         <div>
                             <Label htmlFor="project_id">{t('Project')} <span className="text-muted-foreground text-xs">({t('optional')})</span></Label>
-                            <Select value={data.project_id} onValueChange={(v) => setData('project_id', v === 'none' ? '' : v)}>
+                            <Select value={data.project_id} onValueChange={handleProjectChange}>
                                 <SelectTrigger><SelectValue placeholder={t('Select Project (Optional)')} /></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="none">{t('None')}</SelectItem>
-                                    {projects?.map(p => <SelectItem key={p.id} value={p.id.toString()}>{p.name}</SelectItem>)}
+                                    {projects?.map(p => (
+                                        <SelectItem key={p.id} value={p.id.toString()}>
+                                            <div className="flex items-center justify-between w-full gap-4">
+                                                <div className="flex items-center gap-2">
+                                                    {p.calendar_color && (
+                                                        <span 
+                                                            className="inline-block w-3 h-3 rounded-full border border-white/20 shadow-sm" 
+                                                            style={{ backgroundColor: p.calendar_color }} 
+                                                        />
+                                                    )}
+                                                    <span className="font-medium">{p.name}</span>
+                                                    {p.contact_name && <span className="text-muted-foreground text-xs opacity-70">· {p.contact_name}</span>}
+                                                </div>
+                                                <span className={`text-[10px] uppercase px-1.5 py-0.5 rounded-full border ${
+                                                    p.status === 'Ongoing' 
+                                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800' 
+                                                        : 'bg-slate-50 text-slate-500 border-slate-200'
+                                                }`}>
+                                                    {t(p.status)}
+                                                </span>
+                                            </div>
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -166,17 +203,45 @@ export default function Create() {
                             <p className="text-[0.8rem] text-muted-foreground mt-1">{t('Items returned early will bill for these days.')}</p>
                             <InputError message={errors.min_days} />
                         </div>
-                        <div>
-                            <Label htmlFor="security_deposit">{t('Security Deposit')} (AED)</Label>
-                            <Input
-                                id="security_deposit"
-                                type="number"
-                                value={data.security_deposit}
-                                onChange={(e) => setData('security_deposit', e.target.value)}
-                                placeholder="0.00"
-                            />
-                            <p className="text-[0.8rem] text-muted-foreground mt-1">{t('Amount held for risk/damages.')}</p>
-                            <InputError message={errors.security_deposit} />
+                        <div className="md:col-span-3 border rounded-lg p-4 bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800">
+                            <div className="flex items-center gap-2 mb-3">
+                                <Shield className="h-4 w-4 text-amber-600" />
+                                <span className="font-medium text-sm text-amber-800 dark:text-amber-300">{t('Security Deposit Check (ضمان الشيك)')}</span>
+                                <span className="text-xs text-muted-foreground">— {t('Check submitted by client to guarantee return of rented items')}</span>
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-3">
+                                <div>
+                                    <Label htmlFor="security_deposit_check">{t('Check Number')}</Label>
+                                    <Input
+                                        id="security_deposit_check"
+                                        value={data.security_deposit_check}
+                                        onChange={(e) => setData('security_deposit_check', e.target.value)}
+                                        placeholder={t('e.g. 001234')}
+                                    />
+                                    <InputError message={errors.security_deposit_check} />
+                                </div>
+                                <div>
+                                    <Label htmlFor="security_deposit_amount">{t('Check Amount')} (AED)</Label>
+                                    <Input
+                                        id="security_deposit_amount"
+                                        type="number"
+                                        value={data.security_deposit_amount}
+                                        onChange={(e) => setData('security_deposit_amount', parseFloat(e.target.value) || 0)}
+                                        placeholder="0.00"
+                                    />
+                                    <InputError message={errors.security_deposit_amount} />
+                                </div>
+                                <div>
+                                    <Label htmlFor="security_deposit_notes">{t('Check Notes')}</Label>
+                                    <Input
+                                        id="security_deposit_notes"
+                                        value={data.security_deposit_notes}
+                                        onChange={(e) => setData('security_deposit_notes', e.target.value)}
+                                        placeholder={t('Bank name, expiry, etc.')}
+                                    />
+                                    <InputError message={errors.security_deposit_notes} />
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <Label htmlFor="warehouse_id">{t('Source Warehouse')}</Label>
@@ -297,7 +362,7 @@ export default function Create() {
                                 <div className="flex justify-between items-center mb-4">
                                     <h4 className="font-medium">{t('Installment Schedule')}</h4>
                                     <Button type="button" size="sm" variant="outline" onClick={addInstallment}>
-                                        <Plus className="h-4 w-4 mr-2" /> {t('Add Installment')}
+                                        <Plus className="h-4 w-4 me-2" /> {t('Add Installment')}
                                     </Button>
                                 </div>
                                 <div className="space-y-3">

@@ -48,7 +48,7 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                                     {user?.name?.charAt(0)?.toUpperCase() || '?'}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="absolute -bottom-0.5 -end-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-emerald-500" />
+                            <span className="absolute -bottom-0.5 -end-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-success" />
                         </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" sideOffset={8} className="w-64 p-1.5 shadow-2xl animate-in zoom-in-95 duration-200">
@@ -72,11 +72,11 @@ export function NavUser({ user, inHeader = false }: { user: User; inHeader?: boo
                         <DropdownMenuSeparator className="mx-1" />
                         <div className="grid grid-cols-3 gap-1 p-1">
                             <button onClick={() => setTheme('light')} className="flex flex-col items-center gap-1.5 rounded-md py-2.5 transition-colors hover:bg-accent group">
-                                <Sun className="h-3.5 w-3.5 text-muted-foreground group-hover:text-amber-500" />
+                                <Sun className="h-3.5 w-3.5 text-muted-foreground group-hover:text-warning" />
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('Day')}</span>
                             </button>
                             <button onClick={() => setTheme('dark')} className="flex flex-col items-center gap-1.5 rounded-md py-2.5 transition-colors hover:bg-accent group">
-                                <Moon className="h-3.5 w-3.5 text-muted-foreground group-hover:text-indigo-400" />
+                                <Moon className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary" />
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('Night')}</span>
                             </button>
                             <button onClick={() => setTheme('system')} className="flex flex-col items-center gap-1.5 rounded-md py-2.5 transition-colors hover:bg-accent group">

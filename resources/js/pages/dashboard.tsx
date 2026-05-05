@@ -53,7 +53,7 @@ export default function Dashboard() {
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">12</div>
                             <div className="mt-1 flex items-center gap-1.5">
-                                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 py-0 px-1 text-[10px] font-bold">
+                                <Badge variant="secondary" className="bg-success/10 text-success hover:bg-success/20 py-0 px-1 text-[10px] font-bold">
                                     <TrendingUp className="me-1 h-3 w-3" />
                                     +2
                                 </Badge>
@@ -65,12 +65,12 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('Active Users')}</CardTitle>
-                            <Users className="h-4 w-4 text-geist-purple" strokeWidth={1.5} />
+                            <Users className="h-4 w-4 text-info" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">840</div>
                             <div className="mt-1 flex items-center gap-1.5">
-                                <Badge variant="secondary" className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 py-0 px-1 text-[10px] font-bold">
+                                <Badge variant="secondary" className="bg-info/10 text-info hover:bg-info/20 py-0 px-1 text-[10px] font-bold">
                                     <Activity className="me-1 h-3 w-3" />
                                     +12%
                                 </Badge>
@@ -82,14 +82,14 @@ export default function Dashboard() {
                     <Card variant="premium">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-xs-bold text-muted-foreground/60">{t('System Uptime')}</CardTitle>
-                            <Zap className="h-4 w-4 text-amber-500" strokeWidth={1.5} />
+                            <Zap className="h-4 w-4 text-warning" strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold tracking-tighter">99.9%</div>
-                            <div className="mt-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-emerald-500">
+                            <div className="mt-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-success">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success/75 opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-success"></span>
                                 </span>
                                 {t('Operational')}
                             </div>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                                                 <AvatarFallback>U</AvatarFallback>
                                             </Avatar>
                                             <div className="absolute -bottom-1 -end-1 rounded-full bg-background p-0.5 shadow-sm">
-                                                <div className="h-3 w-3 rounded-full bg-geist-blue shadow-[0_0_8px_rgba(0,112,243,0.4)]" />
+                                                <div className="h-3 w-3 rounded-full bg-info shadow-[0_0_8px_rgba(var(--info),0.4)]" />
                                             </div>
                                         </div>
                                         <div className="flex-1 space-y-1">
@@ -170,8 +170,8 @@ export default function Dashboard() {
                         <CardContent className="grid gap-4">
                             {[
                                 { name: 'Human Resources', color: 'bg-primary' },
-                                { name: 'Projects & Tasks', color: 'bg-geist-purple' },
-                                { name: 'Financial Control', color: 'bg-emerald-500' },
+                                { name: 'Projects & Tasks', color: 'bg-info' },
+                                { name: 'Financial Control', color: 'bg-success' },
                             ].map((module) => (
                                 <button
                                     key={module.name}
@@ -183,11 +183,11 @@ export default function Dashboard() {
                                             {t(module.name)}
                                         </span>
                                     </div>
-                                    <ChevronRight className={cn("h-4 w-4 text-muted-foreground/30 group-hover:text-foreground transition-all", isRtl && "rotate-180")} />
+                                    <ChevronRight className={cn("h-4 w-4 text-muted-foreground/30 group-hover:text-foreground transition-all rtl:rotate-180")} />
                                 </button>
                             ))}
 
-                            <div className="mt-4 rounded-2xl bg-gradient-to-br from-geist-blue to-geist-cyan p-6 text-white shadow-xl shadow-blue-500/10">
+                            <div className="mt-4 rounded-2xl bg-gradient-to-br from-primary to-info p-6 text-white shadow-xl shadow-info/10">
                                 <h4 className="text-sm font-bold tracking-tight">{t('Enterprise Ready')}</h4>
                                 <p className="mt-2 text-[12px] font-medium opacity-80 leading-relaxed">
                                     {t('Sukoun Albunyan is now running on Vercel Geist 2026 Engine. All systems fully optimized.')}

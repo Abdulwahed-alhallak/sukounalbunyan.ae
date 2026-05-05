@@ -3,7 +3,7 @@ import { Client } from 'ssh2';
 const conn = new Client();
 conn.on('ready', () => {
     console.log('Client :: ready');
-    conn.exec('curl -s -I https://noble.dion.sy/translations/en', (err, stream) => {
+    conn.exec('curl -s -I https://sukounalbunyan.ae/backend/translations/en', (err, stream) => {
         if (err) throw err;
         stream.on('close', (code, signal) => {
             console.log('Stream :: close :: code: ' + code);

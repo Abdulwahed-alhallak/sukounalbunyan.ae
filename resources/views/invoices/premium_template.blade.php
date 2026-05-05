@@ -175,44 +175,38 @@
         </tr>
     </table>
 
-    <table class="table-items">
+    @foreach($groupedItems as $projectName => $items)
+    <div style="background-color: #f4f4f5; padding: 5px 12px; font-weight: bold; font-size: 12px; border-left: 4px solid #f59e0b; margin-bottom: 5px; margin-top: 15px;">
+        PROJECT: {{ strtoupper($projectName) }}
+    </div>
+    <table class="table-items" style="margin-bottom: 10px;">
         <thead>
             <tr>
-                <th style="width: 40%">Item / Description</th>
+                <th style="width: 45%">Item / Description</th>
                 <th style="width: 15%">Qty</th>
-                <th style="width: 20%">Price</th>
-                <th style="width: 25%; text-align: right;">Total</th>
+                <th style="width: 20%">Rate</th>
+                <th style="width: 20%; text-align: right;">Total</th>
             </tr>
         </thead>
         <tbody>
-            @if(isset($items) && count($items) > 0)
-                @foreach($items as $item)
-                <tr>
-                    <td>
-                        <strong>{{ $item->name }}</strong><br>
-                        <span style="font-size: 11px; color: #71717a;">{{ $item->description }}</span>
-                    </td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>{{ number_format($item->price, 2) }}</td>
-                    <td style="text-align: right;">{{ number_format($item->price * $item->quantity, 2) }}</td>
-                </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td>Premium Web Development Services</td>
-                    <td>1</td>
-                    <td>$ 1,500.00</td>
-                    <td style="text-align: right;">$ 1,500.00</td>
-                </tr>
-                <tr>
-                    <td>SaaS Monthly Subscription</td>
-                    <td>1</td>
-                    <td>$ 99.00</td>
-                    <td style="text-align: right;">$ 99.00</td>
-                </tr>
-            @endif
+            @foreach($items as $item)
+            <tr>
+                <td>
+                    <strong>{{ $item->product->name ?? $item->description }}</strong><br>
+                    <span style="font-size: 10px; color: #71717a;">
+                        @if($item->rental_contract_id)
+                            Rental: {{ $item->rentalContract->contract_number ?? '' }}
+                        @endif
+                    </span>
+                </td>
+                <td>{{ $item->quantity }}</td>
+                <td>{{ number_format($item->unit_price, 2) }}</td>
+                <td style="text-align: right;">{{ number_format($item->total_amount, 2) }}</td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
+    @endforeach
 
     <div style="clear: both; overflow: auto;">
         <table class="totals-box">
@@ -238,7 +232,7 @@
     </div>
 
     <div class="footer">
-        <strong>Digitally Generated & Verified viaNobleArchitecture Enterprise SaaS</strong><br>
+        <strong>Digitally Generated & Verified via Sukoun Rental System</strong><br>
         This is a computer generated document. No signature is required.
     </div>
 

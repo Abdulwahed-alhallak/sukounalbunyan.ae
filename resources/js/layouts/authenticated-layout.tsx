@@ -95,7 +95,7 @@ function AuthenticatedLayoutContent({
                                                     href={route('dashboard')}
                                                     className="flex items-center gap-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
                                                 >
-                                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                                                    <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[0_0_8px_hsl(var(--success)/0.4)]" />
                                                     {t('Sukoun Albunyan Core')}
                                                 </Link>
                                             </BreadcrumbLink>
@@ -132,8 +132,8 @@ function AuthenticatedLayoutContent({
                                 {/* Production Status Indicator */}
                                 <div className="hidden items-center gap-2 rounded-full border border-border/60 bg-muted/30 px-3 py-1 md:flex">
                                     <div className="relative flex h-2 w-2">
-                                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
-                                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75"></span>
+                                        <span className="relative inline-flex h-2 w-2 rounded-full bg-success"></span>
                                     </div>
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                                         {t('Live Production')}

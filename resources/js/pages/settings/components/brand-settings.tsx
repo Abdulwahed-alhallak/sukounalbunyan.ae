@@ -486,12 +486,12 @@ export default function BrandSettings({ userSettings, auth }: BrandSettingsProps
                             <div className="sticky top-24 space-y-6">
                                 <div className="rounded-xl border border-border/50 bg-card/40 backdrop-blur-md p-5 shadow-lg relative overflow-hidden">
                                     <div className="absolute top-0 end-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-                                    <div className="absolute bottom-0 start-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
+                                    <div className="absolute bottom-0 start-0 w-32 h-32 bg-info/5 rounded-full blur-3xl" />
 
                                     <div className="mb-5 flex items-center gap-2 relative z-10">
                                         <div className="relative flex h-2 w-2">
                                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                          <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
                                         </div>
                                         <h3 className="font-semibold text-sm tracking-widest uppercase text-muted-foreground">{t('Live Preview')}</h3>
                                     </div>

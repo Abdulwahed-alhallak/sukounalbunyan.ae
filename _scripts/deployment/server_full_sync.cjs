@@ -288,9 +288,9 @@ conn.on('ready', async () => {
         console.log(`  Legacy:      ${r}`);
 
         // HTTP
-        r = await exec(conn, `curl -sk -o /dev/null -w "%{http_code}" https://noble.dion.sy/login`);
+        r = await exec(conn, `curl -sk -o /dev/null -w "%{http_code}" https://sukounalbunyan.ae/backend/login`);
         console.log(`  HTTP /login: ${r}`);
-        r = await exec(conn, `curl -sk -o /dev/null -w "%{http_code}" https://noble.dion.sy/`);
+        r = await exec(conn, `curl -sk -o /dev/null -w "%{http_code}" https://sukounalbunyan.ae/backend/`);
         console.log(`  HTTP /:      ${r}`);
 
         // Any errors in today's log?
@@ -303,7 +303,7 @@ conn.on('ready', async () => {
         console.log(`\n  ✅ Success: ${results.success.join(', ')}`);
         if (results.warnings.length) console.log(`  ⚠️ Warnings: ${results.warnings.join(', ')}`);
         if (results.errors.length) console.log(`  ❌ Errors: ${results.errors.join(', ')}`);
-        console.log('\n  🌐 https://noble.dion.sy — LIVE & CLEAN\n');
+        console.log('\n  🌐 https://sukounalbunyan.ae/backend — LIVE & CLEAN\n');
 
     } catch (err) {
         console.error('\n❌ Fatal Error:', err.message);

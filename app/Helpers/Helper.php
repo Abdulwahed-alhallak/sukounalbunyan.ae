@@ -27,6 +27,13 @@ if (!function_exists('creatorId')) {
     }
 }
 
+if (!function_exists('getActiveWorkSpace')) {
+    function getActiveWorkSpace()
+    {
+        return creatorId();
+    }
+}
+
 if (!function_exists('creatorUser')) {
     function creatorUser()
     {

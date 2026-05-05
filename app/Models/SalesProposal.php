@@ -16,6 +16,7 @@ class SalesProposal extends Model
         'due_date',
         'customer_id',
         'warehouse_id',
+        'project_id',
         'payment_terms',
         'subtotal',
         'tax_amount',
@@ -28,6 +29,11 @@ class SalesProposal extends Model
         'creator_id',
         'created_by'
     ];
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(\Noble\Taskly\Models\Project::class, 'project_id');
+    }
 
     protected $casts = [
         'proposal_date' => 'date',

@@ -309,7 +309,7 @@ export default function Index() {
                                                             className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs ${task.completed ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}
                                                         >
                                                             <CheckCircle2
-                                                                className={`h-3.5 w-3.5 ${task.completed ? 'text-emerald-500' : 'text-muted-foreground/40'}`}
+                                                                className={`h-3.5 w-3.5 ${task.completed ? 'text-success' : 'text-muted-foreground/40'}`}
                                                             />
                                                             <span className={task.completed ? 'line-through' : ''}>
                                                                 {t(task.label)}

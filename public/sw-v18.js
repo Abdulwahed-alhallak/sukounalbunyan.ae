@@ -3,8 +3,8 @@
 const CACHE_PREFIX = 'noble-pwa-cache-';
 const CACHE_NAME = CACHE_PREFIX + 'v18';
 const urlsToCache = [
-    '/favicon.ico',
-    '/manifest.json'
+    './favicon.ico',
+    './manifest.json'
 ];
 
 // 1. Installation: Cache core assets 
@@ -48,9 +48,9 @@ self.addEventListener('fetch', (event) => {
     // Bypass conditions
     const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
     const isVite = url.port === '5173' || url.pathname.includes('@vite') || url.pathname.includes('@react-refresh');
-    const isAuth = url.pathname.startsWith('/login') || url.pathname.startsWith('/register');
-    const isApi = url.pathname.startsWith('/api') || url.pathname.startsWith('/telescope');
-    const isBuild = url.pathname.startsWith('/build');
+    const isAuth = url.pathname.includes('/login') || url.pathname.includes('/register');
+    const isApi = url.pathname.includes('/api') || url.pathname.includes('/telescope');
+    const isBuild = url.pathname.includes('/build');
     const isExternal = url.origin !== self.location.origin;
 
     if (isLocal || isVite || isAuth || isApi || isBuild || isExternal) {

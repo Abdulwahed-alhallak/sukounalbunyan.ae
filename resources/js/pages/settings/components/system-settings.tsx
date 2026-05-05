@@ -261,7 +261,7 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                 <div className="rounded-xl border border-border/40 bg-muted/20 p-5 space-y-4">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2.5">
-                                            <div className="rounded-md bg-blue-500/10 p-1.5 text-blue-500">
+                                            <div className="rounded-md bg-info/10 p-1.5 text-info">
                                                 <UserPlus className="h-4 w-4" />
                                             </div>
                                             <Label className="text-[13px] font-bold">{t('Onboarding')}</Label>
@@ -280,7 +280,7 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                 <div className="rounded-xl border border-border/40 bg-muted/20 p-5 space-y-4">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2.5">
-                                            <div className="rounded-md bg-emerald-500/10 p-1.5 text-emerald-500">
+                                            <div className="rounded-md bg-success/10 p-1.5 text-success">
                                                 <ShieldCheck className="h-4 w-4" />
                                             </div>
                                             <Label className="text-[13px] font-bold">{t('Identity Verification')}</Label>
@@ -327,7 +327,7 @@ export default function SystemSettings({ userSettings, auth }: SystemSettingsPro
                                         disabled={!canEdit}
                                         className="vercel-input ps-10"
                                     />
-                                    <ExternalLink className={cn("absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors", isRtl ? "right-3" : "left-3")} />
+                                    <ExternalLink className={cn("absolute top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors", isRtl ? "end-3" : "start-3")} />
                                 </div>
                             </div>
                         </div>

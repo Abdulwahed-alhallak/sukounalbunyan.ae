@@ -60,11 +60,11 @@ export default function PosIndex({
 
     const StatCard = ({ title, value, subtitle, color = 'blue', icon: Icon }: any) => {
         const glowColors = {
-            blue: 'text-blue-500',
-            green: 'text-emerald-500',
+            blue: 'text-info',
+            green: 'text-success',
             red: 'text-rose-500',
             purple: 'text-purple-500',
-            orange: 'text-amber-500',
+            orange: 'text-warning',
         };
         const currentGlow = glowColors[color as keyof typeof glowColors] || glowColors.blue;
 
@@ -261,7 +261,7 @@ export default function PosIndex({
                                                 </p>
                                             </div>
                                             <div className="text-end">
-                                                <p className="text-sm font-black text-blue-500">{formatCurrency(sale.total)}</p>
+                                                <p className="text-sm font-black text-info">{formatCurrency(sale.total)}</p>
                                                 <p className="text-[10px] font-bold text-muted-foreground uppercase mt-1">
                                                     {formatDate(sale.created_at)}
                                                 </p>

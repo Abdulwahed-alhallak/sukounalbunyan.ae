@@ -162,14 +162,14 @@ export default function Index() {
                     </Card>
                     <Card className="bg-gradient-to-br from-amber-50 to-amber-100/50 dark:from-amber-950/20 dark:to-amber-900/10">
                         <CardContent className="flex items-center gap-4 p-4">
-                            <div className="rounded-xl bg-amber-500/10 p-3">
-                                <Calendar className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                            <div className="rounded-xl bg-warning/10 p-3">
+                                <Calendar className="h-6 w-6 text-warning dark:text-amber-400" />
                             </div>
                             <div>
                                 <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">
                                     {items.filter((s) => s.status === 'Open').length}
                                 </p>
-                                <p className="text-sm text-amber-600/70">{t('Open')}</p>
+                                <p className="text-sm text-warning/70">{t('Open')}</p>
                             </div>
                         </CardContent>
                     </Card>

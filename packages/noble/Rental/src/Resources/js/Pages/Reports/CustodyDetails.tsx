@@ -42,7 +42,7 @@ export default function CustodyDetails({ product, custody }: CustodyProps) {
                 <div className="flex items-center justify-between">
                     <Button variant="outline" size="sm" asChild>
                         <Link href={route('rental.reports.index')}>
-                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            <ArrowLeft className="w-4 h-4 me-2" />
                             {t('Back to Reports')}
                         </Link>
                     </Button>

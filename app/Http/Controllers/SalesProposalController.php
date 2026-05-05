@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Noble\ProductService\Models\ProductServiceItem;
+use Noble\Taskly\Models\Project;
 
 class SalesProposalController extends Controller
 {
@@ -108,10 +109,12 @@ class SalesProposalController extends Controller
         if(Auth::user()->can('create-sales-proposals')){
             $customers = User::where('type', 'client')->select('id', 'name', 'email')->where('created_by', creatorId())->get();
             $warehouses = Warehouse::where('is_active', true)->select('id', 'name', 'address')->where('created_by', creatorId())->get();
+            $projects = Project::where('created_by', creatorId())->select('id', 'name')->get();
 
             return Inertia::render('SalesProposals/Create', [
                 'customers' => $customers,
-                'warehouses' => $warehouses
+                'warehouses' => $warehouses,
+                'projects' => $projects
             ]);
         }
         else{
@@ -130,6 +133,7 @@ class SalesProposalController extends Controller
             $proposal->due_date = $request->due_date;
             $proposal->customer_id = $request->customer_id;
             $proposal->warehouse_id = $request->warehouse_id;
+            $proposal->project_id = $request->project_id;
             $proposal->payment_terms = $request->payment_terms;
             $proposal->notes = $request->notes;
             $proposal->subtotal = $totals['subtotal'];
@@ -184,14 +188,16 @@ class SalesProposalController extends Controller
                 return redirect()->route('sales-proposals.index')->with('error', __('Cannot update converted proposal.'));
             }
 
-            $salesProposal->load(['items.taxes']);
+            $salesProposal->load(['items.taxes', 'project']);
             $customers = User::where('type', 'client')->select('id', 'name', 'email')->where('created_by', creatorId())->get();
             $warehouses = Warehouse::where('is_active', true)->select('id', 'name', 'address')->where('created_by', creatorId())->get();
+            $projects = Project::where('created_by', creatorId())->select('id', 'name')->get();
 
             return Inertia::render('SalesProposals/Edit', [
                 'proposal' => $salesProposal,
                 'customers' => $customers,
-                'warehouses' => $warehouses
+                'warehouses' => $warehouses,
+                'projects' => $projects
             ]);
         }
         else{
@@ -212,6 +218,7 @@ class SalesProposalController extends Controller
             $salesProposal->due_date = $request->due_date;
             $salesProposal->customer_id = $request->customer_id;
             $salesProposal->warehouse_id = $request->warehouse_id;
+            $salesProposal->project_id = $request->project_id;
             $salesProposal->payment_terms = $request->payment_terms;
             $salesProposal->notes = $request->notes;
             $salesProposal->subtotal = $totals['subtotal'];
@@ -265,6 +272,7 @@ class SalesProposalController extends Controller
             try {
                 $invoice = new SalesInvoice();
                 $invoice->customer_id = $salesProposal->customer_id;
+                $invoice->project_id = $salesProposal->project_id;
                 $invoice->warehouse_id = $salesProposal->warehouse_id ?? 1;
                 $invoice->invoice_date = now();
                 $invoice->due_date = $salesProposal->due_date;

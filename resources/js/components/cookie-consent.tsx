@@ -112,7 +112,7 @@ export default function CookieConsent({ settings }: CookieConsentProps) {
     }
 
     return (
-        <div className="fixed bottom-4 left-0 right-0 mx-auto z-50 w-[900px] max-w-[95vw]">
+        <div className="fixed bottom-4 start-0 end-0 mx-auto z-50 w-[900px] max-w-[95vw]">
             <div className="rounded-xl border border-border bg-background shadow-2xl backdrop-blur-sm">
                 <div className="flex items-start justify-between p-3">
                     <div className="flex items-center gap-3">

@@ -1,5 +1,5 @@
 @php
-$lang = $page['props']['auth']['lang'] ?? substr(app()->getLocale(), 0, 2);
+$lang = $page['props']['auth']['lang'] ?? 'ar';
 $dir = in_array(substr($lang, 0, 2), ['ar', 'he', 'fa', 'ur']) ? 'rtl' : 'ltr';
 $isViteHot = file_exists(public_path('hot'));
 @endphp
@@ -16,10 +16,10 @@ $isViteHot = file_exists(public_path('hot'));
 
     <!-- Progressive Web App (PWA) Tags -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#09090b">
+    <meta name="theme-color" content="#ffffff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Noble ERP">
+    <meta name="apple-mobile-web-app-title" content="Sukoun ERP">
     <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -113,8 +113,7 @@ $isViteHot = file_exists(public_path('hot'));
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased {{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }}" style="font-family: 'Inter', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-    <div class="grain-overlay"></div>
+<body class="font-sans antialiased {{ ($page['props']['adminAllSetting']['themeMode'] ?? $page['props']['companyAllSetting']['themeMode'] ?? 'light') === 'dark' ? 'dark' : 'light' }}" style="font-family: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
     @inertia
 </body>
 

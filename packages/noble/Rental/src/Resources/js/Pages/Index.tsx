@@ -70,7 +70,7 @@ export default function Index() {
                 </Card>
                 <Card className="border-blue-200 bg-blue-50">
                     <CardContent className="pt-4 p-4 text-center">
-                        <div className="text-xl font-bold text-blue-600">{formatCurrency(stats.total_deposits)}</div>
+                        <div className="text-xl font-bold text-info">{formatCurrency(stats.total_deposits)}</div>
                         <div className="text-[10px] text-blue-700/70 mt-1 uppercase tracking-wider font-bold">{t('Security Deposits')}</div>
                     </CardContent>
                 </Card>
@@ -88,7 +88,7 @@ export default function Index() {
                 </Card>
                 <Card className="border-amber-200 bg-amber-50">
                     <CardContent className="pt-4 p-4 text-center">
-                        <div className="text-2xl font-bold text-amber-600">{stats.expiring_soon}</div>
+                        <div className="text-2xl font-bold text-warning">{stats.expiring_soon}</div>
                         <div className="text-[10px] text-amber-700/70 mt-1 uppercase tracking-wider font-bold">{t('Expiring Soon')}</div>
                     </CardContent>
                 </Card>
@@ -100,9 +100,9 @@ export default function Index() {
                     <div className="flex items-center gap-2 flex-wrap">
                         {/* Search */}
                         <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Search className="absolute start-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                className="pl-8 w-48"
+                                className="ps-8 w-48"
                                 placeholder={t('Search contract...')}
                                 value={search}
                                 onChange={(e) => {
@@ -123,21 +123,21 @@ export default function Index() {
                             </SelectContent>
                         </Select>
                         <Button variant="outline" onClick={() => setIsScannerOpen(true)}>
-                            <ScanBarcode className="mr-2 h-4 w-4" /> {t('Scan QR')}
+                            <ScanBarcode className="me-2 h-4 w-4" /> {t('Scan QR')}
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href={route('rental.dashboard')}>
-                                <LayoutDashboard className="mr-2 h-4 w-4" /> {t('Dashboard')}
+                                <LayoutDashboard className="me-2 h-4 w-4" /> {t('Dashboard')}
                             </Link>
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href={route('rental.reports.index')}>
-                                <BarChart3 className="mr-2 h-4 w-4" /> {t('Reports & Analytics')}
+                                <BarChart3 className="me-2 h-4 w-4" /> {t('Reports & Analytics')}
                             </Link>
                         </Button>
                         <Button asChild>
                             <Link href={route('rental.create')}>
-                                <Plus className="mr-2 h-4 w-4" /> {t('New Contract')}
+                                <Plus className="me-2 h-4 w-4" /> {t('New Contract')}
                             </Link>
                         </Button>
                     </div>
@@ -196,13 +196,13 @@ export default function Index() {
                                                     className="h-8 px-2 text-green-600 hover:text-green-700 hover:bg-green-50"
                                                     onClick={() => router.post(route('rental.activate', contract.id))}
                                                 >
-                                                    <CheckCheck className="h-4 w-4 mr-1" />
+                                                    <CheckCheck className="h-4 w-4 me-1" />
                                                     {t('Activate')}
                                                 </Button>
                                             )}
                                             <Button variant="ghost" size="sm" className="h-8 px-2" asChild>
                                                 <Link href={route('rental.show', contract.id)}>
-                                                    <FileText className="h-4 w-4 mr-1" />
+                                                    <FileText className="h-4 w-4 me-1" />
                                                     {t('View')}
                                                 </Link>
                                             </Button>

@@ -243,7 +243,7 @@ export default function Login({
                                     <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
                                         <Crown className="h-3.5 w-3.5 text-foreground" />
                                     </div>
-                                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                    <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse shadow-[0_0_8px_hsl(var(--success)/0.5)]" />
                                 </div>
                                 <div className="mt-2 min-w-0 text-start">
                                     <p className="text-[12px] font-bold text-foreground truncate">{t('Sukoun Commander')}</p>

@@ -7,7 +7,7 @@ APP_ENV=production
 APP_KEY=base64:l/0a7fA6FBBACDOShPl7G1CjfZOQli7qF1g0B2mPcIc=
 APP_DEBUG=false
 APP_TIMEZONE=Asia/Riyadh
-APP_URL=https://noble.dion.sy
+APP_URL=https://sukounalbunyan.ae/backend
 
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en
@@ -60,7 +60,7 @@ conn.on('ready', () => {
                 'echo "=== DB Test ==="',
                 '/opt/alt/php82/usr/bin/php artisan db:show 2>&1 | head -15',
                 'echo "=== Site Test ==="',
-                'curl -sk -o /dev/null -w "%{http_code}" https://noble.dion.sy/',
+                'curl -sk -o /dev/null -w "%{http_code}" https://sukounalbunyan.ae/backend/',
             ].join(' && ');
             
             conn.exec(artisanCmds, (err, stream) => {

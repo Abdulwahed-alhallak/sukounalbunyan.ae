@@ -1,6 +1,6 @@
 # Dependencies
-/node_modules
-/vendor
+node_modules/
+vendor/
 
 # Environment
 .env
@@ -9,13 +9,13 @@
 .env.hostinger
 
 # IDE
-/.fleet
-/.idea
-/.vscode
+.fleet/
+.idea/
+.vscode/
 .phpactor.json
 
 # Testing
-/.phpunit.cache
+.phpunit.cache/
 .phpunit.result.cache
 
 # Logs
@@ -24,28 +24,33 @@ yarn-error.log
 artisan_serve.log
 npm_dev.log
 tsc_output.txt
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/views/*.php
+storage/logs/*.log
 
 # Build artifacts
-/public/build
-/public/hot
+public/build/
+public/hot/
+cypress/videos/
+cypress/screenshots/
 
 # Archives & SQL dumps
 *.tar.gz
 *.sql
+*.zip
+*.psd
 
 # Temporary directories
-/temp_extract_resources
-/temp_restore
-/tmp
+temp_extract_resources/
+temp_restore/
+tmp/
 
-# Lock files (regenerated per environment)
+# Lock files
 composer.lock
 package-lock.json
 
 # Misc
-Homestead.json
-Homestead.yaml
-auth.json
 hostinger_creds.txt
 .cursorrules
 ANTIGRAVITY_CONTEXT.md

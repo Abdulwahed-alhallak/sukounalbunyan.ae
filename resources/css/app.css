@@ -584,14 +584,6 @@
         box-shadow: var(--shadow-menu);
         transform: translateY(-1px);
     }
-    .premium-card::after {
-        content: '';
-        @apply absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300;
-        background: linear-gradient(135deg, hsl(var(--geist-blue) / 0.03), transparent 60%);
-    }
-    .premium-card:hover::after {
-        @apply opacity-100;
-    }
 
     /* ─── HRM Surface System ─── */
     .hrm-panel {
@@ -614,14 +606,6 @@
         inset-inline-start: 0;
         width: 100vw;
         height: 100vh;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.025;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-    .dark .grain-overlay {
-        opacity: 0.04;
-        filter: invert(1);
     }
 
     /* ─── Vercel Gradient Line (Signature) ─── */
@@ -786,25 +770,6 @@
         background-color: hsl(var(--gray-1) / 0.5);
     }
 
-    /* ─── Premium Shimmer Effect ─── */
-    .premium-shimmer {
-        background: linear-gradient(
-            90deg,
-            hsl(var(--foreground)),
-            hsl(var(--geist-blue)),
-            hsl(var(--foreground))
-        );
-        background-size: 200% auto;
-        background-clip: text;
-        -webkit-background-clip: text;
-        animation: shimmer-text 4s linear infinite;
-    }
-
-    @keyframes shimmer-text {
-        0% { background-position: 0% center; }
-        100% { background-position: 200% center; }
-    }
-
     /* ─── Focus Visible Ring (Accessibility) ─── */
     *:focus-visible {
         outline: 2px solid hsl(var(--geist-blue));
@@ -924,34 +889,6 @@
 }
 .geist-hover-reveal:hover {
     @apply border-primary/30 shadow-md translate-y-[-1px];
-}
-
-.geist-border-shimmer {
-    position: relative;
-    overflow: hidden;
-}
-.geist-border-shimmer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border: 1px solid transparent;
-    background: linear-gradient(90deg, transparent, hsl(var(--geist-blue) / 0.5), transparent) border-box;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-.geist-border-shimmer:hover::after {
-    opacity: 1;
-    animation: border-shimmer 2s linear infinite;
-}
-
-@keyframes border-shimmer {
-    from { background-position: -200% center; }
-    to { background-position: 200% center; }
 }
 
 /* ─── High Density Text Utilities ─── */

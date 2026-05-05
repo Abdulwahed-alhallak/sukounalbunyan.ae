@@ -237,7 +237,7 @@ export default function Edit() {
                                 <div className="flex justify-between items-center mb-4">
                                     <h4 className="font-medium">{t('Installment Schedule')}</h4>
                                     <Button type="button" size="sm" variant="outline" onClick={addInstallment}>
-                                        <Plus className="h-4 w-4 mr-2" /> {t('Add Installment')}
+                                        <Plus className="h-4 w-4 me-2" /> {t('Add Installment')}
                                     </Button>
                                 </div>
                                 <div className="space-y-3">
@@ -277,12 +277,12 @@ export default function Edit() {
                 <div className="flex justify-end gap-3">
                     <Button type="button" variant="outline" asChild>
                         <Link href={route('rental.show', contract.id)}>
-                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            <ArrowLeft className="w-4 h-4 me-2" />
                             {t('Cancel')}
                         </Link>
                     </Button>
                     <Button type="submit" disabled={processing}>
-                        <Save className="w-4 h-4 mr-2" />
+                        <Save className="w-4 h-4 me-2" />
                         {processing ? t('Saving...') : t('Save Changes')}
                     </Button>
                 </div>

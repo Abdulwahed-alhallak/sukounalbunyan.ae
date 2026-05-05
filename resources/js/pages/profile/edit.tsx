@@ -22,7 +22,7 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
                 <CardContent className="p-6">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         <Card className="min-h-[500px] shadow-sm">
-                            <CardHeader className="bg-muted/50/50 border-b">
+                            <CardHeader className="bg-muted/50 border-b">
                                 <CardTitle className="text-base">{t('Profile Information')}</CardTitle>
                                 <p className="mt-1 text-sm text-muted-foreground">
                                     {t('Details about your personal information')}
@@ -38,7 +38,7 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
                         </Card>
 
                         <Card className="min-h-[500px] shadow-sm">
-                            <CardHeader className="bg-muted/50/50 border-b">
+                            <CardHeader className="bg-muted/50 border-b">
                                 <CardTitle className="text-base">{t('Change Password')}</CardTitle>
                                 <p className="mt-1 text-sm text-muted-foreground">
                                     {t('Details about your account password change')}
@@ -63,7 +63,7 @@ export default function Edit({ mustVerifyEmail, status }: { mustVerifyEmail: boo
                         (auth.user as any)?.type !== 'company' && (
                             <div className="mt-6">
                                 <Card className="shadow-sm">
-                                    <CardHeader className="bg-muted/50/50 border-b">
+                                    <CardHeader className="bg-muted/50 border-b">
                                         <CardTitle className="text-base">{t('Job Seeker Information')}</CardTitle>
                                         <p className="mt-1 text-sm text-muted-foreground">
                                             {t('Complete your job seeker profile with this details')}
