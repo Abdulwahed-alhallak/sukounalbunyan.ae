@@ -42,7 +42,9 @@ Route::get('/debug-routes', function () {
     return \Illuminate\Support\Facades\Artisan::output();
 });
 
-Route::redirect('/', '/dashboard');
+Route::get('/', function () {
+    return "ROOT IS DEFINITELY WORKING";
+})->name('root');
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     // Route::get('/dashboard', function () {
