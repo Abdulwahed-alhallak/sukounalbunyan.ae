@@ -217,14 +217,14 @@ export default function Show() {
                 {/* ── Left: Tabs for Materials, History, Attachments ── */}
                 <div className="md:col-span-2 space-y-6">
                     <Tabs defaultValue="materials" className="w-full">
-                        <TabsList className="grid w-full grid-cols-7 mb-4 h-auto flex-wrap">
-                            <TabsTrigger value="materials">{t('Materials')}</TabsTrigger>
-                            <TabsTrigger value="logistics">{t('Logistics')}</TabsTrigger>
-                            <TabsTrigger value="installments">{t('Installments')}</TabsTrigger>
-                            <TabsTrigger value="history">{t('Return History')}</TabsTrigger>
-                            <TabsTrigger value="attachments">{t('Attachments')}</TabsTrigger>
-                            <TabsTrigger value="timeline">{t('Timeline')}</TabsTrigger>
-                            <TabsTrigger value="invoices">{t('Invoices')}</TabsTrigger>
+                        <TabsList className="flex flex-wrap h-auto w-full justify-start gap-1 p-1 bg-muted/50 rounded-lg mb-4">
+                            <TabsTrigger value="materials" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Materials')}</TabsTrigger>
+                            <TabsTrigger value="logistics" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Logistics')}</TabsTrigger>
+                            <TabsTrigger value="installments" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Installments')}</TabsTrigger>
+                            <TabsTrigger value="history" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Return History')}</TabsTrigger>
+                            <TabsTrigger value="attachments" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Attachments')}</TabsTrigger>
+                            <TabsTrigger value="timeline" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Timeline')}</TabsTrigger>
+                            <TabsTrigger value="invoices" className="flex-grow min-w-[120px] whitespace-nowrap">{t('Invoices')}</TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="materials">
