@@ -7,7 +7,7 @@ import { glob } from 'glob';
 const noblePackages = glob.sync('packages/noble/*/src/Resources/js/app.tsx');
 
 export default defineConfig({
-    base: './',
+    base: process.env.NODE_ENV === 'production' ? '/backend/build/' : '/',
     plugins: [
         laravel({
             input: [
