@@ -208,7 +208,12 @@ const unifiedCategories = [
     {
         label: 'Products & Services',
         icon: Package,
-        matches: ['productservice', 'contract', 'formbuilder', 'dairy'],
+        matches: ['productservice', 'formbuilder', 'dairy'],
+    },
+    {
+        label: 'Contracts',
+        icon: FileSignature,
+        matches: ['contract', 'contracts-unified'],
     },
     {
         label: 'Customer Support',

@@ -19,7 +19,7 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => {
             title: t('Rental Contracts'),
             icon: FileSignature,
             href: route('rental.index'),
-            moduleName: 'rental',
+            moduleName: 'contracts-unified',
         },
         {
             title: t('Register Return'),

@@ -139,8 +139,13 @@ export const getCompanyMenu = (t: (key: string) => string): NavItem[] => [
         order: 600,
         children: [
             {
-                title: t('Rental Contracts'),
-                href: '/rental',
+                title: t('Customers'),
+                href: '/account/customers',
+                permission: 'manage-customers',
+            },
+            {
+                title: t('Rental Projects'),
+                href: '/rental-projects',
                 permission: 'manage-rentals',
             },
             {
