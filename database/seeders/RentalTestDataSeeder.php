@@ -42,7 +42,6 @@ class RentalTestDataSeeder extends Seeder
             ['name' => 'معدات التأجير'],
             [
                 'color' => '#f97316',
-                'type' => 'product',
             ]
         );
 
