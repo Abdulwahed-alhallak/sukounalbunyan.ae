@@ -111,7 +111,7 @@
   "Avg. Utilization": "متوسط الاستهلاك",
   "Active Customers": "العملاء النشطون",
   "Total units currently with customers": "إجمالي الوحدات الموجودة لدى العملاء حالياً",
-  "Unique customers with rental billing": "عدد العملاء الذين لديهم عقود إيجار نشطة",
+  "Unique customers with rental billing": "العملاء الذين لديهم فواتير إيجار نشطة",
   "Tracking scaffolding availability vs site distribution": "تتبع توفر السقالات مقابل التوزيع في المواقع",
   "Revenue by Customer": "الإيرادات حسب العميل",
   "Total invoiced rent across the lifecycle": "إجمالي مبالغ الإيجار المفوترة خلال دورة العقد",
@@ -4041,5 +4041,14 @@
   "Select documents or photos...": "اختر مستندات أو صور...",
   "Site & Logistics Details": "تفاصيل الموقع والخدمات اللوجستية",
   "e.g. Al Barsha Villa Project": "مثال: مشروع فيلا البرشاء",
-  "Currently active and deployed": "نشطة ومفعّلة حالياً"
+  "Currently active and deployed": "نشطة ومفعّلة حالياً",
+  "Rental Reports": "تقارير التأجير",
+  "On Site": "في الموقع",
+  "Average Efficiency": "متوسط الكفاءة",
+  "Items on Site": "المواد في المواقع",
+  "Total invoiced over contract lifecycle": "إجمالي مبالغ الإيجار المفوترة خلال دورة العقد",
+  "Number of customers with active contracts": "عدد العملاء الذين لديهم عقود إيجار نشطة",
+  "Total units currently deployed to customers": "إجمالي الوحدات الموجودة لدى العملاء حالياً",
+  "Tracking scaffolding availability vs. on-site deployment": "تتبع توفر السقالات مقابل التوزيع في المواقع",
+  "AED": "د.إ"
 }
