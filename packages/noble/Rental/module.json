@@ -1,10 +1,10 @@
-{
-    "name": "Rental",
-    "alias": "Rental Management",
-    "description": "Automated scaffolding and material rental module with prorated billing.",
-    "version": "1.0.0",
-    "priority": 20,
-    "package_name": "Rental",
-    "for_admin": false,
-    "display": true
+﻿{
+    "name":  "Rental",
+    "alias":  "Rental Management",
+    "description":  "Automated scaffolding and material rental module with prorated billing.",
+    "version":  "1.1.0",
+    "priority":  20,
+    "package_name":  "Rental",
+    "for_admin":  false,
+    "display":  true
 }
