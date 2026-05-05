@@ -9,7 +9,7 @@ const config = {
     password: '4_m_XMkgux@.AgC'
 };
 
-const localBuildDir = path.join(__dirname, 'public', 'build');
+const localBuildDir = path.join(__dirname, '..', '..', 'public', 'build');
 const remoteBuildDir = 'domains/sukounalbunyan.ae/public_html/backend/public/build';
 
 function getAllFiles(dirPath, arrayOfFiles = []) {

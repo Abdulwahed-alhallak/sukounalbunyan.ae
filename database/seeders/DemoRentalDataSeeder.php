@@ -47,31 +47,28 @@ class DemoRentalDataSeeder extends Seeder
             'currencySymbol' => 'د.إ',
             'companyName' => 'شركة سكون البنيان (Sukoun Albunyan)',
             'companyAddress' => 'منطقة الصجعة الصناعية - الشارقة - الإمارات العربية المتحدة',
-            'companyCity' => 'الشارقة',
-            'companyState' => 'الشارقة',
-            'companyZipCode' => '00000',
             'companyCountry' => 'الإمارات العربية المتحدة',
             'companyTelephone' => '+971 6 000 0000',
             'companyEmail' => 'info@sukounalbunyan.ae',
             'timezone' => 'Asia/Dubai',
         ];
 
-        foreach ($settings as $key => $value) {
-            Setting::withoutGlobalScopes()->updateOrCreate(
-                ['key' => $key, 'created_by' => $createdBy],
-                ['value' => $value]
+        foreach ($settings as $key => $val) {
+            Setting::updateOrCreate(
+                ['key' => $key, 'workspace' => $workspaceId, 'created_by' => $createdBy],
+                ['value' => $val]
             );
         }
 
         // 3. Units & Categories
         echo "Ensuring Units & Categories...\n";
         $unitSet = ProductServiceUnit::withoutGlobalScopes()->firstOrCreate(
-            ['unit_name' => 'مجموعة (Set)'],
+            ['name' => 'مجموعة (Set)'],
             ['created_by' => $createdBy]
         );
         
         $unitMeter = ProductServiceUnit::withoutGlobalScopes()->firstOrCreate(
-            ['unit_name' => 'متر طولي (Meter)'],
+            ['name' => 'متر طولي (Meter)'],
             ['created_by' => $createdBy]
         );
 
@@ -96,10 +93,11 @@ class DemoRentalDataSeeder extends Seeder
                 'email' => 'warehouse@sukounalbunyan.ae',
                 'phone' => '+971 50 000 0000',
                 'created_by' => $createdBy,
+                'workspace' => $workspaceId,
             ]
         );
 
-        // 5. Products (UAE Scaffolding Inventory)
+        // 5. Products (Scaffolding Components)
         echo "Creating Scaffolding Products...\n";
         $products = [
             [
@@ -107,21 +105,21 @@ class DemoRentalDataSeeder extends Seeder
                 'sku' => 'SCAF-CL-01',
                 'sale_price' => 45.00,
                 'category_id' => $catScaffolding->id,
-                'unit' => $unitSet->id,
+                'unit_id' => $unitSet->id,
             ],
             [
                 'name' => 'منصة عمل ألمنيوم (Aluminum Working Platform)',
                 'sku' => 'SCAF-AL-02',
                 'sale_price' => 75.00,
                 'category_id' => $catScaffolding->id,
-                'unit' => $unitSet->id,
+                'unit_id' => $unitSet->id,
             ],
             [
                 'name' => 'أنابيب فولاذية 6 متر (Steel Tubes 6m)',
                 'sku' => 'SCAF-TB-06',
                 'sale_price' => 15.00,
                 'category_id' => $catAccessories->id,
-                'unit' => $unitMeter->id,
+                'unit_id' => $unitMeter->id,
             ]
         ];
 
@@ -131,8 +129,10 @@ class DemoRentalDataSeeder extends Seeder
                 ['sku' => $pData['sku']],
                 array_merge($pData, [
                     'type' => 'product',
+                    'tax_id' => null,
                     'purchase_price' => $pData['sale_price'] * 0.6,
                     'created_by' => $createdBy,
+                    'workspace_id' => $workspaceId,
                     'is_active' => true,
                     'description' => 'معدات عالية الجودة متوافقة مع معايير السلامة الإماراتية.'
                 ])
@@ -176,14 +176,15 @@ class DemoRentalDataSeeder extends Seeder
         ];
 
         foreach ($clients as $cData) {
-            $user = User::withoutGlobalScopes()->updateOrCreate(
+            // Find or Create User for Client
+            $user = User::withoutGlobalScopes()->firstOrCreate(
                 ['email' => $cData['email']],
                 [
                     'name' => $cData['name'],
-                    'password' => Hash::make('client@123'),
+                    'password' => Hash::make('Client@2024'),
                     'type' => 'client',
-                    'created_by' => $createdBy,
                     'lang' => 'ar',
+                    'created_by' => $createdBy,
                 ]
             );
 
@@ -191,13 +192,13 @@ class DemoRentalDataSeeder extends Seeder
             Customer::withoutGlobalScopes()->updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'company_name' => $cData['name'],
-                    'contact_person_name' => $cData['name'],
-                    'contact_person_email' => $cData['email'],
+                    'name' => $cData['name'],
+                    'email' => $cData['email'],
                     'billing_address' => 'الإمارات العربية المتحدة',
                     'shipping_address' => 'الإمارات العربية المتحدة',
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
+                    'workspace' => $workspaceId,
                 ]
             );
 
@@ -212,6 +213,7 @@ class DemoRentalDataSeeder extends Seeder
                     'budget' => rand(100000, 500000),
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
+                    'workspace' => $workspaceId,
                 ]
             );
 
@@ -225,6 +227,7 @@ class DemoRentalDataSeeder extends Seeder
                 'stage_id' => $leadStage->id,
                 'creator_id' => $createdBy,
                 'created_by' => $createdBy,
+                'workspace' => $workspaceId,
                 'is_active' => true,
                 'date' => now()->subDays(rand(5, 20)),
             ]);
@@ -239,6 +242,7 @@ class DemoRentalDataSeeder extends Seeder
                 'status' => 'Won',
                 'creator_id' => $createdBy,
                 'created_by' => $createdBy,
+                'workspace' => $workspaceId,
                 'is_active' => true,
             ]);
             UserDeal::create(['user_id' => $createdBy, 'deal_id' => $deal->id]);
@@ -247,10 +251,8 @@ class DemoRentalDataSeeder extends Seeder
             // Create a contract for each
             echo "Creating Contract for {$cData['name']}...\n";
             $contract = RentalContract::withoutGlobalScopes()->create([
-                'contract_number' => RentalContract::generateContractNumber(),
-                'customer_id' => $user->id,
-                'project_id' => $project->id,
-                'warehouse_id' => $warehouse->id,
+                'contract_number' => 'RENT-' . date('Y-m-') . str_pad(rand(1, 999), 4, '0', STR_PAD_LEFT),
+                'client_name' => $cData['name'],
                 'start_date' => now()->subDays(rand(1, 30)),
                 'end_date' => now()->addMonths(rand(2, 6)),
                 'billing_cycle' => 'monthly',
