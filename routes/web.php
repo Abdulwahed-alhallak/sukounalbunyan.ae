@@ -38,7 +38,7 @@ use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return redirect('login');
+    return redirect()->route('dashboard');
 });
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {

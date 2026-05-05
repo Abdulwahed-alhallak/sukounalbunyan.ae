@@ -2,7 +2,7 @@
   "name": "Sukoun Albunyan Enterprise ERP",
   "short_name": "Noble",
   "description": "Sukoun Albunyan Central Command & Enterprise Modular Ecosystem",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
   "background_color": "#09090b",
@@ -10,7 +10,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "favicon.ico",
       "sizes": "any",
       "type": "image/x-icon"
     }

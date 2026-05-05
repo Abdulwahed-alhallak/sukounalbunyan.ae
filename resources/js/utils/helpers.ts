@@ -126,6 +126,12 @@ const getImagePath = (path: string, pageProps?: any): string => {
 
     // If path already contains storage/media, just prepend domain (unless it's Sukoun Albunyan path)
     if (path.includes('storage/media') && !path.includes('packages/noble Albunyan/')) {
+        const baseUrl = pageProps?.baseUrl || (typeof usePage !== 'undefined' ? (usePage().props as any).baseUrl : '');
+        if (baseUrl) {
+            const cleanBase = baseUrl.replace(/\/$/, '');
+            const cleanPath = path.startsWith('/') ? path : `/${path}`;
+            return `${cleanBase}${cleanPath}`;
+        }
         return path.startsWith('/') ? `${window.location.origin}${path}` : `${window.location.origin}/${path}`;
     }
 
@@ -139,7 +145,12 @@ const getImagePath = (path: string, pageProps?: any): string => {
         }
 
         if (!imageUrlPrefix || typeof imageUrlPrefix !== 'string') {
-            imageUrlPrefix = `${window.location.origin}/${window.location.pathname.split('/')[1]}/`;
+            const baseUrl = pageProps?.baseUrl || (typeof usePage !== 'undefined' ? (usePage().props as any).baseUrl : '');
+            if (baseUrl) {
+                imageUrlPrefix = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+            } else {
+                imageUrlPrefix = `${window.location.origin}/${window.location.pathname.split('/')[1]}/`;
+            }
         }
 
         if (!imageUrlPrefix.includes('storage/media')) {
@@ -214,9 +225,11 @@ const formatCurrency = (amount: number | string, pageProps?: any): string => {
         let symbol = getCurrencySymbol(pageProps);
         const space = currencySymbolSpace ? ' ' : '';
 
-        // Localize symbol if it's SAR
-        if ((symbol === 'SAR' || symbol === 'ر.س')) {
+        // Localize symbol if it's SAR or AED
+        if (symbol === 'SAR' || symbol === 'ر.س') {
             symbol = document.documentElement.dir === 'rtl' ? 'ر.س' : 'SAR';
+        } else if (symbol === 'AED' || symbol === 'د.إ') {
+            symbol = document.documentElement.dir === 'rtl' ? 'د.إ' : 'AED';
         } else {
             symbol = i18n.t(symbol); // Try to translate other symbols if defined
         }
@@ -487,6 +500,41 @@ const getSubscriptionDetails = (userId?: number, pageProps?: any): SubscriptionD
     }
 };
 
+/**
+ * Safely resolve hrefs against base URL to prevent 404s in subdirectory deployments
+ */
+const resolveHref = (href?: string): string => {
+    if (!href || href === '#') return '#';
+    if (href.startsWith('http')) return href;
+    
+    // 1. Try to get baseUrl from Inertia props (most reliable)
+    let baseUrl = '';
+    try {
+        const { props } = usePage();
+        baseUrl = (props as any).baseUrl || '';
+    } catch (e) {}
+
+    // 2. Fallback to Ziggy or manual detection
+    if (!baseUrl) {
+        // @ts-ignore
+        baseUrl = window.Ziggy?.url || window.location.origin;
+        
+        // If Ziggy URL points to localhost but we are on a production domain, use location.origin + /backend
+        if (baseUrl.includes('127.0.0.1') && !window.location.hostname.includes('127.0.0.1')) {
+             if (window.location.pathname.startsWith('/backend')) {
+                 baseUrl = window.location.origin + '/backend';
+             } else {
+                 baseUrl = window.location.origin;
+             }
+        }
+    }
+
+    const cleanBase = baseUrl.replace(/\/$/, '');
+    const cleanHref = href.startsWith('/') ? href : `/${href}`;
+    
+    return `${cleanBase}${cleanHref}`;
+};
+
 export {
     formatDate,
     formatTime,
@@ -508,4 +556,5 @@ export {
     getBase64FileExtension,
     downloadFile,
     getSubscriptionDetails,
+    resolveHref,
 };

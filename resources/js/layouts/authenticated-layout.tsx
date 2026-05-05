@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { NavUser } from '@/components/nav-user';
 import { usePage, Head, Link, router } from '@inertiajs/react';
+import { formatCurrency, resolveHref } from '@/utils/helpers';
 import { PageProps } from '@/types';
 import { BrandProvider, useBrand } from '@/contexts/brand-context';
 import CookieConsent from '@/components/cookie-consent';
@@ -108,7 +109,7 @@ function AuthenticatedLayoutContent({
                                                     {crumb.url ? (
                                                         <BreadcrumbLink asChild>
                                                             <Link
-                                                                href={crumb.url}
+                                                                href={resolveHref(crumb.url)}
                                                                 className="text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
                                                             >
                                                                  {crumb.label}

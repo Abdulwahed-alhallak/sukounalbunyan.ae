@@ -10,6 +10,7 @@ import {
     SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { resolveHref } from '@/utils/helpers';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -49,13 +50,9 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
     // Helper function to check if any child is active (recursive for nested children)
     const isChildActive = (children: NavItem[]): boolean => {
         return children.some((child) => {
-            if (child.href) {
-                try {
-                    const childPath = new URL(child.href, window.location.origin).pathname;
-                    return page.url === childPath;
-                } catch (e) {
-                    return false;
-                }
+            const resolvedPath = child.href ? new URL(resolveHref(child.href), window.location.origin).pathname : '';
+            if (resolvedPath && (page.url === resolvedPath || page.url.startsWith(resolvedPath + '/'))) {
+                return true;
             }
             if (child.children) {
                 return isChildActive(child.children);
@@ -84,8 +81,8 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                         );
                     }
 
-                    const itemPath = item.href ? new URL(item.href, window.location.origin).pathname : '';
-                    const isActive = !!(itemPath && page.url === itemPath);
+                    const resolvedItemUrl = item.href ? new URL(resolveHref(item.href), window.location.origin).pathname : '';
+                    const isActive = !!(resolvedItemUrl && (page.url === resolvedItemUrl || page.url.startsWith(resolvedItemUrl + '/')));
 
                     // Check if any child is active for parent menus
                     const hasActiveChild = item.children ? isChildActive(item.children) : false;
@@ -141,7 +138,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                                         : 'text-muted-foreground hover:bg-muted/30 hover:text-foreground'
                                                                 )}
                                                             >
-                                                                <Link href={subItem.href || '#'}>
+                                                                <Link href={resolveHref(subItem.href)}>
                                                                     <span className="text-[12px] tracking-tight whitespace-nowrap">
                                                                         {t(subItem.title)}
                                                                     </span>
@@ -175,7 +172,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                                     asChild
                                                     className="cursor-pointer rounded-md p-2"
                                                 >
-                                                    <Link href={subItem.href || '#'} className="flex items-center gap-2">
+                                                    <Link href={resolveHref(subItem.href)} className="flex items-center gap-2">
                                                         {subItem.icon && (
                                                             <subItem.icon className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                                                         )}
@@ -203,7 +200,7 @@ export function NavMain({ items = [], searchQuery = '' }: { items: NavItem[]; se
                                         : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
                                 )}
                             >
-                                <Link href={item.href!}>
+                                <Link href={resolveHref(item.href)}>
                                     {item.icon && <item.icon className="h-4 w-4" strokeWidth={1.5} />}
                                     <span className="ms-2.5 text-label-13 group-data-[collapsible=icon]:hidden">{t(item.title)}</span>
                                 </Link>

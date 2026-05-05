@@ -9,7 +9,23 @@ const customBackend = {
     this.options = backendOptions;
   },
   read: function(language, namespace, callback) {
-    const loadPath = window.route ? window.route('languages.translations', language) : `/translations/${language}`;
+    let loadPath = '';
+    
+    if (window.route) {
+        try {
+            loadPath = window.route('languages.translations', language);
+        } catch (e) {
+            console.warn('Ziggy route failed, falling back to manual path');
+        }
+    }
+
+    if (!loadPath) {
+        // Fallback: detect base path (e.g., /backend)
+        const pathParts = window.location.pathname.split('/');
+        const isSubdir = pathParts.length > 1 && pathParts[1] !== '';
+        const base = isSubdir ? `/${pathParts[1]}` : '';
+        loadPath = `${base}/translations/${language}`;
+    }
     
     fetch(loadPath)
       .then(response => {

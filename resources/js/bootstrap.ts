@@ -17,7 +17,12 @@ window.axios.interceptors.response.use(
     async (error) => {
         if (error.response?.status === 419) {
             try {
-                const response = await fetch(`${window.location.origin}${window.location.pathname}?refresh_token=true&t=${Date.now()}`, { method: 'GET' });
+                // Ensure we include the query param correctly
+                const url = new URL(window.location.href);
+                url.searchParams.set('refresh_token', 'true');
+                url.searchParams.set('t', Date.now().toString());
+                
+                const response = await fetch(url.toString(), { method: 'GET' });
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');

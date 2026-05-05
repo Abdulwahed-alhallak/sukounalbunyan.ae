@@ -15,7 +15,11 @@ import { SukounLoader } from '@/components/SukounLoader';
 // Silent CSRF token refresh
 const refreshToken = async () => {
     try {
-        const response = await fetch(`${window.location.origin}${window.location.pathname}?refresh_token=true&t=${Date.now()}`, { method: 'GET' });
+        const url = new URL(window.location.href);
+        url.searchParams.set('refresh_token', 'true');
+        url.searchParams.set('t', Date.now().toString());
+
+        const response = await fetch(url.toString(), { method: 'GET' });
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');

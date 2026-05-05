@@ -13,7 +13,6 @@ import { useFormFields } from '@/hooks/useFormFields';
 import { usePageButtons } from '@/hooks/usePageButtons';
 
 const DEMO_COMPANY_EMAIL = 'admin@sukounalbunyan.net';
-const DEMO_SUPER_ADMIN_EMAIL = 'superadmin@sukounalbunyan.net';
 const DEMO_RENTAL_EMAIL = 'rental@sukounalbunyan.net';
 const DEMO_ACCOUNTANT_EMAIL = 'accountant@sukounalbunyan.net';
 const DEMO_WAREHOUSE_EMAIL = 'warehouse@sukounalbunyan.net';
@@ -256,23 +255,8 @@ export default function Login({
                                 </div>
                             </Button>
 
-                             <Button
-                                type="button"
-                                onClick={() => handleQuickLogin(DEMO_SUPER_ADMIN_EMAIL, DEMO_PASSWORD)}
-                                disabled={processing}
-                                className="group relative flex h-auto flex-col items-start gap-1 overflow-hidden rounded-xl border border-border bg-card/50 p-3 text-start transition-all hover:border-foreground/30 hover:bg-card hover:shadow-md disabled:opacity-50"
-                            >
-                                <div className="flex w-full items-center justify-between">
-                                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/[0.03] border border-border/50 group-hover:bg-foreground/[0.07]">
-                                        <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
-                                    </div>
-                                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                                </div>
-                                <div className="mt-2 min-w-0 text-start">
-                                    <p className="text-[12px] font-bold text-foreground truncate">{t('Super Admin')}</p>
-                                    <p className="text-[9px] font-medium text-muted-foreground/70 truncate">{t('Platform Root Access')}</p>
-                                </div>
-                            </Button>
+
+
 
                             <Button
                                 type="button"
