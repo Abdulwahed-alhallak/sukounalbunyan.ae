@@ -28,6 +28,9 @@ AddDefaultCharset UTF-8
     RewriteRule ^(manifest\.json|sw[a-zA-Z0-9-]*\.js|favicon\.ico|robots\.txt)$ public/$1 [L,NC]
     RewriteRule ^(css|assets|market_assets|images|landing|uploads|storage|installer|js|vendor|build|screenshots|packages)/(.*)$ public/$1/$2 [L,NC]
 
+    DirectoryIndex index.php
+    RewriteRule ^$ index.php [L]
+
     # Handle Front Controller — route all requests to index.php (proxies to public/index.php)
     RewriteCond %{REQUEST_URI} !(\.css|\.js|\.png|\.webp|\.jpg|\.jpeg|\.gif|robots\.txt|\.ico|\.woff|\.woff2|\.ttf|\.svg|\.pdf|\.doc|\.docx|\.xls|\.xlsx|\.xlsm|\.xlsb|\.xltx|\.xltm|\.xla|\.xlam|\.csv|\.zip|\.mp4|\.mp3)$ [NC]
     # RewriteCond %{REQUEST_FILENAME} !-d
