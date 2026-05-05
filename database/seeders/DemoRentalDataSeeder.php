@@ -12,6 +12,14 @@ use Noble\Rental\Models\RentalContract;
 use Noble\Rental\Models\RentalContractItem;
 use Noble\Account\Models\Customer;
 use Noble\Taskly\Models\Project;
+use Noble\Lead\Models\Pipeline;
+use Noble\Lead\Models\LeadStage;
+use Noble\Lead\Models\DealStage;
+use Noble\Lead\Models\Lead;
+use Noble\Lead\Models\Deal;
+use Noble\Lead\Models\UserLead;
+use Noble\Lead\Models\UserDeal;
+use Noble\Lead\Models\ClientDeal;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
@@ -36,13 +44,13 @@ class DemoRentalDataSeeder extends Seeder
         $settings = [
             'defaultLanguage' => 'ar',
             'defaultCurrency' => 'AED',
-            'currencySymbol' => 'د.إ',
-            'companyName' => 'شركة سكون البنيان (Sukoun Albunyan)',
-            'companyAddress' => 'منطقة الصجعة الصناعية - الشارقة - الإمارات العربية المتحدة',
-            'companyCity' => 'الشارقة',
-            'companyState' => 'الشارقة',
+            'currencySymbol' => 'ط¯.ط¥',
+            'companyName' => 'ط´ط±ظƒط© ط³ظƒظˆظ† ط§ظ„ط¨ظ†ظٹط§ظ† (Sukoun Albunyan)',
+            'companyAddress' => 'ظ…ظ†ط·ظ‚ط© ط§ظ„طµط¬ط¹ط© ط§ظ„طµظ†ط§ط¹ظٹط© - ط§ظ„ط´ط§ط±ظ‚ط© - ط§ظ„ط¥ظ…ط§ط±ط§طھ ط§ظ„ط¹ط±ط¨ظٹط© ط§ظ„ظ…طھط­ط¯ط©',
+            'companyCity' => 'ط§ظ„ط´ط§ط±ظ‚ط©',
+            'companyState' => 'ط§ظ„ط´ط§ط±ظ‚ط©',
             'companyZipCode' => '00000',
-            'companyCountry' => 'الإمارات العربية المتحدة',
+            'companyCountry' => 'ط§ظ„ط¥ظ…ط§ط±ط§طھ ط§ظ„ط¹ط±ط¨ظٹط© ط§ظ„ظ…طھط­ط¯ط©',
             'companyTelephone' => '+971 6 000 0000',
             'companyEmail' => 'info@sukounalbunyan.ae',
             'timezone' => 'Asia/Dubai',
@@ -58,32 +66,32 @@ class DemoRentalDataSeeder extends Seeder
         // 3. Units & Categories
         echo "Ensuring Units & Categories...\n";
         $unitSet = ProductServiceUnit::withoutGlobalScopes()->firstOrCreate(
-            ['unit_name' => 'مجموعة (Set)'],
+            ['unit_name' => 'ظ…ط¬ظ…ظˆط¹ط© (Set)'],
             ['created_by' => $createdBy]
         );
         
         $unitMeter = ProductServiceUnit::withoutGlobalScopes()->firstOrCreate(
-            ['unit_name' => 'متر طولي (Meter)'],
+            ['unit_name' => 'ظ…طھط± ط·ظˆظ„ظٹ (Meter)'],
             ['created_by' => $createdBy]
         );
 
         $catScaffolding = ProductServiceCategory::withoutGlobalScopes()->firstOrCreate(
-            ['name' => 'سقالات (Scaffolding)'],
+            ['name' => 'ط³ظ‚ط§ظ„ط§طھ (Scaffolding)'],
             ['created_by' => $createdBy, 'color' => '#10b77f']
         );
 
         $catAccessories = ProductServiceCategory::withoutGlobalScopes()->firstOrCreate(
-            ['name' => 'إكسسوارات سقالات (Accessories)'],
+            ['name' => 'ط¥ظƒط³ط³ظˆط§ط±ط§طھ ط³ظ‚ط§ظ„ط§طھ (Accessories)'],
             ['created_by' => $createdBy, 'color' => '#3498db']
         );
 
         // 4. Warehouse
         echo "Creating UAE Warehouse...\n";
         $warehouse = Warehouse::withoutGlobalScopes()->updateOrCreate(
-            ['name' => 'مستودع الصجعة الرئيسي (Sajaa Main Warehouse)'],
+            ['name' => 'ظ…ط³طھظˆط¯ط¹ ط§ظ„طµط¬ط¹ط© ط§ظ„ط±ط¦ظٹط³ظٹ (Sajaa Main Warehouse)'],
             [
-                'address' => 'منطقة الصجعة الصناعية، الشارقة، الإمارات',
-                'city' => 'الشارقة',
+                'address' => 'ظ…ظ†ط·ظ‚ط© ط§ظ„طµط¬ط¹ط© ط§ظ„طµظ†ط§ط¹ظٹط©طŒ ط§ظ„ط´ط§ط±ظ‚ط©طŒ ط§ظ„ط¥ظ…ط§ط±ط§طھ',
+                'city' => 'ط§ظ„ط´ط§ط±ظ‚ط©',
                 'zip_code' => '00000',
                 'email' => 'warehouse@sukounalbunyan.ae',
                 'phone' => '+971 50 000 0000',
@@ -95,21 +103,21 @@ class DemoRentalDataSeeder extends Seeder
         echo "Creating Scaffolding Products...\n";
         $products = [
             [
-                'name' => 'سقالات معدنية ثقيلة (Heavy Duty Cup-Lock)',
+                'name' => 'ط³ظ‚ط§ظ„ط§طھ ظ…ط¹ط¯ظ†ظٹط© ط«ظ‚ظٹظ„ط© (Heavy Duty Cup-Lock)',
                 'sku' => 'SCAF-CL-01',
                 'sale_price' => 45.00,
                 'category_id' => $catScaffolding->id,
                 'unit' => $unitSet->id,
             ],
             [
-                'name' => 'منصة عمل ألمنيوم (Aluminum Working Platform)',
+                'name' => 'ظ…ظ†طµط© ط¹ظ…ظ„ ط£ظ„ظ…ظ†ظٹظˆظ… (Aluminum Working Platform)',
                 'sku' => 'SCAF-AL-02',
                 'sale_price' => 75.00,
                 'category_id' => $catScaffolding->id,
                 'unit' => $unitSet->id,
             ],
             [
-                'name' => 'أنابيب فولاذية 6 متر (Steel Tubes 6m)',
+                'name' => 'ط£ظ†ط§ط¨ظٹط¨ ظپظˆظ„ط§ط°ظٹط© 6 ظ…طھط± (Steel Tubes 6m)',
                 'sku' => 'SCAF-TB-06',
                 'sale_price' => 15.00,
                 'category_id' => $catAccessories->id,
@@ -126,28 +134,44 @@ class DemoRentalDataSeeder extends Seeder
                     'purchase_price' => $pData['sale_price'] * 0.6,
                     'created_by' => $createdBy,
                     'is_active' => true,
-                    'description' => 'معدات عالية الجودة متوافقة مع معايير السلامة الإماراتية.'
+                    'description' => 'ظ…ط¹ط¯ط§طھ ط¹ط§ظ„ظٹط© ط§ظ„ط¬ظˆط¯ط© ظ…طھظˆط§ظپظ‚ط© ظ…ط¹ ظ…ط¹ط§ظٹظٹط± ط§ظ„ط³ظ„ط§ظ…ط© ط§ظ„ط¥ظ…ط§ط±ط§طھظٹط©.'
                 ])
             );
         }
 
         // 6. UAE Client Companies
+                // CRM Pipeline Setup
+        $pipeline = Pipeline::updateOrCreate(
+            ['name' => 'خط مبيعات التأجير', 'created_by' => $createdBy],
+            ['created_by' => $createdBy]
+        );
+
+        $leadStage = LeadStage::updateOrCreate(
+            ['name' => 'مرحلة التأهيل', 'pipeline_id' => $pipeline->id, 'created_by' => $createdBy],
+            ['order' => 1, 'created_by' => $createdBy]
+        );
+
+        $dealStage = DealStage::updateOrCreate(
+            ['name' => 'عقد مبدئي', 'pipeline_id' => $pipeline->id, 'created_by' => $createdBy],
+            ['order' => 1, 'created_by' => $createdBy]
+        );
+
         echo "Creating UAE Client Companies...\n";
         $clients = [
             [
-                'name' => 'شركة الشارقة للمقاولات (Sharjah Construction Co)',
+                'name' => 'ط´ط±ظƒط© ط§ظ„ط´ط§ط±ظ‚ط© ظ„ظ„ظ…ظ‚ط§ظˆظ„ط§طھ (Sharjah Construction Co)',
                 'email' => 'contact@shj-const.ae',
-                'site' => 'مشروع الصجعة السكني',
+                'site' => 'ظ…ط´ط±ظˆط¹ ط§ظ„طµط¬ط¹ط© ط§ظ„ط³ظƒظ†ظٹ',
             ],
             [
-                'name' => 'مجموعة الحبتور - دبي (Al Habtoor Group)',
+                'name' => 'ظ…ط¬ظ…ظˆط¹ط© ط§ظ„ط­ط¨طھظˆط± - ط¯ط¨ظٹ (Al Habtoor Group)',
                 'email' => 'info@alhabtoor.ae',
-                'site' => 'مشروع نخلة جميرا',
+                'site' => 'ظ…ط´ط±ظˆط¹ ظ†ط®ظ„ط© ط¬ظ…ظٹط±ط§',
             ],
             [
-                'name' => 'حديد الإمارات (Emirates Steel)',
+                'name' => 'ط­ط¯ظٹط¯ ط§ظ„ط¥ظ…ط§ط±ط§طھ (Emirates Steel)',
                 'email' => 'procurement@emiratessteel.com',
-                'site' => 'توسعة مصنع مصفح',
+                'site' => 'طھظˆط³ط¹ط© ظ…طµظ†ط¹ ظ…طµظپط­',
             ]
         ];
 
@@ -170,8 +194,8 @@ class DemoRentalDataSeeder extends Seeder
                     'company_name' => $cData['name'],
                     'contact_person_name' => $cData['name'],
                     'contact_person_email' => $cData['email'],
-                    'billing_address' => 'الإمارات العربية المتحدة',
-                    'shipping_address' => 'الإمارات العربية المتحدة',
+                    'billing_address' => 'ط§ظ„ط¥ظ…ط§ط±ط§طھ ط§ظ„ط¹ط±ط¨ظٹط© ط§ظ„ظ…طھط­ط¯ط©',
+                    'shipping_address' => 'ط§ظ„ط¥ظ…ط§ط±ط§طھ ط§ظ„ط¹ط±ط¨ظٹط© ط§ظ„ظ…طھط­ط¯ط©',
                     'creator_id' => $createdBy,
                     'created_by' => $createdBy,
                 ]
@@ -191,6 +215,35 @@ class DemoRentalDataSeeder extends Seeder
                 ]
             );
 
+            // Create CRM Lead
+            $lead = Lead::create([
+                'name' => 'طلب تأجير من ' . $cData['name'],
+                'email' => $cData['email'],
+                'subject' => 'تأجير سقالات لمشروع',
+                'user_id' => $createdBy,
+                'pipeline_id' => $pipeline->id,
+                'stage_id' => $leadStage->id,
+                'creator_id' => $createdBy,
+                'created_by' => $createdBy,
+                'is_active' => true,
+                'date' => now()->subDays(rand(5, 20)),
+            ]);
+            UserLead::create(['user_id' => $createdBy, 'lead_id' => $lead->id]);
+
+            // Create CRM Deal
+            $deal = Deal::create([
+                'name' => 'صفقة ' . $cData['name'],
+                'price' => rand(50000, 150000),
+                'pipeline_id' => $pipeline->id,
+                'stage_id' => $dealStage->id,
+                'status' => 'Won',
+                'creator_id' => $createdBy,
+                'created_by' => $createdBy,
+                'is_active' => true,
+            ]);
+            UserDeal::create(['user_id' => $createdBy, 'deal_id' => $deal->id]);
+            ClientDeal::create(['client_id' => $user->id, 'deal_id' => $deal->id]);
+
             // Create a contract for each
             echo "Creating Contract for {$cData['name']}...\n";
             $contract = RentalContract::withoutGlobalScopes()->create([
@@ -207,9 +260,9 @@ class DemoRentalDataSeeder extends Seeder
                 'min_days' => 30,
                 'created_by' => $createdBy,
                 'workspace' => $workspaceId,
-                'notes' => 'تأجير معدات لمشروع ' . $cData['site'],
+                'notes' => 'طھط£ط¬ظٹط± ظ…ط¹ط¯ط§طھ ظ„ظ…ط´ط±ظˆط¹ ' . $cData['site'],
                 'site_name' => $cData['site'],
-                'site_address' => 'موقع العمل - الإمارات',
+                'site_address' => 'ظ…ظˆظ‚ط¹ ط§ظ„ط¹ظ…ظ„ - ط§ظ„ط¥ظ…ط§ط±ط§طھ',
             ]);
 
             // Add 1-2 random products to each contract
@@ -229,3 +282,4 @@ class DemoRentalDataSeeder extends Seeder
         echo "\nUAE Demo Data & Settings Sync Complete!\n";
     }
 }
+
