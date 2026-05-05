@@ -265,6 +265,6 @@ Route::get('/test-root', function () {
     return "TEST ROOT WORKING";
 });
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
+Route::match(['get', 'head'], '/', function () {
+    return redirect()->to('/dashboard');
 });
