@@ -132,7 +132,7 @@
         <tr>
             <td style="width: 50%;">
                 <!-- Dion Creative Logo standard text, or embedded image -->
-                <div class="logo">DION<span>ONE</span></div>
+                <div class="logo">SUKOUN<span>ALBUNYAN</span></div>
                 <div style="margin-top: 10px; color: #71717a;">
                     {{ $company_name ?? 'Dion Creative Agency' }}<br>
                     {{ $company_address ?? 'Damascus, Syria' }}<br>
