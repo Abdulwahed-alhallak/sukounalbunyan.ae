@@ -181,6 +181,11 @@ const filterByPermission = (items: NavItem[], userPermissions: string[]): NavIte
 const unifiedCategories = [
     { label: 'Dashboard', icon: LayoutGrid, isDirectLink: true, matches: ['dashboard'] },
     {
+        label: 'Rental Management',
+        icon: Briefcase,
+        matches: ['rental'],
+    },
+    {
         label: 'Human Resources',
         icon: Users,
         matches: ['users', 'hrm', 'recruitment', 'performance', 'training', 'timesheet', 'user-management'],
@@ -224,11 +229,6 @@ const unifiedCategories = [
         label: 'Reports & Logs',
         icon: FileBarChart,
         matches: ['report-center', 'audit-logs'],
-    },
-    {
-        label: 'Rental Management',
-        icon: Briefcase,
-        matches: ['rental'],
     },
     {
         label: 'Settings & System',
