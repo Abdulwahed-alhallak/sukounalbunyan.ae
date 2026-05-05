@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormFields } from '@/hooks/useFormFields';
 import { usePageButtons } from '@/hooks/usePageButtons';
 
-const DEMO_COMPANY_EMAIL = 'admin@sukounalbunyan.net';
+const DEMO_COMPANY_EMAIL = 'admin@sukounalbunyan.ae';
 const DEMO_PASSWORD = 'Nn@!23456';
 
 export default function Login({

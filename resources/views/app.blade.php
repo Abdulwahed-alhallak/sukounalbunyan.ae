@@ -21,6 +21,8 @@ $isViteHot = file_exists(public_path('hot'));
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Noble ERP">
     <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- Fonts: Geist (Vercel) + IBM Plex Sans Arabic (Arabic) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,15 +89,16 @@ $isViteHot = file_exists(public_path('hot'));
                         const registrations = await navigator.serviceWorker.getRegistrations();
                         for (let reg of registrations) {
                             const swUrl = reg.active?.scriptURL || reg.installing?.scriptURL || reg.waiting?.scriptURL;
-                            if (swUrl && !swUrl.endsWith('/sw-v18.js')) {
+                            if (swUrl && !swUrl.includes('sw-v18.js')) {
                                 console.log('PWA: Purging legacy ServiceWorker:', swUrl);
                                 await reg.unregister();
                             }
                         }
 
-                        const registration = await navigator.serviceWorker.register('/sw-v18.js', {
+                        const swUrl = '{{ asset('sw-v18.js') }}';
+                        const registration = await navigator.serviceWorker.register(swUrl, {
                             updateViaCache: 'none',
-                            scope: '/'
+                            scope: '{{ asset('/') }}'
                         });
                         console.log('PWA ServiceWorker v18 registration successful with scope: ', registration.scope);
                     } catch (err) {

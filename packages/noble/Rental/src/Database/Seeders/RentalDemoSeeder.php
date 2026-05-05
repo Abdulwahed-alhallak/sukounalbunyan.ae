@@ -21,7 +21,7 @@ class RentalDemoSeeder extends Seeder
     
     public function run(): void
     {
-        $user = User::where('email', 'admin@sukounalbunyan.net')->first() 
+        $user = User::where('email', 'admin@sukounalbunyan.ae')->first()
                 ?? User::where('type', 'company')->first();
         
         if (!$user) {
