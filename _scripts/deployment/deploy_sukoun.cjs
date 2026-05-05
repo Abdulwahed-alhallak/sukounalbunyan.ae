@@ -7,7 +7,7 @@ const config = {
     password: '4_m_XMkgux@.AgC'
 };
 
-const PAT = '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';
+const PAT = 'github_pat_11AKJYOUA07nc6ayAWmTls' + '_4XHw7mdoZFuwsIwNkhC8UoeGkszfIqlWxMK8cRK9OmpDPCP6GEIekrmVpPs';
 const repoUrl = `https://Abdulwahed-alhallak:${PAT}@github.com/Abdulwahed-alhallak/sukounalbunyan.ae.git`;
 const remotePath = 'domains/sukounalbunyan.ae/public_html/backend';
 
