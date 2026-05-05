@@ -261,6 +261,10 @@ require __DIR__.'/auth.php';
 
 
 
+Route::get('/test-root', function () {
+    return "TEST ROOT WORKING";
+});
+
 Route::get('/', function () {
-    return "ROOT GET WORKING";
+    return redirect()->route('dashboard');
 });
