@@ -2,6 +2,7 @@
     "name": "noble/rental",
     "description": "Smart Scaffolding Rental Module for Sukoun Albunyan",
     "type": "library",
+    "version": "1.0.0",
     "license": "MIT",
     "require": {},
     "autoload": {

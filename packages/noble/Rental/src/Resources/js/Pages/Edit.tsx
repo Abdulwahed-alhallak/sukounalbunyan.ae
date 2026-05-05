@@ -15,13 +15,15 @@ import { Link } from '@inertiajs/react';
 
 interface EditProps {
     contract: any;
+    projects: Array<{ id: number; name: string }>;
 }
 
 export default function Edit() {
     const { t } = useTranslation();
-    const { contract } = usePage<EditProps>().props;
+    const { contract, projects } = usePage<EditProps>().props;
 
     const { data, setData, put, processing, errors } = useForm({
+        project_id: contract.project_id ? contract.project_id.toString() : '',
         end_date: contract.end_date ? contract.end_date.split('T')[0] : '',
         min_days: contract.min_days || 0,
         security_deposit: contract.security_deposit || 0,
@@ -78,6 +80,17 @@ export default function Edit() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <Label htmlFor="project_id">{t('Project')} <span className="text-muted-foreground text-xs">({t('optional')})</span></Label>
+                            <Select value={data.project_id} onValueChange={(v) => setData('project_id', v === 'none' ? '' : v)}>
+                                <SelectTrigger><SelectValue placeholder={t('Select Project (Optional)')} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="none">{t('None')}</SelectItem>
+                                    {projects?.map(p => <SelectItem key={p.id} value={p.id.toString()}>{p.name}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={errors.project_id} />
+                        </div>
                         <div>
                             <Label htmlFor="end_date">{t('End Date')}</Label>
                             <DatePicker 

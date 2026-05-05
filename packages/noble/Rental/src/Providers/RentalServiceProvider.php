@@ -34,6 +34,9 @@ class RentalServiceProvider extends ServiceProvider
             return $user->type === 'superadmin' || 
                    (isset($user->permissions) && in_array('manage-rentals', (array)$user->permissions));
         });
+
+        // Register Observers
+        \Noble\Rental\Models\RentalContract::observe(\Noble\Rental\Observers\RentalContractObserver::class);
     }
 
     public function register(): void

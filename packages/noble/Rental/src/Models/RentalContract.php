@@ -18,6 +18,7 @@ class RentalContract extends Model
         'contract_number',
         'customer_id',
         'warehouse_id',
+        'project_id',
         'start_date',
         'end_date',
         'billing_cycle',
@@ -78,6 +79,11 @@ class RentalContract extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Warehouse::class, 'warehouse_id');
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Project::class, 'project_id');
     }
 
     public function items(): HasMany

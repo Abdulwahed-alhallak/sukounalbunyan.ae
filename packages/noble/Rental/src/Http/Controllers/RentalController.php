@@ -72,9 +72,11 @@ class RentalController extends Controller
         $customers  = User::where('type', 'client')->get(['id', 'name']);
         $products   = ProductServiceItem::where('created_by', creatorId())->get(['id', 'name', 'sale_price']);
         $warehouses = Warehouse::where('created_by', creatorId())->get(['id', 'name']);
+        $projects   = \App\Models\Project::where('created_by', creatorId())->get(['id', 'name']);
 
         return Inertia::render('Rental/Create', [
             'customers'  => $customers,
+            'projects'   => $projects,
             'products'   => $products,
             'warehouses' => $warehouses,
         ]);
@@ -84,6 +86,7 @@ class RentalController extends Controller
     {
         $request->validate([
             'customer_id'                => 'required',
+            'project_id'                 => 'nullable',
             'start_date'                 => 'required|date',
             'billing_cycle'              => 'required|in:daily,monthly',
             'items'                      => 'required|array|min:1',
@@ -104,6 +107,7 @@ class RentalController extends Controller
 
         $contract = RentalContract::create([
             'customer_id'      => $request->customer_id,
+            'project_id'       => $request->project_id,
             'warehouse_id'     => $request->warehouse_id ?? 1,
             'start_date'       => $request->start_date,
             'billing_cycle'    => $request->billing_cycle,
@@ -165,10 +169,12 @@ class RentalController extends Controller
 
     public function edit(RentalContract $contract)
     {
-        $contract->load(['customer', 'items.product']);
+        $contract->load(['customer', 'items.product', 'project']);
+        $projects = \App\Models\Project::where('created_by', creatorId())->get(['id', 'name']);
         
         return Inertia::render('Rental/Edit', [
             'contract' => $contract,
+            'projects' => $projects,
         ]);
     }
 
@@ -176,6 +182,7 @@ class RentalController extends Controller
     {
         $request->validate([
             'notes'            => 'nullable|string',
+            'project_id'       => 'nullable',
             'security_deposit' => 'nullable|numeric|min:0',
             'min_days'         => 'nullable|numeric|min:0',
             'end_date'         => 'nullable|date|after_or_equal:start_date',
@@ -191,7 +198,7 @@ class RentalController extends Controller
         ]);
 
         $contract->update($request->only([
-            'notes', 'terms', 'security_deposit', 'min_days', 'end_date',
+            'notes', 'terms', 'security_deposit', 'min_days', 'end_date', 'project_id',
             'payment_method', 'site_name', 'site_address', 'site_contact_person',
             'site_contact_phone', 'delivery_fee', 'pickup_fee', 'logistics_status'
         ]));

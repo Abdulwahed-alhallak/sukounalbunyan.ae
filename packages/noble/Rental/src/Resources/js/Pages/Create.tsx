@@ -16,16 +16,18 @@ import MediaPicker from '@/components/MediaPicker';
 
 interface CreateProps {
     customers: Array<{ id: number; name: string }>;
+    projects: Array<{ id: number; name: string }>;
     products: Array<{ id: number; name: string; sale_price: number }>;
     warehouses: Array<{ id: number; name: string }>;
 }
 
 export default function Create() {
     const { t } = useTranslation();
-    const { customers, products, warehouses } = usePage<CreateProps>().props;
+    const { customers, projects, products, warehouses } = usePage<CreateProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         customer_id: '',
+        project_id: '',
         warehouse_id: '',
         start_date: new Date().toISOString().split('T')[0],
         billing_cycle: 'daily',
@@ -126,6 +128,16 @@ export default function Create() {
                                 </SelectContent>
                             </Select>
                             <InputError message={errors.customer_id} />
+                        </div>
+                        <div>
+                            <Label htmlFor="project_id">{t('Project')} <span className="text-muted-foreground text-xs">({t('optional')})</span></Label>
+                            <Select value={data.project_id} onValueChange={(v) => setData('project_id', v === 'none' ? '' : v)}>
+                                <SelectTrigger><SelectValue placeholder={t('Select Project (Optional)')} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="none">{t('None')}</SelectItem>
+                                    {projects?.map(p => <SelectItem key={p.id} value={p.id.toString()}>{p.name}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div>
                             <Label htmlFor="start_date">{t('Start Date')}</Label>
