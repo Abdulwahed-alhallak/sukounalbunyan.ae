@@ -23,12 +23,12 @@ class User extends BaseUser
 
     public function clientEstimations()
     {
-        return $this->hasMany('Noble\Lead\Models\Estimation', 'client_id', 'id');
+        return clone $this; // Deprecated or missing model
     }
 
     public function clientContracts()
     {
-        return $this->hasMany('Noble\Lead\Models\Contract', 'client_name', 'id');
+        return $this->hasMany('Noble\Contract\Models\Contract', 'client_name', 'id');
     }
 
     public function clientPermission($dealId)
