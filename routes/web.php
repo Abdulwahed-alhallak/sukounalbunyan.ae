@@ -37,6 +37,9 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
+Route::any('/', function () {
+    return redirect('/login');
+});
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
     // Route::get('/dashboard', function () {
@@ -265,6 +268,3 @@ Route::get('/test-root', function () {
     return "TEST ROOT WORKING";
 });
 
-Route::match(['get', 'head'], '/', function () {
-    return redirect()->to('/dashboard');
-});
