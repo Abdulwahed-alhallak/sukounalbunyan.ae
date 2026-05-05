@@ -8,7 +8,7 @@ use Noble\LandingPage\Http\Controllers\NewsletterSubscriberController;
 
 // Public routes (Keep at top for precedence)
 Route::middleware(['web'])->group(function () {
-    Route::get('/', [LandingPageController::class, 'index'])->name('landing_page.index');
+//    Route::get('/', [LandingPageController::class, 'index'])->name('landing_page.index');
     Route::get('/pricing', [LandingPageController::class, 'pricing'])->name('pricing.page');
     Route::get('/marketplace/{slug?}', [MarketplaceController::class, 'index'])->name('marketplace');
     Route::get('/page/{slug}', [CustomPageController::class, 'show'])->name('custom-page.show');
