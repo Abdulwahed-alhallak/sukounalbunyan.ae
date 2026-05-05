@@ -37,6 +37,11 @@ use App\Http\Controllers\SalesProposalController;
 use App\Http\Controllers\SalesReturnController;
 use Inertia\Inertia;
 
+Route::get('/debug-routes', function () {
+    \Illuminate\Support\Facades\Artisan::call('route:list');
+    return \Illuminate\Support\Facades\Artisan::output();
+});
+
 Route::redirect('/', '/dashboard');
 
 Route::middleware(['auth', 'PlanModuleCheck'])->group(function () {
